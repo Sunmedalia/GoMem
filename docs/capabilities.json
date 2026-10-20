@@ -8904,15 +8904,22 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active processes only. Token is _EPROCESS.Token.Object with the low 4 bits cleared on 64-bit and the low 3 bits cleared on 32-bit, matching the pinned EX_FAST_REF mask rather than a second pointer dereference. A modern _SEP_TOKEN_PRIVILEGES struct yields indexes 0 through 63. Only indexes present in the pinned privilege table are emitted, including rows whose Present, Enabled and EnabledByDefault bits are all clear. Attributes keep the order Present, Enabled, Default and may be an empty string. An unreadable Token.Object skips that process, keeps a diagnostic, and does not fail the task. An unreadable privilege bitmask or LUID array fails the task. A Privileges pointer uses PrivilegeCount and _LUID_AND_ATTRIBUTES: present is always true, enabled is Attributes bit 1, and default is Attributes bit 0. A count of 1024 or more yields no rows for that token and is counted as broken. pid is a comma-separated list. The summary row is not a privilege.",
+      "native": "windows.privileges",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_4200_rows_match_pid_process_value_name_attributes_and_description",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has 120 processes, 4200 privilege rows, and no skipped or broken tokens",
+        "Real 32-bit images are pending. The 3-bit fast-ref mask and the LUID array path are synthetic",
+        "Indexes outside the pinned 35-name table are omitted, matching the reference",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-privileges.md"
     },
     {
       "id": "windows.processghosting.ProcessGhosting",

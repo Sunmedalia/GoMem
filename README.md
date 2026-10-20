@@ -48,6 +48,7 @@ bin/gomem analyze windows.pslist \
 | `windows.envars` | 读取各进程 PEB 环境块；`Block` 是指针字段地址；`silent` 不过滤；读失败保留诊断并令任务失败；[说明](docs/windows-envars.md) |
 | `windows.sessions` | 列出活动进程的会话 ID，并用 `USERDOMAIN`/`USERNAME`/`SESSIONNAME` 组成用户和会话类型；环境页读失败仍保留该行；[说明](docs/windows-sessions.md) |
 | `windows.crashinfo` | 读取 Windows 崩溃转储头；完整转储的 bitmap 字段不适用，bitmap 转储给出页数和头大小；非崩溃镜像明确失败；[说明](docs/windows-crashinfo.md) |
+| `windows.privileges` | 列出活动进程令牌特权；未知索引不输出；令牌指针读失败保留诊断，位图读失败则任务失败；[说明](docs/windows-privileges.md) |
 | `windows.hivelist` | 从 `CmpHiveListHead` 枚举注册表 hive；保留签名、三个路径字段和链表断裂；`dump` 重建稳定 hive，缺页记入空洞日志并令任务失败 |
 | `windows.hivescan` | 在 64 位 Windows 8.1 及以后扫描 `PoolBigPageTable` 的在用 `CM10` 分配；旧式池头扫描会明确失败；[说明](docs/windows-hivescan.md) |
 | `windows.filescan` | 扫描池头中的文件对象，输出规范虚拟地址和文件名；Windows 10 扫内核层，更早的系统扫物理内存；[说明](docs/windows-filescan.md) |
@@ -118,6 +119,8 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `windows.sessions` 给每个活动进程配上会话 ID，并从环境块拼出 `域/用户`。变量名不区分大小写，后者覆盖前者。只有结果正好是 `/` 时用户名才不适用。Windows 10 19041 样本的 120 行会话 ID、会话类型、PID、进程名、用户名和创建时间与固定基线一致。4 个会话 ID 不适用，10 个会话类型是 `RDP-Tcp#0`。26 个环境页不可读的进程仍保留行，任务失败；基线跳过环境块后仍然成功。真实 32 位镜像和时间线还没有验收。[会话验证](docs/windows-sessions.md)
 
 `windows.crashinfo` 直接读崩溃转储头，不需要内核符号。签名只取 4 字节，`PAGEDU64` 显示为 `PAGE`。Windows 10 19041 样本是 Bitmap 转储，1 行的地址、版本、CPU 数、运行时间、注释、系统时间和 bitmap 摘要与固定基线一致。系统时间写成 `+00:00`。注释在第一个 NUL 或无法解码的字节处截断。普通 RAW 镜像会失败。真实 32 位镜像还没有验收。[崩溃转储头验证](docs/windows-crashinfo.md)
+
+`windows.privileges` 从活动进程的 `_EX_FAST_REF` 令牌读取特权位。64 位清低 4 位，32 位清低 3 位。Windows 10 19041 样本有 120 个进程、4200 行，PID、进程名、特权值、名称、属性和描述与固定基线一致。没有跳过的令牌。真实 32 位镜像和时间线还没有验收。[特权验证](docs/windows-privileges.md)
 
 `windows.hivelist` 正向遍历内核 hive 链表，签名不符或链表断裂时改为反向补齐，并保留已经读到的 hive。名称按 `FileFullPath`、`FileUserName`、`HiveRootPath` 取第一个非空值，三个字段都保留。Windows 10 19041 样本的 24 个偏移和名称与固定基线一致；该样本的 `FileFullPath` 成员均为空，选中名称来自另外两个字段。`dump=true` 写出 base block 和稳定存储；读不到的页是带日志的零字节，任务失败，不会把空洞说成原始数据。[注册表 hive 验证](docs/windows-hivelist.md)
 
