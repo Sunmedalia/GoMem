@@ -50,6 +50,7 @@ bin/gomem analyze windows.pslist \
 | `windows.crashinfo` | 读取 Windows 崩溃转储头；完整转储的 bitmap 字段不适用，bitmap 转储给出页数和头大小；非崩溃镜像明确失败；[说明](docs/windows-crashinfo.md) |
 | `windows.privileges` | 列出活动进程令牌特权；未知索引不输出；令牌指针读失败保留诊断，位图读失败则任务失败；[说明](docs/windows-privileges.md) |
 | `windows.getsids` | 列出活动进程令牌 SID；名称按已知 SID、服务 SID、ProfileList 和正则顺序解析；令牌不可读保留空名称，不让任务失败；[说明](docs/windows-getsids.md) |
+| `windows.getservicesids` | 为 SYSTEM hive 里不在锁定服务表中的服务计算 SID；已知服务名不输出；[说明](docs/windows-getservicesids.md) |
 | `windows.hivelist` | 从 `CmpHiveListHead` 枚举注册表 hive；保留签名、三个路径字段和链表断裂；`dump` 重建稳定 hive，缺页记入空洞日志并令任务失败 |
 | `windows.hivescan` | 在 64 位 Windows 8.1 及以后扫描 `PoolBigPageTable` 的在用 `CM10` 分配；旧式池头扫描会明确失败；[说明](docs/windows-hivescan.md) |
 | `windows.filescan` | 扫描池头中的文件对象，输出规范虚拟地址和文件名；Windows 10 扫内核层，更早的系统扫物理内存；[说明](docs/windows-filescan.md) |
@@ -124,6 +125,8 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `windows.privileges` 从活动进程的 `_EX_FAST_REF` 令牌读取特权位。64 位清低 4 位，32 位清低 3 位。Windows 10 19041 样本有 120 个进程、4200 行，PID、进程名、特权值、名称、属性和描述与固定基线一致。没有跳过的令牌。真实 32 位镜像和时间线还没有验收。[特权验证](docs/windows-privileges.md)
 
 `windows.getsids` 从同一令牌列出 SID。标识机构只取 6 字节里的最后一个字节。Windows 10 19041 样本有 120 个进程、1752 行，PID、进程名、SID 和名称与固定基线一致。239 个名称不可用，4 个来自 ProfileList。没有不可读令牌。真实 32 位镜像和时间线还没有验收。[SID 验证](docs/windows-getsids.md)
+
+`windows.getservicesids` 只看名称包含 `machine\system` 的 hive。服务名在锁定的 461 项表里就不输出。其余名称用大写后每个字符补 NUL 再做 SHA1，得到 `S-1-5-80` SID。Windows 10 19041 样本有 1 个 SYSTEM hive、189 行，跳过 161 个已知服务。SID 和服务名与固定基线一致。真实 32 位镜像和时间线还没有验收。[服务 SID 验证](docs/windows-getservicesids.md)
 
 `windows.hivelist` 正向遍历内核 hive 链表，签名不符或链表断裂时改为反向补齐，并保留已经读到的 hive。名称按 `FileFullPath`、`FileUserName`、`HiveRootPath` 取第一个非空值，三个字段都保留。Windows 10 19041 样本的 24 个偏移和名称与固定基线一致；该样本的 `FileFullPath` 成员均为空，选中名称来自另外两个字段。`dump=true` 写出 base block 和稳定存储；读不到的页是带日志的零字节，任务失败，不会把空洞说成原始数据。[注册表 hive 验证](docs/windows-hivelist.md)
 

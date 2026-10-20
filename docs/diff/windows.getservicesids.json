@@ -1,0 +1,11 @@
+{
+  "fields": {
+    "SID": {"native": "SID", "reference": "SID", "kind": "string"},
+    "Service": {"native": "Service", "reference": "Service", "kind": "string"}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["service"],
+    "excluded_values": ["summary", "diagnostic"]
+  }
+}

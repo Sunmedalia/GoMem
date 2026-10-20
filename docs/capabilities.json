@@ -6456,15 +6456,22 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "SYSTEM hives whose selected name contains machine\\system, case-insensitively. The service key is CurrentControlSet\\Services, or ControlSet001\\Services when that key cannot be opened. A hive that cannot be opened or has neither key is skipped. Names present in the pinned 461-entry service table are omitted. Every other subkey, including an empty name, gets S-1-5-80 followed by five little-endian DWORDs from SHA1 of the Python bytes produced by uppercasing the name and appending U+0000 after each character before UTF-8 encoding. ASCII names therefore match UTF-16LE. An unreadable subkey is skipped. The summary row is not a service.",
+      "native": "windows.getservicesids",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-service-sid-hash",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_189_rows_match_sid_and_service",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has one SYSTEM hive, 189 computed service SIDs and 161 names omitted because they are in the pinned table",
+        "Real 32-bit images are pending",
+        "A hive with neither CurrentControlSet nor ControlSet001 was not present in the selected image",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-getservicesids.md"
     },
     {
       "id": "windows.getsids.GetSIDs",
