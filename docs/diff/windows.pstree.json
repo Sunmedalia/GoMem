@@ -1,0 +1,23 @@
+{
+  "tree_key": "PID",
+  "fields": {
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "PPID": {"native": "PPID", "reference": "PPID", "kind": "uint64"},
+    "ImageFileName": {"native": "ImageFileName", "reference": "ImageFileName", "kind": "string"},
+    "Offset": {"native": "Offset", "reference": "Offset(V)", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Threads": {"native": "Threads", "reference": "Threads", "kind": "uint64"},
+    "Handles": {"native": "Handles", "reference": "Handles", "kind": "uint64", "missing_reasons": ["unreadable"]},
+    "SessionId": {"native": "SessionId", "reference": "SessionId", "kind": "uint64", "missing_reasons": ["not_applicable", "unreadable"]},
+    "Wow64": {"native": "Wow64", "reference": "Wow64", "kind": "bool"},
+    "CreateTime": {"native": "CreateTime", "reference": "CreateTime", "kind": "timestamp_seconds", "missing_reasons": ["not_applicable", "unparsable"]},
+    "ExitTime": {"native": "ExitTime", "reference": "ExitTime", "kind": "timestamp_seconds", "missing_reasons": ["not_applicable", "unparsable"]},
+    "Audit": {"native": "Audit", "reference": "Audit", "kind": "string", "missing_reasons": ["not_available"]},
+    "Cmd": {"native": "Cmd", "reference": "Cmd", "kind": "string", "missing_reasons": ["not_available"]},
+    "Path": {"native": "Path", "reference": "Path", "kind": "string", "missing_reasons": ["not_available"]}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["process"],
+    "excluded_values": ["summary"]
+  }
+}

@@ -9224,15 +9224,25 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active processes from PsActiveProcessHead. Duplicate PIDs keep the first list position and the last object. A process whose PPID is itself is omitted. Levels walk InheritedFromUniqueProcessId until the parent is missing or already seen. pid keeps the selected processes, their ancestors, and the descendants of selected processes. Children are emitted in active-list order. The pinned plugin stores children in a Python set, so its sibling order can differ; the comparison is a multiset of parent links and does not require that order. TreeGrid depth is levels minus one, and the parent is the depth stack used by the JSON renderer. Offset keeps the canonical virtual address unless physical is set. Handles are unreadable when _HANDLE_TABLE has no HandleCount. A null session pointer is not applicable. A missing SessionId member reads the unsigned long at session+8. Wow64 is false when neither process pointer exists, and a failed pointer read fails the task. CreateTime and ExitTime use the signed QuadPart and Python floor division; a zero second count is not applicable, and years outside 1..9999 are unparsable. Audit is SeAuditProcessCreationInfo.ImageFileName.Name; an empty string or an unreadable buffer is not available. Cmd and Path come from the process PEB. If either string cannot be read, both are not available and the task still succeeds. The summary row is not a process.",
+      "native": "windows.pstree",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-pstree",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_120_rows_match_tree_identity_times_audit_and_command",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has 120 processes, 8 roots and a maximum depth of 5",
+        "Sibling order follows the active list. The pinned Python set order is not reproduced; parent links still match",
+        "The pid filter and self-parent/cycle cases are synthetic. They were not differentially checked on this image",
+        "physical is implemented and was not differentially checked. The reference column compared here is Offset(V)",
+        "Handles stay unreadable because this PDB has no _HANDLE_TABLE.HandleCount. Real 32-bit images are pending",
+        "Twenty-four command lines and one audit string were unreadable or empty and match the reference nulls. The read error is kept beside the cell",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-pstree.md"
     },
     {
       "id": "windows.psxview.PsXView",
