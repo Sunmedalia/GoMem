@@ -11202,15 +11202,22 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active processes with a modern _RTL_AVL_TREE VadRoot. A null root emits no rows. Each node is the same _MMVAD_SHORT walk used by windows.vadinfo: VadNode is at offset 0, parent is ParentValue with the low 2 bits cleared, and left and right are the child pointer values. The pool tag is the 4 bytes 12 bytes before a 64-bit node, or 4 bytes before a 32-bit node, including a trailing space in Vad. A missing tag, a cycle, a depth above 128, or an overlapping range fails the task. pid is a comma-separated list. max-nodes defaults to 131072 per process and is not an upstream parameter. Native node addresses keep canonical high bits. The reference JSON drops them for Offset, Parent, Left, and Right, so those four columns are compared after a low-48 mask. Start and End are the first and last accessible bytes and matched without a mask. The summary row is not a VAD.",
+      "native": "windows.vadwalk",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-vad-tree",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_19999_rows_match_links_ranges_and_tags",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has 120 processes, 19999 VAD rows, and 3 null roots",
+        "Tags on that image are VadS, Vad with a trailing space, Vadl, and VadI",
+        "Real 32-bit images and pre-Windows 8 balanced-root layouts are pending; those paths are not guessed",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-vadwalk.md"
     },
     {
       "id": "windows.vadyarascan.VadYaraScan",

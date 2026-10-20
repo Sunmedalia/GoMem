@@ -1,0 +1,18 @@
+{
+  "fields": {
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "Process": {"native": "Process", "reference": "Process", "kind": "string"},
+    "Offset": {"native": "Offset", "reference": "Offset", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Parent": {"native": "Parent", "reference": "Parent", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Left": {"native": "Left", "reference": "Left", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Right": {"native": "Right", "reference": "Right", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Start": {"native": "Start", "reference": "Start", "kind": "address"},
+    "End": {"native": "End", "reference": "End", "kind": "address"},
+    "Tag": {"native": "Tag", "reference": "Tag", "kind": "string"}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["vad"],
+    "excluded_values": ["summary", "diagnostic"]
+  }
+}
