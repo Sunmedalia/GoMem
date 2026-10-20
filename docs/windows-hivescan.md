@@ -12,7 +12,7 @@ bin/gomem analyze windows.hivescan --image memory.dmp --case ./case-001 --offlin
 
 官方 Windows 10 19041 样本的大页表有 32768 条，24 个在用的 `CM10`，没有读取失败，任务成功。这 24 个地址的低 48 位与固定基线 `windows.registry.hivescan` 的 24 行一致，签名都是 `0xBEE0BEE0`。它们也和活动 hive 链表的 24 个对象是同一组地址。参考 JSON 丢掉了规范地址的高位，比较时只掩低 48 位，本地结果仍保留完整地址。
 
-合成样本覆盖一个有效 `CM10`、一个已释放的 `CM10`、一个 `Key` 为 0 的条目和另一个标签，并拒绝过小的 `max-entries`。没有 `_KPRCB.PendingTickFlags` 时不产生行。32 位、Windows 8 以前的池头扫描、其他系统版本都还没有验收。
+合成样本覆盖一个有效 `CM10`、一个已释放的 `CM10`、一个 `Key` 为 0 的条目和另一个标签，并拒绝过小的 `max-entries`。没有 `_KPRCB.PendingTickFlags` 时不产生行。32 位和 Windows 8 以前的 hive 仍会明确失败。文件对象的池头扫描在 `windows.filescan`，不从这里恢复 hive。其他系统版本都还没有验收。
 
 ```sh
 python3 tools/diff_results.py \

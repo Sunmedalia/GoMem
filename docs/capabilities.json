@@ -6376,15 +6376,24 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Executive file objects from pool headers tagged Fil\\xe5 or File. Windows 10 and later scans the kernel virtual layer; earlier Windows scans physical memory. PE metadata is preferred. Otherwise ObHeaderCookie means Windows 10 or later, a _HANDLE_TABLE without HandleCount means Windows 8 or later, and KdCopyDataBlock means Vista or later. Windows 8 and later carves top-down from InfoMask and the optional headers present in the symbols, including padding. Earlier Windows carves bottom-up from the alignment-rounded _FILE_OBJECT size. Alignment is 16 bytes for 8-byte pointers and 8 bytes for 4-byte pointers. The object type must be File, using ObTypeIndexTable or else ObpObjectTypes, and ObHeaderCookie when that symbol exists. A file is valid only when FileName.Length is nonzero and the first byte of FileName.Buffer is readable in the kernel layer. A later name read failure drops that row and counts it; it is not stored as an empty name. An odd-length UTF-16 buffer keeps U+FFFD for the trailing byte, and a NUL ends the name. Identical page-table pages are not scanned. Resident Windows transition pages are included. A non-unmapped read error fails the task after a diagnostic row. Unmapped holes are skipped. The summary row is not a file entity.",
+      "native": "windows.filescan",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_4866_rows_match_low_48_offset_and_name",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential",
+        "32-bit images and real pre-Windows 8 bottom-up scans remain pending; those paths are synthetic only",
+        "Other executive pool types are not implemented. psscan, driverscan, mutantscan, symlinkscan and modscan remain absent",
+        "windows.hivescan still reads PoolBigPageTable and does not use this header scanner",
+        "Reference offsets omit the canonical high bits. The comparison masks both sides to the low 48 bits; native rows keep the full address",
+        "Three file names on the selected image could not be read and were omitted, matching the pinned plugin. They are counted in the summary, not emitted as empty names"
+      ],
+      "validation_record": "docs/windows-filescan.md"
     },
     {
       "id": "windows.getservicesids.GetServiceSIDs",
@@ -9556,7 +9565,7 @@
       ],
       "comparison": "selected_24_big_pool_offsets_match",
       "gaps": [
-        "Paged pool header scanning for pre-8.1 and 32-bit images is not implemented",
+        "Paged pool header scanning for pre-8.1 and 32-bit hives is not connected. windows.filescan has a separate header scanner and does not recover hives",
         "Only one Windows 10 x64 crash dump has a selected-offset differential",
         "Signature and tag are native evidence; the reference column compared here is Offset only"
       ],

@@ -1,0 +1,60 @@
+{
+  "schema": "gomem.windows-filescan-validation/v1",
+  "date": "2026-10-21",
+  "scope": "Synthetic pool-header cases plus one Windows 10 19041 x64 crash dump. Not a 32-bit, pre-Windows 8, or other executive-object acceptance.",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "reference_manifest_sha256": "28f345f0a994927a9ed73f48035c6e21c4bf0669020e145802777217f38e129d",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+  "engine_build_sha256": "71df2c12c808160a999a3025e70bdba117fde49f989bde7d8327bc03f05eed06",
+  "parameters": {},
+  "task_state": "completed",
+  "layer": "kernel:x64:dtb=0x6d4000",
+  "ranges": 6416,
+  "scanned_bytes": 387543040,
+  "file_rows": 4866,
+  "skipped_type": 4118,
+  "skipped_name": 3,
+  "skipped_invalid": 1,
+  "read_failures": 0,
+  "type_map_entries": 67,
+  "reference_rows": 4866,
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "Offset",
+      "Name"
+    ],
+    "native_rows": 4866,
+    "reference_rows": 4866,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "c939ba171502048e306a7ed8f28fc4c21686b483f4c3092f1fa725712e2adb99",
+      "reference": "4937fbb2196c10522d14a69e8bd480bf41668e3571dddac0830b3ba141cc1da7",
+      "mapping": "dd752c2626cfda7ef5e829adecdab3ce959b508c2bf0f84b37b918707e55c482"
+    },
+    "native_input_rows": 4867,
+    "native_non_entity_records": {
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "values": [
+        "file"
+      ],
+      "excluded_values": [
+        "summary",
+        "diagnostic"
+      ]
+    }
+  },
+  "notes": [
+    "Compared fields are Offset, masked to the low 48 bits, and Name. The reference JSON does not preserve the canonical high bits.",
+    "The go test binary that produced the compared JSONL is 71df2c12c808160a999a3025e70bdba117fde49f989bde7d8327bc03f05eed06.",
+    "The scan covered 6416 kernel ranges and 387543040 bytes. It kept 4866 files, skipped 4118 objects of another type, 3 unreadable names and 1 invalid pool header, and recorded no read failures.",
+    "One reference name is the single character U+FFFD. Its FileName.Length is 1, and the odd trailing byte is retained as that replacement character.",
+    "windows.hivescan still uses PoolBigPageTable. This header scanner does not recover hives."
+  ]
+}
