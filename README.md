@@ -55,6 +55,8 @@ bin/gomem analyze windows.pslist \
 
 支持从带 DWARF 的 ELF 或 Mach-O 原生读取符号，也可用 `symbols convert DEBUG_FILE --output kernel.json` 转为 ISF。可选 `--system-map`、`--symbols-from` 合并地址；多架构 Mach-O 使用 `--binary-arch x86_64` 选择切片。类型覆盖 typedef、递归结构、匿名成员、数组、枚举和位字段。[原生符号验证与限制](docs/native-symbols.md)
 
+Windows 可直接传入原生 PDB/MSF 7.0：`--symbols ntkrnlmp.pdb`，或通过同一 `symbols convert` 命令转换。原生解析 CodeView 类型、公共/全局/模块符号、PE 段和 OMAP；符号保持 RVA，由引擎按内核基址重定位并验证 GUID/Age。[PDB 范围与验证](docs/pdb-symbols.md)
+
 可为本地符号建立索引，给定 DTB 后按目标虚拟内存中的完整 Linux banner 或 Windows PDB 身份选择符号：
 
 ```sh
@@ -66,7 +68,7 @@ bin/gomem analyze linux.pslist --image memory.raw --case ./case-001 --dtb 0x1230
 
 已有精确符号时，支持部分 Linux x64 内核的 DTB 自动发现：从物理 banner 和初始页表符号的相对位置生成候选，同时验证页表根自身映射和完整 banner。显式 `--dtb` 优先；虚拟 KASLR slide 仍需 `--kernel-slide`。`doctor --image ... --symbols ...` 显示发现依据。[适用条件与验证](docs/linux-discovery.md)
 
-**本预览仍需提供符号或本地索引；其余情况显式指定地址空间参数。** 通用 DTB/内核基址识别、默认自动下载与 PDB/MSF 原生转换尚未实现。`--offline` 会禁止显式符号下载。已知 ISF 可通过 `symbols fetch HTTPS_URL --sha256 CHECKSUM --case CASE` 获取，再由分析路径验证身份；镜像不会上传。
+**本预览仍需提供符号或本地索引；其余情况显式指定地址空间参数。** 通用 DTB/内核基址识别和默认自动下载尚未实现。`--offline` 会禁止显式符号下载。已知 ISF 可通过 `symbols fetch HTTPS_URL --sha256 CHECKSUM --case CASE` 获取，再由分析路径验证身份；镜像不会上传。
 
 ## 调查工作流
 

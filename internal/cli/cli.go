@@ -36,7 +36,7 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 	f := root.PersistentFlags()
 	f.StringVar(&cfg.Image, "image", "", "Read-only memory image")
 	f.StringVar(&cfg.CaseDir, "case", "", "Case directory (SQLite, symbols, exports)")
-	f.StringVar(&cfg.Symbols, "symbols", "", "Matching ISF (json/gzip/xz/zip#member) or ELF/Mach-O with DWARF")
+	f.StringVar(&cfg.Symbols, "symbols", "", "Matching ISF, PDB/MSF 7.0 or ELF/Mach-O with DWARF")
 	f.StringVar(&cfg.SymbolIndex, "symbol-index", "", "Local symbol index; otherwise use CASE/symbols/index.json when DTB is given")
 	f.StringVar(&cfg.OS, "os", "", "Target OS: windows, linux, mac")
 	f.StringVar(&cfg.Arch, "arch", "x64", "Address translation: x64, x86, pae")
@@ -121,7 +121,7 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 		if err != nil {
 			return err
 		}
-		diagnostic := map[string]any{"engine": version.Version, "release": "development-preview", "baseline": version.Baseline, "baseline_commit": version.BaselineCommit, "native_plugins": registry.List(), "upstream_plugin_classes": matrix.PluginCount, "accepted_plugins": matrix.Accepted, "release_ready": false, "extensions": map[string]bool{"yara": false, "capstone": false, "leechcore": false}, "formats": []string{"raw", "lime-v1", "elf-core-physical-pt_load", "windows-complete-32/64", "windows-bitmap-32/64"}, "symbol_inputs": []string{"isf-json/gzip/xz/zip", "elf-dwarf", "macho-dwarf"}, "missing": []string{"complete image/kernel/DTB discovery (partial Linux x64 only)", "automatic symbol acquisition", "native PDB/MSF conversion", "full DWARF/kernel-version validation", "macOS analysis", "swap resolution", "VMware/QEMU/Xen/AVML", "remote sources", "full plugin parameter parity", "official-corpus differential acceptance", "full renderers and extraction"}}
+		diagnostic := map[string]any{"engine": version.Version, "release": "development-preview", "baseline": version.Baseline, "baseline_commit": version.BaselineCommit, "native_plugins": registry.List(), "upstream_plugin_classes": matrix.PluginCount, "accepted_plugins": matrix.Accepted, "release_ready": false, "extensions": map[string]bool{"yara": false, "capstone": false, "leechcore": false}, "formats": []string{"raw", "lime-v1", "elf-core-physical-pt_load", "windows-complete-32/64", "windows-bitmap-32/64"}, "symbol_inputs": []string{"isf-json/gzip/xz/zip", "elf-dwarf", "macho-dwarf", "pdb-msf7-codeview"}, "missing": []string{"complete image/kernel/DTB discovery (partial Linux x64 only)", "automatic symbol acquisition", "full PDB/CodeView and legacy MSF validation", "full DWARF/kernel-version validation", "macOS analysis", "swap resolution", "VMware/QEMU/Xen/AVML", "remote sources", "full plugin parameter parity", "official-corpus differential acceptance", "full renderers and extraction"}}
 		diagnostic["release_ready"] = gate.Ready
 		diagnostic["symbol_lookup"] = "explicit table or local identity index (known DTB required); online discovery pending"
 		diagnostic["acceptance"] = gate

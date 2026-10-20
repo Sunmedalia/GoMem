@@ -1,0 +1,23 @@
+{
+  "source_sha256": "54fdf8a6e455e6f51a0918666db1c1f031c1e872d86c066ccc683ef123321c4b",
+  "clang": "Homebrew clang version 23.1.0",
+  "linker": "Homebrew LLD 23.1.0",
+  "files": [
+    {
+      "name": "native-x64.pdb",
+      "sha256": "85b66c689c5342cf63f48b7f5283de1f6e9a65e54b9f5a18dad2760764e592fa"
+    },
+    {
+      "name": "native-x64.exe",
+      "sha256": "07f56d4d1d8758c00cb88022b35e4c5ee0fa3b3699206f94fc570af1e41bac40"
+    },
+    {
+      "name": "native-x86.pdb",
+      "sha256": "fb00f4e93d409d0398d52d5c62b801fe9b35442fe5daca6c71013c59399c5134"
+    },
+    {
+      "name": "native-x86.exe",
+      "sha256": "5af99f294fbd39acf2c8e2ea66f37f87d1622ec80b17c1022914ac42a691be3c"
+    }
+  ]
+}

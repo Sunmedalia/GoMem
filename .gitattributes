@@ -1,3 +1,5 @@
 * text=auto eol=lf
 *.elf -text
 *.macho -text
+*.pdb -text
+*.exe -text

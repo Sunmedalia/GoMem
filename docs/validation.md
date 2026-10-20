@@ -6,6 +6,8 @@
 
 原生 DWARF、枚举、有符号数、匿名成员与位字段的独立验证见 [native-symbols.md](native-symbols.md)。
 
+原生 PDB/MSF 7.0 已通过编译的 x86/x64 PE 对象和合成页表端到端测试；真实 Microsoft 内核 PDB 在官方 Windows 镜像上枚举 120 个进程、176 个模块，指定字段对照一致。类型差异、范围、源摘要与未支持语义见 [PDB 验证](pdb-symbols.md)。
+
 ## 官方样本的指定字段对照
 
 | 样本 / 能力 | 原生 / 基线行数 | 比较字段 | 结果 |

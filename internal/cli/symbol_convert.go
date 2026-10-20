@@ -17,9 +17,32 @@ import (
 func convertSymbols(c *engine.Config, out io.Writer) *cobra.Command {
 	var options symbols.DWARFOptions
 	var output string
-	cmd := &cobra.Command{Use: "convert DEBUG_FILE", Short: "Convert ELF/Mach-O DWARF to ISF with native Go", Args: cobra.ExactArgs(1), RunE: func(cmd *cobra.Command, args []string) error {
+	var pdbName string
+	cmd := &cobra.Command{Use: "convert DEBUG_FILE", Short: "Convert ELF/Mach-O DWARF or PDB/MSF to ISF with native Go", Args: cobra.ExactArgs(1), RunE: func(cmd *cobra.Command, args []string) error {
 		options.OS = c.OS
-		table, report, err := symbols.ConvertDWARF(cmd.Context(), args[0], options)
+		var table *symbols.ISF
+		var report symbols.Conversion
+		f, err := os.Open(args[0])
+		if err != nil {
+			return err
+		}
+		var magic [4]byte
+		n, readErr := f.Read(magic[:])
+		f.Close()
+		if readErr != nil && readErr != io.EOF {
+			return readErr
+		}
+		if n == 4 && string(magic[:]) == "Micr" {
+			if options.OS != "" && options.OS != "windows" || options.Arch != "" || options.SystemMap != "" || options.SymbolsFrom != "" {
+				return fmt.Errorf("PDB conversion requires Windows and does not accept DWARF-specific options")
+			}
+			table, report, err = symbols.ConvertPDB(cmd.Context(), args[0], symbols.PDBOptions{Database: pdbName, MaxBytes: options.MaxDebugBytes, MaxRecords: options.MaxEntries})
+		} else {
+			if pdbName != "" {
+				return fmt.Errorf("--pdb-name applies only to PDB inputs")
+			}
+			table, report, err = symbols.ConvertDWARF(cmd.Context(), args[0], options)
+		}
 		if err != nil {
 			return err
 		}
@@ -56,6 +79,7 @@ func convertSymbols(c *engine.Config, out io.Writer) *cobra.Command {
 	}}
 	flags := cmd.Flags()
 	flags.StringVar(&output, "output", "", "New ISF path, '-' for stdout; default stdout or CASE/symbols/SHA256.json")
+	flags.StringVar(&pdbName, "pdb-name", "", "Expected PDB database basename (default input basename)")
 	flags.StringVar(&options.SystemMap, "system-map", "", "Optional Linux System.map; overrides ELF symbol addresses")
 	flags.StringVar(&options.SymbolsFrom, "symbols-from", "", "Matching separate ELF/Mach-O file for symbol addresses and banner data")
 	flags.StringVar(&options.Arch, "binary-arch", "", "Mach-O architecture: x86_64, i386, arm64, arm")

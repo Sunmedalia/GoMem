@@ -36,3 +36,5 @@ jobs:
       - run: go test ./pkg/symbols -run '^$' -fuzz FuzzISF -fuzztime 5s
       - run: go test ./pkg/symbols -run '^$' -fuzz FuzzDWARF -fuzztime 5s
       - run: go test ./pkg/symbols -run '^$' -fuzz FuzzSymbolIndex -fuzztime 5s
+      - run: go test ./pkg/symbols -run '^$' -fuzz FuzzMSF -fuzztime 5s
+      - run: go test ./pkg/symbols -run '^$' -fuzz FuzzCodeView -fuzztime 5s

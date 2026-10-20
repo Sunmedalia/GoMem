@@ -146,3 +146,16 @@ func TestNativeSymbolConversionCommand(t *testing.T) {
 		t.Fatal("stdout was not clean ISF JSON", err)
 	}
 }
+
+func TestNativePDBCommand(t *testing.T) {
+	out, stderr, err := run(t, "", "symbols", "convert", "../../pkg/symbols/testdata/native-x64.pdb")
+	if err != nil || !strings.Contains(stderr, `"format":"pdb-msf7"`) || !strings.Contains(out, `"name":"_EPROCESS"`) {
+		t.Fatal(out, stderr, err)
+	}
+	if _, _, err = run(t, "", "symbols", "convert", "../../pkg/symbols/testdata/native-x64.pdb", "--os", "linux"); err == nil {
+		t.Fatal("PDB selected as Linux symbols")
+	}
+	if _, _, err = run(t, "", "symbols", "convert", "../../pkg/symbols/testdata/native-x64.pdb", "--system-map", "missing"); err == nil {
+		t.Fatal("ignored DWARF-only option")
+	}
+}

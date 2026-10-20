@@ -11294,11 +11294,15 @@
       "id": "volatility3.framework.layers.msf",
       "category": "layers",
       "source": "volatility3/framework/layers/msf.py",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
       "applicability": "See locked source; source-module inventory includes support modules.",
-      "corpora": [],
-      "comparison": "not_run"
+      "corpora": [
+        "synthetic-pdb-x86-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_types_and_entities_only",
+      "validation_record": "docs/pdb-symbols.md"
     },
     {
       "id": "volatility3.framework.layers.physical",
@@ -11634,11 +11638,15 @@
       "id": "volatility3.framework.symbols.windows.pdbconv",
       "category": "symbols",
       "source": "volatility3/framework/symbols/windows/pdbconv.py",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
       "applicability": "See locked source; source-module inventory includes support modules.",
-      "corpora": [],
-      "comparison": "not_run"
+      "corpora": [
+        "synthetic-pdb-x86-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_types_and_entities_only",
+      "validation_record": "docs/pdb-symbols.md"
     },
     {
       "id": "volatility3.framework.symbols.windows.pdbutil",
@@ -11880,11 +11888,15 @@
     {
       "id": "symbols.pdb-msf",
       "category": "acceptance",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
       "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.",
-      "corpora": [],
-      "comparison": "not_run"
+      "corpora": [
+        "synthetic-pdb-x86-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_types_and_entities_only",
+      "validation_record": "docs/pdb-symbols.md"
     },
     {
       "id": "symbols.dwarf",

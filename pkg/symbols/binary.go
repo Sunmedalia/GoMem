@@ -30,15 +30,17 @@ type SymbolSource struct {
 	Kind   string `json:"kind"`
 }
 type Conversion struct {
-	Format       string         `json:"format"`
-	Architecture string         `json:"architecture"`
-	BuildID      string         `json:"build_id,omitempty"`
-	Sources      []SymbolSource `json:"sources"`
-	Entries      int            `json:"entries"`
-	Types        int            `json:"types"`
-	Symbols      int            `json:"symbols"`
-	Enums        int            `json:"enums"`
-	Warnings     []string       `json:"warnings,omitempty"`
+	Format          string            `json:"format"`
+	Architecture    string            `json:"architecture"`
+	BuildID         string            `json:"build_id,omitempty"`
+	Sources         []SymbolSource    `json:"sources"`
+	Entries         int               `json:"entries"`
+	Types           int               `json:"types"`
+	Symbols         int               `json:"symbols"`
+	Enums           int               `json:"enums"`
+	Warnings        []string          `json:"warnings,omitempty"`
+	AbsoluteSymbols map[string]string `json:"absolute_symbols,omitempty"`
+	RemovedSymbols  map[string]string `json:"omap_removed_symbols,omitempty"`
 }
 type nativeSymbol struct {
 	name     string

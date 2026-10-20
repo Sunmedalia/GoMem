@@ -21,6 +21,13 @@ class DifferentialTests(unittest.TestCase):
         self.assertNotEqual(minimal, normalized(ref, table(4, 0, 8, "big")))
         self.assertEqual(minimal, normalized(ref, table(4, 0, 21, "big")))
 
+    def test_symbol_comparison_preserves_missing_pointee(self):
+        table = {"base_types": {"pointer": {"size": 8}, "pointer32": {"size": 4}}, "user_types": {}}
+        missing = {"kind": "pointer", "subtype": {"kind": "struct", "name": "opaque"}}
+        self.assertIn("unavailable_type", str(normalized(missing, table)))
+        narrow = {**missing, "base": "pointer32"}
+        self.assertNotEqual(normalized(missing, table), normalized(narrow, table))
+
     def test_multisets_and_tree_parents(self):
         with tempfile.TemporaryDirectory() as temp:
             directory = pathlib.Path(temp)

@@ -25,6 +25,7 @@ const MaxSymbolSize = 128 << 20
 
 type TypeRef struct {
 	Kind        string   `json:"kind"`
+	Base        string   `json:"base,omitempty"`
 	Name        string   `json:"name,omitempty"`
 	Count       uint64   `json:"count,omitempty"`
 	Subtype     *TypeRef `json:"subtype,omitempty"`
@@ -97,6 +98,7 @@ func (t Type) MarshalJSON() ([]byte, error) {
 
 type Symbol struct {
 	Address      uint64   `json:"address"`
+	LinkageName  string   `json:"linkage_name,omitempty"`
 	Type         *TypeRef `json:"type,omitempty"`
 	ConstantData string   `json:"constant_data,omitempty"`
 }
@@ -201,7 +203,29 @@ func (t *ISF) PointerSize() int {
 	}
 	return 0
 }
-func (t *ISF) Architecture() string { return t.architecture }
+func (t *ISF) Architecture() string {
+	if t.architecture != "" {
+		return t.architecture
+	}
+	var windows struct {
+		PDB struct {
+			Machine uint16 `json:"machine_type"`
+		} `json:"pdb"`
+	}
+	if json.Unmarshal(t.Meta["windows"], &windows) == nil {
+		switch windows.PDB.Machine {
+		case 0x8664:
+			return "x86_64"
+		case 0x14c:
+			return "i386"
+		case 0xaa64:
+			return "arm64"
+		case 0x1c0, 0x1c4:
+			return "arm"
+		}
+	}
+	return ""
+}
 func (t *ISF) Banner() ([]byte, error) {
 	for _, n := range []string{"linux_banner", "version"} {
 		if s, ok := t.Symbols[n]; ok && s.ConstantData != "" {
@@ -252,6 +276,10 @@ func LoadContext(ctx context.Context, path string) (*ISF, error) {
 	}
 	if n == 4 && nativeMagic(magic[:]) {
 		table, _, err := ConvertDWARF(ctx, path, DWARFOptions{})
+		return table, err
+	}
+	if n == 4 && string(magic[:]) == "Micr" {
+		table, _, err := ConvertPDB(ctx, path, PDBOptions{})
 		return table, err
 	}
 	return loadISF(ctx, path)

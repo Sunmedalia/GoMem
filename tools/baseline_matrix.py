@@ -127,11 +127,14 @@ def generate(source):
             if module == "volatility3.framework.automagic.linux":
                 infrastructure[-1].update(status="partial", corpora=["synthetic-linux-x64", "official-linux-sample-1"],
                                           comparison="selected_kernel_identity_only", validation_record="docs/linux-discovery.md")
+            if module in ("volatility3.framework.layers.msf", "volatility3.framework.symbols.windows.pdbconv"):
+                infrastructure[-1].update(status="partial", corpora=["synthetic-pdb-x86-x64", "official-windows-10-19041"],
+                                          comparison="selected_types_and_entities_only", validation_record="docs/pdb-symbols.md")
     for identifier in ("source.file", "source.http", "source.https", "source.ftp", "source.s3", "source.gs", "source.leechcore",
                        "symbols.pdb-msf", "symbols.dwarf", "symbols.local-index", "symbols.isf.zip", "symbols.isf.gzip", "symbols.isf.xz", "symbols.auto-download",
                        "exploration.address-space", "exploration.types", "exploration.search", "exploration.disassembly", "paging.swap",
                        "export.extracted-files", "extension.yara", "extension.capstone", "renderer.arrow", "renderer.mermaid"):
-        infrastructure.append({"id": identifier, "category": "acceptance", "status": "partial" if identifier in ("source.file", "symbols.dwarf", "symbols.local-index", "symbols.isf.zip", "symbols.isf.gzip", "symbols.isf.xz", "exploration.types", "exploration.address-space", "exploration.search") else "missing",
+        infrastructure.append({"id": identifier, "category": "acceptance", "status": "partial" if identifier in ("source.file", "symbols.pdb-msf", "symbols.dwarf", "symbols.local-index", "symbols.isf.zip", "symbols.isf.gzip", "symbols.isf.xz", "exploration.types", "exploration.address-space", "exploration.search") else "missing",
                                "accepted": False, "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.", "corpora": [], "comparison": "not_run"})
         if identifier == "symbols.dwarf":
             infrastructure[-1].update(corpora=["synthetic-dwarf-c-elf-macho"], comparison="selected_layouts_only",
@@ -139,6 +142,9 @@ def generate(source):
         if identifier == "symbols.local-index":
             infrastructure[-1].update(corpora=["synthetic-linux-x64", "synthetic-windows-x64"], comparison="kernel_identity_tests_only",
                                       validation_record="docs/native-symbols.md")
+        if identifier == "symbols.pdb-msf":
+            infrastructure[-1].update(corpora=["synthetic-pdb-x86-x64", "official-windows-10-19041"], comparison="selected_types_and_entities_only",
+                                      validation_record="docs/pdb-symbols.md")
     return {"schema": "gomem.capabilities/v1", "baseline": lock, "release": "development-preview", "plugin_count": len(plugins),
             "accepted_plugins": 0, "plugins": plugins, "infrastructure": infrastructure}
 

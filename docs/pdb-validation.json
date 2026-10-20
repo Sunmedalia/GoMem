@@ -1,0 +1,403 @@
+{
+  "schema": "gomem.pdb-validation/v1",
+  "date": "2026-10-20",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "environment": "darwin/arm64, Go 1.26.2",
+  "fixtures": [
+    {
+      "name": "native-x64.pdb",
+      "pdb_sha256": "85b66c689c5342cf63f48b7f5283de1f6e9a65e54b9f5a18dad2760764e592fa",
+      "shared_layouts": {
+        "scope": {
+          "types": [
+            "_LIST_ENTRY",
+            "_KPROCESS",
+            "flags",
+            "packed_flags"
+          ],
+          "symbol_addresses": [
+            "answer",
+            "entry"
+          ],
+          "enum_base_metadata_compared": false,
+          "pointer_target_fields_compared": false
+        },
+        "matched": true,
+        "type_differences": {},
+        "symbol_differences": {},
+        "sha256": {
+          "native": "04422a8e245ef360b0ae1cd57f5de4138d96368af065eb685795980fdfd0a5cc",
+          "reference": "69626b22882ce64614841e9c86e6fd64d5c6a3342428298acbfb93d3eeced30d"
+        }
+      },
+      "complete_requested_scope": {
+        "scope": {
+          "types": [
+            "_EPROCESS",
+            "_LIST_ENTRY",
+            "_KPROCESS",
+            "flags",
+            "packed_flags"
+          ],
+          "symbol_addresses": [
+            "PsActiveProcessHead",
+            "SystemProcess",
+            "answer",
+            "entry"
+          ],
+          "enum_base_metadata_compared": false,
+          "pointer_target_fields_compared": false
+        },
+        "matched": false,
+        "symbol_differences": {
+          "PsActiveProcessHead": [
+            12288,
+            null
+          ],
+          "SystemProcess": [
+            12304,
+            null
+          ]
+        },
+        "sha256": {
+          "native": "04422a8e245ef360b0ae1cd57f5de4138d96368af065eb685795980fdfd0a5cc",
+          "reference": "69626b22882ce64614841e9c86e6fd64d5c6a3342428298acbfb93d3eeced30d"
+        },
+        "type_differences": {
+          "_EPROCESS.state.gone": {
+            "native": -1,
+            "reference": 4294967295
+          }
+        }
+      },
+      "validated_differences": [
+        "Native signed int enum gone=-1; baseline emits 4294967295.",
+        "Native retains public data symbols in the final PE section; baseline omits them.",
+        "Native preserves typed private data and typedef aliases beyond the selected baseline scope."
+      ]
+    },
+    {
+      "name": "native-x86.pdb",
+      "pdb_sha256": "fb00f4e93d409d0398d52d5c62b801fe9b35442fe5daca6c71013c59399c5134",
+      "shared_layouts": {
+        "scope": {
+          "types": [
+            "_LIST_ENTRY",
+            "_KPROCESS",
+            "flags",
+            "packed_flags"
+          ],
+          "symbol_addresses": [
+            "answer",
+            "entry"
+          ],
+          "enum_base_metadata_compared": false,
+          "pointer_target_fields_compared": false
+        },
+        "matched": true,
+        "type_differences": {},
+        "symbol_differences": {},
+        "sha256": {
+          "native": "649cd1ee48a72c1f2aa3051d84512457b38c084229ce379774018bf2874867a9",
+          "reference": "90164f091d60d91073d5f5541fcc93210f7466c8202c622b814ef7b72ac24ee4"
+        }
+      },
+      "complete_requested_scope": {
+        "scope": {
+          "types": [
+            "_EPROCESS",
+            "_LIST_ENTRY",
+            "_KPROCESS",
+            "flags",
+            "packed_flags"
+          ],
+          "symbol_addresses": [
+            "PsActiveProcessHead",
+            "SystemProcess",
+            "answer",
+            "entry"
+          ],
+          "enum_base_metadata_compared": false,
+          "pointer_target_fields_compared": false
+        },
+        "matched": false,
+        "symbol_differences": {
+          "PsActiveProcessHead": [
+            12288,
+            null
+          ],
+          "SystemProcess": [
+            12296,
+            null
+          ]
+        },
+        "sha256": {
+          "native": "649cd1ee48a72c1f2aa3051d84512457b38c084229ce379774018bf2874867a9",
+          "reference": "90164f091d60d91073d5f5541fcc93210f7466c8202c622b814ef7b72ac24ee4"
+        },
+        "type_differences": {
+          "_EPROCESS.state.gone": {
+            "native": -1,
+            "reference": 4294967295
+          }
+        }
+      },
+      "validated_differences": [
+        "Native signed int enum gone=-1; baseline emits 4294967295.",
+        "Native retains public data symbols in the final PE section; baseline omits them.",
+        "Native preserves typed private data and typedef aliases beyond the selected baseline scope."
+      ]
+    }
+  ],
+  "kernel_pdb": {
+    "url": "https://msdl.microsoft.com/download/symbols/ntkrnlmp.pdb/167FE94B5641C005AC3036212A01F8DC1/ntkrnlmp.pdb",
+    "size": 8571904,
+    "sha256": "13f0deaa9d58c4c58a4abe92ea27920115b9f6169def486194a0f742a0c3569e",
+    "conversion": {
+      "format": "pdb-msf7",
+      "architecture": "x86_64",
+      "build_id": "167FE94B5641C005AC3036212A01F8DC/1",
+      "sources": [
+        {
+          "name": "ntkrnlmp.pdb",
+          "sha256": "13f0deaa9d58c4c58a4abe92ea27920115b9f6169def486194a0f742a0c3569e",
+          "kind": "pdb"
+        }
+      ],
+      "entries": 90008,
+      "types": 1700,
+      "symbols": 41533,
+      "enums": 293,
+      "warnings": [
+        "PDB info age 5 differs from DBI image age 1; image identity uses DBI age",
+        "7 earlier same-name type definitions preserved as NAME@0xINDEX; canonical names use the final definition",
+        "39 symbol-name collisions retained as NAME@0xRVA; canonical aliases use the final record"
+      ],
+      "absolute_symbols": {
+        "__guard_eh_cont_count": "0x0",
+        "__guard_eh_cont_table": "0x0",
+        "__guard_fids_count": "0x1c0e",
+        "__guard_flags": "0x1011c500",
+        "__guard_iat_count": "0x0",
+        "__guard_iat_table": "0x0",
+        "__guard_longjmp_count": "0x1",
+        "__mm_pfn_database": "0x0",
+        "__pde_base": "0x40000000",
+        "__pde_top": "0x7fffffff",
+        "__ppe_base": "0x7da00000",
+        "__pte_base": "0x0",
+        "__pte_top": "0xffffffff",
+        "__pxe_base": "0x7dbed000",
+        "__pxe_selfmap": "0x7dbedf68",
+        "__pxe_top": "0x7dbedfff"
+      }
+    },
+    "selected_types": {
+      "scope": {
+        "types": [
+          "_EPROCESS",
+          "_ETHREAD",
+          "_KTHREAD",
+          "_KLDR_DATA_TABLE_ENTRY",
+          "_UNICODE_STRING"
+        ],
+        "symbol_addresses": [
+          "PsActiveProcessHead",
+          "PsLoadedModuleList",
+          "PsInitialSystemProcess"
+        ],
+        "enum_base_metadata_compared": false,
+        "pointer_target_fields_compared": false
+      },
+      "matched": false,
+      "symbol_differences": {},
+      "sha256": {
+        "native": "f288d5d6d2bf1cfd7f1d76f271cfded7b7629224276a5748cc2a8db006c51b2a",
+        "reference": "470fb92efb5a564cf82c63a51209928afe7794d20e0c7f75c7eabc969decce08"
+      },
+      "type_differences": {
+        "_EPROCESS": {
+          "differences": [
+            {
+              "path": [
+                2,
+                "EnergyContext",
+                "type",
+                2
+              ],
+              "native": [
+                "struct",
+                0
+              ],
+              "reference": [
+                "unavailable_type",
+                "struct",
+                "_PO_PROCESS_ENERGY_CONTEXT"
+              ]
+            },
+            {
+              "path": [
+                2,
+                "QuotaBlock",
+                "type",
+                2
+              ],
+              "native": [
+                "struct",
+                0
+              ],
+              "reference": [
+                "unavailable_type",
+                "struct",
+                "_EPROCESS_QUOTA_BLOCK"
+              ]
+            },
+            {
+              "path": [
+                2,
+                "WorkingSetWatch",
+                "type",
+                2
+              ],
+              "native": [
+                "struct",
+                0
+              ],
+              "reference": [
+                "unavailable_type",
+                "struct",
+                "_PAGEFAULT_HISTORY"
+              ]
+            }
+          ]
+        },
+        "_KLDR_DATA_TABLE_ENTRY": {
+          "differences": [
+            {
+              "path": [
+                2,
+                "BaseDllName",
+                "type",
+                2,
+                "Buffer",
+                "type",
+                2,
+                3
+              ],
+              "native": false,
+              "reference": true
+            },
+            {
+              "path": [
+                2,
+                "FullDllName",
+                "type",
+                2,
+                "Buffer",
+                "type",
+                2,
+                3
+              ],
+              "native": false,
+              "reference": true
+            }
+          ]
+        },
+        "_UNICODE_STRING": {
+          "differences": [
+            {
+              "path": [
+                2,
+                "Buffer",
+                "type",
+                2,
+                3
+              ],
+              "native": false,
+              "reference": true
+            }
+          ]
+        }
+      }
+    },
+    "validated_differences": [
+      "Native wchar uses the unsigned Windows 16-bit ABI; baseline marks wchar signed.",
+      "Native preserves complete zero-sized opaque forward declarations; baseline may omit the declaration entirely."
+    ],
+    "final_native_inspection": {
+      "architecture": "x86_64",
+      "enums": 293,
+      "metadata": {
+        "format": "6.2.0",
+        "producer": {
+          "name": "gomem-pdb",
+          "version": "1"
+        },
+        "windows": {
+          "pdb": {
+            "GUID": "167FE94B5641C005AC3036212A01F8DC",
+            "age": 1,
+            "database": "ntkrnlmp.pdb",
+            "machine_type": 34404
+          }
+        }
+      },
+      "pointer_size": 8,
+      "sha256": "f288d5d6d2bf1cfd7f1d76f271cfded7b7629224276a5748cc2a8db006c51b2a",
+      "symbols": 41533,
+      "types": 1700
+    }
+  },
+  "real_image_results": [
+    {
+      "plugin": "windows.pslist",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "PPID",
+          "Name"
+        ],
+        "native_rows": 120,
+        "reference_rows": 120,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "a8444ec88cfde97f05a997ce7fca675c69effebfa473f409dc1fda0a1de988d3",
+          "reference": "b6b6308c261194fc98f79e7e26bb7573a820d94be78f8fb105bdf3d0061b67a4",
+          "mapping": "14ac26af59fffd379efa76487ad43d8cfd02d7d39d047460aa744fdfd79ac7d8"
+        }
+      },
+      "engine_build_sha256": "734f40511e8633aefec61efdfb92c19837e421093b9d06fe8a484fdce8c9cc81",
+      "symbols_sha256": "f288d5d6d2bf1cfd7f1d76f271cfded7b7629224276a5748cc2a8db006c51b2a"
+    },
+    {
+      "plugin": "windows.modules",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "Name",
+          "Base",
+          "Size"
+        ],
+        "native_rows": 176,
+        "reference_rows": 176,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "822eca810986607c3c507f40887c0fefa7f03905a3472f97b029d233522590ea",
+          "reference": "c4f51d0504550b68077cf858e50077d6bdeb6e04090ab5cdf2bb4a0bb5c1d11f",
+          "mapping": "01d0d65710117d1cf4522bfd6bc162f7005a691e48b5c7b9c85b53d95ddc8f34"
+        }
+      },
+      "engine_build_sha256": "734f40511e8633aefec61efdfb92c19837e421093b9d06fe8a484fdce8c9cc81",
+      "symbols_sha256": "f288d5d6d2bf1cfd7f1d76f271cfded7b7629224276a5748cc2a8db006c51b2a"
+    }
+  ],
+  "acceptance": "Only selected layouts/addresses, compiled values and selected real-image entity fields. MSF2 and complete CodeView semantics remain unaccepted.",
+  "fixture_reproducibility": "Two successive runs of build_pdb_fixtures.py with the recorded toolchain produced identical file hashes."
+}

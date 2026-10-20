@@ -698,27 +698,46 @@ func (b *dwarfBuilder) userType(name string, t Type) error {
 	return nil
 }
 func (b *dwarfBuilder) refSize(t TypeRef, depth int) (uint64, error) {
+	return b.table.refSize(t, depth)
+}
+func (table *ISF) refSize(t TypeRef, depth int) (uint64, error) {
 	if depth > 128 {
 		return 0, fmt.Errorf("size recursion exceeds limit")
 	}
 	switch t.Kind {
 	case "pointer":
-		return uint64(b.file.pointer), nil
+		name := "pointer"
+		if t.Base != "" {
+			name = t.Base
+		}
+		v, ok := table.Bases[name]
+		if !ok {
+			return 0, fmt.Errorf("missing pointer base %s", name)
+		}
+		return v.Size, nil
 	case "base":
-		v, ok := b.table.Bases[t.Name]
+		v, ok := table.Bases[t.Name]
 		if !ok {
 			return 0, fmt.Errorf("missing base %s", t.Name)
 		}
 		return v.Size, nil
 	case "enum":
-		return b.table.Enums[t.Name].Size, nil
+		v, ok := table.Enums[t.Name]
+		if !ok {
+			return 0, fmt.Errorf("missing enum %s", t.Name)
+		}
+		return v.Size, nil
 	case "struct", "union":
-		return b.table.Types[t.Name].Size, nil
+		v, ok := table.Types[t.Name]
+		if !ok {
+			return 0, fmt.Errorf("missing user type %s", t.Name)
+		}
+		return v.Size, nil
 	case "array":
 		if t.Subtype == nil {
 			return 0, fmt.Errorf("array lacks subtype")
 		}
-		n, e := b.refSize(*t.Subtype, depth+1)
+		n, e := table.refSize(*t.Subtype, depth+1)
 		if e != nil {
 			return 0, e
 		}
@@ -730,7 +749,7 @@ func (b *dwarfBuilder) refSize(t TypeRef, depth int) (uint64, error) {
 		if t.Underlying() == nil {
 			return 0, fmt.Errorf("bitfield lacks storage type")
 		}
-		return b.refSize(*t.Underlying(), depth+1)
+		return table.refSize(*t.Underlying(), depth+1)
 	}
 	return 0, fmt.Errorf("type %s has no storage size", t.Kind)
 }

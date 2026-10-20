@@ -129,6 +129,10 @@ func (r *Reader) size(t symbols.TypeRef, depth int) (uint64, error) {
 	}
 	switch t.Kind {
 	case "pointer":
+		if t.Base != "" {
+			base, err := r.Symbols.Type(t.Base)
+			return base.Size, err
+		}
 		return uint64(r.Symbols.PointerSize()), nil
 	case "array":
 		if t.Subtype == nil {
@@ -219,6 +223,9 @@ func (r *Reader) Scalar(ctx context.Context, a uint64, t symbols.TypeRef) (uint6
 func (r *Reader) scalarType(t symbols.TypeRef) (symbols.Type, error) {
 	for depth := 0; depth < 64; depth++ {
 		if t.Kind == "pointer" {
+			if t.Base != "" {
+				return r.Symbols.Type(t.Base)
+			}
 			return r.Symbols.Type("pointer")
 		}
 		if t.Kind != "bitfield" {

@@ -24,7 +24,8 @@
             "linux_banner",
             "version"
           ],
-          "enum_base_metadata_compared": false
+          "enum_base_metadata_compared": false,
+          "pointer_target_fields_compared": false
         },
         "matched": true,
         "type_differences": {},
@@ -52,7 +53,8 @@
             "linux_banner",
             "version"
           ],
-          "enum_base_metadata_compared": false
+          "enum_base_metadata_compared": false,
+          "pointer_target_fields_compared": false
         },
         "matched": true,
         "type_differences": {},
@@ -80,7 +82,8 @@
             "linux_banner",
             "version"
           ],
-          "enum_base_metadata_compared": false
+          "enum_base_metadata_compared": false,
+          "pointer_target_fields_compared": false
         },
         "matched": true,
         "type_differences": {},
@@ -108,7 +111,8 @@
             "linux_banner",
             "version"
           ],
-          "enum_base_metadata_compared": false
+          "enum_base_metadata_compared": false,
+          "pointer_target_fields_compared": false
         },
         "matched": true,
         "type_differences": {},
@@ -136,7 +140,8 @@
             "linux_banner",
             "version"
           ],
-          "enum_base_metadata_compared": false
+          "enum_base_metadata_compared": false,
+          "pointer_target_fields_compared": false
         },
         "matched": false,
         "type_differences": {
@@ -171,7 +176,6 @@
                     "pointer",
                     8,
                     [
-                      "recursive",
                       "struct",
                       80
                     ]
@@ -263,7 +267,6 @@
                     "pointer",
                     8,
                     [
-                      "recursive",
                       "struct",
                       80
                     ]
@@ -328,7 +331,6 @@
                     "pointer",
                     8,
                     [
-                      "recursive",
                       "struct",
                       80
                     ]
@@ -420,7 +422,6 @@
                     "pointer",
                     8,
                     [
-                      "recursive",
                       "struct",
                       80
                     ]
@@ -609,7 +610,8 @@
             "linux_banner",
             "version"
           ],
-          "enum_base_metadata_compared": false
+          "enum_base_metadata_compared": false,
+          "pointer_target_fields_compared": false
         },
         "matched": true,
         "type_differences": {},
@@ -637,7 +639,8 @@
             "linux_banner",
             "version"
           ],
-          "enum_base_metadata_compared": false
+          "enum_base_metadata_compared": false,
+          "pointer_target_fields_compared": false
         },
         "matched": true,
         "type_differences": {},

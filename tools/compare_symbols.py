@@ -21,10 +21,12 @@ def signature(ref, table):
         base = table["base_types"][ref["name"]]
         return [kind, base["kind"], base["size"], base["signed"], base["endian"]]
     if kind in ("struct", "union", "class"):
-        user = table["user_types"][ref["name"]]
+        user = table["user_types"].get(ref["name"])
+        if user is None:
+            return ["unavailable_type", kind, ref["name"]]
         return [kind, user["size"]]
     if kind == "pointer":
-        return [kind, table["base_types"]["pointer"]["size"], signature(ref["subtype"], table) if ref["subtype"]["kind"] not in ("pointer", "array") else ref["subtype"]["kind"]]
+        return [kind, table["base_types"][ref.get("base", "pointer")]["size"], signature(ref["subtype"], table)]
     if kind == "array":
         return [kind, ref["count"], signature(ref["subtype"], table)]
     if kind == "enum":
@@ -54,7 +56,10 @@ def normalized(ref, table, seen=None):
     if kind == "base":
         return signature(ref, table)
     if kind == "pointer":
-        return [kind, table["base_types"]["pointer"]["size"], normalized(ref["subtype"], table, seen)]
+        # Compare the declared pointee shape without recursively traversing an
+        # entire kernel object graph. Named targets are selected explicitly in
+        # --types when their fields must also be checked.
+        return signature(ref, table)
     if kind == "array":
         return [kind, ref["count"], normalized(ref["subtype"], table, seen)]
     if kind == "enum":
@@ -92,7 +97,7 @@ def normalized(ref, table, seen=None):
     return [kind]
 
 
-def compare(native_path, reference_path, types):
+def compare(native_path, reference_path, types, symbol_names=("init_task", "answer", "linux_banner", "version")):
     native, reference = [json.loads(path.read_text()) for path in (native_path, reference_path)]
     differences = {}
     for name in types:
@@ -100,10 +105,10 @@ def compare(native_path, reference_path, types):
         b = normalized({"kind": reference["user_types"][name]["kind"], "name": name}, reference)
         if a != b:
             differences[name] = {"native": a, "reference": b}
-    symbol_names = ("init_task", "answer", "linux_banner", "version")
     symbol_differences = {name: [native["symbols"].get(name, {}).get("address"), reference["symbols"].get(name, {}).get("address")]
                           for name in symbol_names if native["symbols"].get(name, {}).get("address") != reference["symbols"].get(name, {}).get("address")}
-    return {"scope": {"types": types, "symbol_addresses": list(symbol_names), "enum_base_metadata_compared": False},
+    return {"scope": {"types": types, "symbol_addresses": list(symbol_names), "enum_base_metadata_compared": False,
+                      "pointer_target_fields_compared": False},
             "matched": not differences and not symbol_differences, "type_differences": differences,
             "symbol_differences": symbol_differences, "sha256": {"native": digest(native_path), "reference": digest(reference_path)}}
 
@@ -113,8 +118,9 @@ def main():
     parser.add_argument("--native", type=pathlib.Path, required=True)
     parser.add_argument("--reference", type=pathlib.Path, required=True)
     parser.add_argument("--types", nargs="+", default=["task_struct", "flags", "packed_flags"])
+    parser.add_argument("--symbols", nargs="+", default=["init_task", "answer", "linux_banner", "version"])
     args = parser.parse_args()
-    result = compare(args.native, args.reference, args.types)
+    result = compare(args.native, args.reference, args.types, args.symbols)
     print(json.dumps(result, indent=2))
     raise SystemExit(0 if result["matched"] else 1)
 
