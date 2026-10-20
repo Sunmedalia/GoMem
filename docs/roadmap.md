@@ -46,3 +46,4 @@
 
 2026-10-21：windows.bigpools 枚举 `PoolBigPageTable`。选定 Windows 10 19041 样本的 7425 个在用分配与固定基线一致，地址保留规范高位；1543 条已释放默认隐藏，23800 条 `Key` 为 0。没有类型时明确失败，不使用备用符号 JSON。真实 32 位和 Vista 以前的布局还没有验收。[详情](windows-bigpools.md)
 2026-10-21：windows.unloadedmodules 读取 `MmUnloadedDrivers`。选定 Windows 10 19041 样本的 9 个已卸载模块与固定基线一致；计数为 9，没有截断、跳过或读失败。缺少符号时明确失败。真实 32 位镜像和时间线还没有验收。[详情](windows-unloadedmodules.md)
+2026-10-21：windows.envars 读取活动进程的 PEB 环境块。选定 Windows 10 19041 样本的 2960 条变量与固定基线一致。26 个进程的参数或环境页不可读，任务失败并保留诊断；基线跳过这些进程。`silent` 不过滤。真实 32 位镜像还没有验收。[详情](windows-envars.md)

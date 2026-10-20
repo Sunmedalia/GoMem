@@ -1,0 +1,71 @@
+{
+  "schema": "gomem.windows-envars-validation/v1",
+  "date": "2026-10-21",
+  "scope": "Synthetic PEB environment cases plus one Windows 10 19041 x64 crash dump. Not a 32-bit image acceptance. Unreadable process environments fail the task instead of being omitted.",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "reference_manifest_sha256": "ccaa369209ba2ac6587ccbf0899e6cd93c318fef1aad482bba482a64725171b2",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+  "engine_build_sha256": "606d092718343d236b981b43d51ad417eccfcdcbac246c85d4efeaad67684b3d",
+  "parameters": {
+    "pid": "",
+    "max-nodes": "131072",
+    "max-env": "1048576",
+    "silent": "false"
+  },
+  "task_state": "failed",
+  "variable_rows": 2960,
+  "reference_rows": 2960,
+  "diagnostics": 29,
+  "failures": 26,
+  "diagnostic_reasons": {
+    "no_process_peb": 3,
+    "process_parameters_pointer_unreadable": 14,
+    "environment_size_unreadable": 5,
+    "environment_pointer_unreadable": 1,
+    "environment_buffer_unreadable": 6
+  },
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "PID",
+      "Process",
+      "Block",
+      "Variable",
+      "Value"
+    ],
+    "native_rows": 2960,
+    "reference_rows": 2960,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "7af1af8c38d269944258c03bf714470563672999185de0c3d93f456f355ad4bf",
+      "reference": "88823ce7452662a100ebafdbb84c13d4c0bbd88b3919a88569ecde0a116ab829",
+      "mapping": "38447186b73f631903a299cac372a4c658e8fa2576368d2349e49b16b0626122"
+    },
+    "native_input_rows": 2990,
+    "native_non_entity_records": {
+      "diagnostic": 29,
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "values": [
+        "variable"
+      ],
+      "excluded_values": [
+        "summary",
+        "diagnostic"
+      ]
+    }
+  },
+  "notes": [
+    "Compared fields are PID, Process, Block, Variable and Value. Block is the address of the Environment pointer field, formatted like Python hex(). The environment block address stays in the uncompared Environment column.",
+    "The go test binary that produced the compared JSONL is 606d092718343d236b981b43d51ad417eccfcdcbac246c85d4efeaad67684b3d.",
+    "The selected image yields 2960 variables from the processes whose blocks were readable. Twenty-six other processes had unreadable parameters, sizes, pointers or buffers and failed the task. The pinned plugin skips those processes and still succeeds. Three processes have no PEB and are diagnostics only.",
+    "The unread pages use prototype or swap encodings that this engine does not resolve.",
+    "silent=true does not filter. The pinned generator reads the config key SILENT, so its registry and common-variable suppression is unreachable.",
+    "max-env, the no-equals split, the dropped final segment and the Length fallback were checked on the synthetic image."
+  ]
+}

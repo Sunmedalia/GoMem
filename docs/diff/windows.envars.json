@@ -1,0 +1,14 @@
+{
+  "fields": {
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "Process": {"native": "Process", "reference": "Process", "kind": "string"},
+    "Block": {"native": "Block", "reference": "Block", "kind": "string"},
+    "Variable": {"native": "Variable", "reference": "Variable", "kind": "string"},
+    "Value": {"native": "Value", "reference": "Value", "kind": "string"}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["variable"],
+    "excluded_values": ["summary", "diagnostic"]
+  }
+}

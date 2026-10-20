@@ -45,6 +45,7 @@ bin/gomem analyze windows.pslist \
 | `windows.pslist` | 活动进程、线程/句柄/会话/WoW64/时间；物理偏移显示及主映像 PE 提取 |
 | `windows.modules` | 内核模块与路径；基址/名称子串筛选；支持从已验证会话层重建 PE |
 | `windows.cmdline` | 读取各进程原生 PEB 命令行；保留原始 UTF-16、捕获长度和明确读取错误；PID 集合筛选 |
+| `windows.envars` | 读取各进程 PEB 环境块；`Block` 是指针字段地址；`silent` 不过滤；读失败保留诊断并令任务失败；[说明](docs/windows-envars.md) |
 | `windows.hivelist` | 从 `CmpHiveListHead` 枚举注册表 hive；保留签名、三个路径字段和链表断裂；`dump` 重建稳定 hive，缺页记入空洞日志并令任务失败 |
 | `windows.hivescan` | 在 64 位 Windows 8.1 及以后扫描 `PoolBigPageTable` 的在用 `CM10` 分配；旧式池头扫描会明确失败；[说明](docs/windows-hivescan.md) |
 | `windows.filescan` | 扫描池头中的文件对象，输出规范虚拟地址和文件名；Windows 10 扫内核层，更早的系统扫物理内存；[说明](docs/windows-filescan.md) |
@@ -109,6 +110,8 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `windows.pslist --param physical=true` 显示物理偏移并保持虚拟进程身份；`pslist` 与 `modules` 可用 `--param dump=true` 提取主映像或内核/会话模块 PE。120 个进程通过扩展字段及物理偏移对照，路径读取差异与会话导出范围单独记录。[进程与模块验证](docs/windows-process-modules.md)
 
 `windows.cmdline` 使用各进程自身地址空间读取命令行，显示值、完整声明字符串和原始字节分别保留。官方样本中 96 条可读内容一致，21 条读取错误使全量任务失败并保留结果；嵌入 NUL 和空 PEB 分别记录。[命令行验证](docs/windows-cmdline.md)
+
+`windows.envars` 读取同一 PEB 的环境块。UTF-16LE 按 NUL 切开后丢掉最后一段，没有 `=` 时名称少一个字符。`Block` 是 `Environment` 指针字段的地址，不是块本身。Windows 10 19041 样本有 2960 条变量，PID、进程名、`Block`、名称和值与固定基线一致。另有 29 条诊断，其中 26 个进程的参数或环境页不可读，任务失败；基线会跳过这些进程。`silent` 不隐藏变量，因为基线读取的配置键是 `SILENT`。真实 32 位镜像还没有验收。[环境变量验证](docs/windows-envars.md)
 
 `windows.hivelist` 正向遍历内核 hive 链表，签名不符或链表断裂时改为反向补齐，并保留已经读到的 hive。名称按 `FileFullPath`、`FileUserName`、`HiveRootPath` 取第一个非空值，三个字段都保留。Windows 10 19041 样本的 24 个偏移和名称与固定基线一致；该样本的 `FileFullPath` 成员均为空，选中名称来自另外两个字段。`dump=true` 写出 base block 和稳定存储；读不到的页是带日志的零字节，任务失败，不会把空洞说成原始数据。[注册表 hive 验证](docs/windows-hivelist.md)
 

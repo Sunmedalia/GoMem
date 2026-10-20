@@ -6293,15 +6293,23 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active-process PEB environment blocks in each process address space. Environment is the pointer in _RTL_USER_PROCESS_PARAMETERS and EnvironmentSize is its byte count. A missing EnvironmentSize uses Length. Pointers are masked with 0x0000ffffffffffff or 0xffffffff. A zero size does not read the buffer. The block is UTF-16LE, split on NUL, and the final segment is dropped. A segment without '=' uses all but its last character as the name and the whole segment as the value. An empty name or value is dropped. Block is the address of the Environment pointer field, formatted like Python hex(); the block address itself stays in Environment. A short or invalid read emits no partial variables. No PEB, a null parameter pointer, an empty block or a block with no variables is a diagnostic and does not fail the task. An unreadable pointer, size or buffer fails the task; the pinned plugin skips that process and still succeeds. max-env defaults to 1048576, is capped at 16777216, and is not an upstream parameter. silent is accepted but does not filter: the pinned generator reads the config key SILENT, so its registry and common-variable lists are unreachable. The summary records silent_requested and silent_applied.",
+      "native": "windows.envars",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_2960_rows_match_pid_process_block_variable_and_value",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has 2960 variables. Twenty-six processes had unreadable parameters or environment pages and failed the task; the pinned plugin skips them",
+        "Three processes have no PEB and remain diagnostics. The unreadable pages are prototype or swap entries this engine does not resolve",
+        "Real 32-bit images are pending",
+        "silent does not filter, matching the pinned SILENT config-key mismatch. Registry-backed suppression is therefore not executed",
+        "max-env, the no-equals split, the dropped final segment and the Length fallback were checked on the synthetic image"
+      ],
+      "validation_record": "docs/windows-envars.md"
     },
     {
       "id": "windows.etwpatch.EtwPatch",
