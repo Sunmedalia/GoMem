@@ -1,0 +1,15 @@
+{
+  "fields": {
+    "SessionID": {"native": "SessionID", "reference": "Session ID", "kind": "uint64", "missing_reasons": ["not_applicable", "session_pointer_unavailable", "unreadable_or_unavailable"]},
+    "SessionType": {"native": "SessionType", "reference": "Session Type", "kind": "string", "missing_reasons": ["not_available"]},
+    "PID": {"native": "PID", "reference": "Process ID", "kind": "uint64"},
+    "Process": {"native": "Process", "reference": "Process", "kind": "string"},
+    "UserName": {"native": "UserName", "reference": "User Name", "kind": "string", "missing_reasons": ["not_available"]},
+    "CreateTime": {"native": "CreateTime", "reference": "Create Time", "kind": "timestamp_seconds", "missing_reasons": ["not_set", "invalid_filetime", "unreadable_or_unavailable"]}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["session"],
+    "excluded_values": ["summary", "diagnostic"]
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schema": "gomem.windows-sessions-validation/v1",
+  "date": "2026-10-21",
+  "scope": "Synthetic session rows plus one Windows 10 19041 x64 crash dump. Not a 32-bit image acceptance. Unreadable environment blocks fail the task; the session row is still emitted.",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "reference_manifest_sha256": "2d867046212bdf076880f4dba95e0a3d2e4aed413a5da077a2a1c23e661672da",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+  "engine_build_sha256": "60ea218b90ad3fbf1e72dfbbe6d4289a6ce00bb0f339824cd79818245431b095",
+  "parameters": {
+    "pid": "",
+    "max-nodes": "131072",
+    "max-env": "1048576"
+  },
+  "task_state": "failed",
+  "process_rows": 120,
+  "reference_rows": 120,
+  "failures": 26,
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "SessionID",
+      "SessionType",
+      "PID",
+      "Process",
+      "UserName",
+      "CreateTime"
+    ],
+    "native_rows": 120,
+    "reference_rows": 120,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "658f6ad1c99a3812074859de2b511403413e4f307638732052d34d33183b5c35",
+      "reference": "b28edd23a0541533f44cc05407a958accb75d6604d4d355874b294296d484ee0",
+      "mapping": "268ccabe4c05ad4b24842ead6a932f65b3c04374a7c7a738fb5c9a67e7438a8b"
+    },
+    "native_input_rows": 121,
+    "native_non_entity_records": {
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "values": [
+        "session"
+      ],
+      "excluded_values": [
+        "summary",
+        "diagnostic"
+      ]
+    }
+  },
+  "notes": [
+    "Compared fields are Session ID, Session Type, Process ID, Process, User Name and Create Time. Create Time is compared at whole UTC seconds. Native timestamps can retain 100 ns.",
+    "The go test binary that produced the compared JSONL is 60ea218b90ad3fbf1e72dfbbe6d4289a6ce00bb0f339824cd79818245431b095.",
+    "All 120 active processes are present. Four session IDs are not applicable, 110 session types are unavailable, 10 are RDP-Tcp#0, and 34 user names are unavailable. A session ID of 0 remains the integer 0.",
+    "Twenty-six environment reads failed on prototype or swap pages. Those rows stay in the result with unavailable user and session type, and the task fails. The pinned plugin skips the environment block and still succeeds.",
+    "The Windows 11 _PSP_SESSION_SPACE offset fallback is not guessed. Timeline output is not implemented.",
+    "Case-insensitive overwrite and an unreadable environment were checked on the synthetic image."
+  ]
+}

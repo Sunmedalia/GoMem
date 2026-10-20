@@ -9972,15 +9972,24 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active processes with the same session ID read as windows.pslist. A null Session pointer is not applicable, not integer 0. A nonzero pointer reads _MM_SESSION_SPACE.SessionId, so a stored 0 stays 0. The Windows 11 _PSP_SESSION_SPACE fixed-offset fallback is not guessed. USERDOMAIN and USERNAME are joined as domain/user. Names are compared case-insensitively and the later value wins. The result is unavailable only when it is exactly /. SESSIONNAME is also case-insensitive; absence is unavailable, while an empty value is kept. Environment parsing matches windows.envars. An unreadable parameter or environment page still emits the process row with unavailable user and session type, records the error, and fails the task. The pinned plugin skips that environment block and still succeeds. No PEB is unavailable and does not fail the task. Create time uses the existing FILETIME conversion. max-env defaults to 1048576 and is not an upstream parameter. The summary row is not a session.",
+      "native": "windows.sessions",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_120_rows_match_session_user_and_create_time",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has 120 processes, 4 unavailable session IDs, 110 unavailable session types, 10 RDP-Tcp#0 values and 34 unavailable user names",
+        "Twenty-six environment reads failed on prototype or swap pages. The rows remain and the task fails; the pinned plugin skips the environment block and succeeds",
+        "Real 32-bit images are pending",
+        "The Windows 11 _PSP_SESSION_SPACE offset fallback is not guessed",
+        "Timeline output is not implemented",
+        "Case-insensitive overwrite and an unreadable environment were checked on the synthetic image"
+      ],
+      "validation_record": "docs/windows-sessions.md"
     },
     {
       "id": "windows.shimcachemem.ShimcacheMem",
