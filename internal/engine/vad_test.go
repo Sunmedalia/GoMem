@@ -40,7 +40,7 @@ func TestModernVADFieldsIdentityAndInclusiveFilters(t *testing.T) {
 			t.Fatal(tc, result, err)
 		}
 	}
-	for _, params := range []map[string]string{{"address": "bad"}, {"max-regions": "0"}, {"max-regions": "1"}, {"max-nodes": "1"}, {"dump": "true"}} {
+	for _, params := range []map[string]string{{"address": "bad"}, {"max-regions": "0"}, {"max-regions": "1"}, {"max-nodes": "1"}, {"unknown-option": "true"}} {
 		result, err := e.Run(context.Background(), "windows.vadinfo", params, engine.RunOptions{})
 		if err == nil {
 			t.Fatal("unsupported parameter or incomplete traversal became success", params, result)

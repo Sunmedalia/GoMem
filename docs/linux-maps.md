@@ -20,4 +20,4 @@ Maple Tree 按类型声明读取 dense、leaf、range 和 allocation-range 槽�
 
 Linux 分诊按已封存的映射分页执行直接 RWX 和删除文件/memfd 执行规则，引用原始映射和进程身份。非执行区域无需推断删除状态；普通执行文件删除状态不可读时检查失败，不能当作正常。合成场景提供两个进程的阳性和正常对照、未知删除状态、证据引用及白名单测试；官方样本在这两条窄规则下没有命中，整体仍因扫描进程、扫描模块和持久化等缺口报告 incomplete。该结果不代表镜像正常或完整恶意内存检查完成。
 
-设置绝对 `GOMEM_CORPUS_DIR` 后，`go test ./internal/engine -run TestOfficialLinuxMapsBothViews -v` 核验完整/过滤视图、全部基线实体、55 个有证据的额外映射、路径和作用域。常规合成测试覆盖全部上述树布局、旧/新挂载及根布局、损坏结构、未知回调、原始非 UTF-8 路径、地址边界、PID 集合和取消；仍缺真实新内核、架构、恶意 VM、完整参数及提取测试。`dump` / `maxsize` 目前会明确拒绝。
+设置绝对 `GOMEM_CORPUS_DIR` 后，`go test ./internal/engine -run TestOfficialLinuxMapsBothViews -v` 核验完整/过滤视图、全部基线实体、55 个有证据的额外映射、路径和作用域。常规合成测试覆盖全部上述树布局、旧/新挂载及根布局、损坏结构、未知回调、原始非 UTF-8 路径、地址边界、PID 集合和取消；现可用 `--param dump=true` 提取区域；Linux maxsize 排除相等或更大区域，零会跳过全部。所选区域已完成上游字节对照，见 [提取说明](artifacts.md)。真实新内核、架构、恶意 VM 和完整参数仍待验收。

@@ -8,9 +8,39 @@ import zipfile
 from diff_results import compare, normalized as normalized_result
 from compare_symbols import normalized
 from verify_bundle import verify as verify_bundle
+from compare_extractions import compare as compare_extractions
 
 
 class DifferentialTests(unittest.TestCase):
+    def test_extracted_region_comparison_keeps_byte_differences(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            case, reference = root / "case", root / "reference"
+            case.mkdir()
+            reference.mkdir()
+            data, gaps = b"real\0\0", b""
+            (case / "region.dmp").write_bytes(data)
+            (case / "region.gaps").write_bytes(gaps)
+            (reference / "region.dmp").write_bytes(data)
+            provenance = {"image_sha256": "test-image", "engine_build": "test-build", "symbols_sha256": "test-symbols", "plugin": "test", "parameters": {}, "layer": "process:test", "offset": "0x1000"}
+            artifact = {"name": "region.dmp", "path": "region.dmp", "gaps_path": "region.gaps", "state": "completed", "size": str(len(data)), "gaps_size": "0", "sha256": hashlib.sha256(data).hexdigest(), "gaps_sha256": hashlib.sha256(gaps).hexdigest(), "missing_bytes": "0", "gap_count": "0", "provenance": provenance}
+            native, manifest = root / "native.jsonl", root / "manifest.json"
+            def write_native():
+                native.write_text(json.dumps({"cells": {"FileOutput": {"kind": "artifact", "value": artifact}}, "provenance": provenance}) + "\n")
+            write_native()
+            baseline = json.loads((pathlib.Path(__file__).resolve().parents[1] / "baseline.lock.json").read_text())
+            manifest.write_text(json.dumps({"baseline": baseline, "image_sha256": "test-image", "parameters": ["--dump"], "extracted_files": [{"name": "region.dmp", "size": str(len(data)), "sha256": hashlib.sha256(data).hexdigest()}]}))
+            self.assertTrue(compare_extractions(native, case, manifest, reference)["matched"])
+            (case / "region.dmp").write_bytes(b"fake\0\0")
+            with self.assertRaisesRegex(ValueError, "native extraction checksum"):
+                compare_extractions(native, case, manifest, reference)
+            artifact["sha256"] = hashlib.sha256(b"fake\0\0").hexdigest()
+            write_native()
+            self.assertFalse(compare_extractions(native, case, manifest, reference)["matched"])
+            artifact["path"] = "../outside.dmp"
+            write_native()
+            with self.assertRaisesRegex(ValueError, "unsafe extraction"):
+                compare_extractions(native, case, manifest, reference)
     def test_v2_bundle_extraction_and_padding_integrity(self):
         task_id, artifact_id = "a" * 32, "b" * 32
         provenance = {"image_sha256": "synthetic", "layer": "physical", "plugin": "fixture"}

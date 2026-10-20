@@ -262,7 +262,7 @@ func TestLinuxVMAFailuresAndPathScopes(t *testing.T) {
 		})
 	}
 	e := openLinuxMaps(t, linuxMapsFixture(t, "list", ""))
-	for _, p := range []map[string]string{{"max-regions": "1"}, {"address": "0x400000,"}, {"max-regions": "0"}, {"include-past-eof": "maybe"}, {"dump": "true"}} {
+	for _, p := range []map[string]string{{"max-regions": "1"}, {"address": "0x400000,"}, {"max-regions": "0"}, {"include-past-eof": "maybe"}, {"unknown-option": "true"}} {
 		if _, err := e.Run(context.Background(), "linux.maps", p, engine.RunOptions{}); err == nil {
 			t.Fatal("invalid parameter or traversal limit accepted", p)
 		}

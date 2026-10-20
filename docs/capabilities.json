@@ -2733,7 +2733,7 @@
       "comparison": "selected_fields_match",
       "gaps": [
         "Maple Tree has synthetic ABI tests only; real modern kernels, pivot/meta validation and complete versions pending",
-        "VMA extraction/dump/maxsize are not implemented",
+        "Extraction has selected legacy x64 region byte comparisons only; full parameter/version acceptance pending",
         "Full parameter combinations and scoped/raw path semantics need complete acceptance; see docs/linux-maps.md"
       ],
       "validation_record": "docs/validation.json"
@@ -10772,7 +10772,7 @@
       "comparison": "selected_fields_match",
       "gaps": [
         "Old VAD layouts and complete version/architecture coverage pending",
-        "VAD extraction/dump and maxsize are not implemented",
+        "Extraction has selected x64 region byte comparisons only; full failure/version/parameter acceptance pending",
         "Path read errors remain distinct from baseline nulls; see docs/windows-vad.md"
       ],
       "validation_record": "docs/validation.json"
@@ -12048,11 +12048,13 @@
       "category": "acceptance",
       "status": "partial",
       "accepted": false,
-      "applicability": "Task-bound extraction sink, case schema v2, padding logs and verified bundle v2; native analysis dump producers still pending.",
+      "applicability": "Task-bound extraction sink, case schema v2, padding logs, bundle v2 and Windows modern VAD/Linux VMA dumps; selected x64 regions only.",
       "corpora": [
-        "synthetic-artifact-lifecycle"
+        "synthetic-artifact-lifecycle",
+        "official-linux-sample-1",
+        "official-windows-10-19041"
       ],
-      "comparison": "storage_and_bundle_tests_only",
+      "comparison": "selected_region_bytes_and_storage_tests_only",
       "validation_record": "docs/artifacts.md"
     },
     {

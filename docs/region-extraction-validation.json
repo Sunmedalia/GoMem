@@ -1,0 +1,172 @@
+{
+  "schema": "gomem.region-extraction-validation/v1",
+  "date": "2026-10-20",
+  "environment": "darwin/arm64 Go 1.26.2",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "engine_build_sha256": "627f811fc25a321c9ce4e00b583af58aca38bde25986e649113647d033f484ee",
+  "results": [
+    {
+      "profile": "linux-maps-dump",
+      "report": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--pid",
+          "1",
+          "--address",
+          "0x400000",
+          "--dump"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "matched": true,
+        "files": [
+          {
+            "name": "pid.1.vma.0x400000-0x409000.dmp",
+            "size": "36864",
+            "reference_size": "36864",
+            "native_sha256": "def8ca5ec5a3ca9b1c4e6ad8e856fd5f3f13d501aea628b7d3eb2aa66fcd6246",
+            "reference_sha256": "def8ca5ec5a3ca9b1c4e6ad8e856fd5f3f13d501aea628b7d3eb2aa66fcd6246",
+            "bytes_equal": true,
+            "state": "completed_with_gaps",
+            "missing_bytes": "12288",
+            "gap_count": "3",
+            "gaps_sha256": "2b9affdc585c56b5a6377f45247c10c93f1d838aa5a1cd36045c5471589a7ded",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "627f811fc25a321c9ce4e00b583af58aca38bde25986e649113647d033f484ee",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:41860578e4e44f4a6c5f37a5af14f38f0e253f41ce5285ac9e247e5aafd06f9a",
+            "offset": "0x400000"
+          }
+        ],
+        "native_rows_sha256": "0259e8494e540d055d9c169986abfd083e357e1740e803e302a847498a4ae580",
+        "reference_manifest_sha256": "643003177e319e4774242906f2a921487bc91af8677acfe8408445055fa3beb5"
+      }
+    },
+    {
+      "profile": "windows-vad-dump",
+      "report": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--pid",
+          "4",
+          "--address",
+          "0x7ffe0000",
+          "--dump"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "matched": true,
+        "files": [
+          {
+            "name": "pid.4.vad.0x7ffe0000-0x7ffe0fff.dmp",
+            "size": "4096",
+            "reference_size": "4096",
+            "native_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+            "reference_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+            "bytes_equal": true,
+            "state": "completed_with_gaps",
+            "missing_bytes": "4096",
+            "gap_count": "1",
+            "gaps_sha256": "6d88e018e915fef62724c31b063ce4124a0f7f6aaa35c4863f883c601734c974",
+            "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+            "engine_build_sha256": "627f811fc25a321c9ce4e00b583af58aca38bde25986e649113647d033f484ee",
+            "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+            "layer": "process:b0f4f99413a38966b5a786381d27272398de9ed21531a9be344fd212de2d8736",
+            "offset": "0x7ffe0000"
+          }
+        ],
+        "native_rows_sha256": "29cace69f8e74e8cbbe51abafd04a4659e8f0d46028a205022b87faa60644be1",
+        "reference_manifest_sha256": "118191fcf7b937b0eda05661998c5263c985e3549f134d306a7f4595d5e33119"
+      }
+    },
+    {
+      "profile": "windows-vad-captured-dump",
+      "report": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--pid",
+          "4",
+          "--address",
+          "0x7ff8271d0000",
+          "--dump"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "matched": true,
+        "files": [
+          {
+            "name": "pid.4.vad.0x7ff8271d0000-0x7ff827201fff.dmp",
+            "size": "204800",
+            "reference_size": "204800",
+            "native_sha256": "8ec6edd22a71633f259d78e30349226bd344e1d8d32746d0a84b4edf3da401bd",
+            "reference_sha256": "8ec6edd22a71633f259d78e30349226bd344e1d8d32746d0a84b4edf3da401bd",
+            "bytes_equal": true,
+            "state": "completed_with_gaps",
+            "missing_bytes": "200704",
+            "gap_count": "49",
+            "gaps_sha256": "68bc5e3860aaf8411f24bfe12957b4816f8b2d63eab337371ef28ed7e3557c7e",
+            "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+            "engine_build_sha256": "627f811fc25a321c9ce4e00b583af58aca38bde25986e649113647d033f484ee",
+            "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+            "layer": "process:b0f4f99413a38966b5a786381d27272398de9ed21531a9be344fd212de2d8736",
+            "offset": "0x7ff8271d0000"
+          }
+        ],
+        "native_rows_sha256": "20785db498ae64809bd69616562d42538c6aaccaf372d1d75a9d6e86b49d6bea",
+        "reference_manifest_sha256": "68f23b4b73e183fc9b43892dc0caa4423a4d1286c364b447b88cdc79bfe0637d"
+      }
+    },
+    {
+      "profile": "windows-vad-captured-pdb-dump",
+      "report": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--pid",
+          "4",
+          "--address",
+          "0x7ff8271d0000",
+          "--dump"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "matched": true,
+        "files": [
+          {
+            "name": "pid.4.vad.0x7ff8271d0000-0x7ff827201fff.dmp",
+            "size": "204800",
+            "reference_size": "204800",
+            "native_sha256": "8ec6edd22a71633f259d78e30349226bd344e1d8d32746d0a84b4edf3da401bd",
+            "reference_sha256": "8ec6edd22a71633f259d78e30349226bd344e1d8d32746d0a84b4edf3da401bd",
+            "bytes_equal": true,
+            "state": "completed_with_gaps",
+            "missing_bytes": "200704",
+            "gap_count": "49",
+            "gaps_sha256": "68bc5e3860aaf8411f24bfe12957b4816f8b2d63eab337371ef28ed7e3557c7e",
+            "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+            "engine_build_sha256": "627f811fc25a321c9ce4e00b583af58aca38bde25986e649113647d033f484ee",
+            "symbols_sha256": "f288d5d6d2bf1cfd7f1d76f271cfded7b7629224276a5748cc2a8db006c51b2a",
+            "layer": "process:b0f4f99413a38966b5a786381d27272398de9ed21531a9be344fd212de2d8736",
+            "offset": "0x7ff8271d0000"
+          }
+        ],
+        "native_rows_sha256": "0be3e7dea352b6b3c785a9adf0c2b3a9a41dd0eb9bbf82fcf9291c904df5c0f1",
+        "reference_manifest_sha256": "68f23b4b73e183fc9b43892dc0caa4423a4d1286c364b447b88cdc79bfe0637d"
+      }
+    }
+  ],
+  "synthetic_coverage": [
+    "independent process roots versus kernel root",
+    "resident and missing source pages",
+    "captured-prefix partial reads",
+    "cancellation retains partial files",
+    "zero or flags-only process CR3 rejected",
+    "persistent case required for file creation",
+    "Windows maxsize > boundary and zero unlimited",
+    "Linux maxsize >= boundary and zero skips all"
+  ],
+  "acceptance": "Selected x64 regions on two public acquisitions only; full architecture/version/parameter and incident-corpus coverage remains pending. Completed_with_gaps means output length complete, not full source capture."
+}

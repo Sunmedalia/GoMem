@@ -45,10 +45,10 @@ bin/gomem analyze windows.pslist \
 | `windows.pslist` | 匹配 ISF、DTB、内核基址；活动进程链表 |
 | `windows.modules` | 匹配 ISF、DTB、内核基址；内核模块链表 |
 | `windows.threads` | 活动进程线程链表、创建/退出时间与进程证据关联；现代 VAD 启动路径；支持 `--param pid=104,108` |
-| `windows.vadinfo` | 现代 VAD 区间、动态权限表、提交页数、私有标志和文件路径；支持 PID 集合及包含地址筛选；尚无内存提取 |
+| `windows.vadinfo` | 现代 VAD 区间、动态权限表、提交页数、私有标志和文件路径；支持 PID 集合、包含地址筛选及区域提取 |
 | `linux.pslist` | 匹配 ISF、DTB；活动任务链表；可选 `--kernel-slide` |
 | `linux.lsmod` | 匹配 ISF、DTB；旧布局和 `module_layout`；6.4+ `module_memory` 字段尚未补齐 |
-| `linux.maps` | VMA 链表或 Maple Tree、权限、inode、设备及带作用域的路径；PID/地址集合筛选；尚无内存提取 |
+| `linux.maps` | VMA 链表或 Maple Tree、权限、inode、设备及带作用域的路径；PID/地址集合筛选；可提取所选区域 |
 
 支持 RAW、LiME v1、具有物理 `PT_LOAD` 的 ELF core，以及 Windows 32/64 位完整转储与 bitmap 转储。其他已识别的容器会明确拒绝；通用 ELF 不代表 Xen 格式已实现。
 
@@ -96,7 +96,7 @@ python3 tools/verify_bundle.py case-001/exports/evidence.zip
 
 案件使用 SQLite WAL，保存镜像位置与摘要、任务参数、结构化结果、错误、书签、历史及白名单。一个案件同时只允许一个 GoMem 进程打开。重新打开后，未结束任务被标记为失败并保留部分证据；只有完成的任务可复用。缓存同时包含镜像摘要、引擎版本及实际二进制摘要、符号摘要、地址空间配置和参数。
 
-案件 schema v2 增加编译插件的提取文件接口：文件与任务绑定，保存数据和缺页填充日志的独立摘要，支持分页列表、缓存完整性检查与证据包 v2。`gomem case artifacts --case CASE` 查看元数据，`case verify-artifacts` 校验文件。旧 v1 案件自动迁移后，需要当前版本读取。当前仅完成存储与导出底座，VAD/VMA 的 `dump` 参数仍待接入。[提取文件模型与验证](docs/artifacts.md)
+案件 schema v2 增加编译插件的提取文件接口：文件与任务绑定，保存数据和缺页填充日志的独立摘要，支持分页列表、缓存完整性检查与证据包 v2。`gomem case artifacts --case CASE` 查看元数据，`case verify-artifacts` 校验文件。旧 v1 案件自动迁移后，需要当前版本读取。Windows VAD 与 Linux VMA 可用 `--param dump=true` 提取所选区域，缺页单独记录。[提取文件模型与验证](docs/artifacts.md)
 
 地址和无符号整数在证据 JSON 中采用字符串，避免数值精度丢失。缺失单元格记录原因及原始读取错误。链表损坏、缺页、输出失败和取消均不能变成成功的空结果。失败前的已产生结果仍保留在案件中。
 

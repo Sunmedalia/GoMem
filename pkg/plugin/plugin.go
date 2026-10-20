@@ -31,15 +31,16 @@ type Spec struct {
 	Dependencies []string          `json:"dependencies,omitempty"`
 }
 type Environment struct {
-	Artifacts   evidence.ArtifactSink
-	Physical    memory.MemoryLayer
-	Kernel      memory.MemoryLayer
-	Symbols     symbols.SymbolTable
-	Objects     *object.Reader
-	OS          string
-	KernelBase  uint64
-	KernelSlide uint64
-	ImageHash   string
+	Artifacts    evidence.ArtifactSink
+	Physical     memory.MemoryLayer
+	Kernel       memory.MemoryLayer
+	Symbols      symbols.SymbolTable
+	Objects      *object.Reader
+	OS           string
+	Architecture string
+	KernelBase   uint64
+	KernelSlide  uint64
+	ImageHash    string
 }
 
 func (e Environment) Symbol(name string) (uint64, error) {

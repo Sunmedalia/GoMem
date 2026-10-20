@@ -117,10 +117,10 @@ def generate(source):
                               gaps=["Full version/architecture and parameter coverage pending", "ExitTime signed union differences explicitly preserved; see docs/windows-threads.md", "No thread pool scan or extracted artifacts"])
         if identifier == "windows.vadinfo.VadInfo":
             plugins[-1].update(applicability="Modern RTL_AVL_TREE VADs with exact MMVAD_SHORT types and native MmProtectToValue table; PID sets and inclusive address filtering.",
-                              gaps=["Old VAD layouts and complete version/architecture coverage pending", "VAD extraction/dump and maxsize are not implemented", "Path read errors remain distinct from baseline nulls; see docs/windows-vad.md"])
+                              gaps=["Old VAD layouts and complete version/architecture coverage pending", "Extraction has selected x64 region byte comparisons only; full failure/version/parameter acceptance pending", "Path read errors remain distinct from baseline nulls; see docs/windows-vad.md"])
         if identifier == "linux.proc.Maps":
             plugins[-1].update(applicability="mmap lists or typed Maple Tree nodes; exact VMA/filesystem symbols. Full view retains page offsets beyond positive inode size; include-past-eof=false selects the baseline heuristic view.",
-                              gaps=["Maple Tree has synthetic ABI tests only; real modern kernels, pivot/meta validation and complete versions pending", "VMA extraction/dump/maxsize are not implemented", "Full parameter combinations and scoped/raw path semantics need complete acceptance; see docs/linux-maps.md"])
+                              gaps=["Maple Tree has synthetic ABI tests only; real modern kernels, pivot/meta validation and complete versions pending", "Extraction has selected legacy x64 region byte comparisons only; full parameter/version acceptance pending", "Full parameter combinations and scoped/raw path semantics need complete acceptance; see docs/linux-maps.md"])
     infrastructure = []
     for group, directory in [("layers", "volatility3/framework/layers"), ("symbols", "volatility3/framework/symbols"),
                              ("renderers", "volatility3/cli"), ("automagic", "volatility3/framework/automagic")]:
@@ -151,9 +151,9 @@ def generate(source):
         infrastructure.append({"id": identifier, "category": "acceptance", "status": "partial" if identifier in ("source.file", "symbols.pdb-msf", "symbols.dwarf", "symbols.local-index", "symbols.pdb-conversion-cache", "symbols.auto-download", "symbols.isf.zip", "symbols.isf.gzip", "symbols.isf.xz", "exploration.types", "exploration.address-space", "exploration.search") else "missing",
                                "accepted": False, "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.", "corpora": [], "comparison": "not_run"})
         if identifier == "export.extracted-files":
-            infrastructure[-1].update(status="partial",corpora=["synthetic-artifact-lifecycle"],
-                                      applicability="Task-bound extraction sink, case schema v2, padding logs and verified bundle v2; native analysis dump producers still pending.",
-                                      comparison="storage_and_bundle_tests_only",validation_record="docs/artifacts.md")
+            infrastructure[-1].update(status="partial",corpora=["synthetic-artifact-lifecycle","official-linux-sample-1","official-windows-10-19041"],
+                                      applicability="Task-bound extraction sink, case schema v2, padding logs, bundle v2 and Windows modern VAD/Linux VMA dumps; selected x64 regions only.",
+                                      comparison="selected_region_bytes_and_storage_tests_only",validation_record="docs/artifacts.md")
         if identifier == "symbols.dwarf":
             infrastructure[-1].update(corpora=["synthetic-dwarf-c-elf-macho"], comparison="selected_layouts_only",
                                       validation_record="docs/native-symbols.md")

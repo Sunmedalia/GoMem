@@ -99,6 +99,8 @@ GOMEM_CORPUS_DIR="$PWD/.cache/corpus" go test ./internal/engine -run TestOfficia
 
 六类分诊评估器都有阳性与正常构造输入；IOC、Windows/Linux 直接 RWX、Linux 删除文件/memfd 执行 pipeline 已贯通。测试验证阳性、正常及未知元数据、原始证据回溯、白名单和任务复用；合成场景和真实样本结果不等同于真实恶意 VM 场景验收。[Windows VAD](windows-vad.md) 和 [Linux VMA](linux-maps.md) 记录范围。其他输入缺口继续报告 unavailable，整体分诊保持非零状态。
 
+区域提取对照使用 `tools/reference.py --dump-dir NEW_DIRECTORY ... -- --pid PID --address ADDRESS --dump`，目录必须新建。对照 manifest 记录逐文件大小与摘要。原生 `analyze ... --param dump=true` 的 JSONL 和案件目录传给 `tools/compare_extractions.py --native ROWS --case CASE --reference-manifest MANIFEST --reference-dir DIRECTORY --output REPORT`，逐字节比较并核验双方实际文件摘要、原生来源及填充日志摘要。示例范围见 [区域提取记录](region-extraction-validation.json)，均为选定 x64 区域，不代表所有恢复格式或参数已验收。证据包再使用独立 `verify_bundle.py` 核验，包括填充区域确实全零。
+
 对镜像识别与 ISF 入口进行了短时 fuzz，并提供有效容器/ISF 种子。短时 fuzz 不是全面安全证明；更长时间、更多 parser 入口和专项损坏语料仍属待办。
 
 ## 性能边界

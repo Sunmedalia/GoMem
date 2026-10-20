@@ -26,6 +26,7 @@ def main():
     parser.add_argument("--symbols", type=pathlib.Path, required=True)
     parser.add_argument("--plugin", required=True)
     parser.add_argument("--output", type=pathlib.Path, required=True)
+    parser.add_argument("--dump-dir", type=pathlib.Path, help="New empty directory for reference extraction files")
     parser.add_argument("parameters", nargs=argparse.REMAINDER)
     args = parser.parse_args()
     lock = json.loads((ROOT / "baseline.lock.json").read_text())
@@ -38,9 +39,14 @@ def main():
     if config.exists() or args.output.with_suffix(".manifest.json").exists():
         raise ValueError("reference config/manifest already exists; choose a new output filename")
     parameters = args.parameters[1:] if args.parameters[:1] == ["--"] else args.parameters
+    if args.dump_dir:
+        args.dump_dir.mkdir(parents=True, exist_ok=False)
     command = [sys.executable, str(args.source / "vol.py"), "--offline", "-q", "--cache-path", str(cache),
                "-s", str(args.symbols.resolve()), "-f", str(args.image.resolve()), "--save-config", str(config.resolve()),
-               "-r", "json", args.plugin, *parameters]
+               "-r", "json"]
+    if args.dump_dir:
+        command += ["-o", str(args.dump_dir.resolve())]
+    command += [args.plugin, *parameters]
     image_hash = digest(args.image)
     with args.output.open("x") as out:
         try:
@@ -51,6 +57,9 @@ def main():
             raise
     meta = {"baseline": lock, "image_sha256": image_hash, "plugin": args.plugin, "parameters": parameters,
             "output_sha256": digest(args.output), "config_sha256": digest(config), "python": sys.version}
+    if args.dump_dir:
+        meta["extracted_files"] = [{"name": path.relative_to(args.dump_dir).as_posix(), "size": str(path.stat().st_size), "sha256": digest(path)}
+                                   for path in sorted(args.dump_dir.rglob("*")) if path.is_file()]
     args.output.with_suffix(".manifest.json").write_text(json.dumps(meta, indent=2) + "\n")
 
 

@@ -18,8 +18,8 @@ import (
 func linuxMapPlugins() []builtin {
 	return []builtin{{plugin.Spec{Name: "linux.maps", Upstream: "linux.proc.Maps", Platform: "linux", NeedsKernel: true,
 		Description: "Enumerate linked-list or Maple Tree VMAs with namespace-aware file paths",
-		Parameters:  []plugin.Parameter{{Name: "pid", Kind: "string", Description: "Optional comma-separated process IDs"}, {Name: "address", Kind: "string", Description: "Optional comma-separated virtual addresses; includes End when filtering, matching the pinned baseline"}, {Name: "max-nodes", Kind: "uint", Default: "131072", Description: "Process and per-mm traversal limit"}, {Name: "include-past-eof", Kind: "bool", Default: "true", Description: "Retain file mappings whose page offset exceeds a positive inode size"}, {Name: "max-regions", Kind: "uint", Default: "1000000", Description: "Total VMA traversal limit"}},
-		Columns:     []evidence.Column{{Name: "PID", Kind: "uint64"}, {Name: "Process", Kind: "string"}, {Name: "Offset", Kind: "address"}, {Name: "Start", Kind: "address"}, {Name: "End", Kind: "address"}, {Name: "Protection", Kind: "string"}, {Name: "FlagsRaw", Kind: "uint64"}, {Name: "PgOff", Kind: "address"}, {Name: "Major", Kind: "uint64"}, {Name: "Minor", Kind: "uint64"}, {Name: "Inode", Kind: "uint64"}, {Name: "Path", Kind: "string"}, {Name: "PathRaw", Kind: "bytes"}, {Name: "PathScope", Kind: "string"}, {Name: "InodeSize", Kind: "int64"}, {Name: "FileOffsetPastEOF", Kind: "string"}, {Name: "Executable", Kind: "string"}, {Name: "Deleted", Kind: "string"}, {Name: "File", Kind: "address"}, {Name: "ProcessOffset", Kind: "address"}, {Name: "ProcessIdentity", Kind: "string"}}}, linuxMaps}}
+		Parameters:  []plugin.Parameter{{Name: "pid", Kind: "string", Description: "Optional comma-separated process IDs"}, {Name: "address", Kind: "string", Description: "Optional comma-separated virtual addresses; includes End when filtering, matching the pinned baseline"}, {Name: "dump", Kind: "bool", Default: "false", Description: "Extract selected process mappings into the case"}, {Name: "maxsize", Kind: "uint", Default: "1073741824", Description: "Maximum region bytes; size must be smaller than this limit (zero skips all)"}, {Name: "max-nodes", Kind: "uint", Default: "131072", Description: "Process and per-mm traversal limit"}, {Name: "include-past-eof", Kind: "bool", Default: "true", Description: "Retain file mappings whose page offset exceeds a positive inode size"}, {Name: "max-regions", Kind: "uint", Default: "1000000", Description: "Total VMA traversal limit"}},
+		Columns:     []evidence.Column{{Name: "PID", Kind: "uint64"}, {Name: "Process", Kind: "string"}, {Name: "Offset", Kind: "address"}, {Name: "Start", Kind: "address"}, {Name: "End", Kind: "address"}, {Name: "Protection", Kind: "string"}, {Name: "FlagsRaw", Kind: "uint64"}, {Name: "PgOff", Kind: "address"}, {Name: "Major", Kind: "uint64"}, {Name: "Minor", Kind: "uint64"}, {Name: "Inode", Kind: "uint64"}, {Name: "Path", Kind: "string"}, {Name: "PathRaw", Kind: "bytes"}, {Name: "PathScope", Kind: "string"}, {Name: "InodeSize", Kind: "int64"}, {Name: "FileOffsetPastEOF", Kind: "string"}, {Name: "Executable", Kind: "string"}, {Name: "Deleted", Kind: "string"}, {Name: "File", Kind: "address"}, {Name: "ProcessOffset", Kind: "address"}, {Name: "ProcessIdentity", Kind: "string"}, {Name: "FileOutput", Kind: "artifact"}}}, linuxMaps}}
 }
 
 // Linked-list and Maple traversals yield addresses only. Every VMA is checked
@@ -186,6 +186,10 @@ func linuxMaps(ctx context.Context, e plugin.Environment, p map[string]string, o
 	if err != nil {
 		return err
 	}
+	dump, maxsize, err := extractionOptions(p)
+	if err != nil {
+		return err
+	}
 	var filters []uint64
 	if p["address"] != "" {
 		for _, token := range strings.Split(p["address"], ",") {
@@ -241,6 +245,9 @@ func linuxMaps(ctx context.Context, e plugin.Environment, p map[string]string, o
 			stamp = created.String()
 		}
 		identity := evidence.ProcessID(e.ImageHash, e.Kernel.Name(), task, pid, stamp)
+		var space memory.MemoryLayer
+		var spaceErr error
+		spaceLoaded := false
 		for _, r := range regions {
 			include := len(filters) == 0
 			for _, a := range filters {
@@ -290,8 +297,32 @@ func linuxMaps(ctx context.Context, e plugin.Environment, p map[string]string, o
 			}
 
 			row := evidence.Row{Cells: map[string]evidence.Value{"PID": evidence.Number(pid), "Process": evidence.Text(name), "Offset": evidence.Address(r.object), "Start": evidence.Address(r.start), "End": evidence.Address(r.end), "Protection": evidence.Text(string(protection)), "FlagsRaw": evidence.Number(flags), "PgOff": pageOffset, "Major": major, "Minor": minor, "Inode": inode, "Path": path, "PathRaw": raw, "PathScope": pathScope, "InodeSize": inodeSize, "FileOffsetPastEOF": pastEOF, "Executable": evidence.Text(strconv.FormatBool(flags&4 != 0)), "Deleted": deleted, "File": evidence.Address(file), "ProcessOffset": evidence.Address(task), "ProcessIdentity": evidence.Text(identity)}, Provenance: evidence.Provenance{Layer: e.Kernel.Name(), Offset: fmt.Sprintf("0x%x", r.object)}}
+			output := evidence.Missing("not_requested", nil)
+			var dumpErr error
+			if dump {
+				size := r.end - r.start
+				if maxsize <= size {
+					output = evidence.Missing("maxsize_exceeded", nil)
+				} else {
+					if !spaceLoaded {
+						space, spaceErr = processMemory(ctx, e, task, mm, identity)
+						spaceLoaded = true
+					}
+					if spaceErr != nil {
+						output = evidence.Missing("process_address_space_unavailable", spaceErr)
+						dumpErr = spaceErr
+					} else {
+						output, dumpErr = extractRegion(ctx, e, space, fmt.Sprintf("pid.%d.vma.%#x-%#x.dmp", pid, r.start, r.end), r.start, size)
+					}
+				}
+			}
+			row.Cells["FileOutput"] = output
+
 			if err := out(row); err != nil {
 				return err
+			}
+			if dumpErr != nil {
+				return dumpErr
 			}
 		}
 		return nil

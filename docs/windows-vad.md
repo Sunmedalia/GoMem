@@ -1,12 +1,14 @@
 # Windows 现代 VAD 与直接 RWX 分诊
 
-`windows.vadinfo` 对应固定基线 `windows.vadinfo.VadInfo` 的部分能力。适用 `_EPROCESS.VadRoot.Root`、`_RTL_BALANCED_NODE`、`_MMVAD_SHORT` / `_MMVAD` 的现代布局。状态保持开发预览、`accepted=false`；旧版树布局、`dump`、`maxsize` 和提取文件尚未实现，未知参数会被拒绝。
+`windows.vadinfo` 对应固定基线 `windows.vadinfo.VadInfo` 的部分能力。适用 `_EPROCESS.VadRoot.Root`、`_RTL_BALANCED_NODE`、`_MMVAD_SHORT` / `_MMVAD` 的现代布局。状态保持开发预览、`accepted=false`；旧版树布局、完整版本与参数仍待验收；现支持 `dump` 和 `maxsize`。
 
 ```sh
 bin/gomem analyze windows.vadinfo --image memory.dmp --case ./case-001 --format jsonl
 bin/gomem analyze windows.vadinfo --image memory.dmp --case ./case-001 --offline --param pid=104,108 --param address=0x700000
 bin/gomem triage --image memory.dmp --case ./case-001 --offline
 ```
+
+可加 `--param dump=true` 将区域读到案件；Windows maxsize 只排除更大区域，零表示关闭大小限制。实际进程页表、缺页填充日志和文件字节对照见 [提取说明](artifacts.md)。
 
 区间起止为包含端点的完整虚拟地址，VPN 高位由类型声明读取。输出保留 VAD 对象与父节点、池标签、PID/进程名、提交页数、私有标志、文件路径，以及与 pslist 相同的进程身份。`CommitCharge` 跟随基线的声明字段值，`CommitChargeHigh` 另存，尚未合并为完整页数。结构、循环、重叠和父子关系检查与线程启动路径共用。`max-nodes` 限制单树和进程遍历，`max-regions` 限制总遍历量；包含地址筛选不会绕过遍历上限。结构损坏使任务失败，保留此前其他进程已输出的证据。
 

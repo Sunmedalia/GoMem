@@ -17,8 +17,8 @@ import (
 func vadPlugins() []builtin {
 	return []builtin{{plugin.Spec{Name: "windows.vadinfo", Upstream: "windows.vadinfo.VadInfo", Platform: "windows", NeedsKernel: true,
 		Description: "Enumerate modern process VAD ranges, native protection values and mapped files",
-		Parameters:  []plugin.Parameter{{Name: "pid", Kind: "string", Description: "Optional comma-separated process IDs"}, {Name: "address", Kind: "string", Description: "Optional inclusive process virtual address filter"}, {Name: "max-nodes", Kind: "uint", Default: "131072", Description: "Per-process VAD and process traversal limit"}, {Name: "max-regions", Kind: "uint", Default: "1000000", Description: "Total VAD traversal limit"}},
-		Columns:     []evidence.Column{{Name: "PID", Kind: "uint64"}, {Name: "Process", Kind: "string"}, {Name: "Offset", Kind: "address"}, {Name: "Start", Kind: "address"}, {Name: "End", Kind: "address"}, {Name: "Tag", Kind: "string"}, {Name: "Protection", Kind: "string"}, {Name: "ProtectionIndex", Kind: "uint64"}, {Name: "ProtectionValue", Kind: "uint64"}, {Name: "CommitCharge", Kind: "uint64"}, {Name: "CommitChargeHigh", Kind: "uint64"}, {Name: "PrivateMemory", Kind: "uint64"}, {Name: "Parent", Kind: "address"}, {Name: "Path", Kind: "string"}, {Name: "ProcessOffset", Kind: "address"}, {Name: "ProcessIdentity", Kind: "string"}}}, windowsVADInfo}}
+		Parameters:  []plugin.Parameter{{Name: "pid", Kind: "string", Description: "Optional comma-separated process IDs"}, {Name: "address", Kind: "string", Description: "Optional inclusive process virtual address filter"}, {Name: "dump", Kind: "bool", Default: "false", Description: "Extract selected process mappings into the case"}, {Name: "maxsize", Kind: "uint", Default: "1073741824", Description: "Maximum region bytes; zero disables the limit and equal sizes are allowed"}, {Name: "max-nodes", Kind: "uint", Default: "131072", Description: "Per-process VAD and process traversal limit"}, {Name: "max-regions", Kind: "uint", Default: "1000000", Description: "Total VAD traversal limit"}},
+		Columns:     []evidence.Column{{Name: "PID", Kind: "uint64"}, {Name: "Process", Kind: "string"}, {Name: "Offset", Kind: "address"}, {Name: "Start", Kind: "address"}, {Name: "End", Kind: "address"}, {Name: "Tag", Kind: "string"}, {Name: "Protection", Kind: "string"}, {Name: "ProtectionIndex", Kind: "uint64"}, {Name: "ProtectionValue", Kind: "uint64"}, {Name: "CommitCharge", Kind: "uint64"}, {Name: "CommitChargeHigh", Kind: "uint64"}, {Name: "PrivateMemory", Kind: "uint64"}, {Name: "Parent", Kind: "address"}, {Name: "Path", Kind: "string"}, {Name: "ProcessOffset", Kind: "address"}, {Name: "ProcessIdentity", Kind: "string"}, {Name: "FileOutput", Kind: "artifact"}}}, windowsVADInfo}}
 }
 
 // Try declared alternatives only when a field is absent; a read failure must
@@ -64,6 +64,10 @@ func windowsVADInfo(ctx context.Context, e plugin.Environment, parameters map[st
 	if err != nil || limit == 0 || limit > 1000000 {
 		return fmt.Errorf("max-regions must be 1..1000000")
 	}
+	dump, maxsize, err := extractionOptions(parameters)
+	if err != nil {
+		return err
+	}
 	var address uint64
 	filter := parameters["address"] != ""
 	if filter {
@@ -88,6 +92,9 @@ func windowsVADInfo(ctx context.Context, e plugin.Environment, parameters map[st
 			stamp = created.String()
 		}
 		identity := evidence.ProcessID(e.ImageHash, e.Kernel.Name(), process, pid, stamp)
+		var space memory.MemoryLayer
+		var spaceErr error
+		spaceLoaded := false
 		for _, region := range regions {
 			if err := ctx.Err(); err != nil {
 				return err
@@ -127,8 +134,32 @@ func windowsVADInfo(ctx context.Context, e plugin.Environment, parameters map[st
 				}
 			}
 			row := evidence.Row{Cells: map[string]evidence.Value{"PID": evidence.Number(pid), "Process": evidence.Text(name), "Offset": evidence.Address(region.address), "Start": evidence.Address(region.start), "End": evidence.Address(region.end), "Tag": evidence.Text(region.tag), "Protection": protection, "ProtectionIndex": index, "ProtectionValue": value, "CommitCharge": windowsVADUint(ctx, e, region.address, "CommitCharge", "u1.VadFlags1.CommitCharge", "u.VadFlags.CommitCharge"), "CommitChargeHigh": windowsVADUint(ctx, e, region.address, "CommitChargeHigh"), "PrivateMemory": windowsVADUint(ctx, e, region.address, "u1.VadFlags1.PrivateMemory", "u.VadFlags.PrivateMemory"), "Parent": evidence.Address(region.parent), "Path": region.file, "ProcessOffset": evidence.Address(process), "ProcessIdentity": evidence.Text(identity)}, Provenance: evidence.Provenance{Layer: e.Kernel.Name(), Offset: fmt.Sprintf("0x%x", region.address)}}
+			output := evidence.Missing("not_requested", nil)
+			var dumpErr error
+			if dump {
+				size := region.end - region.start + 1
+				if maxsize > 0 && size > maxsize {
+					output = evidence.Missing("maxsize_exceeded", nil)
+				} else {
+					if !spaceLoaded {
+						space, spaceErr = processMemory(ctx, e, process, 0, identity)
+						spaceLoaded = true
+					}
+					if spaceErr != nil {
+						output = evidence.Missing("process_address_space_unavailable", spaceErr)
+						dumpErr = spaceErr
+					} else {
+						output, dumpErr = extractRegion(ctx, e, space, fmt.Sprintf("pid.%d.vad.%#x-%#x.dmp", pid, region.start, region.end), region.start, size)
+					}
+				}
+			}
+			row.Cells["FileOutput"] = output
+
 			if err := emit(row); err != nil {
 				return err
+			}
+			if dumpErr != nil {
+				return dumpErr
 			}
 		}
 		return nil
