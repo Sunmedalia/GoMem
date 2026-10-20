@@ -1,0 +1,15 @@
+{
+  "native_record_type": {"field": "RecordType", "value": "file", "excluded_values": ["diagnostic", "file_partial"]},
+  "fields": {
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "TID": {"native": "TID", "reference": "TID", "kind": "uint64"},
+    "Process": {"native": "Process", "reference": "Process", "kind": "string"},
+    "FD": {"native": "FD", "reference": "FD", "kind": "uint64"},
+    "Path": {"native": "Path", "reference": "Path", "kind": "linux_path_display"},
+    "Device": {"native": "Device", "reference": "Device", "kind": "string"},
+    "Inode": {"native": "Inode", "reference": "Inode", "kind": "uint64"},
+    "Type": {"native": "Type", "reference": "Type", "kind": "string", "missing_reasons": ["unknown_inode_type"]},
+    "Mode": {"native": "Mode", "reference": "Mode", "kind": "string"},
+    "Size": {"native": "Size", "reference": "Size", "kind": "int64"}
+  }
+}

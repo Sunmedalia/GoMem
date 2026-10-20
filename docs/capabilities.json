@@ -1370,15 +1370,24 @@
           "default": false
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Task/thread FD tables through typed files_struct.fdt or legacy inline fields, with raw/scoped paths and inode metadata. files-only selects filesystem traversal rather than filtering inode types. Timestamps retain exact signed seconds and nanoseconds.",
+      "native": "linux.lsof",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-x64",
+        "synthetic-linux-x86-pae",
+        "synthetic-linux-inode-time-and-namespace-layouts",
+        "official-linux-sample-1",
+        "official-linux-sample-1-reencoded-avml"
+      ],
+      "comparison": "selected_3795_common_descriptors_match_ten_fields_one_captured_descriptor_and_zero_timestamps_preserved",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Real modern/32-bit kernels, full namespace/path/parameter/failure coverage and timeline integration pending",
+        "Default view retains open high-numbered descriptors even when fd[0] is NULL; reference skips such tables in the selected baseline",
+        "Raw timestamp precision, epoch-zero and modern split timestamp fields intentionally retain captured values rather than reference display bugs; cached inode fallback/version matrix remains partial"
+      ],
+      "validation_record": "docs/linux-lsof.md"
     },
     {
       "id": "linux.malfind.Malfind",

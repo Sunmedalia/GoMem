@@ -31,6 +31,7 @@ jobs:
       - run: go test -race ./...
       - run: python3 -m unittest discover -s tools -p 'test_*.py'
       - run: python3 tools/build_argument_fixtures.py --check
+      - run: python3 tools/build_inode_mode_oracle.py --check
       - run: python3 tools/fetch_baseline.py
       - run: python3 tools/baseline_matrix.py --source .cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75 --check
       - run: go test ./pkg/memory -run '^$' -fuzz FuzzDetect -fuzztime 5s
@@ -43,6 +44,7 @@ jobs:
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsCommandLineUTF16 -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxArgumentDisplay -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxClockArithmetic -fuzztime 5s
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxInodeTimestamp -fuzztime 5s
       - run: go test ./internal/engine -run '^$' -fuzz FuzzMappedPE -fuzztime 5s
       - run: go test ./pkg/symbols -run '^$' -fuzz FuzzISF -fuzztime 5s
       - run: go test ./pkg/symbols -run '^$' -fuzz FuzzDWARF -fuzztime 5s

@@ -1,0 +1,7 @@
+{
+  "schema": "gomem.posix-mode-oracle/v1",
+  "producer": "Python standard library stat.filemode and S_IS*",
+  "cases": 32768,
+  "encoding": "UTF-8: decimal-mode TAB type-or-empty TAB filemode LF; ascending 16-bit modes whose type is unset or one of Linux FIFO/CHR/DIR/BLK/REG/LNK/SOCK; excludes host-specific whiteout/door/port types",
+  "sha256": "ba1da93c2d61d36bdb5f511a9d8e9349e73c015a1a6bbd8befd495b8ee2e4688"
+}

@@ -125,9 +125,17 @@ func linuxMountParent(ctx context.Context, e plugin.Environment, mount uint64) (
 // Reconstruct within the process filesystem root, crossing both pre-3.3 and
 // embedded modern mount layouts. A disconnected/cyclic path remains an error.
 func linuxFilePath(ctx context.Context, e plugin.Environment, task, file, dentry uint64, scope *string) ([]byte, error) {
+	return linuxFilePathWithDynamic(ctx, e, task, file, dentry, scope, true)
+}
+
+func linuxFilePathWithDynamic(ctx context.Context, e plugin.Environment, task, file, dentry uint64, scope *string, dynamic bool) ([]byte, error) {
 	// Dynamic dentry names are kernel functions, not strings. Resolve only
 	// known functions; never call target code or guess an unknown callback.
-	op, err := e.Objects.Uint(ctx, dentry, "dentry", "d_op")
+	var op uint64
+	var err error
+	if dynamic {
+		op, err = e.Objects.Uint(ctx, dentry, "dentry", "d_op")
+	}
 	if err != nil {
 		return nil, err
 	}
@@ -137,7 +145,7 @@ func linuxFilePath(ctx context.Context, e plugin.Environment, task, file, dentry
 			return nil, err
 		}
 		if callback != 0 {
-			for _, handler := range []string{"simple_dname", "sockfs_dname", "pipefs_dname", "anon_inodefs_dname"} {
+			for _, handler := range []string{"simple_dname", "sockfs_dname", "pipefs_dname", "anon_inodefs_dname", "ns_dname"} {
 				address, err := e.Symbol(handler)
 				if err != nil || address != callback {
 					continue
@@ -159,6 +167,13 @@ func linuxFilePath(ctx context.Context, e plugin.Environment, task, file, dentry
 					return nil, err
 				}
 				prefix := map[string]string{"sockfs_dname": "socket", "pipefs_dname": "pipe", "anon_inodefs_dname": "anon_inode"}[handler]
+				if handler == "ns_dname" {
+					label, err := linuxNamespaceLabel(ctx, e, dentry, inode)
+					if err != nil {
+						return nil, err
+					}
+					return append(append(label, []byte(":[")...), []byte(strconv.FormatUint(number, 10)+"]")...), nil
+				}
 				return []byte(prefix + ":[" + strconv.FormatUint(number, 10) + "]"), nil
 			}
 			return nil, fmt.Errorf("unsupported dynamic dentry callback %#x", callback)
@@ -223,6 +238,21 @@ func linuxFilePath(ctx context.Context, e plugin.Environment, task, file, dentry
 			continue
 		}
 		if dentry == parent {
+			if !dynamic {
+				// files-only deliberately requests a filesystem walk for sockets
+				// and other unrooted labels. Retain the reference's partial display
+				// while declaring that this is not a path in the process root.
+				*scope = "disconnected_dentry"
+				var path []byte
+				for i := len(components) - 1; i >= 0; i-- {
+					path = append(path, '/')
+					path = append(path, components[i]...)
+				}
+				if len(path) == 0 {
+					path = []byte{'/'}
+				}
+				return path, nil
+			}
 			return nil, fmt.Errorf("disconnected dentry outside mount root")
 		}
 		name, err := linuxDentryName(ctx, e, dentry)
@@ -247,6 +277,60 @@ func linuxFilePath(ctx context.Context, e plugin.Environment, task, file, dentry
 		dentry = parent
 	}
 	return nil, fmt.Errorf("filesystem path depth exceeds 256")
+}
+
+func linuxNamespaceLabel(ctx context.Context, e plugin.Environment, dentry, inode uint64) ([]byte, error) {
+	stashed, err := e.Objects.Field("ns_common", "stashed")
+	if err != nil {
+		return nil, err
+	}
+	var ops uint64
+	if stashed.Type.Name == "atomic64_t" {
+		ops, err = e.Objects.Uint(ctx, dentry, "dentry", "d_fsdata")
+	} else if stashed.Type.Kind == "pointer" {
+		var common uint64
+		common, err = e.Objects.Uint(ctx, inode, "inode", "i_private")
+		if err == nil && common == 0 {
+			return nil, fmt.Errorf("namespace inode private pointer is null")
+		}
+		if err == nil {
+			ops, err = e.Objects.Uint(ctx, common, "ns_common", "ops")
+		}
+	} else {
+		return nil, fmt.Errorf("unsupported namespace stashed layout")
+	}
+	if err != nil {
+		return nil, err
+	}
+	if ops == 0 {
+		return nil, fmt.Errorf("namespace operations pointer is null")
+	}
+	address, err := e.Objects.Uint(ctx, ops, "proc_ns_operations", "name")
+	if err != nil {
+		return nil, err
+	}
+	if address == 0 {
+		return nil, fmt.Errorf("namespace name pointer is null")
+	}
+	var name []byte
+	for offset := uint64(0); offset < 256; offset++ {
+		location, err := memory.Add(address, offset)
+		if err != nil {
+			return nil, err
+		}
+		value, err := memory.Read(ctx, e.Kernel, location, 1)
+		if err != nil {
+			return nil, err
+		}
+		if value[0] == 0 {
+			if len(name) == 0 {
+				return nil, fmt.Errorf("namespace name is empty")
+			}
+			return name, nil
+		}
+		name = append(name, value[0])
+	}
+	return nil, fmt.Errorf("namespace name exceeds 255 byte bound")
 }
 
 func linuxAnonymousName(ctx context.Context, e plugin.Environment, mm, start, end uint64) ([]byte, error) {

@@ -51,6 +51,7 @@ bin/gomem analyze windows.pslist \
 | `windows.vadinfo` | 现代 VAD 区间、动态权限表、提交页数、私有标志和文件路径；支持 PID 集合、包含地址筛选及区域提取 |
 | `linux.pslist` | 活动任务与凭据、root 时钟创建时间、可选线程及名称装饰；保留原始计数和身份 |
 | `linux.psscan` | 一次物理扫描寻找调度类指针任务候选，保留退出状态、启发式与覆盖信息 |
+| `linux.lsof` | 任务/线程的文件描述符、带作用域原始路径、inode/设备/权限和纳秒时间；保留部分读取 |
 | `linux.elfs` | ELF 映射枚举及分段提取，记录布局、段来源与缺页；提供显式基线布局 |
 | `linux.psaux` | 进程自身页表中的参数区、原始字节和参数列表；无用户 mm 时明确显示来源；PID 集合筛选 |
 | `linux.lsmod` | 匹配 ISF、DTB；旧布局和 `module_layout`；6.4+ `module_memory` 字段尚未补齐 |
@@ -92,6 +93,8 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `linux.elfs --param dump=true` 和 `linux.pslist --param dump=true` 提取页对齐的 PT_LOAD 内存段。默认 `elf-layout=mapped` 使用实际映射地址；`reference` 保留固定基线的地址算法，无法表示的地址明确失败。输出不代表原始磁盘 ELF。[ELF 验证与差异](docs/linux-elf.md)
 
 `linux.psscan` 按物理对象地址与包含线程的活动任务对照。运行中未链接候选作为高优先级线索，已退出候选降为信息项；两者都不是隐藏行为的定论。[扫描与分诊验证](docs/linux-psscan.md)
+
+`linux.lsof` 枚举活动任务及线程的打开文件，记录描述符槽位、文件/inode 地址及进程身份。`--param files-only=true` 切换为文件系统路径解析；不按普通文件类型筛选。[文件证据验证](docs/linux-lsof.md)
 
 `windows.threads` 输出无损线程地址、CID、100ns 精度时间及原始时间值，并用进程身份关联 pslist 证据。官方 Windows 10 样本的 1,752 条线程通过八字段对照；退出时间联合体的差异单独核验，未作为全字段一致。路径读取失败会保留原始错误。[线程验证与适用范围](docs/windows-threads.md)
 

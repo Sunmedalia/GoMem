@@ -1,0 +1,460 @@
+{
+  "schema": "gomem.linux-lsof-validation/v1",
+  "date": "2026-10-20",
+  "scope": "One legacy Debian x64 acquisition and its AVML reencoding; modern and 32-bit layouts have synthetic tests only",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "engine_build_sha256": "7d906cef6a024bfafa4c0e6c399d461648fcd0efcfe0cf00a870df13135f0cb9",
+  "results": [
+    {
+      "profile": "default",
+      "state": "completed",
+      "native_descriptors": 3796,
+      "reference_descriptors": 3795,
+      "common_descriptors": 3795,
+      "selected_ten_field_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "TID",
+          "Process",
+          "FD",
+          "Path",
+          "Device",
+          "Inode",
+          "Type",
+          "Mode",
+          "Size"
+        ],
+        "native_rows": 3796,
+        "reference_rows": 3795,
+        "matched": false,
+        "missing": [],
+        "extra": [
+          {
+            "Device": "0:14",
+            "FD": "10",
+            "Inode": "3427",
+            "Mode": "prw-------",
+            "PID": "1",
+            "Path": "/run/initctl",
+            "Process": "init",
+            "Size": "0",
+            "TID": "1",
+            "Type": "FIFO",
+            "parent": null
+          }
+        ],
+        "sha256": {
+          "native": "7d30ea9daf4e2eea324bb3cd11a550c095a3fafaf89bb83b4bbcc369123a46e3",
+          "reference": "2869b42a005bd7729304c7680d2af2074a279ee5270842ed586b1b432b661574",
+          "mapping": "78d427ef1fe5d087b2ee23cf6a8287ef6a6e6cd4cc6b7ed09b6ddd603f497347"
+        },
+        "native_input_rows": 3796,
+        "native_non_entity_records": {},
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "file",
+          "excluded_values": [
+            "diagnostic",
+            "file_partial"
+          ]
+        }
+      },
+      "original_path_display_differences": 24,
+      "timestamp_comparison": {
+        "Changed": {
+          "microsecond_rounded_match": 2672,
+          "zero_reference_null_native_retained": 1020,
+          "reference_float_rounding_difference_retained": 103
+        },
+        "Modified": {
+          "microsecond_rounded_match": 2672,
+          "zero_reference_null_native_retained": 1021,
+          "reference_float_rounding_difference_retained": 102
+        },
+        "Accessed": {
+          "microsecond_rounded_match": 2774,
+          "zero_reference_null_native_retained": 1021
+        }
+      },
+      "reference_manifest_sha256": "4488d06a0765d1c55f535c1b038bcf3541793476df35ed3cfa6725be44e02884",
+      "independent_RAW_oracle": {
+        "verified": true,
+        "scope": "selected RAW legacy Linux/x64 FD sets and inode metadata only; paths and modern layouts excluded",
+        "engine_build_sha256": "7d906cef6a024bfafa4c0e6c399d461648fcd0efcfe0cf00a870df13135f0cb9",
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+        "active_tasks": 316,
+        "descriptors": 3796,
+        "timestamp_fields_verified": 11388,
+        "zero_timestamps_preserved": 3062,
+        "closed_fd_zero_with_later_open_slots": [
+          {
+            "task": "0xffff88001f994740",
+            "tid": "1",
+            "fd_table": "0xffff88001f99bc98",
+            "max_fds": "64",
+            "closed_fd_zero": true,
+            "open_fds": [
+              "10"
+            ]
+          }
+        ]
+      },
+      "repeat_reused_completed_task": true,
+      "path_scope_counts": {
+        "process_root": 1437,
+        "dynamic_name": 2341,
+        "global_root": 18
+      },
+      "paths_declared_in_process_root": 1437,
+      "reference_timestamp_displays_reproduced_from_raw_float_or_nonpositive_null": 11385
+    },
+    {
+      "profile": "files-only",
+      "state": "completed",
+      "native_descriptors": 3796,
+      "reference_descriptors": 3795,
+      "common_descriptors": 3795,
+      "selected_ten_field_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "TID",
+          "Process",
+          "FD",
+          "Path",
+          "Device",
+          "Inode",
+          "Type",
+          "Mode",
+          "Size"
+        ],
+        "native_rows": 3796,
+        "reference_rows": 3795,
+        "matched": false,
+        "missing": [],
+        "extra": [
+          {
+            "Device": "0:14",
+            "FD": "10",
+            "Inode": "3427",
+            "Mode": "prw-------",
+            "PID": "1",
+            "Path": "/run/initctl",
+            "Process": "init",
+            "Size": "0",
+            "TID": "1",
+            "Type": "FIFO",
+            "parent": null
+          }
+        ],
+        "sha256": {
+          "native": "64cd2e4454410394def83cdd0e06b1e99a51343c49c7cb64a736c938f694784e",
+          "reference": "1cf44c12e6b9aae95c7a9260ec7c74206379c10d5e10e95d843b535f79b47462",
+          "mapping": "78d427ef1fe5d087b2ee23cf6a8287ef6a6e6cd4cc6b7ed09b6ddd603f497347"
+        },
+        "native_input_rows": 3796,
+        "native_non_entity_records": {},
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "file",
+          "excluded_values": [
+            "diagnostic",
+            "file_partial"
+          ]
+        }
+      },
+      "original_path_display_differences": 24,
+      "timestamp_comparison": {
+        "Changed": {
+          "microsecond_rounded_match": 2672,
+          "zero_reference_null_native_retained": 1020,
+          "reference_float_rounding_difference_retained": 103
+        },
+        "Modified": {
+          "microsecond_rounded_match": 2672,
+          "zero_reference_null_native_retained": 1021,
+          "reference_float_rounding_difference_retained": 102
+        },
+        "Accessed": {
+          "microsecond_rounded_match": 2774,
+          "zero_reference_null_native_retained": 1021
+        }
+      },
+      "reference_manifest_sha256": "aa360a1146a5fbdcc015fa1b9236ee7be9167f671daec1637337adf49ee046fb",
+      "repeat_reused_completed_task": true,
+      "path_scope_counts": {
+        "process_root": 1437,
+        "disconnected_dentry": 2341,
+        "global_root": 18
+      },
+      "paths_declared_in_process_root": 1437,
+      "reference_timestamp_displays_reproduced_from_raw_float_or_nonpositive_null": 11385
+    },
+    {
+      "profile": "filtered",
+      "state": "completed",
+      "native_descriptors": 1245,
+      "reference_descriptors": 1245,
+      "common_descriptors": 1245,
+      "selected_ten_field_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "TID",
+          "Process",
+          "FD",
+          "Path",
+          "Device",
+          "Inode",
+          "Type",
+          "Mode",
+          "Size"
+        ],
+        "native_rows": 1245,
+        "reference_rows": 1245,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "ca7bb44b6a728571fdcd0e252eed801e42334ee0025569d9c5eab70328f4745b",
+          "reference": "9d4836ac30a78fb8ffed8cd964dcbd1b62052354ec4621e9bd9f73eb4628d1c8",
+          "mapping": "78d427ef1fe5d087b2ee23cf6a8287ef6a6e6cd4cc6b7ed09b6ddd603f497347"
+        },
+        "native_input_rows": 1245,
+        "native_non_entity_records": {},
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "file",
+          "excluded_values": [
+            "diagnostic",
+            "file_partial"
+          ]
+        }
+      },
+      "original_path_display_differences": 0,
+      "timestamp_comparison": {
+        "Changed": {
+          "microsecond_rounded_match": 1061,
+          "zero_reference_null_native_retained": 184
+        },
+        "Modified": {
+          "microsecond_rounded_match": 1061,
+          "zero_reference_null_native_retained": 184
+        },
+        "Accessed": {
+          "microsecond_rounded_match": 1061,
+          "zero_reference_null_native_retained": 184
+        }
+      },
+      "reference_manifest_sha256": "ab9aa53a17cfb213215279cd3453562398e7d287d6d97967d5384b85e5010ee4",
+      "repeat_reused_completed_task": true,
+      "path_scope_counts": {
+        "process_root": 525,
+        "dynamic_name": 720
+      },
+      "paths_declared_in_process_root": 525,
+      "reference_timestamp_displays_reproduced_from_raw_float_or_nonpositive_null": 3735
+    },
+    {
+      "profile": "avml",
+      "state": "completed",
+      "native_descriptors": 3796,
+      "reference_descriptors": 3795,
+      "common_descriptors": 3795,
+      "selected_ten_field_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "TID",
+          "Process",
+          "FD",
+          "Path",
+          "Device",
+          "Inode",
+          "Type",
+          "Mode",
+          "Size"
+        ],
+        "native_rows": 3796,
+        "reference_rows": 3795,
+        "matched": false,
+        "missing": [],
+        "extra": [
+          {
+            "Device": "0:14",
+            "FD": "10",
+            "Inode": "3427",
+            "Mode": "prw-------",
+            "PID": "1",
+            "Path": "/run/initctl",
+            "Process": "init",
+            "Size": "0",
+            "TID": "1",
+            "Type": "FIFO",
+            "parent": null
+          }
+        ],
+        "sha256": {
+          "native": "d4628006b08fde693788dc076897884620773dc03a56606667b6d6c46955f1ea",
+          "reference": "2869b42a005bd7729304c7680d2af2074a279ee5270842ed586b1b432b661574",
+          "mapping": "78d427ef1fe5d087b2ee23cf6a8287ef6a6e6cd4cc6b7ed09b6ddd603f497347"
+        },
+        "native_input_rows": 3796,
+        "native_non_entity_records": {},
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "file",
+          "excluded_values": [
+            "diagnostic",
+            "file_partial"
+          ]
+        }
+      },
+      "original_path_display_differences": 24,
+      "timestamp_comparison": {
+        "Changed": {
+          "microsecond_rounded_match": 2672,
+          "zero_reference_null_native_retained": 1020,
+          "reference_float_rounding_difference_retained": 103
+        },
+        "Modified": {
+          "microsecond_rounded_match": 2672,
+          "zero_reference_null_native_retained": 1021,
+          "reference_float_rounding_difference_retained": 102
+        },
+        "Accessed": {
+          "microsecond_rounded_match": 2774,
+          "zero_reference_null_native_retained": 1021
+        }
+      },
+      "reference_manifest_sha256": "f639217b2784eb9e3ae2f4963a41c229d2f3b81668e05cac6da774767e220bb3",
+      "repeat_reused_completed_task": true,
+      "path_scope_counts": {
+        "process_root": 1437,
+        "dynamic_name": 2341,
+        "global_root": 18
+      },
+      "paths_declared_in_process_root": 1437,
+      "reference_timestamp_displays_reproduced_from_raw_float_or_nonpositive_null": 11385
+    }
+  ],
+  "bundle_validation": [
+    {
+      "profile": "default",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "7b869f6e313c5c95b78d6e583b9eebbe995011cc7e99ae27573b7e580e772965"
+    },
+    {
+      "profile": "files-only",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "78c3fc4c897d1f9d77a3d96b6c0cda6b00085000e78e882958b24b1210a0af8a"
+    },
+    {
+      "profile": "filtered",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "56566fd29aaeba8f2ad44c5ffe868017dd6e176597bf1a594f37de559474b28e"
+    },
+    {
+      "profile": "avml",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "259169bc61d3776d4341716f2190a9407ad9c850054a58369d33bf110744c665"
+    }
+  ],
+  "avml_decoded_descriptor_consistency_verified": true,
+  "original_images_sha256": {
+    "images/kali.raw": "cf04d76ab9177d7ee355cc96020d29ae194c065c692304ff25e594ab510c639d",
+    "images/linux-sample-1.bin.gz": "910f272e5eeecdbf229e648d7b136a6722a11a5000f3995647364339417dfddd"
+  },
+  "original_images_reverified_before_and_after": true,
+  "local_image_smoke": [
+    {
+      "file": "kali.raw",
+      "plugin": "generic.info",
+      "rows": 130,
+      "state": "completed",
+      "engine_build_sha256": "7d906cef6a024bfafa4c0e6c399d461648fcd0efcfe0cf00a870df13135f0cb9",
+      "source_hash_reverified": true
+    },
+    {
+      "file": "linux-sample-1.bin.gz",
+      "plugin": "linux.pslist",
+      "rows": 133,
+      "state": "completed",
+      "engine_build_sha256": "7d906cef6a024bfafa4c0e6c399d461648fcd0efcfe0cf00a870df13135f0cb9",
+      "source_hash_reverified": true
+    }
+  ],
+  "fuzz": {
+    "target": "FuzzLinuxInodeTimestamp",
+    "duration": "10s",
+    "executions": 533169
+  },
+  "mode_oracle": {
+    "schema": "gomem.posix-mode-oracle/v1",
+    "producer": "Python standard library stat.filemode and S_IS*",
+    "cases": 32768,
+    "encoding": "UTF-8: decimal-mode TAB type-or-empty TAB filemode LF; ascending 16-bit modes whose type is unset or one of Linux FIFO/CHR/DIR/BLK/REG/LNK/SOCK; excludes host-specific whiteout/door/port types",
+    "sha256": "ba1da93c2d61d36bdb5f511a9d8e9349e73c015a1a6bbd8befd495b8ee2e4688"
+  },
+  "checks": {
+    "go_test_all": "passed",
+    "go_vet_all": "passed",
+    "go_race_all": "passed",
+    "official_corpus_suite": "passed",
+    "python_tool_tests": 21,
+    "argument_oracle_cases": 428,
+    "mode_oracle_cases": 32768,
+    "capability_inventory": 195,
+    "fully_accepted_capabilities": 0,
+    "cross_builds": [
+      {
+        "name": "gomem-0.1.0-dev-windows-amd64.exe",
+        "sha256": "b4ab3e043054e3f9bf205f65fbc11d5917be282fb967112a3a9e7fc24ece73dd",
+        "target": "windows/amd64"
+      },
+      {
+        "name": "gomem-0.1.0-dev-windows-arm64.exe",
+        "sha256": "e7c75f59b24577d2deeaeaf875bde1fb31bb5343dd51f43315c4269923242baf",
+        "target": "windows/arm64"
+      },
+      {
+        "name": "gomem-0.1.0-dev-linux-amd64",
+        "sha256": "f6218987bcf1c7d3c43b2bd10a30eafa470ea701870a3b203515803619b50aaa",
+        "target": "linux/amd64"
+      },
+      {
+        "name": "gomem-0.1.0-dev-linux-arm64",
+        "sha256": "be13bfc4d58a03a417cc61514f1d3a7dd336f2144277c1326e987b1ea3ae4458",
+        "target": "linux/arm64"
+      },
+      {
+        "name": "gomem-0.1.0-dev-darwin-amd64",
+        "sha256": "3d3626919f8b4d33689725c98fd3e23bb96a1357a51244ef710ead0b637897f1",
+        "target": "darwin/amd64"
+      },
+      {
+        "name": "gomem-0.1.0-dev-darwin-arm64",
+        "sha256": "dcf0b0b56f04fd21f5f733263a175cd5d567274fa47f74379da507fce0238b31",
+        "target": "darwin/arm64"
+      }
+    ]
+  }
+}

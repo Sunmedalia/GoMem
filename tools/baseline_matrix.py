@@ -84,7 +84,7 @@ def generate(source):
                "linux.lsmod.Lsmod": "linux.lsmod", "windows.threads.Threads": "windows.threads",
                "windows.vadinfo.VadInfo": "windows.vadinfo", "linux.proc.Maps": "linux.maps",
                "windows.dlllist.DllList": "windows.dlllist", "windows.pedump.PEDump": "windows.pedump",
-               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux", "linux.elfs.Elfs": "linux.elfs", "linux.psscan.PsScan": "linux.psscan"}
+               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux", "linux.elfs.Elfs": "linux.elfs", "linux.psscan.PsScan": "linux.psscan", "linux.lsof.Lsof": "linux.lsof"}
 
     def requirements(identifier, seen=None):
         seen = set() if seen is None else seen
@@ -123,6 +123,11 @@ def generate(source):
                               corpora=["synthetic-linux-x64", "synthetic-linux-clock-and-signal-threads", "official-linux-sample-1", "official-linux-sample-1-reencoded-avml"],
                               comparison="selected_ten_fields_match_133_processes_316_tasks_with_explicit_microsecond_rounding", validation_record="docs/linux-tasks.md",
                               gaps=["Real modern kernel/32-bit clock and thread layout matrix pending; modern paths have synthetic tests only", "ELF main-image extraction has selected legacy x64 validation only; timeline and damaged task-list bidirectional recovery remain pending", "Credential/clock read errors are retained per field; UID values are raw kernel IDs, not user namespace remapping"])
+        if identifier == "linux.lsof.Lsof":
+            plugins[-1].update(applicability="Task/thread FD tables through typed files_struct.fdt or legacy inline fields, with raw/scoped paths and inode metadata. files-only selects filesystem traversal rather than filtering inode types. Timestamps retain exact signed seconds and nanoseconds.",
+                              corpora=["synthetic-linux-x64", "synthetic-linux-x86-pae", "synthetic-linux-inode-time-and-namespace-layouts", "official-linux-sample-1", "official-linux-sample-1-reencoded-avml"],
+                              comparison="selected_3795_common_descriptors_match_ten_fields_one_captured_descriptor_and_zero_timestamps_preserved", validation_record="docs/linux-lsof.md",
+                              gaps=["Real modern/32-bit kernels, full namespace/path/parameter/failure coverage and timeline integration pending", "Default view retains open high-numbered descriptors even when fd[0] is NULL; reference skips such tables in the selected baseline", "Raw timestamp precision, epoch-zero and modern split timestamp fields intentionally retain captured values rather than reference display bugs; cached inode fallback/version matrix remains partial"])
         if identifier == "linux.psscan.PsScan":
             plugins[-1].update(applicability="Physical scheduler-pointer task candidates using exact task_struct layouts and little-endian 32/64-bit symbols. One bounded physical pass; PID/exit-state heuristics, coverage and read diagnostics are explicit. Parent pointers use the kernel address space.",
                               corpora=["synthetic-linux-x64", "synthetic-linux-x86-pae", "official-linux-sample-1", "official-linux-sample-1-reencoded-avml"],
