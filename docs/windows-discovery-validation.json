@@ -1,0 +1,112 @@
+{
+  "schema": "gomem.windows-discovery-validation/v1",
+  "date": "2026-10-20",
+  "environment": "darwin/arm64 Go 1.26.2",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "supplied_parameters": [
+    "image",
+    "case"
+  ],
+  "discovery": {
+    "method": "crash-header-kdbg-pe",
+    "architecture": "x64",
+    "dtb": "0x112c98000",
+    "kernel_base": "0xfffff8043601f000",
+    "debugger_data": "0xfffff80436c1fb20",
+    "loaded_module_list": "0xfffff80436c49830",
+    "active_process_head": "0xfffff80436c3d110",
+    "pdb": {
+      "database": "ntkrnlmp.pdb",
+      "GUID": "167FE94B5641C005AC3036212A01F8DC",
+      "age": 1
+    },
+    "verified": true
+  },
+  "crash_header_hints": {
+    "active_process_head": "0xfffff80436c3d110",
+    "architecture": "x64",
+    "bits": 64,
+    "debugger_data": "0xfffff80436c1fb20",
+    "directory_table_base": "0x112c98000",
+    "loaded_module_list": "0xfffff80436c49830",
+    "machine": "0x8664"
+  },
+  "initial_symbol_acquisition": {
+    "downloaded": true,
+    "converted": true,
+    "source_sha256": "13f0deaa9d58c4c58a4abe92ea27920115b9f6169def486194a0f742a0c3569e"
+  },
+  "offline_results": [
+    {
+      "plugin": "windows.pslist",
+      "engine_build_sha256": "5c4134904708ecf554bbab43779b67e4a08bbe78efe05d80ff64755994286e4e",
+      "symbols_sha256": "f288d5d6d2bf1cfd7f1d76f271cfded7b7629224276a5748cc2a8db006c51b2a",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "PPID",
+          "Name"
+        ],
+        "native_rows": 120,
+        "reference_rows": 120,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "ef52cacc244650ca61e1ed6f05e650aa1f10265ac85da65f6198025257c2789d",
+          "reference": "b6b6308c261194fc98f79e7e26bb7573a820d94be78f8fb105bdf3d0061b67a4",
+          "mapping": "14ac26af59fffd379efa76487ad43d8cfd02d7d39d047460aa744fdfd79ac7d8"
+        }
+      }
+    },
+    {
+      "plugin": "windows.modules",
+      "engine_build_sha256": "5c4134904708ecf554bbab43779b67e4a08bbe78efe05d80ff64755994286e4e",
+      "symbols_sha256": "f288d5d6d2bf1cfd7f1d76f271cfded7b7629224276a5748cc2a8db006c51b2a",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "Name",
+          "Base",
+          "Size"
+        ],
+        "native_rows": 176,
+        "reference_rows": 176,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "dac3513821cb00fb31d3091ea8098359e392917dc8e3d9b546244c8d57476119",
+          "reference": "c4f51d0504550b68077cf858e50077d6bdeb6e04090ab5cdf2bb4a0bb5c1d11f",
+          "mapping": "01d0d65710117d1cf4522bfd6bc162f7005a691e48b5c7b9c85b53d95ddc8f34"
+        }
+      }
+    }
+  ],
+  "fallback_fault_injection": {
+    "method": "read-layer wrapper clears only decoded KDBG tag, original image not modified",
+    "result": "passed",
+    "discovered_base": "0xfffff8043601f000",
+    "module_entry": "0xffff840f65c53450",
+    "dll_base_field": "0xffff840f65c53480",
+    "processes": 120,
+    "modules": 176,
+    "scope": "real-image module fallback, identity/anchor validation and entity counts; selected-field differential above uses the unmodified KDBG path"
+  },
+  "synthetic_coverage": [
+    "x86",
+    "pae",
+    "x64",
+    "decoded/encoded/forged KDBG",
+    "wrong DTB",
+    "list corruption",
+    "wrong field slot",
+    "symbol mismatch",
+    "PE size corruption",
+    "explicit parameter precedence and cache equivalence"
+  ],
+  "acceptance": "One official Windows image plus explicit synthetic layouts. RAW/VM/ARM64/5-level discovery and full Windows-version parity are not certified."
+}

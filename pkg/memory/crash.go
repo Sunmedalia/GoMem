@@ -3,8 +3,34 @@ package memory
 import (
 	"context"
 	"encoding/binary"
+	"encoding/json"
 	"fmt"
 )
+
+// CrashHeader contains acquisition hints, not verified address-space identity.
+// Consumers must verify any selected page table and kernel against memory.
+type CrashHeader struct {
+	Bits               int
+	Machine            uint32
+	Architecture       string
+	DirectoryTableBase uint64
+	LoadedModuleList   uint64
+	ActiveProcessHead  uint64
+	DebuggerData       uint64
+}
+
+func (h CrashHeader) MarshalJSON() ([]byte, error) {
+	return json.Marshal(map[string]any{"bits": h.Bits, "machine": fmt.Sprintf("0x%x", h.Machine), "architecture": h.Architecture,
+		"directory_table_base": fmt.Sprintf("0x%x", h.DirectoryTableBase), "loaded_module_list": fmt.Sprintf("0x%x", h.LoadedModuleList),
+		"active_process_head": fmt.Sprintf("0x%x", h.ActiveProcessHead), "debugger_data": fmt.Sprintf("0x%x", h.DebuggerData)})
+}
+
+type crashMapped struct {
+	*Mapped
+	header CrashHeader
+}
+
+func (m *crashMapped) CrashHeader() CrashHeader { return m.header }
 
 // Windows complete and bitmap dumps use physical page runs. Other dump types
 // have different addressing semantics and are rejected before a layer is built.
@@ -24,6 +50,19 @@ func crash(ctx context.Context, s MemorySource) (MemoryLayer, string, error) {
 	h := make([]byte, size)
 	if _, e := s.ReadAt(ctx, h, 0); e != nil {
 		return nil, "crash", e
+	}
+	header := CrashHeader{Bits: 32, Machine: binary.LittleEndian.Uint32(h[32:]), DirectoryTableBase: uint64(binary.LittleEndian.Uint32(h[16:])), LoadedModuleList: uint64(binary.LittleEndian.Uint32(h[24:])), ActiveProcessHead: uint64(binary.LittleEndian.Uint32(h[28:])), DebuggerData: uint64(binary.LittleEndian.Uint32(h[96:]))}
+	if stride == 16 {
+		header = CrashHeader{Bits: 64, Machine: binary.LittleEndian.Uint32(h[48:]), DirectoryTableBase: binary.LittleEndian.Uint64(h[16:]), LoadedModuleList: binary.LittleEndian.Uint64(h[32:]), ActiveProcessHead: binary.LittleEndian.Uint64(h[40:]), DebuggerData: binary.LittleEndian.Uint64(h[128:])}
+	}
+	if header.Bits == 64 && header.Machine == 0x8664 {
+		header.Architecture = "x64"
+	}
+	if header.Bits == 32 && header.Machine == 0x14c {
+		header.Architecture = "x86"
+		if h[92] != 0 {
+			header.Architecture = "pae"
+		}
 	}
 	kind := binary.LittleEndian.Uint32(h[dumpAt:])
 	var runs []Range
@@ -112,5 +151,8 @@ func crash(ctx context.Context, s MemorySource) (MemoryLayer, string, error) {
 		return nil, "crash", fmt.Errorf("%w: Windows dump type %#x", ErrUnsupported, kind)
 	}
 	m, e := NewMapped(s, "physical:crash", runs)
-	return m, "crash", e
+	if e != nil {
+		return nil, "crash", e
+	}
+	return &crashMapped{Mapped: m, header: header}, "crash", nil
 }

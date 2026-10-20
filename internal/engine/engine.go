@@ -32,31 +32,35 @@ type Config struct {
 	Offline                                bool
 }
 type Engine struct {
-	Config           Config
-	Source           memory.MemorySource
-	Format           string
-	Hash             string
-	Build            string
-	Env              plugin.Environment
-	Store            *store.Store
-	Registry         *plugin.Registry
-	Discovery        *LinuxDiscovery
-	SymbolResolution *symbols.PDBResolution
-	mu               sync.Mutex
-	closing          bool
-	wg               sync.WaitGroup
-	stop             context.CancelFunc
-	life             context.Context
-	closeOnce        sync.Once
-	closeErr         error
-	imageInfo        os.FileInfo
+	Config                Config
+	Source                memory.MemorySource
+	Format                string
+	Hash                  string
+	Build                 string
+	Env                   plugin.Environment
+	Store                 *store.Store
+	Registry              *plugin.Registry
+	CrashHeader           *memory.CrashHeader
+	WindowsDiscovery      *WindowsDiscovery
+	WindowsDiscoveryError error
+	Discovery             *LinuxDiscovery
+	SymbolResolution      *symbols.PDBResolution
+	mu                    sync.Mutex
+	closing               bool
+	wg                    sync.WaitGroup
+	stop                  context.CancelFunc
+	life                  context.Context
+	closeOnce             sync.Once
+	closeErr              error
+	imageInfo             os.FileInfo
 }
 
 func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 	if c.Image == "" {
 		return nil, fmt.Errorf("--image is required")
 	}
-	if c.Arch == "" {
+	autoArch := c.Arch == "" || c.Arch == "auto"
+	if autoArch {
 		c.Arch = "x64"
 	}
 	if c.OS != "" && c.OS != "linux" && c.OS != "windows" && c.OS != "mac" {
@@ -83,6 +87,23 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 	physical, format, err := memory.Detect(ctx, src)
 	if err != nil {
 		return nil, err
+	}
+	var crashHeader *memory.CrashHeader
+	if layer, ok := physical.(interface{ CrashHeader() memory.CrashHeader }); ok {
+		header := layer.CrashHeader()
+		crashHeader = &header
+		if autoArch && header.Architecture != "" {
+			c.Arch = header.Architecture
+		}
+		if c.OS == "" {
+			c.OS = "windows"
+		}
+		if c.DTB == "" && c.OS == "windows" && header.Architecture != "" && header.DirectoryTableBase != 0 {
+			c.DTB = fmt.Sprintf("0x%x", header.DirectoryTableBase)
+		}
+	}
+	if c.Arch != "x64" && c.Arch != "x86" && c.Arch != "pae" {
+		return nil, fmt.Errorf("unsupported architecture %q", c.Arch)
 	}
 	hash, err := Hash(ctx, src)
 	if err != nil {
@@ -114,7 +135,7 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 	if err = plugins.Register(r); err != nil {
 		return nil, err
 	}
-	eng = &Engine{Config: c, Source: src, Format: format, Hash: hash, Store: st, Registry: r}
+	eng = &Engine{CrashHeader: crashHeader, Config: c, Source: src, Format: format, Hash: hash, Store: st, Registry: r}
 	eng.Build, err = version.Identity()
 	if err != nil {
 		return nil, err
@@ -130,6 +151,7 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 		if e != nil {
 			return nil, e
 		}
+		root = tr.Root()
 		eng.Env.Kernel = &memory.Virtual{Physical: physical, Translator: tr, ID: fmt.Sprintf("kernel:%s:dtb=%#x", c.Arch, root)}
 		eng.Config.DTB = fmt.Sprintf("0x%x", root)
 	}
@@ -149,7 +171,18 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 			}
 		}
 	}
-	if c.Symbols == "" {
+	if crashHeader != nil && eng.Env.OS == "windows" && eng.Config.KernelBase == 0 {
+		if eng.Env.Kernel == nil {
+			eng.WindowsDiscoveryError = fmt.Errorf("crash header does not provide a supported, nonzero page-table root; provide --arch and --dtb")
+		} else {
+			eng.WindowsDiscoveryError = eng.discoverWindows(ctx, *crashHeader)
+			if ctx.Err() != nil {
+				return nil, ctx.Err()
+			}
+		}
+	}
+	c = eng.Config
+	if c.Symbols == "" && eng.WindowsDiscoveryError == nil {
 		indexPath := c.SymbolIndex
 		if indexPath == "" && c.CaseDir != "" && c.DTB != "" {
 			candidate := filepath.Join(c.CaseDir, "symbols", "index.json")
@@ -185,25 +218,13 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 		if e != nil {
 			return nil, fmt.Errorf("read Windows kernel identity for symbol acquisition: %w", e)
 		}
-		cache := c.SymbolCache
-		if cache == "" {
-			if c.CaseDir != "" {
-				cache = filepath.Join(c.CaseDir, "symbols", "windows")
-			} else {
-				userCache, e := os.UserCacheDir()
-				if e != nil {
-					return nil, e
-				}
-				cache = filepath.Join(userCache, "gomem", "symbols", "windows")
-			}
-		}
-		table, resolution, e := symbols.ResolvePDB(ctx, identity, symbols.PDBCacheOptions{Directory: cache, BuildSHA256: eng.Build, Server: c.SymbolServer, Offline: c.Offline})
+		table, resolution, e := eng.resolveWindowsIdentity(ctx, identity)
 		if e != nil {
 			return nil, fmt.Errorf("Windows symbols: %w", e)
 		}
 		eng.Env.Symbols, eng.Env.OS = table, "windows"
-		eng.Config.Symbols, eng.Config.SymbolCache = resolution.TablePath, cache
-		eng.SymbolResolution = &resolution
+		eng.Config.Symbols = resolution.TablePath
+		eng.SymbolResolution = resolution
 	}
 	if eng.Env.Kernel != nil && eng.Env.Symbols != nil {
 		eng.Env.Objects = &object.Reader{Layer: eng.Env.Kernel, Symbols: eng.Env.Symbols}
@@ -259,8 +280,11 @@ func (e *Engine) Check(ctx context.Context, s plugin.Spec) error {
 	if !s.NeedsKernel {
 		return nil
 	}
+	if e.WindowsDiscoveryError != nil {
+		return fmt.Errorf("Windows automatic configuration: %w", e.WindowsDiscoveryError)
+	}
 	if e.Env.Symbols == nil {
-		mode := "use --symbols or --symbol-index with --dtb; online discovery is pending"
+		mode := "supply matching --symbols/local index; Windows crash discovery can also use verified PDB sources"
 		if e.Config.Offline {
 			mode = "offline mode"
 		}

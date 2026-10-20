@@ -25,6 +25,8 @@ type Intel struct {
 	capacity int
 }
 
+func (i *Intel) Root() uint64 { return i.root }
+
 func NewIntel(p MemoryLayer, root uint64, mode string, capacity int) (*Intel, error) {
 	if mode != "x64" && mode != "x86" && mode != "pae" {
 		return nil, fmt.Errorf("unsupported architecture %q", mode)

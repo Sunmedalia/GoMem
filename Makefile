@@ -18,6 +18,7 @@ matrix:
 	python3 tools/baseline_matrix.py --source $(BASELINE) --check
 fuzz:
 	$(GO) test ./pkg/memory -run '^$$' -fuzz FuzzDetect -fuzztime 10s
+	$(GO) test ./internal/engine -run '^$$' -fuzz FuzzMappedPE -fuzztime 10s
 	$(GO) test ./pkg/symbols -run '^$$' -fuzz FuzzISF -fuzztime 10s
 	$(GO) test ./pkg/symbols -run '^$$' -fuzz FuzzDWARF -fuzztime 10s
 	$(GO) test ./pkg/symbols -run '^$$' -fuzz FuzzSymbolIndex -fuzztime 10s

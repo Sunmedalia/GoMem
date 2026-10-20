@@ -127,6 +127,10 @@ def generate(source):
             if module == "volatility3.framework.automagic.linux":
                 infrastructure[-1].update(status="partial", corpora=["synthetic-linux-x64", "official-linux-sample-1"],
                                           comparison="selected_kernel_identity_only", validation_record="docs/linux-discovery.md")
+            if module in ("volatility3.framework.automagic.windows", "volatility3.framework.automagic.pdbscan"):
+                infrastructure[-1].update(status="partial", corpora=["synthetic-windows-crash-x86-pae-x64", "official-windows-10-19041"],
+                                          applicability="Windows complete/bitmap dumps with usable header root/list anchors; KDBG or validated module-list/PE/symbol discovery.",
+                                          comparison="selected_kernel_identity_and_entities_only", validation_record="docs/windows-discovery.md")
             if module in ("volatility3.framework.layers.msf", "volatility3.framework.symbols.windows.pdbconv"):
                 infrastructure[-1].update(status="partial", corpora=["synthetic-pdb-x86-x64", "official-windows-10-19041"],
                                           comparison="selected_types_and_entities_only", validation_record="docs/pdb-symbols.md")
@@ -147,7 +151,7 @@ def generate(source):
                                       validation_record="docs/pdb-symbols.md")
         if identifier in ("symbols.auto-download", "symbols.pdb-conversion-cache"):
             infrastructure[-1].update(corpora=["synthetic-pdb-x86-x64", "official-windows-10-19041"],
-                                      applicability="Windows only; known DTB/kernel base and resident exact PE CodeView identity; HTTPS uncompressed PDB transport.",
+                                      applicability="Windows only; explicit or verified crash-discovered DTB/kernel base and resident exact PE CodeView identity; HTTPS uncompressed PDB transport.",
                                       comparison="selected_entities_and_cache_failures_only", validation_record="docs/pdb-symbols.md")
     return {"schema": "gomem.capabilities/v1", "baseline": lock, "release": "development-preview", "plugin_count": len(plugins),
             "accepted_plugins": 0, "plugins": plugins, "infrastructure": infrastructure}

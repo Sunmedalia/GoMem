@@ -3,8 +3,10 @@ package cli
 import (
 	"bytes"
 	"context"
+	"encoding/binary"
 	"encoding/json"
 	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 
@@ -157,5 +159,45 @@ func TestNativePDBCommand(t *testing.T) {
 	}
 	if _, _, err = run(t, "", "symbols", "convert", "../../pkg/symbols/testdata/native-x64.pdb", "--system-map", "missing"); err == nil {
 		t.Fatal("ignored DWARF-only option")
+	}
+}
+
+func TestWindowsCrashDiscoveryCommand(t *testing.T) {
+	f, err := testfixture.Write(t.TempDir(), "windows")
+	if err != nil {
+		t.Fatal(err)
+	}
+	data, err := os.ReadFile(f.Image)
+	if err != nil {
+		t.Fatal(err)
+	}
+	copy(data[0x7010:], "KDBG")
+	binary.LittleEndian.PutUint32(data[0x7014:], 0x380)
+	binary.LittleEndian.PutUint64(data[0x7018:], 0x4000)
+	binary.LittleEndian.PutUint64(data[0x7048:], 0x6010)
+	binary.LittleEndian.PutUint64(data[0x7050:], 0x6000)
+	dump := make([]byte, 8192+len(data))
+	copy(dump, "PAGEDU64")
+	copy(dump[8192:], data)
+	binary.LittleEndian.PutUint64(dump[16:], 0x1000)
+	binary.LittleEndian.PutUint64(dump[32:], 0x6010)
+	binary.LittleEndian.PutUint64(dump[40:], 0x6000)
+	binary.LittleEndian.PutUint32(dump[48:], 0x8664)
+	binary.LittleEndian.PutUint64(dump[128:], 0x7000)
+	binary.LittleEndian.PutUint32(dump[136:], 1)
+	binary.LittleEndian.PutUint64(dump[144:], uint64(len(data)/4096))
+	binary.LittleEndian.PutUint64(dump[160:], uint64(len(data)/4096))
+	binary.LittleEndian.PutUint32(dump[3992:], 1)
+	path := filepath.Join(t.TempDir(), "memory.dmp")
+	if err = os.WriteFile(path, dump, 0600); err != nil {
+		t.Fatal(err)
+	}
+	out, stderr, err := run(t, "", "analyze", "windows.pslist", "--image", path, "--symbols", f.Symbols, "--offline", "--format", "jsonl")
+	if err != nil || len(strings.Split(strings.TrimSpace(out), "\n")) != 2 {
+		t.Fatal(out, stderr, err)
+	}
+	out, stderr, err = run(t, "", "doctor", "--image", path, "--symbols", f.Symbols, "--offline")
+	if err != nil || !strings.Contains(out, `"method": "crash-header-kdbg-pe"`) || !strings.Contains(out, `"verified": true`) {
+		t.Fatal(out, stderr, err)
 	}
 }

@@ -194,9 +194,22 @@ func TestLimeAndCrash(t *testing.T) {
 			binary.LittleEndian.PutUint64(dump[desc+24:], 1)
 		}
 		copy(dump[size:], "crash")
+		if is64 {
+			binary.LittleEndian.PutUint32(dump[48:], 0x8664)
+			binary.LittleEndian.PutUint64(dump[16:], 0x12345000)
+			binary.LittleEndian.PutUint64(dump[32:], 0xfffff80012345678)
+		} else {
+			binary.LittleEndian.PutUint32(dump[32:], 0x14c)
+			binary.LittleEndian.PutUint32(dump[16:], 0x12345000)
+			dump[92] = 1
+		}
 		l, f, e := Detect(context.Background(), bufferSource(dump))
 		if e != nil || f != "crash" {
 			t.Fatal(f, e)
+		}
+		header := l.(interface{ CrashHeader() CrashHeader }).CrashHeader()
+		if header.DirectoryTableBase != 0x12345000 || is64 && header.Architecture != "x64" || !is64 && header.Architecture != "pae" {
+			t.Fatal(header)
 		}
 		got, e := Read(context.Background(), l, 0x3000, 5)
 		if e != nil || string(got) != "crash" {

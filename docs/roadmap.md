@@ -14,7 +14,7 @@
 
 后续工作按原计划保留，不用“空插件”或无依据跳过抵消缺口：
 
-1. 补齐 Linux/macOS 在线符号索引与自动获取，以及完整内核、DTB、进程空间识别；已有 Windows 精确身份 PDB 获取与持久转换缓存、原生 PDB/MSF 7.0、DWARF、本地身份索引和部分 Linux x64 DTB 发现。仍需旧 MSF、CAB 传输、更多 CodeView/DWARF 语义、KASLR、架构和版本验证。
+1. 补齐 Linux/macOS 在线符号索引与自动获取，以及完整内核、DTB、进程空间识别；已有 Windows 完整/bitmap 转储的自动配置、精确身份 PDB 获取与持久转换缓存、原生 PDB/MSF 7.0、DWARF、本地身份索引和部分 Linux x64 DTB 发现。仍需 RAW/虚拟机格式的 Windows 自动识别、旧 MSF、CAB 传输、更多 CodeView/DWARF 语义、KASLR、架构和版本验证。
 2. Windows/Linux 的线程、扫描进程、VAD/VMA、网络、文件恢复、注册表、凭据、服务、持久化、内核检查、恶意代码、时间线与其全部参数、导出。
 3. macOS、AVML、VMware、QEMU、Xen、交换页及上游其余地址空间和格式语义。
 4. HTTP/FTP/S3/GS 等远程数据源，以及 YARA、反汇编、LeechCore；正式验收使用完整扩展构建。

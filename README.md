@@ -70,6 +70,8 @@ bin/gomem analyze linux.pslist --image memory.raw --case ./case-001 --dtb 0x1230
 
 Windows 在已提供 DTB 和内核基址时可自动获取缺失符号：从目标 PE 读取 PDB 身份，在 Microsoft HTTPS 符号服务器下载并原生转换，写入案件的 `symbols/windows` 缓存。`--offline` 禁止网络并允许验证后的缓存复用；也可用 `--symbol-cache`、`--symbol-server` 指定缓存和 HTTPS 服务器。[自动获取与缓存](docs/pdb-symbols.md)
 
+Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址：转储头线索经 KDBG/模块链表、映射 PE 和精确符号交叉验证。可直接运行 `gomem analyze windows.pslist --image memory.dmp --case ./case-001`；详细条件与失败行为见 [Windows 自动配置](docs/windows-discovery.md)。
+
 **其余情况仍需提供符号或本地索引，并显式指定未发现的地址空间参数。** 通用 DTB/内核基址识别、Linux/macOS 默认自动下载尚未实现。已知 ISF 可通过 `symbols fetch HTTPS_URL --sha256 CHECKSUM --case CASE` 获取，再由分析路径验证身份；镜像不会上传。
 
 ## 调查工作流
