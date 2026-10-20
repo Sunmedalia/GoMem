@@ -6516,15 +6516,22 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active processes only. Token is _EPROCESS.Token.Object with the low 4 bits cleared on 64-bit and the low 3 bits cleared on 32-bit. An unreadable Token.Object emits one row whose SID is the literal Token unreadable and whose Name is an empty string; the task still succeeds. UserAndGroupCount at or above 0xFFFF emits no SID rows for that token. An unreadable UserAndGroups pointer fails the task. An unreadable individual SID pointer is skipped. Revision masked with 0xF must be 1 and SubAuthorityCount must be at most 15; otherwise the remaining SIDs in that token are not emitted and the task still succeeds. The identifier authority is only the last byte of the 6-byte Value. Names are resolved in order: the pinned well-known table, the pinned service table, ProfileList users, then the first matching pinned regular expression. An unmatched name is not_available, which the reference renders as JSON null. An empty string is not a missing value. Profile users come from hives whose name contains config\\software, key Microsoft\\Windows NT\\CurrentVersion\\ProfileList and value ProfileImagePath. The path is the Python bytes repr with the literal \\x00 removed, the final character dropped, and the Windows basename kept. A hive that cannot be opened is skipped. pid is a comma-separated list. The summary row is not a SID.",
+      "native": "windows.getsids",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_1752_rows_match_pid_process_sid_and_name",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has 120 processes, 1752 SID rows, 239 unavailable names, 4 profile users, and no unreadable or stopped tokens",
+        "Real 32-bit images are pending. The 3-bit fast-ref mask is shared with windows.privileges and is synthetic here",
+        "S-1-5-21-...-553 matches RAS Servers before the broader domain-relative pattern, matching the pinned expression order",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-getsids.md"
     },
     {
       "id": "windows.handles.Handles",

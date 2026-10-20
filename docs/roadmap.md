@@ -50,3 +50,4 @@
 2026-10-21：windows.sessions 列出活动进程的会话和用户。选定 Windows 10 19041 样本的 120 行与固定基线一致。26 个环境页不可读的进程仍保留行，任务失败。时间线和 Windows 11 会话结构还没有验收。[详情](windows-sessions.md)
 2026-10-21：windows.crashinfo 读取崩溃转储头。选定 Windows 10 19041 样本的 1 行与固定基线一致，类型是 Bitmap Dump，页数 511191。系统时间使用 `+00:00`。非崩溃镜像明确失败。真实 32 位镜像还没有验收。[详情](windows-crashinfo.md)
 2026-10-21：windows.privileges 列出活动进程令牌特权。选定 Windows 10 19041 样本的 4200 行与固定基线一致，120 个进程都读到了令牌。真实 32 位镜像和时间线还没有验收。[详情](windows-privileges.md)
+2026-10-21：windows.getsids 列出活动进程令牌 SID。选定 Windows 10 19041 样本的 1752 行与固定基线一致，120 个进程、239 个不可用名称、4 个 ProfileList 用户。没有不可读令牌。真实 32 位镜像和时间线还没有验收。[详情](windows-getsids.md)

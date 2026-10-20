@@ -1,0 +1,13 @@
+{
+  "fields": {
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "Process": {"native": "Process", "reference": "Process", "kind": "string"},
+    "SID": {"native": "SID", "reference": "SID", "kind": "string"},
+    "Name": {"native": "Name", "reference": "Name", "kind": "string", "missing_reasons": ["not_available"]}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["sid"],
+    "excluded_values": ["summary", "diagnostic"]
+  }
+}
