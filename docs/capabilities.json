@@ -5766,15 +5766,24 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "DRIVER_OBJECT entries from the same Dri\\xf6 and Driv pool scan as windows.driverscan, without the three-name filter. DriverStart must be readable for 8 bytes and be zero or strictly above MmSystemRangeStart. The driver row is depth 0 and type DRV. Devices walk DeviceObject and NextDevice at depth 1 and type DEV. Attached devices walk AttachedDevice from depth 2 and type ATT. Every displayed offset is the driver object, including device and attached rows; ObjectOffset keeps the object that was read. Header names come from NameInfo. A zero name-info offset or a failed name read is unparsable and the row stays. An empty string is kept and does not read the buffer. A repeated address or an unreadable link pointer ends that chain. A null pointer stops the rest of the driver, because the pinned generator instantiates address 0 and then raises InvalidAddressException. The same stop happens when a device type or an attached DriverObject.DriverName cannot be read; rows already emitted stay and the task succeeds. DeviceType uses the pinned DEVICE_CODES table, and any other value is UNKNOWN. Native addresses keep canonical high bits. The reference JSON drops them, so Offset is compared after a low-48 mask. The summary row is not a device-tree node.",
+      "native": "windows.devicetree",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_281_rows_match_driver_device_attachment_depth_and_names",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has 142 drivers, 106 devices, 33 attached devices and a maximum depth of 5",
+        "32-bit images and real pre-Windows 8 bottom-up scans remain pending",
+        "A null link is not instantiated at address 0. On this image that address is unmapped, so the selected rows still match",
+        "Offset is the tree key and is the same for every row in a driver subtree. Depth distinguishes nesting levels; sibling devices that share an offset are not a unique parent key",
+        "Reference offsets omit the canonical high bits. The comparison masks both sides to the low 48 bits",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-devicetree.md"
     },
     {
       "id": "windows.direct_system_calls.DirectSystemCalls",

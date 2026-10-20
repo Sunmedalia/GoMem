@@ -1,0 +1,17 @@
+{
+  "tree_key": "Offset",
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "Offset", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Type": {"native": "Type", "reference": "Type", "kind": "string"},
+    "DriverName": {"native": "DriverName", "reference": "DriverName", "kind": "string", "missing_reasons": ["not_applicable", "unparsable"]},
+    "DeviceName": {"native": "DeviceName", "reference": "DeviceName", "kind": "string", "missing_reasons": ["not_applicable", "unparsable"]},
+    "DriverNameOfAttDevice": {"native": "DriverNameOfAttDevice", "reference": "DriverNameOfAttDevice", "kind": "string", "missing_reasons": ["not_applicable", "unparsable"]},
+    "DeviceType": {"native": "DeviceType", "reference": "DeviceType", "kind": "string", "missing_reasons": ["not_applicable"]},
+    "Depth": {"native": "Depth", "kind": "tree_depth"}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["driver", "device", "attached"],
+    "excluded_values": ["summary", "diagnostic"]
+  }
+}

@@ -56,6 +56,7 @@ bin/gomem analyze windows.pslist \
 | `windows.info` | 报告内核基址、版本、KUSER 和内核 PE；崩溃转储同时给出固定基线的层名称；[说明](docs/windows-info.md) |
 | `windows.pstree` | 按父进程把活动进程排成树；PID 筛选保留祖先和后代；审计名、命令行或路径读不到时记为不可用，任务仍然成功；[说明](docs/windows-pstree.md) |
 | `windows.joblinks` | 列出带有 Job 对象的活动进程，以及该 Job 进程链表里的进程；没有 Job 就跳过，不把空结果当成失败；[说明](docs/windows-joblinks.md) |
+| `windows.devicetree` | 列出池扫描得到的驱动，以及它的设备和附着设备；空名称保留，空指针会停下该驱动剩余节点；[说明](docs/windows-devicetree.md) |
 | `windows.hivelist` | 从 `CmpHiveListHead` 枚举注册表 hive；保留签名、三个路径字段和链表断裂；`dump` 重建稳定 hive，缺页记入空洞日志并令任务失败 |
 | `windows.hivescan` | 在 64 位 Windows 8.1 及以后扫描 `PoolBigPageTable` 的在用 `CM10` 分配；旧式池头扫描会明确失败；[说明](docs/windows-hivescan.md) |
 | `windows.filescan` | 扫描池头中的文件对象，输出规范虚拟地址和文件名；Windows 10 扫内核层，更早的系统扫物理内存；[说明](docs/windows-filescan.md) |
@@ -142,6 +143,8 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `windows.pstree` 用活动进程的 PPID 组树。Windows 10 19041 样本有 120 个进程、8 个根，最深 5 层。PID、PPID、名称、线程、会话、WoW64、创建/退出时间、审计名、命令行、路径和父子关系与固定基线一致。24 条命令行和 1 条审计名不可用。句柄列因为没有 `HandleCount` 全部不可读。节点地址保留规范高位。真实 32 位镜像、物理偏移和时间线还没有验收。[进程树验证](docs/windows-pstree.md)
 
 `windows.joblinks` 只输出 Job 指针能解开的活动进程，再顺着 `ProcessListHead` 走 `JobLinks`。Windows 10 19041 样本有 41 个作业进程和 28 个链表进程，计数、会话、路径和父子关系与固定基线一致。没有 Job 的进程被跳过。真实 32 位镜像、物理偏移和时间线还没有验收。[作业链接验证](docs/windows-joblinks.md)
+
+`windows.devicetree` 复用驱动池扫描，但不因为三个名称都缺失而丢掉驱动。驱动、设备和附着设备分别是 `DRV`、`DEV`、`ATT`。显示用的偏移始终是驱动对象，设备自己的地址留在 `ObjectOffset`。Windows 10 19041 样本有 142 个驱动、106 个设备、33 个附着设备，最深 5 层，名称和设备类型与固定基线一致。空字符串会保留。空指针或附着驱动名读失败会停下该驱动剩下的节点，已经输出的行保留，任务仍然成功。真实 32 位镜像和时间线还没有验收。[设备树验证](docs/windows-devicetree.md)
 
 `windows.hivelist` 正向遍历内核 hive 链表，签名不符或链表断裂时改为反向补齐，并保留已经读到的 hive。名称按 `FileFullPath`、`FileUserName`、`HiveRootPath` 取第一个非空值，三个字段都保留。Windows 10 19041 样本的 24 个偏移和名称与固定基线一致；该样本的 `FileFullPath` 成员均为空，选中名称来自另外两个字段。`dump=true` 写出 base block 和稳定存储；读不到的页是带日志的零字节，任务失败，不会把空洞说成原始数据。[注册表 hive 验证](docs/windows-hivelist.md)
 

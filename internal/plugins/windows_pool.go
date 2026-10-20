@@ -101,6 +101,10 @@ func builtinPoolConstraints(tags ...string) ([]poolConstraint, error) {
 }
 
 func scanPoolObjects(ctx context.Context, e plugin.Environment, constraints []poolConstraint, hitLabel string, rowFor func(string, uint64) evidence.Row, out plugin.Emit, emit func(context.Context, poolHit) (evidence.Row, bool, error)) error {
+	return scanPoolObjectsExtra(ctx, e, constraints, hitLabel, rowFor, out, emit, nil)
+}
+
+func scanPoolObjectsExtra(ctx context.Context, e plugin.Environment, constraints []poolConstraint, hitLabel string, rowFor func(string, uint64) evidence.Row, out plugin.Emit, emit func(context.Context, poolHit) (evidence.Row, bool, error), extra map[string]string) error {
 	if e.Objects == nil || e.Symbols == nil || e.Kernel == nil || e.Physical == nil {
 		return fmt.Errorf("pool scan needs kernel symbols, a kernel layer and physical memory")
 	}
@@ -218,7 +222,7 @@ func scanPoolObjects(ctx context.Context, e plugin.Environment, constraints []po
 	}
 	summary := rowFor(scanLayer.Name(), 0)
 	summary.Cells["RecordType"] = evidence.Text("summary")
-	summary.Cells["Coverage"] = poolCoverage(map[string]string{
+	coverage := map[string]string{
 		"ranges":           formatCount(uint64(len(ranges))),
 		"scanned_bytes":    formatCount(scanned),
 		hitLabel:           formatCount(hits),
@@ -231,7 +235,11 @@ func scanPoolObjects(ctx context.Context, e plugin.Environment, constraints []po
 		"top_down":         yesNo(layout.topDown),
 		"vista_pool":       yesNo(layout.vista),
 		"layer":            scanLayer.Name(),
-	})
+	}
+	for key, value := range extra {
+		coverage[key] = value
+	}
+	summary.Cells["Coverage"] = poolCoverage(coverage)
 	cause := failures.err("Windows pool scan")
 	if cause != nil {
 		summary.Cells["Error"] = evidence.Missing("pool_scan_incomplete", cause)

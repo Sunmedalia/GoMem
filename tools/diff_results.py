@@ -99,9 +99,21 @@ def compare(native_path, reference_path, mapping_path):
                 raise ValueError("unexpected native record type")
         native = selected
 
-    def field_values(row, native):
+    def field_values(row, native, depth=0):
         result = {}
         for name, field in fields.items():
+            if field.get("kind") == "tree_depth":
+                if "native" not in field:
+                    raise ValueError("tree depth needs a native column")
+                if native:
+                    source = row["cells"]
+                    key = field["native"]
+                    if key not in source:
+                        raise ValueError(f"missing mapped column {key}")
+                    result[name] = normalized(source[key], "uint64")
+                else:
+                    result[name] = str(depth)
+                continue
             source = row["cells"] if native else row
             key = field["native" if native else "reference"]
             if key not in source:
@@ -111,8 +123,8 @@ def compare(native_path, reference_path, mapping_path):
 
     native_ids = {row["id"]: row for row in native if row.get("id")}
 
-    def record(row, native, parent=None):
-        result = field_values(row, native)
+    def record(row, native, parent=None, depth=0):
+        result = field_values(row, native, depth)
         if native and row.get("parent_id"):
             if "tree_key" not in mapping:
                 raise ValueError("hierarchical output requires an explicit tree_key profile")
@@ -122,16 +134,16 @@ def compare(native_path, reference_path, mapping_path):
         result["parent"] = parent
         return json.dumps(result, sort_keys=True)
 
-    def walk(rows, parent=None):
+    def walk(rows, parent=None, depth=0):
         for row in rows:
-            yield record(row, False, parent)
+            yield record(row, False, parent, depth)
             children = row.get("__children", [])
             if not isinstance(children, list):
                 raise ValueError("invalid reference child list")
             # Parent keys are explicit in the profile, never silently discarded.
             if children and "tree_key" not in mapping:
                 raise ValueError("hierarchical output requires an explicit tree_key profile")
-            yield from walk(children, field_values(row, False)[mapping["tree_key"]] if children else None)
+            yield from walk(children, field_values(row, False, depth)[mapping["tree_key"]] if children else None, depth + 1)
 
     a = collections.Counter(record(r, True) for r in native)
     b = collections.Counter(walk(reference))

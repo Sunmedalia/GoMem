@@ -182,6 +182,23 @@ class DifferentialTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "parent evidence"):
                 compare(native, reference, mapping)
 
+    def test_tree_depth_distinguishes_shared_offsets(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = pathlib.Path(temp)
+            native, reference, mapping = [directory / name for name in ("native.jsonl", "reference.json", "mapping.json")]
+            profile = {"tree_key": "Offset", "fields": {
+                "Offset": {"native": "Offset", "reference": "Offset", "kind": "address"},
+                "Depth": {"native": "Depth", "kind": "tree_depth"}}}
+            mapping.write_text(json.dumps(profile))
+            parent = {"id": "parent", "cells": {"Offset": {"kind": "address", "value": "0x1000"}, "Depth": {"kind": "uint64", "value": "0"}}}
+            child = {"id": "child", "parent_id": "parent", "cells": {"Offset": {"kind": "address", "value": "0x1000"}, "Depth": {"kind": "uint64", "value": "1"}}}
+            native.write_text(json.dumps(parent) + "\n" + json.dumps(child) + "\n")
+            reference.write_text(json.dumps([{"Offset": 4096, "__children": [{"Offset": 4096, "__children": []}]}]))
+            self.assertTrue(compare(native, reference, mapping)["matched"])
+            child["cells"]["Depth"]["value"] = "2"
+            native.write_text(json.dumps(parent) + "\n" + json.dumps(child) + "\n")
+            self.assertFalse(compare(native, reference, mapping)["matched"])
+
     def test_missing_cells_are_not_zeroes(self):
         with tempfile.TemporaryDirectory() as temp:
             directory = pathlib.Path(temp)
