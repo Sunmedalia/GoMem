@@ -187,6 +187,12 @@ func linuxFilePathWithDynamic(ctx context.Context, e plugin.Environment, task, f
 	if err != nil {
 		return nil, err
 	}
+	return linuxPathAtRoot(ctx, e, rootDentry, rootMount, dentry, mount, scope, dynamic)
+}
+
+// Reconstruct a filesystem location relative to a verified task root. The last
+// argument preserves files-only's deliberately scoped disconnected labels.
+func linuxPathAtRoot(ctx context.Context, e plugin.Environment, rootDentry, rootMount, dentry, mount uint64, scope *string, dynamic bool) ([]byte, error) {
 	seen := map[[2]uint64]bool{}
 	var components [][]byte
 	for depth := 0; depth < 256; depth++ {

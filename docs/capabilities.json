@@ -2481,15 +2481,24 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Task mount namespaces through legacy/modern list or rb_root, superblock roots and list/hlist cached dentries. First superblock mount scope is explicit; hardlink aliases, negative-entry counts, raw paths and exact inode clocks are retained. Type and first exact raw-path filters do not prune directory descent.",
+      "native": "linux.files",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-filesystem-list-union-hlist-and-rb-layouts",
+        "synthetic-linux-hardlinks-fast-symlinks-and-corruption",
+        "official-linux-sample-1",
+        "official-linux-sample-1-reencoded-avml"
+      ],
+      "comparison": "selected_9434_inodes_nine_fields_match_28302_timestamps_and_full_RAW_filesystem_census_verified_seven_path_display_differences",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Real modern/32-bit namespace and dentry layouts remain unaccepted; the real census is one legacy x64 acquisition",
+        "Cached superblock trees at a representative first mount do not prove namespace visibility, disk completeness or all mount aliases",
+        "Raw paths exclude deleted-display markers; fast i_link targets are annotations only and find matches the undecorated path",
+        "RecoverFs filesystem export, full mountinfo rendering, timeline integration and complete parameter/version/failure matrix are pending"
+      ],
+      "validation_record": "docs/linux-files.md"
     },
     {
       "id": "linux.pagecache.InodePages",
@@ -2538,7 +2547,7 @@
           "optional": true
         }
       ],
-      "applicability": "Explicit regular inode address, typed legacy radix or XArray root. Page/index/mapping ownership, fixed/dynamic x64 vmemmap or flatmem PFNs, bounded sparse recovery with logical and physical gaps.",
+      "applicability": "Explicit regular inode address or first raw-path lookup through mounted superblock trees, typed legacy radix or XArray root. Page/index/mapping ownership, fixed/dynamic x64 vmemmap or flatmem PFNs, bounded sparse recovery with logical and physical gaps.",
       "native": "linux.inodepages",
       "status": "partial",
       "accepted": false,
@@ -2548,9 +2557,9 @@
         "official-linux-sample-1",
         "official-linux-sample-1-reencoded-avml"
       ],
-      "comparison": "selected_four_inodes_nine_pages_six_fields_and_46838_export_bytes_match_independent_RAW_verification",
+      "comparison": "selected_four_inodes_nine_pages_six_fields_and_46838_export_bytes_match_RAW_verification_plus_regular_syslog_path_lookup",
       "gaps": [
-        "find path lookup, full filesystem enumeration/RecoverFs and timeline are pending",
+        "RecoverFs filesystem export, full mount alias visibility and timeline are pending; path lookup uses the explicitly scoped native Files traversal",
         "Real modern XArray, dynamic vmemmap, flatmem/32-bit and full parameter/version matrix remain unaccepted; selected real data is one legacy x64 acquisition",
         "Large folios, sibling/internal XArray entries, NUMA/32-bit sparsemem and five-level paging have explicit unsupported errors; exceptional values remain evidence without payload decoding",
         "Uncached logical bytes and unreadable physical bytes are padded with gap provenance; raw i_size is preserved even when no pages are captured"

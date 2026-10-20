@@ -1,0 +1,402 @@
+{
+  "schema": "gomem.linux-files-validation/v1",
+  "date": "2026-10-20",
+  "scope": "One legacy Debian x64 acquisition, plus AVML reencoding consistency. Modern/32-bit layouts have synthetic tests only; cached superblock paths do not imply namespace visibility or disk completeness.",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "engine_build_sha256": "4e8a583dbfac1be13794916de94e3b3c1d25436abb6ce84f746426324694a15d",
+  "results": [
+    {
+      "profile": "default",
+      "plugin": "linux.files",
+      "parameters": [],
+      "state": "completed",
+      "rows": 9435,
+      "rows_sha256": "a7d41b829e2f1cd4ebf33f6c04e63f6c6d1e1c393d1282df470701871c6e2f78",
+      "record_types": {
+        "file": 9434,
+        "summary": 1
+      },
+      "selected_field_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "SuperblockAddr",
+          "Device",
+          "InodeNum",
+          "InodeAddr",
+          "FileType",
+          "InodePages",
+          "CachedPages",
+          "FileMode",
+          "InodeSize"
+        ],
+        "native_rows": 9434,
+        "reference_rows": 9434,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "a7d41b829e2f1cd4ebf33f6c04e63f6c6d1e1c393d1282df470701871c6e2f78",
+          "reference": "b446dc789f41d8bc926fab015a3862046bff4295c6089b014bd90119d967bdb7",
+          "mapping": "239fd81a9f2f96c9a90b8fd9c1880227e3c1f2f3b5099837d02033ee76470c68"
+        },
+        "native_input_rows": 9435,
+        "native_non_entity_records": {
+          "summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "file",
+          "excluded_values": [
+            "summary",
+            "alias",
+            "diagnostic"
+          ]
+        }
+      },
+      "reference_manifest_sha256": "137996afb8acd07d07927ceaebadd8eb9443373519d381774788786850d98582",
+      "independent_RAW_oracle": {
+        "verified": true,
+        "scope": "Selected legacy RAW/x64 list namespaces and dentry trees only",
+        "counts": {
+          "superblocks": 11,
+          "mount_records": 13,
+          "dentry_visits": 11619,
+          "negative_dentries": 2185,
+          "unique_inodes": 9434,
+          "aliases": 0
+        },
+        "namespaces": 2,
+        "exact_timestamps": 28302,
+        "deleted_attachment_path_entities": 7,
+        "type_counts": {
+          "DIR": 1495,
+          "REG": 5375,
+          "LNK": 2351,
+          "CHR": 148,
+          "SOCK": 47,
+          "FIFO": 4,
+          "BLK": 14
+        },
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+        "engine_build_sha256": "4e8a583dbfac1be13794916de94e3b3c1d25436abb6ce84f746426324694a15d"
+      },
+      "path_display_differences": 7,
+      "reference_timestamp_displays_reproduced": 28302,
+      "nonpositive_timestamps_preserved": 0,
+      "raw_nanosecond_vs_reference_microsecond_displays": {
+        "AccessTime": 1549,
+        "ModificationTime": 2393,
+        "ChangeTime": 3921
+      },
+      "cache_reuse": true
+    },
+    {
+      "profile": "avml",
+      "plugin": "linux.files",
+      "parameters": [],
+      "state": "completed",
+      "rows": 9435,
+      "rows_sha256": "9677927495692856e719124d39dd2d0c89b841bf8d82cc6fbf1c0a9e5b032db3",
+      "record_types": {
+        "file": 9434,
+        "summary": 1
+      },
+      "RAW_AVML_all_cell_consistency": true,
+      "cache_reuse": true
+    },
+    {
+      "profile": "files-find",
+      "plugin": "linux.files",
+      "parameters": [
+        "type=REG",
+        "find=/var/log/syslog"
+      ],
+      "state": "completed",
+      "rows": 2,
+      "rows_sha256": "ab492b0985facaf848bb94be9b5b3ec2e8fb792164e9106e780e2a808cdf00ac",
+      "record_types": {
+        "file": 1,
+        "summary": 1
+      },
+      "selected_field_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "SuperblockAddr",
+          "Device",
+          "InodeNum",
+          "InodeAddr",
+          "FileType",
+          "InodePages",
+          "CachedPages",
+          "FileMode",
+          "InodeSize"
+        ],
+        "native_rows": 1,
+        "reference_rows": 1,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "ab492b0985facaf848bb94be9b5b3ec2e8fb792164e9106e780e2a808cdf00ac",
+          "reference": "02cca045940fc9604966f9abd8b169932fc28aea675667e133dd5d68b9d3a44a",
+          "mapping": "239fd81a9f2f96c9a90b8fd9c1880227e3c1f2f3b5099837d02033ee76470c68"
+        },
+        "native_input_rows": 2,
+        "native_non_entity_records": {
+          "summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "file",
+          "excluded_values": [
+            "summary",
+            "alias",
+            "diagnostic"
+          ]
+        }
+      },
+      "reference_manifest_sha256": "11c450761ddb11f33e9be39959b7b6ee2288e689c89d52a60d4f1b77b41246de",
+      "lookup_coverage": {
+        "aliases": "0",
+        "dentry_visits": "6194",
+        "mount_records": "7",
+        "negative_dentries": "202",
+        "search_found": true,
+        "search_stopped_after_first_match": true,
+        "superblocks": "7",
+        "traversal_complete": false,
+        "unique_inodes": "5992"
+      },
+      "cache_reuse": true
+    },
+    {
+      "profile": "files-missing",
+      "plugin": "linux.files",
+      "parameters": [
+        "find=/gomem-does-not-exist"
+      ],
+      "state": "completed",
+      "rows": 1,
+      "rows_sha256": "bcf190ce06e521ba9df6d1127ecd3c41cb63ff31cad0a88d87da5ac85e8a8163",
+      "record_types": {
+        "summary": 1
+      },
+      "lookup_coverage": {
+        "aliases": "0",
+        "dentry_visits": "11619",
+        "mount_records": "13",
+        "negative_dentries": "2185",
+        "search_found": false,
+        "search_stopped_after_first_match": false,
+        "superblocks": "11",
+        "traversal_complete": true,
+        "unique_inodes": "9434"
+      },
+      "cache_reuse": true
+    },
+    {
+      "profile": "inode-find",
+      "plugin": "linux.inodepages",
+      "parameters": [
+        "find=/var/log/syslog",
+        "dump=true"
+      ],
+      "state": "completed",
+      "rows": 4,
+      "rows_sha256": "12d621bd6eedd25c4a132437caf77c878d6293ad26a41336a87447e89af8d814",
+      "record_types": {
+        "page": 3,
+        "summary": 1
+      },
+      "selected_field_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PageVAddr",
+          "PagePAddr",
+          "MappingAddr",
+          "Index",
+          "DumpSafe",
+          "Flags"
+        ],
+        "native_rows": 3,
+        "reference_rows": 3,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "12d621bd6eedd25c4a132437caf77c878d6293ad26a41336a87447e89af8d814",
+          "reference": "2217f3c4296d143b34fee6dab76bada869b7b4b03f1a510edac46928f7e29aa8",
+          "mapping": "6327bb83f7ceeabc8ec6c22c5183dbd81ccd3251e04f66185958f0cb329c4787"
+        },
+        "native_input_rows": 4,
+        "native_non_entity_records": {
+          "summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "page",
+          "excluded_values": [
+            "summary",
+            "value",
+            "exceptional",
+            "sibling",
+            "internal_value"
+          ]
+        }
+      },
+      "reference_manifest_sha256": "273adc19ac858e473baaf1e362de40e1eedf784fe3d1e9fc996243dadd40b7db",
+      "extraction_comparison": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--find",
+          "/var/log/syslog",
+          "--dump"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "explicit_file_name_mapping": {
+          "inode_0xffff88001a87e518.dmp": "inode_0x88001a87e518.dmp"
+        },
+        "matched": true,
+        "files": [
+          {
+            "name": "inode_0xffff88001a87e518.dmp",
+            "reference_name": "inode_0x88001a87e518.dmp",
+            "size": "30143",
+            "reference_size": "30143",
+            "native_sha256": "39301d85a3087a5f5736512ccbfe986c606976280e52487594b93f93d949cd8f",
+            "reference_sha256": "39301d85a3087a5f5736512ccbfe986c606976280e52487594b93f93d949cd8f",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "20480",
+            "gap_count": "1",
+            "gaps_sha256": "bacde0d157588123de0989b0c769a3ef4d12ee9206567d10a9798b43144dc90e",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "4e8a583dbfac1be13794916de94e3b3c1d25436abb6ce84f746426324694a15d",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "file-cache:inode:0xffff88001a87e518",
+            "offset": "0x0"
+          }
+        ],
+        "native_rows_sha256": "5e6bc426a100d8f1e7869d2a3f05b5642e5d1bad6e6697952e9c0595f327b968",
+        "reference_manifest_sha256": "273adc19ac858e473baaf1e362de40e1eedf784fe3d1e9fc996243dadd40b7db"
+      },
+      "cache_reuse": true
+    },
+    {
+      "profile": "inode-missing",
+      "plugin": "linux.inodepages",
+      "parameters": [
+        "find=/gomem-does-not-exist",
+        "dump=true"
+      ],
+      "state": "failed",
+      "rows": 1,
+      "rows_sha256": "be174a19d628aa23359ee05b0a23a8f29b96f06b7ffefef77e1ca67fd5bb39be",
+      "record_types": {
+        "lookup_diagnostic": 1
+      },
+      "absence_reported_as_lookup_failure": true,
+      "failed_step_not_reused": true
+    }
+  ],
+  "bundle_validation": [
+    {
+      "profile": "default",
+      "sha256": "d6332129bb6207bd3a0215aa6888dd24297b842f0a25bcc19903af0f8ef80a0a",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      }
+    },
+    {
+      "profile": "avml",
+      "sha256": "26be9551d2530c5acc4587ce6d7de40ba9ff60f1dbb94314e082ddd0d681f44d",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      }
+    },
+    {
+      "profile": "files-find",
+      "sha256": "3d7b7ac6e3ae4db92b8bb4cc594a50c9b7ebe01b69acdf4574e59d0b70dd8a19",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      }
+    },
+    {
+      "profile": "files-missing",
+      "sha256": "c6779943e68e1f5691110bca41c68b38996e8c4f1f853391f47df33a3aab3280",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      }
+    },
+    {
+      "profile": "inode-find",
+      "sha256": "718c6dfd74b8252e6627d1a0ca1e78f4450ff233c54f96430ff8f5f492fa577c",
+      "report": {
+        "tasks": 1,
+        "members": 5,
+        "verified": true,
+        "artifacts": 1,
+        "included_artifacts": 1,
+        "partial_artifacts": 0
+      }
+    },
+    {
+      "profile": "inode-missing",
+      "sha256": "9f7d7b4bd6d41ee0173da42a480d07b62277d134cf45a983058ce4e1a5a0d505",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      }
+    }
+  ],
+  "original_images_sha256": {
+    "images/kali.raw": "cf04d76ab9177d7ee355cc96020d29ae194c065c692304ff25e594ab510c639d",
+    "images/linux-sample-1.bin.gz": "910f272e5eeecdbf229e648d7b136a6722a11a5000f3995647364339417dfddd"
+  },
+  "original_images_reverified_before_and_after": true,
+  "local_image_smoke": [
+    {
+      "file": "kali.raw",
+      "plugin": "generic.info",
+      "rows": 130,
+      "state": "completed",
+      "engine_build_sha256": "4e8a583dbfac1be13794916de94e3b3c1d25436abb6ce84f746426324694a15d",
+      "source_hash_reverified": true
+    },
+    {
+      "file": "kali.raw",
+      "plugin": "banners",
+      "rows": 4,
+      "state": "completed",
+      "engine_build_sha256": "4e8a583dbfac1be13794916de94e3b3c1d25436abb6ce84f746426324694a15d",
+      "source_hash_reverified": true
+    },
+    {
+      "file": "linux-sample-1.bin.gz",
+      "plugin": "linux.pslist",
+      "rows": 133,
+      "state": "completed",
+      "engine_build_sha256": "4e8a583dbfac1be13794916de94e3b3c1d25436abb6ce84f746426324694a15d",
+      "source_hash_reverified": true
+    }
+  ],
+  "fuzz": {
+    "target": "FuzzLinuxIntrusiveTrees",
+    "duration": "10s",
+    "executions": 2327945
+  }
+}

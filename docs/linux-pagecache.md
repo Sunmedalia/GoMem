@@ -1,6 +1,6 @@
 # Linux 页缓存与 inode 文件恢复（开发预览）
 
-`linux.inodepages` 对应固定基线的 `linux.pagecache.InodePages` 显式 inode 路径。完整能力尚未验收，`find` 路径查找、`Files` 文件系统枚举及 `RecoverFs` 仍未实现。
+`linux.inodepages` 对应固定基线的 `linux.pagecache.InodePages` 显式 inode 及 find 路径。find 使用 [linux.files](linux-files.md) 的挂载超级块缓存树定位正规文件，inode 与 find 二选一；InodeLookup 保存来源和查找覆盖。完整能力尚未验收，`RecoverFs` 仍未实现。
 
 ```sh
 bin/gomem analyze linux.inodepages --image memory.raw --symbols exact.json.xz \
@@ -8,7 +8,7 @@ bin/gomem analyze linux.inodepages --image memory.raw --symbols exact.json.xz \
   --param inode=0xffff88001a87e518 --param dump=true
 ```
 
-只接受非零 inode 地址、非负引用计数、正规文件类型和非负 i_size。内嵌 address_space.page_tree/i_pages 使用声明的 radix_tree_root/xarray 类型；节点宽度来自 slots 指针数组，支持旧 height、path 和新 shift。检查根/子节点高度、指针对齐、重复节点、索引溢出和遍历上限；读失败保留已验证的前缀并报告失败。max-nodes/max-pages 均为 1..1,000,000，默认分别为 131,072/1,000,000，后者限制所有非零叶条目。
+显式地址或查找得到的 inode 只接受非零地址、非负引用计数、正规文件类型和非负 i_size。内嵌 address_space.page_tree/i_pages 使用声明的 radix_tree_root/xarray 类型；节点宽度来自 slots 指针数组，支持旧 height、path 和新 shift。检查根/子节点高度、指针对齐、重复节点、索引溢出和遍历上限；读失败保留已验证的前缀并报告失败。max-nodes/max-pages 均为 1..1,000,000，默认分别为 131,072/1,000,000，后者限制所有非零叶条目。
 
 PageVAddr、PagePAddr、MappingAddr、Index、DumpSafe 和 Flags 提供可对照字段；TreeIndex、TreeValue、Slot、Span 保留树中原始来源。page.index 必须与树索引一致，page.mapping 必须与目标 inode.i_mapping 完全一致。原始 FlagsRaw 独立保存，Flags 按 pageflags 位索引和字典序展示，不把未知位移除出原始值。节点/字段读取错误使任务 failed；读取错误不能当成正常空树。
 

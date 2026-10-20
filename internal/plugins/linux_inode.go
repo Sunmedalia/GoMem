@@ -131,6 +131,16 @@ func linuxInodeMetadata(ctx context.Context, e plugin.Environment, file, dentry 
 		}
 		return cells, nil
 	}
+	metadata, err := linuxReadInodeMetadata(ctx, e, inode, source)
+	return metadata, errors.Join(failures.err("inode pointer"), err)
+}
+
+func linuxReadInodeMetadata(ctx context.Context, e plugin.Environment, inode uint64, source string) (map[string]evidence.Value, error) {
+	cells := map[string]evidence.Value{}
+	for _, key := range []string{"InodeOffset", "InodeSource", "Inode", "Type", "Mode", "ModeRaw", "Size", "Device", "Major", "Minor", "Superblock", "Nlink", "Deleted", "Changed", "ChangedRaw", "Modified", "ModifiedRaw", "Accessed", "AccessedRaw"} {
+		cells[key] = evidence.Missing("inode_not_set", nil)
+	}
+	var failures pluginFailures
 	cells["InodeOffset"], cells["InodeSource"] = evidence.Address(inode), evidence.Text(source)
 	u := func(key, typ, field string, address bool, base uint64) {
 		value, err := e.Objects.Uint(ctx, base, typ, field)

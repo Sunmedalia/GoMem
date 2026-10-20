@@ -1,0 +1,60 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "file",
+    "excluded_values": [
+      "summary",
+      "alias",
+      "diagnostic"
+    ]
+  },
+  "fields": {
+    "SuperblockAddr": {
+      "native": "SuperblockAddr",
+      "reference": "SuperblockAddr",
+      "kind": "address",
+      "mask": "0x0000ffffffffffff"
+    },
+    "Device": {
+      "native": "Device",
+      "reference": "Device",
+      "kind": "string"
+    },
+    "InodeNum": {
+      "native": "InodeNum",
+      "reference": "InodeNum",
+      "kind": "uint64"
+    },
+    "InodeAddr": {
+      "native": "InodeAddr",
+      "reference": "InodeAddr",
+      "kind": "address",
+      "mask": "0x0000ffffffffffff"
+    },
+    "FileType": {
+      "native": "FileType",
+      "reference": "FileType",
+      "kind": "string"
+    },
+    "InodePages": {
+      "native": "InodePages",
+      "reference": "InodePages",
+      "kind": "uint64"
+    },
+    "CachedPages": {
+      "native": "CachedPages",
+      "reference": "CachedPages",
+      "kind": "uint64"
+    },
+    "FileMode": {
+      "native": "FileMode",
+      "reference": "FileMode",
+      "kind": "string"
+    },
+    "InodeSize": {
+      "native": "InodeSize",
+      "reference": "InodeSize",
+      "kind": "int64"
+    }
+  }
+}

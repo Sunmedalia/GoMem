@@ -21,16 +21,20 @@ func linuxPageCachePlugins() []builtin {
 		{"address", "PageVAddr PagePAddr MappingAddr InodeOffset TreeValue Slot"},
 		{"uint64", "Index TreeIndex Span FlagsRaw Size CachedPages TreeNodes TreeEntries"},
 		{"bool", "DumpSafe Captured"}, {"string", "Flags RecordType TreeKind"},
-		{"structure", "MemoryModel"}, {"artifact", "FileOutput"}, {"string", "Error"},
+		{"structure", "MemoryModel InodeLookup"}, {"artifact", "FileOutput"}, {"string", "Error"},
 	} {
 		for _, name := range strings.Fields(group.names) {
 			columns = append(columns, evidence.Column{Name: name, Kind: group.kind})
 		}
 	}
 	return []builtin{{plugin.Spec{Name: "linux.inodepages", Upstream: "linux.pagecache.InodePages", Platform: "linux", NeedsKernel: true,
-		Description: "Enumerate an explicit inode's radix/XArray cache with page ownership and auditable sparse recovery",
+		Description: "Locate regular files or explicit inodes and recover their radix/XArray cache with auditable sparse artifacts",
 		Parameters: []plugin.Parameter{
-			{Name: "inode", Kind: "uint", Default: "0", Description: "Required kernel virtual inode address (regular files only)"},
+			{Name: "inode", Kind: "uint", Default: "0", Description: "Explicit regular inode address; mutually exclusive with find"},
+			{Name: "find", Kind: "string", Description: "First exact regular-file path in captured mounted superblock trees; mutually exclusive with inode"},
+			{Name: "max-mounts", Kind: "uint", Default: "1000000", Description: "Path lookup mount bound, 1..1000000"},
+			{Name: "max-dentries", Kind: "uint", Default: "1000000", Description: "Path lookup dentry visit bound, 1..1000000"},
+			{Name: "max-depth", Kind: "uint", Default: "256", Description: "Path lookup directory depth, 1..1024"},
 			{Name: "dump", Kind: "bool", Default: "false", Description: "Recover cached file bytes into the case, recording uncached and unreadable ranges"},
 			{Name: "maxsize", Kind: "uint", Default: "1073741824", Description: "Maximum recovered file length, 0..4294967295"},
 			{Name: "max-nodes", Kind: "uint", Default: "131072", Description: "Maximum tree nodes, 1..1000000"},
@@ -145,9 +149,10 @@ type linuxCachedPage struct{ index, physical uint64 }
 
 func linuxInodePages(ctx context.Context, e plugin.Environment, p map[string]string, out plugin.Emit) error {
 	inode, err := strconv.ParseUint(p["inode"], 0, 64)
-	if err != nil || inode == 0 {
-		return fmt.Errorf("inode must be a nonzero kernel virtual address")
+	if err != nil || (inode == 0) == (p["find"] == "") {
+		return fmt.Errorf("exactly one of a nonzero inode address or find path is required")
 	}
+
 	dump, maxSize, err := extractionOptions(p)
 	if err != nil || maxSize > 4294967295 {
 		return fmt.Errorf("invalid dump/maxsize parameters")
@@ -156,6 +161,25 @@ func linuxInodePages(ctx context.Context, e plugin.Environment, p map[string]str
 	maxPages, er2 := strconv.ParseUint(p["max-pages"], 0, 64)
 	if er1 != nil || er2 != nil || maxNodes == 0 || maxPages == 0 || maxNodes > 1000000 || maxPages > 1000000 {
 		return fmt.Errorf("tree bounds must be 1..1000000")
+	}
+	lookup := evidence.Missing("not_requested", nil)
+	if p["find"] != "" {
+		inode, lookup, err = linuxResolveCachedFile(ctx, e, p)
+		if err != nil {
+			if ctx.Err() != nil {
+				return ctx.Err()
+			}
+			cells := map[string]evidence.Value{}
+			for _, column := range linuxPageCachePlugins()[0].spec.Columns {
+				cells[column.Name] = evidence.Missing("not_reached", nil)
+			}
+			cells["RecordType"], cells["InodeLookup"], cells["Error"] = evidence.Text("lookup_diagnostic"), lookup, evidence.Missing("inode_lookup_incomplete", err)
+			row := evidence.Row{Cells: cells, Provenance: evidence.Provenance{Layer: e.Kernel.Name()}}
+			if emitErr := out(row); emitErr != nil {
+				return emitErr
+			}
+			return err
+		}
 	}
 	ino, err := e.Objects.Uint(ctx, inode, "inode", "i_ino")
 	if err != nil {
@@ -211,6 +235,7 @@ func linuxInodePages(ctx context.Context, e plugin.Environment, p map[string]str
 			cells[col.Name] = evidence.Missing("not_applicable", nil)
 		}
 		cells["RecordType"], cells["InodeOffset"], cells["Size"], cells["CachedPages"], cells["MappingAddr"], cells["MemoryModel"] = evidence.Text(kind), evidence.Address(inode), evidence.Number(size), evidence.Number(nrPages), evidence.Address(mapping), model.value()
+		cells["InodeLookup"] = lookup
 		return evidence.Row{Cells: cells, Provenance: evidence.Provenance{Layer: e.Kernel.Name(), Offset: fmt.Sprintf("0x%x", inode)}}
 	}
 	pages := []linuxCachedPage{}

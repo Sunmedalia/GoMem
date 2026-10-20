@@ -212,5 +212,36 @@
     ],
     "pagecache_validation": "docs/linux-pagecache-validation.json",
     "original_images_reverified": true
+  },
+  "repeat_linux_files_2026_10_20": {
+    "engine_build_sha256": "4e8a583dbfac1be13794916de94e3b3c1d25436abb6ce84f746426324694a15d",
+    "tests": [
+      {
+        "file": "kali.raw",
+        "plugin": "generic.info",
+        "rows": 130,
+        "state": "completed",
+        "engine_build_sha256": "4e8a583dbfac1be13794916de94e3b3c1d25436abb6ce84f746426324694a15d",
+        "source_hash_reverified": true
+      },
+      {
+        "file": "kali.raw",
+        "plugin": "banners",
+        "rows": 4,
+        "state": "completed",
+        "engine_build_sha256": "4e8a583dbfac1be13794916de94e3b3c1d25436abb6ce84f746426324694a15d",
+        "source_hash_reverified": true
+      },
+      {
+        "file": "linux-sample-1.bin.gz",
+        "plugin": "linux.pslist",
+        "rows": 133,
+        "state": "completed",
+        "engine_build_sha256": "4e8a583dbfac1be13794916de94e3b3c1d25436abb6ce84f746426324694a15d",
+        "source_hash_reverified": true
+      }
+    ],
+    "filesystem_validation": "docs/linux-files-validation.json",
+    "original_images_reverified": true
   }
 }
