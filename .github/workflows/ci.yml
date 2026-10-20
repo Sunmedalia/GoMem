@@ -40,6 +40,7 @@ jobs:
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxVMAMetadata -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsCommandLineUTF16 -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxArgumentDisplay -fuzztime 5s
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxClockArithmetic -fuzztime 5s
       - run: go test ./internal/engine -run '^$' -fuzz FuzzMappedPE -fuzztime 5s
       - run: go test ./pkg/symbols -run '^$' -fuzz FuzzISF -fuzztime 5s
       - run: go test ./pkg/symbols -run '^$' -fuzz FuzzDWARF -fuzztime 5s

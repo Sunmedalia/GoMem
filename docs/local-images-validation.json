@@ -78,7 +78,7 @@
       "plugin": "generic.info",
       "rows": 130,
       "state": "completed",
-      "engine_build_sha256": "c7b210aeb70247f5245caf49d8fe13b7427ba0233cb66ab7123652291ad0be7f",
+      "engine_build_sha256": "6536c7e432a40925ec8d99ce39480c58667bed0f34830c2db45b2047abea1558",
       "source_hash_reverified": true
     },
     {
@@ -86,7 +86,7 @@
       "plugin": "linux.pslist",
       "rows": 133,
       "state": "completed",
-      "engine_build_sha256": "c7b210aeb70247f5245caf49d8fe13b7427ba0233cb66ab7123652291ad0be7f",
+      "engine_build_sha256": "6536c7e432a40925ec8d99ce39480c58667bed0f34830c2db45b2047abea1558",
       "source_hash_reverified": true
     }
   ]

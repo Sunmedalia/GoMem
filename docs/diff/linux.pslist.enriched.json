@@ -1,0 +1,15 @@
+{
+  "native_record_type": {"field": "RecordType", "values": ["task", "thread"], "excluded_values": ["diagnostic"]},
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "OFFSET (V)", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "TID": {"native": "TID", "reference": "TID", "kind": "uint64"},
+    "PPID": {"native": "PPID", "reference": "PPID", "kind": "uint64"},
+    "Name": {"native": "Name", "reference": "COMM", "kind": "string"},
+    "UID": {"native": "UID", "reference": "UID", "kind": "uint64", "missing_reasons": ["credential_not_set"]},
+    "GID": {"native": "GID", "reference": "GID", "kind": "uint64", "missing_reasons": ["credential_not_set"]},
+    "EUID": {"native": "EUID", "reference": "EUID", "kind": "uint64", "missing_reasons": ["credential_not_set"]},
+    "EGID": {"native": "EGID", "reference": "EGID", "kind": "uint64", "missing_reasons": ["credential_not_set"]},
+    "Created": {"native": "Created", "reference": "CREATION TIME", "kind": "timestamp_microseconds_rounded"}
+  }
+}

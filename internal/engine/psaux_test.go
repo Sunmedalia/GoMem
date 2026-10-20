@@ -51,7 +51,10 @@ func psauxFixture(t *testing.T, scenario string) testfixture.Fixture {
 		put(0xe030, 0x21c000)
 		put(0xe038, 0x21c000+uint64(len("/sbin/init\x00--test\x00")))
 	case "parent-tgid":
-		binary.LittleEndian.PutUint32(data[0xa014:], 77)
+		// A parent thread has a TID distinct from its thread-group PID.
+		put(0xb028, 0x1a400)
+		binary.LittleEndian.PutUint32(data[0x1a410:], 123)
+		binary.LittleEndian.PutUint32(data[0x1a414:], 77)
 	case "mixed-mm":
 		put(0xa038, 0x300000)
 	case "large-vector":

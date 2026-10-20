@@ -10,6 +10,7 @@ import hashlib
 import json
 import pathlib
 import datetime
+import re
 
 
 def load_rows(path, native):
@@ -43,6 +44,18 @@ def normalized(value, kind, mask=None, missing_reasons=()):
         if stamp.tzinfo is None:
             raise ValueError("timestamp comparison requires an explicit timezone")
         return stamp.astimezone(datetime.timezone.utc).replace(microsecond=0).isoformat()
+    if kind == "timestamp_microseconds_rounded":
+        # Go retains nanoseconds; Python datetime displays microseconds. This
+        # profile explicitly rounds ties to even without a floating-point epoch.
+        match = re.fullmatch(r"(\d{4}-\d{2}-\d{2}[Tt ]\d{2}:\d{2}:\d{2})(?:\.(\d{1,9}))?(Z|[+-]\d{2}:\d{2})", value)
+        if match is None:
+            raise ValueError("microsecond timestamp comparison requires an explicit timezone and at most 9 fractional digits")
+        base = datetime.datetime.fromisoformat(match[1] + match[3])
+        nanos = int((match[2] or "").ljust(9, "0"))
+        micros, remainder = divmod(nanos, 1000)
+        if remainder > 500 or remainder == 500 and micros % 2:
+            micros += 1
+        return (base + datetime.timedelta(microseconds=micros)).astimezone(datetime.timezone.utc).isoformat(timespec="microseconds")
     if kind == "linux_path_display" and isinstance(value, str):
         # The pinned Linux path renderer prefixes deleted absolute paths with
         # one display space. Preserve spaces inside filenames and unmarked paths.
@@ -64,12 +77,17 @@ def compare(native_path, reference_path, mapping_path):
     excluded = collections.Counter()
     if "native_record_type" in mapping:
         selector = mapping["native_record_type"]
+        if "value" in selector and "values" in selector:
+            raise ValueError("record-type selector cannot contain both value and values")
+        values = selector.get("values", [selector.get("value")])
+        if not isinstance(values, list) or not values or any(not isinstance(v, str) for v in values) or len(values) != len(set(values)) or set(values) & set(selector["excluded_values"]):
+            raise ValueError("invalid record-type selection values")
         selected = []
         for row in native:
             cell = row["cells"][selector["field"]]
             if cell["kind"] != "string":
                 raise ValueError("invalid native record-type selector")
-            if cell["value"] == selector["value"]:
+            if cell["value"] in values:
                 selected.append(row)
             elif cell["value"] in selector["excluded_values"]:
                 excluded[cell["value"]] += 1

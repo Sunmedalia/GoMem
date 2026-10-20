@@ -18,7 +18,8 @@ func processPlugins() []builtin {
 		fn := windowsProcesses
 		if os == "linux" {
 			fn = linuxProcesses
-			s.Columns = []evidence.Column{{Name: "Offset", Kind: "address"}, {Name: "PID", Kind: "uint64"}, {Name: "PPID", Kind: "uint64"}, {Name: "Name", Kind: "string"}, {Name: "StartTimeNS", Kind: "uint64"}, {Name: "PGDVirtual", Kind: "address"}, {Name: "Identity", Kind: "string"}}
+			s.Parameters = append(s.Parameters, plugin.Parameter{Name: "threads", Kind: "bool", Default: "false", Description: "Include threads of selected task-list entries"}, plugin.Parameter{Name: "decorate-comm", Kind: "bool", Default: "false", Description: "Bracket PF_KTHREAD names and brace user-thread names"}, plugin.Parameter{Name: "max-tasks", Kind: "uint", Default: "1000000", Description: "Total process/thread traversal bound (1..1000000)"})
+			s.Columns = []evidence.Column{{Name: "Offset", Kind: "address"}, {Name: "PID", Kind: "uint64"}, {Name: "PPID", Kind: "uint64"}, {Name: "Name", Kind: "string"}, {Name: "TID", Kind: "uint64"}, {Name: "NameRaw", Kind: "string"}, {Name: "UID", Kind: "uint64"}, {Name: "GID", Kind: "uint64"}, {Name: "EUID", Kind: "uint64"}, {Name: "EGID", Kind: "uint64"}, {Name: "Cred", Kind: "address"}, {Name: "Created", Kind: "string"}, {Name: "CreatedExact", Kind: "string"}, {Name: "CreationCounterNS", Kind: "uint64"}, {Name: "CreationCounterField", Kind: "string"}, {Name: "BootTime", Kind: "string"}, {Name: "ClockProof", Kind: "structure"}, {Name: "StartTimeNS", Kind: "uint64"}, {Name: "PGDVirtual", Kind: "address"}, {Name: "Identity", Kind: "string"}, {Name: "TaskIdentity", Kind: "string"}, {Name: "ProcessOffset", Kind: "address"}, {Name: "Flags", Kind: "uint64"}, {Name: "IsKernelThread", Kind: "bool"}, {Name: "IsUserThread", Kind: "bool"}, {Name: "RecordType", Kind: "string"}, {Name: "Error", Kind: "string"}}
 		} else {
 			s.Parameters = append(s.Parameters, plugin.Parameter{Name: "physical", Kind: "bool", Default: "false", Description: "Display physical object offsets; identity and provenance retain virtual addresses"}, plugin.Parameter{Name: "dump", Kind: "bool", Default: "false", Description: "Reconstruct main PE images through each process PEB"})
 			s.Columns = append(s.Columns, []evidence.Column{{Name: "VirtualOffset", Kind: "address"}, {Name: "OffsetSpace", Kind: "string"}, {Name: "Threads", Kind: "uint64"}, {Name: "Handles", Kind: "uint64"}, {Name: "SessionId", Kind: "uint64"}, {Name: "Wow64", Kind: "bool"}, {Name: "CreatedRaw", Kind: "uint64"}, {Name: "Exited", Kind: "string"}, {Name: "ExitedRaw", Kind: "uint64"}, {Name: "ImageBase", Kind: "address"}, {Name: "FileOutput", Kind: "artifact"}, {Name: "Patches", Kind: "structure"}}...)
@@ -141,38 +142,7 @@ func visitWindowsProcesses(ctx context.Context, e plugin.Environment, max int, p
 	})
 }
 func linuxProcesses(ctx context.Context, e plugin.Environment, p map[string]string, out plugin.Emit) error {
-	max, pids, err := limits(p)
-	if err != nil {
-		return err
-	}
-	return visitLinuxProcesses(ctx, e, max, pids, func(a, v uint64, name string, created evidence.Value) error {
-		ppid := evidence.Missing("unreadable_or_unavailable", nil)
-		parent, err := e.Objects.Uint(ctx, a, "task_struct", "real_parent")
-		if err == nil && parent != 0 {
-			ppid = optionalUint(ctx, e, parent, "task_struct", "pid", false)
-		} else if err != nil {
-			ppid = evidence.Missing("unreadable_or_unavailable", err)
-		}
-		dtb := evidence.Missing("not_set", nil)
-		mm, err := e.Objects.Uint(ctx, a, "task_struct", "mm")
-		if err != nil {
-			dtb = evidence.Missing("unreadable_or_unavailable", err)
-		} else if mm != 0 {
-			pgd, er := e.Objects.Uint(ctx, mm, "mm_struct", "pgd")
-			if er != nil {
-				dtb = evidence.Missing("unreadable_or_unavailable", er)
-			} else {
-				dtb = evidence.Address(pgd)
-			}
-		}
-		row := processRow(e, a, v, name, ppid, created, dtb)
-		// Linux pgd is a kernel virtual address, explicitly labeled to avoid passing it as CR3.
-		row.Cells["DTB"] = evidence.Missing("use_PGDVirtual_to_resolve_physical_root", nil)
-		row.Cells["PGDVirtual"] = dtb
-		row.Cells["StartTimeNS"] = created
-		row.Cells["Created"] = evidence.Missing("wall_clock_unavailable", nil)
-		return out(row)
-	})
+	return linuxTaskListing(ctx, e, p, out)
 }
 
 func visitLinuxProcesses(ctx context.Context, e plugin.Environment, max int, pid map[uint64]bool, emit func(uint64, uint64, string, evidence.Value) error) error {

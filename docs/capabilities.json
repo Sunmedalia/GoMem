@@ -2930,19 +2930,23 @@
           "default": false
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
+      "applicability": "Active tasks with typed cred/kuid fields and root boot clock; PID/TID/PPID, nanosecond counters and explicit time models. Optional threads use thread_group or signal.thread_head/thread_node with ownership checks.",
       "native": "linux.pslist",
       "status": "partial",
       "accepted": false,
       "corpora": [
         "synthetic-linux-x64",
-        "official-linux-sample-1"
+        "synthetic-linux-clock-and-signal-threads",
+        "official-linux-sample-1",
+        "official-linux-sample-1-reencoded-avml"
       ],
-      "comparison": "selected_fields_match",
+      "comparison": "selected_ten_fields_match_133_processes_316_tasks_with_explicit_microsecond_rounding",
       "gaps": [
-        "Official-corpus differential acceptance pending"
+        "Real modern kernel/32-bit clock and thread layout matrix pending; modern paths have synthetic tests only",
+        "ELF dump parameter, timeline and damaged task-list bidirectional recovery remain pending",
+        "Credential/clock read errors are retained per field; UID values are raw kernel IDs, not user namespace remapping"
       ],
-      "validation_record": "docs/validation.json"
+      "validation_record": "docs/linux-tasks.md"
     },
     {
       "id": "linux.psscan.PsScan",

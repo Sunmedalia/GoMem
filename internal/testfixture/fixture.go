@@ -71,7 +71,20 @@ func Write(dir, platform string) (Fixture, error) {
 		t.Types["mm_context_t"] = symbols.Type{Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"vdso": field(0, ptr)}}
 		task := t.Types["task_struct"]
 		task.Fields["fs"] = field(64, ptr)
+		task.Fields["cred"] = field(72, ptr)
+		task.Fields["flags"] = field(80, base("u32"))
+		task.Fields["group_leader"] = field(88, ptr)
+		task.Fields["thread_group"] = field(96, strct("list_head"))
+		task.Fields["real_start_time"] = field(112, base("u64"))
 		t.Types["task_struct"] = task
+		t.Types["cred"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"uid": field(0, base("u32")), "gid": field(4, base("u32")), "euid": field(8, base("u32")), "egid": field(12, base("u32"))}}
+		t.Types["timespec"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"tv_sec": field(0, base("i64")), "tv_nsec": field(8, base("i64"))}}
+		clockType := strct("timespec")
+		t.Symbols["wall_to_monotonic"] = symbols.Symbol{Address: 0x1b800, Type: &clockType}
+		t.Symbols["total_sleep_time"] = symbols.Symbol{Address: 0x1b820, Type: &clockType}
+		wallSeconds := int64(-1700000001)
+		put(0x1b800, uint64(wallSeconds))
+		put(0x1b808, 876543211)
 		t.Types["module_layout"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"base": field(0, ptr), "size": field(8, base("u64"))}}
 		t.Types["module"] = symbols.Type{Kind: "struct", Size: 96, Fields: map[string]symbols.Field{"list": field(0, strct("list_head")), "name": field(16, arr(32)), "core_layout": field(48, strct("module_layout"))}}
 		list(0x9000, 0xa000, 0xb000)
@@ -88,6 +101,13 @@ func Write(dir, platform string) (Fixture, error) {
 			}
 			put(a+48, uint64(i+1)*1000000000)
 			put(a+56, 0xe000)
+			put(a+72, 0x1c800+uint64(i)*32)
+			put(a+88, a)
+			list(a + 96)
+			put(a+112, uint64(i+1)*1000000000+1234567)
+			for j, value := range []uint32{1000 + uint32(i), 100, 0, 0} {
+				binary.LittleEndian.PutUint32(data[0x1c800+i*32+j*4:], value)
+			}
 		}
 		put(0xe000, 0x1000)
 		list(0xc000, 0xd000)

@@ -1,0 +1,323 @@
+{
+  "schema": "gomem.linux-task-validation/v1",
+  "date": "2026-10-20",
+  "scope": "One legacy Debian x64 acquisition, also opened from a reencoded AVML; modern thread/clock layouts have synthetic tests only, no full acceptance",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "engine_build_sha256": "6536c7e432a40925ec8d99ce39480c58667bed0f34830c2db45b2047abea1558",
+  "results": [
+    {
+      "profile": "enriched",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "TID",
+          "PPID",
+          "Name",
+          "UID",
+          "GID",
+          "EUID",
+          "EGID",
+          "Created"
+        ],
+        "native_rows": 133,
+        "reference_rows": 133,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "dc546b4ed2e417ab8d1646c32201d1a59687487d9b048624cf3f0f0882708567",
+          "reference": "a843aaf4d6f6f2b9d9180b02205ac014583576ae444d0954b43b6718862a75ad",
+          "mapping": "b514469d7c8673129dcc3bc5fd708df2d15bd6eb4aa4e692550c4dfa7719ccb5"
+        },
+        "native_input_rows": 133,
+        "native_non_entity_records": {},
+        "entity_selection": {
+          "field": "RecordType",
+          "values": [
+            "task",
+            "thread"
+          ],
+          "excluded_values": [
+            "diagnostic"
+          ]
+        }
+      },
+      "record_types": {
+        "task": 133
+      },
+      "kernel_flag_tasks": 39,
+      "unique_task_identities": 133,
+      "process_identity_links_verified": 0,
+      "clock_arithmetic_verified": 133,
+      "submicrosecond_timestamps_retained": 133,
+      "sample_clock_proof": {
+        "display_model": "whole_boot_seconds_plus_task_counter",
+        "namespace": "root",
+        "offset": "0xffffffff8178c260",
+        "root_boot_epoch_ns": "1403605353691776031",
+        "source": "wall_to_monotonic"
+      },
+      "reference_manifest_sha256": "50f030afc4d80c59341fe78030c4f82d6ab348f2dee24fb048c5a3345437df2f"
+    },
+    {
+      "profile": "threads",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "TID",
+          "PPID",
+          "Name",
+          "UID",
+          "GID",
+          "EUID",
+          "EGID",
+          "Created"
+        ],
+        "native_rows": 316,
+        "reference_rows": 316,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "2fee972fab63f00eef59673faca6d89aa54f077202734e5c8015492f881a1311",
+          "reference": "5149f26dcd95d63c7b2111afef13ca316d12c2b637c005c2476b87391e0485d7",
+          "mapping": "b514469d7c8673129dcc3bc5fd708df2d15bd6eb4aa4e692550c4dfa7719ccb5"
+        },
+        "native_input_rows": 316,
+        "native_non_entity_records": {},
+        "entity_selection": {
+          "field": "RecordType",
+          "values": [
+            "task",
+            "thread"
+          ],
+          "excluded_values": [
+            "diagnostic"
+          ]
+        }
+      },
+      "record_types": {
+        "task": 133,
+        "thread": 183
+      },
+      "kernel_flag_tasks": 39,
+      "unique_task_identities": 316,
+      "process_identity_links_verified": 183,
+      "clock_arithmetic_verified": 316,
+      "submicrosecond_timestamps_retained": 316,
+      "sample_clock_proof": {
+        "display_model": "whole_boot_seconds_plus_task_counter",
+        "namespace": "root",
+        "offset": "0xffffffff8178c260",
+        "root_boot_epoch_ns": "1403605353691776031",
+        "source": "wall_to_monotonic"
+      },
+      "reference_manifest_sha256": "98a29b40299638d0938d106a6aa1365621996050c48dc3f94ed14400dd22049a"
+    },
+    {
+      "profile": "filtered-threads",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "TID",
+          "PPID",
+          "Name",
+          "UID",
+          "GID",
+          "EUID",
+          "EGID",
+          "Created"
+        ],
+        "native_rows": 92,
+        "reference_rows": 92,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "1857584e3426d8b773d9c954774076841c5fe3597ee439f607e2de77628cb275",
+          "reference": "e0f7ff1b32b9e771914f5d55c3e031613befd46828f40c8f7cebda3299899359",
+          "mapping": "b514469d7c8673129dcc3bc5fd708df2d15bd6eb4aa4e692550c4dfa7719ccb5"
+        },
+        "native_input_rows": 92,
+        "native_non_entity_records": {},
+        "entity_selection": {
+          "field": "RecordType",
+          "values": [
+            "task",
+            "thread"
+          ],
+          "excluded_values": [
+            "diagnostic"
+          ]
+        }
+      },
+      "record_types": {
+        "task": 2,
+        "thread": 90
+      },
+      "kernel_flag_tasks": 0,
+      "unique_task_identities": 92,
+      "process_identity_links_verified": 90,
+      "clock_arithmetic_verified": 92,
+      "submicrosecond_timestamps_retained": 92,
+      "sample_clock_proof": {
+        "display_model": "whole_boot_seconds_plus_task_counter",
+        "namespace": "root",
+        "offset": "0xffffffff8178c260",
+        "root_boot_epoch_ns": "1403605353691776031",
+        "source": "wall_to_monotonic"
+      },
+      "reference_manifest_sha256": "f1b7193843dea98c9906448dc6952a2f366749b3f09ec23e550373613f1617ef"
+    },
+    {
+      "profile": "avml-threads",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "TID",
+          "PPID",
+          "Name",
+          "UID",
+          "GID",
+          "EUID",
+          "EGID",
+          "Created"
+        ],
+        "native_rows": 316,
+        "reference_rows": 316,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "bb6eedf84ae6fc465c75b699f9919ce75ddc47111373b51c09e30732d499b9e1",
+          "reference": "5149f26dcd95d63c7b2111afef13ca316d12c2b637c005c2476b87391e0485d7",
+          "mapping": "b514469d7c8673129dcc3bc5fd708df2d15bd6eb4aa4e692550c4dfa7719ccb5"
+        },
+        "native_input_rows": 316,
+        "native_non_entity_records": {},
+        "entity_selection": {
+          "field": "RecordType",
+          "values": [
+            "task",
+            "thread"
+          ],
+          "excluded_values": [
+            "diagnostic"
+          ]
+        }
+      },
+      "record_types": {
+        "task": 133,
+        "thread": 183
+      },
+      "kernel_flag_tasks": 39,
+      "unique_task_identities": 316,
+      "process_identity_links_verified": 183,
+      "clock_arithmetic_verified": 316,
+      "submicrosecond_timestamps_retained": 316,
+      "sample_clock_proof": {
+        "display_model": "whole_boot_seconds_plus_task_counter",
+        "namespace": "root",
+        "offset": "0xffffffff8178c260",
+        "root_boot_epoch_ns": "1403605353691776031",
+        "source": "wall_to_monotonic"
+      },
+      "reference_manifest_sha256": "84c4f429d61b03a88b2afbfaef64f994e4b9a11d5550b244207669ce149feb83"
+    }
+  ],
+  "bundle_validation": [
+    {
+      "profile": "enriched",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "b61bf8f69619ac7ea11c183770263278cd87fdf3b00b925007d3f51ffed2233f"
+    },
+    {
+      "profile": "threads",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "a59683a4beedf502132da43dff3db4d578b5312d9bca71a9826d5323f349747f"
+    },
+    {
+      "profile": "filtered-threads",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "aa4f5aac54e2df637bb23acf2fa54169e4c79e499ed6aa571334fcf71799a1bb"
+    },
+    {
+      "profile": "avml-threads",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "a20944f033ba991fdc0ba025d246919a493022a531f9197affed63da46136fcb"
+    }
+  ],
+  "precision": "Original nanoseconds retained; profile explicitly rounds ties to even to microseconds, without a floating point epoch",
+  "fuzz": {
+    "target": "FuzzLinuxClockArithmetic",
+    "duration": "10s",
+    "executions": 485891,
+    "scope": "Bounded clock arithmetic and timestamp invariants, not a complete kernel-object parser fuzz acceptance"
+  },
+  "checks": [
+    "go test ./...",
+    "go vet ./...",
+    "go test -race ./...",
+    "go test -race ./internal/plugins ./internal/engine",
+    "GOMEM_CORPUS_DIR=/Volumes/l/GoMem/.cache/corpus go test ./internal/engine -run ^TestOfficial -count=1",
+    "python3 -m unittest discover -s tools -p test_*.py",
+    "python3 tools/baseline_matrix.py --source PINNED_BASELINE --check"
+  ],
+  "cross_builds": [
+    {
+      "name": "gomem-0.1.0-dev-windows-amd64.exe",
+      "sha256": "07314767d7f05168c76d207d305cde2bcd1d7a7a344f33669e6ecc182ceedcdc",
+      "target": "windows/amd64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-windows-arm64.exe",
+      "sha256": "b41e437052e37ebe499683591f5723fb102c21c02e5e3b5bc7e3ddd8673380a1",
+      "target": "windows/arm64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-linux-amd64",
+      "sha256": "269aa85e34dbe57379cc8d9f763de1219db03480e9c6729925e5e2b2fe3c2194",
+      "target": "linux/amd64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-linux-arm64",
+      "sha256": "3c87a46b9629caa9412e5ea48ba578c55987540dcd0ce2b4b8ad54aff0a6c506",
+      "target": "linux/arm64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-darwin-amd64",
+      "sha256": "07f7dcdca3ba6de61a6b4f9c2edbfe24ace8b0b113c907660b90edea99156eab",
+      "target": "darwin/amd64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-darwin-arm64",
+      "sha256": "f4d993e68f28ccec396842b6e326c75f350a8c5289a9d2cbf8d64fbf7d1560ca",
+      "target": "darwin/arm64"
+    }
+  ],
+  "cross_build_scope": "Compilation only; native CI execution is tracked separately"
+}

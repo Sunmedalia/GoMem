@@ -12,6 +12,33 @@ from compare_extractions import compare as compare_extractions
 
 
 class DifferentialTests(unittest.TestCase):
+    def test_nanosecond_comparison_rounding_is_explicit_and_exact(self):
+        profile = "timestamp_microseconds_rounded"
+        self.assertEqual(normalized_result("2014-06-24T10:22:33.016000956Z", profile), "2014-06-24T10:22:33.016001+00:00")
+        self.assertEqual(normalized_result("2014-06-24T10:22:33.016000500Z", profile), "2014-06-24T10:22:33.016000+00:00")
+        self.assertEqual(normalized_result("2014-06-24T10:22:33.016001500Z", profile), "2014-06-24T10:22:33.016002+00:00")
+        self.assertEqual(normalized_result("2014-06-24T10:22:33.999999999+01:00", profile), "2014-06-24T09:22:34.000000+00:00")
+        with self.assertRaisesRegex(ValueError, "timezone"):
+            normalized_result("2014-06-24T10:22:33", profile)
+        with self.assertRaisesRegex(ValueError, "fractional"):
+            normalized_result("2014-06-24T10:22:33.1234567890Z", profile)
+    def test_multiple_record_types_preserve_diagnostic_counts(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            native, reference, mapping = root / "native", root / "reference", root / "mapping"
+            native.write_text("\n".join(json.dumps({"cells": {"RecordType": {"kind": "string", "value": value}, "PID": {"kind": "uint64", "value": "1"}}}) for value in ("task", "thread", "diagnostic")) + "\n")
+            reference.write_text(json.dumps([{"PID": 1}, {"PID": 1}]))
+            profile = {"native_record_type": {"field": "RecordType", "values": ["task", "thread"], "excluded_values": ["diagnostic"]}, "fields": {"PID": {"native": "PID", "reference": "PID", "kind": "uint64"}}}
+            mapping.write_text(json.dumps(profile))
+            report = compare(native, reference, mapping)
+            self.assertTrue(report["matched"])
+            self.assertEqual(report["native_input_rows"], 3)
+            self.assertEqual(report["native_rows"], 2)
+            self.assertEqual(report["native_non_entity_records"], {"diagnostic": 1})
+            profile["native_record_type"]["values"].append("diagnostic")
+            mapping.write_text(json.dumps(profile))
+            with self.assertRaisesRegex(ValueError, "selection"):
+                compare(native, reference, mapping)
     def test_signed_result_preserves_negative_loader_counts(self):
         self.assertEqual(normalized_result({"kind": "int64", "value": "-1"}, "int64"), "-1")
         self.assertEqual(normalized_result(-1, "int64"), "-1")

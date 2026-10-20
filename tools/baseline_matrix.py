@@ -118,6 +118,11 @@ def generate(source):
             plugins[-1].update(applicability="Active process list with exact EPROCESS, handle/session types and independent PEB address spaces; virtual or physical offset display, PID sets and main PE extraction.",
                               comparison="selected_extended_fields_and_physical_offsets_match_main_PE_bytes_match", validation_record="docs/windows-process-modules.md",
                               gaps=["Full version/architecture and parameter/failure coverage pending", "Opaque session layouts are not guessed; handle count requires a declared HandleCount field", "Bidirectional damaged-list recovery, timeline and full PE extraction acceptance pending"])
+        if identifier == "linux.pslist.PsList":
+            plugins[-1].update(applicability="Active tasks with typed cred/kuid fields and root boot clock; PID/TID/PPID, nanosecond counters and explicit time models. Optional threads use thread_group or signal.thread_head/thread_node with ownership checks.",
+                              corpora=["synthetic-linux-x64", "synthetic-linux-clock-and-signal-threads", "official-linux-sample-1", "official-linux-sample-1-reencoded-avml"],
+                              comparison="selected_ten_fields_match_133_processes_316_tasks_with_explicit_microsecond_rounding", validation_record="docs/linux-tasks.md",
+                              gaps=["Real modern kernel/32-bit clock and thread layout matrix pending; modern paths have synthetic tests only", "ELF dump parameter, timeline and damaged task-list bidirectional recovery remain pending", "Credential/clock read errors are retained per field; UID values are raw kernel IDs, not user namespace remapping"])
         if identifier == "windows.modules.Modules":
             plugins[-1].update(applicability="Loaded kernel list, exact base and case-sensitive base-name substring filters. PE extraction tries kernel then typed per-session process roots, with bounded attempts recorded.",
                               comparison="selected_core_fields_and_157_paths_match_19_read_errors_preserved_PE_ImageBase_difference_explained", validation_record="docs/windows-process-modules.md",
