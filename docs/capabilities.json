@@ -6035,15 +6035,25 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "DRIVER_OBJECT entries from the same Dri\\xf6 and Driv pool scan as windows.driverscan, without the three-name filter. DriverStart must be readable for 8 bytes and be zero or strictly above MmSystemRangeStart. Both values are compared after the layer address mask, low 48 bits on 64-bit and low 32 bits on 32-bit, matching IntelLayer.address_mask and Modules.get_kernel_space_start. Each MajorFunction slot is a pointer. An unreadable slot is skipped and counted; it does not fail the task. The pointer is canonicalized for module checks, and its masked value is compared with the masked kernel start. A lower value is smear and is not emitted. Modules come from PsLoadedModuleList in list order. An unreadable BaseDllName drops that module. An unreadable DllBase or SizeOfImage fails the task. The module name is os.path.splitext(BaseDllName)[0], and a repeated stem fails the task. A module contains an address when base <= address <= base+size, including the byte one past the image. Every loaded module is checked, so overlapping modules emit more than one row. Symbol names come from the kernel symbol table at address-module.base, exact matches only, in symbol-name order. The displayed name is the second bang-separated piece of table!name. No symbol is not_available without an error. No containing module makes both Module and Symbol not_available without an error. The driver name is the object-header NameInfo string. A failure becomes not_applicable with no error on DriverName; DriverNameError keeps the error. Native addresses stay canonical. Reference addresses drop the high bits, so Offset and Address are compared after a low-48 mask. The summary row is not an IRP.",
+      "native": "windows.driverirp",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_3972_rows_match_offset_driver_irp_address_module_and_symbol",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has 142 drivers and 3972 rows",
+        "Seven handlers were below the masked kernel start and were not emitted. All seven belong to the one driver whose name could not be read; that driver has 21 rows. No handler slot was unreadable. 804 candidates failed the Driver type check",
+        "Three handlers were outside every loaded module. 2002 handlers were inside a module but had no kernel symbol. Together those are the 2005 reference null symbols",
+        "Two handlers have more than one kernel symbol: IRP_MJ_PNP has two names and IRP_MJ_SYSTEM_CONTROL has three. Names stay in symbol-name order",
+        "32-bit images have no corpus differential. The synthetic fixture is 64-bit and covers a non-canonical user pointer, an unmapped slot, an in-module address without a symbol, and an address outside the module",
+        "Reference offsets and addresses omit the canonical high bits. The comparison masks both sides to the low 48 bits",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-driverirp.md"
     },
     {
       "id": "windows.drivermodule.DriverModule",

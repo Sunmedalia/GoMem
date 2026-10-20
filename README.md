@@ -59,6 +59,7 @@ bin/gomem analyze windows.pslist \
 | `windows.devicetree` | 列出池扫描得到的驱动，以及它的设备和附着设备；空名称保留，空指针会停下该驱动剩余节点；[说明](docs/windows-devicetree.md) |
 | `windows.handles` | 列出活动进程的打开句柄；`offset` 非 0 时改为池扫描单个进程；空名称保留为不可用，读取错误留在 `NameError`；[说明](docs/windows-handles.md) |
 | `windows.ssdt` | 列出原生系统服务表；64 位按有符号位移解析，32 位使用绝对指针；模块外地址不输出；[说明](docs/windows-ssdt.md) |
+| `windows.driverirp` | 列出池扫描驱动的 IRP 处理函数、所在模块和符号；低地址和读失败的槽位跳过；驱动名错误留在 `DriverNameError`；[说明](docs/windows-driverirp.md) |
 | `windows.hivelist` | 从 `CmpHiveListHead` 枚举注册表 hive；保留签名、三个路径字段和链表断裂；`dump` 重建稳定 hive，缺页记入空洞日志并令任务失败 |
 | `windows.hivescan` | 在 64 位 Windows 8.1 及以后扫描 `PoolBigPageTable` 的在用 `CM10` 分配；旧式池头扫描会明确失败；[说明](docs/windows-hivescan.md) |
 | `windows.filescan` | 扫描池头中的文件对象，输出规范虚拟地址和文件名；Windows 10 扫内核层，更早的系统扫物理内存；[说明](docs/windows-filescan.md) |
@@ -151,6 +152,8 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `windows.handles` 走活动进程的句柄表。`offset` 非 0 时忽略 PID，只保留池扫描里那个进程。Windows 10 19041 样本有 120 个进程、41 张 0 层表、76 张 1 层表和 50967 个句柄，来自 109 个 PID，最大句柄值 `0x2fa8`。PID、进程名、低 48 位偏移、句柄值、类型、访问掩码和名称与固定基线一致。37909 个名称不可用，5 个不可读；对照列不带错误，错误留在 `NameError`。3 张句柄表读不到。真实 32 位镜像、Windows 8 以前的真实句柄表和时间线还没有验收。[句柄验证](docs/windows-handles.md)
 
 `windows.ssdt` 读取 `KiServiceTable`。64 位表项先丢掉低 4 位，再按有符号位移加到表基址；32 位表项就是绝对指针。Windows 10 19041 样本有 473 个服务、783 行，全部在 `ntoskrnl`，和固定基线的索引、低 48 位地址、模块名、符号一致。18 个地址有多个符号。没有模块外地址。真实 32 位镜像和时间线还没有验收。[系统服务表验证](docs/windows-ssdt.md)
+
+`windows.driverirp` 用同一套驱动池扫描，但不因为三个名称都缺失而丢掉驱动。`DriverStart` 和处理函数都先按 64 位低 48 位、32 位低 32 位做掩码。处理函数小于掩码后的内核起始地址，或者槽位读不到，就跳过该槽位，任务仍然成功。Windows 10 19041 样本有 142 个驱动、3972 行。7 个低地址槽位都属于同一个读不到名称的驱动，该驱动输出 21 行；没有不可读槽位。3 个地址在模块外，2002 个地址在模块内但没有符号。`IRP_MJ_PNP` 和 `IRP_MJ_SYSTEM_CONTROL` 各有一个地址对应多个符号。低 48 位偏移、驱动名、IRP、地址、模块和符号与固定基线一致。真实 32 位镜像和时间线还没有验收。[驱动 IRP 验证](docs/windows-driverirp.md)
 
 `windows.hivelist` 正向遍历内核 hive 链表，签名不符或链表断裂时改为反向补齐，并保留已经读到的 hive。名称按 `FileFullPath`、`FileUserName`、`HiveRootPath` 取第一个非空值，三个字段都保留。Windows 10 19041 样本的 24 个偏移和名称与固定基线一致；该样本的 `FileFullPath` 成员均为空，选中名称来自另外两个字段。`dump=true` 写出 base block 和稳定存储；读不到的页是带日志的零字节，任务失败，不会把空洞说成原始数据。[注册表 hive 验证](docs/windows-hivelist.md)
 

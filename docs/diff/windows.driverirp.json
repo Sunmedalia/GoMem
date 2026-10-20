@@ -1,0 +1,15 @@
+{
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "Offset", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Driver Name": {"native": "DriverName", "reference": "Driver Name", "kind": "string", "missing_reasons": ["not_applicable"]},
+    "IRP": {"native": "IRP", "reference": "IRP", "kind": "string"},
+    "Address": {"native": "Address", "reference": "Address", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Module": {"native": "Module", "reference": "Module", "kind": "string", "missing_reasons": ["not_available"]},
+    "Symbol": {"native": "Symbol", "reference": "Symbol", "kind": "string", "missing_reasons": ["not_available"]}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["irp"],
+    "excluded_values": ["summary"]
+  }
+}
