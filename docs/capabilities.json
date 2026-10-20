@@ -5870,7 +5870,7 @@
       "gaps": [
         "Full Windows version/architecture and Python regex semantics pending",
         "WoW64 LoadTime/LoadCount deliberately unavailable until verified 32-bit layouts exist",
-        "Physical offset process scanning, PE reconstruction/dump and timeline export pending"
+        "Physical offset process scanning, full PE dump acceptance and timeline export pending"
       ],
       "validation_record": "docs/validation.json"
     },
@@ -8657,15 +8657,22 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Mapped Intel PE32/PE32+ images with resident, bounded headers. Explicit process roots or verified kernel root; 256MiB image limit.",
+      "native": "windows.pedump",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "synthetic-pe32-pe32plus",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_process_PE_bytes_match_kernel_ImageBase_difference_explained",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Kernel ImageBase retains canonical high bits; differs explicitly from pinned baseline",
+        "Kernel session-layer fallback, full architecture/version/failure coverage pending",
+        "Uncaptured or invalid headers fail rather than producing empty PE files"
+      ],
+      "validation_record": "docs/pe-reconstruction.md"
     },
     {
       "id": "windows.poolscanner.PoolScanner",

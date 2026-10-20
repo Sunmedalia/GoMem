@@ -20,6 +20,8 @@ python3 tools/verify_bundle.py case-001/exports/evidence.zip
 
 区域提取使用 `analyze windows.vadinfo ... --param dump=true` 或 `analyze linux.maps ... --param dump=true`，结合 PID/地址筛选控制范围。默认 maxsize 为 1GiB。按固定基线，Windows 在 `size > maxsize` 时跳过，零表示不设此限制；Linux 在 `size >= maxsize` 时跳过，零会跳过全部区域。跳过记录为 `maxsize_exceeded`，不会产生空提取文件。结果的 FileOutput 保留完整 artifact 元数据；缺失页、未知进程空间和写出错误有明确不同状态。
 
+`windows.pedump` 和 DLL 的 `dump` 也使用同一存储底座，先严格验证并规划 PE 头部修改，再逐页写出重建文件。Patches 在结果中保留原始/替换字节，参见 [PE 重建](pe-reconstruction.md)；重建 PE 与原始虚拟区间是不同导出语义。
+
 完整任务的提取文件在缓存复用前重新校验大小、数据/日志摘要和任务来源。文件丢失、同长度修改和来源不一致都会报错；需要重新提取时使用 `analyze --fresh`，新任务与原始失败证据分别保存。分页列表只展示所选页；verify-artifacts 校验所选任务或全案的全部提取文件，不把未知任务当作成功空范围。
 
 无提取文件的导出保持 evidence/v1。有提取元数据的证据包使用 evidence/v2：结果成员及其摘要照旧，`artifact_index` 指向流式 `artifacts.jsonl`，数据和日志使用案件内相对路径。导出先核验源文件，再对实际复制的数据再次散列；损坏或中途改变会令导出失败并移除不完整 ZIP。未完成且无可靠摘要的文件不作为已验证字节打包，索引保留未包含原因。HTML/JSONL 保留全部提取元数据和失败状态；运行中任务需要先完成或取消，以免产生不一致快照。

@@ -123,7 +123,7 @@ func TestDLLFiltersBoundsAndVisibleDiagnostics(t *testing.T) {
 			t.Fatal(tc, r, err)
 		}
 	}
-	for _, p := range []map[string]string{{"name": "(?<=x)y"}, {"base": "bad"}, {"offset": "0x1"}, {"dump": "true"}, {"max-modules": "0"}} {
+	for _, p := range []map[string]string{{"name": "(?<=x)y"}, {"base": "bad"}, {"offset": "0x1"}, {"unsupported-option": "true"}, {"max-modules": "0"}} {
 		if _, err := e.Run(ctx, "windows.dlllist", p, engine.RunOptions{}); err == nil {
 			t.Fatal("unsupported semantics accepted", p)
 		}

@@ -45,6 +45,7 @@ bin/gomem analyze windows.pslist \
 | `windows.pslist` | 匹配 ISF、DTB、内核基址；活动进程链表 |
 | `windows.modules` | 匹配 ISF、DTB、内核基址；内核模块链表 |
 | `windows.dlllist` | 进程自身地址空间内的 PEB 加载器链表；原生和 WoW64 列表；支持 PID、基址及 RE2 名称筛选 |
+| `windows.pedump` | 从显式进程/内核地址重建 PE32/PE32+；保留头部修改和缺页证据；上限 256MiB |
 | `windows.threads` | 活动进程线程链表、创建/退出时间与进程证据关联；现代 VAD 启动路径；支持 `--param pid=104,108` |
 | `windows.vadinfo` | 现代 VAD 区间、动态权限表、提交页数、私有标志和文件路径；支持 PID 集合、包含地址筛选及区域提取 |
 | `linux.pslist` | 匹配 ISF、DTB；活动任务链表；可选 `--kernel-slide` |
@@ -78,7 +79,9 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 
 `windows.threads` 输出无损线程地址、CID、100ns 精度时间及原始时间值，并用进程身份关联 pslist 证据。官方 Windows 10 样本的 1,752 条线程通过八字段对照；退出时间联合体的差异单独核验，未作为全字段一致。路径读取失败会保留原始错误。[线程验证与适用范围](docs/windows-threads.md)
 
-`windows.dlllist` 的 5,742 个模块通过官方样本核心字段对照，保留 19 条上游未显示的读取诊断并令全量任务失败。WoW64 暂不解释未验证的加载时间/计数布局；PE 提取与物理进程扫描尚未接入。[DLL 验证与限制](docs/windows-dll.md)
+`windows.dlllist` 的 5,742 个模块通过官方样本核心字段对照，保留 19 条上游未显示的读取诊断并令全量任务失败。WoW64 暂不解释未验证的加载时间/计数布局；物理进程扫描尚未接入。[DLL 验证与限制](docs/windows-dll.md)；可用 `--param dump=true` 重建所选 DLL PE，读取失败会保留诊断。
+
+`windows.pedump --param base=ADDRESS --param pid=PID` 或 `--param kernel-module=true` 重建内存布局 PE；文件保留 slack 并调整 ImageBase 和节字段。内核高位地址保留导致的两个字节差异单独记录，不能把重建结果视为原始磁盘文件。[PE 重建验证](docs/pe-reconstruction.md)
 
 **其余情况仍需提供符号或本地索引，并显式指定未发现的地址空间参数。** 通用 DTB/内核基址识别、Linux/macOS 默认自动下载尚未实现。已知 ISF 可通过 `symbols fetch HTTPS_URL --sha256 CHECKSUM --case CASE` 获取，再由分析路径验证身份；镜像不会上传。
 

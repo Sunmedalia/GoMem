@@ -1,0 +1,268 @@
+{
+  "schema": "gomem.pe-reconstruction-validation/v1",
+  "date": "2026-10-20",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "results": [
+    {
+      "profile": "pedump-process",
+      "report": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--pid",
+          "4",
+          "--base",
+          "0x7ff8271d0000"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "explicit_file_name_mapping": {
+          "PE.0xffff840f65d02080.4.0x7ff8271d0000.dmp": "PE.0x840f65d02080.4.0x7ff8271d0000.dmp"
+        },
+        "matched": true,
+        "files": [
+          {
+            "name": "PE.0xffff840f65d02080.4.0x7ff8271d0000.dmp",
+            "reference_name": "PE.0x840f65d02080.4.0x7ff8271d0000.dmp",
+            "size": "204800",
+            "reference_size": "204800",
+            "native_sha256": "fa7c00d5763a114adb4a6e572fe1c0efa241f1b77c74e1bed159ce6400d6e351",
+            "reference_sha256": "fa7c00d5763a114adb4a6e572fe1c0efa241f1b77c74e1bed159ce6400d6e351",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "200704",
+            "gap_count": "49",
+            "gaps_sha256": "68bc5e3860aaf8411f24bfe12957b4816f8b2d63eab337371ef28ed7e3557c7e",
+            "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+            "engine_build_sha256": "03aeef997eee820be84878c1040c517d7d7727e283e5f8ebbf22420e15c89bbf",
+            "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+            "layer": "process:b0f4f99413a38966b5a786381d27272398de9ed21531a9be344fd212de2d8736",
+            "offset": "0x7ff8271d0000"
+          }
+        ],
+        "native_rows_sha256": "d962f0f6229a8b4dcec275faadbaa611f11e43f6126e25f223980c5d8d3a4e27",
+        "reference_manifest_sha256": "6bb0884d5677207c6b2f54cab83255b4dd96ca58b297ea3488dbc19137d7ff9d"
+      },
+      "patch_count": 25
+    },
+    {
+      "profile": "pedump-kernel",
+      "report": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--kernel-module",
+          "--base",
+          "0xfffff8043601f000"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "explicit_file_name_mapping": {},
+        "matched": false,
+        "files": [
+          {
+            "name": "PE.0x0.4.0xfffff8043601f000.dmp",
+            "reference_name": "PE.0x0.4.0xfffff8043601f000.dmp",
+            "size": "17063936",
+            "reference_size": "17063936",
+            "native_sha256": "ef644d9319a50413a914e42be14c3a2b78fc03a37650010ba7115cee00cd80bc",
+            "reference_sha256": "39cf271274ae4d6a8732804773ee175f3fe2e1dcebc54ff0c74e6b0d64091f5e",
+            "bytes_equal": false,
+            "differing_bytes": 2,
+            "first_differing_offsets": [
+              "0x14e",
+              "0x14f"
+            ],
+            "state": "completed_with_gaps",
+            "missing_bytes": "8347648",
+            "gap_count": "2038",
+            "gaps_sha256": "284fbf0f0e9f7bd1e7bd50ee9c696509d3e4b3db35e36fafeb964533045ff7ca",
+            "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+            "engine_build_sha256": "03aeef997eee820be84878c1040c517d7d7727e283e5f8ebbf22420e15c89bbf",
+            "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+            "layer": "kernel:x64:dtb=0x6d4000",
+            "offset": "0xfffff8043601f000"
+          }
+        ],
+        "native_rows_sha256": "2ef3c6f0d7726b5226a803f8f7085a9de8a4a54387d8101b409f75cb912547ec",
+        "reference_manifest_sha256": "ee1747e55950aa4064075b041d7a36491639618eca824b1ff6ca0353db070928"
+      },
+      "patch_count": 100
+    },
+    {
+      "profile": "dll-pe-dump",
+      "report": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--pid",
+          "488",
+          "--base",
+          "0x7ff66e1d0000",
+          "--dump"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "explicit_file_name_mapping": {},
+        "matched": true,
+        "files": [
+          {
+            "name": "pid.488.csrss.exe.0x137ac803880.0x7ff66e1d0000.dmp",
+            "reference_name": "pid.488.csrss.exe.0x137ac803880.0x7ff66e1d0000.dmp",
+            "size": "28672",
+            "reference_size": "28672",
+            "native_sha256": "abdc0769d35ed4f36912e5d4f5823e22abec4ccd3139db57bde9ee511bb6c269",
+            "reference_sha256": "abdc0769d35ed4f36912e5d4f5823e22abec4ccd3139db57bde9ee511bb6c269",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "16384",
+            "gap_count": "4",
+            "gaps_sha256": "a1904c2a21bbee9a644108d46d5e2230aef8b8103da6bcafd8b5c139325de3c6",
+            "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+            "engine_build_sha256": "03aeef997eee820be84878c1040c517d7d7727e283e5f8ebbf22420e15c89bbf",
+            "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+            "layer": "process:c0041fc28cd5b8b19e553cf79ab9ba0fe7307dc8e4ae4eeb514995c4e6e09d30",
+            "offset": "0x7ff66e1d0000"
+          }
+        ],
+        "native_rows_sha256": "70976d78ec648fb0b6cf34342ba7505f5d92b66dec10f4289eea635dc867fa35",
+        "reference_manifest_sha256": "424dd049cbc8db61f4d76c53036269b293aea0d270452011892f8a7daaa3fe88"
+      },
+      "patch_count": 19
+    },
+    {
+      "profile": "pedump-process-pdb",
+      "report": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--pid",
+          "4",
+          "--base",
+          "0x7ff8271d0000"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "explicit_file_name_mapping": {
+          "PE.0xffff840f65d02080.4.0x7ff8271d0000.dmp": "PE.0x840f65d02080.4.0x7ff8271d0000.dmp"
+        },
+        "matched": true,
+        "files": [
+          {
+            "name": "PE.0xffff840f65d02080.4.0x7ff8271d0000.dmp",
+            "reference_name": "PE.0x840f65d02080.4.0x7ff8271d0000.dmp",
+            "size": "204800",
+            "reference_size": "204800",
+            "native_sha256": "fa7c00d5763a114adb4a6e572fe1c0efa241f1b77c74e1bed159ce6400d6e351",
+            "reference_sha256": "fa7c00d5763a114adb4a6e572fe1c0efa241f1b77c74e1bed159ce6400d6e351",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "200704",
+            "gap_count": "49",
+            "gaps_sha256": "68bc5e3860aaf8411f24bfe12957b4816f8b2d63eab337371ef28ed7e3557c7e",
+            "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+            "engine_build_sha256": "03aeef997eee820be84878c1040c517d7d7727e283e5f8ebbf22420e15c89bbf",
+            "symbols_sha256": "f288d5d6d2bf1cfd7f1d76f271cfded7b7629224276a5748cc2a8db006c51b2a",
+            "layer": "process:b0f4f99413a38966b5a786381d27272398de9ed21531a9be344fd212de2d8736",
+            "offset": "0x7ff8271d0000"
+          }
+        ],
+        "native_rows_sha256": "6c28dd09f361bb0bdbda9fb181696c7a62522f7003fc0887bf80525522f6c9b8",
+        "reference_manifest_sha256": "6bb0884d5677207c6b2f54cab83255b4dd96ca58b297ea3488dbc19137d7ff9d"
+      },
+      "patch_count": 25
+    }
+  ],
+  "kernel_difference": {
+    "field": "PE32+ OptionalHeader.ImageBase",
+    "native": "0xfffff8043601f000",
+    "reference": "0x0000f8043601f000",
+    "differing_bytes": 2,
+    "offsets": [
+      "0x14e",
+      "0x14f"
+    ],
+    "all_remaining_bytes_equal": true,
+    "raw_comparison_matched": false
+  },
+  "unreadable_header": {
+    "native_task_state": "failed",
+    "native_artifacts": 0,
+    "missing_reason": "invalid_or_unreadable_pe",
+    "native_rows_sha256": "0eb5981f72cd9c7bb23bb821c7c2dddabde5447dc9ec8576e6025ef78ca3eb82",
+    "reference_result_rows": 0,
+    "reference_files": [
+      {
+        "name": "PE.0x840f66a6d040.384.0x7ff6afd90000.dmp",
+        "size": "0",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "scope": "No recovered image counted; native preserves an error row, reference leaves an empty file"
+  },
+  "fuzz": {
+    "target": "FuzzMappedPEReconstruction",
+    "duration_seconds": 10,
+    "executions": 5455651,
+    "result": "passed",
+    "scope": "bounded parser and patch-plan properties"
+  },
+  "acceptance": "Selected PE32/PE32+ synthetic layouts and x64 official process/kernel/DLL cases. Kernel canonical ImageBase bytes differ explicitly; session-layer fallback, full versions/architectures and failure semantics remain unaccepted.",
+  "engine_build_sha256": "03aeef997eee820be84878c1040c517d7d7727e283e5f8ebbf22420e15c89bbf",
+  "bundle_validation": [
+    {
+      "profile": "pedump-process",
+      "report": {
+        "tasks": 1,
+        "members": 5,
+        "verified": true,
+        "artifacts": 1,
+        "included_artifacts": 1,
+        "partial_artifacts": 0
+      },
+      "sha256": "6c58864a8c202723f597be6fc7f79053903b71a7756cf3184649a8f546677922"
+    },
+    {
+      "profile": "pedump-kernel",
+      "report": {
+        "tasks": 1,
+        "members": 5,
+        "verified": true,
+        "artifacts": 1,
+        "included_artifacts": 1,
+        "partial_artifacts": 0
+      },
+      "sha256": "a51227c173e44eba99bbdac085cb0aefc1e33551896626215bec9e7c80e9ce7a"
+    },
+    {
+      "profile": "dll-pe-dump",
+      "report": {
+        "tasks": 1,
+        "members": 5,
+        "verified": true,
+        "artifacts": 1,
+        "included_artifacts": 1,
+        "partial_artifacts": 0
+      },
+      "sha256": "1ef135f469e9a30bfca2a6a5d580d0fbd59a7c0e16d25dbaaf4a5e52f41e259c"
+    },
+    {
+      "profile": "pedump-process-pdb",
+      "report": {
+        "tasks": 1,
+        "members": 5,
+        "verified": true,
+        "artifacts": 1,
+        "included_artifacts": 1,
+        "partial_artifacts": 0
+      },
+      "sha256": "67ade9d2d482837205f51d18d7ca4cc000201d505bad281bf2e88fc10f836aef"
+    }
+  ]
+}

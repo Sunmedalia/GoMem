@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
+	"strings"
 	"sync"
 
 	"github.com/Sunmedalia/GoMem/pkg/evidence"
@@ -19,8 +20,8 @@ import (
 func dllPlugins() []builtin {
 	return []builtin{{plugin.Spec{Name: "windows.dlllist", Upstream: "windows.dlllist.DllList", Platform: "windows", NeedsKernel: true,
 		Description: "Enumerate native and WoW64 PEB load-order DLLs in each process address space",
-		Parameters:  []plugin.Parameter{{Name: "pid", Kind: "string", Description: "Optional comma-separated process IDs"}, {Name: "base", Kind: "string", Description: "Optional exact DLL base address"}, {Name: "name", Kind: "string", Description: "RE2 expression matching DLL name or full path"}, {Name: "ignore-case", Kind: "bool", Default: "false", Description: "Case-insensitive name expression"}, {Name: "max-nodes", Kind: "uint", Default: "131072", Description: "Process and per-PEB list bound"}, {Name: "max-modules", Kind: "uint", Default: "1000000", Description: "Total DLL traversal limit, including filtered entries"}},
-		Columns:     []evidence.Column{{Name: "PID", Kind: "uint64"}, {Name: "Process", Kind: "string"}, {Name: "Base", Kind: "address"}, {Name: "Size", Kind: "uint64"}, {Name: "Name", Kind: "string"}, {Name: "Path", Kind: "string"}, {Name: "LoadCount", Kind: "int64"}, {Name: "LoadTime", Kind: "string"}, {Name: "LoadTimeRaw", Kind: "uint64"}, {Name: "Offset", Kind: "address"}, {Name: "PEB", Kind: "address"}, {Name: "Architecture", Kind: "string"}, {Name: "LayoutSHA256", Kind: "string"}, {Name: "ProcessOffset", Kind: "address"}, {Name: "ProcessIdentity", Kind: "string"}, {Name: "RecordType", Kind: "string"}, {Name: "Error", Kind: "string"}}}, windowsDLLList}}
+		Parameters:  []plugin.Parameter{{Name: "dump", Kind: "bool", Default: "false", Description: "Reconstruct selected DLL PE files into the case"}, {Name: "pid", Kind: "string", Description: "Optional comma-separated process IDs"}, {Name: "base", Kind: "string", Description: "Optional exact DLL base address"}, {Name: "name", Kind: "string", Description: "RE2 expression matching DLL name or full path"}, {Name: "ignore-case", Kind: "bool", Default: "false", Description: "Case-insensitive name expression"}, {Name: "max-nodes", Kind: "uint", Default: "131072", Description: "Process and per-PEB list bound"}, {Name: "max-modules", Kind: "uint", Default: "1000000", Description: "Total DLL traversal limit, including filtered entries"}},
+		Columns:     []evidence.Column{{Name: "PID", Kind: "uint64"}, {Name: "Process", Kind: "string"}, {Name: "Base", Kind: "address"}, {Name: "Size", Kind: "uint64"}, {Name: "Name", Kind: "string"}, {Name: "Path", Kind: "string"}, {Name: "LoadCount", Kind: "int64"}, {Name: "LoadTime", Kind: "string"}, {Name: "LoadTimeRaw", Kind: "uint64"}, {Name: "Offset", Kind: "address"}, {Name: "PEB", Kind: "address"}, {Name: "Architecture", Kind: "string"}, {Name: "LayoutSHA256", Kind: "string"}, {Name: "ProcessOffset", Kind: "address"}, {Name: "ProcessIdentity", Kind: "string"}, {Name: "RecordType", Kind: "string"}, {Name: "Error", Kind: "string"}, {Name: "FileOutput", Kind: "artifact"}, {Name: "Patches", Kind: "structure"}}}, windowsDLLList}}
 }
 
 var wowLoader struct {
@@ -87,6 +88,10 @@ func windowsDLLList(ctx context.Context, e plugin.Environment, p map[string]stri
 	if err != nil {
 		return err
 	}
+	dump, err := strconv.ParseBool(p["dump"])
+	if err != nil {
+		return err
+	}
 	var expression *regexp.Regexp
 	if p["name"] != "" {
 		pattern := p["name"]
@@ -131,7 +136,7 @@ func windowsDLLList(ctx context.Context, e plugin.Environment, p map[string]stri
 				firstFailure = cause
 			}
 			cells := map[string]evidence.Value{"PID": evidence.Number(pid), "Process": evidence.Text(name), "ProcessOffset": evidence.Address(process), "ProcessIdentity": evidence.Text(identity), "RecordType": evidence.Text("diagnostic"), "Error": evidence.Missing(stage, cause)}
-			for _, field := range []string{"Base", "Size", "Name", "Path", "LoadCount", "LoadTime", "LoadTimeRaw", "Offset", "PEB", "Architecture", "LayoutSHA256"} {
+			for _, field := range []string{"Base", "Size", "Name", "Path", "LoadCount", "LoadTime", "LoadTimeRaw", "Offset", "PEB", "Architecture", "LayoutSHA256", "FileOutput", "Patches"} {
 				cells[field] = evidence.Missing(stage, cause)
 			}
 			layerName := e.Kernel.Name()
@@ -274,7 +279,37 @@ func windowsDLLList(ctx context.Context, e plugin.Environment, p map[string]stri
 				} else if !errors.Is(er, object.ErrFieldAbsent) {
 					time, raw = evidence.Missing("invalid_loader_time_layout", er), evidence.Missing("invalid_loader_time_layout", er)
 				}
-				return emit(evidence.Row{Cells: map[string]evidence.Value{"PID": evidence.Number(pid), "Process": evidence.Text(name), "Base": moduleBase, "Size": optionalUint(ctx, user, address, "_LDR_DATA_TABLE_ENTRY", "SizeOfImage", false), "Name": short, "Path": full, "LoadCount": dllLoadCount(ctx, user, address), "LoadTime": time, "LoadTimeRaw": raw, "Offset": evidence.Address(address), "PEB": evidence.Address(target.peb), "Architecture": evidence.Text(target.arch), "LayoutSHA256": evidence.Text(user.Symbols.Digest()), "ProcessOffset": evidence.Address(process), "ProcessIdentity": evidence.Text(identity), "RecordType": evidence.Text("module"), "Error": evidence.Missing("not_applicable", nil)}, Provenance: evidence.Provenance{Layer: layer.Name(), Offset: fmt.Sprintf("0x%x", address)}})
+				row := evidence.Row{Cells: map[string]evidence.Value{"PID": evidence.Number(pid), "Process": evidence.Text(name), "Base": moduleBase, "Size": optionalUint(ctx, user, address, "_LDR_DATA_TABLE_ENTRY", "SizeOfImage", false), "Name": short, "Path": full, "LoadCount": dllLoadCount(ctx, user, address), "LoadTime": time, "LoadTimeRaw": raw, "Offset": evidence.Address(address), "PEB": evidence.Address(target.peb), "Architecture": evidence.Text(target.arch), "LayoutSHA256": evidence.Text(user.Symbols.Digest()), "ProcessOffset": evidence.Address(process), "ProcessIdentity": evidence.Text(identity), "RecordType": evidence.Text("module"), "Error": evidence.Missing("not_applicable", nil)}, Provenance: evidence.Provenance{Layer: layer.Name(), Offset: fmt.Sprintf("0x%x", address)}}
+				row.Cells["FileOutput"] = evidence.Missing("not_requested", nil)
+				row.Cells["Patches"] = evidence.Missing("not_requested", nil)
+				var dumpErr error
+				if dump {
+					value, err := moduleBase.Uint()
+					dumpErr = err
+					if err != nil {
+						row.Cells["FileOutput"] = evidence.Missing("dll_base_unreadable", err)
+					} else {
+						leaf := "UnreadableDLLName"
+						if full.Kind != "missing" {
+							leaf = fullName
+							if i := strings.LastIndexAny(leaf, "/\\"); i >= 0 {
+								leaf = leaf[i+1:]
+							}
+						}
+						file, image, err := dumpPE(ctx, e, layer, fmt.Sprintf("pid.%d.%s.%#x.%#x.dmp", pid, leaf, address, value), value)
+						row.Cells["FileOutput"] = file
+						dumpErr = err
+						if image != nil {
+							row.Cells["Patches"] = evidence.Value{Kind: "structure", Data: image.Patches}
+						} else {
+							row.Cells["Patches"] = evidence.Missing("pe_plan_unavailable", err)
+						}
+					}
+				}
+				if err := emit(row); err != nil {
+					return err
+				}
+				return dumpErr
 			})
 			if outputErr != nil {
 				return outputErr

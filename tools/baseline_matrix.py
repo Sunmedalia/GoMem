@@ -83,7 +83,7 @@ def generate(source):
                "linux.pslist.PsList": "linux.pslist", "windows.modules.Modules": "windows.modules",
                "linux.lsmod.Lsmod": "linux.lsmod", "windows.threads.Threads": "windows.threads",
                "windows.vadinfo.VadInfo": "windows.vadinfo", "linux.proc.Maps": "linux.maps",
-               "windows.dlllist.DllList": "windows.dlllist"}
+               "windows.dlllist.DllList": "windows.dlllist", "windows.pedump.PEDump": "windows.pedump"}
 
     def requirements(identifier, seen=None):
         seen = set() if seen is None else seen
@@ -124,7 +124,12 @@ def generate(source):
                               gaps=["Maple Tree has synthetic ABI tests only; real modern kernels, pivot/meta validation and complete versions pending", "Extraction has selected legacy x64 region byte comparisons only; full parameter/version acceptance pending", "Full parameter combinations and scoped/raw path semantics need complete acceptance; see docs/linux-maps.md"])
         if identifier == "windows.dlllist.DllList":
             plugins[-1].update(applicability="Active process PEB load-order lists in independent process spaces; native symbol layouts and minimal declared WoW64 loader fields. Read failures remain diagnostics.",
-                              gaps=["Full Windows version/architecture and Python regex semantics pending", "WoW64 LoadTime/LoadCount deliberately unavailable until verified 32-bit layouts exist", "Physical offset process scanning, PE reconstruction/dump and timeline export pending"])
+                              gaps=["Full Windows version/architecture and Python regex semantics pending", "WoW64 LoadTime/LoadCount deliberately unavailable until verified 32-bit layouts exist", "Physical offset process scanning, full PE dump acceptance and timeline export pending"])
+        if identifier == "windows.pedump.PEDump":
+            plugins[-1].update(applicability="Mapped Intel PE32/PE32+ images with resident, bounded headers. Explicit process roots or verified kernel root; 256MiB image limit.",
+                              corpora=["synthetic-windows-x64","synthetic-pe32-pe32plus","official-windows-10-19041"],
+                              comparison="selected_process_PE_bytes_match_kernel_ImageBase_difference_explained",validation_record="docs/pe-reconstruction.md",
+                              gaps=["Kernel ImageBase retains canonical high bits; differs explicitly from pinned baseline", "Kernel session-layer fallback, full architecture/version/failure coverage pending", "Uncaptured or invalid headers fail rather than producing empty PE files"])
     infrastructure = []
     for group, directory in [("layers", "volatility3/framework/layers"), ("symbols", "volatility3/framework/symbols"),
                              ("renderers", "volatility3/cli"), ("automagic", "volatility3/framework/automagic")]:

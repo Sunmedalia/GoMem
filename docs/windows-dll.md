@@ -14,7 +14,9 @@ WoW64 同时遍历原生与 32 位 PEB：按符号声明识别 EWOW64PROCESS.Peb
 
 该上游表的 LDR 类型声明大小为 160 字节，而 LoadTime 偏移为 256，且没有 LoadCount 字段。GoMem 不读取这一越界时间，而把 WoW64 LoadTime/LoadCount 明确标为 `unsupported_loader_field`。其他原生加载时间与计数仍按目标类型解析；计数按上游有符号 short 解释，例如 0xffff 为 -1。完整 32 位加载元数据需要后续匹配的符号与版本验证，不能把本次稳定基本字段实现当作完成。
 
-`pid` 支持集合；`base` 采用精确基址筛选，零与上游一样不启用筛选。`name` 对名称或全路径匹配，使用 Go RE2；`ignore-case` 控制大小写。Python 的后向断言等不兼容表达式直接报错，不伪装成无命中。读取失败使名称筛选无法可靠执行时，记录诊断并使任务失败。`max-nodes` 限制进程及单个 PEB 链表，`max-modules` 限制总遍历量，过滤不会绕过限制。物理 offset 进程扫描、DLL PE 重建/dump 和时间线导出尚未实现，相关未知参数会明确拒绝。
+`pid` 支持集合；`base` 采用精确基址筛选，零与上游一样不启用筛选。`name` 对名称或全路径匹配，使用 Go RE2；`ignore-case` 控制大小写。Python 的后向断言等不兼容表达式直接报错，不伪装成无命中。读取失败使名称筛选无法可靠执行时，记录诊断并使任务失败。`max-nodes` 限制进程及单个 PEB 链表，`max-modules` 限制总遍历量，过滤不会绕过限制。物理 offset 进程扫描和时间线导出尚未实现，相关未知参数会明确拒绝。
+
+`dump=true` 可将所选 DLL 交给 [PE 重建](pe-reconstruction.md)，输出案件 artifact 和逐字段补丁记录。缺失 PE 头不会被零填充后冒充有效映像，输出模块证据并报告提取失败。文件名跟随可读路径的最后一个分量并保留对象/基址；不允许不安全路径逃离案件。完整 DLL 提取语料仍待补齐。
 
 `RecordType=module` 为模块；`RecordType=diagnostic` 保留非空 PEB 不可读、loader 不可用或损坏链表等阶段与具体错误。诊断后继续其他进程，最终任务失败，防止未读加载器被当作正常空列表。空 PEB 且无 WoW64 指针的进程不产生 DLL。可选名称、路径和加载元数据缺页以带错误的 missing 单元格保留；FullDllName 独立读取，不因 BaseDllName 缺页而放弃可读路径。取消和输出错误保留此前结果。
 
@@ -26,4 +28,4 @@ WoW64 同时遍历原生与 32 位 PEB：按符号声明识别 EWOW64PROCESS.Peb
 
 [核心映射](diff/windows.dlllist.json) 显式选择 module 记录，并在报告中保留原始行数和排除的诊断数量；不将这些诊断计为成功空结果。另有 [可读样本映射](diff/windows.dlllist.readable.json)，包括名称、路径、有符号计数和时间。[聚合验证记录](windows-dll-validation.json) 保存任务状态、摘要、异常类别和适用范围，镜像及原始路径不提交。
 
-常规测试覆盖原生/WoW64、合成 x86/PAE、独立进程根、PID/基址/正则筛选、符号和布局、缺页、空 loader、循环、上限、取消与输出失败。`GOMEM_CORPUS_DIR` 设为绝对语料目录后，`go test ./internal/engine -run TestOfficialWindowsDLLsAndExplicitDiagnostics -v` 核验完整多重集、诊断及可读字段。旧版 Windows、完整 WoW64 元数据、物理扫描、PE 导出和全部参数差分仍待完成。
+常规测试覆盖原生/WoW64、合成 x86/PAE、独立进程根、PID/基址/正则筛选、符号和布局、缺页、空 loader、循环、上限、取消与输出失败。`GOMEM_CORPUS_DIR` 设为绝对语料目录后，`go test ./internal/engine -run TestOfficialWindowsDLLsAndExplicitDiagnostics -v` 核验完整多重集、诊断及可读字段。旧版 Windows、完整 WoW64 元数据、物理扫描、完整 PE 导出和全部参数差分仍待完成。

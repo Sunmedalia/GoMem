@@ -59,11 +59,19 @@ class DifferentialTests(unittest.TestCase):
                 compare_extractions(native, case, manifest, reference)
             artifact["sha256"] = hashlib.sha256(b"fake\0\0").hexdigest()
             write_native()
-            self.assertFalse(compare_extractions(native, case, manifest, reference)["matched"])
+            changed = compare_extractions(native, case, manifest, reference)
+            self.assertFalse(changed["matched"])
+            self.assertEqual(changed["files"][0]["differing_bytes"], 4)
+            self.assertEqual(changed["files"][0]["first_differing_offsets"], ["0x0", "0x1", "0x2", "0x3"])
+            (reference / "mapped-name.dmp").write_bytes(data)
+            manifest_data = json.loads(manifest.read_text())
+            manifest_data["extracted_files"][0]["name"] = "mapped-name.dmp"
+            manifest.write_text(json.dumps(manifest_data))
+            self.assertFalse(compare_extractions(native, case, manifest, reference, {"region.dmp": "mapped-name.dmp"})["matched"])
             artifact["path"] = "../outside.dmp"
             write_native()
             with self.assertRaisesRegex(ValueError, "unsafe extraction"):
-                compare_extractions(native, case, manifest, reference)
+                compare_extractions(native, case, manifest, reference, {"region.dmp": "mapped-name.dmp"})
     def test_v2_bundle_extraction_and_padding_integrity(self):
         task_id, artifact_id = "a" * 32, "b" * 32
         provenance = {"image_sha256": "synthetic", "layer": "physical", "plugin": "fixture"}
