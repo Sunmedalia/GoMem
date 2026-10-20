@@ -84,7 +84,7 @@ def generate(source):
                "linux.lsmod.Lsmod": "linux.lsmod", "windows.threads.Threads": "windows.threads",
                "windows.vadinfo.VadInfo": "windows.vadinfo", "linux.proc.Maps": "linux.maps",
                "windows.dlllist.DllList": "windows.dlllist", "windows.pedump.PEDump": "windows.pedump",
-               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux", "linux.elfs.Elfs": "linux.elfs", "linux.psscan.PsScan": "linux.psscan", "linux.lsof.Lsof": "linux.lsof", "linux.sockstat.Sockstat": "linux.sockstat", "linux.pagecache.InodePages": "linux.inodepages", "linux.pagecache.Files": "linux.files"}
+               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux", "linux.elfs.Elfs": "linux.elfs", "linux.psscan.PsScan": "linux.psscan", "linux.lsof.Lsof": "linux.lsof", "linux.sockstat.Sockstat": "linux.sockstat", "linux.pagecache.InodePages": "linux.inodepages", "linux.pagecache.Files": "linux.files", "linux.pagecache.RecoverFs": "linux.recoverfs"}
 
     def requirements(identifier, seen=None):
         seen = set() if seen is None else seen
@@ -123,6 +123,12 @@ def generate(source):
                               corpora=["synthetic-linux-x64", "synthetic-linux-clock-and-signal-threads", "official-linux-sample-1", "official-linux-sample-1-reencoded-avml"],
                               comparison="selected_ten_fields_match_133_processes_316_tasks_with_explicit_microsecond_rounding", validation_record="docs/linux-tasks.md",
                               gaps=["Real modern kernel/32-bit clock and thread layout matrix pending; modern paths have synthetic tests only", "ELF main-image extraction has selected legacy x64 validation only; timeline and damaged task-list bidirectional recovery remain pending", "Credential/clock read errors are retained per field; UID values are raw kernel IDs, not user namespace remapping"])
+
+        if identifier == "linux.pagecache.RecoverFs":
+            plugins[-1].update(applicability="Cached REG/DIR/LNK objects from the mounted superblock walk. Archive prefixes use s_uuid or major:minor; regular files expand to logical size only when cached pages exist and stay within max-file/maxsize. Holes and short physical reads are explicit. Fast symlinks are archived without traversal; absolute targets are rewritten with PurePath semantics and the original bytes remain in the row.",
+                              corpora=["synthetic-linux-cached-filesystem-archive", "official-linux-sample-1-syslog-member"],
+                              comparison="synthetic_archive_is_reproducible_and_selected_syslog_member_matches_padded_page_cache_sha256", validation_record="docs/linux-recoverfs.md",
+                              gaps=["Full RecoverFs tarball has no byte-for-byte baseline differential; tar mtime and gzip MTIME are fixed instead of using the plugin run time", "Files above max-file, duplicate prefixed paths and symlinks without a readable i_link fail the member and the task; a bounded Debian 3.2 run is not a complete filesystem export", "Real modern filesystems, 32-bit layouts, tmpfs-only on a real tmpfs and complete compression/version matrix remain unaccepted", "Metadata, ownership and original mode bits are not replicated into tar headers"])
         if identifier == "linux.pagecache.Files":
             plugins[-1].update(applicability="Task mount namespaces through legacy/modern list or rb_root, superblock roots and list/hlist cached dentries. First superblock mount scope is explicit; hardlink aliases, negative-entry counts, raw paths and exact inode clocks are retained. Type and first exact raw-path filters do not prune directory descent.",
                               corpora=["synthetic-linux-filesystem-list-union-hlist-and-rb-layouts", "synthetic-linux-hardlinks-fast-symlinks-and-corruption", "official-linux-sample-1", "official-linux-sample-1-reencoded-avml"],

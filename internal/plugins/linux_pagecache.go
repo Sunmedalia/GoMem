@@ -393,3 +393,74 @@ func recoverLinuxCachedFile(ctx context.Context, e plugin.Environment, inode, si
 	artifact, finishErr := w.Finish(ctx, err)
 	return evidence.Value{Kind: "artifact", Data: artifact}, errors.Join(err, finishErr)
 }
+
+// Collect dump-safe cached pages for one regular inode. Unsupported folio
+// entries and structural cache errors are returned; callers must not treat the
+// resulting page list as proof that absent indexes were uncached.
+func linuxDumpablePages(ctx context.Context, e plugin.Environment, inode, maxNodes, maxPages uint64) (uint64, []linuxCachedPage, error) {
+	mode, err := e.Objects.Uint(ctx, inode, "inode", "i_mode")
+	if err != nil {
+		return 0, nil, err
+	}
+	if mode&0170000 != 0100000 {
+		return 0, nil, fmt.Errorf("inode is not a regular file")
+	}
+	sizeSigned, err := e.Objects.Int(ctx, inode, "inode", "i_size")
+	if err != nil {
+		return 0, nil, err
+	}
+	if sizeSigned < 0 {
+		return 0, nil, fmt.Errorf("negative inode size")
+	}
+	size := uint64(sizeSigned)
+	mapping, err := e.Objects.Uint(ctx, inode, "inode", "i_mapping")
+	if err != nil {
+		return size, nil, err
+	}
+	if mapping == 0 {
+		return size, nil, fmt.Errorf("inode has no address_space")
+	}
+	model, err := linuxPageMemoryModel(ctx, e)
+	if err != nil {
+		return size, nil, err
+	}
+	var pages []linuxCachedPage
+	var failures pluginFailures
+	_, treeErr := linuxcache.Walk(ctx, e.Objects, mapping, linuxcache.Limits{Nodes: maxNodes, Entries: maxPages}, func(entry linuxcache.Entry) error {
+		if entry.Kind != "page" {
+			if entry.Kind == "sibling" || entry.Kind == "internal_value" {
+				failures.add(fmt.Errorf("unsupported XArray %s entry at index %d", entry.Kind, entry.Index))
+			}
+			return nil
+		}
+		mappingRead, me := e.Objects.Uint(ctx, entry.Value, "page", "mapping")
+		index, ie := e.Objects.Uint(ctx, entry.Value, "page", "index")
+		physical, pe := model.physical(entry.Value)
+		pageErr := errors.Join(me, ie, pe)
+		if me == nil && mappingRead != mapping {
+			pageErr = errors.Join(pageErr, fmt.Errorf("page mapping %#x differs from inode mapping %#x", mappingRead, mapping))
+		}
+		if ie == nil && index != entry.Index {
+			pageErr = errors.Join(pageErr, fmt.Errorf("page index %d differs from tree index %d", index, entry.Index))
+		}
+		if entry.Span != 1 {
+			pageErr = errors.Join(pageErr, fmt.Errorf("multi-index folio extraction is not supported (span %d)", entry.Span))
+		}
+		if pageErr == nil && index <= ^uint64(0)/4096 && index*4096 < size {
+			pages = append(pages, linuxCachedPage{index, physical})
+		} else if pageErr != nil {
+			failures.add(pageErr)
+		}
+		return ctx.Err()
+	})
+	failures.add(treeErr)
+	sort.Slice(pages, func(i, j int) bool { return pages[i].index < pages[j].index })
+	for i := 1; i < len(pages); i++ {
+		if pages[i].index == pages[i-1].index {
+			failures.add(fmt.Errorf("duplicate cached page index %d", pages[i].index))
+			pages = pages[:i]
+			break
+		}
+	}
+	return size, pages, failures.err("inode page cache")
+}

@@ -1,0 +1,38 @@
+{
+  "schema": "gomem.linux-recoverfs-validation/v1",
+  "date": "2026-10-20",
+  "scope": "Synthetic archive semantics plus one bounded Debian 3.2 x64 member. Not a complete RecoverFs acceptance and not a byte-for-byte baseline tarball differential.",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+  "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+  "parameters": {
+    "compression": "gz",
+    "max-file": "65536",
+    "maxsize": "1073741824",
+    "tmpfs-only": "false",
+    "dtb": "0x1605000"
+  },
+  "task_state": "failed",
+  "failure_reason": "2351 symlinks have no inode.i_link on this kernel, 391 regular files exceed max-file, and 6 prefixed paths are duplicates",
+  "coverage": {
+    "archive_members": 6473,
+    "directories": 1491,
+    "regular_files": 4982,
+    "symlinks": 0,
+    "archive_logical_bytes": 18573745,
+    "dentry_visits": 11619,
+    "unique_inodes": 9434
+  },
+  "syslog_member": {
+    "path": "/var/log/syslog",
+    "archive_prefix_source": "uuid",
+    "inode": "0xffff88001a87e518",
+    "size": 30143,
+    "missing_bytes": 20480,
+    "hole": {"offset": 0, "length": 20480, "reason": "uncached_page"},
+    "sha256": "39301d85a3087a5f5736512ccbfe986c606976280e52487594b93f93d949cd8f",
+    "tar_mode": "0444",
+    "tar_mtime_unix": 0
+  },
+  "reproducibility": "Synthetic gz/bz2/xz archives and the gzip MTIME-zero header are stable across repeated runs. The selected corpus compressed-archive hash is not frozen because the run is intentionally incomplete."
+}

@@ -27,3 +27,4 @@
 2026-10-20：新增 linux.inodepages 的显式 inode 页缓存枚举与可审计稀疏恢复；四个旧 x64 inode 的 9 页及导出字节完成选定对照。随后新增 Files/find 路径；RecoverFs、大 folio、现代实机版本矩阵仍未完成，详见 [页缓存验证](linux-pagecache.md)。
 
 2026-10-20：linux.files 实现挂载命名空间、超级块缓存目录遍历及类型/路径筛选；inodepages 接入 find 并保留查找证据。选定旧 x64 采集的 9,434 个 inode 和 28,302 个时钟有独立 RAW 验证，现代真实镜像及 RecoverFs/时间线/全部挂载可见性仍待补齐。[详情](linux-files.md)
+2026-10-20：linux.recoverfs 将缓存目录、正规文件和快符号链接写入带清单的压缩包。选定 Debian 3.2 采集在 64KiB 上限下核对了 syslog 成员字节；该内核没有 i_link，符号链接失败关闭。完整基线压缩包差分、现代内核和 32 位仍未完成。[详情](linux-recoverfs.md)

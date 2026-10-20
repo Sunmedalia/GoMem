@@ -53,6 +53,7 @@ bin/gomem analyze windows.pslist \
 | `linux.psscan` | 一次物理扫描寻找调度类指针任务候选，保留退出状态、启发式与覆盖信息 |
 | `linux.sockstat` | 文件描述符关联的 socket、网络字节序端点、UNIX 原始名称、任务/socket 命名空间和过滤器元数据 |
 | `linux.files` | 挂载命名空间及超级块缓存目录枚举；保留路径作用域、硬链接别名、负条目计数和精确 inode 元数据；[说明](docs/linux-files.md) |
+| `linux.recoverfs` | 将缓存目录、正规文件和快符号链接写入可复现的压缩包；未缓存区间和超限文件明确失败，不假装已完整恢复；[说明](docs/linux-recoverfs.md) |
 | `linux.inodepages` | 正规 inode 或精确路径的 radix/XArray 缓存页及有空洞记录的文件导出；[适用条件](docs/linux-pagecache.md) |
 | `linux.lsof` | 任务/线程的文件描述符、带作用域原始路径、inode/设备/权限和纳秒时间；保留部分读取 |
 | `linux.elfs` | ELF 映射枚举及分段提取，记录布局、段来源与缺页；提供显式基线布局 |

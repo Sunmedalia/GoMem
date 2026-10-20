@@ -1,6 +1,6 @@
 # Linux 页缓存与 inode 文件恢复（开发预览）
 
-`linux.inodepages` 对应固定基线的 `linux.pagecache.InodePages` 显式 inode 及 find 路径。find 使用 [linux.files](linux-files.md) 的挂载超级块缓存树定位正规文件，inode 与 find 二选一；InodeLookup 保存来源和查找覆盖。完整能力尚未验收，`RecoverFs` 仍未实现。
+`linux.inodepages` 对应固定基线的 `linux.pagecache.InodePages` 显式 inode 及 find 路径。find 使用 [linux.files](linux-files.md) 的挂载超级块缓存树定位正规文件，inode 与 find 二选一；InodeLookup 保存来源和查找覆盖。完整能力尚未验收。批量导出见 [linux.recoverfs](linux-recoverfs.md)，完整压缩包尚未与基线逐字节对照。
 
 ```sh
 bin/gomem analyze linux.inodepages --image memory.raw --symbols exact.json.xz \
