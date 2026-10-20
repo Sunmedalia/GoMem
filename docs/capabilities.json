@@ -6605,15 +6605,25 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Open handles from PsActiveProcessHead, or from one pool-scanned EPROCESS when offset is non-zero. A non-zero offset ignores pid and reuses the Pro\\xe3 and Proc scan. Windows 10 and later compare the translated physical object address; earlier Windows compare the physical object directly. TableCode low 3 bits select the level and the rest is the table base. Level pages are pointers. A level-0 page is _HANDLE_TABLE_ENTRY. HandleValue is index*4 plus depth*entries*4. An unreadable pointer slot does not consume a level depth index; a readable pointer to an unmapped page does. Repeated pages increment a cycle count and stop that branch. The walk stops after 100000 pages or 2000000 slots. Before Windows 8, Object is an _EX_FAST_REF, masked by 15 bits on 64-bit and 7 bits on 32-bit, and GrantedAccess is the access. Windows 8 and later on 64-bit use ObjectPointerBits<<4 and GrantedAccessBits. 32-bit uses InfoTable cleared of its low 3 bits. A raw TypeIndex of zero is dropped before cookie decoding. The type table is ObTypeIndexTable, or else ObpObjectTypes. When ObHeaderCookie exists, the index is ((header>>8) ^ cookie ^ TypeIndex) & 0xff. File names are \\Device\\ plus the device header name; a bad file name is not appended. Process, Thread and Key use their special formats. Key hive entry 0x4 is skipped only when _CM_KEY_BODY.Trans exists, and the name block is read after that move. Other names use NameInfoOffset, or ObpInfoMaskToOffset[InfoMask&3]. An empty name is not_available. A read error is unreadable on Name with no error attached; NameError keeps the error. Native addresses stay canonical. Reference offsets drop the high bits, so Offset is compared after a low-48 mask. The summary row is not a handle.",
+      "native": "windows.handles",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_50967_rows_match_pid_process_offset_handle_type_access_and_name",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has 50967 handles from 109 of 120 active processes, 41 level-0 tables, 76 level-1 tables, no level-2 table, and a maximum handle value of 12200",
+        "37909 names are not_available and 5 are unreadable. The compared Name cell has no error; NameError keeps the read error",
+        "Three handle tables were unreadable and counted. No object table was skipped and no page cycle was observed",
+        "32-bit images, real pre-Windows 8 fast-reference tables, and offset pool selection remain pending outside synthetic fixtures",
+        "Reference offsets omit the canonical high bits. The comparison masks both sides to the low 48 bits",
+        "max-nodes bounds only the active process list and is not an upstream parameter",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-handles.md"
     },
     {
       "id": "windows.hashdump.Hashdump",

@@ -1,0 +1,16 @@
+{
+  "fields": {
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "Process": {"native": "Process", "reference": "Process", "kind": "string"},
+    "Offset": {"native": "Offset", "reference": "Offset", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "HandleValue": {"native": "HandleValue", "reference": "HandleValue", "kind": "address"},
+    "Type": {"native": "Type", "reference": "Type", "kind": "string"},
+    "GrantedAccess": {"native": "GrantedAccess", "reference": "GrantedAccess", "kind": "address"},
+    "Name": {"native": "Name", "reference": "Name", "kind": "string", "missing_reasons": ["not_available", "unreadable"]}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["handle"],
+    "excluded_values": ["summary"]
+  }
+}
