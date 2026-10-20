@@ -7,6 +7,8 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"os"
+	"path/filepath"
 	"strings"
 
 	tea "charm.land/bubbletea/v2"
@@ -284,6 +286,13 @@ func caseCommands(c *engine.Config, out io.Writer) *cobra.Command {
 		if c.CaseDir == "" {
 			return nil, fmt.Errorf("--case is required")
 		}
+		info, err := os.Stat(filepath.Join(c.CaseDir, "case.db"))
+		if err != nil {
+			return nil, fmt.Errorf("open existing case: %w", err)
+		}
+		if !info.Mode().IsRegular() {
+			return nil, fmt.Errorf("case database is not a regular file")
+		}
 		return store.Open(c.CaseDir)
 	}
 	cmd.AddCommand(&cobra.Command{Use: "tasks", Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
@@ -298,6 +307,49 @@ func caseCommands(c *engine.Config, out io.Writer) *cobra.Command {
 		}
 		return jsonOut(out, tasks)
 	}})
+	var artifactTask string
+	var artifactOffset, artifactLimit int
+	artifacts := &cobra.Command{Use: "artifacts", Short: "List one page of extracted-file metadata", Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
+		s, err := open()
+		if err != nil {
+			return err
+		}
+		defer s.Close()
+		page, err := s.ArtifactPage(cmd.Context(), artifactTask, artifactOffset, artifactLimit)
+		if err != nil {
+			return err
+		}
+		return jsonOut(out, page)
+	}}
+	artifacts.Flags().StringVar(&artifactTask, "task", "", "Owner task ID; otherwise all tasks")
+	artifacts.Flags().IntVar(&artifactOffset, "offset", 0, "Artifact page offset")
+	artifacts.Flags().IntVar(&artifactLimit, "limit", 100, "Page size (1..1000)")
+	cmd.AddCommand(artifacts)
+	var verifyTask string
+	verify := &cobra.Command{Use: "verify-artifacts", Short: "Verify all extraction files and padding logs in scope", Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
+		s, err := open()
+		if err != nil {
+			return err
+		}
+		defer s.Close()
+		if err = s.VerifyTaskArtifacts(cmd.Context(), verifyTask); err != nil {
+			return err
+		}
+		count := 0
+		for offset := 0; ; offset += 1000 {
+			page, err := s.ArtifactPage(cmd.Context(), verifyTask, offset, 1000)
+			if err != nil {
+				return err
+			}
+			count += len(page)
+			if len(page) < 1000 {
+				break
+			}
+		}
+		return jsonOut(out, map[string]any{"verified": true, "artifacts": count, "task_id": verifyTask, "scope": "all extraction files and padding logs in selected tasks"})
+	}}
+	verify.Flags().StringVar(&verifyTask, "task", "", "Owner task ID; otherwise all tasks")
+	cmd.AddCommand(verify)
 	cmd.AddCommand(&cobra.Command{Use: "notes", Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
 		s, err := open()
 		if err != nil {

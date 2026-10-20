@@ -2,12 +2,43 @@ import json
 import pathlib
 import tempfile
 import unittest
+import hashlib
+import zipfile
 
 from diff_results import compare, normalized as normalized_result
 from compare_symbols import normalized
+from verify_bundle import verify as verify_bundle
 
 
 class DifferentialTests(unittest.TestCase):
+    def test_v2_bundle_extraction_and_padding_integrity(self):
+        task_id, artifact_id = "a" * 32, "b" * 32
+        provenance = {"image_sha256": "synthetic", "layer": "physical", "plugin": "fixture"}
+        path = f"artifacts/{task_id}/{artifact_id}/segment.bin"
+        data = b"AB\0\0"
+        gaps = json.dumps({"offset": "0x2", "length": "2", "address": "0x1002", "layer": "process", "error": "not captured"}).encode() + b"\n"
+        artifact = {"id": artifact_id, "task_id": task_id, "name": "segment.bin", "path": path, "gaps_path": path + ".gaps.jsonl", "state": "completed_with_gaps", "expected_size": "4", "size": "4", "missing_bytes": "2", "gap_count": "1", "gaps_size": str(len(gaps)), "sha256": hashlib.sha256(data).hexdigest(), "gaps_sha256": hashlib.sha256(gaps).hexdigest(), "provenance": dict(provenance, layer="process", offset="0x1000")}
+        rows = (json.dumps({"cells": {"File": {"kind": "artifact", "value": artifact}}, "provenance": provenance}) + "\n").encode()
+        metadata = (json.dumps({"artifact": artifact, "included": True}) + "\n").encode()
+        manifest = {"schema": "gomem.evidence/v2", "tasks": [{"id": task_id, "rows": 1, "provenance": provenance}], "entries": [{"path": f"results/{task_id}.jsonl", "sha256": hashlib.sha256(rows).hexdigest(), "rows": 1}], "artifact_index": {"path": "artifacts.jsonl", "sha256": hashlib.sha256(metadata).hexdigest(), "rows": 1}}
+        with tempfile.TemporaryDirectory() as directory:
+            bundle = pathlib.Path(directory) / "evidence.zip"
+            def write(payload, index=metadata):
+                with zipfile.ZipFile(bundle, "w") as archive:
+                    for name, body in {"manifest.json": json.dumps(manifest).encode(), f"results/{task_id}.jsonl": rows, "artifacts.jsonl": index, path: payload, path + ".gaps.jsonl": gaps}.items():
+                        archive.writestr(name, body)
+            write(data)
+            self.assertEqual(verify_bundle(bundle)["included_artifacts"], 1)
+            write(b"ABXX")
+            with self.assertRaisesRegex(ValueError, "checksum"):
+                verify_bundle(bundle)
+            # Even matching hashes cannot disguise real bytes as recorded padding.
+            artifact["sha256"] = hashlib.sha256(b"ABXX").hexdigest()
+            changed = (json.dumps({"artifact": artifact, "included": True}) + "\n").encode()
+            manifest["artifact_index"]["sha256"] = hashlib.sha256(changed).hexdigest()
+            write(b"ABXX", changed)
+            with self.assertRaisesRegex(ValueError, "padding range"):
+                verify_bundle(bundle)
     def test_linux_deleted_path_display_space_only(self):
         self.assertEqual(normalized_result(" /home/a file (deleted)", "linux_path_display"), "/home/a file (deleted)")
         self.assertEqual(normalized_result(" /home/a file ", "linux_path_display"), " /home/a file ")

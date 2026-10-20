@@ -35,6 +35,7 @@ type Manifest struct {
 	Tasks         []evidence.Task `json:"tasks"`
 	Entries       []Entry         `json:"entries,omitempty"`
 	Investigation map[string]any  `json:"investigation"`
+	ArtifactIndex *Entry          `json:"artifact_index,omitempty"`
 }
 
 func Export(ctx context.Context, s *store.Store, format, name, taskID string) (path string, err error) {
@@ -67,11 +68,26 @@ func Export(ctx context.Context, s *store.Store, format, name, taskID string) (p
 	if len(tasks) == 0 {
 		return "", fmt.Errorf("case has no tasks")
 	}
+	for _, t := range tasks {
+		if t.State == "running" {
+			return "", fmt.Errorf("finish or cancel running tasks before exporting a consistent case")
+		}
+	}
 	investigation, err := s.Investigation(ctx)
 	if err != nil {
 		return "", err
 	}
 	m := Manifest{Schema: "gomem.evidence/v1", Engine: version.Version, Baseline: version.Baseline, Commit: version.BaselineCommit, Created: time.Now().UTC(), Tasks: tasks, Investigation: investigation}
+	for _, task := range tasks {
+		page, e := s.ArtifactPage(ctx, task.ID, 0, 1)
+		if e != nil {
+			return "", e
+		}
+		if len(page) > 0 {
+			m.Schema = "gomem.evidence/v2"
+			break
+		}
+	}
 	dir := filepath.Join(s.Dir, "exports")
 	if err = os.MkdirAll(dir, 0700); err != nil {
 		return "", err
@@ -108,6 +124,9 @@ func Export(ctx context.Context, s *store.Store, format, name, taskID string) (p
 					break
 				}
 			}
+		}
+		if err == nil && m.Schema == "gomem.evidence/v2" {
+			err = artifactsJSONL(ctx, s, f, tasks)
 		}
 	}
 	if err == nil {
@@ -149,6 +168,12 @@ func bundle(ctx context.Context, s *store.Store, w io.Writer, m *Manifest) error
 		}
 		m.Entries = append(m.Entries, Entry{name, hex.EncodeToString(hash.Sum(nil)), n})
 	}
+	if m.Schema == "gomem.evidence/v2" {
+		if err := bundleArtifacts(ctx, s, z, m); err != nil {
+			z.Close()
+			return err
+		}
+	}
 	f, err := z.Create("manifest.json")
 	if err == nil {
 		enc := json.NewEncoder(f)
@@ -166,6 +191,7 @@ Parent: {{.ParentID}}
 {{.Provenance.Layer}}
 {{.Provenance.Offset}}</pre></td><td><pre>{{.Cells}}</pre></td></tr>`))
 var manifestTemplate = template.Must(template.New("manifest").Parse(`<section><h2>Manifest</h2><pre>{{.}}</pre></section></html>`))
+var artifactTemplate = template.Must(template.New("artifact").Parse(`<section><h2>Extracted file</h2><pre>{{.}}</pre></section>`))
 
 func htmlReport(ctx context.Context, s *store.Store, w io.Writer, m Manifest) error {
 	if err := head.Execute(w, m); err != nil {
@@ -189,6 +215,11 @@ func htmlReport(ctx context.Context, s *store.Store, w io.Writer, m Manifest) er
 			return err
 		}
 		if _, err := io.WriteString(w, "</table></section>"); err != nil {
+			return err
+		}
+	}
+	if m.Schema == "gomem.evidence/v2" {
+		if err := artifactsHTML(ctx, s, w, m.Tasks); err != nil {
 			return err
 		}
 	}

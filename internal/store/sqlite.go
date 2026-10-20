@@ -13,17 +13,19 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gofrs/flock"
 	"github.com/Sunmedalia/GoMem/pkg/evidence"
+	"github.com/gofrs/flock"
 	_ "modernc.org/sqlite"
 )
 
 type Store struct {
-	db        *sql.DB
-	Dir       string
-	lock      *flock.Flock
-	closeOnce sync.Once
-	closeErr  error
+	artifactMu      sync.Mutex
+	artifactWriters map[string]*artifactWriter
+	db              *sql.DB
+	Dir             string
+	lock            *flock.Flock
+	closeOnce       sync.Once
+	closeErr        error
 }
 
 func Open(dir string) (*Store, error) {
@@ -79,7 +81,7 @@ func (s *Store) init() error {
 		if err := s.db.QueryRow("SELECT version FROM schema_version").Scan(&v); err != nil {
 			return err
 		}
-		if v != 1 {
+		if v != 1 && v != 2 {
 			return fmt.Errorf("unsupported case schema %d", v)
 		}
 	} else {
@@ -109,11 +111,14 @@ func (s *Store) init() error {
 	if e = s.db.QueryRow("SELECT version FROM schema_version").Scan(&v); e != nil {
 		return e
 	}
-	if v != 1 {
+	if v != 1 && v != 2 {
 		return fmt.Errorf("unsupported case schema %d", v)
 	}
 	_, e = s.db.Exec("CREATE TABLE IF NOT EXISTS images(sha256 TEXT PRIMARY KEY,path TEXT NOT NULL,size TEXT NOT NULL,format TEXT NOT NULL,first_seen TEXT NOT NULL)")
 	if e != nil {
+		return e
+	}
+	if e = s.initArtifacts(); e != nil {
 		return e
 	}
 	_, e = s.db.Exec("UPDATE tasks SET state='failed',error='interrupted before terminal state; partial evidence retained',finished=? WHERE state='running'", time.Now().UTC().Format(time.RFC3339Nano))
@@ -121,7 +126,7 @@ func (s *Store) init() error {
 }
 func (s *Store) Close() error {
 	s.closeOnce.Do(func() {
-		s.closeErr = s.db.Close()
+		s.closeErr = errors.Join(s.abortArtifacts(), s.db.Close())
 		if s.lock != nil {
 			s.closeErr = errors.Join(s.closeErr, s.lock.Close())
 		}

@@ -22,6 +22,16 @@ func run(t *testing.T, input string, args ...string) (string, string, error) {
 	err := cmd.ExecuteContext(context.Background())
 	return out.String(), stderr.String(), err
 }
+
+func TestArtifactVerificationDoesNotCreateAnAbsentCase(t *testing.T) {
+	dir := filepath.Join(t.TempDir(), "absent")
+	if _, _, err := run(t, "", "case", "verify-artifacts", "--case", dir); err == nil {
+		t.Fatal("absent case verified")
+	}
+	if _, err := os.Stat(dir); !os.IsNotExist(err) {
+		t.Fatal("inspection created an empty case", err)
+	}
+}
 func TestCommandsEndToEnd(t *testing.T) {
 	f, err := testfixture.Write(t.TempDir(), "linux")
 	if err != nil {

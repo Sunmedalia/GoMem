@@ -31,6 +31,7 @@ type Spec struct {
 	Dependencies []string          `json:"dependencies,omitempty"`
 }
 type Environment struct {
+	Artifacts   evidence.ArtifactSink
 	Physical    memory.MemoryLayer
 	Kernel      memory.MemoryLayer
 	Symbols     symbols.SymbolTable

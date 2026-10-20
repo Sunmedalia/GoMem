@@ -118,6 +118,8 @@ type Query struct {
 	Desc          bool
 }
 type EvidenceStore interface {
+	ArtifactPage(context.Context, string, int, int) ([]Artifact, error)
+	VerifyTaskArtifacts(context.Context, string) error
 	Begin(context.Context, string, string, Provenance) (Task, error)
 	Append(context.Context, string, []Row) error
 	Finish(context.Context, string, string, error) error

@@ -150,6 +150,10 @@ def generate(source):
                        "export.extracted-files", "extension.yara", "extension.capstone", "renderer.arrow", "renderer.mermaid"):
         infrastructure.append({"id": identifier, "category": "acceptance", "status": "partial" if identifier in ("source.file", "symbols.pdb-msf", "symbols.dwarf", "symbols.local-index", "symbols.pdb-conversion-cache", "symbols.auto-download", "symbols.isf.zip", "symbols.isf.gzip", "symbols.isf.xz", "exploration.types", "exploration.address-space", "exploration.search") else "missing",
                                "accepted": False, "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.", "corpora": [], "comparison": "not_run"})
+        if identifier == "export.extracted-files":
+            infrastructure[-1].update(status="partial",corpora=["synthetic-artifact-lifecycle"],
+                                      applicability="Task-bound extraction sink, case schema v2, padding logs and verified bundle v2; native analysis dump producers still pending.",
+                                      comparison="storage_and_bundle_tests_only",validation_record="docs/artifacts.md")
         if identifier == "symbols.dwarf":
             infrastructure[-1].update(corpora=["synthetic-dwarf-c-elf-macho"], comparison="selected_layouts_only",
                                       validation_record="docs/native-symbols.md")

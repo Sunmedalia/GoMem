@@ -12046,11 +12046,14 @@
     {
       "id": "export.extracted-files",
       "category": "acceptance",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "Task-bound extraction sink, case schema v2, padding logs and verified bundle v2; native analysis dump producers still pending.",
+      "corpora": [
+        "synthetic-artifact-lifecycle"
+      ],
+      "comparison": "storage_and_bundle_tests_only",
+      "validation_record": "docs/artifacts.md"
     },
     {
       "id": "extension.yara",

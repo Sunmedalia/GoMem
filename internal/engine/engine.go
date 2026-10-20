@@ -436,6 +436,9 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 			return result, err
 		}
 		if ok {
+			if err = e.Store.VerifyTaskArtifacts(ctx, t.ID); err != nil {
+				return Result{t, true}, fmt.Errorf("cached extraction integrity check failed for task %s: %w", t.ID, err)
+			}
 			result = Result{t, true}
 			if opts.OnStart != nil {
 				opts.OnStart(t)
@@ -480,7 +483,10 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 		batch = batch[:0]
 		return nil
 	}
-	err = p.Run(ctx, e.Env, params, func(row evidence.Row) error {
+	env := e.Env
+	artifacts := e.Store.TaskArtifacts(task)
+	env.Artifacts = artifacts
+	err = p.Run(ctx, env, params, func(row evidence.Row) error {
 		if err := ctx.Err(); err != nil {
 			return err
 		}
@@ -509,6 +515,7 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 	// Commit partial evidence and terminal state even after user cancellation.
 	cleanup, cancel := context.WithTimeout(context.WithoutCancel(ctx), 10*time.Second)
 	defer cancel()
+	err = errors.Join(err, artifacts.Finalize(cleanup))
 	err = errors.Join(err, flush(cleanup))
 	state := "completed"
 	if err != nil {
