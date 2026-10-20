@@ -9471,10 +9471,10 @@
       ],
       "comparison": "selected_24_hive_offsets_and_names_match_summary_retained_dump_false",
       "gaps": [
-        "Physical hivescan fallback is not implemented",
         "Reconstructed files have synthetic byte checks and one real SAM smoke read; no byte-for-byte baseline differential",
         "Only one Windows 10 x64 crash dump has a selected-field list differential; 32-bit and damaged-list acceptance remain pending",
-        "The upstream FileFullPath column is get_name(); native retains each path field. FileOutput is the literal disabled unless dump is requested"
+        "The upstream FileFullPath column is get_name(); native retains each path field. FileOutput is the literal disabled unless dump is requested",
+        "Unlinked hive recovery is windows.hivescan, not a fallback inside this list walk"
       ],
       "validation_record": "docs/windows-hivelist.md"
     },
@@ -9519,15 +9519,21 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "64-bit Windows 8.1 and later only, detected by _KPRCB.PendingTickFlags when PE version metadata is absent. In-use PoolBigPageTable entries whose Key is the four bytes CM10. Freed entries have the low Va bit set and are skipped. The candidate address is the stored Va. A hive signature is reported but does not filter the row. Earlier Windows builds need the paged pool header scanner and fail explicitly.",
+      "native": "windows.hivescan",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_24_big_pool_offsets_match",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Paged pool header scanning for pre-8.1 and 32-bit images is not implemented",
+        "Only one Windows 10 x64 crash dump has a selected-offset differential",
+        "Signature and tag are native evidence; the reference column compared here is Offset only"
+      ],
+      "validation_record": "docs/windows-hivescan.md"
     },
     {
       "id": "windows.registry.lsadump.Lsadump",
@@ -9640,7 +9646,7 @@
       ],
       "comparison": "selected_478_root_rows_match_offset_type_key_name_volatile_and_second_timestamps",
       "gaps": [
-        "Physical hivescan remains unimplemented; stable hive reconstruction is separate and not yet differentially accepted",
+        "Stable hive reconstruction is separate and not yet differentially accepted",
         "Only the default root listing of one Windows 10 x64 crash dump is differentially checked; recurse, key filtering, 32-bit and other versions are synthetic or unaccepted",
         "Reference JSON drops 100ns fractions and wraps SZ display in quotes; native keeps the fraction, raw bytes and decoded text",
         "Prototype pages that neither the kernel nor the Registry process can read are skipped per subkey and recorded, not padded"

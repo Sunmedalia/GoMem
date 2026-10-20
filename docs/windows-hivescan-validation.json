@@ -1,0 +1,54 @@
+{
+  "schema": "gomem.windows-hivescan-validation/v1",
+  "date": "2026-10-21",
+  "scope": "Synthetic big-pool tag cases plus one Windows 10 19041 x64 crash dump. Not a pre-8.1 pool-header or 32-bit acceptance.",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "reference_manifest_sha256": "15884aa00d9110654bae74b0894f10ed86b91a46261ccba01a3d5e5c94f84780",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+  "engine_build_sha256": "0a2de24943224cd318672bc49f5b3cb5cdb0f38b6f031608ae993d1c6eb41b7c",
+  "parameters": {
+    "max-entries": "2000000"
+  },
+  "task_state": "completed",
+  "table_entries": 32768,
+  "hive_rows": 24,
+  "read_failures": 0,
+  "signatures": {
+    "0xbee0bee0": 24
+  },
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "Offset"
+    ],
+    "native_rows": 24,
+    "reference_rows": 24,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "6796c84a46dbc91d789527cc2b946108a26f9070cd95acc7e5f39e2429bf502e",
+      "reference": "d161781abba9ec64f5c98d6189e69b05184357d25043efea844524362167aef8",
+      "mapping": "0adbeb4efd18bab11c0109923963fc1cf60452ca25be16d5b33a607b8e85763f"
+    },
+    "native_input_rows": 25,
+    "native_non_entity_records": {
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "value": "hive",
+      "excluded_values": [
+        "summary",
+        "diagnostic"
+      ]
+    }
+  },
+  "notes": [
+    "Compared field is Offset masked to the low 48 bits. The reference JSON does not preserve the canonical high bits.",
+    "The go test binary that rechecked the image is 0a2de24943224cd318672bc49f5b3cb5cdb0f38b6f031608ae993d1c6eb41b7c. The compared JSONL was written by bin/gomem e94adca7c8d2a2d2ef90eeefb262c46a18be900aea00944b5c38ad54657ec2d8.",
+    "Every hit had tag CM10 and signature 0xBEE0BEE0. Signature is not part of the selected-field comparison and is not used as a filter.",
+    "The same 24 masked addresses are the active CmpHiveListHead hives. That cross-check is not a substitute for the hivescan reference."
+  ]
+}

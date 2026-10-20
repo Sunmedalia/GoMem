@@ -19,7 +19,7 @@ bin/gomem analyze windows.hivelist --image memory.dmp --case ./case-001 --param 
 
 官方 Windows 10 19041 样本正向走完 24 个 hive，没有诊断，任务成功。偏移和选中名称与固定基线的 24 行一致。该样本里每个 `FileFullPath` 成员长度都是 0：21 个名称来自 `FileUserName`，`SYSTEM` 与 `HARDWARE` 来自 `HiveRootPath`，还有 1 个 hive 三个字段都为空。所以上游名为 `FileFullPath` 的列实际是 `get_name()` 的结果，不能把它当成该结构成员的原始值。
 
-合成样本覆盖两个以上有效 hive、三级名称回退、全空名称、单个路径字段不可读、筛选、无效签名后的反向补齐、正向指针断裂后的尾部恢复，以及稳定 hive 的字节重建。真实镜像没有触发反向遍历。根键枚举已有选定字段对照，见 [windows.printkey](windows-printkey.md)。稳定 hive 重建已有合成字节对照和一份真实 SAM 冒烟结果，还没有与固定基线逐字节验收。32 位、其他 Windows 版本、链表中段多处损坏后的物理 `hivescan` 都还没有验收。
+合成样本覆盖两个以上有效 hive、三级名称回退、全空名称、单个路径字段不可读、筛选、无效签名后的反向补齐、正向指针断裂后的尾部恢复，以及稳定 hive 的字节重建。真实镜像没有触发反向遍历。根键枚举已有选定字段对照，见 [windows.printkey](windows-printkey.md)。稳定 hive 重建已有合成字节对照和一份真实 SAM 冒烟结果，还没有与固定基线逐字节验收。32 位、其他 Windows 版本和链表中段多处损坏后的列表恢复都还没有验收。64 位 Windows 8.1 及以后的大页 `CM10` 扫描见 [windows.hivescan](windows-hivescan.md)。
 
 ```sh
 python3 tools/diff_results.py \
