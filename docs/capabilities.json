@@ -8659,7 +8659,7 @@
           "optional": true
         }
       ],
-      "applicability": "Mapped Intel PE32/PE32+ images with resident, bounded headers. Explicit process roots or verified kernel root; 256MiB image limit.",
+      "applicability": "Mapped Intel PE32/PE32+ images with resident, bounded headers. Explicit process roots or kernel/typed session roots; 256MiB image limit. Independent PID extraction failures retain rows and allow remaining selected processes.",
       "native": "windows.pedump",
       "status": "partial",
       "accepted": false,
@@ -8670,9 +8670,9 @@
       ],
       "comparison": "selected_process_PE_bytes_match_kernel_ImageBase_difference_explained",
       "gaps": [
-        "Kernel ImageBase retains canonical high bits; differs explicitly from pinned baseline",
-        "Kernel session-layer fallback, full architecture/version/failure coverage pending",
-        "Uncaptured or invalid headers fail rather than producing empty PE files"
+        "Kernel/session ImageBase retains canonical high bits; differs explicitly from pinned baseline",
+        "Full architecture/version/session mapping and failure/parameter coverage pending",
+        "Uncaptured or invalid headers fail rather than producing empty PE files; see docs/pe-session-validation.json"
       ],
       "validation_record": "docs/pe-reconstruction.md"
     },

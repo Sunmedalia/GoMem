@@ -1,0 +1,248 @@
+{
+  "schema": "gomem.pe-session-validation/v1",
+  "date": "2026-10-20",
+  "scope": "Selected session-layer PE extraction and independent multi-PID failures; full acceptance remains pending",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "engine_build_sha256": "7e2cc3a2c11161a4cceac0e35628668be38a7197061a20e36d7e53b17b316e96",
+  "session_results": [
+    {
+      "profile": "pedump-session-win32k",
+      "report": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--kernel-module",
+          "--base",
+          "0xffffeb4b3acd0000"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "explicit_file_name_mapping": {},
+        "matched": false,
+        "files": [
+          {
+            "name": "PE.0x0.4.0xffffeb4b3acd0000.dmp",
+            "reference_name": "PE.0x0.4.0xffffeb4b3acd0000.dmp",
+            "size": "634880",
+            "reference_size": "634880",
+            "native_sha256": "a1d6e49dbe1749e9e1fe735fb769a1dbc6ba92fd9e12de179d89ed1818dcae6d",
+            "reference_sha256": "ac584ce3b09431bae258b0f2e5dc1c7c8d4a57790fc480b5f81a34e5482c8ef9",
+            "bytes_equal": false,
+            "differing_bytes": 2,
+            "first_differing_offsets": [
+              "0x126",
+              "0x127"
+            ],
+            "state": "completed_with_gaps",
+            "missing_bytes": "81920",
+            "gap_count": "20",
+            "gaps_sha256": "b15b0c3412df68c6f9329e56bc0d4bb2fbb7346c54aee8ae0b2d059b31dd1fec",
+            "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+            "engine_build_sha256": "7e2cc3a2c11161a4cceac0e35628668be38a7197061a20e36d7e53b17b316e96",
+            "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+            "layer": "process:c0041fc28cd5b8b19e553cf79ab9ba0fe7307dc8e4ae4eeb514995c4e6e09d30",
+            "offset": "0xffffeb4b3acd0000"
+          }
+        ],
+        "native_rows_sha256": "b77f8c99543bd948a16833c5ef79c7b9ba7aac0b1f30067a5c8acf5cdf5ddb31",
+        "reference_manifest_sha256": "d9587e9e7fe53ac50c06c1b332d8e0a5affd4872a68693e715587215b3e03e88"
+      },
+      "attempts": [
+        {
+          "layer": "kernel:x64:dtb=0x6d4000",
+          "stage": "dos_header_read",
+          "error": "kernel:x64:dtb=0x6d4000: read 0xffffeb4b3acd0000 (64 bytes): unmapped memory: nonpresent page-table entry 0x0 at 0x6d4eb0 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "layer": "process:c0041fc28cd5b8b19e553cf79ab9ba0fe7307dc8e4ae4eeb514995c4e6e09d30",
+          "process_offset": "0xffff840f6a20e140",
+          "pid": "488",
+          "session_id": "0",
+          "stage": "dos_header_read"
+        }
+      ],
+      "patch_count": 34
+    },
+    {
+      "profile": "pedump-session-win32k-pdb",
+      "report": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--kernel-module",
+          "--base",
+          "0xffffeb4b3acd0000"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "explicit_file_name_mapping": {},
+        "matched": false,
+        "files": [
+          {
+            "name": "PE.0x0.4.0xffffeb4b3acd0000.dmp",
+            "reference_name": "PE.0x0.4.0xffffeb4b3acd0000.dmp",
+            "size": "634880",
+            "reference_size": "634880",
+            "native_sha256": "a1d6e49dbe1749e9e1fe735fb769a1dbc6ba92fd9e12de179d89ed1818dcae6d",
+            "reference_sha256": "ac584ce3b09431bae258b0f2e5dc1c7c8d4a57790fc480b5f81a34e5482c8ef9",
+            "bytes_equal": false,
+            "differing_bytes": 2,
+            "first_differing_offsets": [
+              "0x126",
+              "0x127"
+            ],
+            "state": "completed_with_gaps",
+            "missing_bytes": "81920",
+            "gap_count": "20",
+            "gaps_sha256": "b15b0c3412df68c6f9329e56bc0d4bb2fbb7346c54aee8ae0b2d059b31dd1fec",
+            "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+            "engine_build_sha256": "7e2cc3a2c11161a4cceac0e35628668be38a7197061a20e36d7e53b17b316e96",
+            "symbols_sha256": "f288d5d6d2bf1cfd7f1d76f271cfded7b7629224276a5748cc2a8db006c51b2a",
+            "layer": "process:c0041fc28cd5b8b19e553cf79ab9ba0fe7307dc8e4ae4eeb514995c4e6e09d30",
+            "offset": "0xffffeb4b3acd0000"
+          }
+        ],
+        "native_rows_sha256": "68ba2a257714edffa5da14b9edc10a4fad12866d7ed9571fc1ade3c7c17cfcfe",
+        "reference_manifest_sha256": "d9587e9e7fe53ac50c06c1b332d8e0a5affd4872a68693e715587215b3e03e88"
+      },
+      "attempts": [
+        {
+          "layer": "kernel:x64:dtb=0x6d4000",
+          "stage": "dos_header_read",
+          "error": "kernel:x64:dtb=0x6d4000: read 0xffffeb4b3acd0000 (64 bytes): unmapped memory: nonpresent page-table entry 0x0 at 0x6d4eb0 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "layer": "process:c0041fc28cd5b8b19e553cf79ab9ba0fe7307dc8e4ae4eeb514995c4e6e09d30",
+          "process_offset": "0xffff840f6a20e140",
+          "pid": "488",
+          "session_id": "0",
+          "stage": "dos_header_read"
+        }
+      ],
+      "patch_count": 34
+    }
+  ],
+  "mixed_pid_result": {
+    "native_task_state": "failed",
+    "native_rows": 2,
+    "native_artifacts": 1,
+    "first_pid": "384",
+    "first_error": {
+      "kind": "missing",
+      "reason": "invalid_or_unreadable_pe",
+      "error": "process:2cb2a778859f5036f70de9816751aca7d5a8159aef520d5e3b7bc852a2e6ff61: read 0x7ff66e1d0000 (64 bytes): unmapped memory: nonpresent page-table entry 0x0 at 0x1018cfec8 (prototype/swap or unsupported software encoding)"
+    },
+    "recovered_pid": "488",
+    "native_file": "PE.0xffff840f6a20e140.488.0x7ff66e1d0000.dmp",
+    "reference_file": "PE.0x840f6a20e140.488.0x7ff66e1d0000.dmp",
+    "explicit_file_name_mapping": {
+      "PE.0xffff840f6a20e140.488.0x7ff66e1d0000.dmp": "PE.0x840f6a20e140.488.0x7ff66e1d0000.dmp"
+    },
+    "bytes_equal": true,
+    "size": "28672",
+    "missing_bytes": "16384",
+    "sha256": "abdc0769d35ed4f36912e5d4f5823e22abec4ccd3139db57bde9ee511bb6c269",
+    "reference_rows": [
+      {
+        "File output": "PE.0x840f6a20e140.488.0x7ff66e1d0000.dmp",
+        "PID": 488,
+        "Process": "csrss.exe",
+        "__children": []
+      }
+    ],
+    "reference_files": [
+      {
+        "name": "PE.0x840f66a6d040.384.0x7ff66e1d0000.dmp",
+        "size": "0",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "PE.0x840f6a20e140.488.0x7ff66e1d0000.dmp",
+        "size": "28672",
+        "sha256": "abdc0769d35ed4f36912e5d4f5823e22abec4ccd3139db57bde9ee511bb6c269"
+      }
+    ],
+    "native_rows_sha256": "9c8e86d2ec6446ca98537d1d4a360de2db0e354455ffdd4eaef2fb45061ed88f",
+    "reference_manifest_sha256": "18a3920e65f33da35b35d22b7df89e82e8a305863da0aadc7a28db5e5e46e87c",
+    "overall_failure_semantics_matched": false,
+    "explanation": "Reference omits the unreadable PID result but leaves a zero-byte file; native preserves the error row and creates no empty file. The other selected PID is recovered in both paths; this is partial recovery, not a successful complete task."
+  },
+  "bundle_validation": [
+    {
+      "profile": "pedump-session-win32k",
+      "report": {
+        "tasks": 1,
+        "members": 5,
+        "verified": true,
+        "artifacts": 1,
+        "included_artifacts": 1,
+        "partial_artifacts": 0
+      },
+      "sha256": "1217231f61532344252d07601c37e7a7686ad317c9bd52eca292c85efa7ee15e"
+    },
+    {
+      "profile": "pedump-session-win32k-pdb",
+      "report": {
+        "tasks": 1,
+        "members": 5,
+        "verified": true,
+        "artifacts": 1,
+        "included_artifacts": 1,
+        "partial_artifacts": 0
+      },
+      "sha256": "9a5b508b923de25d02e17a4faaf113def8cb336c18392b233f429e99a49d6ea0"
+    },
+    {
+      "profile": "pedump-mixed-pids",
+      "report": {
+        "tasks": 1,
+        "members": 5,
+        "verified": true,
+        "artifacts": 1,
+        "included_artifacts": 1,
+        "partial_artifacts": 0
+      },
+      "sha256": "31a1474dd216530ee9826b493f75523a55cbf2020c3c17531524e86a9725ea59"
+    }
+  ],
+  "checks": [
+    "go test ./...",
+    "go vet ./...",
+    "go test -race ./internal/engine ./internal/plugins",
+    "GOMEM_CORPUS_DIR=/Volumes/l/GoMem/.cache/corpus go test ./internal/engine -run TestOfficialWindowsMainAndSessionPEs\\|TestOfficialPEReconstruction\\|TestOfficialDLLPEReconstruction -count=1",
+    "python3 tools/baseline_matrix.py --source PINNED_BASELINE --check"
+  ],
+  "cross_builds": [
+    {
+      "name": "gomem-0.1.0-dev-windows-amd64.exe",
+      "sha256": "4531a77b1054956f932c437a12b5ce14fd7a0881c1271fd525d410798ba62447",
+      "target": "windows/amd64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-windows-arm64.exe",
+      "sha256": "ebd2b2ee4807190e96060c351495431273d9d7037030005d7d83601a8ac2fc3b",
+      "target": "windows/arm64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-linux-amd64",
+      "sha256": "9e06e0cc1f72fe8a0b64424350c57020fe0b5c8f71919bfa18be25648828f37f",
+      "target": "linux/amd64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-linux-arm64",
+      "sha256": "d58fc6b520d773b0bb115789a7f98f511d66013d7454f767179ee1038e5e15e9",
+      "target": "linux/arm64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-darwin-amd64",
+      "sha256": "c54004b6f67f4950149c028ef9373f052ffd1ab1d560c8472eee6f1bc38e9673",
+      "target": "darwin/amd64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-darwin-arm64",
+      "sha256": "925d78951b2d67d97d6c731695f63bde25138cc99d93295ac970f644cea9c925",
+      "target": "darwin/arm64"
+    }
+  ],
+  "cross_build_scope": "Compilation only; native CI execution is tracked separately"
+}

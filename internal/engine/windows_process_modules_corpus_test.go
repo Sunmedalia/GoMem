@@ -159,8 +159,12 @@ func TestOfficialWindowsMainAndSessionPEs(t *testing.T) {
 	defer e.Close()
 	for _, tc := range []struct {
 		plugin, filter, value, size, missing, sha string
-	}{{"windows.pslist", "pid", "488", "28672", "16384", "abdc0769d35ed4f36912e5d4f5823e22abec4ccd3139db57bde9ee511bb6c269"}, {"windows.modules", "base", "0xfffff8043601f000", "17063936", "8347648", "ef644d9319a50413a914e42be14c3a2b78fc03a37650010ba7115cee00cd80bc"}, {"windows.modules", "base", "0xffffeb4b3acd0000", "634880", "81920", "a1d6e49dbe1749e9e1fe735fb769a1dbc6ba92fd9e12de179d89ed1818dcae6d"}} {
-		r, err := e.Run(ctx, tc.plugin, map[string]string{"dump": "true", tc.filter: tc.value}, engine.RunOptions{})
+	}{{"windows.pslist", "pid", "488", "28672", "16384", "abdc0769d35ed4f36912e5d4f5823e22abec4ccd3139db57bde9ee511bb6c269"}, {"windows.modules", "base", "0xfffff8043601f000", "17063936", "8347648", "ef644d9319a50413a914e42be14c3a2b78fc03a37650010ba7115cee00cd80bc"}, {"windows.modules", "base", "0xffffeb4b3acd0000", "634880", "81920", "a1d6e49dbe1749e9e1fe735fb769a1dbc6ba92fd9e12de179d89ed1818dcae6d"}, {"windows.pedump", "base", "0xffffeb4b3acd0000", "634880", "81920", "a1d6e49dbe1749e9e1fe735fb769a1dbc6ba92fd9e12de179d89ed1818dcae6d"}} {
+		parameters := map[string]string{"dump": "true", tc.filter: tc.value}
+		if tc.plugin == "windows.pedump" {
+			parameters = map[string]string{"kernel-module": "true", "base": tc.value}
+		}
+		r, err := e.Run(ctx, tc.plugin, parameters, engine.RunOptions{})
 		if err != nil || r.Task.Rows != 1 {
 			t.Fatal(tc, r, err)
 		}
@@ -175,5 +179,14 @@ func TestOfficialWindowsMainAndSessionPEs(t *testing.T) {
 		if err = e.Store.VerifyTaskArtifacts(ctx, r.Task.ID); err != nil {
 			t.Fatal(err)
 		}
+	}
+	var mixed []evidence.Row
+	r, err := e.Run(ctx, "windows.pedump", map[string]string{"pid": "384,488", "base": "0x7ff66e1d0000"}, engine.RunOptions{Emit: func(row evidence.Row) error { mixed = append(mixed, row); return nil }})
+	if err == nil || r.Task.State != "failed" || r.Task.Rows != 2 || mixed[0].Cells["PID"].String() != "384" || mixed[0].Cells["FileOutput"].Reason != "invalid_or_unreadable_pe" || mixed[1].Cells["PID"].String() != "488" || mixed[1].Cells["FileOutput"].Kind != "artifact" {
+		t.Fatal(r, mixed, err)
+	}
+	files, err := e.Store.Artifacts(ctx, r.Task.ID)
+	if err != nil || len(files) != 1 || files[0].SHA256 != "abdc0769d35ed4f36912e5d4f5823e22abec4ccd3139db57bde9ee511bb6c269" {
+		t.Fatal(files, err)
 	}
 }

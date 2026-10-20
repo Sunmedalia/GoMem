@@ -8,7 +8,7 @@ bin/gomem analyze windows.pedump --image memory.dmp --case ./case-001 --param ke
 bin/gomem analyze windows.dlllist --image memory.dmp --case ./case-001 --param pid=384 --param name='ntdll\.dll$' --param dump=true
 ```
 
-必须选择非空 PID 集合或 kernel-module，不能同时使用。进程模式使用独立进程 CR3；内核模式当前只使用已验证内核地址空间，尚无上游的 session-layer 回退。DOS/NT 头、机器与 magic、可选头、节表、映像范围和对齐均有界检查。SizeOfImage 上限为固定基线的 256MiB，节数上限 4096；越界和畸形字段明确失败。PE 头及节头必须真实可读，数据缺页才允许填充并记录日志。更多异常合法布局及全部 Windows 版本仍待语料验收。
+必须选择非空 PID 集合或 kernel-module，不能同时使用。进程模式使用独立进程 CR3；内核模式先使用已验证内核层，必要时回退到精确 SessionId 对应的进程层。ExtractionAttempts 保存尝试，文件来源指向实际选择的层；会话目录与 `modules` 共用边界和诊断规则。`max-session-layers` 默认 256，上限 4096。某个 PID 的地址空间或头部失败会保留错误行并使任务失败，其余独立 PID 继续；取消和输出错误立即停止。DOS/NT 头、机器与 magic、可选头、节表、映像范围和对齐均有界检查。SizeOfImage 上限为固定基线的 256MiB，节数上限 4096；越界和畸形字段明确失败。PE 头及节头必须真实可读，数据缺页才允许填充并记录日志。更多异常合法布局及全部 Windows 版本仍待语料验收。
 
 流式覆盖层只改写成功读取的头部字节，每个 Patches 项保存文件偏移、原因、原字节和新字节；其他捕获数据保持不变。每次读取最多一页，填充日志与区域提取共享，日志记录源层/地址。输入镜像始终只读。修改记录随原始结果和文件进入证据包；提取失败或取消保留阶段、原因与已产生证据。
 
@@ -20,6 +20,6 @@ bin/gomem analyze windows.dlllist --image memory.dmp --case ./case-001 --param p
 
 DLL 枚举的 dump 联动另验证了 PID 488 的 28KiB 映像，文件名、大小和逐字节内容均一致，其中 16KiB 是显式缺页填充；不把这个选定案例推广为所有 DLL 都能恢复。
 
-`windows.pslist` 的主映像与 `windows.modules` 的内核/会话模块提取也使用此重建器。modules 通过已验证 SessionId 的进程层回退并保存尝试记录；其选定字段、文件差分和独立证据包核验见 [进程/模块验证](windows-process-modules.md)。显式 `windows.pedump kernel-module=true` 当前仍只读取内核层。
+`windows.pslist` 的主映像与 `windows.modules` 的内核/会话模块提取也使用此重建器。modules 通过已验证 SessionId 的进程层回退并保存尝试记录；其选定字段、文件差分和独立证据包核验见 [进程/模块验证](windows-process-modules.md)。显式 `windows.pedump kernel-module=true` 使用同一回退路径，ISF/PDB 的真实会话提取与多 PID 失败保留范围见 [会话 PE 验证](pe-session-validation.json)。
 
 常规测试用 Go debug/pe 重新解析重建结果，检查两种位宽、重写字段、slack、补丁原值、源不变、坏签名/机器/大小/对齐/节及取消；真实样本检查用户与内核摘要，独立包核验器再检查文件/缺页日志。`FuzzMappedPEReconstruction` 验证解析计划与修改边界，已接入 CI。完整版本、架构、session 层及模块/进程参数组合的完整验收、数字签名有效性及所有合法特殊 PE 仍待补齐。

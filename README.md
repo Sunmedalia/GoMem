@@ -45,7 +45,7 @@ bin/gomem analyze windows.pslist \
 | `windows.pslist` | 活动进程、线程/句柄/会话/WoW64/时间；物理偏移显示及主映像 PE 提取 |
 | `windows.modules` | 内核模块与路径；基址/名称子串筛选；支持从已验证会话层重建 PE |
 | `windows.dlllist` | 进程自身地址空间内的 PEB 加载器链表；原生和 WoW64 列表；支持 PID、基址及 RE2 名称筛选 |
-| `windows.pedump` | 从显式进程/内核地址重建 PE32/PE32+；保留头部修改和缺页证据；上限 256MiB |
+| `windows.pedump` | 从显式进程/内核/已验证会话空间重建 PE32/PE32+；保留修改、缺页与读取尝试；上限 256MiB |
 | `windows.threads` | 活动进程线程链表、创建/退出时间与进程证据关联；现代 VAD 启动路径；支持 `--param pid=104,108` |
 | `windows.vadinfo` | 现代 VAD 区间、动态权限表、提交页数、私有标志和文件路径；支持 PID 集合、包含地址筛选及区域提取 |
 | `linux.pslist` | 匹配 ISF、DTB；活动任务链表；可选 `--kernel-slide` |
