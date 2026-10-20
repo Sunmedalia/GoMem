@@ -84,7 +84,7 @@ def generate(source):
                "linux.lsmod.Lsmod": "linux.lsmod", "windows.threads.Threads": "windows.threads",
                "windows.vadinfo.VadInfo": "windows.vadinfo", "linux.proc.Maps": "linux.maps",
                "windows.dlllist.DllList": "windows.dlllist", "windows.pedump.PEDump": "windows.pedump",
-               "windows.cmdline.CmdLine": "windows.cmdline"}
+               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux"}
 
     def requirements(identifier, seen=None):
         seen = set() if seen is None else seen
@@ -130,6 +130,11 @@ def generate(source):
                               corpora=["synthetic-windows-x64", "synthetic-windows-x86-pae", "official-windows-10-19041"],
                               comparison="selected_readable_command_lines_match_errors_and_empty_strings_preserved", validation_record="docs/windows-cmdline.md",
                               gaps=["Full version/architecture and all failure/parameter combinations pending", "Read errors remain distinct from reference nulls; empty captured strings are not marked unreadable", "ArgsFull retains the declared string, including post-NUL text and BOM; raw bytes remain authoritative"])
+        if identifier == "linux.psaux.PsAux":
+            plugins[-1].update(applicability="Active task mm argument ranges read through independent process roots; 4096-byte default bound, explicit raw bytes and null-mm display provenance. PPID uses parent tgid.",
+                              corpora=["synthetic-linux-x64", "synthetic-linux-x86-pae", "official-linux-sample-1"],
+                              comparison="selected_92_captured_and_39_null_mm_displays_match_two_read_errors_preserved", validation_record="docs/linux-psaux.md",
+                              gaps=["Full Linux version/architecture and failure/parameter coverage pending", "Two argument read errors remain distinct from reference nulls", "Null mm brackets are derived from comm, not proof that a task was originally a kernel thread"])
         if identifier == "windows.vadinfo.VadInfo":
             plugins[-1].update(applicability="Modern RTL_AVL_TREE VADs with exact MMVAD_SHORT types and native MmProtectToValue table; PID sets and inclusive address filtering.",
                               gaps=["Old VAD layouts and complete version/architecture coverage pending", "Extraction has selected x64 region byte comparisons only; full failure/version/parameter acceptance pending", "Path read errors remain distinct from baseline nulls; see docs/windows-vad.md"])

@@ -2776,15 +2776,22 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active task mm argument ranges read through independent process roots; 4096-byte default bound, explicit raw bytes and null-mm display provenance. PPID uses parent tgid.",
+      "native": "linux.psaux",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-x64",
+        "synthetic-linux-x86-pae",
+        "official-linux-sample-1"
+      ],
+      "comparison": "selected_92_captured_and_39_null_mm_displays_match_two_read_errors_preserved",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Full Linux version/architecture and failure/parameter coverage pending",
+        "Two argument read errors remain distinct from reference nulls",
+        "Null mm brackets are derived from comm, not proof that a task was originally a kernel thread"
+      ],
+      "validation_record": "docs/linux-psaux.md"
     },
     {
       "id": "linux.pscallstack.PsCallStack",

@@ -1,0 +1,7 @@
+{
+  "fields": {
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "PPID": {"native": "PPID", "reference": "PPID", "kind": "uint64"},
+    "COMM": {"native": "COMM", "reference": "COMM", "kind": "string"}
+  }
+}

@@ -50,6 +50,7 @@ bin/gomem analyze windows.pslist \
 | `windows.threads` | 活动进程线程链表、创建/退出时间与进程证据关联；现代 VAD 启动路径；支持 `--param pid=104,108` |
 | `windows.vadinfo` | 现代 VAD 区间、动态权限表、提交页数、私有标志和文件路径；支持 PID 集合、包含地址筛选及区域提取 |
 | `linux.pslist` | 匹配 ISF、DTB；活动任务链表；可选 `--kernel-slide` |
+| `linux.psaux` | 进程自身页表中的参数区、原始字节和参数列表；无用户 mm 时明确显示来源；PID 集合筛选 |
 | `linux.lsmod` | 匹配 ISF、DTB；旧布局和 `module_layout`；6.4+ `module_memory` 字段尚未补齐 |
 | `linux.maps` | VMA 链表或 Maple Tree、权限、inode、设备及带作用域的路径；PID/地址集合筛选；可提取所选区域 |
 
@@ -81,6 +82,8 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `windows.pslist --param physical=true` 显示物理偏移并保持虚拟进程身份；`pslist` 与 `modules` 可用 `--param dump=true` 提取主映像或内核/会话模块 PE。120 个进程通过扩展字段及物理偏移对照，路径读取差异与会话导出范围单独记录。[进程与模块验证](docs/windows-process-modules.md)
 
 `windows.cmdline` 使用各进程自身地址空间读取命令行，显示值、完整声明字符串和原始字节分别保留。官方样本中 96 条可读内容一致，21 条读取错误使全量任务失败并保留结果；嵌入 NUL 和空 PEB 分别记录。[命令行验证](docs/windows-cmdline.md)
+
+`linux.psaux` 读取任务参数区并保留原始字节、参数元素、捕获长度与来源。用户 Linux 样本的 92 条参数内容和 39 条无 mm 显示与基线一致，2 条读取错误仍保留，完整任务报告失败。[Linux 参数验证](docs/linux-psaux.md)
 
 `windows.threads` 输出无损线程地址、CID、100ns 精度时间及原始时间值，并用进程身份关联 pslist 证据。官方 Windows 10 样本的 1,752 条线程通过八字段对照；退出时间联合体的差异单独核验，未作为全字段一致。路径读取失败会保留原始错误。[线程验证与适用范围](docs/windows-threads.md)
 

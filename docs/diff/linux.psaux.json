@@ -1,0 +1,8 @@
+{
+  "fields": {
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "PPID": {"native": "PPID", "reference": "PPID", "kind": "uint64"},
+    "COMM": {"native": "COMM", "reference": "COMM", "kind": "string"},
+    "ARGS": {"native": "ARGS", "reference": "ARGS", "kind": "string", "missing_reasons": ["empty_argument_range"]}
+  }
+}

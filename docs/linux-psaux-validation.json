@@ -1,0 +1,313 @@
+{
+  "schema": "gomem.linux-psaux-validation/v1",
+  "date": "2026-10-20",
+  "scope": "One legacy x64 corpus, opened from two local paths with identical image bytes; not independent corpora or complete acceptance",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "reference_manifest_sha256": "bc101e18fd8bcaf7d3baba17ca7b84de12c26ab0bde185e08980e0fd4f9a17fb",
+  "engine_build_sha256": "a922ce6d6cd7aab47b6a5a2dc6efe1bb73bd662a1c801536006196be0dc79bbb",
+  "results": [
+    {
+      "profile": "psaux-user",
+      "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+      "task_state": "failed",
+      "core_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "PPID",
+          "COMM"
+        ],
+        "native_rows": 133,
+        "reference_rows": 133,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "dd90d0981d92f9b0fccc6b53616c7177b21fdce6dd605584cd970113191cdf21",
+          "reference": "825678ce9e64af94e87c43d6902ebc6dcb07867ff0c730f77b2ff31d7efbbc80",
+          "mapping": "f99fed4e0965e2769fee67bc0a9d234c2df832e37fc369bd2e25df87131e2347"
+        }
+      },
+      "raw_four_field_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "PPID",
+          "COMM",
+          "ARGS"
+        ],
+        "native_rows": 133,
+        "reference_rows": 133,
+        "matched": false,
+        "missing": [
+          {
+            "ARGS": {
+              "missing": "reference-null"
+            },
+            "COMM": "init",
+            "PID": "1",
+            "PPID": "0",
+            "parent": null
+          },
+          {
+            "ARGS": {
+              "missing": "reference-null"
+            },
+            "COMM": "atd",
+            "PID": "2344",
+            "PPID": "1",
+            "parent": null
+          }
+        ],
+        "extra": [
+          {
+            "ARGS": {
+              "error": "process:41860578e4e44f4a6c5f37a5af14f38f0e253f41ce5285ac9e247e5aafd06f9a: read 0x7fff14d8df62 (11 bytes): unmapped memory: nonpresent page-table entry 0x6000 at 0x1d637c68 (prototype/swap or unsupported software encoding)",
+              "missing": "argument_buffer_unreadable"
+            },
+            "COMM": "init",
+            "PID": "1",
+            "PPID": "0",
+            "parent": null
+          },
+          {
+            "ARGS": {
+              "error": "process:bae03f3c813b8ece3f8dc7f0e69e0841b6d65c49958b7d02a9fcefe495721084: read 0x7fff59d6eedd (14 bytes): unmapped memory: nonpresent page-table entry 0xa9c00 at 0x1c686b70 (prototype/swap or unsupported software encoding)",
+              "missing": "argument_buffer_unreadable"
+            },
+            "COMM": "atd",
+            "PID": "2344",
+            "PPID": "1",
+            "parent": null
+          }
+        ],
+        "sha256": {
+          "native": "dd90d0981d92f9b0fccc6b53616c7177b21fdce6dd605584cd970113191cdf21",
+          "reference": "825678ce9e64af94e87c43d6902ebc6dcb07867ff0c730f77b2ff31d7efbbc80",
+          "mapping": "5c72dd18412a3c68c53f7ae9e55340b04e167e3ce3ab2de390c4a3b47a556a30"
+        }
+      },
+      "captured_arguments_match": 92,
+      "null_mm_display_match": 39,
+      "read_errors": [
+        {
+          "pid": "1",
+          "reason": "argument_buffer_unreadable",
+          "error": "process:41860578e4e44f4a6c5f37a5af14f38f0e253f41ce5285ac9e247e5aafd06f9a: read 0x7fff14d8df62 (11 bytes): unmapped memory: nonpresent page-table entry 0x6000 at 0x1d637c68 (prototype/swap or unsupported software encoding)",
+          "declared_length": {
+            "kind": "uint64",
+            "value": "11"
+          },
+          "captured_bytes": {
+            "kind": "uint64",
+            "value": "0"
+          }
+        },
+        {
+          "pid": "2344",
+          "reason": "argument_buffer_unreadable",
+          "error": "process:bae03f3c813b8ece3f8dc7f0e69e0841b6d65c49958b7d02a9fcefe495721084: read 0x7fff59d6eedd (14 bytes): unmapped memory: nonpresent page-table entry 0xa9c00 at 0x1c686b70 (prototype/swap or unsupported software encoding)",
+          "declared_length": {
+            "kind": "uint64",
+            "value": "14"
+          },
+          "captured_bytes": {
+            "kind": "uint64",
+            "value": "0"
+          }
+        }
+      ],
+      "raw_length_vector_and_display_verified": 92
+    },
+    {
+      "profile": "psaux-official",
+      "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+      "task_state": "failed",
+      "core_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "PPID",
+          "COMM"
+        ],
+        "native_rows": 133,
+        "reference_rows": 133,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "dd90d0981d92f9b0fccc6b53616c7177b21fdce6dd605584cd970113191cdf21",
+          "reference": "825678ce9e64af94e87c43d6902ebc6dcb07867ff0c730f77b2ff31d7efbbc80",
+          "mapping": "f99fed4e0965e2769fee67bc0a9d234c2df832e37fc369bd2e25df87131e2347"
+        }
+      },
+      "raw_four_field_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "PPID",
+          "COMM",
+          "ARGS"
+        ],
+        "native_rows": 133,
+        "reference_rows": 133,
+        "matched": false,
+        "missing": [
+          {
+            "ARGS": {
+              "missing": "reference-null"
+            },
+            "COMM": "init",
+            "PID": "1",
+            "PPID": "0",
+            "parent": null
+          },
+          {
+            "ARGS": {
+              "missing": "reference-null"
+            },
+            "COMM": "atd",
+            "PID": "2344",
+            "PPID": "1",
+            "parent": null
+          }
+        ],
+        "extra": [
+          {
+            "ARGS": {
+              "error": "process:41860578e4e44f4a6c5f37a5af14f38f0e253f41ce5285ac9e247e5aafd06f9a: read 0x7fff14d8df62 (11 bytes): unmapped memory: nonpresent page-table entry 0x6000 at 0x1d637c68 (prototype/swap or unsupported software encoding)",
+              "missing": "argument_buffer_unreadable"
+            },
+            "COMM": "init",
+            "PID": "1",
+            "PPID": "0",
+            "parent": null
+          },
+          {
+            "ARGS": {
+              "error": "process:bae03f3c813b8ece3f8dc7f0e69e0841b6d65c49958b7d02a9fcefe495721084: read 0x7fff59d6eedd (14 bytes): unmapped memory: nonpresent page-table entry 0xa9c00 at 0x1c686b70 (prototype/swap or unsupported software encoding)",
+              "missing": "argument_buffer_unreadable"
+            },
+            "COMM": "atd",
+            "PID": "2344",
+            "PPID": "1",
+            "parent": null
+          }
+        ],
+        "sha256": {
+          "native": "dd90d0981d92f9b0fccc6b53616c7177b21fdce6dd605584cd970113191cdf21",
+          "reference": "825678ce9e64af94e87c43d6902ebc6dcb07867ff0c730f77b2ff31d7efbbc80",
+          "mapping": "5c72dd18412a3c68c53f7ae9e55340b04e167e3ce3ab2de390c4a3b47a556a30"
+        }
+      },
+      "captured_arguments_match": 92,
+      "null_mm_display_match": 39,
+      "read_errors": [
+        {
+          "pid": "1",
+          "reason": "argument_buffer_unreadable",
+          "error": "process:41860578e4e44f4a6c5f37a5af14f38f0e253f41ce5285ac9e247e5aafd06f9a: read 0x7fff14d8df62 (11 bytes): unmapped memory: nonpresent page-table entry 0x6000 at 0x1d637c68 (prototype/swap or unsupported software encoding)",
+          "declared_length": {
+            "kind": "uint64",
+            "value": "11"
+          },
+          "captured_bytes": {
+            "kind": "uint64",
+            "value": "0"
+          }
+        },
+        {
+          "pid": "2344",
+          "reason": "argument_buffer_unreadable",
+          "error": "process:bae03f3c813b8ece3f8dc7f0e69e0841b6d65c49958b7d02a9fcefe495721084: read 0x7fff59d6eedd (14 bytes): unmapped memory: nonpresent page-table entry 0xa9c00 at 0x1c686b70 (prototype/swap or unsupported software encoding)",
+          "declared_length": {
+            "kind": "uint64",
+            "value": "14"
+          },
+          "captured_bytes": {
+            "kind": "uint64",
+            "value": "0"
+          }
+        }
+      ],
+      "raw_length_vector_and_display_verified": 92
+    }
+  ],
+  "user_and_official_cells_equal": true,
+  "bundle_validation": [
+    {
+      "profile": "psaux-user",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "b060931e4ca400f74328f238982231e4b4df3552503d5994ef35037df5fdac5c"
+    },
+    {
+      "profile": "psaux-official",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "96755a9950810bbad570da8f53d5438f26432034892ff1e83de8b029582233d1"
+    }
+  ],
+  "utf8_reference": {
+    "cases": 428,
+    "fixture_sha256": "d0d14f427e4ff928c5d36b597900cec7e5d37e9728b639b2e3859c099064e8f1",
+    "generator": "tools/build_argument_fixtures.py",
+    "runtime_dependency": false
+  },
+  "checks": [
+    "go test ./...",
+    "go vet ./...",
+    "go test -race ./...",
+    "GOMEM_CORPUS_DIR=/Volumes/l/GoMem/.cache/corpus go test ./internal/engine -run ^TestOfficial -count=1",
+    "python3 -m unittest discover -s tools -p test_*.py",
+    "python3 tools/build_argument_fixtures.py --check",
+    "python3 tools/baseline_matrix.py --source PINNED_BASELINE --check"
+  ],
+  "fuzz": {
+    "target": "FuzzLinuxArgumentDisplay",
+    "duration": "10s",
+    "executions": 129459,
+    "scope": "UTF-8/argument display invariants, not a complete object/parser fuzz acceptance"
+  },
+  "cross_builds": [
+    {
+      "name": "gomem-0.1.0-dev-windows-amd64.exe",
+      "sha256": "09ad1c0a1ecd786d10efcebd48f35947a5161313fd22d1865f883aedb1e6d6fc",
+      "target": "windows/amd64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-windows-arm64.exe",
+      "sha256": "3775d554850a5216ac809785d07210210a0ca5fc0f07a920148c140324cc4935",
+      "target": "windows/arm64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-linux-amd64",
+      "sha256": "bab2f4b6255417f8849dc5e9a8d9cb7b7044c691ee253ea6db28ca38826546de",
+      "target": "linux/amd64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-linux-arm64",
+      "sha256": "64bb6e185a330091ca479970237171dc370ef51af2b8ce9dfca6a2bdef2e98bf",
+      "target": "linux/arm64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-darwin-amd64",
+      "sha256": "9578bd1c8b1539b9ee1c8189213be1b3ea8a28fb87af8f7c69ce01405660fbf7",
+      "target": "darwin/amd64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-darwin-arm64",
+      "sha256": "b2920bd315b3519a9b451ea52edc80142affb19f0aa8f74fb52bb0e6fdb89594",
+      "target": "darwin/arm64"
+    }
+  ],
+  "cross_build_scope": "Compilation only; native CI is tracked separately"
+}

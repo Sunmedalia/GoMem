@@ -54,6 +54,15 @@
           "state": "completed",
           "rows": 79,
           "reference_matched": true
+        },
+        {
+          "plugin": "linux.psaux",
+          "state": "failed",
+          "rows": 133,
+          "read_errors": 2,
+          "captured_argument_matches": 92,
+          "no_mm_display_matches": 39,
+          "reference_full_comparison_matched": false
         }
       ],
       "limitations": [
@@ -68,15 +77,20 @@
       "file": "kali.raw",
       "plugin": "generic.info",
       "rows": 130,
-      "engine_build_sha256": "f1c5a16824a11dd2b485462dd6f30e55f538c57d4cf510132d77efcbc1b8894b",
+      "state": "completed",
+      "engine_build_sha256": "a922ce6d6cd7aab47b6a5a2dc6efe1bb73bd662a1c801536006196be0dc79bbb",
       "source_hash_reverified": true
     },
     {
       "file": "linux-sample-1.bin.gz",
-      "plugin": "linux.pslist",
+      "plugin": "linux.psaux",
       "rows": 133,
-      "engine_build_sha256": "f1c5a16824a11dd2b485462dd6f30e55f538c57d4cf510132d77efcbc1b8894b",
-      "source_hash_reverified": true
+      "state": "failed",
+      "engine_build_sha256": "a922ce6d6cd7aab47b6a5a2dc6efe1bb73bd662a1c801536006196be0dc79bbb",
+      "source_hash_reverified": true,
+      "read_errors": 2,
+      "captured_argument_matches": 92,
+      "no_mm_display_matches": 39
     }
   ]
 }

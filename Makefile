@@ -10,6 +10,7 @@ check:
 	$(GO) vet ./...
 	$(GO) test -race ./...
 	python3 -m unittest discover -s tools -p 'test_*.py'
+	python3 tools/build_argument_fixtures.py --check
 fixtures:
 	$(GO) run ./tools/fixture --out .cache/fixtures
 baseline:
@@ -20,6 +21,7 @@ fuzz:
 	$(GO) test ./pkg/pe -run '^$$' -fuzz FuzzMappedPEReconstruction -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxVMAMetadata -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzWindowsCommandLineUTF16 -fuzztime 10s
+	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxArgumentDisplay -fuzztime 10s
 	$(GO) test ./pkg/memory -run '^$$' -fuzz FuzzDetect -fuzztime 10s
 	$(GO) test ./internal/engine -run '^$$' -fuzz FuzzMappedPE -fuzztime 10s
 	$(GO) test ./pkg/symbols -run '^$$' -fuzz FuzzISF -fuzztime 10s

@@ -67,7 +67,7 @@ func Write(dir, platform string) (Fixture, error) {
 		t.Symbols["modules"] = symbols.Symbol{Address: 0xc000}
 		t.Types["task_struct"] = symbols.Type{Kind: "struct", Size: 128, Fields: map[string]symbols.Field{"tasks": field(0, strct("list_head")), "pid": field(16, base("u32")), "tgid": field(20, base("u32")), "comm": field(24, arr(16)), "real_parent": field(40, ptr), "start_time": field(48, base("u64")), "mm": field(56, ptr)}}
 		t.Types["list_head"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"next": field(0, ptr), "prev": field(8, ptr)}}
-		t.Types["mm_struct"] = symbols.Type{Kind: "struct", Size: 64, Fields: map[string]symbols.Field{"pgd": field(0, ptr), "mmap": field(8, ptr), "start_brk": field(16, base("u64")), "brk": field(24, base("u64")), "start_stack": field(32, base("u64")), "context": field(40, strct("mm_context_t"))}}
+		t.Types["mm_struct"] = symbols.Type{Kind: "struct", Size: 64, Fields: map[string]symbols.Field{"pgd": field(0, ptr), "mmap": field(8, ptr), "start_brk": field(16, base("u64")), "brk": field(24, base("u64")), "start_stack": field(32, base("u64")), "context": field(40, strct("mm_context_t")), "arg_start": field(48, ptr), "arg_end": field(56, ptr)}}
 		t.Types["mm_context_t"] = symbols.Type{Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"vdso": field(0, ptr)}}
 		task := t.Types["task_struct"]
 		task.Fields["fs"] = field(64, ptr)
@@ -112,6 +112,10 @@ func Write(dir, platform string) (Fixture, error) {
 		put(0xe018, 0x600800)
 		put(0xe020, 0x900800)
 		put(0xe028, 0xa00000)
+		put(0xe030, 0x1c000)
+		arguments := "/sbin/init\x00--test\x00"
+		put(0xe038, 0x1c000+uint64(len(arguments)))
+		copy(data[0x1c000:], arguments)
 		for i, address := range []uint64{0x10000, 0x11000, 0x12000, 0x12100} {
 			starts := []uint64{0x400000, 0x600000, 0x700000, 0x800000}
 			put(address, starts[i])
