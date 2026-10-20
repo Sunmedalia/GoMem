@@ -131,10 +131,10 @@ def generate(source):
                 infrastructure[-1].update(status="partial", corpora=["synthetic-pdb-x86-x64", "official-windows-10-19041"],
                                           comparison="selected_types_and_entities_only", validation_record="docs/pdb-symbols.md")
     for identifier in ("source.file", "source.http", "source.https", "source.ftp", "source.s3", "source.gs", "source.leechcore",
-                       "symbols.pdb-msf", "symbols.dwarf", "symbols.local-index", "symbols.isf.zip", "symbols.isf.gzip", "symbols.isf.xz", "symbols.auto-download",
+                       "symbols.pdb-msf", "symbols.dwarf", "symbols.local-index", "symbols.pdb-conversion-cache", "symbols.isf.zip", "symbols.isf.gzip", "symbols.isf.xz", "symbols.auto-download",
                        "exploration.address-space", "exploration.types", "exploration.search", "exploration.disassembly", "paging.swap",
                        "export.extracted-files", "extension.yara", "extension.capstone", "renderer.arrow", "renderer.mermaid"):
-        infrastructure.append({"id": identifier, "category": "acceptance", "status": "partial" if identifier in ("source.file", "symbols.pdb-msf", "symbols.dwarf", "symbols.local-index", "symbols.isf.zip", "symbols.isf.gzip", "symbols.isf.xz", "exploration.types", "exploration.address-space", "exploration.search") else "missing",
+        infrastructure.append({"id": identifier, "category": "acceptance", "status": "partial" if identifier in ("source.file", "symbols.pdb-msf", "symbols.dwarf", "symbols.local-index", "symbols.pdb-conversion-cache", "symbols.auto-download", "symbols.isf.zip", "symbols.isf.gzip", "symbols.isf.xz", "exploration.types", "exploration.address-space", "exploration.search") else "missing",
                                "accepted": False, "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.", "corpora": [], "comparison": "not_run"})
         if identifier == "symbols.dwarf":
             infrastructure[-1].update(corpora=["synthetic-dwarf-c-elf-macho"], comparison="selected_layouts_only",
@@ -145,6 +145,10 @@ def generate(source):
         if identifier == "symbols.pdb-msf":
             infrastructure[-1].update(corpora=["synthetic-pdb-x86-x64", "official-windows-10-19041"], comparison="selected_types_and_entities_only",
                                       validation_record="docs/pdb-symbols.md")
+        if identifier in ("symbols.auto-download", "symbols.pdb-conversion-cache"):
+            infrastructure[-1].update(corpora=["synthetic-pdb-x86-x64", "official-windows-10-19041"],
+                                      applicability="Windows only; known DTB/kernel base and resident exact PE CodeView identity; HTTPS uncompressed PDB transport.",
+                                      comparison="selected_entities_and_cache_failures_only", validation_record="docs/pdb-symbols.md")
     return {"schema": "gomem.capabilities/v1", "baseline": lock, "release": "development-preview", "plugin_count": len(plugins),
             "accepted_plugins": 0, "plugins": plugins, "infrastructure": infrastructure}
 

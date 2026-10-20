@@ -33,3 +33,20 @@ MSF 2.0、所有旧 CodeView 变体、类型服务器/FASTLINK、动态虚拟继
   --source .cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75 \
   --pdb pkg/symbols/testdata/native-x64.pdb --output .cache/reference-pdb-x64.json
 ```
+
+## 自动获取与持久转换缓存
+
+```sh
+bin/gomem analyze windows.pslist --image memory.dmp --case ./case-001 \
+  --dtb 0x123000 --kernel-base 0xfffff80000000000
+bin/gomem analyze windows.modules --image memory.dmp --case ./case-001 \
+  --dtb 0x123000 --kernel-base 0xfffff80000000000 --offline
+```
+
+已知 DTB/内核基址且未显式提供符号时，引擎先尝试案件本地索引；默认索引无匹配时按目标 PE 的 PDB 名称、GUID 和 DBI Age 获取精确符号。显式索引失败、歧义或损坏不会被网络获取掩盖。默认服务器为 Microsoft 的 HTTPS 符号服务器，可通过 `--symbol-server` 指定其他 HTTPS 基础地址；请求仅为含 PDB 身份的 GET，不发送镜像数据。下载上限 512MiB，最多五次 HTTPS 重定向，支持取消。
+
+缓存默认在 `CASE/symbols/windows`；无案件时使用操作系统用户缓存的 `gomem/symbols/windows`，可通过 `--symbol-cache` 覆盖。原始 PDB 按名称/GUID/Age 存放，转换结果再按实际引擎二进制 SHA-256 分目录。`source.json` 保存真实下载来源，转换目录的 `manifest.json` 保存来源、原始内容摘要、转换表摘要和完整转换报告。复用前重新检查 PDB 内容散列、表摘要和身份；改变引擎后可在离线模式从原始 PDB 重新转换，并保留原下载来源。锁和原子独占发布支持并发调用及中断恢复；不同内容不会覆盖已有缓存。
+
+`doctor` 的 `symbol_resolution` 显示缓存位置、身份、摘要、是否下载/转换，以及类型冲突等转换报告。错误身份的下载不会进入可信缓存，损坏缓存会报错，不返回成功空结果。离线缓存缺失也明确报错。官方样本的自动下载、随后离线复用验证见 [pdb-acquisition-validation.json](pdb-acquisition-validation.json)。测试还覆盖并发下载仅一次、二进制变化后的重新转换、未完成发布的恢复、超限、错误身份和取消。
+
+Windows 内核/DTB 发现、微软 CAB 压缩 PDB 传输、其他平台在线符号索引仍在缺口中。`symbols fetch` 目前仍是校验和固定的 ISF 下载命令，PDB 自动获取由分析引擎完成。

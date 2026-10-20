@@ -3,6 +3,7 @@ package engine
 import (
 	"bytes"
 	"context"
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -10,6 +11,8 @@ import (
 	"github.com/Sunmedalia/GoMem/pkg/memory"
 	"github.com/Sunmedalia/GoMem/pkg/symbols"
 )
+
+var ErrNoMatchingSymbols = errors.New("local symbol selection failed")
 
 func (e *Engine) selectSymbols(ctx context.Context, path string) (*symbols.ISF, symbols.IndexEntry, error) {
 	var none symbols.IndexEntry
@@ -73,7 +76,7 @@ func (e *Engine) selectSymbols(ctx context.Context, path string) (*symbols.ISF, 
 		if len(diagnostics) > 0 {
 			detail += "; read/verification failures: " + strings.Join(diagnostics, "; ")
 		}
-		return nil, none, fmt.Errorf("local symbol selection failed: %s", detail)
+		return nil, none, fmt.Errorf("%w: %s", ErrNoMatchingSymbols, detail)
 	}
 	if len(matches) != 1 {
 		return nil, none, fmt.Errorf("local symbol selection is ambiguous: %d different tables match; provide --symbols explicitly", len(matches))

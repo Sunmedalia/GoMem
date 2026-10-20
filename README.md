@@ -68,7 +68,9 @@ bin/gomem analyze linux.pslist --image memory.raw --case ./case-001 --dtb 0x1230
 
 已有精确符号时，支持部分 Linux x64 内核的 DTB 自动发现：从物理 banner 和初始页表符号的相对位置生成候选，同时验证页表根自身映射和完整 banner。显式 `--dtb` 优先；虚拟 KASLR slide 仍需 `--kernel-slide`。`doctor --image ... --symbols ...` 显示发现依据。[适用条件与验证](docs/linux-discovery.md)
 
-**本预览仍需提供符号或本地索引；其余情况显式指定地址空间参数。** 通用 DTB/内核基址识别和默认自动下载尚未实现。`--offline` 会禁止显式符号下载。已知 ISF 可通过 `symbols fetch HTTPS_URL --sha256 CHECKSUM --case CASE` 获取，再由分析路径验证身份；镜像不会上传。
+Windows 在已提供 DTB 和内核基址时可自动获取缺失符号：从目标 PE 读取 PDB 身份，在 Microsoft HTTPS 符号服务器下载并原生转换，写入案件的 `symbols/windows` 缓存。`--offline` 禁止网络并允许验证后的缓存复用；也可用 `--symbol-cache`、`--symbol-server` 指定缓存和 HTTPS 服务器。[自动获取与缓存](docs/pdb-symbols.md)
+
+**其余情况仍需提供符号或本地索引，并显式指定未发现的地址空间参数。** 通用 DTB/内核基址识别、Linux/macOS 默认自动下载尚未实现。已知 ISF 可通过 `symbols fetch HTTPS_URL --sha256 CHECKSUM --case CASE` 获取，再由分析路径验证身份；镜像不会上传。
 
 ## 调查工作流
 

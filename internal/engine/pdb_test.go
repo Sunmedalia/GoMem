@@ -4,11 +4,15 @@ import (
 	"context"
 	"debug/pe"
 	"encoding/binary"
+	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/Sunmedalia/GoMem/internal/engine"
+	"github.com/Sunmedalia/GoMem/internal/testfixture"
+	"github.com/Sunmedalia/GoMem/pkg/symbols"
 )
 
 func TestNativePDBToVerifiedProcessEvidence(t *testing.T) {
@@ -58,7 +62,8 @@ func TestNativePDBToVerifiedProcessEvidence(t *testing.T) {
 			if err = os.WriteFile(image, data, 0600); err != nil {
 				t.Fatal(err)
 			}
-			e, err := engine.Open(context.Background(), engine.Config{Image: image, Symbols: "../../pkg/symbols/testdata/native-" + arch + ".pdb", DTB: "0x1000", Arch: arch, KernelBase: base, CaseDir: dir, Offline: true})
+			config := engine.Config{Image: image, Symbols: "../../pkg/symbols/testdata/native-" + arch + ".pdb", DTB: "0x1000", Arch: arch, KernelBase: base, CaseDir: dir, Offline: true}
+			e, err := engine.Open(context.Background(), config)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -66,6 +71,56 @@ func TestNativePDBToVerifiedProcessEvidence(t *testing.T) {
 			result, err := e.Run(context.Background(), "windows.pslist", nil, engine.RunOptions{})
 			if err != nil || result.Task.Rows != 1 {
 				t.Fatal(result, err)
+			}
+			identity, err := e.Env.Symbols.(*symbols.ISF).PDBIdentity()
+			if err != nil {
+				t.Fatal(err)
+			}
+			if err = e.Close(); err != nil {
+				t.Fatal(err)
+			}
+			// Seed only the raw PDB, then let the engine discover its identity
+			// from PE, convert offline and reuse the original evidence task.
+			rawDir := filepath.Join(dir, "symbols", "windows", strings.ToLower(identity.Database), fmt.Sprintf("%s%X", identity.GUID, identity.Age))
+			if err = os.MkdirAll(rawDir, 0700); err != nil {
+				t.Fatal(err)
+			}
+			pdb, err := os.ReadFile(config.Symbols)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if err = os.WriteFile(filepath.Join(rawDir, identity.Database), pdb, 0600); err != nil {
+				t.Fatal(err)
+			}
+			config.Symbols = ""
+			// A default index belonging to a different image must allow verified
+			// Windows acquisition fallback rather than stopping at no match.
+			linux, err := testfixture.Write(t.TempDir(), "linux")
+			if err != nil {
+				t.Fatal(err)
+			}
+			index, err := symbols.BuildIndex(context.Background(), []string{linux.Symbols})
+			if err != nil {
+				t.Fatal(err)
+			}
+			indexData, err := index.Encode()
+			if err != nil {
+				t.Fatal(err)
+			}
+			if err = os.WriteFile(filepath.Join(dir, "symbols", "index.json"), indexData, 0600); err != nil {
+				t.Fatal(err)
+			}
+			cached, err := engine.Open(context.Background(), config)
+			if err != nil {
+				t.Fatal(err)
+			}
+			defer cached.Close()
+			if cached.SymbolResolution == nil || !cached.SymbolResolution.Converted || cached.SymbolResolution.Downloaded {
+				t.Fatal(cached.SymbolResolution)
+			}
+			again, err := cached.Run(context.Background(), "windows.pslist", nil, engine.RunOptions{})
+			if err != nil || !again.Reused || again.Task.ID != result.Task.ID {
+				t.Fatal("automatic symbols must share the explicit table evidence cache", again, err)
 			}
 		})
 	}

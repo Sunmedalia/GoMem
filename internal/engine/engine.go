@@ -27,27 +27,29 @@ import (
 type Config struct {
 	Image, CaseDir, Symbols, OS, Arch, DTB string
 	SymbolIndex                            string
+	SymbolCache, SymbolServer              string
 	KernelBase, KernelSlide                uint64
 	Offline                                bool
 }
 type Engine struct {
-	Config    Config
-	Source    memory.MemorySource
-	Format    string
-	Hash      string
-	Build     string
-	Env       plugin.Environment
-	Store     *store.Store
-	Registry  *plugin.Registry
-	Discovery *LinuxDiscovery
-	mu        sync.Mutex
-	closing   bool
-	wg        sync.WaitGroup
-	stop      context.CancelFunc
-	life      context.Context
-	closeOnce sync.Once
-	closeErr  error
-	imageInfo os.FileInfo
+	Config           Config
+	Source           memory.MemorySource
+	Format           string
+	Hash             string
+	Build            string
+	Env              plugin.Environment
+	Store            *store.Store
+	Registry         *plugin.Registry
+	Discovery        *LinuxDiscovery
+	SymbolResolution *symbols.PDBResolution
+	mu               sync.Mutex
+	closing          bool
+	wg               sync.WaitGroup
+	stop             context.CancelFunc
+	life             context.Context
+	closeOnce        sync.Once
+	closeErr         error
+	imageInfo        os.FileInfo
 }
 
 func Open(ctx context.Context, c Config) (eng *Engine, err error) {
@@ -160,10 +162,13 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 		if indexPath != "" {
 			table, selected, e := eng.selectSymbols(ctx, indexPath)
 			if e != nil {
-				return nil, e
+				if c.SymbolIndex != "" || !errors.Is(e, ErrNoMatchingSymbols) || eng.Env.Kernel == nil || c.KernelBase == 0 || c.OS != "" && c.OS != "windows" {
+					return nil, e
+				}
+			} else {
+				eng.Env.Symbols, eng.Env.OS = table, selected.OS
+				eng.Config.SymbolIndex, eng.Config.Symbols = indexPath, selected.Location
 			}
-			eng.Env.Symbols, eng.Env.OS = table, selected.OS
-			eng.Config.SymbolIndex, eng.Config.Symbols = indexPath, selected.Location
 		}
 	}
 	if eng.Env.Kernel == nil && eng.Env.Symbols != nil {
@@ -174,6 +179,31 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 		if proof != nil {
 			eng.Env.Kernel, eng.Discovery, eng.Config.DTB = kernel, proof, proof.DTB
 		}
+	}
+	if eng.Env.Symbols == nil && eng.Env.Kernel != nil && c.KernelBase != 0 && (c.OS == "" || c.OS == "windows") {
+		identity, e := readKernelPDB(ctx, eng.Env.Kernel, c.KernelBase)
+		if e != nil {
+			return nil, fmt.Errorf("read Windows kernel identity for symbol acquisition: %w", e)
+		}
+		cache := c.SymbolCache
+		if cache == "" {
+			if c.CaseDir != "" {
+				cache = filepath.Join(c.CaseDir, "symbols", "windows")
+			} else {
+				userCache, e := os.UserCacheDir()
+				if e != nil {
+					return nil, e
+				}
+				cache = filepath.Join(userCache, "gomem", "symbols", "windows")
+			}
+		}
+		table, resolution, e := symbols.ResolvePDB(ctx, identity, symbols.PDBCacheOptions{Directory: cache, BuildSHA256: eng.Build, Server: c.SymbolServer, Offline: c.Offline})
+		if e != nil {
+			return nil, fmt.Errorf("Windows symbols: %w", e)
+		}
+		eng.Env.Symbols, eng.Env.OS = table, "windows"
+		eng.Config.Symbols, eng.Config.SymbolCache = resolution.TablePath, cache
+		eng.SymbolResolution = &resolution
 	}
 	if eng.Env.Kernel != nil && eng.Env.Symbols != nil {
 		eng.Env.Objects = &object.Reader{Layer: eng.Env.Kernel, Symbols: eng.Env.Symbols}

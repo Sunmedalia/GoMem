@@ -1,0 +1,133 @@
+{
+  "schema": "gomem.pdb-acquisition-validation/v1",
+  "date": "2026-10-20",
+  "environment": "darwin/arm64 Go 1.26.2",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "configuration": {
+    "symbols": "not supplied",
+    "os": "not supplied",
+    "dtb": "0x6d4000",
+    "kernel_base": "0xfffff8043601f000",
+    "server": "https://msdl.microsoft.com/download/symbols"
+  },
+  "acquisition": {
+    "identity": {
+      "database": "ntkrnlmp.pdb",
+      "GUID": "167FE94B5641C005AC3036212A01F8DC",
+      "age": 1
+    },
+    "source_sha256": "13f0deaa9d58c4c58a4abe92ea27920115b9f6169def486194a0f742a0c3569e",
+    "symbols_sha256": "f288d5d6d2bf1cfd7f1d76f271cfded7b7629224276a5748cc2a8db006c51b2a",
+    "url": "https://msdl.microsoft.com/download/symbols/ntkrnlmp.pdb/167FE94B5641C005AC3036212A01F8DC1/ntkrnlmp.pdb",
+    "report": {
+      "format": "pdb-msf7",
+      "architecture": "x86_64",
+      "build_id": "167FE94B5641C005AC3036212A01F8DC/1",
+      "sources": [
+        {
+          "name": "ntkrnlmp.pdb",
+          "sha256": "13f0deaa9d58c4c58a4abe92ea27920115b9f6169def486194a0f742a0c3569e",
+          "kind": "pdb"
+        }
+      ],
+      "entries": 90008,
+      "types": 1700,
+      "symbols": 41533,
+      "enums": 293,
+      "warnings": [
+        "PDB info age 5 differs from DBI image age 1; image identity uses DBI age",
+        "7 earlier same-name type definitions preserved as NAME@0xINDEX; canonical names use the final definition",
+        "39 symbol-name collisions retained as NAME@0xRVA; canonical aliases use the final record"
+      ],
+      "absolute_symbols": {
+        "__guard_eh_cont_count": "0x0",
+        "__guard_eh_cont_table": "0x0",
+        "__guard_fids_count": "0x1c0e",
+        "__guard_flags": "0x1011c500",
+        "__guard_iat_count": "0x0",
+        "__guard_iat_table": "0x0",
+        "__guard_longjmp_count": "0x1",
+        "__mm_pfn_database": "0x0",
+        "__pde_base": "0x40000000",
+        "__pde_top": "0x7fffffff",
+        "__ppe_base": "0x7da00000",
+        "__pte_base": "0x0",
+        "__pte_top": "0xffffffff",
+        "__pxe_base": "0x7dbed000",
+        "__pxe_selfmap": "0x7dbedf68",
+        "__pxe_top": "0x7dbedfff"
+      }
+    },
+    "observed_artifacts": [
+      "raw PDB",
+      "source.json",
+      "converter-build/symbols.json",
+      "converter-build/manifest.json"
+    ],
+    "source_manifest": {
+      "schema": "gomem.pdb-source/v1",
+      "identity": {
+        "database": "ntkrnlmp.pdb",
+        "GUID": "167FE94B5641C005AC3036212A01F8DC",
+        "age": 1
+      },
+      "sha256": "13f0deaa9d58c4c58a4abe92ea27920115b9f6169def486194a0f742a0c3569e",
+      "url": "https://msdl.microsoft.com/download/symbols/ntkrnlmp.pdb/167FE94B5641C005AC3036212A01F8DC1/ntkrnlmp.pdb"
+    }
+  },
+  "results": [
+    {
+      "plugin": "windows.pslist",
+      "offline": false,
+      "engine_build_sha256": "2a860f746deff6b72dd766058381fd371b70ef7b0c243df867ec8bf2c090a170",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "PPID",
+          "Name"
+        ],
+        "native_rows": 120,
+        "reference_rows": 120,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "4df69e66733e7235a5e5d6fe5ca0bdeee96d624bc76ff58663bb7a341030d1b0",
+          "reference": "b6b6308c261194fc98f79e7e26bb7573a820d94be78f8fb105bdf3d0061b67a4",
+          "mapping": "14ac26af59fffd379efa76487ad43d8cfd02d7d39d047460aa744fdfd79ac7d8"
+        }
+      }
+    },
+    {
+      "plugin": "windows.modules",
+      "offline": true,
+      "engine_build_sha256": "2a860f746deff6b72dd766058381fd371b70ef7b0c243df867ec8bf2c090a170",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "Name",
+          "Base",
+          "Size"
+        ],
+        "native_rows": 176,
+        "reference_rows": 176,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "148c0dadb2d68529c2b13ebfcbf6d606a165968c449b4c275c5153978b979888",
+          "reference": "c4f51d0504550b68077cf858e50077d6bdeb6e04090ab5cdf2bb4a0bb5c1d11f",
+          "mapping": "01d0d65710117d1cf4522bfd6bc162f7005a691e48b5c7b9c85b53d95ddc8f34"
+        }
+      }
+    }
+  ],
+  "offline_doctor": {
+    "downloaded": false,
+    "converted": false
+  },
+  "acceptance": "One official Windows image with known DTB/kernel base; selected fields only. Does not certify Windows discovery, all transports or complete symbol parity."
+}
