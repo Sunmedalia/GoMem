@@ -48,3 +48,4 @@
 2026-10-21：windows.unloadedmodules 读取 `MmUnloadedDrivers`。选定 Windows 10 19041 样本的 9 个已卸载模块与固定基线一致；计数为 9，没有截断、跳过或读失败。缺少符号时明确失败。真实 32 位镜像和时间线还没有验收。[详情](windows-unloadedmodules.md)
 2026-10-21：windows.envars 读取活动进程的 PEB 环境块。选定 Windows 10 19041 样本的 2960 条变量与固定基线一致。26 个进程的参数或环境页不可读，任务失败并保留诊断；基线跳过这些进程。`silent` 不过滤。真实 32 位镜像还没有验收。[详情](windows-envars.md)
 2026-10-21：windows.sessions 列出活动进程的会话和用户。选定 Windows 10 19041 样本的 120 行与固定基线一致。26 个环境页不可读的进程仍保留行，任务失败。时间线和 Windows 11 会话结构还没有验收。[详情](windows-sessions.md)
+2026-10-21：windows.crashinfo 读取崩溃转储头。选定 Windows 10 19041 样本的 1 行与固定基线一致，类型是 Bitmap Dump，页数 511191。系统时间使用 `+00:00`。非崩溃镜像明确失败。真实 32 位镜像还没有验收。[详情](windows-crashinfo.md)

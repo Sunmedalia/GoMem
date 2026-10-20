@@ -1,0 +1,21 @@
+{
+  "fields": {
+    "Signature": {"native": "Signature", "reference": "Signature", "kind": "string"},
+    "MajorVersion": {"native": "MajorVersion", "reference": "MajorVersion", "kind": "uint64"},
+    "MinorVersion": {"native": "MinorVersion", "reference": "MinorVersion", "kind": "uint64"},
+    "DirectoryTableBase": {"native": "DirectoryTableBase", "reference": "DirectoryTableBase", "kind": "address"},
+    "PfnDataBase": {"native": "PfnDataBase", "reference": "PfnDataBase", "kind": "address"},
+    "PsLoadedModuleList": {"native": "PsLoadedModuleList", "reference": "PsLoadedModuleList", "kind": "address"},
+    "PsActiveProcessHead": {"native": "PsActiveProcessHead", "reference": "PsActiveProcessHead", "kind": "address"},
+    "MachineImageType": {"native": "MachineImageType", "reference": "MachineImageType", "kind": "uint64"},
+    "NumberProcessors": {"native": "NumberProcessors", "reference": "NumberProcessors", "kind": "uint64"},
+    "KdDebuggerDataBlock": {"native": "KdDebuggerDataBlock", "reference": "KdDebuggerDataBlock", "kind": "address"},
+    "DumpType": {"native": "DumpType", "reference": "DumpType", "kind": "string"},
+    "SystemUpTime": {"native": "SystemUpTime", "reference": "SystemUpTime", "kind": "string"},
+    "Comment": {"native": "Comment", "reference": "Comment", "kind": "string"},
+    "SystemTime": {"native": "SystemTime", "reference": "SystemTime", "kind": "timestamp_seconds"},
+    "BitmapHeaderSize": {"native": "BitmapHeaderSize", "reference": "BitmapHeaderSize", "kind": "uint64"},
+    "BitmapSize": {"native": "BitmapSize", "reference": "BitmapSize", "kind": "uint64"},
+    "BitmapPages": {"native": "BitmapPages", "reference": "BitmapPages", "kind": "uint64"}
+  }
+}

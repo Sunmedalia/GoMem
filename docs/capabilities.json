@@ -5566,15 +5566,23 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Windows complete dumps (type 0x1) and bitmap dumps (type 0x5) only. The header is read from the crash layer and no kernel symbols are required. A non-crash image fails the task and emits no row. 64-bit uses the pinned _DUMP_HEADER64 layout and 32-bit uses _DUMP_HEADER. Signature is the 4-byte field, so PAGEDU64 is reported as PAGE. Type 0x1 is Full Dump (0x1) and type 0x5 is Bitmap Dump (0x5). Other types are rejected while opening the layer, before this plugin runs. Bitmap HeaderSize, Pages and BitmapSize come from _SUMMARY_DUMP at the end of the header. A full dump leaves those three cells not applicable. SystemUpTime formats ticks/10 microseconds like str(datetime.timedelta), with a half microsecond rounded to even. SystemTime drops the 100-nanosecond remainder, subtracts the FILETIME epoch, and prints UTC with a numeric +00:00 offset. A zero second count is not applicable. Values outside years 1 through 9999, or that the platform clock cannot represent, are unparsable. Comment is the 128-byte field, decoded as UTF-8 and cut at the first NUL or U+FFFD; the terminator is not kept. SystemTimeRaw is the unconverted FILETIME and is not a reference column.",
+      "native": "windows.crashinfo",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_1_row_matches_header_bitmap_uptime_comment_and_time",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 bitmap crash dump has a selected-field differential. It has one row, bitmap header 176128, 511191 pages and bitmap size 1310720",
+        "Real 32-bit images are pending. The 4096-byte header offsets are synthetic",
+        "Dump types other than 0x1 and 0x5 fail while the layer is opened, so the plugin Unknown/Unsupported text is not reached on an opened image",
+        "Comment truncation at NUL and at the first invalid UTF-8 sequence or literal U+FFFD was checked on the synthetic image",
+        "System time comparison uses whole UTC seconds. The sample value is 2025-03-06T17:59:20+00:00"
+      ],
+      "validation_record": "docs/windows-crashinfo.md"
     },
     {
       "id": "windows.debugregisters.DebugRegisters",
