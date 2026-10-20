@@ -745,15 +745,21 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "User tasks only; PF_KTHREAD 0x00200000 tasks are counted and skipped. Environment bytes are read through each task page table. The default 8192-byte bound matches the pinned sanity check. Entries are split on raw NUL and the first '='. A missing separator stops that task. Unmapped, oversized and malformed blocks stay visible and fail the task.",
+      "native": "linux.envars",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-x64",
+        "official-linux-sample-1"
+      ],
+      "comparison": "selected_1402_variable_rows_match_order_and_fields_11_baseline_omissions_retained_as_failures",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Full Linux version/architecture and parameter matrix pending",
+        "The pinned plugin omits unmapped, oversized and malformed environments and still succeeds; native output fails the task and keeps those 11 diagnostics",
+        "Kernel-thread selection uses the stable PF_KTHREAD bit, not a null mm"
+      ],
+      "validation_record": "docs/linux-envars.md"
     },
     {
       "id": "linux.graphics.fbdev.Fbdev",

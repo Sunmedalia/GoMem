@@ -1,0 +1,26 @@
+{
+  "schema": "gomem.linux-envars-validation/v1",
+  "date": "2026-10-20",
+  "scope": "Synthetic x64 page-table cases plus one legacy Debian x64 acquisition. Not a complete version or architecture acceptance.",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+  "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+  "parameters": {"max-env": "8192", "dtb": "0x1605000"},
+  "task_state": "failed",
+  "variable_rows": 1402,
+  "variable_comparison": "PID, PPID, COMM, KEY and VALUE match the pinned linux.envars JSON in order",
+  "coverage": {"kernel_threads": 39, "user_tasks": 94, "variables": 1402, "diagnostics": 11},
+  "diagnostics": [
+    {"pid": 1, "comm": "init", "reason": "environment_buffer_unreadable"},
+    {"pid": 2344, "comm": "atd", "reason": "environment_buffer_unreadable"},
+    {"pid": 2388, "comm": "avahi-daemon", "reason": "environment_entry_malformed"},
+    {"pid": 2390, "comm": "avahi-daemon", "reason": "environment_entry_malformed"},
+    {"pid": 3444, "comm": "dovecot", "reason": "environment_size_limit", "length": 8419},
+    {"pid": 3482, "comm": "anvil", "reason": "environment_entry_malformed"},
+    {"pid": 3483, "comm": "log", "reason": "environment_entry_malformed"},
+    {"pid": 3485, "comm": "config", "reason": "environment_entry_malformed"},
+    {"pid": 3831, "comm": "udisks-daemon", "reason": "environment_entry_malformed"},
+    {"pid": 8497, "comm": "sshd", "reason": "environment_entry_malformed"},
+    {"pid": 8502, "comm": "sshd", "reason": "environment_entry_malformed"}
+  ]
+}

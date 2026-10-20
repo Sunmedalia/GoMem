@@ -84,7 +84,7 @@ def generate(source):
                "linux.lsmod.Lsmod": "linux.lsmod", "windows.threads.Threads": "windows.threads",
                "windows.vadinfo.VadInfo": "windows.vadinfo", "linux.proc.Maps": "linux.maps",
                "windows.dlllist.DllList": "windows.dlllist", "windows.pedump.PEDump": "windows.pedump",
-               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux", "linux.elfs.Elfs": "linux.elfs", "linux.psscan.PsScan": "linux.psscan", "linux.lsof.Lsof": "linux.lsof", "linux.sockstat.Sockstat": "linux.sockstat", "linux.pagecache.InodePages": "linux.inodepages", "linux.pagecache.Files": "linux.files", "linux.pagecache.RecoverFs": "linux.recoverfs"}
+               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux", "linux.envars.Envars": "linux.envars", "linux.elfs.Elfs": "linux.elfs", "linux.psscan.PsScan": "linux.psscan", "linux.lsof.Lsof": "linux.lsof", "linux.sockstat.Sockstat": "linux.sockstat", "linux.pagecache.InodePages": "linux.inodepages", "linux.pagecache.Files": "linux.files", "linux.pagecache.RecoverFs": "linux.recoverfs"}
 
     def requirements(identifier, seen=None):
         seen = set() if seen is None else seen
@@ -171,6 +171,11 @@ def generate(source):
                               corpora=["synthetic-windows-x64", "synthetic-windows-x86-pae", "official-windows-10-19041"],
                               comparison="selected_readable_command_lines_match_errors_and_empty_strings_preserved", validation_record="docs/windows-cmdline.md",
                               gaps=["Full version/architecture and all failure/parameter combinations pending", "Read errors remain distinct from reference nulls; empty captured strings are not marked unreadable", "ArgsFull retains the declared string, including post-NUL text and BOM; raw bytes remain authoritative"])
+        if identifier == "linux.envars.Envars":
+            plugins[-1].update(applicability="User tasks only; PF_KTHREAD 0x00200000 tasks are counted and skipped. Environment bytes are read through each task page table. The default 8192-byte bound matches the pinned sanity check. Entries are split on raw NUL and the first '='. A missing separator stops that task. Unmapped, oversized and malformed blocks stay visible and fail the task.",
+                              corpora=["synthetic-linux-x64", "official-linux-sample-1"],
+                              comparison="selected_1402_variable_rows_match_order_and_fields_11_baseline_omissions_retained_as_failures", validation_record="docs/linux-envars.md",
+                              gaps=["Full Linux version/architecture and parameter matrix pending", "The pinned plugin omits unmapped, oversized and malformed environments and still succeeds; native output fails the task and keeps those 11 diagnostics", "Kernel-thread selection uses the stable PF_KTHREAD bit, not a null mm"])
         if identifier == "linux.psaux.PsAux":
             plugins[-1].update(applicability="Active task mm argument ranges read through independent process roots; 4096-byte default bound, explicit raw bytes and null-mm display provenance. PPID uses parent tgid.",
                               corpora=["synthetic-linux-x64", "synthetic-linux-x86-pae", "official-linux-sample-1"],

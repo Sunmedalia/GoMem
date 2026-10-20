@@ -58,6 +58,7 @@ bin/gomem analyze windows.pslist \
 | `linux.lsof` | 任务/线程的文件描述符、带作用域原始路径、inode/设备/权限和纳秒时间；保留部分读取 |
 | `linux.elfs` | ELF 映射枚举及分段提取，记录布局、段来源与缺页；提供显式基线布局 |
 | `linux.psaux` | 进程自身页表中的参数区、原始字节和参数列表；无用户 mm 时明确显示来源；PID 集合筛选 |
+| `linux.envars` | 进程页表中的环境变量块；保留原始字节，缺 `=` 时停止该任务，未映射或超限明确失败；[说明](docs/linux-envars.md) |
 | `linux.lsmod` | 匹配 ISF、DTB；旧布局和 `module_layout`；6.4+ `module_memory` 字段尚未补齐 |
 | `linux.maps` | VMA 链表或 Maple Tree、权限、inode、设备及带作用域的路径；PID/地址集合筛选；可提取所选区域 |
 
@@ -91,6 +92,8 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `windows.cmdline` 使用各进程自身地址空间读取命令行，显示值、完整声明字符串和原始字节分别保留。官方样本中 96 条可读内容一致，21 条读取错误使全量任务失败并保留结果；嵌入 NUL 和空 PEB 分别记录。[命令行验证](docs/windows-cmdline.md)
 
 `linux.psaux` 读取任务参数区并保留原始字节、参数元素、捕获长度与来源。用户 Linux 样本的 92 条参数内容和 39 条无 mm 显示与基线一致，2 条读取错误仍保留，完整任务报告失败。[Linux 参数验证](docs/linux-psaux.md)
+
+`linux.envars` 读取同一任务页表中的环境变量。选定 Debian 3.2 采集的 1,402 条变量与固定基线的顺序和字段一致；另外 11 个被基线跳过的任务保留为未映射、超限或格式错误，因此整个任务失败。[环境变量验证](docs/linux-envars.md)
 
 `linux.pslist` 可用 `--param threads=true --param decorate-comm=true` 展开线程并按 flags 装饰名称。UID/GID、内核创建时间与原始启动计数分别保留；旧样本的 133 个进程/316 个任务通过十字段对照，现代线程/时钟布局目前仅有合成验证。[Linux 任务验证](docs/linux-tasks.md)
 
