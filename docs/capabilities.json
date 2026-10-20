@@ -10755,15 +10755,21 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Modern RTL_AVL_TREE VADs with exact MMVAD_SHORT types and native MmProtectToValue table; PID sets and inclusive address filtering.",
+      "native": "windows.vadinfo",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_fields_match",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Old VAD layouts and complete version/architecture coverage pending",
+        "VAD extraction/dump and maxsize are not implemented",
+        "Path read errors remain distinct from baseline nulls; see docs/windows-vad.md"
+      ],
+      "validation_record": "docs/validation.json"
     },
     {
       "id": "windows.vadregexscan.VadRegExScan",

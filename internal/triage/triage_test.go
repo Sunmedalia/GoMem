@@ -2,7 +2,9 @@ package triage
 
 import (
 	"context"
+	"encoding/binary"
 	"errors"
+	"os"
 	"testing"
 
 	"github.com/Sunmedalia/GoMem/internal/engine"
@@ -14,6 +16,102 @@ func row(address uint64, name string) evidence.Row {
 	r := evidence.Row{Cells: map[string]evidence.Value{"Offset": evidence.Address(address), "Name": evidence.Text(name), "Identity": evidence.Text(name), "ProcessIdentity": evidence.Text(name)}, Provenance: evidence.Provenance{ImageSHA256: "same-image", Layer: "kernel", Offset: evidence.Address(address).String(), Plugin: "fixture"}}
 	r.Seal()
 	return r
+}
+
+func TestWindowsVADPipelineFindingsControlAndWhitelist(t *testing.T) {
+	for _, scenario := range []string{"rwx", "normal", "unknown"} {
+		t.Run(scenario, func(t *testing.T) {
+			ctx := context.Background()
+			f, err := testfixture.Write(t.TempDir(), "windows")
+			if err != nil {
+				t.Fatal(err)
+			}
+			if scenario != "rwx" {
+				data, err := os.ReadFile(f.Image)
+				if err != nil {
+					t.Fatal(err)
+				}
+				protection := uint32(0x20)
+				if scenario == "unknown" {
+					protection = 0x80000000
+				}
+				binary.LittleEndian.PutUint32(data[0x6200+6*4:], protection)
+				if err = os.WriteFile(f.Image, data, 0600); err != nil {
+					t.Fatal(err)
+				}
+			}
+			e, err := engine.Open(ctx, engine.Config{Image: f.Image, Symbols: f.Symbols, DTB: f.DTB, KernelBase: f.KernelBase, CaseDir: t.TempDir(), Offline: true})
+			if err != nil {
+				t.Fatal(err)
+			}
+			defer e.Close()
+			summary, err := Run(ctx, e, nil)
+			if err == nil || summary.State == "completed" {
+				t.Fatal("remaining unsupported rules declared success", summary, err)
+			}
+			var check Check
+			for _, c := range summary.Checks {
+				if c.Rule == "executable-writable-region" {
+					check = c
+				}
+			}
+			if scenario == "unknown" {
+				if check.State != "failed" || check.Reason == "" {
+					t.Fatal("unknown protection became a clean check", check)
+				}
+				return
+			}
+			want := 0
+			if scenario == "rwx" {
+				want = 1
+			}
+			if !errors.Is(err, ErrIncomplete) || check.State != "completed" || check.Findings != want {
+				t.Fatal(summary, err)
+			}
+			if scenario == "normal" {
+				return
+			}
+			findings, err := e.Store.Query(ctx, evidence.Query{TaskID: summary.FindingTask, Limit: 100})
+			if err != nil || len(findings) != 1 || findings[0].Provenance.Offset != "0x16000" {
+				t.Fatal(findings, err)
+			}
+			refs := findings[0].Cells["EvidenceIDs"].Data.([]any)
+			source, err := e.Store.Find(ctx, refs[0].(string))
+			if err != nil || source.Provenance.Plugin != "windows.vadinfo" || source.Cells["ProcessIdentity"].String() != findings[0].Cells["Entity"].String() {
+				t.Fatal(source, err)
+			}
+			if err = e.Store.Allow(ctx, check.Rule, findings[0].Cells["Entity"].String(), "known JIT fixture"); err != nil {
+				t.Fatal(err)
+			}
+			second, err := Run(ctx, e, nil)
+			if !errors.Is(err, ErrIncomplete) || second.Findings != 0 {
+				t.Fatal(second, err)
+			}
+			for _, task := range second.Tasks {
+				if !task.Reused {
+					t.Fatal("completed VAD/process/module steps were not reused", task)
+				}
+			}
+		})
+	}
+}
+
+func TestWritableExecutableProtectionModifiersAndCopyOnWriteControl(t *testing.T) {
+	rule := Rules[1]
+	for _, tc := range []struct {
+		protection string
+		value      uint64
+		hit        bool
+	}{{"PAGE_EXECUTE_READWRITE|PAGE_GUARD", 0x140, true}, {"PAGE_EXECUTE_WRITECOPY", 0x80, false}, {"PAGE_EXECUTE_READ", 0x20, false}, {"", 0, false}} {
+		r := row(0x1000, "mapping")
+		r.Cells["Protection"], r.Cells["ProtectionValue"] = evidence.Text(tc.protection), evidence.Number(tc.value)
+		r.Seal()
+		count := 0
+		err := Evaluate(context.Background(), rule, map[string][]evidence.Row{"maps": {r}}, func(evidence.Row) error { count++; return nil })
+		if err != nil || (count == 1) != tc.hit {
+			t.Fatal(tc, count, err)
+		}
+	}
 }
 func TestEveryRulePositiveAndControl(t *testing.T) {
 	for _, rule := range Rules {

@@ -15,6 +15,8 @@ import (
 
 type windowsVADPath struct {
 	start, end, address uint64
+	parent              uint64
+	tag                 string
 	file                evidence.Value
 }
 
@@ -121,7 +123,7 @@ func windowsVADPaths(ctx context.Context, e plugin.Environment, process uint64, 
 		if string(tag) != "VadS" && string(tag) != "VadF" {
 			path = windowsVADFile(ctx, e, address)
 		}
-		regions = append(regions, windowsVADPath{start: start, end: end, address: address, file: path})
+		regions = append(regions, windowsVADPath{start: start, end: end, address: address, parent: item.parent, tag: string(tag), file: path})
 		stack = append(stack, frame{node: right, parent: item.node, depth: item.depth + 1}, frame{node: left, parent: item.node, depth: item.depth + 1})
 	}
 	sort.Slice(regions, func(i, j int) bool { return regions[i].start < regions[j].start })

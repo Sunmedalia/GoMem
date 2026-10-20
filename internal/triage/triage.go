@@ -28,7 +28,7 @@ type Rule struct {
 
 var Rules = []Rule{
 	{"hidden-process", "high", "A scanned process object is absent from the active list by object address; PID alone is not compared.", "Terminated or partially acquired process objects can differ from the active list.", []string{"pslist", "psscan"}, "difference"},
-	{"executable-writable-region", "high", "An executable mapping also permits writes.", "JIT runtimes and unpackers can legitimately use writable executable memory.", []string{"maps"}, "rwx"},
+	{"executable-writable-region", "high", "A mapping has direct read/write/execute protection.", "JIT runtimes and unpackers can legitimately use writable executable memory.", []string{"maps"}, "rwx"},
 	{"module-enumeration-difference", "medium", "A scanned module object is absent from the loaded-module list by object address.", "Unloaded modules and stale pool allocations may remain in RAM.", []string{"modules", "modscan"}, "difference"},
 	{"deleted-or-memfd-execution", "high", "A mapping explicitly marked executable references a deleted file or memfd.", "Package upgrades, containers and legitimate in-memory software can produce these mappings.", []string{"maps"}, "deleted"},
 	{"persistence-process-link", "medium", "A persistence record explicitly references the same address-based process identity.", "Authorized startup software is common; validate the configuration owner and command.", []string{"persistence", "pslist"}, "persistence"},
@@ -107,11 +107,22 @@ func Evaluate(ctx context.Context, r Rule, inputs map[string][]evidence.Row, emi
 		for _, row := range inputs["maps"] {
 			hit := false
 			if r.Kind == "rwx" {
-				if _, err := required(row, "Protection"); err != nil {
-					return err
+				if numeric, ok := row.Cells["ProtectionValue"]; ok {
+					value, err := numeric.Uint()
+					if err != nil || row.Cells["Protection"].Kind != "string" {
+						return fmt.Errorf("rule input %s has unreadable or unknown mapping protection", row.ID)
+					}
+					hit = value&0x40 != 0 // PAGE_EXECUTE_READWRITE, including modifiers.
+				} else {
+					if _, err := required(row, "Protection"); err != nil {
+						return err
+					}
+					protection := strings.ToLower(row.Cells["Protection"].String())
+					hit = strings.Contains(protection, "rwx")
+					for _, name := range strings.Split(protection, "|") {
+						hit = hit || name == "page_execute_readwrite"
+					}
 				}
-				protection := strings.ToLower(row.Cells["Protection"].String())
-				hit = strings.Contains(protection, "rwx") || strings.EqualFold(protection, "page_execute_readwrite")
 			} else {
 				if _, err := required(row, "Path"); err != nil {
 					return err
@@ -188,10 +199,14 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 	tasks := map[string]evidence.Task{}
 	failures := map[string]string{}
 	names := map[string]string{"pslist": os + ".pslist", "modules": "windows.modules"}
+	order := []string{"pslist", "modules"}
 	if os == "linux" {
 		names["modules"] = "linux.lsmod"
+	} else {
+		names["maps"] = "windows.vadinfo"
+		order = append(order, "maps")
 	}
-	for _, key := range []string{"pslist", "modules"} {
+	for _, key := range order {
 		res, runErr := e.Run(ctx, names[key], nil, engine.RunOptions{})
 		if runErr != nil {
 			failures[key] = runErr.Error()
@@ -261,16 +276,20 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 			}
 		}
 		if available {
-			if rule.Kind == "ioc" {
+			if rule.Kind == "ioc" || rule.Kind == "rwx" {
+				inputTasks, inputKey := iocTasks, "ioc"
+				if rule.Kind == "rwx" {
+					inputTasks, inputKey = []evidence.Task{tasks["maps"]}, "maps"
+				}
 				check.State = "completed"
-				for _, input := range iocTasks {
+				for _, input := range inputTasks {
 					for off := 0; ; off += 500 {
 						rows, readErr := e.Store.Query(ctx, evidence.Query{TaskID: input.ID, Offset: off, Limit: 500})
 						if readErr != nil {
 							err = readErr
 							break
 						}
-						evalErr := Evaluate(ctx, rule, map[string][]evidence.Row{"ioc": rows}, func(row evidence.Row) error {
+						evalErr := Evaluate(ctx, rule, map[string][]evidence.Row{inputKey: rows}, func(row evidence.Row) error {
 							allowed, allowErr := e.Store.Allowed(ctx, rule.ID, row.Cells["Entity"].String())
 							if allowErr != nil {
 								return allowErr

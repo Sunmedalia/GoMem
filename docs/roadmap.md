@@ -7,15 +7,15 @@
 | 固定基线、盘点官方插件 | 锁定提交；AST 清单覆盖 195 个官方插件类，包含需求和参数表达式、别名、来源及未验收状态 |
 | 验收语料和差分工具 | 官方资产 SHA-256 清单、合成 Windows/Linux 样本、锁定对照入口、保留重复与树关系的比较器、证据包校验工具 |
 | 共同底座 | 原生读取、五类格式路径、三类 Intel 转换、压缩 ISF、对象、流式插件、SQLite 案件、取消、缓存与恢复已打通；符号及其余格式仍不完整 |
-| Windows/Linux 端到端 | 活动进程和内核模块、Windows 线程与现代 VAD 启动路径、banner、ASCII/IOC 扫描；官方样本指定字段对照通过 |
+| Windows/Linux 端到端 | 活动进程和内核模块、Windows 线程与现代 VAD 明细、banner、ASCII/IOC 扫描；官方样本指定字段对照通过，VAD 文件缺页差异单独保留 |
 | 调查交互 | CLI、三栏异步 TUI、分页/筛选/详情/书签、shell、类型/地址/进程空间探索、HTML/JSONL/ZIP 导出 |
-| 分诊 | 六类独立规则评估器；只有 IOC 规则已连接到完整原生输入，其他规则明确 unavailable |
+| 分诊 | 六类独立规则评估器；IOC 和 Windows 现代 VAD 的直接 RWX 检查已连接到原生输入；其余缺口明确 unavailable |
 | 全能力补齐与 v1.0 | 未完成 |
 
 后续工作按原计划保留，不用“空插件”或无依据跳过抵消缺口：
 
 1. 补齐 Linux/macOS 在线符号索引与自动获取，以及完整内核、DTB、进程空间识别；已有 Windows 完整/bitmap 转储的自动配置、精确身份 PDB 获取与持久转换缓存、原生 PDB/MSF 7.0、DWARF、本地身份索引和部分 Linux x64 DTB 发现。仍需 RAW/虚拟机格式的 Windows 自动识别、旧 MSF、CAB 传输、更多 CodeView/DWARF 语义、KASLR、架构和版本验证。
-2. Windows/Linux 的线程完整版本与参数覆盖、扫描进程、VAD/VMA、网络、文件恢复、注册表、凭据、服务、持久化、内核检查、恶意代码、时间线与其全部参数、导出。当前只有 Windows 活动线程枚举及现代 VAD 启动路径，尚无完整 VAD 分析或线程池扫描。
+2. Windows/Linux 的线程完整版本与参数覆盖、扫描进程、VAD/VMA、网络、文件恢复、注册表、凭据、服务、持久化、内核检查、恶意代码、时间线与其全部参数、导出。当前已有 Windows 活动线程及现代 VAD 明细，旧布局、提取及完整字段语义仍未验收，尚无线程池扫描。
 3. macOS、AVML、VMware、QEMU、Xen、外部交换页及上游其余地址空间和格式语义；Windows 已支持镜像内驻留的 transition 页，prototype 和外部 pagefile 未实现。
 4. HTTP/FTP/S3/GS 等远程数据源，以及 YARA、反汇编、LeechCore；正式验收使用完整扩展构建。
 5. 将各分诊规则连接到经验证的原生数据生产者；增加真实恶意与正常 VM 对照、共享扫描索引、通用证据图、提取文件管理与持续任务日志。

@@ -81,7 +81,8 @@ def generate(source):
 
     partial = {"banners.Banners": "banners", "windows.pslist.PsList": "windows.pslist",
                "linux.pslist.PsList": "linux.pslist", "windows.modules.Modules": "windows.modules",
-               "linux.lsmod.Lsmod": "linux.lsmod", "windows.threads.Threads": "windows.threads"}
+               "linux.lsmod.Lsmod": "linux.lsmod", "windows.threads.Threads": "windows.threads",
+               "windows.vadinfo.VadInfo": "windows.vadinfo"}
 
     def requirements(identifier, seen=None):
         seen = set() if seen is None else seen
@@ -114,6 +115,9 @@ def generate(source):
         if identifier == "windows.threads.Threads":
             plugins[-1].update(applicability="Active process thread lists; exact ETHREAD/EPROCESS types. Start paths currently require modern RTL_AVL_TREE VAD layout. External swap/prototype pages are unresolved.",
                               gaps=["Full version/architecture and parameter coverage pending", "ExitTime signed union differences explicitly preserved; see docs/windows-threads.md", "No thread pool scan or extracted artifacts"])
+        if identifier == "windows.vadinfo.VadInfo":
+            plugins[-1].update(applicability="Modern RTL_AVL_TREE VADs with exact MMVAD_SHORT types and native MmProtectToValue table; PID sets and inclusive address filtering.",
+                              gaps=["Old VAD layouts and complete version/architecture coverage pending", "VAD extraction/dump and maxsize are not implemented", "Path read errors remain distinct from baseline nulls; see docs/windows-vad.md"])
     infrastructure = []
     for group, directory in [("layers", "volatility3/framework/layers"), ("symbols", "volatility3/framework/symbols"),
                              ("renderers", "volatility3/cli"), ("automagic", "volatility3/framework/automagic")]:

@@ -45,6 +45,7 @@ bin/gomem analyze windows.pslist \
 | `windows.pslist` | 匹配 ISF、DTB、内核基址；活动进程链表 |
 | `windows.modules` | 匹配 ISF、DTB、内核基址；内核模块链表 |
 | `windows.threads` | 活动进程线程链表、创建/退出时间与进程证据关联；现代 VAD 启动路径；支持 `--param pid=104,108` |
+| `windows.vadinfo` | 现代 VAD 区间、动态权限表、提交页数、私有标志和文件路径；支持 PID 集合及包含地址筛选；尚无内存提取 |
 | `linux.pslist` | 匹配 ISF、DTB；活动任务链表；可选 `--kernel-slide` |
 | `linux.lsmod` | 匹配 ISF、DTB；旧布局和 `module_layout`；6.4+ `module_memory` 字段尚未补齐 |
 
@@ -107,7 +108,9 @@ bin/gomem triage --image memory.raw --os linux --case ./case-001 \
   --symbols exact.json.xz --dtb 0x123000 --ioc example.org
 ```
 
-当前连接了进程、模块枚举和精确 IOC 扫描。六类规则的独立评估器及阳性/正常输入测试已经建立；隐藏进程、可执行区域、扫描模块差异、删除文件/memfd 执行、持久化关联仍缺少原生数据生产者。**因此当前完整分诊会报告 unavailable，返回非零状态，并把分诊任务记录为失败。** IOC 发现仍会保存，包含规则依据、严重程度、误报提示、原始证据引用和来源。
+当前连接了进程、模块枚举、精确 IOC 扫描及 Windows 现代 VAD 输入。Windows 的直接可读写执行权限检查已贯通原生解析、分页评估、证据引用、案件白名单和任务复用；真实样本发现 30 个该类区域，包含 JIT 等正常用途的误报可能。[VAD 与分诊验证](docs/windows-vad.md)
+
+六类规则具有独立评估器及阳性/正常输入测试；隐藏进程、扫描模块差异、Linux 删除文件/memfd 执行、持久化关联仍缺少完整输入。**因此当前完整分诊会报告 unavailable，返回非零状态，并把分诊任务记录为失败。** 已运行规则的发现仍会保存，包含规则依据、严重程度、误报提示、原始证据引用和来源。
 
 进程身份结合镜像、地址空间、对象地址、PID 和可用启动时间，不能仅按 PID 关联。白名单只抑制明确实体，不删除原始证据：
 

@@ -94,6 +94,10 @@ func Write(dir, platform string) (Fixture, error) {
 		t.Meta["windows"] = json.RawMessage(`{"pdb":{"database":"ntkrnlmp.pdb","GUID":"112233445566778899AABBCCDDEEFF00","age":1,"machine_type":34404}}`)
 		t.Symbols["PsActiveProcessHead"] = symbols.Symbol{Address: 0x2000}
 		t.Symbols["PsLoadedModuleList"] = symbols.Symbol{Address: 0x2010}
+		t.Symbols["MmProtectToValue"] = symbols.Symbol{Address: 0x2200}
+		for i, protection := range []uint32{1, 2, 16, 32, 4, 8, 64, 128} {
+			binary.LittleEndian.PutUint32(data[0x6200+i*4:], protection)
+		}
 		t.Types["_LARGE_INTEGER"] = symbols.Type{Kind: "union", Size: 8, Fields: map[string]symbols.Field{"QuadPart": field(0, base("u64"))}}
 		t.Types["_EPROCESS"] = symbols.Type{Kind: "struct", Size: 128, Fields: map[string]symbols.Field{"ActiveProcessLinks": field(0, strct("_LIST_ENTRY")), "UniqueProcessId": field(16, ptr), "InheritedFromUniqueProcessId": field(24, ptr), "ImageFileName": field(32, arr(16)), "CreateTime": field(48, symbols.TypeRef{Kind: "union", Name: "_LARGE_INTEGER"}), "Pcb": field(56, strct("_KPROCESS")), "ThreadListHead": field(64, strct("_LIST_ENTRY")), "VadRoot": field(80, strct("_RTL_AVL_TREE"))}}
 		t.Types["_LIST_ENTRY"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"Flink": field(0, ptr), "Blink": field(8, ptr)}}
@@ -157,6 +161,19 @@ func Write(dir, platform string) (Fixture, error) {
 		t.Types["_RTL_AVL_TREE"] = symbols.Type{Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"Root": field(0, ptr)}}
 		t.Types["_RTL_BALANCED_NODE"] = symbols.Type{Kind: "struct", Size: 24, Fields: map[string]symbols.Field{"Left": field(0, ptr), "Right": field(8, ptr), "ParentValue": field(16, base("u64"))}}
 		t.Types["_MMVAD_SHORT"] = symbols.Type{Kind: "struct", Size: 64, Fields: map[string]symbols.Field{"VadNode": field(0, strct("_RTL_BALANCED_NODE")), "StartingVpn": field(24, base("u32")), "EndingVpn": field(28, base("u32")), "StartingVpnHigh": field(32, base("char")), "EndingVpnHigh": field(33, base("char"))}}
+		bitBase := base("u32")
+		bits := func(position, length uint64) symbols.TypeRef {
+			return symbols.TypeRef{Kind: "bitfield", BitType: &bitBase, BitPosition: position, BitLength: length}
+		}
+		t.Types["_MMVAD_FLAGS"] = symbols.Type{Kind: "struct", Size: 4, Fields: map[string]symbols.Field{"Protection": field(0, bits(7, 5)), "PrivateMemory": field(0, bits(20, 1))}}
+		t.Types["_MMVAD_FLAGS1"] = symbols.Type{Kind: "struct", Size: 4, Fields: map[string]symbols.Field{"CommitCharge": field(0, bits(0, 31))}}
+		t.Types["_VAD_U"] = symbols.Type{Kind: "union", Size: 4, Fields: map[string]symbols.Field{"VadFlags": field(0, strct("_MMVAD_FLAGS"))}}
+		t.Types["_VAD_U1"] = symbols.Type{Kind: "union", Size: 4, Fields: map[string]symbols.Field{"VadFlags1": field(0, strct("_MMVAD_FLAGS1"))}}
+		short := t.Types["_MMVAD_SHORT"]
+		short.Fields["u"] = field(48, symbols.TypeRef{Kind: "union", Name: "_VAD_U"})
+		short.Fields["u1"] = field(52, symbols.TypeRef{Kind: "union", Name: "_VAD_U1"})
+		short.Fields["CommitChargeHigh"] = field(34, base("char"))
+		t.Types["_MMVAD_SHORT"] = short
 		t.Types["_MMVAD"] = symbols.Type{Kind: "struct", Size: 80, Fields: map[string]symbols.Field{"Core": field(0, strct("_MMVAD_SHORT")), "Subsection": field(64, ptr)}}
 		t.Types["_SUBSECTION"] = symbols.Type{Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"ControlArea": field(0, ptr)}}
 		t.Types["_EX_FAST_REF"] = symbols.Type{Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"Value": field(0, base("u64"))}}
@@ -171,6 +188,10 @@ func Write(dir, platform string) (Fixture, error) {
 		binary.LittleEndian.PutUint32(data[0x1601c:], 0x90f)
 		copy(data[0x15000-12:], "Vad ")
 		copy(data[0x16000-12:], "VadS")
+		binary.LittleEndian.PutUint32(data[0x15030:], 3<<7)
+		binary.LittleEndian.PutUint32(data[0x16030:], 6<<7|1<<20)
+		binary.LittleEndian.PutUint32(data[0x15034:], 16)
+		binary.LittleEndian.PutUint32(data[0x16034:], 16)
 		put(0x15040, 0x17000)
 		put(0x17000, 0x17100)
 		put(0x17100, 0x17203)

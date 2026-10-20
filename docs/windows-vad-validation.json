@@ -1,0 +1,140 @@
+{
+  "schema": "gomem.windows-vad-validation/v1",
+  "date": "2026-10-20",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "id": "windows.vadinfo.VadInfo",
+  "corpus": "official-windows-10-19041",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+  "engine_build_sha256": "d4ae3b552302901269b851528e608e1ddb2f6bd708ef1b202c6e2eee20f04de6",
+  "report": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "PID",
+      "Process",
+      "Offset",
+      "Start",
+      "End",
+      "Tag",
+      "Protection",
+      "CommitCharge",
+      "PrivateMemory",
+      "Parent"
+    ],
+    "native_rows": 19999,
+    "reference_rows": 19999,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "4f22cd03032b4da6599ebb85fb21903b1bcadaa5c20977d0042829f1d2af014f",
+      "reference": "c682e17cae59a379049e2633caf8ed83dfb9bd2300ec4009d93ba8ceb5af839a",
+      "mapping": "6040dfd785ae0523664274e50b046a7e04cc9a8281f4119939a8d5bf15acc628"
+    }
+  },
+  "path_validation": {
+    "fields": [
+      "PID",
+      "Process",
+      "Offset",
+      "Start",
+      "End",
+      "Tag",
+      "Protection",
+      "CommitCharge",
+      "PrivateMemory",
+      "Parent",
+      "Path"
+    ],
+    "native_rows": 19999,
+    "reference_rows": 19999,
+    "matched": false,
+    "missing_rows": 39,
+    "extra_rows": 39,
+    "difference": "All 39 are native path read errors vs suppressed reference null; every other mapped cell on the same object is equal. No errors normalized away.",
+    "sha256": {
+      "native": "4f22cd03032b4da6599ebb85fb21903b1bcadaa5c20977d0042829f1d2af014f",
+      "reference": "c682e17cae59a379049e2633caf8ed83dfb9bd2300ec4009d93ba8ceb5af839a",
+      "mapping": "599a4fe13898d1ad98c8d4c3fb0e22ffb6b214ff95aa2024525aed7af24b78ef"
+    },
+    "native_path_counts": {
+      "string": 8274,
+      "not_file_backed": 11686,
+      "unreadable_or_unavailable": 39
+    }
+  },
+  "triage": {
+    "state": "incomplete",
+    "findings": 30,
+    "checks": [
+      {
+        "rule": "hidden-process",
+        "state": "unavailable",
+        "reason": "native input plugin for psscan is not implemented",
+        "findings": 0
+      },
+      {
+        "rule": "executable-writable-region",
+        "state": "completed",
+        "findings": 30
+      },
+      {
+        "rule": "module-enumeration-difference",
+        "state": "unavailable",
+        "reason": "native input plugin for modscan is not implemented",
+        "findings": 0
+      },
+      {
+        "rule": "deleted-or-memfd-execution",
+        "state": "unavailable",
+        "reason": "required normalized evidence pipeline is not implemented",
+        "findings": 0
+      },
+      {
+        "rule": "persistence-process-link",
+        "state": "unavailable",
+        "reason": "native input plugin for persistence is not implemented",
+        "findings": 0
+      },
+      {
+        "rule": "literal-ioc",
+        "state": "unavailable",
+        "reason": "no --ioc literals configured",
+        "findings": 0
+      }
+    ],
+    "summary_sha256": "f3e5481ea993df2e4a76f4937cbaee2d99391568f58400d268420b2d40205336",
+    "engine_build_sha256": "d4ae3b552302901269b851528e608e1ddb2f6bd708ef1b202c6e2eee20f04de6"
+  },
+  "acceptance": "One modern Windows x64 image, ten core fields and explained path read errors. Legacy layouts, dump/maxsize/extraction, full versions and parameters remain unaccepted.",
+  "native_pdb_validation": {
+    "source_sha256": "13f0deaa9d58c4c58a4abe92ea27920115b9f6169def486194a0f742a0c3569e",
+    "symbols_sha256": "f288d5d6d2bf1cfd7f1d76f271cfded7b7629224276a5748cc2a8db006c51b2a",
+    "engine_build_sha256": "d4ae3b552302901269b851528e608e1ddb2f6bd708ef1b202c6e2eee20f04de6",
+    "report": {
+      "scope": "selected fields only; full capability acceptance remains pending",
+      "fields": [
+        "PID",
+        "Process",
+        "Offset",
+        "Start",
+        "End",
+        "Tag",
+        "Protection",
+        "CommitCharge",
+        "PrivateMemory",
+        "Parent"
+      ],
+      "native_rows": 19999,
+      "reference_rows": 19999,
+      "matched": true,
+      "missing": [],
+      "extra": [],
+      "sha256": {
+        "native": "87247488e92fcc55baac59c31c72eb3eb626cfe8706c7fc26a45d7555ff4b4cb",
+        "reference": "c682e17cae59a379049e2633caf8ed83dfb9bd2300ec4009d93ba8ceb5af839a",
+        "mapping": "6040dfd785ae0523664274e50b046a7e04cc9a8281f4119939a8d5bf15acc628"
+      }
+    }
+  }
+}

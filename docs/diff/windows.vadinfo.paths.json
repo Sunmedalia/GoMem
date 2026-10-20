@@ -1,0 +1,62 @@
+{
+  "fields": {
+    "PID": {
+      "native": "PID",
+      "reference": "PID",
+      "kind": "uint64"
+    },
+    "Process": {
+      "native": "Process",
+      "reference": "Process",
+      "kind": "string"
+    },
+    "Offset": {
+      "native": "Offset",
+      "reference": "Offset",
+      "kind": "address"
+    },
+    "Start": {
+      "native": "Start",
+      "reference": "Start VPN",
+      "kind": "address"
+    },
+    "End": {
+      "native": "End",
+      "reference": "End VPN",
+      "kind": "address"
+    },
+    "Tag": {
+      "native": "Tag",
+      "reference": "Tag",
+      "kind": "string"
+    },
+    "Protection": {
+      "native": "Protection",
+      "reference": "Protection",
+      "kind": "string"
+    },
+    "CommitCharge": {
+      "native": "CommitCharge",
+      "reference": "CommitCharge",
+      "kind": "uint64"
+    },
+    "PrivateMemory": {
+      "native": "PrivateMemory",
+      "reference": "PrivateMemory",
+      "kind": "uint64"
+    },
+    "Parent": {
+      "native": "Parent",
+      "reference": "Parent",
+      "kind": "address"
+    },
+    "Path": {
+      "native": "Path",
+      "reference": "File",
+      "kind": "string",
+      "missing_reasons": [
+        "not_file_backed"
+      ]
+    }
+  }
+}

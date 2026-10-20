@@ -166,6 +166,38 @@
           "mapping": "aebb76256440c069383716d21c5260ff9d1e47afb410a0fb6eab2f09dbc589d4"
         }
       }
+    },
+    {
+      "id": "windows.vadinfo.VadInfo",
+      "corpus": "official-windows-10-19041",
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+      "engine_build_sha256": "d4ae3b552302901269b851528e608e1ddb2f6bd708ef1b202c6e2eee20f04de6",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "Process",
+          "Offset",
+          "Start",
+          "End",
+          "Tag",
+          "Protection",
+          "CommitCharge",
+          "PrivateMemory",
+          "Parent"
+        ],
+        "native_rows": 19999,
+        "reference_rows": 19999,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "4f22cd03032b4da6599ebb85fb21903b1bcadaa5c20977d0042829f1d2af014f",
+          "reference": "c682e17cae59a379049e2633caf8ed83dfb9bd2300ec4009d93ba8ceb5af839a",
+          "mapping": "6040dfd785ae0523664274e50b046a7e04cc9a8281f4119939a8d5bf15acc628"
+        }
+      }
     }
   ],
   "page_benchmark": {
