@@ -1,0 +1,90 @@
+{
+  "schema": "gomem.windows-userassist-validation/v1",
+  "date": "2026-10-21",
+  "scope": "Synthetic Win7 UserAssist cells plus one Windows 10 19041 x64 crash dump. Not a complete version, architecture, XP-corpus or timeline acceptance.",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "reference_manifest_sha256": "941010dde9718f7f80fd000bf6f0a1bdac39424b4a7d43dfbc39be4b03a425d5",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+  "engine_build_sha256": "c0cb7418eb62c896f06a102c1cc3769148f0411b2a7d51f830d512c8c0b74cb3",
+  "parameters": {},
+  "task_state": "completed",
+  "key_rows": 9,
+  "subkey_rows": 0,
+  "value_rows": 28,
+  "unreadable_rows": 2,
+  "reference_rows": 37,
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "HiveOffset",
+      "HiveName",
+      "Path",
+      "LastWriteTime",
+      "Type",
+      "Name",
+      "ID",
+      "Count",
+      "FocusCount",
+      "TimeFocused",
+      "LastUpdated",
+      "RawData"
+    ],
+    "native_rows": 37,
+    "reference_rows": 37,
+    "matched": false,
+    "missing": [
+      {
+        "HiveName": "\\??\\C:\\Users\\generic-user\\ntuser.dat",
+        "Path": "ntuser.dat\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\UserAssist\\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\\Count",
+        "Type": "Value",
+        "Name": "UEME_CTLSESSION",
+        "Count": "0",
+        "FocusCount": "0",
+        "TimeFocused": "0:00:00.500000",
+        "RawData": "1612 zero bytes"
+      }
+    ],
+    "extra": [
+      {
+        "HiveName": "\\??\\C:\\Users\\generic-user\\ntuser.dat",
+        "Path": "ntuser.dat\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\UserAssist\\{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\\Count",
+        "Type": "Value",
+        "Name": "UEME_CTLSESSION",
+        "RawData": {
+          "missing": "registry_value_unreadable"
+        },
+        "Count": {
+          "missing": "unparsable"
+        }
+      }
+    ],
+    "sha256": {
+      "native": "7e26eff6c312466e308d9c2933cee1978f8cbaef245e179c90bdecb88c6ec910",
+      "reference": "b817ee1719b4d83d9761b6a2bcf83aaf1b455fda3a2f22e6637d95cd91a3b703",
+      "mapping": "292d53188abb48b1f518618845e73ed5c0b74fb667b140a33aa97f23e8cd0768"
+    },
+    "native_input_rows": 39,
+    "native_non_entity_records": {
+      "unreadable": 2
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "values": [
+        "key",
+        "subkey",
+        "value"
+      ],
+      "excluded_values": [
+        "unreadable"
+      ]
+    }
+  },
+  "notes": [
+    "Selected fields are HiveOffset masked to the low 48 bits, HiveName, Path, second-truncated LastWriteTime and LastUpdated, Type, Name, ID, Count, FocusCount, TimeFocused and RawData. Parent paths use the Count key path.",
+    "36 of 37 entity rows match. The remaining value is UEME_CTLSESSION under {CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}\\Count, Last Write 2025-03-06T17:57:40Z. The reference zero-pads a nonpresent cell to 1612 bytes and parses count 0, focus 0 and 0:00:00.500000. Native keeps registry_value_unreadable and does not parse those zeroes.",
+    "Two other nonpresent value cells are absent from the reference. Native emits two RecordType=unreadable rows and still completes. The diff excludes that record type.",
+    "The go test binary that rechecked the image is 2f0c65a037ec92ced5b514c1691dc6879998869f23e5fd2854b9e2eb2006e404. The compared JSONL was written by bin/gomem c0cb7418eb62c896f06a102c1cc3769148f0411b2a7d51f830d512c8c0b74cb3; those hashes differ because each executable is fingerprinted separately.",
+    "Three NTUSER hives were considered. Only \\??\\C:\\Users\\generic-user\\ntuser.dat contains a UserAssist key. Hives without that key are skipped, matching the baseline generator, which logs a warning and yields nothing."
+  ]
+}

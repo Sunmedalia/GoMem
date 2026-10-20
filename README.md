@@ -48,6 +48,7 @@ bin/gomem analyze windows.pslist \
 | `windows.hivelist` | 从 `CmpHiveListHead` 枚举注册表 hive；保留签名、三个路径字段和链表断裂；`dump` 重建稳定 hive，缺页记入空洞日志并令任务失败 |
 | `windows.hivescan` | 在 64 位 Windows 8.1 及以后扫描 `PoolBigPageTable` 的在用 `CM10` 分配；旧式池头扫描会明确失败；[说明](docs/windows-hivescan.md) |
 | `windows.printkey` | 枚举活动 hive 的稳定与易失子键和值；内核 HMAP 优先，低地址只走 Registry 进程；不可读 hive 保留为行而不单独失败任务；[说明](docs/windows-printkey.md) |
+| `windows.userassist` | 解码名称含 `ntuser.dat` 的 hive 里的 UserAssist 计数；Win7 及以后用 CookiePad 和已知文件夹 GUID；值读失败不补零；[说明](docs/windows-userassist.md) |
 | `windows.hashdump` | 用 SYSTEM 的 LSA boot key 解密 SAM 的 LM/NT 哈希；缺 hive、boot key 或用户记录时失败，不把空结果当成功；[说明](docs/windows-hashdump.md) |
 | `windows.lsadump` | 用同一 boot key 解密 SECURITY 的 LSA secret；Vista 走独立 AES 块，更早的系统走 DES；缺 hive、密钥或 CurrVal 时失败；[说明](docs/windows-lsadump.md) |
 | `windows.cachedump` | 用 NL$KM 解密域缓存凭据；Vista 为 AES-CBC，更早的系统为 HMAC-MD5 加 RC4；空槽位跳过，缺密钥时失败；[说明](docs/windows-cachedump.md) |
@@ -108,6 +109,8 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `windows.cachedump` 用解出的 `NL$KM` 解密 `Cache`。Vista 是 AES-CBC，更早的系统是 HMAC-MD5 加 RC4。合成条目解出 `alice` / `CORP` / `corp.example`。选定样本同样没有 boot key，所以没有可对照的缓存账户。[缓存凭据验证](docs/windows-cachedump.md)
 
 `windows.printkey` 在同一活动 hive 列表上读取根键的子键和值。单元格索引走精确 HMAP；内核规范地址先读内核层，缺页时再试 Registry 进程，用户地址只读该进程。官方 Windows 10 样本的 478 个根行在偏移、类型、键路径、名称和 Volatile 上与固定基线一致，7 个不可读 hive 保持可见。时间保留 100ns，文本值不额外加引号；这两点和递归、筛选、hive 文件重建都还没有当作全字段验收。[注册表键验证](docs/windows-printkey.md)
+
+`windows.userassist` 只处理名称含 `ntuser.dat` 的 hive，读取 UserAssist 下每个 GUID 的 Count 键。Windows 7 及以后看 `CookiePad`，用 72 字节布局和 101 个已知文件夹 GUID；更早的系统用 16 字节并把不小于 5 的计数减 5。值名做 ROT-13。官方 Windows 10 19041 样本的 37 个键和值里，36 行选定字段与固定基线一致。另一行 `UEME_CTLSESSION` 的值单元格不在内存中，基线补了 1612 个零字节再解析成 0 次，本地保留读取错误、不补零。另外两个不在内存中的值单元格基线跳过，本地记为不可读行。[UserAssist 验证](docs/windows-userassist.md)
 
 `linux.psaux` 读取任务参数区并保留原始字节、参数元素、捕获长度与来源。用户 Linux 样本的 92 条参数内容和 39 条无 mm 显示与基线一致，2 条读取错误仍保留，完整任务报告失败。[Linux 参数验证](docs/linux-psaux.md)
 

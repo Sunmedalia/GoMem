@@ -9773,15 +9773,22 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "NTUSER.DAT hives from the active hive list, optionally filtered by offset with the low 48 bits. The key is software\\microsoft\\windows\\currentversion\\explorer\\userassist. A missing key is skipped. Win7 and later is _KUSER_SHARED_DATA.CookiePad: values are 72 bytes, ID is not applicable, and focus time is timedelta(seconds=(FocusTime+500)/1000). Earlier Windows uses the 16-byte layout and subtracts 5 from counts of 5 or more. Value names are ROT-13. On Win7 and later a known-folder GUID replaces every occurrence when the first backslash component matches, case-sensitively. Count paths use the hive name's last component. Key and subkey Raw Data is the string N/A. A failed value read stays an error and is not zero-padded.",
+      "native": "windows.userassist",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_36_of_37_rows_match_one_nonpresent_value_is_not_zero_padded",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "The selected Windows 10 19041 crash dump has one UEME_CTLSESSION value whose cell is nonpresent. The reference zero-pads 1612 bytes and parses count 0; native keeps registry_value_unreadable",
+        "Two other nonpresent value cells are skipped by the reference and retained as unreadable rows",
+        "Only one Windows 10 x64 crash dump and synthetic Win7/missing-key cases are checked. XP corpus, 32-bit, timeline output and other versions remain pending",
+        "A missing UserAssist key is skipped without a persisted warning row"
+      ],
+      "validation_record": "docs/windows-userassist.md"
     },
     {
       "id": "windows.scheduled_tasks.ScheduledTasks",

@@ -42,6 +42,7 @@ func Register(r *plugin.Registry) error {
 	specs = append(specs, linuxEnvarPlugins()...)
 	specs = append(specs, windowsHivePlugins()...)
 	specs = append(specs, windowsPrintKeyPlugins()...)
+	specs = append(specs, windowsUserAssistPlugins()...)
 	specs = append(specs, windowsHashdumpPlugins()...)
 	specs = append(specs, windowsCredentialPlugins()...)
 	specs = append(specs, windowsHiveScanPlugins()...)

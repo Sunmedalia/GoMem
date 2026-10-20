@@ -1,0 +1,78 @@
+{
+  "tree_key": "Path",
+  "fields": {
+    "HiveOffset": {
+      "native": "HiveOffset",
+      "reference": "Hive Offset",
+      "kind": "address",
+      "mask": "0x0000ffffffffffff"
+    },
+    "HiveName": {
+      "native": "HiveName",
+      "reference": "Hive Name",
+      "kind": "string"
+    },
+    "Path": {
+      "native": "Path",
+      "reference": "Path",
+      "kind": "string"
+    },
+    "LastWriteTime": {
+      "native": "LastWriteTime",
+      "reference": "Last Write Time",
+      "kind": "timestamp_seconds",
+      "missing_reasons": ["not_set", "not_applicable", "unparsable", "invalid_filetime"]
+    },
+    "Type": {
+      "native": "Type",
+      "reference": "Type",
+      "kind": "string"
+    },
+    "Name": {
+      "native": "Name",
+      "reference": "Name",
+      "kind": "string",
+      "missing_reasons": ["not_applicable", "unreadable", "unparsable"]
+    },
+    "ID": {
+      "native": "ID",
+      "reference": "ID",
+      "kind": "uint64",
+      "missing_reasons": ["not_applicable", "unparsable", "unreadable"]
+    },
+    "Count": {
+      "native": "Count",
+      "reference": "Count",
+      "kind": "uint64",
+      "missing_reasons": ["not_applicable", "unparsable", "unreadable"]
+    },
+    "FocusCount": {
+      "native": "FocusCount",
+      "reference": "Focus Count",
+      "kind": "uint64",
+      "missing_reasons": ["not_applicable", "unparsable", "unreadable"]
+    },
+    "TimeFocused": {
+      "native": "TimeFocused",
+      "reference": "Time Focused",
+      "kind": "string",
+      "missing_reasons": ["not_applicable", "unparsable", "unreadable"]
+    },
+    "LastUpdated": {
+      "native": "LastUpdated",
+      "reference": "Last Updated",
+      "kind": "timestamp_seconds",
+      "missing_reasons": ["not_set", "not_applicable", "unparsable", "invalid_filetime"]
+    },
+    "RawData": {
+      "native": "RawData",
+      "reference": "Raw Data",
+      "kind": "string"
+    }
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["key", "subkey", "value"],
+    "excluded_values": ["unreadable"]
+  }
+}

@@ -486,9 +486,22 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 	env := e.Env
 	artifacts := e.Store.TaskArtifacts(task)
 	env.Artifacts = artifacts
+	// A plugin may set ID to a local token and ParentID to its parent's token.
+	// Tokens are not hashed. The sealed parent ID is written before Seal.
+	parents := map[string]string{}
 	err = p.Run(ctx, env, params, func(row evidence.Row) error {
 		if err := ctx.Err(); err != nil {
 			return err
+		}
+		token, parentToken := row.ID, row.ParentID
+		row.ID = ""
+		row.ParentID = ""
+		if parentToken != "" {
+			parent, ok := parents[parentToken]
+			if !ok {
+				return fmt.Errorf("parent evidence %s has not been emitted", parentToken)
+			}
+			row.ParentID = parent
 		}
 		row.Provenance.ImageSHA256 = provenance.ImageSHA256
 		row.Provenance.Engine = provenance.Engine
@@ -500,6 +513,12 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 			row.Provenance.Layer = provenance.Layer
 		}
 		row.Seal()
+		if token != "" {
+			if _, exists := parents[token]; exists {
+				return fmt.Errorf("duplicate evidence token %s", token)
+			}
+			parents[token] = row.ID
+		}
 		batch = append(batch, row)
 		if len(batch) == cap(batch) {
 			if err := flush(ctx); err != nil {
