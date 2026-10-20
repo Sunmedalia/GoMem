@@ -1,0 +1,11 @@
+{
+  "fields": {
+    "Variable": {"native": "Variable", "reference": "Variable", "kind": "string"},
+    "Value": {"native": "Value", "reference": "Value", "kind": "string"}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["info"],
+    "excluded_values": ["summary", "diagnostic"]
+  }
+}

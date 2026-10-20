@@ -268,6 +268,7 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 		return nil, err
 	}
 	eng.life, eng.stop = context.WithCancel(ctx)
+	eng.Env.SymbolLocation = eng.Config.Symbols
 	return eng, nil
 }
 func Hash(ctx context.Context, s memory.MemorySource) (string, error) {

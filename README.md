@@ -53,6 +53,7 @@ bin/gomem analyze windows.pslist \
 | `windows.getservicesids` | 为 SYSTEM hive 里不在锁定服务表中的服务计算 SID；已知服务名不输出；[说明](docs/windows-getservicesids.md) |
 | `windows.kpcrs` | 列出每个处理器的 KPCR 和 PRCB；未映射的 PRCB 跳过，数组槽读失败则任务失败；[说明](docs/windows-kpcrs.md) |
 | `windows.vadwalk` | 遍历活动进程的 VAD 树，输出父节点、左右子节点和地址范围；空根不输出；坏树令任务失败；[说明](docs/windows-vadwalk.md) |
+| `windows.info` | 报告内核基址、版本、KUSER 和内核 PE；崩溃转储同时给出固定基线的层名称；[说明](docs/windows-info.md) |
 | `windows.hivelist` | 从 `CmpHiveListHead` 枚举注册表 hive；保留签名、三个路径字段和链表断裂；`dump` 重建稳定 hive，缺页记入空洞日志并令任务失败 |
 | `windows.hivescan` | 在 64 位 Windows 8.1 及以后扫描 `PoolBigPageTable` 的在用 `CM10` 分配；旧式池头扫描会明确失败；[说明](docs/windows-hivescan.md) |
 | `windows.filescan` | 扫描池头中的文件对象，输出规范虚拟地址和文件名；Windows 10 扫内核层，更早的系统扫物理内存；[说明](docs/windows-filescan.md) |
@@ -133,6 +134,8 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `windows.kpcrs` 从 `KiProcessorBlock` 读取每个处理器的 `_KPRCB`，再按 `_KPCR.Prcb` 的偏移回推 KPCR。有 `CurrentPrcb` 时 PRCB 列用这个指针的值。Windows 10 19041 样本有 1 个处理器，KPCR 和 PRCB 的低 48 位与固定基线一致；原生地址保留规范高位。真实 32 位和多处理器镜像还没有验收。[KPCR 验证](docs/windows-kpcrs.md)
 
 `windows.vadwalk` 走和 `windows.vadinfo` 相同的现代 VAD 树。Windows 10 19041 样本有 120 个进程、19999 个节点，另有 3 个空根。父节点、左右子节点、起止地址和池标签与固定基线一致。节点地址保留规范高位，对照时这四列只比较低 48 位。真实 32 位和旧式平衡树还没有验收。[VAD 树验证](docs/windows-vadwalk.md)
+
+`windows.info` 读取内核基址、DTB、KDBG、`KdVersionBlock`、`KUSER_SHARED_DATA` 和内核 PE。Windows 10 19041 样本的 24 行与固定基线一致，版本是 15.19041，系统时间是 `2025-03-06 17:59:20+00:00`。地址按低 48 位输出。真实 32 位和非崩溃镜像的层列表还没有验收。[系统信息验证](docs/windows-info.md)
 
 `windows.hivelist` 正向遍历内核 hive 链表，签名不符或链表断裂时改为反向补齐，并保留已经读到的 hive。名称按 `FileFullPath`、`FileUserName`、`HiveRootPath` 取第一个非空值，三个字段都保留。Windows 10 19041 样本的 24 个偏移和名称与固定基线一致；该样本的 `FileFullPath` 成员均为空，选中名称来自另外两个字段。`dump=true` 写出 base block 和稳定存储；读不到的页是带日志的零字节，任务失败，不会把空洞说成原始数据。[注册表 hive 验证](docs/windows-hivelist.md)
 

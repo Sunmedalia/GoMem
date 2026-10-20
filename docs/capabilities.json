@@ -6833,15 +6833,22 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Windows kernel with symbols, an Intel kernel layer and a physical layer. Kernel Base, DTB, KdDebuggerDataBlock and KdVersionBlock are printed with Python hex after a 64-bit low-48 mask or a 32-bit low-32 mask. Symbols is the jar:file URL of a zip member when the symbol location uses #. Is64Bit follows pointer size and IsPAE is true only for pae. A crash dump emits the pinned layer labels layer_name/WindowsIntel32e, memory_layer/WindowsCrashDump64Layer and base_layer/FileLayer; 32-bit crash uses WindowsCrashDump32Layer. A non-crash image emits only the Intel layer row. KDBG fields use the pinned kdbg.json offsets. OwnerTag 0x4742444B keeps KdDebuggerDataBlock, NTBuildLab and CSDVersion; any other tag omits those three rows. NTBuildLab is the UTF-8 string at the NtBuildLab pointer, at most 32 bytes, cut at NUL. CSDVersion reads the unsigned long at the CmNtCSDVersion pointer and shifts it right by 8. KdVersionBlock supplies Major/Minor and MachineType. KeNumberProcessors is an unsigned int. KUSER_SHARED_DATA is 0xFFFFF78000000000 on 64-bit and 0xFFDF0000 on 32-bit. SystemTime combines KSYSTEM_TIME High1Time and LowPart, divides by 10000000 with floor, and prints UTC as YYYY-MM-DD HH:MM:SS+00:00. Zero or unparsable time is the literal hyphen. NtSystemRoot decodes at most 260 UTF-16LE bytes and stops at NUL. NtProductType uses the single pinned enum name. The kernel PE header supplies the operating-system version, machine and asctime UTC TimeDateStamp. The summary row is not an info value.",
+      "native": "windows.info",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-info-format",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_24_rows_match_kernel_version_kuser_and_pe",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 bitmap crash dump has a selected-field differential. It has 24 rows, build lab 19041.1.amd64fre.vb_release.1912, version 15.19041, one processor and system time 2025-03-06 17:59:20+00:00",
+        "Real 32-bit images and non-crash layer stacks are pending. A non-crash image currently emits only the Intel layer row",
+        "The Symbols value reproduces the pinned jar:file URL, including the absolute zip path",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-info.md"
     },
     {
       "id": "windows.joblinks.JobLinks",
