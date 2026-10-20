@@ -9,6 +9,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
+	"strings"
 	"unicode/utf16"
 	"unicode/utf8"
 
@@ -94,16 +95,18 @@ type StableSpan struct {
 
 // Key is one nk cell.
 type Key struct {
-	Index     uint32
-	Address   uint64
-	Name      string
-	Flags     uint16
-	LastWrite uint64
-	Volatile  bool
-	values    uint32
-	valueList uint32
-	lists     [2]uint32
-	counts    [2]uint32
+	Index       uint32
+	Address     uint64
+	Name        string
+	Flags       uint16
+	LastWrite   uint64
+	Volatile    bool
+	Class       uint32
+	ClassLength uint16
+	values      uint32
+	valueList   uint32
+	lists       [2]uint32
+	counts      [2]uint32
 }
 
 // Value is one vk cell. DataErr is set when the declared bytes could not be read.
@@ -284,6 +287,56 @@ func (h *Hive) RootKey(ctx context.Context) (Key, error) {
 	return h.key(ctx, h.Root)
 }
 
+// FindKey walks a case-insensitive path below the hive root.
+func (h *Hive) FindKey(ctx context.Context, path string) (Key, error) {
+	current, err := h.RootKey(ctx)
+	if err != nil {
+		return Key{}, err
+	}
+	path = strings.Trim(path, `\`)
+	if path == "" {
+		return current, nil
+	}
+	for _, part := range strings.Split(path, `\`) {
+		if err = ctx.Err(); err != nil {
+			return Key{}, err
+		}
+		subs, subErr := h.Subkeys(ctx, current)
+		var next *Key
+		for i := range subs {
+			if strings.EqualFold(subs[i].Name, part) {
+				next = &subs[i]
+				break
+			}
+		}
+		if next == nil {
+			if subErr != nil {
+				return Key{}, subErr
+			}
+			return Key{}, fmt.Errorf("key %q not found", part)
+		}
+		current = *next
+	}
+	return current, nil
+}
+
+// ClassData reads the nk class cell. The pinned baseline reads key.Class+4 for
+// ClassLength bytes. This stays inside the cell; a short cell is an error, not
+// the following bin bytes.
+func (h *Hive) ClassData(ctx context.Context, key Key) ([]byte, error) {
+	if key.ClassLength == 0 {
+		return []byte{}, nil
+	}
+	_, payload, err := h.cell(ctx, key.Class)
+	if err != nil {
+		return nil, fmt.Errorf("key %#x class cell %#x: %w", key.Index, key.Class, err)
+	}
+	if int(key.ClassLength) > len(payload) {
+		return nil, fmt.Errorf("key %#x class cell has %d bytes, declared %d", key.Index, len(payload), key.ClassLength)
+	}
+	return append([]byte(nil), payload[:key.ClassLength]...), nil
+}
+
 func (h *Hive) key(ctx context.Context, index uint32) (Key, error) {
 	address, payload, err := h.cell(ctx, index)
 	if err != nil {
@@ -303,10 +356,12 @@ func (h *Hive) key(ctx context.Context, index uint32) (Key, error) {
 	}
 	key := Key{
 		Index: index, Address: address, Name: name, Flags: flags,
-		LastWrite: binary.LittleEndian.Uint64(payload[4:12]),
-		Volatile:  index&0x80000000 != 0,
-		values:    binary.LittleEndian.Uint32(payload[36:40]),
-		valueList: binary.LittleEndian.Uint32(payload[40:44]),
+		LastWrite:   binary.LittleEndian.Uint64(payload[4:12]),
+		Volatile:    index&0x80000000 != 0,
+		Class:       binary.LittleEndian.Uint32(payload[0x30:0x34]),
+		ClassLength: binary.LittleEndian.Uint16(payload[0x4a:0x4c]),
+		values:      binary.LittleEndian.Uint32(payload[36:40]),
+		valueList:   binary.LittleEndian.Uint32(payload[40:44]),
 	}
 	for i := 0; i < 2; i++ {
 		key.counts[i] = binary.LittleEndian.Uint32(payload[20+i*4 : 24+i*4])

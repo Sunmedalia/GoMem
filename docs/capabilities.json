@@ -6587,7 +6587,7 @@
       "corpora": [],
       "comparison": "not_run",
       "gaps": [
-        "Native implementation and validation pending"
+        "Deprecated alias of windows.registry.hashdump.Hashdump; native command is windows.hashdump"
       ]
     },
     {
@@ -9408,15 +9408,21 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active SYSTEM and SAM hives from CmpHiveListHead. The boot key is only ControlSet001\\Control\\Lsa JD, Skew1, GBG and Data class data, decoded as UTF-16LE hex and then permuted. SAM F revision 2 is MD5 plus RC4; revision 3 is AES-CBC and keeps the first 16 bytes. User V revision 1 is MD5 plus RC4; revision 2 is AES. The NT salt is read at nt_offset+8. Empty LM and NT digests are the standard constants. A missing hive, boot key, or user record fails the task. windows.hashdump.Hashdump is only the deprecated upstream alias.",
+      "native": "windows.hashdump",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "synthetic_rc4_and_aes_vectors_match_pinned_algorithm_selected_image_has_zero_hash_rows_because_JD_class_cell_is_swapped",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "The selected Windows 10 19041 crash dump has a nonpresent JD class page, so neither implementation produced account hashes",
+        "The reference completes with a warning and no rows; native fails the task and retains the read error",
+        "No resident-hash corpus differential yet. 32-bit images, other real revisions, cachedump and LSA secrets remain pending"
+      ],
+      "validation_record": "docs/windows-hashdump.md"
     },
     {
       "id": "windows.registry.hivelist.HiveList",

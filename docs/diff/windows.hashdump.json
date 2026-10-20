@@ -1,0 +1,30 @@
+{
+  "fields": {
+    "User": {
+      "native": "User",
+      "reference": "User",
+      "kind": "string",
+      "missing_reasons": ["sam_username_unavailable"]
+    },
+    "rid": {
+      "native": "rid",
+      "reference": "rid",
+      "kind": "uint64"
+    },
+    "lmhash": {
+      "native": "lmhash",
+      "reference": "lmhash",
+      "kind": "string"
+    },
+    "nthash": {
+      "native": "nthash",
+      "reference": "nthash",
+      "kind": "string"
+    }
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "hash",
+    "excluded_values": ["diagnostic"]
+  }
+}

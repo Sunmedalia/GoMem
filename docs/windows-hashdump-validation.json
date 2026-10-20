@@ -1,0 +1,42 @@
+{
+  "schema": "gomem.windows-hashdump-validation/v1",
+  "date": "2026-10-21",
+  "scope": "Synthetic RC4 and AES vectors plus one Windows 10 19041 x64 crash dump. Not an account-level hash acceptance: the selected image has no resident JD class cell.",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "reference_manifest_sha256": "74ff4309c16d20fc84d708a325e96d13e9b726bcf3d16d7dcae8fefc920439d0",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+  "engine_build_sha256": "bfad9d35ec40103d5a9856ad224b3758115a68b19f9f34eca2ff5b1431bbfb5f",
+  "parameters": {},
+  "task_state": "failed",
+  "hash_rows": 0,
+  "diagnostics": 1,
+  "reference_rows": 0,
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": ["User", "rid", "lmhash", "nthash"],
+    "native_rows": 0,
+    "reference_rows": 0,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "c576e830c8dd1519ad4da342ca5951ad124c25e6a1295f7b750fa0418a1b2ae7",
+      "reference": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
+      "mapping": "635db5bcb19189100a8e55e62e4dac504fc3844c6a6929eb64050a312103373e"
+    },
+    "native_input_rows": 1,
+    "native_non_entity_records": {"diagnostic": 1},
+    "entity_selection": {
+      "field": "RecordType",
+      "value": "hash",
+      "excluded_values": ["diagnostic"]
+    }
+  },
+  "notes": [
+    "The pinned windows.registry.hashdump.Hashdump reference emits no rows and warns that the hboot key is not valid. The JD class cell 0x231ce0 is a nonpresent page at 0xffffc2041fb0ace0 in both the kernel and the Registry process.",
+    "Native output fails the task, keeps that read error, and emits no hash row. An empty hash list is not reported as success.",
+    "The go test binary that rechecked the image is bfad9d35ec40103d5a9856ad224b3758115a68b19f9f34eca2ff5b1431bbfb5f. The compared JSONL was written by bin/gomem 811a828d7a01d0e09d301edc519a8b1292145665ab1c9c726b1a98fe19e733ea.",
+    "Synthetic RC4 revision-2 and AES revision-3 vectors, including the NT salt at nt_offset+8, match the pinned algorithm. That is not a substitute for a resident account differential."
+  ]
+}

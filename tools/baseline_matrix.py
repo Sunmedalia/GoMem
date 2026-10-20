@@ -84,7 +84,7 @@ def generate(source):
                "linux.lsmod.Lsmod": "linux.lsmod", "windows.threads.Threads": "windows.threads",
                "windows.vadinfo.VadInfo": "windows.vadinfo", "linux.proc.Maps": "linux.maps",
                "windows.dlllist.DllList": "windows.dlllist", "windows.pedump.PEDump": "windows.pedump",
-               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux", "linux.envars.Envars": "linux.envars", "linux.elfs.Elfs": "linux.elfs", "linux.psscan.PsScan": "linux.psscan", "linux.lsof.Lsof": "linux.lsof", "linux.sockstat.Sockstat": "linux.sockstat", "linux.pagecache.InodePages": "linux.inodepages", "linux.pagecache.Files": "linux.files", "linux.pagecache.RecoverFs": "linux.recoverfs", "windows.registry.hivelist.HiveList": "windows.hivelist", "windows.registry.printkey.PrintKey": "windows.printkey", "windows.registry.hivescan.HiveScan": "windows.hivescan"}
+               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux", "linux.envars.Envars": "linux.envars", "linux.elfs.Elfs": "linux.elfs", "linux.psscan.PsScan": "linux.psscan", "linux.lsof.Lsof": "linux.lsof", "linux.sockstat.Sockstat": "linux.sockstat", "linux.pagecache.InodePages": "linux.inodepages", "linux.pagecache.Files": "linux.files", "linux.pagecache.RecoverFs": "linux.recoverfs", "windows.registry.hivelist.HiveList": "windows.hivelist", "windows.registry.printkey.PrintKey": "windows.printkey", "windows.registry.hivescan.HiveScan": "windows.hivescan", "windows.registry.hashdump.Hashdump": "windows.hashdump"}
 
     def requirements(identifier, seen=None):
         seen = set() if seen is None else seen
@@ -176,6 +176,13 @@ def generate(source):
                               corpora=["synthetic-windows-x64", "official-windows-10-19041"],
                               comparison="selected_24_big_pool_offsets_match", validation_record="docs/windows-hivescan.md",
                               gaps=["Paged pool header scanning for pre-8.1 and 32-bit images is not implemented", "Only one Windows 10 x64 crash dump has a selected-offset differential", "Signature and tag are native evidence; the reference column compared here is Offset only"])
+        if identifier == "windows.registry.hashdump.Hashdump":
+            plugins[-1].update(applicability="Active SYSTEM and SAM hives from CmpHiveListHead. The boot key is only ControlSet001\\Control\\Lsa JD, Skew1, GBG and Data class data, decoded as UTF-16LE hex and then permuted. SAM F revision 2 is MD5 plus RC4; revision 3 is AES-CBC and keeps the first 16 bytes. User V revision 1 is MD5 plus RC4; revision 2 is AES. The NT salt is read at nt_offset+8. Empty LM and NT digests are the standard constants. A missing hive, boot key, or user record fails the task. windows.hashdump.Hashdump is only the deprecated upstream alias.",
+                              corpora=["synthetic-windows-x64", "official-windows-10-19041"],
+                              comparison="synthetic_rc4_and_aes_vectors_match_pinned_algorithm_selected_image_has_zero_hash_rows_because_JD_class_cell_is_swapped", validation_record="docs/windows-hashdump.md",
+                              gaps=["The selected Windows 10 19041 crash dump has a nonpresent JD class page, so neither implementation produced account hashes", "The reference completes with a warning and no rows; native fails the task and retains the read error", "No resident-hash corpus differential yet. 32-bit images, other real revisions, cachedump and LSA secrets remain pending"])
+        if identifier == "windows.hashdump.Hashdump":
+            plugins[-1]["gaps"] = ["Deprecated alias of windows.registry.hashdump.Hashdump; native command is windows.hashdump"]
         if identifier == "windows.registry.printkey.PrintKey":
             plugins[-1].update(applicability="Active hives only. Cell indexes use the exact HMAP. Kernel-canonical bins are read from the kernel layer, with a Registry-process retry when that page is not present. Lower addresses require the Registry process and are never read from the kernel. Unreadable hives stay visible and do not fail the task by themselves.",
                               corpora=["synthetic-windows-x64", "official-windows-10-19041"],

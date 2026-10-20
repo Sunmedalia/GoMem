@@ -48,6 +48,7 @@ bin/gomem analyze windows.pslist \
 | `windows.hivelist` | 从 `CmpHiveListHead` 枚举注册表 hive；保留签名、三个路径字段和链表断裂；`dump` 重建稳定 hive，缺页记入空洞日志并令任务失败 |
 | `windows.hivescan` | 在 64 位 Windows 8.1 及以后扫描 `PoolBigPageTable` 的在用 `CM10` 分配；旧式池头扫描会明确失败；[说明](docs/windows-hivescan.md) |
 | `windows.printkey` | 枚举活动 hive 的稳定与易失子键和值；内核 HMAP 优先，低地址只走 Registry 进程；不可读 hive 保留为行而不单独失败任务；[说明](docs/windows-printkey.md) |
+| `windows.hashdump` | 用 SYSTEM 的 LSA boot key 解密 SAM 的 LM/NT 哈希；缺 hive、boot key 或用户记录时失败，不把空结果当成功；[说明](docs/windows-hashdump.md) |
 | `windows.dlllist` | 进程自身地址空间内的 PEB 加载器链表；原生和 WoW64 列表；支持 PID、基址及 RE2 名称筛选 |
 | `windows.pedump` | 从显式进程/内核/已验证会话空间重建 PE32/PE32+；保留修改、缺页与读取尝试；上限 256MiB |
 | `windows.threads` | 活动进程线程链表、创建/退出时间与进程证据关联；现代 VAD 启动路径；支持 `--param pid=104,108` |
@@ -97,6 +98,8 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `windows.hivelist` 正向遍历内核 hive 链表，签名不符或链表断裂时改为反向补齐，并保留已经读到的 hive。名称按 `FileFullPath`、`FileUserName`、`HiveRootPath` 取第一个非空值，三个字段都保留。Windows 10 19041 样本的 24 个偏移和名称与固定基线一致；该样本的 `FileFullPath` 成员均为空，选中名称来自另外两个字段。`dump=true` 写出 base block 和稳定存储；读不到的页是带日志的零字节，任务失败，不会把空洞说成原始数据。[注册表 hive 验证](docs/windows-hivelist.md)
 
 `windows.hivescan` 从大页池表找出在用的 `CM10` 分配。Windows 10 19041 样本的 24 个地址与固定基线一致，并且都带有 `0xBEE0BEE0` 签名。32 位和 Windows 8 以前的池头扫描还没有实现。[池扫描验证](docs/windows-hivescan.md)
+
+`windows.hashdump` 读取 `ControlSet001` 的 LSA 类数据并解密 SAM。合成向量与固定基线的 RC4/AES 路径一致，NT 盐保持在 `nt_offset+8`。Windows 10 19041 样本的 `JD` class 页不在内存中，基线输出 0 行，本地任务失败并保留读取错误，没有可对照的账户哈希。[SAM 哈希验证](docs/windows-hashdump.md)
 
 `windows.printkey` 在同一活动 hive 列表上读取根键的子键和值。单元格索引走精确 HMAP；内核规范地址先读内核层，缺页时再试 Registry 进程，用户地址只读该进程。官方 Windows 10 样本的 478 个根行在偏移、类型、键路径、名称和 Volatile 上与固定基线一致，7 个不可读 hive 保持可见。时间保留 100ns，文本值不额外加引号；这两点和递归、筛选、hive 文件重建都还没有当作全字段验收。[注册表键验证](docs/windows-printkey.md)
 
