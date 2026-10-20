@@ -82,7 +82,8 @@ def generate(source):
     partial = {"banners.Banners": "banners", "windows.pslist.PsList": "windows.pslist",
                "linux.pslist.PsList": "linux.pslist", "windows.modules.Modules": "windows.modules",
                "linux.lsmod.Lsmod": "linux.lsmod", "windows.threads.Threads": "windows.threads",
-               "windows.vadinfo.VadInfo": "windows.vadinfo", "linux.proc.Maps": "linux.maps"}
+               "windows.vadinfo.VadInfo": "windows.vadinfo", "linux.proc.Maps": "linux.maps",
+               "windows.dlllist.DllList": "windows.dlllist"}
 
     def requirements(identifier, seen=None):
         seen = set() if seen is None else seen
@@ -121,6 +122,9 @@ def generate(source):
         if identifier == "linux.proc.Maps":
             plugins[-1].update(applicability="mmap lists or typed Maple Tree nodes; exact VMA/filesystem symbols. Full view retains page offsets beyond positive inode size; include-past-eof=false selects the baseline heuristic view.",
                               gaps=["Maple Tree has synthetic ABI tests only; real modern kernels, pivot/meta validation and complete versions pending", "Extraction has selected legacy x64 region byte comparisons only; full parameter/version acceptance pending", "Full parameter combinations and scoped/raw path semantics need complete acceptance; see docs/linux-maps.md"])
+        if identifier == "windows.dlllist.DllList":
+            plugins[-1].update(applicability="Active process PEB load-order lists in independent process spaces; native symbol layouts and minimal declared WoW64 loader fields. Read failures remain diagnostics.",
+                              gaps=["Full Windows version/architecture and Python regex semantics pending", "WoW64 LoadTime/LoadCount deliberately unavailable until verified 32-bit layouts exist", "Physical offset process scanning, PE reconstruction/dump and timeline export pending"])
     infrastructure = []
     for group, directory in [("layers", "volatility3/framework/layers"), ("symbols", "volatility3/framework/symbols"),
                              ("renderers", "volatility3/cli"), ("automagic", "volatility3/framework/automagic")]:

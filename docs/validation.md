@@ -101,6 +101,8 @@ GOMEM_CORPUS_DIR="$PWD/.cache/corpus" go test ./internal/engine -run TestOfficia
 
 区域提取对照使用 `tools/reference.py --dump-dir NEW_DIRECTORY ... -- --pid PID --address ADDRESS --dump`，目录必须新建。对照 manifest 记录逐文件大小与摘要。原生 `analyze ... --param dump=true` 的 JSONL 和案件目录传给 `tools/compare_extractions.py --native ROWS --case CASE --reference-manifest MANIFEST --reference-dir DIRECTORY --output REPORT`，逐字节比较并核验双方实际文件摘要、原生来源及填充日志摘要。示例范围见 [区域提取记录](region-extraction-validation.json)，均为选定 x64 区域，不代表所有恢复格式或参数已验收。证据包再使用独立 `verify_bundle.py` 核验，包括填充区域确实全零。
 
+DLL 的实体映射显式声明 module/diagnostic 记录选择；比较器保留原始行数和非实体计数，拒绝未知记录类型。核心字段一致只证明模块多重集一致，不会把带诊断的 failed 任务变成通过。可读 PID 子集另用八字段映射核验，[DLL 记录](windows-dll-validation.json) 同时保留两种范围。
+
 对镜像识别与 ISF 入口进行了短时 fuzz，并提供有效容器/ISF 种子。短时 fuzz 不是全面安全证明；更长时间、更多 parser 入口和专项损坏语料仍属待办。
 
 ## 性能边界

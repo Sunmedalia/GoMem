@@ -1,0 +1,206 @@
+{
+  "schema": "gomem.windows-dll-validation/v1",
+  "date": "2026-10-20",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "id": "windows.dlllist.DllList",
+  "corpus": "official-windows-10-19041",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+  "engine_build_sha256": "a793db4621569357a39bd212dcbfe538021e2e58babea5c7224222f80ee28a6a",
+  "task_state": "failed",
+  "report": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "PID",
+      "Process",
+      "Base",
+      "Size"
+    ],
+    "native_rows": 5742,
+    "reference_rows": 5742,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "800926e641278c3bb0660b05069a1a329c1aef9bb5f380ca002d5130bf0cf409",
+      "reference": "df49a44ddf84a11711597ac27423e96bb4ee909ba250a2bfdd281d40227acabd",
+      "mapping": "cb4912de75e5115807f6f530c635de14860663b540ef21138a9589358063b13d"
+    },
+    "native_input_rows": 5761,
+    "native_non_entity_records": {
+      "diagnostic": 19
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "value": "module",
+      "excluded_values": [
+        "diagnostic"
+      ]
+    }
+  },
+  "diagnostics": {
+    "count": 19,
+    "stages": {
+      "peb_unreadable": 14,
+      "loader_list_incomplete": 5
+    }
+  },
+  "architectures": {
+    "x64": 5525,
+    "wow64-x86": 217
+  },
+  "optional_field_accounting": {
+    "aggregation": "Duplicate core keys retained in reference/native PEB traversal order; no PID/base deduplication",
+    "duplicate_core_groups": 2,
+    "readable_names_equal": 5414,
+    "common_readable_paths_equal": 5410,
+    "native_load_counts_equal": 5525,
+    "native_load_times_equal_seconds": 5524,
+    "name_read_errors_vs_reference_null": 328,
+    "path_read_errors_vs_reference_null": 311,
+    "independently_readable_paths_vs_reference_null": 21,
+    "native_load_time_read_errors": 1,
+    "wow64_load_time_not_interpreted": 217,
+    "wow64_load_time_reference_present": 199,
+    "wow64_load_count_not_declared": 217
+  },
+  "readable_pid384": {
+    "task_state": "completed",
+    "report": {
+      "scope": "selected fields only; full capability acceptance remains pending",
+      "fields": [
+        "PID",
+        "Process",
+        "Base",
+        "Size",
+        "Name",
+        "Path",
+        "LoadCount",
+        "LoadTime"
+      ],
+      "native_rows": 2,
+      "reference_rows": 2,
+      "matched": true,
+      "missing": [],
+      "extra": [],
+      "sha256": {
+        "native": "41cf1e5e6b7400e29791098a407b2aa0314ad8df5a93435074bd08284cabe487",
+        "reference": "4a6dff9da16d8367613cfd1732e25eb10a8f8b119d8b9504e1407917357eaf29",
+        "mapping": "b141d8e9305f024a2ead86e0ea56037034928916353f8bd5b61ca6571a2d2da6"
+      },
+      "native_input_rows": 2,
+      "native_non_entity_records": {},
+      "entity_selection": {
+        "field": "RecordType",
+        "value": "module",
+        "excluded_values": [
+          "diagnostic"
+        ]
+      }
+    }
+  },
+  "acceptance": "One Windows x64 acquisition plus explicit synthetic x86/PAE/WoW64 layouts. Whole task fails on retained diagnostics; no full version, WoW64 metadata, regex, physical offset, PE dump or timeline acceptance.",
+  "optional_field_comparison": [
+    {
+      "field": "LoadCount",
+      "native_state": "equal",
+      "reference_state": "ref-present",
+      "count": 5525
+    },
+    {
+      "field": "LoadCount",
+      "native_state": "unsupported_loader_field",
+      "reference_state": "ref-null",
+      "count": 217
+    },
+    {
+      "field": "LoadTime",
+      "native_state": "equal",
+      "reference_state": "ref-present",
+      "count": 5524
+    },
+    {
+      "field": "LoadTime",
+      "native_state": "unreadable_or_unavailable",
+      "reference_state": "ref-null",
+      "count": 1
+    },
+    {
+      "field": "LoadTime",
+      "native_state": "unsupported_loader_field",
+      "reference_state": "ref-null",
+      "count": 18
+    },
+    {
+      "field": "LoadTime",
+      "native_state": "unsupported_loader_field",
+      "reference_state": "ref-present",
+      "count": 199
+    },
+    {
+      "field": "Name",
+      "native_state": "equal",
+      "reference_state": "ref-present",
+      "count": 5414
+    },
+    {
+      "field": "Name",
+      "native_state": "unreadable_or_unavailable",
+      "reference_state": "ref-null",
+      "count": 328
+    },
+    {
+      "field": "Path",
+      "native_state": "different",
+      "reference_state": "ref-null",
+      "count": 21
+    },
+    {
+      "field": "Path",
+      "native_state": "equal",
+      "reference_state": "ref-present",
+      "count": 5410
+    },
+    {
+      "field": "Path",
+      "native_state": "unreadable_or_unavailable",
+      "reference_state": "ref-null",
+      "count": 311
+    }
+  ],
+  "native_pdb_validation": {
+    "engine_build_sha256": "a793db4621569357a39bd212dcbfe538021e2e58babea5c7224222f80ee28a6a",
+    "symbols_sha256": "f288d5d6d2bf1cfd7f1d76f271cfded7b7629224276a5748cc2a8db006c51b2a",
+    "source_sha256": "13f0deaa9d58c4c58a4abe92ea27920115b9f6169def486194a0f742a0c3569e",
+    "report": {
+      "scope": "selected fields only; full capability acceptance remains pending",
+      "fields": [
+        "PID",
+        "Process",
+        "Base",
+        "Size"
+      ],
+      "native_rows": 5742,
+      "reference_rows": 5742,
+      "matched": true,
+      "missing": [],
+      "extra": [],
+      "sha256": {
+        "native": "72984b79beccdddc6e9f81be1d887defcc3faeb11b6b9629025a53aaccc47708",
+        "reference": "df49a44ddf84a11711597ac27423e96bb4ee909ba250a2bfdd281d40227acabd",
+        "mapping": "cb4912de75e5115807f6f530c635de14860663b540ef21138a9589358063b13d"
+      },
+      "native_input_rows": 5761,
+      "native_non_entity_records": {
+        "diagnostic": 19
+      },
+      "entity_selection": {
+        "field": "RecordType",
+        "value": "module",
+        "excluded_values": [
+          "diagnostic"
+        ]
+      }
+    }
+  }
+}

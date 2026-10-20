@@ -5858,15 +5858,21 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active process PEB load-order lists in independent process spaces; native symbol layouts and minimal declared WoW64 loader fields. Read failures remain diagnostics.",
+      "native": "windows.dlllist",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_fields_match",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Full Windows version/architecture and Python regex semantics pending",
+        "WoW64 LoadTime/LoadCount deliberately unavailable until verified 32-bit layouts exist",
+        "Physical offset process scanning, PE reconstruction/dump and timeline export pending"
+      ],
+      "validation_record": "docs/validation.json"
     },
     {
       "id": "windows.driverirp.DriverIrp",

@@ -168,6 +168,14 @@ func Write(dir, platform string) (Fixture, error) {
 		t.Types["_EPROCESS"] = symbols.Type{Kind: "struct", Size: 128, Fields: map[string]symbols.Field{"ActiveProcessLinks": field(0, strct("_LIST_ENTRY")), "UniqueProcessId": field(16, ptr), "InheritedFromUniqueProcessId": field(24, ptr), "ImageFileName": field(32, arr(16)), "CreateTime": field(48, symbols.TypeRef{Kind: "union", Name: "_LARGE_INTEGER"}), "Pcb": field(56, strct("_KPROCESS")), "ThreadListHead": field(64, strct("_LIST_ENTRY")), "VadRoot": field(80, strct("_RTL_AVL_TREE"))}}
 		t.Types["_LIST_ENTRY"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"Flink": field(0, ptr), "Blink": field(8, ptr)}}
 		t.Types["_KPROCESS"] = symbols.Type{Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"DirectoryTableBase": field(0, base("u64"))}}
+		processType := t.Types["_EPROCESS"]
+		processType.Fields["Peb"] = field(88, ptr)
+		processType.Fields["WoW64Process"] = field(96, ptr)
+		t.Types["_EPROCESS"] = processType
+		t.Types["_PEB"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"Ldr": field(0, ptr)}}
+		t.Types["_PEB_LDR_DATA"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"InLoadOrderModuleList": field(0, strct("_LIST_ENTRY"))}}
+		t.Types["_LDR_DATA_TABLE_ENTRY"] = symbols.Type{Kind: "struct", Size: 96, Fields: map[string]symbols.Field{"InLoadOrderLinks": field(0, strct("_LIST_ENTRY")), "DllBase": field(16, ptr), "SizeOfImage": field(24, base("u32")), "BaseDllName": field(32, strct("_UNICODE_STRING")), "FullDllName": field(48, strct("_UNICODE_STRING")), "ObsoleteLoadCount": field(64, base("u16")), "LoadTime": field(72, symbols.TypeRef{Kind: "union", Name: "_LARGE_INTEGER"})}}
+		t.Types["_EWOW64PROCESS"] = symbols.Type{Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"Peb": field(0, ptr)}}
 		t.Types["_KLDR_DATA_TABLE_ENTRY"] = symbols.Type{Kind: "struct", Size: 64, Fields: map[string]symbols.Field{"InLoadOrderLinks": field(0, strct("_LIST_ENTRY")), "DllBase": field(16, ptr), "SizeOfImage": field(24, base("u32")), "BaseDllName": field(32, strct("_UNICODE_STRING"))}}
 		t.Types["_UNICODE_STRING"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"Length": field(0, base("u16")), "MaximumLength": field(2, base("u16")), "Buffer": field(8, ptr)}}
 		copy(data[0x4000:], "MZ")
@@ -267,6 +275,28 @@ func Write(dir, platform string) (Fixture, error) {
 		put(0x17208, 0x17400)
 		for i, c := range fileName {
 			binary.LittleEndian.PutUint16(data[0x17400+i*2:], uint16(c))
+		}
+		put(0x9058, 0x1b000)
+		put(0x1b000, 0x1b100)
+		list(0x1b100, 0x1c000, 0x1c100)
+		for i, a := range []uint64{0x1c000, 0x1c100} {
+			put(a+16, 0x400000+uint64(i)*0x100000)
+			binary.LittleEndian.PutUint32(data[a+24:], 4096)
+			binary.LittleEndian.PutUint16(data[a+64:], 0xffff)
+			put(a+72, 133000000001234567+uint64(i)*10000000)
+			name := []string{"worker.exe", "example.dll"}[i]
+			full := `C:\Windows\System32\` + name
+			for _, text := range []struct {
+				offset, buffer uint64
+				value          string
+			}{{32, 0x1d000 + uint64(i)*0x400, name}, {48, 0x1d100 + uint64(i)*0x400, full}} {
+				binary.LittleEndian.PutUint16(data[a+text.offset:], uint16(len(text.value)*2))
+				binary.LittleEndian.PutUint16(data[a+text.offset+2:], uint16(len(text.value)*2))
+				put(a+text.offset+8, text.buffer)
+				for j, c := range text.value {
+					binary.LittleEndian.PutUint16(data[text.buffer+uint64(j)*2:], uint16(c))
+				}
+			}
 		}
 	default:
 		return Fixture{}, os.ErrInvalid

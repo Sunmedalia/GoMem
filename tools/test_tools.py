@@ -12,6 +12,29 @@ from compare_extractions import compare as compare_extractions
 
 
 class DifferentialTests(unittest.TestCase):
+    def test_signed_result_preserves_negative_loader_counts(self):
+        self.assertEqual(normalized_result({"kind": "int64", "value": "-1"}, "int64"), "-1")
+        self.assertEqual(normalized_result(-1, "int64"), "-1")
+        with self.assertRaisesRegex(ValueError, "int64"):
+            normalized_result(str(1 << 63), "int64")
+    def test_entity_profile_records_retained_diagnostic_counts(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            native, reference, mapping = root / "native", root / "reference", root / "mapping"
+            module = {"cells": {"RecordType": {"kind": "string", "value": "module"}, "Base": {"kind": "address", "value": "0x1000"}}}
+            diagnostic = {"cells": {"RecordType": {"kind": "string", "value": "diagnostic"}, "Base": {"kind": "missing", "reason": "unreadable", "error": "page absent"}}}
+            native.write_text(json.dumps(module) + "\n" + json.dumps(diagnostic) + "\n")
+            reference.write_text(json.dumps([{"Base": 4096}]))
+            profile = {"native_record_type": {"field": "RecordType", "value": "module", "excluded_values": ["diagnostic"]}, "fields": {"Base": {"native": "Base", "reference": "Base", "kind": "address"}}}
+            mapping.write_text(json.dumps(profile))
+            result = compare(native, reference, mapping)
+            self.assertTrue(result["matched"])
+            self.assertEqual(result["native_input_rows"], 2)
+            self.assertEqual(result["native_non_entity_records"], {"diagnostic": 1})
+            diagnostic["cells"]["RecordType"]["value"] = "unknown"
+            native.write_text(json.dumps(module) + "\n" + json.dumps(diagnostic) + "\n")
+            with self.assertRaisesRegex(ValueError, "unexpected native record"):
+                compare(native, reference, mapping)
     def test_extracted_region_comparison_keeps_byte_differences(self):
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)

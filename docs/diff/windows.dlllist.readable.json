@@ -1,0 +1,13 @@
+{
+  "native_record_type": {"field": "RecordType", "value": "module", "excluded_values": ["diagnostic"]},
+  "fields": {
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "Process": {"native": "Process", "reference": "Process", "kind": "string"},
+    "Base": {"native": "Base", "reference": "Base", "kind": "address"},
+    "Size": {"native": "Size", "reference": "Size", "kind": "uint64"},
+    "Name": {"native": "Name", "reference": "Name", "kind": "string"},
+    "Path": {"native": "Path", "reference": "Path", "kind": "string"},
+    "LoadCount": {"native": "LoadCount", "reference": "LoadCount", "kind": "int64"},
+    "LoadTime": {"native": "LoadTime", "reference": "LoadTime", "kind": "timestamp_seconds"}
+  }
+}

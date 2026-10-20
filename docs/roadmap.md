@@ -7,7 +7,7 @@
 | 固定基线、盘点官方插件 | 锁定提交；AST 清单覆盖 195 个官方插件类，包含需求和参数表达式、别名、来源及未验收状态 |
 | 验收语料和差分工具 | 官方资产 SHA-256 清单、合成 Windows/Linux 样本、锁定对照入口、保留重复与树关系的比较器、证据包校验工具 |
 | 共同底座 | 原生读取、五类格式路径、三类 Intel 转换、压缩 ISF、对象、流式插件、SQLite 案件、取消、缓存与恢复已打通；符号及其余格式仍不完整 |
-| Windows/Linux 端到端 | 活动进程、内核模块、Windows 线程/VAD、Linux VMA 与路径、banner、ASCII/IOC 扫描；指定字段对照及差异范围见各验证记录 |
+| Windows/Linux 端到端 | 活动进程、内核模块、Windows 线程/VAD/进程 DLL、Linux VMA 与路径、banner、ASCII/IOC 扫描；指定字段对照及诊断差异范围见各验证记录 |
 | 调查交互 | CLI、三栏异步 TUI、分页/筛选/详情/书签、shell、类型/地址/进程空间探索、HTML/JSONL/ZIP 导出 |
 | 分诊 | 六类独立规则评估器；IOC、Windows/Linux 直接 RWX、Linux 删除文件/memfd 执行已连接原生输入；其余缺口明确 unavailable |
 | 全能力补齐与 v1.0 | 未完成 |

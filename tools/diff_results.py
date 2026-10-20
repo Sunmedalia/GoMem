@@ -30,10 +30,13 @@ def normalized(value, kind, mask=None, missing_reasons=()):
         value = value.get("value")
     if value is None:
         return {"missing": "reference-null"}
-    if kind in ("address", "uint64"):
+    if kind in ("address", "uint64", "int64"):
         number = int(value, 0) if isinstance(value, str) and value.lower().startswith("0x") else int(value)
         if mask is not None:
             number &= int(mask, 0)
+        # Signed fields such as Windows loader counts retain their sign.
+        if kind == "int64" and not -(1 << 63) <= number < 1 << 63:
+            raise ValueError("signed result exceeds int64")
         return str(number)
     if kind == "timestamp_seconds":
         stamp = datetime.datetime.fromisoformat(value)
@@ -53,6 +56,26 @@ def compare(native_path, reference_path, mapping_path):
     native = load_rows(native_path, True)
     reference = load_rows(reference_path, False)
     fields = mapping["fields"]
+
+    # Some native plugins retain diagnostic records that the reference silently
+    # skips. Entity profiles must declare those record types and report their
+    # counts. Never discard rows with an unrecognized type or missing selector.
+    input_rows = len(native)
+    excluded = collections.Counter()
+    if "native_record_type" in mapping:
+        selector = mapping["native_record_type"]
+        selected = []
+        for row in native:
+            cell = row["cells"][selector["field"]]
+            if cell["kind"] != "string":
+                raise ValueError("invalid native record-type selector")
+            if cell["value"] == selector["value"]:
+                selected.append(row)
+            elif cell["value"] in selector["excluded_values"]:
+                excluded[cell["value"]] += 1
+            else:
+                raise ValueError("unexpected native record type")
+        native = selected
 
     def field_values(row, native):
         result = {}
@@ -95,9 +118,13 @@ def compare(native_path, reference_path, mapping_path):
     hashes = {}
     for key, path in (("native", native_path), ("reference", reference_path), ("mapping", mapping_path)):
         hashes[key] = hashlib.sha256(path.read_bytes()).hexdigest()
-    return {"scope": "selected fields only; full capability acceptance remains pending", "fields": list(fields),
+    report = {"scope": "selected fields only; full capability acceptance remains pending", "fields": list(fields),
             "native_rows": sum(a.values()), "reference_rows": sum(b.values()), "matched": not missing and not extra,
             "missing": [json.loads(s) for s in missing], "extra": [json.loads(s) for s in extra], "sha256": hashes}
+    if "native_record_type" in mapping:
+        report.update(native_input_rows=input_rows, native_non_entity_records=dict(excluded),
+                      entity_selection=mapping["native_record_type"])
+    return report
 
 
 def main():

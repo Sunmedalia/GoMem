@@ -233,6 +233,44 @@
           "mapping": "77209a57f0c9c405beaaae810471c2b12fba047e0d92bc8c746d4c697798ba52"
         }
       }
+    },
+    {
+      "id": "windows.dlllist.DllList",
+      "corpus": "official-windows-10-19041",
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+      "engine_build_sha256": "a793db4621569357a39bd212dcbfe538021e2e58babea5c7224222f80ee28a6a",
+      "task_state": "failed",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "Process",
+          "Base",
+          "Size"
+        ],
+        "native_rows": 5742,
+        "reference_rows": 5742,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "800926e641278c3bb0660b05069a1a329c1aef9bb5f380ca002d5130bf0cf409",
+          "reference": "df49a44ddf84a11711597ac27423e96bb4ee909ba250a2bfdd281d40227acabd",
+          "mapping": "cb4912de75e5115807f6f530c635de14860663b540ef21138a9589358063b13d"
+        },
+        "native_input_rows": 5761,
+        "native_non_entity_records": {
+          "diagnostic": 19
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "module",
+          "excluded_values": [
+            "diagnostic"
+          ]
+        }
+      }
     }
   ],
   "page_benchmark": {

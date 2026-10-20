@@ -1,0 +1,9 @@
+{
+  "native_record_type": {"field": "RecordType", "value": "module", "excluded_values": ["diagnostic"]},
+  "fields": {
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "Process": {"native": "Process", "reference": "Process", "kind": "string"},
+    "Base": {"native": "Base", "reference": "Base", "kind": "address"},
+    "Size": {"native": "Size", "reference": "Size", "kind": "uint64"}
+  }
+}
