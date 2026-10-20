@@ -20,7 +20,7 @@ python3 tools/verify_bundle.py case-001/exports/evidence.zip
 
 区域提取使用 `analyze windows.vadinfo ... --param dump=true` 或 `analyze linux.maps ... --param dump=true`，结合 PID/地址筛选控制范围。默认 maxsize 为 1GiB。按固定基线，Windows 在 `size > maxsize` 时跳过，零表示不设此限制；Linux 在 `size >= maxsize` 时跳过，零会跳过全部区域。跳过记录为 `maxsize_exceeded`，不会产生空提取文件。结果的 FileOutput 保留完整 artifact 元数据；缺失页、未知进程空间和写出错误有明确不同状态。
 
-`windows.pedump` 和 DLL 的 `dump` 也使用同一存储底座，先严格验证并规划 PE 头部修改，再逐页写出重建文件。Patches 在结果中保留原始/替换字节，参见 [PE 重建](pe-reconstruction.md)；重建 PE 与原始虚拟区间是不同导出语义。
+`windows.pedump` 和 DLL、进程、内核模块的 `dump` 使用同一存储底座，先验证并规划 PE 头部修改，再逐页写出文件。模块可选择已验证会话层并记录尝试。Patches 保留原始/替换字节，参见 [PE 重建](pe-reconstruction.md) 与 [进程/模块验证](windows-process-modules.md)；重建 PE 与原始虚拟区间是不同导出语义。
 
 完整任务的提取文件在缓存复用前重新校验大小、数据/日志摘要和任务来源。文件丢失、同长度修改和来源不一致都会报错；需要重新提取时使用 `analyze --fresh`，新任务与原始失败证据分别保存。分页列表只展示所选页；verify-artifacts 校验所选任务或全案的全部提取文件，不把未知任务当作成功空范围。
 

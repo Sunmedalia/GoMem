@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
+	"strconv"
+	"strings"
 	"unicode/utf16"
 
 	"github.com/Sunmedalia/GoMem/pkg/evidence"
@@ -20,7 +22,12 @@ func modulePlugins() []builtin {
 			name, up = "linux.lsmod", "linux.lsmod.Lsmod"
 			fn = linuxModules
 		}
-		out = append(out, builtin{plugin.Spec{Name: name, Upstream: up, Platform: os, NeedsKernel: true, Description: "Enumerate loaded kernel modules from the kernel list", Parameters: []plugin.Parameter{{Name: "max-nodes", Kind: "uint", Default: "65536", Description: "Traversal safety limit"}}, Columns: []evidence.Column{{Name: "Offset", Kind: "address"}, {Name: "Name", Kind: "string"}, {Name: "Base", Kind: "address"}, {Name: "Size", Kind: "uint64"}}}, fn})
+		s := plugin.Spec{Name: name, Upstream: up, Platform: os, NeedsKernel: true, Description: "Enumerate loaded kernel modules from the kernel list", Parameters: []plugin.Parameter{{Name: "max-nodes", Kind: "uint", Default: "65536", Description: "Traversal safety limit"}}, Columns: []evidence.Column{{Name: "Offset", Kind: "address"}, {Name: "Name", Kind: "string"}, {Name: "Base", Kind: "address"}, {Name: "Size", Kind: "uint64"}}}
+		if os == "windows" {
+			s.Parameters = append(s.Parameters, plugin.Parameter{Name: "base", Kind: "string", Description: "Optional exact module base; zero disables filtering"}, plugin.Parameter{Name: "name", Kind: "string", Description: "Case-sensitive substring of the base module name"}, plugin.Parameter{Name: "dump", Kind: "bool", Default: "false", Description: "Reconstruct listed PE modules, using typed session layers when needed"}, plugin.Parameter{Name: "max-session-layers", Kind: "uint", Default: "256", Description: "Maximum unique session roots cached for extraction (1..4096)"})
+			s.Columns = append(s.Columns, []evidence.Column{{Name: "Path", Kind: "string"}, {Name: "FileOutput", Kind: "artifact"}, {Name: "Patches", Kind: "structure"}, {Name: "ExtractionAttempts", Kind: "structure"}}...)
+		}
+		out = append(out, builtin{s, fn})
 	}
 	return out
 }
@@ -84,6 +91,17 @@ func windowsModules(ctx context.Context, e plugin.Environment, p map[string]stri
 	if err != nil {
 		return err
 	}
+	dump, err := strconv.ParseBool(p["dump"])
+	if err != nil {
+		return err
+	}
+	var base uint64
+	if p["base"] != "" {
+		base, err = strconv.ParseUint(p["base"], 0, 64)
+		if err != nil {
+			return fmt.Errorf("base: %w", err)
+		}
+	}
 	head, err := e.Symbol("PsLoadedModuleList")
 	if err != nil {
 		return err
@@ -97,11 +115,75 @@ func windowsModules(ctx context.Context, e plugin.Environment, p map[string]stri
 	if err != nil {
 		return err
 	}
-	return e.Objects.WalkList(ctx, head, f.Offset, max, func(a uint64) error {
-		name, err := unicodeString(ctx, e, a, typ, "BaseDllName")
-		if err != nil {
+	maxLayers, err := strconv.ParseUint(p["max-session-layers"], 0, 32)
+	if err != nil || maxLayers == 0 || maxLayers > 4096 {
+		return fmt.Errorf("max-session-layers must be 1..4096")
+	}
+	layers := windowsModuleLayers{env: e, max: max, maxLayers: int(maxLayers)}
+	var failures pluginFailures
+	err = e.Objects.WalkList(ctx, head, f.Offset, max, func(a uint64) error {
+		moduleBase := optionalUint(ctx, e, a, typ, "DllBase", true)
+		value, baseErr := moduleBase.Uint()
+		if base != 0 && baseErr == nil && base != value {
+			return nil
+		}
+		name, nameErr := unicodeString(ctx, e, a, typ, "BaseDllName")
+		if p["name"] != "" && nameErr == nil && !strings.Contains(name, p["name"]) {
+			return nil
+		}
+		path, pathErr := unicodeString(ctx, e, a, typ, "FullDllName")
+		row := evidence.Row{Cells: map[string]evidence.Value{"Offset": evidence.Address(a), "Name": evidence.Text(name), "Path": evidence.Text(path), "Base": moduleBase, "Size": optionalUint(ctx, e, a, typ, "SizeOfImage", false), "FileOutput": evidence.Missing("not_requested", nil), "Patches": evidence.Missing("not_requested", nil), "ExtractionAttempts": evidence.Missing("not_requested", nil)}, Provenance: evidence.Provenance{Layer: e.Kernel.Name(), Offset: fmt.Sprintf("0x%x", a)}}
+		if nameErr != nil {
+			row.Cells["Name"] = evidence.Missing("unreadable_or_unavailable", nameErr)
+		}
+		if pathErr != nil {
+			row.Cells["Path"] = evidence.Missing("unreadable_or_unavailable", pathErr)
+		}
+		// An unreadable filter field cannot establish that a row is excluded.
+		if base != 0 && baseErr != nil || p["name"] != "" && nameErr != nil {
+			cause := fmt.Errorf("cannot evaluate module filter at %#x: base=%v name=%v", a, baseErr, nameErr)
+			failures.add(cause)
+			row.Cells["FileOutput"] = evidence.Missing("module_filter_unresolved", cause)
+		} else if dump {
+			var dumpErr error
+			if baseErr != nil {
+				dumpErr = baseErr
+				row.Cells["FileOutput"] = evidence.Missing("module_base_unreadable", baseErr)
+				row.Cells["Patches"] = evidence.Missing("pe_plan_unavailable", baseErr)
+				row.Cells["ExtractionAttempts"] = evidence.Missing("module_base_unreadable", baseErr)
+			} else {
+				layer, attempts, er := layers.find(ctx, value)
+				row.Cells["ExtractionAttempts"] = evidence.Value{Kind: "structure", Data: attempts}
+				dumpErr = er
+				if er != nil {
+					row.Cells["FileOutput"] = evidence.Missing("module_address_space_unavailable", er)
+					row.Cells["Patches"] = evidence.Missing("pe_plan_unavailable", er)
+				} else {
+					leaf := "UnreadableDLLName"
+					if pathErr == nil {
+						leaf = path
+						if i := strings.LastIndexAny(leaf, "/\\"); i >= 0 {
+							leaf = leaf[i+1:]
+						}
+					}
+					file, image, er := dumpPE(ctx, e, layer, fmt.Sprintf("%s.%#x.%#x.dmp", leaf, a, value), value)
+					row.Cells["FileOutput"], dumpErr = file, er
+					if image != nil {
+						row.Cells["Patches"] = evidence.Value{Kind: "structure", Data: image.Patches}
+					} else {
+						row.Cells["Patches"] = evidence.Missing("pe_plan_unavailable", er)
+					}
+				}
+			}
+			failures.add(dumpErr)
+		}
+		if err := ctx.Err(); err != nil {
 			return err
 		}
-		return out(evidence.Row{Cells: map[string]evidence.Value{"Offset": evidence.Address(a), "Name": evidence.Text(name), "Base": optionalUint(ctx, e, a, typ, "DllBase", true), "Size": optionalUint(ctx, e, a, typ, "SizeOfImage", false)}, Provenance: evidence.Provenance{Layer: e.Kernel.Name(), Offset: fmt.Sprintf("0x%x", a)}})
+		return out(row)
 	})
+	if err != nil {
+		return err
+	}
+	return failures.err("module analysis")
 }

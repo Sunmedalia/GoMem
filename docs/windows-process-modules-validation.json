@@ -1,0 +1,943 @@
+{
+  "schema": "gomem.windows-process-modules-validation/v1",
+  "date": "2026-10-20",
+  "scope": "Selected Windows 10 x64 fields and PEs only; not full plugin acceptance",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "engine_build_sha256": "5f47141cb8688292abb84b236e4c6e97b0fe4e241d92842cd1a955f011ab6b0f",
+  "field_comparisons": [
+    {
+      "profile": "pslist-enriched",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "PPID",
+          "Name",
+          "Threads",
+          "Handles",
+          "SessionId",
+          "Wow64",
+          "Created",
+          "Exited"
+        ],
+        "native_rows": 120,
+        "reference_rows": 120,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "b0313055327a18a60a52e56409acb4e4480de7d85f6727bcb6939cd39c556f63",
+          "reference": "b6b6308c261194fc98f79e7e26bb7573a820d94be78f8fb105bdf3d0061b67a4",
+          "mapping": "eb6c803968856efb7a798ed40b8a09d88fde89e59b42a579f1852646348e6d56"
+        }
+      }
+    },
+    {
+      "profile": "pslist-physical",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "PPID",
+          "Name",
+          "Threads",
+          "Handles",
+          "SessionId",
+          "Wow64",
+          "Created",
+          "Exited"
+        ],
+        "native_rows": 120,
+        "reference_rows": 120,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "8df4b6fd270820364ff9aeddd6cd44ed78dd65c9337a18633f0ddae47066fd04",
+          "reference": "3bdcbbd56485830c0a98ab4d14f71804a4fac1e1938696b12897217fa9b02488",
+          "mapping": "ced2a0e01bc5c4389c323a762c427bc2c3c8746d1af652cfbf0d35d4610e9071"
+        }
+      }
+    },
+    {
+      "profile": "pslist-enriched-pdb",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "PPID",
+          "Name",
+          "Threads",
+          "Handles",
+          "SessionId",
+          "Wow64",
+          "Created",
+          "Exited"
+        ],
+        "native_rows": 120,
+        "reference_rows": 120,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "282723a9e32a19a6b9e80aebc60ae665c03774ed6775f1ea4368c03663bc374d",
+          "reference": "b6b6308c261194fc98f79e7e26bb7573a820d94be78f8fb105bdf3d0061b67a4",
+          "mapping": "eb6c803968856efb7a798ed40b8a09d88fde89e59b42a579f1852646348e6d56"
+        }
+      }
+    },
+    {
+      "profile": "modules-enriched",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "Name",
+          "Base",
+          "Size",
+          "Path"
+        ],
+        "native_rows": 176,
+        "reference_rows": 176,
+        "matched": false,
+        "missing": [
+          {
+            "Base": "272696967692288",
+            "Name": "kdcom.dll",
+            "Offset": "145201666799712",
+            "Path": {
+              "missing": "reference-null"
+            },
+            "Size": "45056",
+            "parent": null
+          },
+          {
+            "Base": "272696964939776",
+            "Name": "mcupdate.dll",
+            "Offset": "145201666800144",
+            "Path": {
+              "missing": "reference-null"
+            },
+            "Size": "2682880",
+            "parent": null
+          },
+          {
+            "Base": "272696967954432",
+            "Name": "CLFS.SYS",
+            "Offset": "145201666800672",
+            "Path": {
+              "missing": "reference-null"
+            },
+            "Size": "450560",
+            "parent": null
+          },
+          {
+            "Base": "272696967757824",
+            "Name": "tm.sys",
+            "Offset": "145201666801104",
+            "Path": {
+              "missing": "reference-null"
+            },
+            "Size": "163840",
+            "parent": null
+          },
+          {
+            "Base": "272696968413184",
+            "Name": "PSHED.dll",
+            "Offset": "145201666801680",
+            "Path": {
+              "missing": "reference-null"
+            },
+            "Size": "106496",
+            "parent": null
+          },
+          {
+            "Base": "272696989581312",
+            "Name": "ksecdd.sys",
+            "Offset": "145201666803472",
+            "Path": {
+              "missing": "reference-null"
+            },
+            "Size": "167936",
+            "parent": null
+          },
+          {
+            "Base": "272696988401664",
+            "Name": "clipsp.sys",
+            "Offset": "145201666909104",
+            "Path": {
+              "missing": "reference-null"
+            },
+            "Size": "1142784",
+            "parent": null
+          },
+          {
+            "Base": "272696990498816",
+            "Name": "CI.dll",
+            "Offset": "145201666805248",
+            "Path": {
+              "missing": "reference-null"
+            },
+            "Size": "966656",
+            "parent": null
+          },
+          {
+            "Base": "272696993906688",
+            "Name": "ACPI.sys",
+            "Offset": "145201666809344",
+            "Path": {
+              "missing": "reference-null"
+            },
+            "Size": "839680",
+            "parent": null
+          },
+          {
+            "Base": "272696994758656",
+            "Name": "WMILIB.SYS",
+            "Offset": "145201666809872",
+            "Path": {
+              "missing": "reference-null"
+            },
+            "Size": "49152",
+            "parent": null
+          },
+          {
+            "Base": "272696994824192",
+            "Name": "msisadrv.sys",
+            "Offset": "145201666810304",
+            "Path": {
+              "missing": "reference-null"
+            },
+            "Size": "45056",
+            "parent": null
+          },
+          {
+            "Base": "272696994889728",
+            "Name": "pci.sys",
+            "Offset": "145201666810736",
+            "Path": {
+              "missing": "reference-null"
+            },
+            "Size": "491520",
+            "parent": null
+          },
+          {
+            "Base": "272696995872768",
+            "Name": "intelpep.sys",
+            "Offset": "145201666812032",
+            "Path": {
+              "missing": "reference-null"
+            },
+            "Size": "438272",
+            "parent": null
+          },
+          {
+            "Base": "272696999018496",
+            "Name": "vdrvroot.sys",
+            "Offset": "145201666815776",
+            "Path": {
+              "missing": "reference-null"
+            },
+            "Size": "86016",
+            "parent": null
+          },
+          {
+            "Base": "272697029492736",
+            "Name": "tbs.sys",
+            "Offset": "145201680971472",
+            "Path": {
+              "missing": "reference-null"
+            },
+            "Size": "57344",
+            "parent": null
+          },
+          {
+            "Base": "272697033949184",
+            "Name": "Npfs.SYS",
+            "Offset": "145201680975216",
+            "Path": {
+              "missing": "reference-null"
+            },
+            "Size": "114688",
+            "parent": null
+          },
+          {
+            "Base": "272697034342400",
+            "Name": "tdx.sys",
+            "Offset": "145201680974800",
+            "Path": {
+              "missing": "reference-null"
+            },
+            "Size": "139264",
+            "parent": null
+          },
+          {
+            "Base": "272697035915264",
+            "Name": "vwififlt.sys",
+            "Offset": "145201680398864",
+            "Path": {
+              "missing": "reference-null"
+            },
+            "Size": "106496",
+            "parent": null
+          },
+          {
+            "Base": "272697053675520",
+            "Name": "bam.sys",
+            "Offset": "145201675461936",
+            "Path": {
+              "missing": "reference-null"
+            },
+            "Size": "94208",
+            "parent": null
+          }
+        ],
+        "extra": [
+          {
+            "Base": "272696967692288",
+            "Name": "kdcom.dll",
+            "Offset": "145201666799712",
+            "Path": {
+              "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee054a0 (54 bytes): unmapped memory: nonpresent page-table entry 0x2ed5e00000084 at 0x13e461028 (prototype/swap or unsupported software encoding)",
+              "missing": "unreadable_or_unavailable"
+            },
+            "Size": "45056",
+            "parent": null
+          },
+          {
+            "Base": "272696964939776",
+            "Name": "mcupdate.dll",
+            "Offset": "145201666800144",
+            "Path": {
+              "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee05500 (92 bytes): unmapped memory: nonpresent page-table entry 0x2ed5e00000084 at 0x13e461028 (prototype/swap or unsupported software encoding)",
+              "missing": "unreadable_or_unavailable"
+            },
+            "Size": "2682880",
+            "parent": null
+          },
+          {
+            "Base": "272696967954432",
+            "Name": "CLFS.SYS",
+            "Offset": "145201666800672",
+            "Path": {
+              "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee09f10 (74 bytes): unmapped memory: nonpresent page-table entry 0x2ed5f00000084 at 0x13e461048 (prototype/swap or unsupported software encoding)",
+              "missing": "unreadable_or_unavailable"
+            },
+            "Size": "450560",
+            "parent": null
+          },
+          {
+            "Base": "272696967757824",
+            "Name": "tm.sys",
+            "Offset": "145201666801104",
+            "Path": {
+              "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee09f80 (70 bytes): unmapped memory: nonpresent page-table entry 0x2ed5f00000084 at 0x13e461048 (prototype/swap or unsupported software encoding)",
+              "missing": "unreadable_or_unavailable"
+            },
+            "Size": "163840",
+            "parent": null
+          },
+          {
+            "Base": "272696968413184",
+            "Name": "PSHED.dll",
+            "Offset": "145201666801680",
+            "Path": {
+              "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee05b60 (60 bytes): unmapped memory: nonpresent page-table entry 0x2ed5e00000084 at 0x13e461028 (prototype/swap or unsupported software encoding)",
+              "missing": "unreadable_or_unavailable"
+            },
+            "Size": "106496",
+            "parent": null
+          },
+          {
+            "Base": "272696989581312",
+            "Name": "ksecdd.sys",
+            "Offset": "145201666803472",
+            "Path": {
+              "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee14ee0 (78 bytes): unmapped memory: nonpresent page-table entry 0x2ed6000000084 at 0x13e4610a0 (prototype/swap or unsupported software encoding)",
+              "missing": "unreadable_or_unavailable"
+            },
+            "Size": "167936",
+            "parent": null
+          },
+          {
+            "Base": "272696988401664",
+            "Name": "clipsp.sys",
+            "Offset": "145201666909104",
+            "Path": {
+              "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee14f50 (78 bytes): unmapped memory: nonpresent page-table entry 0x2ed6000000084 at 0x13e4610a0 (prototype/swap or unsupported software encoding)",
+              "missing": "unreadable_or_unavailable"
+            },
+            "Size": "1142784",
+            "parent": null
+          },
+          {
+            "Base": "272696990498816",
+            "Name": "CI.dll",
+            "Offset": "145201666805248",
+            "Path": {
+              "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee05f90 (54 bytes): unmapped memory: nonpresent page-table entry 0x2ed5e00000084 at 0x13e461028 (prototype/swap or unsupported software encoding)",
+              "missing": "unreadable_or_unavailable"
+            },
+            "Size": "966656",
+            "parent": null
+          },
+          {
+            "Base": "272696993906688",
+            "Name": "ACPI.sys",
+            "Offset": "145201666809344",
+            "Path": {
+              "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee1eea0 (74 bytes): unmapped memory: nonpresent page-table entry 0x2ed6100000084 at 0x13e4610f0 (prototype/swap or unsupported software encoding)",
+              "missing": "unreadable_or_unavailable"
+            },
+            "Size": "839680",
+            "parent": null
+          },
+          {
+            "Base": "272696994758656",
+            "Name": "WMILIB.SYS",
+            "Offset": "145201666809872",
+            "Path": {
+              "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee1ef10 (78 bytes): unmapped memory: nonpresent page-table entry 0x2ed6100000084 at 0x13e4610f0 (prototype/swap or unsupported software encoding)",
+              "missing": "unreadable_or_unavailable"
+            },
+            "Size": "49152",
+            "parent": null
+          },
+          {
+            "Base": "272696994824192",
+            "Name": "msisadrv.sys",
+            "Offset": "145201666810304",
+            "Path": {
+              "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee1feb0 (82 bytes): unmapped memory: nonpresent page-table entry 0x2ed6200000084 at 0x13e4610f8 (prototype/swap or unsupported software encoding)",
+              "missing": "unreadable_or_unavailable"
+            },
+            "Size": "45056",
+            "parent": null
+          },
+          {
+            "Base": "272696994889728",
+            "Name": "pci.sys",
+            "Offset": "145201666810736",
+            "Path": {
+              "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee1ef80 (72 bytes): unmapped memory: nonpresent page-table entry 0x2ed6100000084 at 0x13e4610f0 (prototype/swap or unsupported software encoding)",
+              "missing": "unreadable_or_unavailable"
+            },
+            "Size": "491520",
+            "parent": null
+          },
+          {
+            "Base": "272696995872768",
+            "Name": "intelpep.sys",
+            "Offset": "145201666812032",
+            "Path": {
+              "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee1ff30 (82 bytes): unmapped memory: nonpresent page-table entry 0x2ed6200000084 at 0x13e4610f8 (prototype/swap or unsupported software encoding)",
+              "missing": "unreadable_or_unavailable"
+            },
+            "Size": "438272",
+            "parent": null
+          },
+          {
+            "Base": "272696999018496",
+            "Name": "vdrvroot.sys",
+            "Offset": "145201666815776",
+            "Path": {
+              "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee1ec70 (82 bytes): unmapped memory: nonpresent page-table entry 0x2ed6100000084 at 0x13e4610f0 (prototype/swap or unsupported software encoding)",
+              "missing": "unreadable_or_unavailable"
+            },
+            "Size": "86016",
+            "parent": null
+          },
+          {
+            "Base": "272697029492736",
+            "Name": "tbs.sys",
+            "Offset": "145201680971472",
+            "Path": {
+              "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041eff6360 (72 bytes): unmapped memory: nonpresent page-table entry 0x2ed7500000084 at 0x13e461fb0 (prototype/swap or unsupported software encoding)",
+              "missing": "unreadable_or_unavailable"
+            },
+            "Size": "57344",
+            "parent": null
+          },
+          {
+            "Base": "272697033949184",
+            "Name": "Npfs.SYS",
+            "Offset": "145201680975216",
+            "Path": {
+              "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041eff6660 (74 bytes): unmapped memory: nonpresent page-table entry 0x2ed7500000084 at 0x13e461fb0 (prototype/swap or unsupported software encoding)",
+              "missing": "unreadable_or_unavailable"
+            },
+            "Size": "114688",
+            "parent": null
+          },
+          {
+            "Base": "272697034342400",
+            "Name": "tdx.sys",
+            "Offset": "145201680974800",
+            "Path": {
+              "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041eff66c0 (72 bytes): unmapped memory: nonpresent page-table entry 0x2ed7500000084 at 0x13e461fb0 (prototype/swap or unsupported software encoding)",
+              "missing": "unreadable_or_unavailable"
+            },
+            "Size": "139264",
+            "parent": null
+          },
+          {
+            "Base": "272697035915264",
+            "Name": "vwififlt.sys",
+            "Offset": "145201680398864",
+            "Path": {
+              "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041f5d0640 (82 bytes): unmapped memory: nonpresent page-table entry 0x7ee800000094 at 0x13e54be80 (prototype/swap or unsupported software encoding)",
+              "missing": "unreadable_or_unavailable"
+            },
+            "Size": "106496",
+            "parent": null
+          },
+          {
+            "Base": "272697053675520",
+            "Name": "bam.sys",
+            "Offset": "145201675461936",
+            "Path": {
+              "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041eff6420 (72 bytes): unmapped memory: nonpresent page-table entry 0x2ed7500000084 at 0x13e461fb0 (prototype/swap or unsupported software encoding)",
+              "missing": "unreadable_or_unavailable"
+            },
+            "Size": "94208",
+            "parent": null
+          }
+        ],
+        "sha256": {
+          "native": "5834c835ea3035bfdeb3d36cafe3121082a0be6bf64d557ef6492955e5fca066",
+          "reference": "c4f51d0504550b68077cf858e50077d6bdeb6e04090ab5cdf2bb4a0bb5c1d11f",
+          "mapping": "7854fbdf08708b659659de864367088616bf7f37571dd42420a865f9c9b05120"
+        }
+      }
+    }
+  ],
+  "module_paths": {
+    "readable_match": 157,
+    "read_errors": [
+      {
+        "offset": "0xffff840f65c53860",
+        "name": "kdcom.dll",
+        "reason": "unreadable_or_unavailable",
+        "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee054a0 (54 bytes): unmapped memory: nonpresent page-table entry 0x2ed5e00000084 at 0x13e461028 (prototype/swap or unsupported software encoding)"
+      },
+      {
+        "offset": "0xffff840f65c53a10",
+        "name": "mcupdate.dll",
+        "reason": "unreadable_or_unavailable",
+        "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee05500 (92 bytes): unmapped memory: nonpresent page-table entry 0x2ed5e00000084 at 0x13e461028 (prototype/swap or unsupported software encoding)"
+      },
+      {
+        "offset": "0xffff840f65c53c20",
+        "name": "CLFS.SYS",
+        "reason": "unreadable_or_unavailable",
+        "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee09f10 (74 bytes): unmapped memory: nonpresent page-table entry 0x2ed5f00000084 at 0x13e461048 (prototype/swap or unsupported software encoding)"
+      },
+      {
+        "offset": "0xffff840f65c53dd0",
+        "name": "tm.sys",
+        "reason": "unreadable_or_unavailable",
+        "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee09f80 (70 bytes): unmapped memory: nonpresent page-table entry 0x2ed5f00000084 at 0x13e461048 (prototype/swap or unsupported software encoding)"
+      },
+      {
+        "offset": "0xffff840f65c54010",
+        "name": "PSHED.dll",
+        "reason": "unreadable_or_unavailable",
+        "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee05b60 (60 bytes): unmapped memory: nonpresent page-table entry 0x2ed5e00000084 at 0x13e461028 (prototype/swap or unsupported software encoding)"
+      },
+      {
+        "offset": "0xffff840f65c54710",
+        "name": "ksecdd.sys",
+        "reason": "unreadable_or_unavailable",
+        "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee14ee0 (78 bytes): unmapped memory: nonpresent page-table entry 0x2ed6000000084 at 0x13e4610a0 (prototype/swap or unsupported software encoding)"
+      },
+      {
+        "offset": "0xffff840f65c6e3b0",
+        "name": "clipsp.sys",
+        "reason": "unreadable_or_unavailable",
+        "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee14f50 (78 bytes): unmapped memory: nonpresent page-table entry 0x2ed6000000084 at 0x13e4610a0 (prototype/swap or unsupported software encoding)"
+      },
+      {
+        "offset": "0xffff840f65c54e00",
+        "name": "CI.dll",
+        "reason": "unreadable_or_unavailable",
+        "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee05f90 (54 bytes): unmapped memory: nonpresent page-table entry 0x2ed5e00000084 at 0x13e461028 (prototype/swap or unsupported software encoding)"
+      },
+      {
+        "offset": "0xffff840f65c55e00",
+        "name": "ACPI.sys",
+        "reason": "unreadable_or_unavailable",
+        "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee1eea0 (74 bytes): unmapped memory: nonpresent page-table entry 0x2ed6100000084 at 0x13e4610f0 (prototype/swap or unsupported software encoding)"
+      },
+      {
+        "offset": "0xffff840f65c56010",
+        "name": "WMILIB.SYS",
+        "reason": "unreadable_or_unavailable",
+        "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee1ef10 (78 bytes): unmapped memory: nonpresent page-table entry 0x2ed6100000084 at 0x13e4610f0 (prototype/swap or unsupported software encoding)"
+      },
+      {
+        "offset": "0xffff840f65c561c0",
+        "name": "msisadrv.sys",
+        "reason": "unreadable_or_unavailable",
+        "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee1feb0 (82 bytes): unmapped memory: nonpresent page-table entry 0x2ed6200000084 at 0x13e4610f8 (prototype/swap or unsupported software encoding)"
+      },
+      {
+        "offset": "0xffff840f65c56370",
+        "name": "pci.sys",
+        "reason": "unreadable_or_unavailable",
+        "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee1ef80 (72 bytes): unmapped memory: nonpresent page-table entry 0x2ed6100000084 at 0x13e4610f0 (prototype/swap or unsupported software encoding)"
+      },
+      {
+        "offset": "0xffff840f65c56880",
+        "name": "intelpep.sys",
+        "reason": "unreadable_or_unavailable",
+        "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee1ff30 (82 bytes): unmapped memory: nonpresent page-table entry 0x2ed6200000084 at 0x13e4610f8 (prototype/swap or unsupported software encoding)"
+      },
+      {
+        "offset": "0xffff840f65c57720",
+        "name": "vdrvroot.sys",
+        "reason": "unreadable_or_unavailable",
+        "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041ee1ec70 (82 bytes): unmapped memory: nonpresent page-table entry 0x2ed6100000084 at 0x13e4610f0 (prototype/swap or unsupported software encoding)"
+      },
+      {
+        "offset": "0xffff840f669d76d0",
+        "name": "tbs.sys",
+        "reason": "unreadable_or_unavailable",
+        "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041eff6360 (72 bytes): unmapped memory: nonpresent page-table entry 0x2ed7500000084 at 0x13e461fb0 (prototype/swap or unsupported software encoding)"
+      },
+      {
+        "offset": "0xffff840f669d8570",
+        "name": "Npfs.SYS",
+        "reason": "unreadable_or_unavailable",
+        "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041eff6660 (74 bytes): unmapped memory: nonpresent page-table entry 0x2ed7500000084 at 0x13e461fb0 (prototype/swap or unsupported software encoding)"
+      },
+      {
+        "offset": "0xffff840f669d83d0",
+        "name": "tdx.sys",
+        "reason": "unreadable_or_unavailable",
+        "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041eff66c0 (72 bytes): unmapped memory: nonpresent page-table entry 0x2ed7500000084 at 0x13e461fb0 (prototype/swap or unsupported software encoding)"
+      },
+      {
+        "offset": "0xffff840f6694ba10",
+        "name": "vwififlt.sys",
+        "reason": "unreadable_or_unavailable",
+        "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041f5d0640 (82 bytes): unmapped memory: nonpresent page-table entry 0x7ee800000094 at 0x13e54be80 (prototype/swap or unsupported software encoding)"
+      },
+      {
+        "offset": "0xffff840f66496530",
+        "name": "bam.sys",
+        "reason": "unreadable_or_unavailable",
+        "error": "kernel:x64:dtb=0x6d4000: read 0xffffc2041eff6420 (72 bytes): unmapped memory: nonpresent page-table entry 0x2ed7500000084 at 0x13e461fb0 (prototype/swap or unsupported software encoding)"
+      }
+    ],
+    "reference_null_count": 19,
+    "full_comparison_matched": false
+  },
+  "extractions": [
+    {
+      "profile": "pslist-dump-488",
+      "report": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--pid",
+          "488",
+          "--dump"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "explicit_file_name_mapping": {},
+        "matched": true,
+        "files": [
+          {
+            "name": "488.csrss.exe.0x7ff66e1d0000.dmp",
+            "reference_name": "488.csrss.exe.0x7ff66e1d0000.dmp",
+            "size": "28672",
+            "reference_size": "28672",
+            "native_sha256": "abdc0769d35ed4f36912e5d4f5823e22abec4ccd3139db57bde9ee511bb6c269",
+            "reference_sha256": "abdc0769d35ed4f36912e5d4f5823e22abec4ccd3139db57bde9ee511bb6c269",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "16384",
+            "gap_count": "4",
+            "gaps_sha256": "a1904c2a21bbee9a644108d46d5e2230aef8b8103da6bcafd8b5c139325de3c6",
+            "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+            "engine_build_sha256": "5f47141cb8688292abb84b236e4c6e97b0fe4e241d92842cd1a955f011ab6b0f",
+            "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+            "layer": "process:c0041fc28cd5b8b19e553cf79ab9ba0fe7307dc8e4ae4eeb514995c4e6e09d30",
+            "offset": "0x7ff66e1d0000"
+          }
+        ],
+        "native_rows_sha256": "9588d4ef65bace6946eff2cf2e64b6d83570dc699ca0a27161e95255b4570480",
+        "reference_manifest_sha256": "1c506c0c2c45a7e0fb654d40f8481955a88ac678cdbc4a3ddd2885a78f6d4a6b"
+      },
+      "patch_count": 19
+    },
+    {
+      "profile": "modules-dump-kernel",
+      "report": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--base",
+          "272696969654272",
+          "--dump"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "explicit_file_name_mapping": {
+          "ntoskrnl.exe.0xffff840f65c53450.0xfffff8043601f000.dmp": "ntoskrnl.exe.0x840f65c53450.0xf8043601f000.dmp"
+        },
+        "matched": false,
+        "files": [
+          {
+            "name": "ntoskrnl.exe.0xffff840f65c53450.0xfffff8043601f000.dmp",
+            "reference_name": "ntoskrnl.exe.0x840f65c53450.0xf8043601f000.dmp",
+            "size": "17063936",
+            "reference_size": "17063936",
+            "native_sha256": "ef644d9319a50413a914e42be14c3a2b78fc03a37650010ba7115cee00cd80bc",
+            "reference_sha256": "39cf271274ae4d6a8732804773ee175f3fe2e1dcebc54ff0c74e6b0d64091f5e",
+            "bytes_equal": false,
+            "differing_bytes": 2,
+            "first_differing_offsets": [
+              "0x14e",
+              "0x14f"
+            ],
+            "state": "completed_with_gaps",
+            "missing_bytes": "8347648",
+            "gap_count": "2038",
+            "gaps_sha256": "284fbf0f0e9f7bd1e7bd50ee9c696509d3e4b3db35e36fafeb964533045ff7ca",
+            "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+            "engine_build_sha256": "5f47141cb8688292abb84b236e4c6e97b0fe4e241d92842cd1a955f011ab6b0f",
+            "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+            "layer": "kernel:x64:dtb=0x6d4000",
+            "offset": "0xfffff8043601f000"
+          }
+        ],
+        "native_rows_sha256": "86daf87b1d4f86ac77ef0aff2d535bf1ce9f58dbc08e854a4727f8901db3e637",
+        "reference_manifest_sha256": "405e91fdbe7a447680e8ecb4192f13e88a249e796184b73c7c0c3dbe82fbb3f1"
+      },
+      "patch_count": 100,
+      "extraction_attempts": [
+        {
+          "layer": "kernel:x64:dtb=0x6d4000",
+          "stage": "dos_header_read"
+        }
+      ]
+    },
+    {
+      "profile": "modules-dump-win32k",
+      "report": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--base",
+          "258708341587968",
+          "--dump"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "explicit_file_name_mapping": {
+          "win32k.sys.0xffff840f6a208b10.0xffffeb4b3acd0000.dmp": "win32k.sys.0x840f6a208b10.0xeb4b3acd0000.dmp"
+        },
+        "matched": false,
+        "files": [
+          {
+            "name": "win32k.sys.0xffff840f6a208b10.0xffffeb4b3acd0000.dmp",
+            "reference_name": "win32k.sys.0x840f6a208b10.0xeb4b3acd0000.dmp",
+            "size": "634880",
+            "reference_size": "634880",
+            "native_sha256": "a1d6e49dbe1749e9e1fe735fb769a1dbc6ba92fd9e12de179d89ed1818dcae6d",
+            "reference_sha256": "ac584ce3b09431bae258b0f2e5dc1c7c8d4a57790fc480b5f81a34e5482c8ef9",
+            "bytes_equal": false,
+            "differing_bytes": 2,
+            "first_differing_offsets": [
+              "0x126",
+              "0x127"
+            ],
+            "state": "completed_with_gaps",
+            "missing_bytes": "81920",
+            "gap_count": "20",
+            "gaps_sha256": "b15b0c3412df68c6f9329e56bc0d4bb2fbb7346c54aee8ae0b2d059b31dd1fec",
+            "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+            "engine_build_sha256": "5f47141cb8688292abb84b236e4c6e97b0fe4e241d92842cd1a955f011ab6b0f",
+            "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+            "layer": "process:c0041fc28cd5b8b19e553cf79ab9ba0fe7307dc8e4ae4eeb514995c4e6e09d30",
+            "offset": "0xffffeb4b3acd0000"
+          }
+        ],
+        "native_rows_sha256": "44e1c968c0829f253a9f41bd3db7e476c7d5442b112960578747bbd15f2fff3d",
+        "reference_manifest_sha256": "55954720565842fd6f411228bd95712a37e78732cb423191c38e08e645d4af45"
+      },
+      "patch_count": 34,
+      "extraction_attempts": [
+        {
+          "layer": "kernel:x64:dtb=0x6d4000",
+          "stage": "dos_header_read",
+          "error": "kernel:x64:dtb=0x6d4000: read 0xffffeb4b3acd0000 (64 bytes): unmapped memory: nonpresent page-table entry 0x0 at 0x6d4eb0 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "layer": "process:c0041fc28cd5b8b19e553cf79ab9ba0fe7307dc8e4ae4eeb514995c4e6e09d30",
+          "process_offset": "0xffff840f6a20e140",
+          "pid": "488",
+          "session_id": "0",
+          "stage": "dos_header_read"
+        }
+      ]
+    },
+    {
+      "profile": "modules-dump-win32k-pdb",
+      "report": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--base",
+          "258708341587968",
+          "--dump"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "explicit_file_name_mapping": {
+          "win32k.sys.0xffff840f6a208b10.0xffffeb4b3acd0000.dmp": "win32k.sys.0x840f6a208b10.0xeb4b3acd0000.dmp"
+        },
+        "matched": false,
+        "files": [
+          {
+            "name": "win32k.sys.0xffff840f6a208b10.0xffffeb4b3acd0000.dmp",
+            "reference_name": "win32k.sys.0x840f6a208b10.0xeb4b3acd0000.dmp",
+            "size": "634880",
+            "reference_size": "634880",
+            "native_sha256": "a1d6e49dbe1749e9e1fe735fb769a1dbc6ba92fd9e12de179d89ed1818dcae6d",
+            "reference_sha256": "ac584ce3b09431bae258b0f2e5dc1c7c8d4a57790fc480b5f81a34e5482c8ef9",
+            "bytes_equal": false,
+            "differing_bytes": 2,
+            "first_differing_offsets": [
+              "0x126",
+              "0x127"
+            ],
+            "state": "completed_with_gaps",
+            "missing_bytes": "81920",
+            "gap_count": "20",
+            "gaps_sha256": "b15b0c3412df68c6f9329e56bc0d4bb2fbb7346c54aee8ae0b2d059b31dd1fec",
+            "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+            "engine_build_sha256": "5f47141cb8688292abb84b236e4c6e97b0fe4e241d92842cd1a955f011ab6b0f",
+            "symbols_sha256": "f288d5d6d2bf1cfd7f1d76f271cfded7b7629224276a5748cc2a8db006c51b2a",
+            "layer": "process:c0041fc28cd5b8b19e553cf79ab9ba0fe7307dc8e4ae4eeb514995c4e6e09d30",
+            "offset": "0xffffeb4b3acd0000"
+          }
+        ],
+        "native_rows_sha256": "6dafd23e1939ad9d29a1f5985564316dcc3fe8e88273be59a5075b4836979c32",
+        "reference_manifest_sha256": "55954720565842fd6f411228bd95712a37e78732cb423191c38e08e645d4af45"
+      },
+      "patch_count": 34,
+      "extraction_attempts": [
+        {
+          "layer": "kernel:x64:dtb=0x6d4000",
+          "stage": "dos_header_read",
+          "error": "kernel:x64:dtb=0x6d4000: read 0xffffeb4b3acd0000 (64 bytes): unmapped memory: nonpresent page-table entry 0x0 at 0x6d4eb0 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "layer": "process:c0041fc28cd5b8b19e553cf79ab9ba0fe7307dc8e4ae4eeb514995c4e6e09d30",
+          "process_offset": "0xffff840f6a20e140",
+          "pid": "488",
+          "session_id": "0",
+          "stage": "dos_header_read"
+        }
+      ]
+    }
+  ],
+  "bundles": [
+    {
+      "profile": "pslist-dump-488",
+      "report": {
+        "tasks": 1,
+        "members": 5,
+        "verified": true,
+        "artifacts": 1,
+        "included_artifacts": 1,
+        "partial_artifacts": 0
+      },
+      "sha256": "da1ecec11ef185bb9ed1a5aebbed5f939998eaca0cbdeee7ad7616d28c9d5646"
+    },
+    {
+      "profile": "modules-dump-kernel",
+      "report": {
+        "tasks": 1,
+        "members": 5,
+        "verified": true,
+        "artifacts": 1,
+        "included_artifacts": 1,
+        "partial_artifacts": 0
+      },
+      "sha256": "f83307a023654810dc5c65262e64c160b6db50015038b300fb1e3b68bb107375"
+    },
+    {
+      "profile": "modules-dump-win32k",
+      "report": {
+        "tasks": 1,
+        "members": 5,
+        "verified": true,
+        "artifacts": 1,
+        "included_artifacts": 1,
+        "partial_artifacts": 0
+      },
+      "sha256": "c6d96190125184f8b6bf407112ea83727a29c1cdfa5b7b860b17e8d91a4f1cb5"
+    },
+    {
+      "profile": "modules-dump-win32k-pdb",
+      "report": {
+        "tasks": 1,
+        "members": 5,
+        "verified": true,
+        "artifacts": 1,
+        "included_artifacts": 1,
+        "partial_artifacts": 0
+      },
+      "sha256": "a9e315a3b6b4a07bd4abd35d898a3870231fb77daa29374a8ea287f58e475aa5"
+    }
+  ],
+  "checks": [
+    "go test ./...",
+    "go vet ./...",
+    "go test -race ./...",
+    "GOMEM_CORPUS_DIR=/Volumes/l/GoMem/.cache/corpus go test ./internal/engine -run ^TestOfficial -count=1",
+    "python3 -m unittest discover -s tools -p test_*.py"
+  ],
+  "cross_builds": [
+    {
+      "name": "gomem-0.1.0-dev-windows-amd64.exe",
+      "sha256": "3b415a0c11502d6b64a5060bba8b64e7254e8079ac3b681998d4c260141446af",
+      "target": "windows/amd64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-windows-arm64.exe",
+      "sha256": "69a67bc51faf44d15e9b8afc8367183269382673d8e4e0dd5b7e07c5026d8b7e",
+      "target": "windows/arm64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-linux-amd64",
+      "sha256": "6bd3f325052142b10d2c08ed566ce5b2c4af3495ae8a741e8422f5106b6f9cde",
+      "target": "linux/amd64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-linux-arm64",
+      "sha256": "441b8be0edecb34e00730f766765f0f8e4a960a20d003c10174161aae0f3d48c",
+      "target": "linux/arm64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-darwin-amd64",
+      "sha256": "bdac3ed38a94afba5b4c93e8f6658c4245c4ad1da9039d056cb845b417feb41e",
+      "target": "darwin/amd64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-darwin-arm64",
+      "sha256": "244248e57619faf34b5e4af6fb51da685419ffbcbcb903dfd2ce2452c9480191",
+      "target": "darwin/arm64"
+    }
+  ],
+  "cross_build_scope": "Compilation only; native CI execution is tracked separately"
+}

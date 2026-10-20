@@ -68,15 +68,17 @@
       "file": "kali.raw",
       "plugin": "generic.info",
       "rows": 130,
-      "engine_build_sha256": "bd6143c55a947428acf985cc2d352e874ef6b13bfb4dd3b1cd8228f629f27c57",
-      "source_hash_reverified": true
+      "engine_build_sha256": "5f47141cb8688292abb84b236e4c6e97b0fe4e241d92842cd1a955f011ab6b0f",
+      "source_hash_reverified": true,
+      "scope": "Physical segment smoke only; ARM64 translation still pending"
     },
     {
       "file": "linux-sample-1.bin.gz",
       "plugin": "linux.pslist",
       "rows": 133,
-      "engine_build_sha256": "bd6143c55a947428acf985cc2d352e874ef6b13bfb4dd3b1cd8228f629f27c57",
-      "source_hash_reverified": true
+      "engine_build_sha256": "5f47141cb8688292abb84b236e4c6e97b0fe4e241d92842cd1a955f011ab6b0f",
+      "source_hash_reverified": true,
+      "scope": "Local decoded image; legacy x64 process enumeration smoke"
     }
   ]
 }

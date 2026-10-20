@@ -14,11 +14,14 @@ import (
 func processPlugins() []builtin {
 	var out []builtin
 	for _, os := range []string{"windows", "linux"} {
-		s := plugin.Spec{Name: os + ".pslist", Upstream: os + ".pslist.PsList", Platform: os, NeedsKernel: true, Description: "Enumerate the active process list using verified symbols; no pool scan or process extraction", Parameters: []plugin.Parameter{{Name: "pid", Kind: "string", Description: "Optional comma-separated PID filter"}, {Name: "max-nodes", Kind: "uint", Default: "131072", Description: "Traversal safety limit"}}, Columns: []evidence.Column{{Name: "Offset", Kind: "address"}, {Name: "PID", Kind: "uint64"}, {Name: "PPID", Kind: "uint64"}, {Name: "Name", Kind: "string"}, {Name: "Created", Kind: "string"}, {Name: "DTB", Kind: "address"}, {Name: "Identity", Kind: "string"}}}
+		s := plugin.Spec{Name: os + ".pslist", Upstream: os + ".pslist.PsList", Platform: os, NeedsKernel: true, Description: "Enumerate the active process list using verified symbols", Parameters: []plugin.Parameter{{Name: "pid", Kind: "string", Description: "Optional comma-separated PID filter"}, {Name: "max-nodes", Kind: "uint", Default: "131072", Description: "Traversal safety limit"}}, Columns: []evidence.Column{{Name: "Offset", Kind: "address"}, {Name: "PID", Kind: "uint64"}, {Name: "PPID", Kind: "uint64"}, {Name: "Name", Kind: "string"}, {Name: "Created", Kind: "string"}, {Name: "DTB", Kind: "address"}, {Name: "Identity", Kind: "string"}}}
 		fn := windowsProcesses
 		if os == "linux" {
 			fn = linuxProcesses
 			s.Columns = []evidence.Column{{Name: "Offset", Kind: "address"}, {Name: "PID", Kind: "uint64"}, {Name: "PPID", Kind: "uint64"}, {Name: "Name", Kind: "string"}, {Name: "StartTimeNS", Kind: "uint64"}, {Name: "PGDVirtual", Kind: "address"}, {Name: "Identity", Kind: "string"}}
+		} else {
+			s.Parameters = append(s.Parameters, plugin.Parameter{Name: "physical", Kind: "bool", Default: "false", Description: "Display physical object offsets; identity and provenance retain virtual addresses"}, plugin.Parameter{Name: "dump", Kind: "bool", Default: "false", Description: "Reconstruct main PE images through each process PEB"})
+			s.Columns = append(s.Columns, []evidence.Column{{Name: "VirtualOffset", Kind: "address"}, {Name: "OffsetSpace", Kind: "string"}, {Name: "Threads", Kind: "uint64"}, {Name: "Handles", Kind: "uint64"}, {Name: "SessionId", Kind: "uint64"}, {Name: "Wow64", Kind: "bool"}, {Name: "CreatedRaw", Kind: "uint64"}, {Name: "Exited", Kind: "string"}, {Name: "ExitedRaw", Kind: "uint64"}, {Name: "ImageBase", Kind: "address"}, {Name: "FileOutput", Kind: "artifact"}, {Name: "Patches", Kind: "structure"}}...)
 		}
 		out = append(out, builtin{s, fn})
 	}
@@ -65,9 +68,52 @@ func windowsProcesses(ctx context.Context, e plugin.Environment, p map[string]st
 	if e1 != nil {
 		return e1
 	}
-	return visitWindowsProcesses(ctx, e, max, pid, func(a, v uint64, name string, created evidence.Value) error {
-		return out(processRow(e, a, v, name, optionalUint(ctx, e, a, "_EPROCESS", "InheritedFromUniqueProcessId", false), created, optionalUint(ctx, e, a, "_EPROCESS", "Pcb.DirectoryTableBase", true)))
+	physical, err := strconv.ParseBool(p["physical"])
+	if err != nil {
+		return err
+	}
+	dump, err := strconv.ParseBool(p["dump"])
+	if err != nil {
+		return err
+	}
+	var failures pluginFailures
+	err = visitWindowsProcesses(ctx, e, max, pid, func(a, v uint64, name string, created evidence.Value) error {
+		row := processRow(e, a, v, name, optionalUint(ctx, e, a, "_EPROCESS", "InheritedFromUniqueProcessId", false), created, optionalUint(ctx, e, a, "_EPROCESS", "Pcb.DirectoryTableBase", true))
+		row.Cells["VirtualOffset"], row.Cells["OffsetSpace"] = evidence.Address(a), evidence.Text("kernel_virtual")
+		if physical {
+			row.Cells["OffsetSpace"] = evidence.Text("physical")
+			var offset uint64
+			var er error
+			if layer, ok := e.Kernel.(*memory.Virtual); ok {
+				mapping, err := layer.Translator.Translate(ctx, a)
+				offset, er = mapping.Physical, err
+			} else {
+				er = fmt.Errorf("kernel translator is unavailable for physical offset")
+			}
+			row.Cells["Offset"] = evidence.Address(offset)
+			if er != nil {
+				row.Cells["Offset"] = evidence.Missing("physical_offset_unavailable", er)
+				failures.add(er)
+			}
+		}
+		row.Cells["Threads"] = optionalUint(ctx, e, a, "_EPROCESS", "ActiveThreads", false)
+		row.Cells["Handles"] = windowsHandleCount(ctx, e, a)
+		row.Cells["SessionId"] = windowsSessionID(ctx, e, a)
+		row.Cells["Wow64"] = windowsIsWow64(ctx, e, a)
+		_, row.Cells["CreatedRaw"] = windowsTime(ctx, e, a, "_EPROCESS", "CreateTime")
+		row.Cells["Exited"], row.Cells["ExitedRaw"] = windowsTime(ctx, e, a, "_EPROCESS", "ExitTime")
+		for _, key := range []string{"ImageBase", "FileOutput", "Patches"} {
+			row.Cells[key] = evidence.Missing("not_requested", nil)
+		}
+		if dump {
+			failures.add(dumpProcessPE(ctx, e, a, v, name, row))
+		}
+		return out(row)
 	})
+	if err != nil {
+		return err
+	}
+	return failures.err("process analysis")
 }
 func visitWindowsProcesses(ctx context.Context, e plugin.Environment, max int, pid map[uint64]bool, emit func(uint64, uint64, string, evidence.Value) error) error {
 	head, err := e.Symbol("PsActiveProcessHead")

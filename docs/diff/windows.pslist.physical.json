@@ -1,0 +1,14 @@
+{
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "Offset(P)", "kind": "address"},
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "PPID": {"native": "PPID", "reference": "PPID", "kind": "uint64"},
+    "Name": {"native": "Name", "reference": "ImageFileName", "kind": "string"},
+    "Threads": {"native": "Threads", "reference": "Threads", "kind": "uint64"},
+    "Handles": {"native": "Handles", "reference": "Handles", "kind": "uint64", "missing_reasons": ["unsupported_handle_count", "handle_table_not_set"]},
+    "SessionId": {"native": "SessionId", "reference": "SessionId", "kind": "uint64", "missing_reasons": ["not_applicable"]},
+    "Wow64": {"native": "Wow64", "reference": "Wow64", "kind": "bool"},
+    "Created": {"native": "Created", "reference": "CreateTime", "kind": "timestamp_seconds"},
+    "Exited": {"native": "Exited", "reference": "ExitTime", "kind": "timestamp_seconds", "missing_reasons": ["not_set"]}
+  }
+}

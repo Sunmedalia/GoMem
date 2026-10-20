@@ -1,0 +1,9 @@
+{
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "Offset", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Name": {"native": "Name", "reference": "Name", "kind": "string"},
+    "Base": {"native": "Base", "reference": "Base", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Size": {"native": "Size", "reference": "Size", "kind": "uint64"},
+    "Path": {"native": "Path", "reference": "Path", "kind": "string"}
+  }
+}

@@ -8193,7 +8193,7 @@
           "default": null
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
+      "applicability": "Loaded kernel list, exact base and case-sensitive base-name substring filters. PE extraction tries kernel then typed per-session process roots, with bounded attempts recorded.",
       "native": "windows.modules",
       "status": "partial",
       "accepted": false,
@@ -8201,11 +8201,13 @@
         "synthetic-windows-x64",
         "official-windows-10-19041"
       ],
-      "comparison": "selected_fields_match",
+      "comparison": "selected_core_fields_and_157_paths_match_19_read_errors_preserved_PE_ImageBase_difference_explained",
       "gaps": [
-        "Official-corpus differential acceptance pending"
+        "Full version/architecture, session mapping and failure/parameter acceptance pending",
+        "19 path errors remain distinct from reference nulls in the selected image",
+        "PE files retain canonical ImageBase high bits; explicit byte differences and filename mapping remain recorded"
       ],
-      "validation_record": "docs/validation.json"
+      "validation_record": "docs/windows-process-modules.md"
     },
     {
       "id": "windows.mutantscan.MutantScan",
@@ -8878,7 +8880,7 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
+      "applicability": "Active process list with exact EPROCESS, handle/session types and independent PEB address spaces; virtual or physical offset display, PID sets and main PE extraction.",
       "native": "windows.pslist",
       "status": "partial",
       "accepted": false,
@@ -8886,11 +8888,13 @@
         "synthetic-windows-x64",
         "official-windows-10-19041"
       ],
-      "comparison": "selected_fields_match",
+      "comparison": "selected_extended_fields_and_physical_offsets_match_main_PE_bytes_match",
       "gaps": [
-        "Official-corpus differential acceptance pending"
+        "Full version/architecture and parameter/failure coverage pending",
+        "Opaque session layouts are not guessed; handle count requires a declared HandleCount field",
+        "Bidirectional damaged-list recovery, timeline and full PE extraction acceptance pending"
       ],
-      "validation_record": "docs/validation.json"
+      "validation_record": "docs/windows-process-modules.md"
     },
     {
       "id": "windows.psscan.PsScan",

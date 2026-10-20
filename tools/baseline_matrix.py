@@ -113,6 +113,14 @@ def generate(source):
             plugins[-1]["corpora"] += sorted({v["corpus"] for v in matching})
             plugins[-1]["comparison"] = "selected_fields_match"
             plugins[-1]["validation_record"] = "docs/validation.json"
+        if identifier == "windows.pslist.PsList":
+            plugins[-1].update(applicability="Active process list with exact EPROCESS, handle/session types and independent PEB address spaces; virtual or physical offset display, PID sets and main PE extraction.",
+                              comparison="selected_extended_fields_and_physical_offsets_match_main_PE_bytes_match", validation_record="docs/windows-process-modules.md",
+                              gaps=["Full version/architecture and parameter/failure coverage pending", "Opaque session layouts are not guessed; handle count requires a declared HandleCount field", "Bidirectional damaged-list recovery, timeline and full PE extraction acceptance pending"])
+        if identifier == "windows.modules.Modules":
+            plugins[-1].update(applicability="Loaded kernel list, exact base and case-sensitive base-name substring filters. PE extraction tries kernel then typed per-session process roots, with bounded attempts recorded.",
+                              comparison="selected_core_fields_and_157_paths_match_19_read_errors_preserved_PE_ImageBase_difference_explained", validation_record="docs/windows-process-modules.md",
+                              gaps=["Full version/architecture, session mapping and failure/parameter acceptance pending", "19 path errors remain distinct from reference nulls in the selected image", "PE files retain canonical ImageBase high bits; explicit byte differences and filename mapping remain recorded"])
         if identifier == "windows.threads.Threads":
             plugins[-1].update(applicability="Active process thread lists; exact ETHREAD/EPROCESS types. Start paths currently require modern RTL_AVL_TREE VAD layout. External swap/prototype pages are unresolved.",
                               gaps=["Full version/architecture and parameter coverage pending", "ExitTime signed union differences explicitly preserved; see docs/windows-threads.md", "No thread pool scan or extracted artifacts"])

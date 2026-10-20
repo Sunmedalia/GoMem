@@ -42,8 +42,8 @@ bin/gomem analyze windows.pslist \
 | `banners` | ASCII Linux/Darwin 内核 banner、Windows 内核 RSDS 身份 |
 | `generic.strings` | ASCII 可打印字符串；`--param min=8`；长字符串明确标记截断 |
 | `generic.ioc` | 精确字节串；`--param needle=example`；支持块边界、连续物理段边界和重叠命中 |
-| `windows.pslist` | 匹配 ISF、DTB、内核基址；活动进程链表 |
-| `windows.modules` | 匹配 ISF、DTB、内核基址；内核模块链表 |
+| `windows.pslist` | 活动进程、线程/句柄/会话/WoW64/时间；物理偏移显示及主映像 PE 提取 |
+| `windows.modules` | 内核模块与路径；基址/名称子串筛选；支持从已验证会话层重建 PE |
 | `windows.dlllist` | 进程自身地址空间内的 PEB 加载器链表；原生和 WoW64 列表；支持 PID、基址及 RE2 名称筛选 |
 | `windows.pedump` | 从显式进程/内核地址重建 PE32/PE32+；保留头部修改和缺页证据；上限 256MiB |
 | `windows.threads` | 活动进程线程链表、创建/退出时间与进程证据关联；现代 VAD 启动路径；支持 `--param pid=104,108` |
@@ -76,6 +76,8 @@ bin/gomem analyze linux.pslist --image memory.raw --case ./case-001 --dtb 0x1230
 Windows 在已提供 DTB 和内核基址时可自动获取缺失符号：从目标 PE 读取 PDB 身份，在 Microsoft HTTPS 符号服务器下载并原生转换，写入案件的 `symbols/windows` 缓存。`--offline` 禁止网络并允许验证后的缓存复用；也可用 `--symbol-cache`、`--symbol-server` 指定缓存和 HTTPS 服务器。[自动获取与缓存](docs/pdb-symbols.md)
 
 Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址：转储头线索经 KDBG/模块链表、映射 PE 和精确符号交叉验证。可直接运行 `gomem analyze windows.pslist --image memory.dmp --case ./case-001`；详细条件与失败行为见 [Windows 自动配置](docs/windows-discovery.md)。
+
+`windows.pslist --param physical=true` 显示物理偏移并保持虚拟进程身份；`pslist` 与 `modules` 可用 `--param dump=true` 提取主映像或内核/会话模块 PE。120 个进程通过扩展字段及物理偏移对照，路径读取差异与会话导出范围单独记录。[进程与模块验证](docs/windows-process-modules.md)
 
 `windows.threads` 输出无损线程地址、CID、100ns 精度时间及原始时间值，并用进程身份关联 pslist 证据。官方 Windows 10 样本的 1,752 条线程通过八字段对照；退出时间联合体的差异单独核验，未作为全字段一致。路径读取失败会保留原始错误。[线程验证与适用范围](docs/windows-threads.md)
 

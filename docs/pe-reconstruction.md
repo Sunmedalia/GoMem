@@ -20,4 +20,6 @@ bin/gomem analyze windows.dlllist --image memory.dmp --case ./case-001 --param p
 
 DLL 枚举的 dump 联动另验证了 PID 488 的 28KiB 映像，文件名、大小和逐字节内容均一致，其中 16KiB 是显式缺页填充；不把这个选定案例推广为所有 DLL 都能恢复。
 
-常规测试用 Go debug/pe 重新解析重建结果，检查两种位宽、重写字段、slack、补丁原值、源不变、坏签名/机器/大小/对齐/节及取消；真实样本检查用户与内核摘要，独立包核验器再检查文件/缺页日志。`FuzzMappedPEReconstruction` 验证解析计划与修改边界，已接入 CI。完整版本、架构、session 层、模块/进程提取参数、数字签名有效性及所有合法特殊 PE 仍待验证。
+`windows.pslist` 的主映像与 `windows.modules` 的内核/会话模块提取也使用此重建器。modules 通过已验证 SessionId 的进程层回退并保存尝试记录；其选定字段、文件差分和独立证据包核验见 [进程/模块验证](windows-process-modules.md)。显式 `windows.pedump kernel-module=true` 当前仍只读取内核层。
+
+常规测试用 Go debug/pe 重新解析重建结果，检查两种位宽、重写字段、slack、补丁原值、源不变、坏签名/机器/大小/对齐/节及取消；真实样本检查用户与内核摘要，独立包核验器再检查文件/缺页日志。`FuzzMappedPEReconstruction` 验证解析计划与修改边界，已接入 CI。完整版本、架构、session 层及模块/进程参数组合的完整验收、数字签名有效性及所有合法特殊 PE 仍待补齐。
