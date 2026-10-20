@@ -4,12 +4,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
 	"strconv"
 	"strings"
 
 	"github.com/Sunmedalia/GoMem/pkg/evidence"
 	"github.com/Sunmedalia/GoMem/pkg/memory"
 	"github.com/Sunmedalia/GoMem/pkg/plugin"
+	"github.com/Sunmedalia/GoMem/pkg/registry"
 	"github.com/Sunmedalia/GoMem/pkg/symbols"
 )
 
@@ -34,7 +36,8 @@ func windowsHivePlugins() []builtin {
 		Parameters: []plugin.Parameter{
 			{Name: "filter", Kind: "string", Description: "Case-insensitive substring of the selected hive name"},
 			{Name: "max-nodes", Kind: "uint", Default: "1024", Description: "Hive list bound, 1..1000000"},
-			{Name: "dump", Kind: "bool", Default: "false", Description: "Rejected; hive file reconstruction is not implemented"},
+			{Name: "dump", Kind: "bool", Default: "false", Description: "Reconstruct each listed stable hive into the case; missing pages are logged and fail the task"},
+			{Name: "max-hive", Kind: "uint", Default: "268435456", Description: "Maximum reconstructed hive bytes, including the 4096-byte base block"},
 		}, Columns: columns}, windowsHiveList}}
 }
 
@@ -43,8 +46,28 @@ func windowsHiveList(ctx context.Context, e plugin.Environment, p map[string]str
 	if err != nil {
 		return err
 	}
+	maxHive := uint64(268435456)
+	if dump || p["max-hive"] != "" {
+		text := p["max-hive"]
+		if text == "" {
+			text = "268435456"
+		}
+		maxHive, err = strconv.ParseUint(text, 0, 64)
+		if err != nil || maxHive < registry.HiveBaseBlockSize || maxHive > 1<<32 {
+			return fmt.Errorf("max-hive must be 4096..4294967296")
+		}
+	}
+	var layout registry.Offsets
+	var proc memory.MemoryLayer
 	if dump {
-		return fmt.Errorf("registry hive reconstruction is not implemented")
+		layout, err = windowsHiveLayout(e)
+		if err != nil {
+			return err
+		}
+		proc, _, err = windowsRegistryLayer(ctx, e)
+		if err != nil {
+			return err
+		}
 	}
 	max, _, err := limits(p)
 	if err != nil {
@@ -60,7 +83,7 @@ func windowsHiveList(ctx context.Context, e plugin.Environment, p map[string]str
 	}
 	filter := strings.ToLower(p["filter"])
 	seen := map[uint64]bool{}
-	var failures pluginFailures
+	var failures, dumpFailures pluginFailures
 	var hives, diagnostics int
 	emit := func(address uint64) error {
 		if seen[address] {
@@ -105,6 +128,16 @@ func windowsHiveList(ctx context.Context, e plugin.Environment, p map[string]str
 		} else if filter != "" && !strings.Contains(strings.ToLower(name), filter) {
 			return nil
 		}
+		if dump {
+			value, dumpErr := reconstructWindowsHive(ctx, e, address, name, maxHive, layout, proc)
+			row.Cells["FileOutput"] = value
+			if dumpErr != nil {
+				dumpFailures.add(dumpErr)
+				if row.Cells["Error"].Reason == "not_applicable" {
+					row.Cells["Error"] = evidence.Missing("hive_reconstruction_incomplete", dumpErr)
+				}
+			}
+		}
 		row.Cells["RecordType"] = evidence.Text("hive")
 		hives++
 		return out(row)
@@ -134,17 +167,25 @@ func windowsHiveList(ctx context.Context, e plugin.Environment, p map[string]str
 	}
 	summary := hiveRow(e, head)
 	summary.Cells["RecordType"] = evidence.Text("summary")
-	summary.Cells["Coverage"] = evidence.Value{Kind: "structure", Data: map[string]any{
+	coverage := map[string]any{
 		"hives":       strconv.Itoa(hives),
 		"diagnostics": strconv.Itoa(diagnostics),
-	}}
-	if cause := failures.err("Windows registry hives"); cause != nil {
+	}
+	if dump {
+		coverage["dump_failures"] = strconv.Itoa(dumpFailures.count)
+	}
+	summary.Cells["Coverage"] = evidence.Value{Kind: "structure", Data: coverage}
+	cause := failures.err("Windows registry hives")
+	dumpCause := dumpFailures.err("Windows registry hive reconstruction")
+	if cause != nil {
 		summary.Cells["Error"] = evidence.Missing("hive_list_incomplete", cause)
+	} else if dumpCause != nil {
+		summary.Cells["Error"] = evidence.Missing("hive_reconstruction_incomplete", dumpCause)
 	}
 	if err := out(summary); err != nil {
 		return err
 	}
-	return failures.err("Windows registry hives")
+	return errors.Join(cause, dumpCause)
 }
 
 func hiveRow(e plugin.Environment, address uint64) evidence.Row {
@@ -253,4 +294,73 @@ func walkHiveListBackward(ctx context.Context, e plugin.Environment, head, offse
 		}
 	}
 	return nil
+}
+
+func reconstructWindowsHive(ctx context.Context, e plugin.Environment, address uint64, name string, max uint64, layout registry.Offsets, proc memory.MemoryLayer) (evidence.Value, error) {
+	h, err := registry.Open(ctx, e.Kernel, proc, address, name, layout)
+	if err != nil {
+		return evidence.Missing("hive_unreadable", err), err
+	}
+	size, err := h.StableFileSize(max)
+	if err != nil {
+		reason := "hive_too_large"
+		if strings.Contains(err.Error(), "unreadable") {
+			reason = "hive_length_unreadable"
+		}
+		return evidence.Missing(reason, err), err
+	}
+	if e.Artifacts == nil {
+		err = fmt.Errorf("case artifact sink required for hive dump")
+		return evidence.Missing("extraction_unavailable", err), err
+	}
+	w, err := e.Artifacts.Create(ctx, evidence.ArtifactRequest{Name: hiveFileName(h.Name, address), Size: size, Layer: e.Kernel.Name(), Offset: fmt.Sprintf("0x%x", address)})
+	if err != nil {
+		return evidence.Missing("extraction_unavailable", err), err
+	}
+	var gaps int
+	err = h.VisitStable(ctx, func(span registry.StableSpan) error {
+		if span.Err != nil {
+			gaps++
+			return w.PadZero(ctx, span.Length, span.Address, span.Layer, span.Err)
+		}
+		n, werr := w.Write(span.Data)
+		if werr == nil && n != len(span.Data) {
+			werr = io.ErrShortWrite
+		}
+		return werr
+	})
+	artifact, finishErr := w.Finish(ctx, err)
+	if gaps > 0 {
+		err = errors.Join(err, fmt.Errorf("hive %s reconstruction left %d unreadable ranges", h.Name, gaps))
+	}
+	return evidence.Value{Kind: "artifact", Data: artifact}, errors.Join(err, finishErr)
+}
+
+func hiveFileName(name string, address uint64) string {
+	base := name
+	if i := strings.LastIndex(base, `\`); i >= 0 {
+		base = base[i+1:]
+	}
+	base = strings.Map(func(r rune) rune {
+		switch r {
+		case ' ', '.', '[', ']', '/', '\\', ':', '*', '?', '"', '<', '>', '|':
+			if r == '.' || r == '[' || r == ']' {
+				return -1
+			}
+			return '_'
+		}
+		if r < 32 {
+			return -1
+		}
+		return r
+	}, base)
+	base = strings.Trim(base, " _.")
+	if base == "" {
+		base = "NONAME"
+	}
+	file := fmt.Sprintf("registry.%s.%x.hive", base, address)
+	if len(file) > 160 {
+		file = fmt.Sprintf("registry.%x.hive", address)
+	}
+	return file
 }

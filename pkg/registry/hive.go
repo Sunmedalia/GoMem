@@ -68,12 +68,28 @@ type Hive struct {
 	Root      uint32
 	RootFrom  string
 	Fallbacks int
+	base      uint64
 	storage   [2]store
 }
 
 type store struct {
-	length uint32
-	dir    uint64
+	length      uint32
+	lengthKnown bool
+	dir         uint64
+}
+
+const HiveBaseBlockSize = 4096
+
+// StableSpan is one piece of the on-disk hive image. The image is the
+// 4096-byte base block followed by the stable store. Data is nil when Err
+// is set; callers record that range instead of treating the zeros as present.
+type StableSpan struct {
+	Offset  uint64
+	Length  uint64
+	Address uint64
+	Layer   string
+	Data    []byte
+	Err     error
 }
 
 // Key is one nk cell.
@@ -119,6 +135,7 @@ func Open(ctx context.Context, kernel, process memory.MemoryLayer, address uint6
 		h.Name = "[NONAME]"
 	}
 	base, err := readPointer(ctx, kernel, address+off.BaseBlock, off.PointerSize)
+	h.base = base
 	if err != nil {
 		return nil, fmt.Errorf("hive base block pointer: %w", err)
 	}
@@ -131,9 +148,12 @@ func Open(ctx context.Context, kernel, process memory.MemoryLayer, address uint6
 		origin := address + off.Storage + uint64(i)*off.DualSize
 		length, err := readAt(ctx, kernel, origin+off.Length, 4)
 		if err != nil {
+			// Cell translation keeps Volatility's wide fallback. Reconstruction
+			// refuses this sentinel because it is not a measured length.
 			h.storage[i].length = 0x7fffffff
 		} else {
 			h.storage[i].length = binary.LittleEndian.Uint32(length)
+			h.storage[i].lengthKnown = true
 		}
 		dir, err := readPointer(ctx, kernel, origin+off.Map, off.PointerSize)
 		if err != nil {
@@ -178,7 +198,7 @@ func (h *Hive) read(ctx context.Context, address uint64, n int) ([]byte, error) 
 	}
 	alt, altErr := readAt(ctx, h.Process, address, n)
 	if altErr != nil {
-		return nil, err
+		return nil, fmt.Errorf("%w; registry process %s: %v", err, h.Process.Name(), altErr)
 	}
 	h.Fallbacks++
 	return alt, nil
@@ -599,4 +619,81 @@ func readAt(ctx context.Context, layer memory.MemoryLayer, address uint64, n int
 		return nil, fmt.Errorf("registry data layer is unavailable")
 	}
 	return memory.Read(ctx, layer, address, n)
+}
+
+// StableFileSize is the base block plus the measured stable store.
+// max is the caller's byte cap, including the base block.
+func (h *Hive) StableFileSize(max uint64) (uint64, error) {
+	if !h.storage[0].lengthKnown {
+		return 0, fmt.Errorf("stable hive length is unreadable")
+	}
+	length := uint64(h.storage[0].length)
+	if length > max || HiveBaseBlockSize > max-length {
+		return 0, fmt.Errorf("stable hive length %d plus base block exceeds %d", length, max)
+	}
+	return HiveBaseBlockSize + length, nil
+}
+
+// VisitStable walks the reconstructed hive file in logical page pieces.
+// A zero bin address is unmapped and is not read from the kernel.
+func (h *Hive) VisitStable(ctx context.Context, visit func(StableSpan) error) error {
+	if err := ctx.Err(); err != nil {
+		return err
+	}
+	if !h.storage[0].lengthKnown {
+		return fmt.Errorf("stable hive length is unreadable")
+	}
+	length := uint64(h.storage[0].length)
+	baseSpan := StableSpan{Offset: 0, Length: HiveBaseBlockSize, Address: h.base, Layer: "hive"}
+	if h.base == 0 {
+		baseSpan.Err = fmt.Errorf("hive base block pointer is not set")
+	} else {
+		layer, layerErr := h.layer(h.base)
+		if layerErr != nil {
+			baseSpan.Err = fmt.Errorf("hive base block: %w", layerErr)
+		} else {
+			baseSpan.Layer = layer.Name()
+			data, err := h.read(ctx, h.base, HiveBaseBlockSize)
+			if err != nil {
+				baseSpan.Err = fmt.Errorf("hive base block: %w", err)
+			} else {
+				baseSpan.Data = data
+			}
+		}
+	}
+	if err := visit(baseSpan); err != nil {
+		return err
+	}
+	for off := uint64(0); off < length; {
+		if err := ctx.Err(); err != nil {
+			return err
+		}
+		n := uint64(4096) - (off & 4095)
+		if n > length-off {
+			n = length - off
+		}
+		span := StableSpan{Offset: HiveBaseBlockSize + off, Length: n, Layer: "hive"}
+		addr, err := h.translate(ctx, uint32(off))
+		if err != nil {
+			span.Err = fmt.Errorf("stable page at hive offset %#x: %w", off, err)
+		} else if addr == 0 {
+			span.Err = fmt.Errorf("stable page at hive offset %#x: hive bin address is zero", off)
+		} else {
+			span.Address = addr
+			if name, ok := h.LayerName(addr); ok {
+				span.Layer = name
+			}
+			data, readErr := h.read(ctx, addr, int(n))
+			if readErr != nil {
+				span.Err = fmt.Errorf("stable page at hive offset %#x: %w", off, readErr)
+			} else {
+				span.Data = data
+			}
+		}
+		if err = visit(span); err != nil {
+			return err
+		}
+		off += n
+	}
+	return nil
 }

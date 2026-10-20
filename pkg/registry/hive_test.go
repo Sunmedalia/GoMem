@@ -270,3 +270,106 @@ func bytesRepeat(b byte, n int) []byte {
 	}
 	return out
 }
+
+func TestStableImageCopiesBaseAndBinAndSkipsZeroAddress(t *testing.T) {
+	k := newRAM("kernel")
+	const (
+		hive = 0xffff800000001000
+		base = 0xffff800000002000
+		dir  = 0xffff800000003000
+		tab  = 0xffff800000004000
+		bin  = 0xffff800000005000
+	)
+	off := testOffsets()
+	putU32(k, hive, hiveSignature)
+	putU64(k, hive+off.BaseBlock, base)
+	putU32(k, hive+off.Version, 1)
+	putU32(k, hive+off.Storage+off.Length, 0x2000)
+	putU64(k, hive+off.Storage+off.Map, dir)
+	putU64(k, hive+off.Storage+off.DualSize+off.Map, dir)
+	copyAt(k, base, []byte("regf"))
+	putU32(k, base+36, 0x20)
+	copyAt(k, base+0x100, []byte("base-marker"))
+	putU64(k, dir, tab)
+	putU64(k, tab+off.Permanent, bin)
+	copyAt(k, bin, []byte("hbin"))
+	copyAt(k, bin+0x20, []byte("nk-root"))
+	h, err := Open(context.Background(), k, nil, hive, "SYSTEM", off)
+	if err != nil {
+		t.Fatal(err)
+	}
+	size, err := h.StableFileSize(0x3000 + HiveBaseBlockSize)
+	if err != nil || size != HiveBaseBlockSize+0x2000 {
+		t.Fatal(size, err)
+	}
+	if _, err = h.StableFileSize(HiveBaseBlockSize + 0x1fff); err == nil {
+		t.Fatal("oversized hive was accepted")
+	}
+	var got []byte
+	var gaps int
+	err = h.VisitStable(context.Background(), func(span StableSpan) error {
+		if span.Offset != uint64(len(got)) || span.Length == 0 {
+			t.Fatal(span.Offset, len(got), span.Length)
+		}
+		if span.Err != nil {
+			gaps++
+			got = append(got, make([]byte, span.Length)...)
+			return nil
+		}
+		got = append(got, span.Data...)
+		return nil
+	})
+	if err != nil || gaps != 1 || len(got) != int(size) {
+		t.Fatal(err, gaps, len(got))
+	}
+	if string(got[:4]) != "regf" || string(got[0x100:0x100+len("base-marker")]) != "base-marker" {
+		t.Fatal(got[:4], got[0x100:0x10b])
+	}
+	if string(got[HiveBaseBlockSize:HiveBaseBlockSize+4]) != "hbin" || string(got[HiveBaseBlockSize+0x20:HiveBaseBlockSize+0x27]) != "nk-root" {
+		t.Fatal(got[HiveBaseBlockSize : HiveBaseBlockSize+8])
+	}
+	if page := got[HiveBaseBlockSize+0x1000 : HiveBaseBlockSize+0x2000]; string(page) != string(make([]byte, 0x1000)) {
+		t.Fatal("zero bin address was read")
+	}
+}
+
+func TestStableImageRetriesKernelPageThroughProcess(t *testing.T) {
+	k, proc := newRAM("kernel"), newRAM("registry")
+	const (
+		hive = 0xffff800000001000
+		base = 0xffff800000002000
+		dir  = 0xffff800000003000
+		tab  = 0xffff800000004000
+		bin  = 0xffff800000005000
+	)
+	off := testOffsets()
+	putU32(k, hive, hiveSignature)
+	putU64(k, hive+off.BaseBlock, base)
+	putU32(k, hive+off.Version, 1)
+	putU32(k, hive+off.Storage+off.Length, 0x1000)
+	putU64(k, hive+off.Storage+off.Map, dir)
+	putU64(k, hive+off.Storage+off.DualSize+off.Map, dir)
+	copyAt(k, base, []byte("regf"))
+	putU64(k, dir, tab)
+	putU64(k, tab+off.Permanent, bin)
+	copyAt(k, bin, []byte("kernel-bin"))
+	h, err := Open(context.Background(), k, proc, hive, "SYSTEM", off)
+	if err != nil {
+		t.Fatal(err)
+	}
+	delete(k.pages, bin&^0xfff)
+	copyAt(proc, bin, []byte("process-bin"))
+	var got []byte
+	if err = h.VisitStable(context.Background(), func(span StableSpan) error {
+		if span.Err != nil {
+			return span.Err
+		}
+		got = append(got, span.Data...)
+		return nil
+	}); err != nil {
+		t.Fatal(err)
+	}
+	if h.Fallbacks == 0 || string(got[HiveBaseBlockSize:HiveBaseBlockSize+11]) != "process-bin" {
+		t.Fatal(h.Fallbacks, string(got[HiveBaseBlockSize:HiveBaseBlockSize+11]))
+	}
+}

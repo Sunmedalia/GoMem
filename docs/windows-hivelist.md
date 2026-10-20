@@ -13,11 +13,13 @@ bin/gomem analyze windows.hivelist --image memory.dmp --case ./case-001 --param 
 
 `filter` 是选中名称的大小写不敏感子串。名称读取失败的行不会被筛选隐藏。`max-nodes` 默认 1024，范围 1..1000000。
 
-`dump=true` 直接返回“registry hive reconstruction is not implemented”，不创建 hive 文件。`FileOutput` 固定为 `disabled`。上游在未导出时显示 `Disabled`，并在 `dump` 时重建 hive；这一差异是未实现，不是显示归一化。
+`dump=false` 时 `FileOutput` 固定为 `disabled`。上游未导出时显示 `Disabled`。`dump=true` 按 HMAP 重建 hive 文件：先写 4096 字节 base block，再写稳定存储。内核规范地址先读内核层，缺页时再试 Registry 进程；用户地址只读该进程。读不到的区间写入零字节，并在空洞日志里保留偏移、地址、层和错误。这种空洞让任务失败，已经写出的文件仍留在案件里，状态是 `completed_with_gaps`。`max-hive` 默认 256MiB，包含 base block，范围 4096..4294967296。超过上限或稳定长度本身读失败时不创建文件。易失存储不进入文件。文件名取 hive 名的最后一段，去掉 `.`、`[`、`]`，其余不安全字符换成 `_`。
+
+合成样本把 base block 和唯一的稳定页按源字节写回，零地址的后续页记为空洞而不是从内核地址 0 读取。内核页缺失时改读进程层。没有 HMAP 符号的镜像在写出任何文件之前失败。Windows 10 19041 的 SAM hive 得到 36864 字节：base block 在内核和 Registry 进程里都是 prototype 页，稳定存储里有多页 `hbin`，另有一页用户地址同样不可读。这还不是与固定基线的逐字节对照。
 
 官方 Windows 10 19041 样本正向走完 24 个 hive，没有诊断，任务成功。偏移和选中名称与固定基线的 24 行一致。该样本里每个 `FileFullPath` 成员长度都是 0：21 个名称来自 `FileUserName`，`SYSTEM` 与 `HARDWARE` 来自 `HiveRootPath`，还有 1 个 hive 三个字段都为空。所以上游名为 `FileFullPath` 的列实际是 `get_name()` 的结果，不能把它当成该结构成员的原始值。
 
-合成样本覆盖两个以上有效 hive、三级名称回退、全空名称、单个路径字段不可读、筛选、无效签名后的反向补齐、正向指针断裂后的尾部恢复，以及 `dump` 拒绝。真实镜像没有触发反向遍历。根键枚举已有选定字段对照，见 [windows.printkey](windows-printkey.md)。32 位、其他 Windows 版本、链表中段多处损坏后的物理 `hivescan` 和 hive 重建都还没有验收。
+合成样本覆盖两个以上有效 hive、三级名称回退、全空名称、单个路径字段不可读、筛选、无效签名后的反向补齐、正向指针断裂后的尾部恢复，以及稳定 hive 的字节重建。真实镜像没有触发反向遍历。根键枚举已有选定字段对照，见 [windows.printkey](windows-printkey.md)。稳定 hive 重建已有合成字节对照和一份真实 SAM 冒烟结果，还没有与固定基线逐字节验收。32 位、其他 Windows 版本、链表中段多处损坏后的物理 `hivescan` 都还没有验收。
 
 ```sh
 python3 tools/diff_results.py \

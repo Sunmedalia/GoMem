@@ -53,7 +53,7 @@
   },
   "notes": [
     "Every FileFullPath member on this image had length zero. The reference FileFullPath column is CMHIVE.get_name(), matched here against native Name.",
-    "FileOutput is the literal disabled. The reference renders Disabled and can reconstruct hives; dump remains rejected.",
+    "This comparison used dump=false, so FileOutput is the literal disabled. The reference renders Disabled. dump=true now reconstructs the stable hive with a gap log; that path is not part of this selected-field comparison.",
     "The selected image list was consistent, so the backward walk was not exercised. Synthetic tests cover an invalid signature and a broken forward link."
   ]
 }

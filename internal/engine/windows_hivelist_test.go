@@ -4,7 +4,10 @@ import (
 	"context"
 	"encoding/binary"
 	"encoding/json"
+	"fmt"
+	"io"
 	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 	"unicode/utf16"
@@ -242,20 +245,74 @@ func TestWindowsHiveListBrokenForwardLinkWalksBackward(t *testing.T) {
 	}
 }
 
-func TestWindowsHiveDumpIsRejected(t *testing.T) {
+func TestWindowsHiveDumpWithoutMapLayoutWritesNothing(t *testing.T) {
 	f := hiveFixture(t)
 	e := openWindowsImage(t, f)
 	result, err := e.Run(context.Background(), "windows.hivelist", map[string]string{"dump": "true"}, engine.RunOptions{})
-	if err == nil || result.Task.State != "failed" || result.Task.Rows != 0 || !strings.Contains(err.Error(), "registry hive reconstruction is not implemented") {
+	if err == nil || result.Task.State != "failed" || result.Task.Rows != 0 || !strings.Contains(err.Error(), "BaseBlock") {
 		t.Fatal(result, err)
 	}
-	entries, err := os.ReadDir(e.Store.Dir)
+	if err = hiveFiles(t, e.Store.Dir); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestWindowsHiveDumpReconstructsStableStore(t *testing.T) {
+	f := printKeyFixture(t, true)
+	image, err := os.ReadFile(f.Image)
 	if err != nil {
 		t.Fatal(err)
 	}
-	for _, entry := range entries {
-		if strings.Contains(entry.Name(), "hive") {
-			t.Fatal(entry.Name())
-		}
+	e := openWindowsImage(t, f)
+	var rows []evidence.Row
+	result, err := e.Run(context.Background(), "windows.hivelist", map[string]string{"dump": "true"}, engine.RunOptions{Emit: engineRun(t, &rows)})
+	if err != nil || result.Task.State != "completed" || len(rows) != 2 {
+		t.Fatal(result.Task.State, len(rows), err)
 	}
+	file, ok := rows[0].Cells["FileOutput"].Data.(evidence.Artifact)
+	if !ok || rows[0].Cells["FileOutput"].Kind != "artifact" || file.State != "completed" || file.Name != "registry.SYSTEM.30000.hive" || file.MissingBytes != "0" {
+		t.Fatal(rows[0].Cells["FileOutput"])
+	}
+	if err = e.Store.VerifyTaskArtifacts(context.Background(), result.Task.ID); err != nil {
+		t.Fatal(err)
+	}
+	member, err := e.Store.OpenArtifactMember(context.Background(), file, false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer member.Close()
+	got, err := io.ReadAll(member)
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := append(append([]byte{}, image[0x31000:0x32000]...), image[0x36000:0x37000]...)
+	if len(got) != len(want) || string(got) != string(want) || string(got[:4]) != "regf" {
+		t.Fatal(len(got), len(want), string(got[:4]))
+	}
+	coverage := rows[1].Cells["Coverage"].Data.(map[string]any)
+	if coverage["hives"] != "1" || coverage["dump_failures"] != "0" || rows[1].Cells["Error"].Reason != "not_applicable" {
+		t.Fatal(rows[1].Cells)
+	}
+	limited := openWindowsImage(t, f)
+	limitedRows := []evidence.Row{}
+	limitedResult, err := limited.Run(context.Background(), "windows.hivelist", map[string]string{"dump": "true", "max-hive": "4096"}, engine.RunOptions{Emit: engineRun(t, &limitedRows)})
+	if err == nil || limitedResult.Task.State != "failed" || len(limitedRows) != 2 || limitedRows[0].Cells["FileOutput"].Reason != "hive_too_large" || limitedRows[1].Cells["Error"].Reason != "hive_reconstruction_incomplete" {
+		t.Fatal(limitedResult.Task.State, len(limitedRows), err)
+	}
+	if err = hiveFiles(t, limited.Store.Dir); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func hiveFiles(t *testing.T, dir string) error {
+	t.Helper()
+	return filepath.WalkDir(dir, func(path string, entry os.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		if strings.HasSuffix(entry.Name(), ".hive") {
+			return fmt.Errorf("unexpected hive file %s", path)
+		}
+		return nil
+	})
 }
