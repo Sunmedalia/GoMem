@@ -52,6 +52,7 @@ bin/gomem analyze windows.pslist \
 | `linux.pslist` | 活动任务与凭据、root 时钟创建时间、可选线程及名称装饰；保留原始计数和身份 |
 | `linux.psscan` | 一次物理扫描寻找调度类指针任务候选，保留退出状态、启发式与覆盖信息 |
 | `linux.sockstat` | 文件描述符关联的 socket、网络字节序端点、UNIX 原始名称、任务/socket 命名空间和过滤器元数据 |
+| `linux.inodepages` | 显式正规 inode 的 radix/XArray 缓存页及有空洞记录的文件导出；[适用条件](docs/linux-pagecache.md) |
 | `linux.lsof` | 任务/线程的文件描述符、带作用域原始路径、inode/设备/权限和纳秒时间；保留部分读取 |
 | `linux.elfs` | ELF 映射枚举及分段提取，记录布局、段来源与缺页；提供显式基线布局 |
 | `linux.psaux` | 进程自身页表中的参数区、原始字节和参数列表；无用户 mm 时明确显示来源；PID 集合筛选 |

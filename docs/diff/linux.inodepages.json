@@ -1,0 +1,11 @@
+{
+  "native_record_type": {"field": "RecordType", "value": "page", "excluded_values": ["summary", "value", "exceptional", "sibling", "internal_value"]},
+  "fields": {
+    "PageVAddr": {"native": "PageVAddr", "reference": "PageVAddr", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "PagePAddr": {"native": "PagePAddr", "reference": "PagePAddr", "kind": "address"},
+    "MappingAddr": {"native": "MappingAddr", "reference": "MappingAddr", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Index": {"native": "Index", "reference": "Index", "kind": "uint64"},
+    "DumpSafe": {"native": "DumpSafe", "reference": "DumpSafe", "kind": "bool"},
+    "Flags": {"native": "Flags", "reference": "Flags", "kind": "string"}
+  }
+}

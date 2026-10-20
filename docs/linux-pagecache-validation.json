@@ -1,0 +1,584 @@
+{
+  "schema": "gomem.linux-pagecache-validation/v1",
+  "date": "2026-10-20",
+  "scope": "Four regular inodes in one legacy Debian x64 acquisition; AVML reencoding is consistency evidence, not a second acquisition. Modern/32-bit trees have synthetic coverage only.",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "engine_build_sha256": "5b80b133d3765e4acfebc455a5f0f53b76c58cb4c9926e77142129f4999bcc6b",
+  "RAW_page_count": 9,
+  "RAW_export_bytes": "46838",
+  "results": [
+    {
+      "profile": "syslog",
+      "pages": 3,
+      "rows": 4,
+      "state": "completed",
+      "rows_sha256": "c0c0d348b2f1ff9f2f04eeefdb44cce4bc1e62f35f6a98fcec16380f34907b9f",
+      "file_size": "30143",
+      "file_sha256": "39301d85a3087a5f5736512ccbfe986c606976280e52487594b93f93d949cd8f",
+      "artifact_state": "completed_with_gaps",
+      "missing_bytes": "20480",
+      "gap_count": "1",
+      "memory_model": {
+        "base": "0xffffea0000000000",
+        "max_pfn": "131072",
+        "max_pfn_available": true,
+        "model": "sparsemem_vmemmap",
+        "page_size": "4096",
+        "source": "Intel four-level fixed VMEMMAP_START",
+        "struct_page_size": "56"
+      },
+      "selected_six_fields": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PageVAddr",
+          "PagePAddr",
+          "MappingAddr",
+          "Index",
+          "DumpSafe",
+          "Flags"
+        ],
+        "native_rows": 3,
+        "reference_rows": 3,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "c0c0d348b2f1ff9f2f04eeefdb44cce4bc1e62f35f6a98fcec16380f34907b9f",
+          "reference": "2217f3c4296d143b34fee6dab76bada869b7b4b03f1a510edac46928f7e29aa8",
+          "mapping": "6327bb83f7ceeabc8ec6c22c5183dbd81ccd3251e04f66185958f0cb329c4787"
+        },
+        "native_input_rows": 4,
+        "native_non_entity_records": {
+          "summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "page",
+          "excluded_values": [
+            "summary",
+            "value",
+            "exceptional",
+            "sibling",
+            "internal_value"
+          ]
+        }
+      },
+      "extraction_comparison": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--inode",
+          "0xffff88001a87e518",
+          "--dump"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "explicit_file_name_mapping": {
+          "inode_0xffff88001a87e518.dmp": "inode_0x88001a87e518.dmp"
+        },
+        "matched": true,
+        "files": [
+          {
+            "name": "inode_0xffff88001a87e518.dmp",
+            "reference_name": "inode_0x88001a87e518.dmp",
+            "size": "30143",
+            "reference_size": "30143",
+            "native_sha256": "39301d85a3087a5f5736512ccbfe986c606976280e52487594b93f93d949cd8f",
+            "reference_sha256": "39301d85a3087a5f5736512ccbfe986c606976280e52487594b93f93d949cd8f",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "20480",
+            "gap_count": "1",
+            "gaps_sha256": "bacde0d157588123de0989b0c769a3ef4d12ee9206567d10a9798b43144dc90e",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "5b80b133d3765e4acfebc455a5f0f53b76c58cb4c9926e77142129f4999bcc6b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "file-cache:inode:0xffff88001a87e518",
+            "offset": "0x0"
+          }
+        ],
+        "native_rows_sha256": "897d9fa323b37f954eb1efc324c39a2596708357c35396ec6caaefecff3c3b95",
+        "reference_manifest_sha256": "0b889afd21a703cbbc8d1de7bf0fda4d42fb66ae05e6f507f66f403802731a85"
+      },
+      "independent_RAW_oracle": {
+        "verified": true,
+        "scope": "Selected legacy RAW/x64 fixed-vmemmap radix inode only",
+        "inode": "0xffff88001a87e518",
+        "pages": 3,
+        "tree_nodes": 1,
+        "file_size": "30143",
+        "verified_file_bytes": "30143",
+        "uncached_bytes": "20480",
+        "logical_gaps": 1,
+        "sha256": "39301d85a3087a5f5736512ccbfe986c606976280e52487594b93f93d949cd8f",
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+        "engine_build_sha256": "5b80b133d3765e4acfebc455a5f0f53b76c58cb4c9926e77142129f4999bcc6b"
+      },
+      "reference_manifest_sha256": "0b889afd21a703cbbc8d1de7bf0fda4d42fb66ae05e6f507f66f403802731a85",
+      "completed_step_reused": true
+    },
+    {
+      "profile": "messages",
+      "pages": 1,
+      "rows": 2,
+      "state": "completed",
+      "rows_sha256": "4678321da5902a21adb6f99ebdc51617035dfa8bbd25f4c5fc0fbd56dfdb84f8",
+      "file_size": "1654",
+      "file_sha256": "244c541f39d6bdbbe8eed604ebbe7713b27683f4b623068ab0080225cb26e9c8",
+      "artifact_state": "completed",
+      "missing_bytes": "0",
+      "gap_count": "0",
+      "memory_model": {
+        "base": "0xffffea0000000000",
+        "max_pfn": "131072",
+        "max_pfn_available": true,
+        "model": "sparsemem_vmemmap",
+        "page_size": "4096",
+        "source": "Intel four-level fixed VMEMMAP_START",
+        "struct_page_size": "56"
+      },
+      "selected_six_fields": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PageVAddr",
+          "PagePAddr",
+          "MappingAddr",
+          "Index",
+          "DumpSafe",
+          "Flags"
+        ],
+        "native_rows": 1,
+        "reference_rows": 1,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "4678321da5902a21adb6f99ebdc51617035dfa8bbd25f4c5fc0fbd56dfdb84f8",
+          "reference": "90b9eda4a1da52972ddf02f639377027f7ce0c9597da01621851c3870ca0fae8",
+          "mapping": "6327bb83f7ceeabc8ec6c22c5183dbd81ccd3251e04f66185958f0cb329c4787"
+        },
+        "native_input_rows": 2,
+        "native_non_entity_records": {
+          "summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "page",
+          "excluded_values": [
+            "summary",
+            "value",
+            "exceptional",
+            "sibling",
+            "internal_value"
+          ]
+        }
+      },
+      "extraction_comparison": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--inode",
+          "0xffff88001cc27940",
+          "--dump"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "explicit_file_name_mapping": {
+          "inode_0xffff88001cc27940.dmp": "inode_0x88001cc27940.dmp"
+        },
+        "matched": true,
+        "files": [
+          {
+            "name": "inode_0xffff88001cc27940.dmp",
+            "reference_name": "inode_0x88001cc27940.dmp",
+            "size": "1654",
+            "reference_size": "1654",
+            "native_sha256": "244c541f39d6bdbbe8eed604ebbe7713b27683f4b623068ab0080225cb26e9c8",
+            "reference_sha256": "244c541f39d6bdbbe8eed604ebbe7713b27683f4b623068ab0080225cb26e9c8",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed",
+            "missing_bytes": "0",
+            "gap_count": "0",
+            "gaps_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "5b80b133d3765e4acfebc455a5f0f53b76c58cb4c9926e77142129f4999bcc6b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "file-cache:inode:0xffff88001cc27940",
+            "offset": "0x0"
+          }
+        ],
+        "native_rows_sha256": "501878333fba70daf68a4acc7dc728a27943f4b836f1040abf7ca937b7fcadbd",
+        "reference_manifest_sha256": "f55f57f2ad198b0d2298e77f8a3d1646ba9fee67a51b69a8773b786ec7af862c"
+      },
+      "independent_RAW_oracle": {
+        "verified": true,
+        "scope": "Selected legacy RAW/x64 fixed-vmemmap radix inode only",
+        "inode": "0xffff88001cc27940",
+        "pages": 1,
+        "tree_nodes": 0,
+        "file_size": "1654",
+        "verified_file_bytes": "1654",
+        "uncached_bytes": "0",
+        "logical_gaps": 0,
+        "sha256": "244c541f39d6bdbbe8eed604ebbe7713b27683f4b623068ab0080225cb26e9c8",
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+        "engine_build_sha256": "5b80b133d3765e4acfebc455a5f0f53b76c58cb4c9926e77142129f4999bcc6b"
+      },
+      "reference_manifest_sha256": "f55f57f2ad198b0d2298e77f8a3d1646ba9fee67a51b69a8773b786ec7af862c",
+      "completed_step_reused": true
+    },
+    {
+      "profile": "authlog",
+      "pages": 3,
+      "rows": 4,
+      "state": "completed",
+      "rows_sha256": "6bc994b970c3107854b7290b424c86820ded9c00e20424c9eb4ea28369a921f7",
+      "file_size": "10049",
+      "file_sha256": "7196bc22bc1227bc0dfbe860d0df57bd34cdafd57fc38411411d26b4b2f4f1ca",
+      "artifact_state": "completed",
+      "missing_bytes": "0",
+      "gap_count": "0",
+      "memory_model": {
+        "base": "0xffffea0000000000",
+        "max_pfn": "131072",
+        "max_pfn_available": true,
+        "model": "sparsemem_vmemmap",
+        "page_size": "4096",
+        "source": "Intel four-level fixed VMEMMAP_START",
+        "struct_page_size": "56"
+      },
+      "selected_six_fields": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PageVAddr",
+          "PagePAddr",
+          "MappingAddr",
+          "Index",
+          "DumpSafe",
+          "Flags"
+        ],
+        "native_rows": 3,
+        "reference_rows": 3,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "6bc994b970c3107854b7290b424c86820ded9c00e20424c9eb4ea28369a921f7",
+          "reference": "82bd4879f54132bbf24d9c888d9ee0ddad92d6eb97145738fd6ad922cf8196de",
+          "mapping": "6327bb83f7ceeabc8ec6c22c5183dbd81ccd3251e04f66185958f0cb329c4787"
+        },
+        "native_input_rows": 4,
+        "native_non_entity_records": {
+          "summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "page",
+          "excluded_values": [
+            "summary",
+            "value",
+            "exceptional",
+            "sibling",
+            "internal_value"
+          ]
+        }
+      },
+      "extraction_comparison": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--inode",
+          "0xffff88001cc26598",
+          "--dump"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "explicit_file_name_mapping": {
+          "inode_0xffff88001cc26598.dmp": "inode_0x88001cc26598.dmp"
+        },
+        "matched": true,
+        "files": [
+          {
+            "name": "inode_0xffff88001cc26598.dmp",
+            "reference_name": "inode_0x88001cc26598.dmp",
+            "size": "10049",
+            "reference_size": "10049",
+            "native_sha256": "7196bc22bc1227bc0dfbe860d0df57bd34cdafd57fc38411411d26b4b2f4f1ca",
+            "reference_sha256": "7196bc22bc1227bc0dfbe860d0df57bd34cdafd57fc38411411d26b4b2f4f1ca",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed",
+            "missing_bytes": "0",
+            "gap_count": "0",
+            "gaps_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "5b80b133d3765e4acfebc455a5f0f53b76c58cb4c9926e77142129f4999bcc6b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "file-cache:inode:0xffff88001cc26598",
+            "offset": "0x0"
+          }
+        ],
+        "native_rows_sha256": "eacbe45116ca58975f354b4ca2640df68e7131ed1c9c14afc0fd42ada3ec8a5b",
+        "reference_manifest_sha256": "5a097d6aef90d40224e16c4ba40335edc8a68591faaccc03ba99b8727133d150"
+      },
+      "independent_RAW_oracle": {
+        "verified": true,
+        "scope": "Selected legacy RAW/x64 fixed-vmemmap radix inode only",
+        "inode": "0xffff88001cc26598",
+        "pages": 3,
+        "tree_nodes": 1,
+        "file_size": "10049",
+        "verified_file_bytes": "10049",
+        "uncached_bytes": "0",
+        "logical_gaps": 0,
+        "sha256": "7196bc22bc1227bc0dfbe860d0df57bd34cdafd57fc38411411d26b4b2f4f1ca",
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+        "engine_build_sha256": "5b80b133d3765e4acfebc455a5f0f53b76c58cb4c9926e77142129f4999bcc6b"
+      },
+      "reference_manifest_sha256": "5a097d6aef90d40224e16c4ba40335edc8a68591faaccc03ba99b8727133d150",
+      "completed_step_reused": true
+    },
+    {
+      "profile": "utmp",
+      "pages": 2,
+      "rows": 3,
+      "state": "completed",
+      "rows_sha256": "0fe26fa5f9891fd5013e1d64b9fe364e5fb1718fad119c5b35ccc18b7e037eeb",
+      "file_size": "4992",
+      "file_sha256": "36b7dc42c42e58b1bb35144ce1f12e93bca50a0ef09ef79f1de53cb93c3b2cfa",
+      "artifact_state": "completed",
+      "missing_bytes": "0",
+      "gap_count": "0",
+      "memory_model": {
+        "base": "0xffffea0000000000",
+        "max_pfn": "131072",
+        "max_pfn_available": true,
+        "model": "sparsemem_vmemmap",
+        "page_size": "4096",
+        "source": "Intel four-level fixed VMEMMAP_START",
+        "struct_page_size": "56"
+      },
+      "selected_six_fields": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PageVAddr",
+          "PagePAddr",
+          "MappingAddr",
+          "Index",
+          "DumpSafe",
+          "Flags"
+        ],
+        "native_rows": 2,
+        "reference_rows": 2,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "0fe26fa5f9891fd5013e1d64b9fe364e5fb1718fad119c5b35ccc18b7e037eeb",
+          "reference": "b3a2f1639bbeab130a48b70bc7c0c5b78770e8545cf1931696abee01b091b698",
+          "mapping": "6327bb83f7ceeabc8ec6c22c5183dbd81ccd3251e04f66185958f0cb329c4787"
+        },
+        "native_input_rows": 3,
+        "native_non_entity_records": {
+          "summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "page",
+          "excluded_values": [
+            "summary",
+            "value",
+            "exceptional",
+            "sibling",
+            "internal_value"
+          ]
+        }
+      },
+      "extraction_comparison": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--inode",
+          "0xffff88001b63daf0",
+          "--dump"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "explicit_file_name_mapping": {
+          "inode_0xffff88001b63daf0.dmp": "inode_0x88001b63daf0.dmp"
+        },
+        "matched": true,
+        "files": [
+          {
+            "name": "inode_0xffff88001b63daf0.dmp",
+            "reference_name": "inode_0x88001b63daf0.dmp",
+            "size": "4992",
+            "reference_size": "4992",
+            "native_sha256": "36b7dc42c42e58b1bb35144ce1f12e93bca50a0ef09ef79f1de53cb93c3b2cfa",
+            "reference_sha256": "36b7dc42c42e58b1bb35144ce1f12e93bca50a0ef09ef79f1de53cb93c3b2cfa",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed",
+            "missing_bytes": "0",
+            "gap_count": "0",
+            "gaps_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "5b80b133d3765e4acfebc455a5f0f53b76c58cb4c9926e77142129f4999bcc6b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "file-cache:inode:0xffff88001b63daf0",
+            "offset": "0x0"
+          }
+        ],
+        "native_rows_sha256": "d1c0695927dda4357f850b9d7037db92f2f0fc5b21eacd14f5c574dc864ffcba",
+        "reference_manifest_sha256": "c20186bee4842c3045af0b17a7c2cf17b85a6e337806a265b3aa794e4a3df3a2"
+      },
+      "independent_RAW_oracle": {
+        "verified": true,
+        "scope": "Selected legacy RAW/x64 fixed-vmemmap radix inode only",
+        "inode": "0xffff88001b63daf0",
+        "pages": 2,
+        "tree_nodes": 1,
+        "file_size": "4992",
+        "verified_file_bytes": "4992",
+        "uncached_bytes": "0",
+        "logical_gaps": 0,
+        "sha256": "36b7dc42c42e58b1bb35144ce1f12e93bca50a0ef09ef79f1de53cb93c3b2cfa",
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+        "engine_build_sha256": "5b80b133d3765e4acfebc455a5f0f53b76c58cb4c9926e77142129f4999bcc6b"
+      },
+      "reference_manifest_sha256": "c20186bee4842c3045af0b17a7c2cf17b85a6e337806a265b3aa794e4a3df3a2",
+      "completed_step_reused": true
+    },
+    {
+      "profile": "avml-syslog",
+      "pages": 3,
+      "rows": 4,
+      "state": "completed",
+      "rows_sha256": "a226002eb098b1762fa082ca2ef8cecc33dd3a417cf235717b5e3d9c35314927",
+      "file_size": "30143",
+      "file_sha256": "39301d85a3087a5f5736512ccbfe986c606976280e52487594b93f93d949cd8f",
+      "artifact_state": "completed_with_gaps",
+      "missing_bytes": "20480",
+      "gap_count": "1",
+      "memory_model": {
+        "base": "0xffffea0000000000",
+        "max_pfn": "131072",
+        "max_pfn_available": true,
+        "model": "sparsemem_vmemmap",
+        "page_size": "4096",
+        "source": "Intel four-level fixed VMEMMAP_START",
+        "struct_page_size": "56"
+      },
+      "RAW_AVML_field_file_gap_consistency": true,
+      "completed_step_reused": true
+    }
+  ],
+  "bundle_validation": [
+    {
+      "profile": "syslog",
+      "sha256": "3303f609ec44a5b817f1afc7126ec66d68462f6bc21b0b90148b5527b99b49d7",
+      "report": {
+        "tasks": 1,
+        "members": 5,
+        "verified": true,
+        "artifacts": 1,
+        "included_artifacts": 1,
+        "partial_artifacts": 0
+      }
+    },
+    {
+      "profile": "messages",
+      "sha256": "32941e395cc01d341f3ff20339d5a88171d1416f396bee1529a06d5f42e43574",
+      "report": {
+        "tasks": 1,
+        "members": 5,
+        "verified": true,
+        "artifacts": 1,
+        "included_artifacts": 1,
+        "partial_artifacts": 0
+      }
+    },
+    {
+      "profile": "authlog",
+      "sha256": "02130cd21627047f3d3174334dad4e4d6f6d282e802541503ff7da7c7088c597",
+      "report": {
+        "tasks": 1,
+        "members": 5,
+        "verified": true,
+        "artifacts": 1,
+        "included_artifacts": 1,
+        "partial_artifacts": 0
+      }
+    },
+    {
+      "profile": "utmp",
+      "sha256": "7378e7b718b59d7508f4ad47850a116ed9d161c6a7a4a47a16d774c5b491efa1",
+      "report": {
+        "tasks": 1,
+        "members": 5,
+        "verified": true,
+        "artifacts": 1,
+        "included_artifacts": 1,
+        "partial_artifacts": 0
+      }
+    },
+    {
+      "profile": "avml-syslog",
+      "sha256": "55e5601f2d20fbe18a55a15e0859a311c9da29e0d2d1bb085d52e93df0ed875c",
+      "report": {
+        "tasks": 1,
+        "members": 5,
+        "verified": true,
+        "artifacts": 1,
+        "included_artifacts": 1,
+        "partial_artifacts": 0
+      }
+    }
+  ],
+  "original_images_sha256": {
+    "images/kali.raw": "cf04d76ab9177d7ee355cc96020d29ae194c065c692304ff25e594ab510c639d",
+    "images/linux-sample-1.bin.gz": "910f272e5eeecdbf229e648d7b136a6722a11a5000f3995647364339417dfddd"
+  },
+  "original_images_reverified_before_and_after": true,
+  "local_image_smoke": [
+    {
+      "file": "kali.raw",
+      "plugin": "generic.info",
+      "rows": 130,
+      "state": "completed",
+      "engine_build_sha256": "5b80b133d3765e4acfebc455a5f0f53b76c58cb4c9926e77142129f4999bcc6b",
+      "source_hash_reverified": true
+    },
+    {
+      "file": "kali.raw",
+      "plugin": "banners",
+      "rows": 4,
+      "state": "completed",
+      "engine_build_sha256": "5b80b133d3765e4acfebc455a5f0f53b76c58cb4c9926e77142129f4999bcc6b",
+      "source_hash_reverified": true
+    },
+    {
+      "file": "linux-sample-1.bin.gz",
+      "plugin": "linux.pslist",
+      "rows": 133,
+      "state": "completed",
+      "engine_build_sha256": "5b80b133d3765e4acfebc455a5f0f53b76c58cb4c9926e77142129f4999bcc6b",
+      "source_hash_reverified": true
+    }
+  ],
+  "fuzz": {
+    "target": "FuzzPageCacheTree",
+    "duration": "10s",
+    "executions": 1463085
+  }
+}

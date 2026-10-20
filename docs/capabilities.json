@@ -2538,15 +2538,24 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Explicit regular inode address, typed legacy radix or XArray root. Page/index/mapping ownership, fixed/dynamic x64 vmemmap or flatmem PFNs, bounded sparse recovery with logical and physical gaps.",
+      "native": "linux.inodepages",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-x64-radix-xarray",
+        "synthetic-linux-x86-pae-flatmem",
+        "official-linux-sample-1",
+        "official-linux-sample-1-reencoded-avml"
+      ],
+      "comparison": "selected_four_inodes_nine_pages_six_fields_and_46838_export_bytes_match_independent_RAW_verification",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "find path lookup, full filesystem enumeration/RecoverFs and timeline are pending",
+        "Real modern XArray, dynamic vmemmap, flatmem/32-bit and full parameter/version matrix remain unaccepted; selected real data is one legacy x64 acquisition",
+        "Large folios, sibling/internal XArray entries, NUMA/32-bit sparsemem and five-level paging have explicit unsupported errors; exceptional values remain evidence without payload decoding",
+        "Uncached logical bytes and unreadable physical bytes are padded with gap provenance; raw i_size is preserved even when no pages are captured"
+      ],
+      "validation_record": "docs/linux-pagecache.md"
     },
     {
       "id": "linux.pagecache.RecoverFs",

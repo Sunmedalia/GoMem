@@ -84,7 +84,7 @@ def generate(source):
                "linux.lsmod.Lsmod": "linux.lsmod", "windows.threads.Threads": "windows.threads",
                "windows.vadinfo.VadInfo": "windows.vadinfo", "linux.proc.Maps": "linux.maps",
                "windows.dlllist.DllList": "windows.dlllist", "windows.pedump.PEDump": "windows.pedump",
-               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux", "linux.elfs.Elfs": "linux.elfs", "linux.psscan.PsScan": "linux.psscan", "linux.lsof.Lsof": "linux.lsof", "linux.sockstat.Sockstat": "linux.sockstat"}
+               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux", "linux.elfs.Elfs": "linux.elfs", "linux.psscan.PsScan": "linux.psscan", "linux.lsof.Lsof": "linux.lsof", "linux.sockstat.Sockstat": "linux.sockstat", "linux.pagecache.InodePages": "linux.inodepages"}
 
     def requirements(identifier, seen=None):
         seen = set() if seen is None else seen
@@ -123,6 +123,11 @@ def generate(source):
                               corpora=["synthetic-linux-x64", "synthetic-linux-clock-and-signal-threads", "official-linux-sample-1", "official-linux-sample-1-reencoded-avml"],
                               comparison="selected_ten_fields_match_133_processes_316_tasks_with_explicit_microsecond_rounding", validation_record="docs/linux-tasks.md",
                               gaps=["Real modern kernel/32-bit clock and thread layout matrix pending; modern paths have synthetic tests only", "ELF main-image extraction has selected legacy x64 validation only; timeline and damaged task-list bidirectional recovery remain pending", "Credential/clock read errors are retained per field; UID values are raw kernel IDs, not user namespace remapping"])
+        if identifier == "linux.pagecache.InodePages":
+            plugins[-1].update(applicability="Explicit regular inode address, typed legacy radix or XArray root. Page/index/mapping ownership, fixed/dynamic x64 vmemmap or flatmem PFNs, bounded sparse recovery with logical and physical gaps.",
+                              corpora=["synthetic-linux-x64-radix-xarray", "synthetic-linux-x86-pae-flatmem", "official-linux-sample-1", "official-linux-sample-1-reencoded-avml"],
+                              comparison="selected_four_inodes_nine_pages_six_fields_and_46838_export_bytes_match_independent_RAW_verification", validation_record="docs/linux-pagecache.md",
+                              gaps=["find path lookup, full filesystem enumeration/RecoverFs and timeline are pending", "Real modern XArray, dynamic vmemmap, flatmem/32-bit and full parameter/version matrix remain unaccepted; selected real data is one legacy x64 acquisition", "Large folios, sibling/internal XArray entries, NUMA/32-bit sparsemem and five-level paging have explicit unsupported errors; exceptional values remain evidence without payload decoding", "Uncached logical bytes and unreadable physical bytes are padded with gap provenance; raw i_size is preserved even when no pages are captured"])
         if identifier == "linux.sockstat.Sockstat":
             plugins[-1].update(applicability="Descriptor-backed sockets identified by exact file operations and typed socket_alloc ownership. Task/thread identities, separate task/socket namespace addresses, INET/UNIX/netlink/packet/vsock/Bluetooth/XDP handlers and cBPF/eBPF metadata; field availability remains explicit.",
                               corpora=["synthetic-linux-x64-network-families", "synthetic-linux-network-namespace-and-filter-layouts", "official-linux-sample-1", "official-linux-sample-1-reencoded-avml"],
