@@ -10929,15 +10929,24 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "MmUnloadedDrivers records using the pinned unloadedmodules-x64 and unloadedmodules-x86 layouts, which are not in the kernel PDB. A 64-bit pointer reads the count as 8 bytes and each record as 40 bytes: the name is the _UNICODE_STRING at the start, StartAddress is at 16, EndAddress at 24 and CurrentTime at 32. The address mask is 0x0000ffffffffffff. A 32-bit pointer reads the count as 4 bytes and each record as 24 bytes: StartAddress is the unsigned long at 8, EndAddress at 12, and CurrentTime remains the 8 bytes at 16. The mask is 0xffffffff. A name length of 0 is an empty string and does not read the buffer. One unreadable address, time or name is counted and skipped. A table-pointer or count read failure fails the task. A missing MmUnloadedDrivers or MmLastUnloadedDriver symbol fails explicitly; the pinned plugin logs and returns no rows. A count above 1024 is capped at 1024 and recorded. A row is kept only when CurrentTime is greater than 1024 and both masked addresses are page aligned and greater than the masked MmSystemRangeStart. An unreadable range start uses 0xFFFF800000000000 or 0x80000000 before that mask. Native addresses keep the stored bits. Time uses the existing FILETIME conversion. The summary row is not a module.",
+      "native": "windows.unloadedmodules",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_9_rows_match_name_addresses_and_time",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. Its count is 9, with no skipped or unreadable entries",
+        "Real 32-bit images are pending. The 24-byte x86 layout is implemented but not exercised on a real image",
+        "A missing MmUnloadedDrivers or MmLastUnloadedDriver symbol fails the task. The pinned plugin logs and returns no rows",
+        "Timeline output is not implemented",
+        "Native addresses keep the stored bits. The comparison masks both sides with 0x0000ffffffffffff because the reference already applied the layer address mask",
+        "The 1024-entry cap and the unreadable-name skip were checked on the synthetic image, not on this crash dump"
+      ],
+      "validation_record": "docs/windows-unloadedmodules.md"
     },
     {
       "id": "windows.vadinfo.VadInfo",

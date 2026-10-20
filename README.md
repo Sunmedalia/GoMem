@@ -55,6 +55,7 @@ bin/gomem analyze windows.pslist \
 | `windows.symlinkscan` | 扫描换页池头中的 `_OBJECT_SYMBOLIC_LINK`，输出来源名、目标名和创建时间；[说明](docs/windows-symlinkscan.md) |
 | `windows.modscan` | 扫描非换页池头中的 `_LDR_DATA_TABLE_ENTRY`，输出基址、大小、名称和路径；[说明](docs/windows-modscan.md) |
 | `windows.bigpools` | 读取 `PoolBigPageTable`，输出分配地址、可打印标签、池类型、字节数和分配状态；默认隐藏已释放行；[说明](docs/windows-bigpools.md) |
+| `windows.unloadedmodules` | 读取 `MmUnloadedDrivers`，输出已卸载内核模块的名称、起止地址和时间；计数超过 1024 时截断；[说明](docs/windows-unloadedmodules.md) |
 | `windows.printkey` | 枚举活动 hive 的稳定与易失子键和值；内核 HMAP 优先，低地址只走 Registry 进程；不可读 hive 保留为行而不单独失败任务；[说明](docs/windows-printkey.md) |
 | `windows.userassist` | 解码名称含 `ntuser.dat` 的 hive 里的 UserAssist 计数；Win7 及以后用 CookiePad 和已知文件夹 GUID；值读失败不补零；[说明](docs/windows-userassist.md) |
 | `windows.getcellroutine` | 报告不在 `ntoskrnl` / `ntkrnlmp` / `ntkrnlpa` / `ntkrpamp` 内的 hive `GetCellRoutine`；未映射保留为行，读失败不当成内核处理函数；[说明](docs/windows-getcellroutine.md) |
@@ -128,6 +129,8 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `windows.modscan` 用同一套池头扫描寻找 `MmLd`。它没有执行体对象类型，模块对象紧跟在池头后面，只接受非换页池和空闲池。`DllBase` 或 `SizeOfImage` 读失败会让任务失败。名称长度为 0 时保留空字符串，读失败留在 `NameError` 或 `PathError`。Windows 10 19041 样本有 177 个模块，低 48 位偏移、基址、大小、名称、路径和字面量 `Disabled` 与固定基线一致。其中 1 个基础名和 20 个路径不可读。`dump` 还没有做文件差分。32 位和 Windows 8 以前的真实镜像还没有验收。[模块池扫描验证](docs/windows-modscan.md)
 
 `windows.bigpools` 直接读 `PoolBigPageTable`，不是池头扫描。`Key` 为 0 的条目丢掉，`Va` 最低位表示已释放，默认不输出。标签只保留可打印字节。Windows 10 19041 样本有 32768 条表项，7425 个在用分配的地址、标签、池类型、字节数和状态与固定基线一致，地址保留规范高位。1543 条已释放，23800 条 `Key` 为 0。没有 `_POOL_TRACKER_BIG_PAGES` 时明确失败，不加载备用符号。真实 32 位镜像还没有验收。[大页池验证](docs/windows-bigpools.md)
+
+`windows.unloadedmodules` 读取 `MmUnloadedDrivers`。64 位记录 40 字节，32 位记录 24 字节，布局来自锁定的符号 JSON，不在内核 PDB 里。名称长度为 0 时是空字符串；单条读失败跳过，表指针或计数读失败则任务失败。计数超过 1024 截断。Windows 10 19041 样本有 9 个已卸载模块，名称、起止地址和时间与固定基线一致，没有跳过或读失败。本地地址保留完整值，对照时套低 48 位掩码。缺少符号时明确失败，不返回空成功。真实 32 位镜像和时间线还没有验收。[已卸载模块验证](docs/windows-unloadedmodules.md)
 
 `windows.hashdump` 读取 `ControlSet001` 的 LSA 类数据并解密 SAM。合成向量与固定基线的 RC4/AES 路径一致，NT 盐保持在 `nt_offset+8`。Windows 10 19041 样本的 `JD` class 页不在内存中，基线输出 0 行，本地任务失败并保留读取错误，没有可对照的账户哈希。[SAM 哈希验证](docs/windows-hashdump.md)
 

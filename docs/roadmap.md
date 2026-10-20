@@ -45,3 +45,4 @@
 2026-10-21：windows.scheduledtasks 从 SOFTWARE hive 解码计划任务的动作、触发器和运行时间。选定 Windows 10 19041 样本的 311 行与固定基线一致。创建时间和上次运行时间保持基线中的对调；时间触发器描述保持不可用，因为 TimeMode 的枚举值是字符串。时间线导出仍未实现。[详情](windows-scheduledtasks.md)
 
 2026-10-21：windows.bigpools 枚举 `PoolBigPageTable`。选定 Windows 10 19041 样本的 7425 个在用分配与固定基线一致，地址保留规范高位；1543 条已释放默认隐藏，23800 条 `Key` 为 0。没有类型时明确失败，不使用备用符号 JSON。真实 32 位和 Vista 以前的布局还没有验收。[详情](windows-bigpools.md)
+2026-10-21：windows.unloadedmodules 读取 `MmUnloadedDrivers`。选定 Windows 10 19041 样本的 9 个已卸载模块与固定基线一致；计数为 9，没有截断、跳过或读失败。缺少符号时明确失败。真实 32 位镜像和时间线还没有验收。[详情](windows-unloadedmodules.md)

@@ -1,0 +1,13 @@
+{
+  "fields": {
+    "Name": {"native": "Name", "reference": "Name", "kind": "string"},
+    "StartAddress": {"native": "StartAddress", "reference": "StartAddress", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "EndAddress": {"native": "EndAddress", "reference": "EndAddress", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Time": {"native": "Time", "reference": "Time", "kind": "timestamp_seconds", "missing_reasons": ["not_set", "unparsable_filetime"]}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["module"],
+    "excluded_values": ["summary", "diagnostic"]
+  }
+}
