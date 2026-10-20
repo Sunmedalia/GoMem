@@ -71,6 +71,19 @@ func TestDWARFRealObjectLayouts(t *testing.T) {
 				t.Fatal(err)
 			}
 			r := &object.Reader{Layer: layer, Symbols: table}
+			for _, typ := range []string{"flags", "packed_flags"} {
+				for _, member := range []string{"a", "b", "c"} {
+					field, err := r.Field(typ, member)
+					if err != nil {
+						t.Fatal(err)
+					}
+					base := field.Type.Underlying()
+					width, err := r.Size(*base)
+					if err != nil || width != 4 || strings.HasPrefix(base.Name, "__bitfield_") {
+						t.Fatal("declared bitfield type was replaced", field, width, err)
+					}
+				}
+			}
 			sym, err := table.Lookup("init_task")
 			if err != nil {
 				t.Fatal(err)

@@ -41,7 +41,7 @@ func (r *Reader) Field(typ, path string) (symbols.Field, error) {
 		if e != nil {
 			return field, e
 		}
-		width, e := r.Size(f.Type)
+		width, e := r.extent(f.Type)
 		if e != nil {
 			return field, e
 		}
@@ -70,7 +70,7 @@ func (r *Reader) findField(typ, name string, seen map[string]bool, depth int) (s
 		return symbols.Field{}, err
 	}
 	if f, ok := t.Fields[name]; ok {
-		width, err := r.Size(f.Type)
+		width, err := r.extent(f.Type)
 		if err != nil {
 			return f, err
 		}
@@ -110,6 +110,18 @@ func (r *Reader) findField(typ, name string, seen map[string]bool, depth int) (s
 }
 func (r *Reader) Size(t symbols.TypeRef) (uint64, error) {
 	return r.size(t, 0)
+}
+func (r *Reader) extent(t symbols.TypeRef) (uint64, error) {
+	n, err := r.Size(t)
+	if err != nil || t.Kind != "bitfield" {
+		return n, err
+	}
+	base, err := r.scalarType(t)
+	if err != nil {
+		return 0, err
+	}
+	skip, length, _, err := symbols.BitfieldSpan(t, n, base.Endian)
+	return skip + length, err
 }
 func (r *Reader) size(t symbols.TypeRef, depth int) (uint64, error) {
 	if depth > 128 {
@@ -162,10 +174,6 @@ func (r *Reader) Scalar(ctx context.Context, a uint64, t symbols.TypeRef) (uint6
 	if n < 1 || n > 8 {
 		return 0, fmt.Errorf("non-scalar width %d", n)
 	}
-	b, e := memory.Read(ctx, r.Layer, a, int(n))
-	if e != nil {
-		return 0, e
-	}
 	var order binary.ByteOrder = binary.LittleEndian
 	underlying, err := r.scalarType(t)
 	if err != nil {
@@ -173,6 +181,22 @@ func (r *Reader) Scalar(ctx context.Context, a uint64, t symbols.TypeRef) (uint6
 	}
 	if underlying.Endian == "big" {
 		order = binary.BigEndian
+	}
+	var shift uint64
+	if t.Kind == "bitfield" {
+		skip, length, bitShift, err := symbols.BitfieldSpan(t, n, underlying.Endian)
+		if err != nil {
+			return 0, err
+		}
+		a, err = memory.Add(a, skip)
+		if err != nil {
+			return 0, err
+		}
+		n, shift = length, bitShift
+	}
+	b, e := memory.Read(ctx, r.Layer, a, int(n))
+	if e != nil {
+		return 0, e
 	}
 	var u uint64
 	if order == binary.BigEndian {
@@ -185,10 +209,7 @@ func (r *Reader) Scalar(ctx context.Context, a uint64, t symbols.TypeRef) (uint6
 		}
 	}
 	if t.Kind == "bitfield" {
-		if t.BitLength == 0 || t.BitLength > 64 || t.BitPosition >= 64 || t.BitPosition+t.BitLength > n*8 {
-			return 0, fmt.Errorf("invalid bitfield")
-		}
-		u >>= t.BitPosition
+		u >>= shift
 		if t.BitLength < 64 {
 			u &= (uint64(1) << t.BitLength) - 1
 		}
@@ -267,7 +288,18 @@ func (r *Reader) Enum(ctx context.Context, base uint64, typ, path string) (uint6
 	if err != nil {
 		return 0, nil, err
 	}
-	return u, en.Names(u), nil
+	lookup := u
+	if f.Type.Kind == "bitfield" {
+		base, err := r.scalarType(f.Type)
+		if err != nil {
+			return 0, nil, err
+		}
+		bits := f.Type.BitLength
+		if base.Signed && bits < 64 && u&(uint64(1)<<(bits-1)) != 0 {
+			lookup |= ^uint64(0) << bits
+		}
+	}
+	return u, en.Names(lookup), nil
 }
 func (r *Reader) String(ctx context.Context, base uint64, typ, path string, maxBytes int) (string, error) {
 	if maxBytes < 0 || maxBytes > memory.MaxRead {

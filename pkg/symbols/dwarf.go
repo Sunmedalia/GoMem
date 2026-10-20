@@ -171,6 +171,10 @@ func ConvertDWARF(ctx context.Context, path string, options DWARFOptions) (table
 	for name, typ := range table.Types {
 		for member, field := range typ.Fields {
 			size, e := b.refSize(field.Type, 0)
+			if e == nil && field.Type.Kind == "bitfield" {
+				skip, length, _, err := BitfieldSpan(field.Type, size, endian)
+				size, e = skip+length, err
+			}
 			if e != nil {
 				return nil, report, fmt.Errorf("%s.%s: %w", name, member, e)
 			}
@@ -746,10 +750,14 @@ func (b *dwarfBuilder) member(e *dwarf.Entry, parentSize uint64, depth int) (Fie
 		if bits > 64 {
 			return f, fmt.Errorf("bitfield exceeds 64 bits")
 		}
-		storage, err := b.refSize(ref, 0)
+		original, err := b.refSize(ref, 0)
 		if err != nil {
 			return f, err
 		}
+		if original == 0 || original > 8 || bits > original*8 || ref.Kind != "base" && ref.Kind != "enum" {
+			return f, fmt.Errorf("invalid bitfield declared type")
+		}
+		storage := original
 		if width, ok := unsigned(e.Val(dwarf.AttrByteSize)); ok {
 			storage = width
 		}
@@ -758,48 +766,23 @@ func (b *dwarfBuilder) member(e *dwarf.Entry, parentSize uint64, depth int) (Fie
 		if bitOffset, ok := unsigned(e.Val(dwarf.AttrDataBitOffset)); ok {
 			offset = bitOffset / 8
 			remainder := bitOffset % 8
-			storage = (remainder + bits + 7) / 8
+			if remainder+bits > original*8 {
+				return f, fmt.Errorf("bitfield crosses its declared storage width")
+			}
 			if little {
 				position = remainder
 			} else {
-				position = storage*8 - remainder - bits
+				position = original*8 - remainder - bits
 			}
 		} else {
 			msb, _ := unsigned(e.Val(dwarf.AttrBitOffset))
-			if storage > 8 || msb > storage*8 || bits > storage*8-msb {
+			if storage == 0 || storage > original || msb > storage*8 || bits > storage*8-msb {
 				return f, fmt.Errorf("invalid legacy bit offset")
 			}
 			position = storage*8 - msb - bits
-			if little {
-				storage = (position + bits + 7) / 8
-			} else if offset <= parentSize && storage > parentSize-offset {
-				trim := storage - (parentSize - offset)
-				if trim*8 > position {
-					return f, fmt.Errorf("bitfield exceeds containing structure")
-				}
-				storage -= trim
-				position -= trim * 8
+			if !little {
+				position += (original - storage) * 8
 			}
-		}
-		if storage == 0 || storage > 8 {
-			return f, fmt.Errorf("invalid bitfield storage")
-		}
-		original, err := b.refSize(ref, 0)
-		if err != nil {
-			return f, err
-		}
-		if original != storage {
-			signed := false
-			if base, ok := b.table.Bases[ref.Name]; ok {
-				signed = base.Signed
-			} else if en, ok := b.table.Enums[ref.Name]; ok {
-				signed = b.table.Bases[en.Base].Signed
-			}
-			name := fmt.Sprintf("__bitfield_%d_%t", storage, signed)
-			if err = b.base(name, Type{Kind: "int", Size: storage, Signed: signed, Endian: b.table.Bases["pointer"].Endian}); err != nil {
-				return f, err
-			}
-			ref = TypeRef{Kind: "base", Name: name}
 		}
 		underlying := ref
 		ref = TypeRef{Kind: "bitfield", BitPosition: position, BitLength: bits, BitType: &underlying}
