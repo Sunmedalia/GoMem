@@ -6395,7 +6395,7 @@
       "gaps": [
         "Only one Windows 10 x64 crash dump has a selected-field differential",
         "32-bit images and real pre-Windows 8 bottom-up scans remain pending; those paths are synthetic only",
-        "modscan remains absent. windows.psscan, windows.thrdscan, windows.mutantscan, windows.driverscan and windows.symlinkscan use this scanner",
+        "windows.psscan, windows.thrdscan, windows.mutantscan, windows.driverscan, windows.symlinkscan and windows.modscan use this scanner",
         "windows.hivescan still reads PoolBigPageTable and does not use this header scanner",
         "Reference offsets omit the canonical high bits. The comparison masks both sides to the low 48 bits; native rows keep the full address",
         "Three file names on the selected image could not be read and were omitted, matching the pinned plugin. They are counted in the summary, not emitted as empty names"
@@ -8220,15 +8220,24 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "LDR_DATA_TABLE_ENTRY objects from pool headers tagged MmLd. There is no executive object type, so the object begins immediately after the pool header. The scan layer, alignment and nonpaged-or-free pool polarity are the same as windows.filescan. The minimum block size is 76 bytes. DllBase and SizeOfImage must be readable, and a failed read fails the task. BaseDllName and FullDllName follow UNICODE_STRING.String: length zero is an empty string, and an unreadable string is missing. The read error is removed from the compared cell and kept on NameError or PathError. name is a case-sensitive substring of a readable base name; an unreadable base name is not filtered out. base is an exact DllBase, and zero disables filtering. dump=false reports the literal Disabled. dump=true reuses the kernel-then-session PE extractor. A missing layer becomes the pinned cannot-find string, and a failed reconstruction becomes Error outputting file. The summary row is not a module.",
+      "native": "windows.modscan",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_177_rows_match_offset_base_size_names_and_disabled_output",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has 177 modules. One base name and 20 paths were unreadable; the compared cells match the reference nulls and the errors stay on NameError or PathError",
+        "32-bit images and real pre-Windows 8 physical scans remain pending",
+        "dump extraction was not differentially compared. The default File output is the literal Disabled on all 177 rows",
+        "base=0 disables filtering, matching windows.modules. The pinned optional integer would select DllBase 0",
+        "max-nodes and max-session-layers bound only the dump session walk and are not upstream parameters",
+        "Reference offsets and bases omit the canonical high bits. The comparison masks both sides to the low 48 bits"
+      ],
+      "validation_record": "docs/windows-modscan.md"
     },
     {
       "id": "windows.modules.Modules",

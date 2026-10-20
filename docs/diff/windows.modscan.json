@@ -1,0 +1,15 @@
+{
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "Offset", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Base": {"native": "Base", "reference": "Base", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Size": {"native": "Size", "reference": "Size", "kind": "uint64"},
+    "Name": {"native": "Name", "reference": "Name", "kind": "string", "missing_reasons": ["name_unavailable"]},
+    "Path": {"native": "Path", "reference": "Path", "kind": "string", "missing_reasons": ["path_unavailable"]},
+    "FileOutput": {"native": "FileOutput", "reference": "File output", "kind": "string"}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["module"],
+    "excluded_values": ["summary", "diagnostic"]
+  }
+}
