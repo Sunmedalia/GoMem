@@ -43,3 +43,5 @@
 2026-10-21：windows.getcellroutine 检查活动 hive 的 `GetCellRoutine` 是否落在内核模块内。选定 Windows 10 19041 样本与固定基线都是 0 行，没有读失败。合成样本覆盖外部模块、区间右端点、大小写、未映射指针和重复模块名。还没有真实挂钩 hive 的对照。[详情](windows-getcellroutine.md)
 2026-10-21：windows.amcache 读取 Amcache hive 的程序和文件。选定 Windows 10 19041 样本的 56 个程序、101 个文件及其父子关系与固定基线一致。`InstallDate` 和 `LinkDate` 保持基线中不可达的日期解析。没有驱动项，Windows 8 布局只有合成分组测试。[详情](windows-amcache.md)
 2026-10-21：windows.scheduledtasks 从 SOFTWARE hive 解码计划任务的动作、触发器和运行时间。选定 Windows 10 19041 样本的 311 行与固定基线一致。创建时间和上次运行时间保持基线中的对调；时间触发器描述保持不可用，因为 TimeMode 的枚举值是字符串。时间线导出仍未实现。[详情](windows-scheduledtasks.md)
+
+2026-10-21：windows.bigpools 枚举 `PoolBigPageTable`。选定 Windows 10 19041 样本的 7425 个在用分配与固定基线一致，地址保留规范高位；1543 条已释放默认隐藏，23800 条 `Key` 为 0。没有类型时明确失败，不使用备用符号 JSON。真实 32 位和 Vista 以前的布局还没有验收。[详情](windows-bigpools.md)

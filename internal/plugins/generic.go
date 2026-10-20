@@ -49,6 +49,7 @@ func Register(r *plugin.Registry) error {
 	specs = append(specs, windowsHashdumpPlugins()...)
 	specs = append(specs, windowsCredentialPlugins()...)
 	specs = append(specs, windowsHiveScanPlugins()...)
+	specs = append(specs, windowsBigPoolPlugins()...)
 	specs = append(specs, windowsFileScanPlugins()...)
 	specs = append(specs, windowsPsScanPlugins()...)
 	specs = append(specs, windowsThrdScanPlugins()...)

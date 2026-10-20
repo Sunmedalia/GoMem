@@ -5137,15 +5137,24 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "PoolBigPageTable entries typed as _POOL_TRACKER_BIG_PAGES. PoolBigPageTable is read as unsigned long long and PoolBigPageTableSize as unsigned long on both 32-bit and 64-bit. Key 0 is omitted. The low Va bit marks a free allocation and stays in Allocation when show-free is set; the default omits those rows. The tag keeps the four little-endian key bytes whose values are strictly between 32 and 127, deleting the others. An empty tag stays an empty string. tags is a comma-separated exact list with no trimming; an empty value disables filtering. PoolType names come from _POOL_TYPE, keeping the alphabetically first name for a duplicate value. That matches the pinned enumeration on this ISF because every enum object is sorted. An unknown value is Unknown choice N. A missing PoolType or NumberOfBytes member is not applicable. A read the pinned generator would raise fails the task. A missing _POOL_TRACKER_BIG_PAGES fails explicitly and does not load the fallback big-pool JSON. max-entries bounds the table at 1..5000000 and defaults to 2000000. The summary row is not an allocation.",
+      "native": "windows.bigpools",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_7425_rows_match_allocation_tag_pool_type_bytes_and_status",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has 32768 table entries, 7425 allocated rows, 1543 hidden free rows and 23800 key-0 rows",
+        "Real 32-bit images are pending. The eight-byte table pointer is synthetic when the symbol pointer width is 4",
+        "The pinned fallback ISF for a missing _POOL_TRACKER_BIG_PAGES is intentionally not copied",
+        "Pre-Vista rows without PoolType or NumberOfBytes are synthetic only",
+        "max-entries is a native bound and is not an upstream parameter",
+        "show-free and tags were checked on the synthetic image, not differentially on the crash dump"
+      ],
+      "validation_record": "docs/windows-bigpools.md"
     },
     {
       "id": "windows.cachedump.Cachedump",

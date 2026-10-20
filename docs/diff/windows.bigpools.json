@@ -1,0 +1,14 @@
+{
+  "fields": {
+    "Allocation": {"native": "Allocation", "reference": "Allocation", "kind": "address"},
+    "Tag": {"native": "Tag", "reference": "Tag", "kind": "string"},
+    "PoolType": {"native": "PoolType", "reference": "PoolType", "kind": "string"},
+    "NumberOfBytes": {"native": "NumberOfBytes", "reference": "NumberOfBytes", "kind": "uint64"},
+    "Status": {"native": "Status", "reference": "Status", "kind": "string"}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["allocation"],
+    "excluded_values": ["summary", "diagnostic"]
+  }
+}

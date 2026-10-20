@@ -1,0 +1,64 @@
+{
+  "schema": "gomem.windows-bigpools-validation/v1",
+  "date": "2026-10-21",
+  "scope": "Synthetic PoolBigPageTable cases plus one Windows 10 19041 x64 crash dump. Not a 32-bit image or pre-Vista layout acceptance. show-free and tags were not differentially compared on the crash dump.",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "reference_manifest_sha256": "393847859e090f8ae0218c8015fd0ee6f90c3e5c0e82a18f88edf5519a85d71c",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+  "engine_build_sha256": "b2596f29a9c74c78dd85708ec383f09ceb5e6860845c3cc1f310ffdcd4c758a0",
+  "parameters": {
+    "tags": "",
+    "show-free": "false",
+    "max-entries": "2000000"
+  },
+  "task_state": "completed",
+  "layer": "kernel:x64:dtb=0x6d4000",
+  "table_entries": 32768,
+  "allocation_rows": 7425,
+  "skipped_free": 1543,
+  "skipped_invalid": 23800,
+  "read_failures": 0,
+  "reference_rows": 7425,
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "Allocation",
+      "Tag",
+      "PoolType",
+      "NumberOfBytes",
+      "Status"
+    ],
+    "native_rows": 7425,
+    "reference_rows": 7425,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "9961799d63a5a528410c43720553047a534455350b673b893a92388de209638a",
+      "reference": "a7a6480863f157c48ee0a09fe7c706261dfc953c2f552cebf1248bff1bce059d",
+      "mapping": "5172a8b2a133ab04e308051a35b6c322a22ea57bcc220aaf66d1e62c44684d74"
+    },
+    "native_input_rows": 7426,
+    "native_non_entity_records": {
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "values": [
+        "allocation"
+      ],
+      "excluded_values": [
+        "summary",
+        "diagnostic"
+      ]
+    }
+  },
+  "notes": [
+    "Compared fields are the full Allocation address, the printable tag, PoolType, NumberOfBytes and Status. The reference addresses already contain the canonical high bits, so this comparison does not mask them.",
+    "The go test binary that produced the compared JSONL is b2596f29a9c74c78dd85708ec383f09ceb5e6860845c3cc1f310ffdcd4c758a0.",
+    "The selected table has 32768 entries: 7425 allocated, 1543 free and 23800 key 0. Default show-free leaves the free rows out. There were no read failures.",
+    "Unknown PoolType values stay in the pinned Unknown choice N form. Duplicate _POOL_TYPE names use the alphabetically first constant.",
+    "show-free and tags were exercised on the synthetic image only."
+  ]
+}
