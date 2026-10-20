@@ -1,0 +1,37 @@
+{
+  "fields": {
+    "HiveOffset": {
+      "native": "HiveOffset",
+      "reference": "Hive Offset",
+      "kind": "address",
+      "mask": "0x0000ffffffffffff"
+    },
+    "Type": {
+      "native": "Type",
+      "reference": "Type",
+      "kind": "string"
+    },
+    "Key": {
+      "native": "Key",
+      "reference": "Key",
+      "kind": "string"
+    },
+    "Name": {
+      "native": "Name",
+      "reference": "Name",
+      "kind": "string",
+      "missing_reasons": ["unreadable"]
+    },
+    "Volatile": {
+      "native": "Volatile",
+      "reference": "Volatile",
+      "kind": "bool",
+      "missing_reasons": ["unreadable"]
+    }
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["key", "value"],
+    "excluded_values": ["diagnostic"]
+  }
+}

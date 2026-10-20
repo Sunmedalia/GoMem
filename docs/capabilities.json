@@ -9471,7 +9471,7 @@
       ],
       "comparison": "selected_24_hive_offsets_and_names_match_summary_retained",
       "gaps": [
-        "Hive reconstruction, printkey and physical hivescan fallback are not implemented",
+        "Hive file reconstruction and physical hivescan fallback are not implemented",
         "Only one Windows 10 x64 crash dump has a selected-field differential; 32-bit and damaged-list acceptance remain pending",
         "The upstream FileFullPath column is get_name(); native retains each path field and reports FileOutput as disabled"
       ],
@@ -9629,15 +9629,22 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active hives only. Cell indexes use the exact HMAP. Kernel-canonical bins are read from the kernel layer, with a Registry-process retry when that page is not present. Lower addresses require the Registry process and are never read from the kernel. Unreadable hives stay visible and do not fail the task by themselves.",
+      "native": "windows.printkey",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_478_root_rows_match_offset_type_key_name_volatile_and_second_timestamps",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Hive file reconstruction and physical hivescan remain unimplemented",
+        "Only the default root listing of one Windows 10 x64 crash dump is differentially checked; recurse, key filtering, 32-bit and other versions are synthetic or unaccepted",
+        "Reference JSON drops 100ns fractions and wraps SZ display in quotes; native keeps the fraction, raw bytes and decoded text",
+        "Prototype pages that neither the kernel nor the Registry process can read are skipped per subkey and recorded, not padded"
+      ],
+      "validation_record": "docs/windows-printkey.md"
     },
     {
       "id": "windows.registry.scheduled_tasks.ScheduledTasks",

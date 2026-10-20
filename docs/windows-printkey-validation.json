@@ -1,0 +1,64 @@
+{
+  "schema": "gomem.windows-printkey-validation/v1",
+  "date": "2026-10-21",
+  "scope": "Synthetic x64 hive cells plus the default root listing of one Windows 10 19041 x64 crash dump. Not a complete version, architecture, recurse or hive-reconstruction acceptance.",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "reference_manifest_sha256": "f6dee53bfeee0a061f41a7b7d4a691822479c24d965e375784bacadf4f842a10",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+  "engine_build_sha256": "14f01f0ee9d831010563a6fd65103f77faa87865ef614ba07c98ab663b43fcdb",
+  "parameters": {
+    "offset": "",
+    "key": "",
+    "recurse": "false",
+    "max-nodes": "1000000"
+  },
+  "task_state": "completed",
+  "key_rows": 473,
+  "value_rows": 5,
+  "diagnostics": 2,
+  "unreadable_hive_rows": 7,
+  "time_format_differences": 471,
+  "quoted_reg_sz_differences": 2,
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "HiveOffset",
+      "Type",
+      "Key",
+      "Name",
+      "Volatile"
+    ],
+    "native_rows": 478,
+    "reference_rows": 478,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "850273d97d0f731aafafc4e7a57c96ba2c98de47ee3482d12af07eb7d7f42169",
+      "reference": "afa5169b25aec16b05abfd4aef54bb072e649cde9177b3a51deb7f9235e315b4",
+      "mapping": "1f3e0e5e2346483258cc75a74d936755c47c3f38bc44500467e712b7e508830b"
+    },
+    "native_input_rows": 480,
+    "native_non_entity_records": {
+      "diagnostic": 2
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "values": [
+        "key",
+        "value"
+      ],
+      "excluded_values": [
+        "diagnostic"
+      ]
+    }
+  },
+  "notes": [
+    "Selected fields are HiveOffset masked to the low 48 bits, Type, Key, Name and Volatile. Name and Volatile missing with reason unreadable and no error text match reference nulls.",
+    "The go test binary that rechecked the image is 14f01f0ee9d831010563a6fd65103f77faa87865ef614ba07c98ab663b43fcdb. The compared JSONL was written by bin/gomem 9af8328a5c3d241bdbf3009859739aa2e09c954f20ba843a866da1f4c2b030a1; those hashes differ because each executable is fingerprinted separately.",
+    "LastWriteTime keeps a 100ns fraction in RFC3339Nano with Z. The reference JSON drops that fraction and renders +00:00. Second-truncated timestamps match; the fraction is not normalized away.",
+    "Two REG_SZ values are quoted in the reference Data column. Native Data is the decoded text and DataRaw keeps the UTF-16 bytes.",
+    "Two diagnostics record subkeys on \\REGISTRY\\MACHINE\\SYSTEM and \\REGISTRY\\MACHINE\\HARDWARE whose prototype or swap pages were absent from both the kernel layer and the Registry process. Those gaps do not fail the task."
+  ]
+}

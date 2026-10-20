@@ -84,7 +84,7 @@ def generate(source):
                "linux.lsmod.Lsmod": "linux.lsmod", "windows.threads.Threads": "windows.threads",
                "windows.vadinfo.VadInfo": "windows.vadinfo", "linux.proc.Maps": "linux.maps",
                "windows.dlllist.DllList": "windows.dlllist", "windows.pedump.PEDump": "windows.pedump",
-               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux", "linux.envars.Envars": "linux.envars", "linux.elfs.Elfs": "linux.elfs", "linux.psscan.PsScan": "linux.psscan", "linux.lsof.Lsof": "linux.lsof", "linux.sockstat.Sockstat": "linux.sockstat", "linux.pagecache.InodePages": "linux.inodepages", "linux.pagecache.Files": "linux.files", "linux.pagecache.RecoverFs": "linux.recoverfs", "windows.registry.hivelist.HiveList": "windows.hivelist"}
+               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux", "linux.envars.Envars": "linux.envars", "linux.elfs.Elfs": "linux.elfs", "linux.psscan.PsScan": "linux.psscan", "linux.lsof.Lsof": "linux.lsof", "linux.sockstat.Sockstat": "linux.sockstat", "linux.pagecache.InodePages": "linux.inodepages", "linux.pagecache.Files": "linux.files", "linux.pagecache.RecoverFs": "linux.recoverfs", "windows.registry.hivelist.HiveList": "windows.hivelist", "windows.registry.printkey.PrintKey": "windows.printkey"}
 
     def requirements(identifier, seen=None):
         seen = set() if seen is None else seen
@@ -170,7 +170,12 @@ def generate(source):
             plugins[-1].update(applicability="Active CmpHiveListHead walk using the exact _CMHIVE layout. Signature must be 0xBEE0BEE0. The selected name is the first nonempty FileFullPath, FileUserName or HiveRootPath; all three fields stay in the row. A forward list break walks backward once and keeps hives already emitted. dump is rejected until hive reconstruction exists.",
                               corpora=["synthetic-windows-x64", "official-windows-10-19041"],
                               comparison="selected_24_hive_offsets_and_names_match_summary_retained", validation_record="docs/windows-hivelist.md",
-                              gaps=["Hive reconstruction, printkey and physical hivescan fallback are not implemented", "Only one Windows 10 x64 crash dump has a selected-field differential; 32-bit and damaged-list acceptance remain pending", "The upstream FileFullPath column is get_name(); native retains each path field and reports FileOutput as disabled"])
+                              gaps=["Hive file reconstruction and physical hivescan fallback are not implemented", "Only one Windows 10 x64 crash dump has a selected-field differential; 32-bit and damaged-list acceptance remain pending", "The upstream FileFullPath column is get_name(); native retains each path field and reports FileOutput as disabled"])
+        if identifier == "windows.registry.printkey.PrintKey":
+            plugins[-1].update(applicability="Active hives only. Cell indexes use the exact HMAP. Kernel-canonical bins are read from the kernel layer, with a Registry-process retry when that page is not present. Lower addresses require the Registry process and are never read from the kernel. Unreadable hives stay visible and do not fail the task by themselves.",
+                              corpora=["synthetic-windows-x64", "official-windows-10-19041"],
+                              comparison="selected_478_root_rows_match_offset_type_key_name_volatile_and_second_timestamps", validation_record="docs/windows-printkey.md",
+                              gaps=["Hive file reconstruction and physical hivescan remain unimplemented", "Only the default root listing of one Windows 10 x64 crash dump is differentially checked; recurse, key filtering, 32-bit and other versions are synthetic or unaccepted", "Reference JSON drops 100ns fractions and wraps SZ display in quotes; native keeps the fraction, raw bytes and decoded text", "Prototype pages that neither the kernel nor the Registry process can read are skipped per subkey and recorded, not padded"])
         if identifier == "windows.cmdline.CmdLine":
             plugins[-1].update(applicability="Native EPROCESS.Peb -> PEB.ProcessParameters -> typed RTL_USER_PROCESS_PARAMETERS.CommandLine, read in each process root. Raw UTF-16LE and partial captures are retained.",
                               corpora=["synthetic-windows-x64", "synthetic-windows-x86-pae", "official-windows-10-19041"],
