@@ -6388,7 +6388,7 @@
       "gaps": [
         "Only one Windows 10 x64 crash dump has a selected-field differential",
         "32-bit images and real pre-Windows 8 bottom-up scans remain pending; those paths are synthetic only",
-        "driverscan, mutantscan, symlinkscan and modscan remain absent. windows.psscan and windows.thrdscan use this scanner for EPROCESS and ETHREAD",
+        "driverscan, symlinkscan and modscan remain absent. windows.psscan, windows.thrdscan and windows.mutantscan use this scanner",
         "windows.hivescan still reads PoolBigPageTable and does not use this header scanner",
         "Reference offsets omit the canonical high bits. The comparison masks both sides to the low 48 bits; native rows keep the full address",
         "Three file names on the selected image could not be read and were omitted, matching the pinned plugin. They are counted in the summary, not emitted as empty names"
@@ -8329,15 +8329,22 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "KMUTANT objects from pool headers tagged Mut\\xe1 or Muta. The scan layer, carving direction, pool-type polarity, alignment, page-table rules and object-type check are the same as windows.filescan. Both tags require type Mutant. The pinned KMUTANT check accepts every carved object, so top-down carving keeps every aligned header whose pointer count is in range and whose type matches. The name comes from the object header. Windows 7 and later reads ObpInfoMaskToOffset at InfoMask masked with 0x3; a NameInfoOffset member is used when present. A zero offset, a length of zero, a maximum of zero, or a length above the maximum is an unavailable name. An unreadable name stays on the row as an error rather than an empty string. The summary row is not a mutant.",
+      "native": "windows.mutantscan",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_742_rows_match_low_48_offset_and_name",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has 742 mutants and 448 unavailable names",
+        "32-bit images and real pre-Windows 8 bottom-up scans remain pending; mutant bottom-up placement uses the shared scanner but has no separate fixture",
+        "Reference offsets omit the canonical high bits. The comparison masks both sides to the low 48 bits",
+        "Unavailable names on this image had no read error. A later read error stays distinct from a reference null"
+      ],
+      "validation_record": "docs/windows-mutantscan.md"
     },
     {
       "id": "windows.netscan.NetScan",

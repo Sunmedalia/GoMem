@@ -1,0 +1,47 @@
+{
+  "schema": "gomem.windows-mutantscan-validation/v1",
+  "date": "2026-10-21",
+  "scope": "Synthetic Windows 10 top-down cases plus one Windows 10 19041 x64 crash dump. Not a 32-bit or pre-Windows 8 acceptance.",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "reference_manifest_sha256": "020406c485bd7bbad1ab1560f7a97db6c5d9166addd3780e3a66fd5ad45f447a",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+  "engine_build_sha256": "8ca2125a435d5e6ec647cac7dda60c8300b42a906ababe53d520a23e871fe7db",
+  "parameters": {},
+  "task_state": "completed",
+  "layer": "kernel:x64:dtb=0x6d4000",
+  "ranges": 6416,
+  "scanned_bytes": 387543040,
+  "mutant_rows": 742,
+  "unavailable_names": 448,
+  "skipped_type": 2199,
+  "read_failures": 0,
+  "reference_rows": 742,
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": ["Offset", "Name"],
+    "native_rows": 742,
+    "reference_rows": 742,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "c5ea16dfb7fc58ac7634c011f44d8e80612b07b9ddf05f1c7891f879efa5faf9",
+      "reference": "d4bf32bf66179bf358ce293734a3b7bd53ecb8537db8e5680d8ec58ebd51cba5",
+      "mapping": "6d816b9e54d9b949bbb76858b85a6b366e686a75a2430347b6a8b4bb123b550d"
+    },
+    "native_input_rows": 743,
+    "native_non_entity_records": {"summary": 1},
+    "entity_selection": {
+      "field": "RecordType",
+      "values": ["mutant"],
+      "excluded_values": ["summary", "diagnostic"]
+    }
+  },
+  "notes": [
+    "Compared fields are the low 48 bits of Offset and the object-header name.",
+    "The go test binary that produced the compared JSONL is 8ca2125a435d5e6ec647cac7dda60c8300b42a906ababe53d520a23e871fe7db.",
+    "448 names are unavailable on both sides and had no native read error.",
+    "2199 candidates failed the Mutant type check and were not emitted."
+  ]
+}
