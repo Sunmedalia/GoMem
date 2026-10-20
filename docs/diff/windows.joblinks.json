@@ -1,0 +1,22 @@
+{
+  "tree_key": "PID",
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "Offset(V)", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Name": {"native": "Name", "reference": "Name", "kind": "string"},
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "PPID": {"native": "PPID", "reference": "PPID", "kind": "uint64"},
+    "Sess": {"native": "Sess", "reference": "Sess", "kind": "uint64", "missing_reasons": ["not_applicable", "unreadable"]},
+    "JobSess": {"native": "JobSess", "reference": "JobSess", "kind": "uint64"},
+    "Wow64": {"native": "Wow64", "reference": "Wow64", "kind": "bool"},
+    "Total": {"native": "Total", "reference": "Total", "kind": "uint64"},
+    "Active": {"native": "Active", "reference": "Active", "kind": "uint64"},
+    "Term": {"native": "Term", "reference": "Term", "kind": "uint64"},
+    "JobLink": {"native": "JobLink", "reference": "JobLink", "kind": "string", "missing_reasons": ["not_applicable"]},
+    "Process": {"native": "Process", "reference": "Process", "kind": "string"}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["owner", "member"],
+    "excluded_values": ["summary"]
+  }
+}

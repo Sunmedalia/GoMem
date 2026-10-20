@@ -6886,15 +6886,23 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active processes whose Job pointer can be dereferenced. A null or unreadable Job skips that process and does not fail the task. The owner row reads _EJOB SessionId, TotalProcesses, ActiveProcesses and TotalTerminatedProcesses; any unreadable job field skips the process before a row is emitted. JobLink is not applicable and Process is the literal (Original Process). Members are ProcessListHead walked by Flink through _EPROCESS.JobLinks. The walk stops on a repeated link, an unreadable Flink, or an object whose first byte is unmapped. It does not check the back link. A member whose name, PID, PPID, Wow64 or image path cannot be read stops the rest of that job; earlier rows stay. Member JobSess, Total, Active and Term are 0, and JobLink is Yes. The image path is the process PEB ImagePathName, including an empty string. Session 0 is a real session id. A null session pointer is not applicable. Wow64 false means neither process pointer exists. physical translates the object and was not part of the selected comparison. The summary row is not a job link.",
+      "native": "windows.joblinks",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-job-links",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_69_rows_match_job_counters_members_and_paths",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has 41 job owners and 28 linked processes",
+        "Real 32-bit images are pending",
+        "physical is implemented and was not differentially checked. The compared column is Offset(V)",
+        "A member read failure stops the remaining links for that job. This image did not hit that stop",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-joblinks.md"
     },
     {
       "id": "windows.kpcrs.KPCRs",
