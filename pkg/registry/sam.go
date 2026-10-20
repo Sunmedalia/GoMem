@@ -49,7 +49,7 @@ func DumpSAM(ctx context.Context, system, sam *Hive) ([]SAMUser, error) {
 	if sam == nil {
 		return nil, fmt.Errorf("SAM hive is absent")
 	}
-	boot, err := bootKey(ctx, system)
+	boot, err := BootKey(ctx, system)
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +86,8 @@ func DumpSAM(ctx context.Context, system, sam *Hive) ([]SAMUser, error) {
 	return users, errors.Join(errs...)
 }
 
-func bootKey(ctx context.Context, system *Hive) ([]byte, error) {
+// BootKey recovers the pinned LSA boot key from ControlSet001 class data.
+func BootKey(ctx context.Context, system *Hive) ([]byte, error) {
 	const base = `ControlSet001\Control\Lsa`
 	parts := make([]byte, 0, 64)
 	for _, name := range []string{"JD", "Skew1", "GBG", "Data"} {

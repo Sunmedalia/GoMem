@@ -1,0 +1,51 @@
+{
+  "schema": "gomem.windows-cachedump-validation/v1",
+  "date": "2026-10-21",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+  "parameters": {},
+  "task_state": "failed",
+  "scope": "Synthetic Vista AES-CBC and XP HMAC-MD5/RC4 cache vectors plus one Windows 10 19041 x64 crash dump. Not a credential-level acceptance: the selected image has no resident JD class cell.",
+  "reference_manifest_sha256": "dcb34f8994d12fb76537974832f526db12689c27bdc1b974890129b06a141240",
+  "engine_build_sha256": "ff946272a4eb0a00f345d5d5a8b22b95f2c4a08d2abb03452dfda73bc3db3c30",
+  "credential_rows": 0,
+  "diagnostics": 1,
+  "reference_rows": 0,
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "Username",
+      "Domain",
+      "Domain name",
+      "Hash"
+    ],
+    "native_rows": 0,
+    "reference_rows": 0,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "1914e385b5f2180998b5acbb7ddb5103642eb1bf38237be4697dcd1c3f014bae",
+      "reference": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
+      "mapping": "84ec1e119977c5ea7b0eecd500633dd2c6cfe2624dc9700edd97566ec413641e"
+    },
+    "native_input_rows": 1,
+    "native_non_entity_records": {
+      "diagnostic": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "value": "credential",
+      "excluded_values": [
+        "diagnostic"
+      ]
+    }
+  },
+  "notes": [
+    "The pinned windows.registry.cachedump.Cachedump reference emits no rows because the same JD class page is nonpresent.",
+    "Native output fails the task, keeps that read error, and emits no credential row.",
+    "The go test binary that rechecked the image is 21fcaf4fc3bdc84ea189cfabc897f860f9e036f3f0dc65ae465e7b84ddc3fba7. The compared JSONL was written by bin/gomem ff946272a4eb0a00f345d5d5a8b22b95f2c4a08d2abb03452dfda73bc3db3c30.",
+    "Synthetic Vista AES-CBC and XP HMAC-MD5/RC4 entries both decode alice/CORP/corp.example and hash 00112233445566778899aabbccddeeff. That is not a substitute for a resident cache differential."
+  ]
+}

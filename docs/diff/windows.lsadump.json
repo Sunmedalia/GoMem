@@ -1,0 +1,19 @@
+{
+  "fields": {
+    "Key": {
+      "native": "Key",
+      "reference": "Key",
+      "kind": "string"
+    },
+    "Secret": {
+      "native": "Secret",
+      "reference": "Secret",
+      "kind": "string"
+    }
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "secret",
+    "excluded_values": ["diagnostic"]
+  }
+}

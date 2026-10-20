@@ -5207,7 +5207,7 @@
       "corpora": [],
       "comparison": "not_run",
       "gaps": [
-        "Native implementation and validation pending"
+        "Deprecated alias of windows.registry.cachedump.Cachedump; native command is windows.cachedump"
       ]
     },
     {
@@ -6969,7 +6969,7 @@
       "corpora": [],
       "comparison": "not_run",
       "gaps": [
-        "Native implementation and validation pending"
+        "Deprecated alias of windows.registry.lsadump.Lsadump; native command is windows.lsadump"
       ]
     },
     {
@@ -9318,15 +9318,22 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Same SYSTEM and SECURITY hives, boot key, Vista check, and LSA key as windows.lsadump. NL$KM is decrypted through that secret path. Vista cache entries use AES-CBC with NL$KM bytes 16:32 and the 16-byte IV at offset 64. Earlier Windows uses HMAC-MD5 of the IV keyed by NL$KM, then RC4. User, domain, and DNS offsets use the pinned Python 3 padding, which is the length modulo 4. NL$Control and entries with a zero user length or an empty IV are skipped. A missing hive, boot key, LSA key, NL$KM, or Cache key fails the task. A readable cache that contains only skipped slots succeeds with no rows. windows.cachedump.Cachedump is only the deprecated upstream alias.",
+      "native": "windows.cachedump",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "synthetic_vista_aes_cbc_and_xp_hmac_rc4_vectors_match_pinned_algorithm_selected_image_has_zero_cache_rows_because_JD_class_cell_is_swapped",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "The selected Windows 10 19041 crash dump has a nonpresent JD class page, so neither implementation produced cached credentials",
+        "The reference completes with a warning and no rows; native fails the task and retains the read error",
+        "No resident-cache corpus differential yet. 32-bit images and real pre-Vista hives remain pending",
+        "An empty NL$KM fails the task; the reference warns and returns no rows"
+      ],
+      "validation_record": "docs/windows-cachedump.md"
     },
     {
       "id": "windows.registry.getcellroutine.GetCellRoutine",
@@ -9420,7 +9427,7 @@
       "gaps": [
         "The selected Windows 10 19041 crash dump has a nonpresent JD class page, so neither implementation produced account hashes",
         "The reference completes with a warning and no rows; native fails the task and retains the read error",
-        "No resident-hash corpus differential yet. 32-bit images, other real revisions, cachedump and LSA secrets remain pending"
+        "No resident-hash corpus differential yet. 32-bit images and other real revisions remain pending"
       ],
       "validation_record": "docs/windows-hashdump.md"
     },
@@ -9582,15 +9589,23 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active SYSTEM and SECURITY hives from CmpHiveListHead. The boot key is the same ControlSet001 LSA class permutation as windows.hashdump. Vista or later is metadata.windows.pe major.minor when revision is present; otherwise KdCopyDataBlock as a symbol or type selects Vista. Vista reads Policy\\PolEKList, hashes the boot key plus bytes 28:60 one thousand times with SHA-256, and decrypts each 16-byte block from offset 60 with a fresh zero IV. The LSA key is decrypted bytes 68:100. Earlier Windows reads Policy\\PolSecretEncryptionKey, uses MD5 of the boot key plus bytes 60:76 hashed one thousand times, RC4-decrypts bytes 12:60, and keeps bytes 16:32. Secrets are Policy\\Secrets\\*\\CurrVal. Vista reuses the AES derivation with the LSA key. Earlier Windows uses SystemFunction005 DES and the pinned seven-byte key window. A missing hive, boot key, LSA key, secrets key, or secret value fails the task. windows.lsadump.Lsadump is only the deprecated upstream alias.",
+      "native": "windows.lsadump",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "synthetic_vista_aes_and_prevista_des_vectors_match_pinned_algorithm_selected_image_has_zero_secret_rows_because_JD_class_cell_is_swapped",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "The selected Windows 10 19041 crash dump has a nonpresent JD class page, so neither implementation produced secrets",
+        "The reference completes with a warning and no rows; native fails the task and retains the read error",
+        "No resident-secret corpus differential yet. 32-bit images and real pre-Vista hives remain pending",
+        "A secret without CurrVal fails that record; the reference skips it",
+        "A short final AES block is an error; the reference raises TypeError"
+      ],
+      "validation_record": "docs/windows-lsadump.md"
     },
     {
       "id": "windows.registry.printkey.PrintKey",

@@ -1,0 +1,49 @@
+{
+  "schema": "gomem.windows-lsadump-validation/v1",
+  "date": "2026-10-21",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+  "parameters": {},
+  "task_state": "failed",
+  "scope": "Synthetic Vista AES and pre-Vista DES vectors plus one Windows 10 19041 x64 crash dump. Not a secret-level acceptance: the selected image has no resident JD class cell.",
+  "reference_manifest_sha256": "89aef26bcc75ada86168f45263931d083e426e93661ef71f7447650da40725ef",
+  "engine_build_sha256": "ff946272a4eb0a00f345d5d5a8b22b95f2c4a08d2abb03452dfda73bc3db3c30",
+  "secret_rows": 0,
+  "diagnostics": 1,
+  "reference_rows": 0,
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "Key",
+      "Secret"
+    ],
+    "native_rows": 0,
+    "reference_rows": 0,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "1b1baa515ec28524b961eb5f8fcfffac9ece0589b61c3b8c35bc0cf80937600f",
+      "reference": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
+      "mapping": "4c72b89b3974bed948724f26439bbd5750526499c5eabc48a77a56c7e99cfc5a"
+    },
+    "native_input_rows": 1,
+    "native_non_entity_records": {
+      "diagnostic": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "value": "secret",
+      "excluded_values": [
+        "diagnostic"
+      ]
+    }
+  },
+  "notes": [
+    "The pinned windows.registry.lsadump.Lsadump reference emits no rows. The JD class cell 0x231ce0 is a nonpresent page at 0xffffc2041fb0ace0, the same page that blocks windows.hashdump.",
+    "Native output fails the task, keeps that read error, and emits no secret row. An empty secret list is not reported as success.",
+    "The go test binary that rechecked the image is 21fcaf4fc3bdc84ea189cfabc897f860f9e036f3f0dc65ae465e7b84ddc3fba7. The compared JSONL was written by bin/gomem ff946272a4eb0a00f345d5d5a8b22b95f2c4a08d2abb03452dfda73bc3db3c30.",
+    "Synthetic Vista AES secrets and pre-Vista DES secrets match the pinned algorithm, including the seven-byte DES key window. That is not a substitute for a resident secret differential."
+  ]
+}

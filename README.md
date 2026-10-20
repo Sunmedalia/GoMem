@@ -49,6 +49,8 @@ bin/gomem analyze windows.pslist \
 | `windows.hivescan` | 在 64 位 Windows 8.1 及以后扫描 `PoolBigPageTable` 的在用 `CM10` 分配；旧式池头扫描会明确失败；[说明](docs/windows-hivescan.md) |
 | `windows.printkey` | 枚举活动 hive 的稳定与易失子键和值；内核 HMAP 优先，低地址只走 Registry 进程；不可读 hive 保留为行而不单独失败任务；[说明](docs/windows-printkey.md) |
 | `windows.hashdump` | 用 SYSTEM 的 LSA boot key 解密 SAM 的 LM/NT 哈希；缺 hive、boot key 或用户记录时失败，不把空结果当成功；[说明](docs/windows-hashdump.md) |
+| `windows.lsadump` | 用同一 boot key 解密 SECURITY 的 LSA secret；Vista 走独立 AES 块，更早的系统走 DES；缺 hive、密钥或 CurrVal 时失败；[说明](docs/windows-lsadump.md) |
+| `windows.cachedump` | 用 NL$KM 解密域缓存凭据；Vista 为 AES-CBC，更早的系统为 HMAC-MD5 加 RC4；空槽位跳过，缺密钥时失败；[说明](docs/windows-cachedump.md) |
 | `windows.dlllist` | 进程自身地址空间内的 PEB 加载器链表；原生和 WoW64 列表；支持 PID、基址及 RE2 名称筛选 |
 | `windows.pedump` | 从显式进程/内核/已验证会话空间重建 PE32/PE32+；保留修改、缺页与读取尝试；上限 256MiB |
 | `windows.threads` | 活动进程线程链表、创建/退出时间与进程证据关联；现代 VAD 启动路径；支持 `--param pid=104,108` |
@@ -100,6 +102,10 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `windows.hivescan` 从大页池表找出在用的 `CM10` 分配。Windows 10 19041 样本的 24 个地址与固定基线一致，并且都带有 `0xBEE0BEE0` 签名。32 位和 Windows 8 以前的池头扫描还没有实现。[池扫描验证](docs/windows-hivescan.md)
 
 `windows.hashdump` 读取 `ControlSet001` 的 LSA 类数据并解密 SAM。合成向量与固定基线的 RC4/AES 路径一致，NT 盐保持在 `nt_offset+8`。Windows 10 19041 样本的 `JD` class 页不在内存中，基线输出 0 行，本地任务失败并保留读取错误，没有可对照的账户哈希。[SAM 哈希验证](docs/windows-hashdump.md)
+
+`windows.lsadump` 用同一 boot key 解密 SECURITY 的 LSA secret。Vista 及以后对 `PolEKList` 做独立 AES 块，更早的系统对 `PolSecretEncryptionKey` 做 MD5/RC4，再用 DES 解 CurrVal。合成密文与固定基线一致。同一张 Windows 10 19041 样本读不到 `JD`，基线 0 行，本地失败并保留读取错误。[LSA secret 验证](docs/windows-lsadump.md)
+
+`windows.cachedump` 用解出的 `NL$KM` 解密 `Cache`。Vista 是 AES-CBC，更早的系统是 HMAC-MD5 加 RC4。合成条目解出 `alice` / `CORP` / `corp.example`。选定样本同样没有 boot key，所以没有可对照的缓存账户。[缓存凭据验证](docs/windows-cachedump.md)
 
 `windows.printkey` 在同一活动 hive 列表上读取根键的子键和值。单元格索引走精确 HMAP；内核规范地址先读内核层，缺页时再试 Registry 进程，用户地址只读该进程。官方 Windows 10 样本的 478 个根行在偏移、类型、键路径、名称和 Volatile 上与固定基线一致，7 个不可读 hive 保持可见。时间保留 100ns，文本值不额外加引号；这两点和递归、筛选、hive 文件重建都还没有当作全字段验收。[注册表键验证](docs/windows-printkey.md)
 

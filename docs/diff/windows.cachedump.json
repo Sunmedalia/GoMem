@@ -1,0 +1,29 @@
+{
+  "fields": {
+    "Username": {
+      "native": "Username",
+      "reference": "Username",
+      "kind": "string"
+    },
+    "Domain": {
+      "native": "Domain",
+      "reference": "Domain",
+      "kind": "string"
+    },
+    "Domain name": {
+      "native": "DomainName",
+      "reference": "Domain name",
+      "kind": "string"
+    },
+    "Hash": {
+      "native": "Hash",
+      "reference": "Hash",
+      "kind": "string"
+    }
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "credential",
+    "excluded_values": ["diagnostic"]
+  }
+}

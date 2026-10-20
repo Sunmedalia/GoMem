@@ -20,4 +20,4 @@ python3 tools/diff_results.py \
 GOMEM_CORPUS_DIR="$PWD/.cache/corpus" go test ./internal/engine -run 'TestWindowsHashdump|TestOfficialWindowsHashdump' -count=1
 ```
 
-参考结果由锁定入口 `tools/reference.py --plugin windows.registry.hashdump.Hashdump` 生成。当前保持 partial、accepted=false。32 位、其他真实修订、cachedump 和 LSA secret 都还没有做。
+参考结果由锁定入口 `tools/reference.py --plugin windows.registry.hashdump.Hashdump` 生成。当前保持 partial、accepted=false。32 位和其他真实修订都还没有做。LSA secret 和域缓存凭据分别见 [LSA secret](windows-lsadump.md) 与 [缓存凭据](windows-cachedump.md)。

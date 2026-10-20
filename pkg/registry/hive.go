@@ -112,6 +112,7 @@ type Key struct {
 // Value is one vk cell. DataErr is set when the declared bytes could not be read.
 type Value struct {
 	Index    uint32
+	Address  uint64
 	Name     string
 	Type     uint32
 	Data     []byte
@@ -491,7 +492,7 @@ func (h *Hive) Values(ctx context.Context, key Key) ([]Value, error) {
 }
 
 func (h *Hive) value(ctx context.Context, index uint32, parentVolatile bool) (Value, error) {
-	_, payload, err := h.cell(ctx, index)
+	address, payload, err := h.cell(ctx, index)
 	if err != nil {
 		return Value{}, err
 	}
@@ -508,7 +509,7 @@ func (h *Hive) value(ctx context.Context, index uint32, parentVolatile bool) (Va
 		return Value{}, err
 	}
 	value := Value{
-		Index: index, Name: name, Type: binary.LittleEndian.Uint32(payload[12:16]),
+		Index: index, Address: address, Name: name, Type: binary.LittleEndian.Uint32(payload[12:16]),
 		Volatile: parentVolatile,
 	}
 	dataLen := binary.LittleEndian.Uint32(payload[4:8])
