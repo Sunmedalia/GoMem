@@ -6,7 +6,7 @@
 | --- | --- |
 | 固定基线、盘点官方插件 | 锁定提交；AST 清单覆盖 195 个官方插件类，包含需求和参数表达式、别名、来源及未验收状态 |
 | 验收语料和差分工具 | 官方资产 SHA-256 清单、合成 Windows/Linux 样本、锁定对照入口、保留重复与树关系的比较器、证据包校验工具 |
-| 共同底座 | 原生读取、五类格式路径、三类 Intel 转换、压缩 ISF、对象、流式插件、SQLite 案件、取消、缓存与恢复已打通；符号及其余格式仍不完整 |
+| 共同底座 | 原生读取、RAW/LiME/AVML/ELF/Windows 完整与 bitmap 路径、三类 Intel 转换、压缩 ISF、对象、流式插件、SQLite 案件、取消、缓存与恢复已打通；符号及其余格式仍不完整 |
 | Windows/Linux 端到端 | 活动进程、内核模块、Windows 线程/VAD/进程 DLL/命令行、Linux VMA/路径/进程参数、banner、ASCII/IOC 扫描；指定字段对照及诊断差异范围见各验证记录 |
 | 调查交互 | CLI、三栏异步 TUI、分页/筛选/详情/书签、shell、类型/地址/进程空间探索、HTML/JSONL/ZIP 导出 |
 | 分诊 | 六类独立规则评估器；IOC、Windows/Linux 直接 RWX、Linux 删除文件/memfd 执行已连接原生输入；其余缺口明确 unavailable |
@@ -16,7 +16,7 @@
 
 1. 补齐 Linux/macOS 在线符号索引与自动获取，以及完整内核、DTB、进程空间识别；已有 Windows 完整/bitmap 转储的自动配置、精确身份 PDB 获取与持久转换缓存、原生 PDB/MSF 7.0、DWARF、本地身份索引和部分 Linux x64 DTB 发现。仍需 RAW/虚拟机格式的 Windows 自动识别、旧 MSF、CAB 传输、更多 CodeView/DWARF 语义、KASLR、架构和版本验证。
 2. Windows/Linux 的线程完整版本与参数覆盖、扫描进程、VAD/VMA 完整版本与提取验收、网络、文件恢复、注册表、凭据、服务、持久化、内核检查、恶意代码、时间线与其全部参数、导出。当前已有 Windows 活动线程/VAD、Linux 链表及 Maple Tree VMA 遍历；Maple Tree 仅合成 ABI 验证，完整 pivot/meta 和真实新内核验证待补。尚无线程池扫描。
-3. macOS、AVML、VMware、QEMU、Xen、外部交换页及上游其余地址空间和格式语义；Windows 已支持镜像内驻留的 transition 页，prototype 和外部 pagefile 未实现。
+3. macOS、VMware、QEMU、Xen、外部交换页及上游其余地址空间和格式语义；AVML v2 已有帧索引、按需解码、CRC/长度核验及重编码语料，真实版本矩阵仍待补齐。Windows 已支持镜像内驻留的 transition 页，prototype 和外部 pagefile 未实现。
 4. HTTP/FTP/S3/GS 等远程数据源，以及 YARA、反汇编、LeechCore；正式验收使用完整扩展构建。
 5. 将各分诊规则连接到经验证的原生数据生产者；增加真实恶意与正常 VM 对照、共享扫描索引、通用证据图、扩大提取文件管理与持续任务日志。
 6. TUI 按列排序、树形浏览、历史导航、快捷切换、全文索引/游标分页和更完整的详情交互；其余上游 renderer 与文件/模块/进程映像完整提取验收；现已有 VAD/VMA 区域、显式地址/DLL/主映像/内核与会话模块的 PE 提取及证据包。

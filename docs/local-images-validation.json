@@ -78,19 +78,16 @@
       "plugin": "generic.info",
       "rows": 130,
       "state": "completed",
-      "engine_build_sha256": "a922ce6d6cd7aab47b6a5a2dc6efe1bb73bd662a1c801536006196be0dc79bbb",
+      "engine_build_sha256": "c7b210aeb70247f5245caf49d8fe13b7427ba0233cb66ab7123652291ad0be7f",
       "source_hash_reverified": true
     },
     {
       "file": "linux-sample-1.bin.gz",
-      "plugin": "linux.psaux",
+      "plugin": "linux.pslist",
       "rows": 133,
-      "state": "failed",
-      "engine_build_sha256": "a922ce6d6cd7aab47b6a5a2dc6efe1bb73bd662a1c801536006196be0dc79bbb",
-      "source_hash_reverified": true,
-      "read_errors": 2,
-      "captured_argument_matches": 92,
-      "no_mm_display_matches": 39
+      "state": "completed",
+      "engine_build_sha256": "c7b210aeb70247f5245caf49d8fe13b7427ba0233cb66ab7123652291ad0be7f",
+      "source_hash_reverified": true
     }
   ]
 }

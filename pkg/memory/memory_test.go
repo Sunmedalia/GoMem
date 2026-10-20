@@ -29,7 +29,7 @@ func (b bufferSource) ReadAt(ctx context.Context, p []byte, a uint64) (int, erro
 }
 func raw(t testing.TB, b []byte) *Mapped {
 	t.Helper()
-	m, e := NewMapped(bufferSource(b), "physical", []Range{{0, uint64(len(b)), 0}})
+	m, e := NewMapped(bufferSource(b), "physical", []Range{{Start: 0, Length: uint64(len(b)), FileOffset: 0}})
 	if e != nil {
 		t.Fatal(e)
 	}
@@ -37,7 +37,7 @@ func raw(t testing.TB, b []byte) *Mapped {
 }
 func TestMappedHolesAndBounds(t *testing.T) {
 	b := bufferSource("abcdefghijklmnop")
-	m, e := NewMapped(b, "sparse", []Range{{0x1000, 4, 0}, {0x1004, 4, 8}, {0x2000, 4, 4}})
+	m, e := NewMapped(b, "sparse", []Range{{Start: 0x1000, Length: 4}, {Start: 0x1004, Length: 4, FileOffset: 8}, {Start: 0x2000, Length: 4, FileOffset: 4}})
 	if e != nil {
 		t.Fatal(e)
 	}
@@ -50,10 +50,10 @@ func TestMappedHolesAndBounds(t *testing.T) {
 	if n != 4 || !errors.Is(e, ErrUnmapped) {
 		t.Fatalf("n=%d err=%v", n, e)
 	}
-	if _, e = NewMapped(b, "bad", []Range{{0, 10, 0}, {9, 2, 0}}); e == nil {
+	if _, e = NewMapped(b, "bad", []Range{{Length: 10}, {Start: 9, Length: 2}}); e == nil {
 		t.Fatal("accepted overlap")
 	}
-	if _, e = NewMapped(b, "bad", []Range{{^uint64(0), 4, 0}}); e == nil {
+	if _, e = NewMapped(b, "bad", []Range{{Start: ^uint64(0), Length: 4}}); e == nil {
 		t.Fatal("accepted overflow")
 	}
 	if _, e = Read(context.Background(), m, 0, -1); e == nil {

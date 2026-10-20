@@ -1,0 +1,16 @@
+{
+  "schema": "gomem.avml-reference/v1",
+  "operation": "encode",
+  "avml_commit": "d212dd1204b6ad089438fc27ae8530371c095501",
+  "sources": {
+    "image.rs": "bd706b93b42608ee7e463c370cc1fef988e9af2c49cc66a7b1c0f940b6f06ec1",
+    "snappy.rs": "20c908af0d9a8795a860789d914099f6f5ad2f6810f9589e638ac030b472e2b9",
+    "counter.rs": "9d27c1a0b49357f8b60fd7c6fffc97f6ff10ab3c7f10836af4fb0d7d2b9dd982"
+  },
+  "cargo_lock_sha256": "ffd58382302a8c36cc57ce38212a3ba8027a9ba9647ccd8cd20c8d63a0d9bd19",
+  "binary_sha256": "1545e036372a8b9a3bf7e2dbe96774acbac61764a7e71c8adc28e8b7a5cdff92",
+  "input_sha256": "550b51ac23c162cec4ff1b1a306551f6451558c07ce447bd9833d7638ecea80b",
+  "output_sha256": "adadf9f8ae23e4dfcb04de9b33555dfbc2b0dfd0dbe543b01cf59b455630a27d",
+  "input_size": "131195",
+  "output_size": "68818"
+}

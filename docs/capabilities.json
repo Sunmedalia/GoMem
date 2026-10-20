@@ -11259,11 +11259,15 @@
       "id": "volatility3.framework.layers.avml",
       "category": "layers",
       "source": "volatility3/framework/layers/avml.py",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "See locked source; source-module inventory includes support modules.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "AVML v2 inclusive physical regions and Snappy framed data with 64KiB decoded frame bounds; CRC32C on reads, exact stored-length trailers and bounded random-access cache.",
+      "corpora": [
+        "synthetic-avml-v2",
+        "official-linux-sample-1-reencoded-avml"
+      ],
+      "comparison": "reencoded_physical_bytes_and_selected_entities_only",
+      "validation_record": "docs/avml.md"
     },
     {
       "id": "volatility3.framework.layers.cloudstorage",

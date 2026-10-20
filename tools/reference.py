@@ -27,6 +27,7 @@ def main():
     parser.add_argument("--plugin", required=True)
     parser.add_argument("--output", type=pathlib.Path, required=True)
     parser.add_argument("--dump-dir", type=pathlib.Path, help="New empty directory for reference extraction files")
+    parser.add_argument("--native-library", type=pathlib.Path, action="append", default=[], help="Record a native reference dependency's size and SHA-256; loading remains configured by the reference environment")
     parser.add_argument("parameters", nargs=argparse.REMAINDER)
     args = parser.parse_args()
     lock = json.loads((ROOT / "baseline.lock.json").read_text())
@@ -48,6 +49,7 @@ def main():
         command += ["-o", str(args.dump_dir.resolve())]
     command += [args.plugin, *parameters]
     image_hash = digest(args.image)
+    libraries = [{"name": path.name, "size": str(path.stat().st_size), "sha256": digest(path)} for path in args.native_library]
     with args.output.open("x") as out:
         try:
             subprocess.run(command, stdout=out, check=True)
@@ -57,6 +59,12 @@ def main():
             raise
     meta = {"baseline": lock, "image_sha256": image_hash, "plugin": args.plugin, "parameters": parameters,
             "output_sha256": digest(args.output), "config_sha256": digest(config), "python": sys.version}
+    if libraries:
+        # Recheck after execution so a replacement during reference analysis
+        # cannot silently inherit the old dependency identity.
+        if libraries != [{"name": path.name, "size": str(path.stat().st_size), "sha256": digest(path)} for path in args.native_library]:
+            raise ValueError("native reference library changed during execution")
+        meta["native_libraries"] = libraries
     if args.dump_dir:
         meta["extracted_files"] = [{"name": path.relative_to(args.dump_dir).as_posix(), "size": str(path.stat().st_size), "sha256": digest(path)}
                                    for path in sorted(args.dump_dir.rglob("*")) if path.is_file()]

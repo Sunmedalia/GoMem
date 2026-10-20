@@ -34,6 +34,8 @@ jobs:
       - run: python3 tools/fetch_baseline.py
       - run: python3 tools/baseline_matrix.py --source .cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75 --check
       - run: go test ./pkg/memory -run '^$' -fuzz FuzzDetect -fuzztime 5s
+      - run: go test ./pkg/memory -run '^$' -fuzz FuzzAVML -fuzztime 5s
+      - run: go test ./pkg/memory -run '^$' -fuzz FuzzSnappyBlock -fuzztime 5s
       - run: go test ./pkg/pe -run '^$' -fuzz FuzzMappedPEReconstruction -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxVMAMetadata -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsCommandLineUTF16 -fuzztime 5s

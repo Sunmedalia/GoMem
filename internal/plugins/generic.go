@@ -25,7 +25,7 @@ func (b builtin) Run(c context.Context, e plugin.Environment, p map[string]strin
 }
 func Register(r *plugin.Registry) error {
 	specs := []builtin{
-		{plugin.Spec{Name: "generic.info", Description: "Physical memory segments and layer metadata", Columns: []evidence.Column{{Name: "Start", Kind: "address"}, {Name: "Length", Kind: "uint64"}, {Name: "FileOffset", Kind: "address"}}}, info},
+		{plugin.Spec{Name: "generic.info", Description: "Physical memory segments and explicit linear/encoded storage metadata", Columns: []evidence.Column{{Name: "Start", Kind: "address"}, {Name: "Length", Kind: "uint64"}, {Name: "FileOffset", Kind: "address"}, {Name: "StoredLength", Kind: "uint64"}, {Name: "Encoding", Kind: "string"}}}, info},
 		{plugin.Spec{Name: "banners", Upstream: "banners.Banners", Description: "Scan validated Linux/Darwin banners and Windows kernel PDB identities", Columns: []evidence.Column{{Name: "Offset", Kind: "address"}, {Name: "Banner", Kind: "string"}}}, banners},
 		{plugin.Spec{Name: "generic.strings", Description: "Bounded printable ASCII strings with physical offsets", Parameters: []plugin.Parameter{{Name: "min", Kind: "uint", Default: "8", Description: "Minimum length, 1..4096"}}, Columns: []evidence.Column{{Name: "Offset", Kind: "address"}, {Name: "Text", Kind: "string"}, {Name: "Truncated", Kind: "string"}}}, ascii},
 		{plugin.Spec{Name: "generic.ioc", Description: "Exact literal byte search; overlap-safe, no regex or YARA", Parameters: []plugin.Parameter{{Name: "needle", Kind: "string", Description: "Nonempty UTF-8 literal, at most 4096 bytes"}}, Columns: []evidence.Column{{Name: "Offset", Kind: "address"}, {Name: "Match", Kind: "bytes"}}}, ioc},
@@ -51,7 +51,11 @@ func info(ctx context.Context, e plugin.Environment, p map[string]string, out pl
 		if err := ctx.Err(); err != nil {
 			return err
 		}
-		if err := out(evidence.Row{Cells: map[string]evidence.Value{"Start": evidence.Address(r.Start), "Length": evidence.Number(r.Length), "FileOffset": evidence.Address(r.FileOffset)}, Provenance: evidence.Provenance{Layer: e.Physical.Name(), Offset: fmt.Sprintf("0x%x", r.Start)}}); err != nil {
+		encoding, stored := r.Encoding, r.StoredLength
+		if encoding == "" {
+			encoding, stored = "linear", r.Length
+		}
+		if err := out(evidence.Row{Cells: map[string]evidence.Value{"Start": evidence.Address(r.Start), "Length": evidence.Number(r.Length), "FileOffset": evidence.Address(r.FileOffset), "StoredLength": evidence.Number(stored), "Encoding": evidence.Text(encoding)}, Provenance: evidence.Provenance{Layer: e.Physical.Name(), Offset: fmt.Sprintf("0x%x", r.Start)}}); err != nil {
 			return err
 		}
 	}
@@ -59,25 +63,35 @@ func info(ctx context.Context, e plugin.Environment, p map[string]string, out pl
 }
 
 // scanASCII carries a bounded string across read boundaries and never joins
-// strings across holes or physical segments. Long strings are marked truncated.
+// strings across holes. Adjacent physical ranges continue the same string even
+// when their container records or compression streams differ.
 func scanASCII(ctx context.Context, l memory.MemoryLayer, minLen int, emit func(uint64, string, bool) error) error {
 	if minLen < 1 || minLen > 4096 {
 		return fmt.Errorf("minimum string length must be 1..4096")
 	}
 	buf := make([]byte, 1<<20)
-	for _, r := range l.Ranges() {
-		var start uint64
-		word := make([]byte, 0, 256)
-		long := false
-		flush := func() error {
-			if len(word) >= minLen {
-				if err := emit(start, string(word), long); err != nil {
-					return err
-				}
+	var start, previousEnd uint64
+	word := make([]byte, 0, 256)
+	long := false
+	flush := func() error {
+		if len(word) >= minLen {
+			if err := emit(start, string(word), long); err != nil {
+				return err
 			}
-			word = word[:0]
-			long = false
-			return nil
+		}
+		word = word[:0]
+		long = false
+		return nil
+	}
+	for index, r := range l.Ranges() {
+		end, err := memory.Add(r.Start, r.Length)
+		if err != nil || r.Length == 0 || index > 0 && r.Start < previousEnd {
+			return fmt.Errorf("invalid ASCII scan ranges")
+		}
+		if index > 0 && r.Start != previousEnd {
+			if err := flush(); err != nil {
+				return err
+			}
 		}
 		for off := uint64(0); off < r.Length; {
 			if err := ctx.Err(); err != nil {
@@ -109,11 +123,12 @@ func scanASCII(ctx context.Context, l memory.MemoryLayer, minLen int, emit func(
 			}
 			off += uint64(n)
 		}
-		if err := flush(); err != nil {
-			return err
-		}
+		previousEnd = end
 	}
-	return nil
+	if err := ctx.Err(); err != nil {
+		return err
+	}
+	return flush()
 }
 
 var bannerVersion = regexp.MustCompile(`(?:Linux version|Darwin Kernel Version) [0-9]+\.[0-9]+\.[0-9]+`)
@@ -124,9 +139,18 @@ func banners(ctx context.Context, e plugin.Environment, p map[string]string, out
 			i := loc[0]
 			a += uint64(i)
 			n := uint64(4095)
-			for _, run := range e.Physical.Ranges() {
+			ranges := e.Physical.Ranges()
+			for index, run := range ranges {
 				if a >= run.Start && a-run.Start < run.Length {
-					n = min(n, run.Length-(a-run.Start))
+					end := run.Start + run.Length
+					for next := index + 1; next < len(ranges) && ranges[next].Start == end && end-a < n; next++ {
+						var err error
+						end, err = memory.Add(end, ranges[next].Length)
+						if err != nil {
+							return err
+						}
+					}
+					n = min(n, end-a)
 					break
 				}
 			}
@@ -158,8 +182,16 @@ func banners(ctx context.Context, e plugin.Environment, p map[string]string, out
 func pdbBanners(ctx context.Context, e plugin.Environment, out plugin.Emit) error {
 	names := map[string]bool{"ntoskrnl.pdb": true, "ntkrnlmp.pdb": true, "ntkrnlpa.pdb": true, "ntkrpamp.pdb": true}
 	buf := make([]byte, 1<<20)
-	for _, r := range e.Physical.Ranges() {
-		var tail []byte
+	var tail []byte
+	var previousEnd uint64
+	for index, r := range e.Physical.Ranges() {
+		end, err := memory.Add(r.Start, r.Length)
+		if err != nil || r.Length == 0 || index > 0 && r.Start < previousEnd {
+			return fmt.Errorf("invalid PDB scan ranges")
+		}
+		if index == 0 || r.Start != previousEnd {
+			tail = nil
+		}
 		for off := uint64(0); off < r.Length; {
 			n := int(min(uint64(len(buf)), r.Length-off))
 			got, err := e.Physical.ReadAt(ctx, buf[:n], r.Start+off)
@@ -209,8 +241,9 @@ func pdbBanners(ctx context.Context, e plugin.Environment, out plugin.Emit) erro
 			tail = append(tail[:0], window[len(window)-keep:]...)
 			off += uint64(n)
 		}
+		previousEnd = end
 	}
-	return nil
+	return ctx.Err()
 }
 func ascii(ctx context.Context, e plugin.Environment, p map[string]string, out plugin.Emit) error {
 	n, err := strconv.ParseUint(p["min"], 0, 64)

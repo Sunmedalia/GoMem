@@ -1,0 +1,310 @@
+{
+  "schema": "gomem.avml-validation/v1",
+  "date": "2026-10-20",
+  "scope": "Synthetic independent encoder fixture plus one official raw acquisition reencoded as AVML; not native acquisition/version acceptance",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "engine_build_sha256": "c7b210aeb70247f5245caf49d8fe13b7427ba0233cb66ab7123652291ad0be7f",
+  "reference_encoder": {
+    "schema": "gomem.avml-reference/v1",
+    "operation": "encode",
+    "avml_commit": "d212dd1204b6ad089438fc27ae8530371c095501",
+    "sources": {
+      "image.rs": "bd706b93b42608ee7e463c370cc1fef988e9af2c49cc66a7b1c0f940b6f06ec1",
+      "snappy.rs": "20c908af0d9a8795a860789d914099f6f5ad2f6810f9589e638ac030b472e2b9",
+      "counter.rs": "9d27c1a0b49357f8b60fd7c6fffc97f6ff10ab3c7f10836af4fb0d7d2b9dd982"
+    },
+    "cargo_lock_sha256": "ffd58382302a8c36cc57ce38212a3ba8027a9ba9647ccd8cd20c8d63a0d9bd19",
+    "binary_sha256": "1545e036372a8b9a3bf7e2dbe96774acbac61764a7e71c8adc28e8b7a5cdff92",
+    "input_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "output_sha256": "5b4d1fb2174127c3922af8ca623d00a4d37757c48154f0eb0a5c660f4551d324",
+    "input_size": "536870912",
+    "output_size": "205034361"
+  },
+  "physical_comparison": {
+    "coverage": [
+      {
+        "end_exclusive": "0x20000000",
+        "start": "0x0"
+      }
+    ],
+    "duration_ms": 2369,
+    "formats": [
+      "avml",
+      "lime"
+    ],
+    "matched": true,
+    "physical_bytes": "536870912",
+    "physical_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "random_reads": 1024,
+    "schema": "gomem.physical-byte-comparison/v1",
+    "scope": "Exact complete mapped physical coverage and bytes for these containers; not full format or plugin acceptance",
+    "source_sha256": [
+      "5b4d1fb2174127c3922af8ca623d00a4d37757c48154f0eb0a5c660f4551d324",
+      "030de1c8654f20fc3ed517e98ca71ac9dded5724418cb648efd447fcc67e8cdf"
+    ]
+  },
+  "entity_comparisons": [
+    {
+      "plugin": "linux.pslist",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "PPID",
+          "Name"
+        ],
+        "native_rows": 133,
+        "reference_rows": 133,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "41960cf364c76b89594bc6911991f2333fa4aca1b827a021f38646299a4cbfcf",
+          "reference": "a843aaf4d6f6f2b9d9180b02205ac014583576ae444d0954b43b6718862a75ad",
+          "mapping": "74b0de881a56a0f533b955f6ac8aa5dd559374b625bc8ddcd9fe1064d527a061"
+        }
+      },
+      "reference_native_libraries": [
+        {
+          "name": "libsnappy.1.dylib",
+          "size": "165232",
+          "sha256": "d9bd975587632ffffea16433781baaa609ac483da5d3e6de9800bec9a9464516"
+        }
+      ]
+    },
+    {
+      "plugin": "linux.lsmod",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "Name"
+        ],
+        "native_rows": 79,
+        "reference_rows": 79,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "0431b0c4c3dab04ce2cc4b3477cfa0c864aeb4ffb8607afdf162bd771cb184c9",
+          "reference": "2aad3e582dcf6a6aeee39664d84c632007393338c007e3fd7d37aafabefc9504",
+          "mapping": "8f2c52182ed8eca9144164ec62d5e6d12b21e90dd68fb53378f346f88dbdc245"
+        }
+      },
+      "reference_native_libraries": [
+        {
+          "name": "libsnappy.1.dylib",
+          "size": "165232",
+          "sha256": "d9bd975587632ffffea16433781baaa609ac483da5d3e6de9800bec9a9464516"
+        }
+      ]
+    },
+    {
+      "plugin": "linux.psaux",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "PPID",
+          "COMM",
+          "ARGS"
+        ],
+        "native_rows": 133,
+        "reference_rows": 133,
+        "matched": false,
+        "missing": [
+          {
+            "ARGS": {
+              "missing": "reference-null"
+            },
+            "COMM": "init",
+            "PID": "1",
+            "PPID": "0",
+            "parent": null
+          },
+          {
+            "ARGS": {
+              "missing": "reference-null"
+            },
+            "COMM": "atd",
+            "PID": "2344",
+            "PPID": "1",
+            "parent": null
+          }
+        ],
+        "extra": [
+          {
+            "ARGS": {
+              "error": "process:a30de977f65d19e2493298bdc298ec255b0f256c1388563a3f1b61b2877e0f6a: read 0x7fff14d8df62 (11 bytes): unmapped memory: nonpresent page-table entry 0x6000 at 0x1d637c68 (prototype/swap or unsupported software encoding)",
+              "missing": "argument_buffer_unreadable"
+            },
+            "COMM": "init",
+            "PID": "1",
+            "PPID": "0",
+            "parent": null
+          },
+          {
+            "ARGS": {
+              "error": "process:52a85493e1e551691f2d043ca465e9db0739ae808c45846470d2b728a0fef817: read 0x7fff59d6eedd (14 bytes): unmapped memory: nonpresent page-table entry 0xa9c00 at 0x1c686b70 (prototype/swap or unsupported software encoding)",
+              "missing": "argument_buffer_unreadable"
+            },
+            "COMM": "atd",
+            "PID": "2344",
+            "PPID": "1",
+            "parent": null
+          }
+        ],
+        "sha256": {
+          "native": "d280b5808356d9740dabdfb17bce6cd724620b3b28f54921462a0925eaa16ea0",
+          "reference": "825678ce9e64af94e87c43d6902ebc6dcb07867ff0c730f77b2ff31d7efbbc80",
+          "mapping": "5c72dd18412a3c68c53f7ae9e55340b04e167e3ce3ab2de390c4a3b47a556a30"
+        }
+      },
+      "reference_native_libraries": [
+        {
+          "name": "libsnappy.1.dylib",
+          "size": "165232",
+          "sha256": "d9bd975587632ffffea16433781baaa609ac483da5d3e6de9800bec9a9464516"
+        }
+      ]
+    },
+    {
+      "plugin": "linux.maps",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "Process",
+          "Start",
+          "End",
+          "Protection",
+          "PgOff",
+          "Major",
+          "Minor",
+          "Inode",
+          "Path"
+        ],
+        "native_rows": 13990,
+        "reference_rows": 13990,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "8c0ad19d31678c5c4ee34db18390eff0f692421476c46149c189aa03f4717112",
+          "reference": "434ae2704a4cd1f84b28a3b0b6572eda9a8e43ebdd2399e7b4f258f951468622",
+          "mapping": "77209a57f0c9c405beaaae810471c2b12fba047e0d92bc8c746d4c697798ba52"
+        }
+      },
+      "reference_native_libraries": [
+        {
+          "name": "libsnappy.1.dylib",
+          "size": "165232",
+          "sha256": "d9bd975587632ffffea16433781baaa609ac483da5d3e6de9800bec9a9464516"
+        }
+      ]
+    }
+  ],
+  "selected_extraction": {
+    "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+    "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "reference_parameters": [
+      "--pid",
+      "1",
+      "--address",
+      "0x400000",
+      "--dump"
+    ],
+    "native_files": 1,
+    "reference_files": 1,
+    "explicit_file_name_mapping": {},
+    "matched": true,
+    "files": [
+      {
+        "name": "pid.1.vma.0x400000-0x409000.dmp",
+        "reference_name": "pid.1.vma.0x400000-0x409000.dmp",
+        "size": "36864",
+        "reference_size": "36864",
+        "native_sha256": "def8ca5ec5a3ca9b1c4e6ad8e856fd5f3f13d501aea628b7d3eb2aa66fcd6246",
+        "reference_sha256": "def8ca5ec5a3ca9b1c4e6ad8e856fd5f3f13d501aea628b7d3eb2aa66fcd6246",
+        "bytes_equal": true,
+        "differing_bytes": 0,
+        "first_differing_offsets": [],
+        "state": "completed_with_gaps",
+        "missing_bytes": "12288",
+        "gap_count": "3",
+        "gaps_sha256": "e6c775734be3e67f755fbec511b8fc0f6e2ef5cd017e67fe52d12d575b2f6393",
+        "image_sha256": "5b4d1fb2174127c3922af8ca623d00a4d37757c48154f0eb0a5c660f4551d324",
+        "engine_build_sha256": "c7b210aeb70247f5245caf49d8fe13b7427ba0233cb66ab7123652291ad0be7f",
+        "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+        "layer": "process:a30de977f65d19e2493298bdc298ec255b0f256c1388563a3f1b61b2877e0f6a",
+        "offset": "0x400000"
+      }
+    ],
+    "native_rows_sha256": "2017544c2b40e1da24524f8c678496b88c1bba7e22b84ff0aace752a213df443",
+    "reference_manifest_sha256": "79f3f67031a1ffd27c998566b511268ff68fa0b6909698aebe2c3ef2a675fd81"
+  },
+  "bundle_validation": {
+    "report": {
+      "tasks": 1,
+      "members": 5,
+      "verified": true,
+      "artifacts": 1,
+      "included_artifacts": 1,
+      "partial_artifacts": 0
+    },
+    "sha256": "8193f03f569a9a14f31b8fc171027681d87b705c93d2156324be826fc6a1419b"
+  },
+  "fuzz": [
+    {
+      "target": "FuzzAVML",
+      "duration": "10s",
+      "executions": 1853808
+    },
+    {
+      "target": "FuzzSnappyBlock",
+      "duration": "10s",
+      "executions": 1213941
+    }
+  ],
+  "checks": [
+    "go test ./...",
+    "go vet ./...",
+    "go test -race ./...",
+    "GOMEM_CORPUS_DIR=/Volumes/l/GoMem/.cache/corpus go test ./internal/engine -run TestOfficialLinuxReencodedAVML -count=1",
+    "GOMEM_CORPUS_DIR=/Volumes/l/GoMem/.cache/corpus go test ./internal/engine -run ^TestOfficial -count=1"
+  ],
+  "cross_builds": [
+    {
+      "name": "gomem-0.1.0-dev-windows-amd64.exe",
+      "sha256": "b5522748a8bee330f3dc7d98872b283c67fa52fa10f69c3d086708b66c958b24",
+      "target": "windows/amd64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-windows-arm64.exe",
+      "sha256": "9c5a8a6c887bace5086cfe9180dd55e18b7c15fefc3004e15163a2f31048cfe2",
+      "target": "windows/arm64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-linux-amd64",
+      "sha256": "7e36553cac7cba54f6c0f030e0471e98c9c37387830c61af8dbc8babeb7c766c",
+      "target": "linux/amd64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-linux-arm64",
+      "sha256": "f1744c69d50c75e5538edee75acb286f08e2b114d511d93b2138aec2d134511f",
+      "target": "linux/arm64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-darwin-amd64",
+      "sha256": "32ef6bfb883b906b20849ab94cc97f2ebb61b149b6043ae5bc139763aa413ee4",
+      "target": "darwin/amd64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-darwin-arm64",
+      "sha256": "ca0f720aea74f3bd6d262de2134224347013cfb952a8ecdd4f1f28e2528e5278",
+      "target": "darwin/arm64"
+    }
+  ],
+  "cross_build_scope": "Compilation only; native CI execution tracked separately"
+}

@@ -165,6 +165,10 @@ def generate(source):
             if module == "volatility3.framework.automagic.linux":
                 infrastructure[-1].update(status="partial", corpora=["synthetic-linux-x64", "official-linux-sample-1"],
                                           comparison="selected_kernel_identity_only", validation_record="docs/linux-discovery.md")
+            if module == "volatility3.framework.layers.avml":
+                infrastructure[-1].update(status="partial", corpora=["synthetic-avml-v2", "official-linux-sample-1-reencoded-avml"],
+                                          applicability="AVML v2 inclusive physical regions and Snappy framed data with 64KiB decoded frame bounds; CRC32C on reads, exact stored-length trailers and bounded random-access cache.",
+                                          comparison="reencoded_physical_bytes_and_selected_entities_only", validation_record="docs/avml.md")
             if module in ("volatility3.framework.automagic.windows", "volatility3.framework.automagic.pdbscan"):
                 infrastructure[-1].update(status="partial", corpora=["synthetic-windows-crash-x86-pae-x64", "official-windows-10-19041"],
                                           applicability="Windows complete/bitmap dumps with usable header root/list anchors; KDBG or validated module-list/PE/symbol discovery.",

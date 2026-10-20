@@ -38,13 +38,17 @@ func Detect(ctx context.Context, s MemorySource) (MemoryLayer, string, error) {
 	case bytes.HasPrefix(h, []byte("PAGE")):
 		return crash(ctx, s)
 	case bytes.HasPrefix(h, []byte("AVML")):
-		return nil, "avml", fmt.Errorf("%w: AVML compressed memory", ErrUnsupported)
+		l, err := openAVML(ctx, s)
+		if err != nil {
+			return nil, "avml", err
+		}
+		return l, "avml", err
 	case bytes.HasPrefix(h, []byte("QEVM")), bytes.HasPrefix(h, []byte{0xd2, 0xbe, 0xd2, 0xbe}), bytes.HasPrefix(h, []byte{0xd0, 0xbe, 0xd2, 0xbe}), bytes.HasPrefix(h, []byte{0xd1, 0xba, 0xd1, 0xba}), bytes.HasPrefix(h, []byte{0xd3, 0xbe, 0xd3, 0xbe}):
 		return nil, "virtual-machine", fmt.Errorf("%w: QEMU/VMware saved state", ErrUnsupported)
 	case bytes.HasPrefix(h, []byte{0x1f, 0x8b}), bytes.HasPrefix(h, []byte{0xfd, 0x37, 0x7a, 0x58, 0x5a, 0}), bytes.HasPrefix(h, []byte("PK\x03\x04")):
 		return nil, "compressed", fmt.Errorf("%w: compressed image; decompress into the case directory first", ErrUnsupported)
 	default:
-		m, e := NewMapped(s, "physical:raw", []Range{{0, s.Size(), 0}})
+		m, e := NewMapped(s, "physical:raw", []Range{{Start: 0, Length: s.Size(), FileOffset: 0}})
 		return m, "raw", e
 	}
 }
@@ -72,7 +76,7 @@ func lime(ctx context.Context, s MemorySource) (MemoryLayer, string, error) {
 		if e != nil || next > s.Size() {
 			return nil, "lime", fmt.Errorf("truncated LiME segment")
 		}
-		runs = append(runs, Range{start, n, data})
+		runs = append(runs, Range{Start: start, Length: n, FileOffset: data})
 		if len(runs) > 1<<20 {
 			return nil, "lime", fmt.Errorf("too many LiME segments")
 		}
@@ -97,7 +101,7 @@ func elfImage(ctx context.Context, s MemorySource) (MemoryLayer, string, error) 
 		if p.Filesz > p.Memsz {
 			return nil, "elf", fmt.Errorf("ELF filesz exceeds memsz")
 		}
-		runs = append(runs, Range{p.Paddr, p.Filesz, p.Off})
+		runs = append(runs, Range{Start: p.Paddr, Length: p.Filesz, FileOffset: p.Off})
 	}
 	m, e := NewMapped(s, "physical:elf", runs)
 	return m, "elf", e

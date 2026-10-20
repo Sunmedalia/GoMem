@@ -86,7 +86,7 @@ func crash(ctx context.Context, s MemorySource) (MemoryLayer, string, error) {
 			if base > ^uint64(0)/4096 || n > ^uint64(0)/4096 {
 				return nil, "crash", fmt.Errorf("Windows physical run overflow")
 			}
-			runs = append(runs, Range{base * 4096, n * 4096, off})
+			runs = append(runs, Range{Start: base * 4096, Length: n * 4096, FileOffset: off})
 			var e error
 			off, e = Add(off, n*4096)
 			if e != nil {
@@ -130,7 +130,7 @@ func crash(ctx context.Context, s MemorySource) (MemoryLayer, string, error) {
 						if len(runs) >= 1000000 {
 							return nil, "crash", fmt.Errorf("too many bitmap segments")
 						}
-						runs = append(runs, Range{page * 4096, 0, off})
+						runs = append(runs, Range{Start: page * 4096, Length: 0, FileOffset: off})
 						current = &runs[len(runs)-1]
 					}
 					current.Length += 4096

@@ -38,6 +38,11 @@ type Range struct {
 	Start      uint64 `json:"start"`
 	Length     uint64 `json:"length"`
 	FileOffset uint64 `json:"file_offset"`
+	// Empty Encoding denotes a linear mapping with Length stored bytes. For
+	// encoded regions FileOffset/StoredLength locate the encoded stream; adding
+	// a physical displacement to that file offset is not a valid translation.
+	StoredLength uint64 `json:"stored_length,omitempty"`
+	Encoding     string `json:"encoding,omitempty"`
 }
 type MemoryLayer interface {
 	Name() string
@@ -130,6 +135,9 @@ func NewMapped(s MemorySource, name string, runs []Range) (*Mapped, error) {
 	sort.Slice(runs, func(i, j int) bool { return runs[i].Start < runs[j].Start })
 	var end uint64
 	for i, r := range runs {
+		if r.Encoding != "" || r.StoredLength != 0 && r.StoredLength != r.Length {
+			return nil, fmt.Errorf("linear layer cannot map encoded segment %d", i)
+		}
 		a, e := Add(r.Start, r.Length)
 		if e != nil || r.Length == 0 {
 			return nil, fmt.Errorf("invalid segment %d", i)

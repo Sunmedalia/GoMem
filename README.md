@@ -54,7 +54,7 @@ bin/gomem analyze windows.pslist \
 | `linux.lsmod` | 匹配 ISF、DTB；旧布局和 `module_layout`；6.4+ `module_memory` 字段尚未补齐 |
 | `linux.maps` | VMA 链表或 Maple Tree、权限、inode、设备及带作用域的路径；PID/地址集合筛选；可提取所选区域 |
 
-支持 RAW、LiME v1、具有物理 `PT_LOAD` 的 ELF core，以及 Windows 32/64 位完整转储与 bitmap 转储。其他已识别的容器会明确拒绝；通用 ELF 不代表 Xen 格式已实现。
+支持 RAW、LiME v1、AVML v2 Snappy 帧、具有物理 `PT_LOAD` 的 ELF core，以及 Windows 32/64 位完整转储与 bitmap 转储。AVML 按需解码、核验帧 CRC 和长度尾部，使用有界随机读取缓存；[适用条件与验证](docs/avml.md)。其他已识别的容器会明确拒绝；通用 ELF 不代表 Xen 格式已实现。
 
 支持 x86、PAE、四级 x64 页表、4KiB 页及相应大页。Windows 支持镜像中仍驻留的 transition 页，保留权限未知状态；外部交换页、prototype 及未支持的非驻留编码返回读取错误。输入以只读方式打开，按块散列，检查修改时间与大小变化。分析期间仍应保持采集文件不可变。
 
