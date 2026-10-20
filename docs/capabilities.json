@@ -6906,15 +6906,22 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "KeNumberProcessors is read as unsigned int. KiProcessorBlock is an array of _KPRCB pointers at the symbol address, one slot per processor. A slot that cannot be read fails the task. The KPCR base is the pointer target minus the offset of _KPCR.Prcb. A target whose first byte is unmapped is skipped. When CurrentPrcb exists and is a pointer, the PRCB column is that pointer value; otherwise it is the address of the embedded Prcb. A count above 1024 fails the task; that bound is not an upstream parameter. Native addresses keep canonical high bits. The reference JSON drops them, so the comparison masks both sides to the low 48 bits. The summary row is not a KPCR.",
+      "native": "windows.kpcrs",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-kpcr",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_1_row_matches_low_48_kpcr_and_prcb",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has one processor and no skipped PRCB",
+        "Real 32-bit images and machines with more than one processor are pending",
+        "The 1024 processor bound is native and was not reached on the selected image",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-kpcrs.md"
     },
     {
       "id": "windows.ldrmodules.LdrModules",

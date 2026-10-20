@@ -52,3 +52,4 @@
 2026-10-21：windows.privileges 列出活动进程令牌特权。选定 Windows 10 19041 样本的 4200 行与固定基线一致，120 个进程都读到了令牌。真实 32 位镜像和时间线还没有验收。[详情](windows-privileges.md)
 2026-10-21：windows.getsids 列出活动进程令牌 SID。选定 Windows 10 19041 样本的 1752 行与固定基线一致，120 个进程、239 个不可用名称、4 个 ProfileList 用户。没有不可读令牌。真实 32 位镜像和时间线还没有验收。[详情](windows-getsids.md)
 2026-10-21：windows.getservicesids 计算 SYSTEM hive 中未知服务的 SID。选定 Windows 10 19041 样本的 189 行与固定基线一致，另有 161 个已知服务名被跳过。真实 32 位镜像和时间线还没有验收。[详情](windows-getservicesids.md)
+2026-10-21：windows.kpcrs 列出处理器 KPCR 和 PRCB。选定 Windows 10 19041 样本的 1 行低 48 位与固定基线一致，原生地址保留规范高位。没有跳过的 PRCB。真实 32 位和多处理器镜像还没有验收。[详情](windows-kpcrs.md)

@@ -44,6 +44,7 @@ func Register(r *plugin.Registry) error {
 	specs = append(specs, windowsPrivilegePlugins()...)
 	specs = append(specs, windowsGetSIDPlugins()...)
 	specs = append(specs, windowsGetServiceSIDPlugins()...)
+	specs = append(specs, windowsKPCRPlugins()...)
 	specs = append(specs, linuxPsauxPlugins()...)
 	specs = append(specs, linuxEnvarPlugins()...)
 	specs = append(specs, windowsHivePlugins()...)

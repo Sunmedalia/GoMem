@@ -1,0 +1,11 @@
+{
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "Offset", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "PRCB": {"native": "PRCB", "reference": "PRCB Offset", "kind": "address", "mask": "0x0000ffffffffffff"}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["kpcr"],
+    "excluded_values": ["summary", "diagnostic"]
+  }
+}
