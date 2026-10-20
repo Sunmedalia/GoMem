@@ -39,6 +39,7 @@ type Engine struct {
 	Env       plugin.Environment
 	Store     *store.Store
 	Registry  *plugin.Registry
+	Discovery *LinuxDiscovery
 	mu        sync.Mutex
 	closing   bool
 	wg        sync.WaitGroup
@@ -128,6 +129,7 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 			return nil, e
 		}
 		eng.Env.Kernel = &memory.Virtual{Physical: physical, Translator: tr, ID: fmt.Sprintf("kernel:%s:dtb=%#x", c.Arch, root)}
+		eng.Config.DTB = fmt.Sprintf("0x%x", root)
 	}
 	if c.Symbols != "" {
 		table, e := symbols.LoadContext(ctx, c.Symbols)
@@ -164,8 +166,20 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 			eng.Config.SymbolIndex, eng.Config.Symbols = indexPath, selected.Location
 		}
 	}
+	if eng.Env.Kernel == nil && eng.Env.Symbols != nil {
+		kernel, proof, discoverErr := eng.discoverLinux(ctx)
+		if discoverErr != nil {
+			return nil, discoverErr
+		}
+		if proof != nil {
+			eng.Env.Kernel, eng.Discovery, eng.Config.DTB = kernel, proof, proof.DTB
+		}
+	}
 	if eng.Env.Kernel != nil && eng.Env.Symbols != nil {
 		eng.Env.Objects = &object.Reader{Layer: eng.Env.Kernel, Symbols: eng.Env.Symbols}
+	}
+	if err = eng.unchanged(); err != nil {
+		return nil, err
 	}
 	imagePath, err := filepath.Abs(c.Image)
 	if err != nil {

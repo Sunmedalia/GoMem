@@ -41,7 +41,7 @@ bin/gomem analyze windows.pslist \
 | `generic.info` | 物理段、大小与文件偏移 |
 | `banners` | ASCII Linux/Darwin 内核 banner、Windows 内核 RSDS 身份 |
 | `generic.strings` | ASCII 可打印字符串；`--param min=8`；长字符串明确标记截断 |
-| `generic.ioc` | 精确字节串；`--param needle=example`；支持块边界和重叠命中 |
+| `generic.ioc` | 精确字节串；`--param needle=example`；支持块边界、连续物理段边界和重叠命中 |
 | `windows.pslist` | 匹配 ISF、DTB、内核基址；活动进程链表 |
 | `windows.modules` | 匹配 ISF、DTB、内核基址；内核模块链表 |
 | `linux.pslist` | 匹配 ISF、DTB；活动任务链表；可选 `--kernel-slide` |
@@ -64,7 +64,9 @@ bin/gomem analyze linux.pslist --image memory.raw --case ./case-001 --dtb 0x1230
 
 默认读取 `CASE/symbols/index.json`，也可用 `--symbol-index INDEX`；`--symbols` 优先。索引核验完整表摘要，拒绝过期来源和多个不同表同时匹配。Windows 仍需 `--kernel-base`。索引不会根据文件名猜测版本。
 
-**本预览需要显式指定地址空间参数，并提供符号或本地索引。** DTB/内核基址自动识别、默认自动下载与 PDB/MSF 原生转换尚未实现。`--offline` 会禁止显式符号下载。已知 ISF 可通过 `symbols fetch HTTPS_URL --sha256 CHECKSUM --case CASE` 获取，再由分析路径验证身份；镜像不会上传。
+已有精确符号时，支持部分 Linux x64 内核的 DTB 自动发现：从物理 banner 和初始页表符号的相对位置生成候选，同时验证页表根自身映射和完整 banner。显式 `--dtb` 优先；虚拟 KASLR slide 仍需 `--kernel-slide`。`doctor --image ... --symbols ...` 显示发现依据。[适用条件与验证](docs/linux-discovery.md)
+
+**本预览仍需提供符号或本地索引；其余情况显式指定地址空间参数。** 通用 DTB/内核基址识别、默认自动下载与 PDB/MSF 原生转换尚未实现。`--offline` 会禁止显式符号下载。已知 ISF 可通过 `symbols fetch HTTPS_URL --sha256 CHECKSUM --case CASE` 获取，再由分析路径验证身份；镜像不会上传。
 
 ## 调查工作流
 

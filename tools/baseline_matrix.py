@@ -124,6 +124,9 @@ def generate(source):
                                    "status": "partial" if path.stem in ("physical", "intel", "lime", "elf", "crash", "intermed", "text_renderer") else "missing",
                                    "accepted": False, "applicability": "See locked source; source-module inventory includes support modules.",
                                    "corpora": [], "comparison": "not_run"})
+            if module == "volatility3.framework.automagic.linux":
+                infrastructure[-1].update(status="partial", corpora=["synthetic-linux-x64", "official-linux-sample-1"],
+                                          comparison="selected_kernel_identity_only", validation_record="docs/linux-discovery.md")
     for identifier in ("source.file", "source.http", "source.https", "source.ftp", "source.s3", "source.gs", "source.leechcore",
                        "symbols.pdb-msf", "symbols.dwarf", "symbols.local-index", "symbols.isf.zip", "symbols.isf.gzip", "symbols.isf.xz", "symbols.auto-download",
                        "exploration.address-space", "exploration.types", "exploration.search", "exploration.disassembly", "paging.swap",

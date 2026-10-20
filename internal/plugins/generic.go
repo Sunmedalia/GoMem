@@ -219,42 +219,7 @@ func ioc(ctx context.Context, e plugin.Environment, p map[string]string, out plu
 	if len(needle) < 1 || len(needle) > 4096 {
 		return fmt.Errorf("needle must be 1..4096 bytes")
 	}
-	buf := make([]byte, 1<<20)
-	var tail []byte
-	for _, r := range e.Physical.Ranges() {
-		tail = nil
-		for off := uint64(0); off < r.Length; {
-			n := int(min(uint64(len(buf)), r.Length-off))
-			if err := ctx.Err(); err != nil {
-				return err
-			}
-			got, err := e.Physical.ReadAt(ctx, buf[:n], r.Start+off)
-			if err != nil {
-				return err
-			}
-			if got != n {
-				return fmt.Errorf("short IOC read")
-			}
-			window := string(tail) + string(buf[:n])
-			base := r.Start + off - uint64(len(tail))
-			for from := 0; from <= len(window)-len(needle); {
-				idx := strings.Index(window[from:], needle)
-				if idx < 0 {
-					break
-				}
-				idx += from
-				a := base + uint64(idx)
-				if a+uint64(len(needle)) > r.Start+off {
-					if err := out(evidence.Row{Cells: map[string]evidence.Value{"Offset": evidence.Address(a), "Match": evidence.Bytes([]byte(needle))}, Provenance: evidence.Provenance{Layer: e.Physical.Name(), Offset: fmt.Sprintf("0x%x", a)}}); err != nil {
-						return err
-					}
-				}
-				from = idx + 1
-			}
-			keep := min(len(needle)-1, len(window))
-			tail = append(tail[:0], window[len(window)-keep:]...)
-			off += uint64(n)
-		}
-	}
-	return nil
+	return memory.Scan(ctx, e.Physical, []byte(needle), func(a uint64) error {
+		return out(evidence.Row{Cells: map[string]evidence.Value{"Offset": evidence.Address(a), "Match": evidence.Bytes([]byte(needle))}, Provenance: evidence.Provenance{Layer: e.Physical.Name(), Offset: fmt.Sprintf("0x%x", a)}})
+	})
 }

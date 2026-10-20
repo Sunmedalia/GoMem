@@ -1,0 +1,62 @@
+{
+  "schema": "gomem.linux-discovery-validation/v1",
+  "date": "2026-10-20",
+  "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+  "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+  "discovery": {
+    "method": "linux-x64-linear-kernel-image",
+    "dtb": "0x1605000",
+    "banner_physical": "0x1400070",
+    "pgd_symbol": "init_level4_pgt",
+    "pgd_virtual": "0xffffffff81605000",
+    "kernel_slide": "0x0"
+  },
+  "results": [
+    {
+      "plugin": "linux.pslist",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "PPID",
+          "Name"
+        ],
+        "native_rows": 133,
+        "reference_rows": 133,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "e5a779640dc27d5258c31af2ebc31e7c4aff0eb8b009eac34bc88cf20d7739d2",
+          "reference": "a843aaf4d6f6f2b9d9180b02205ac014583576ae444d0954b43b6718862a75ad",
+          "mapping": "74b0de881a56a0f533b955f6ac8aa5dd559374b625bc8ddcd9fe1064d527a061"
+        }
+      },
+      "engine_build_sha256": "bcf034dee7905e0783c1062c45f7f2fbb76fb506c80c92a16bc32f19b87cf6b1"
+    },
+    {
+      "plugin": "linux.lsmod",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "Name"
+        ],
+        "native_rows": 79,
+        "reference_rows": 79,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "3ff7569a3e5315c182917c2111c9a0aabe64ff660a9408ebbcdd005ef214bb97",
+          "reference": "2aad3e582dcf6a6aeee39664d84c632007393338c007e3fd7d37aafabefc9504",
+          "mapping": "8f2c52182ed8eca9144164ec62d5e6d12b21e90dd68fb53378f346f88dbdc245"
+        }
+      },
+      "engine_build_sha256": "efc2444aa621682288c1940c67f0328470a5f78291a9146e6749bec591a5df7c"
+    }
+  ],
+  "scope": "No explicit DTB or OS; exact supplied ISF. One official Debian image plus synthetic positive/control layouts only; not full automatic configuration acceptance.",
+  "discovery_build_sha256": "bcf034dee7905e0783c1062c45f7f2fbb76fb506c80c92a16bc32f19b87cf6b1"
+}

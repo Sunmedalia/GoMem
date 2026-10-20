@@ -158,11 +158,12 @@
     "go_test_race": "passed",
     "go_vet": "passed",
     "official_corpus_regression": "passed on linux and windows samples",
-    "python_tool_tests": "2 passed",
+    "python_tool_tests": "3 passed",
     "fuzz_detect": "passed, 760795 executions in final short run",
     "fuzz_isf": "passed, 1083172 executions in final short run",
     "cross_compile": "windows/linux/darwin, amd64/arm64",
-    "native_execution": "darwin/arm64 only",
-    "interactive_tui": "PTY launch, plugin run and exit passed"
+    "native_execution": "darwin/arm64 local; Windows/Linux/macOS hosted CI synthetic integration tests passed",
+    "interactive_tui": "PTY launch, plugin run and exit passed",
+    "native_ci": "https://github.com/Sunmedalia/GoMem/actions/runs/39367343061 (eec2c51)"
   }
 }

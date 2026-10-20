@@ -40,7 +40,7 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 	f.StringVar(&cfg.SymbolIndex, "symbol-index", "", "Local symbol index; otherwise use CASE/symbols/index.json when DTB is given")
 	f.StringVar(&cfg.OS, "os", "", "Target OS: windows, linux, mac")
 	f.StringVar(&cfg.Arch, "arch", "x64", "Address translation: x64, x86, pae")
-	f.StringVar(&cfg.DTB, "dtb", "", "Physical page-table root, e.g. 0x1aa000")
+	f.StringVar(&cfg.DTB, "dtb", "", "Physical page-table root; optional for supported Linux x64 kernels with exact symbols")
 	f.Uint64Var(&cfg.KernelBase, "kernel-base", 0, "Windows kernel virtual base")
 	f.Uint64Var(&cfg.KernelSlide, "kernel-slide", 0, "Linux virtual relocation added to symbol addresses")
 	f.BoolVar(&cfg.Offline, "offline", false, "Disable symbol download; automatic discovery is pending in this preview")
@@ -121,7 +121,7 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 		if err != nil {
 			return err
 		}
-		diagnostic := map[string]any{"engine": version.Version, "release": "development-preview", "baseline": version.Baseline, "baseline_commit": version.BaselineCommit, "native_plugins": registry.List(), "upstream_plugin_classes": matrix.PluginCount, "accepted_plugins": matrix.Accepted, "release_ready": false, "extensions": map[string]bool{"yara": false, "capstone": false, "leechcore": false}, "formats": []string{"raw", "lime-v1", "elf-core-physical-pt_load", "windows-complete-32/64", "windows-bitmap-32/64"}, "symbol_inputs": []string{"isf-json/gzip/xz/zip", "elf-dwarf", "macho-dwarf"}, "missing": []string{"automatic image/kernel/DTB discovery", "automatic symbol acquisition", "native PDB/MSF conversion", "full DWARF/kernel-version validation", "macOS analysis", "swap resolution", "VMware/QEMU/Xen/AVML", "remote sources", "full plugin parameter parity", "official-corpus differential acceptance", "full renderers and extraction"}}
+		diagnostic := map[string]any{"engine": version.Version, "release": "development-preview", "baseline": version.Baseline, "baseline_commit": version.BaselineCommit, "native_plugins": registry.List(), "upstream_plugin_classes": matrix.PluginCount, "accepted_plugins": matrix.Accepted, "release_ready": false, "extensions": map[string]bool{"yara": false, "capstone": false, "leechcore": false}, "formats": []string{"raw", "lime-v1", "elf-core-physical-pt_load", "windows-complete-32/64", "windows-bitmap-32/64"}, "symbol_inputs": []string{"isf-json/gzip/xz/zip", "elf-dwarf", "macho-dwarf"}, "missing": []string{"complete image/kernel/DTB discovery (partial Linux x64 only)", "automatic symbol acquisition", "native PDB/MSF conversion", "full DWARF/kernel-version validation", "macOS analysis", "swap resolution", "VMware/QEMU/Xen/AVML", "remote sources", "full plugin parameter parity", "official-corpus differential acceptance", "full renderers and extraction"}}
 		diagnostic["release_ready"] = gate.Ready
 		diagnostic["symbol_lookup"] = "explicit table or local identity index (known DTB required); online discovery pending"
 		diagnostic["acceptance"] = gate
@@ -134,6 +134,10 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 			diagnostic["image_sha256"] = eng.Hash
 			diagnostic["image_format"] = eng.Format
 			diagnostic["selected_os"] = eng.Env.OS
+			diagnostic["dtb"] = eng.Config.DTB
+			if eng.Discovery != nil {
+				diagnostic["discovery"] = eng.Discovery
+			}
 			if eng.Env.Symbols != nil {
 				diagnostic["symbols_sha256"] = eng.Env.Symbols.Digest()
 				diagnostic["symbols_location"] = eng.Config.Symbols

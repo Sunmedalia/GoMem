@@ -108,4 +108,4 @@ make bench
 go run ./tools/bench --rows 100000 --samples 200
 ```
 
-Linux/Windows/macOS 的 amd64/arm64 交叉编译通过；本地实际执行环境为 macOS arm64。其余目标的原生执行由 CI 提供配置，尚无远程 CI 已运行的结论。
+Linux/Windows/macOS 的 amd64/arm64 交叉编译通过；本地实际执行环境为 macOS arm64。[GitHub CI](https://github.com/Sunmedalia/GoMem/actions/runs/39367343061) 已在 Windows、Linux、macOS 执行并通过单元/合成集成测试和验收工具检查。远程 CI 未下载真实镜像，不代表各目标上完成真实语料验收。

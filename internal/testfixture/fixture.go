@@ -61,6 +61,7 @@ func Write(dir, platform string) (Fixture, error) {
 		copy(data[0x8000:], banner)
 		t.Meta["linux"] = json.RawMessage(`{}`)
 		t.Symbols["linux_banner"] = symbols.Symbol{Address: 0x8000, ConstantData: base64.StdEncoding.EncodeToString(append([]byte(banner), 0))}
+		t.Symbols["init_top_pgt"] = symbols.Symbol{Address: 0x1000}
 		t.Symbols["init_task"] = symbols.Symbol{Address: 0x9000}
 		t.Symbols["modules"] = symbols.Symbol{Address: 0xc000}
 		t.Types["task_struct"] = symbols.Type{Kind: "struct", Size: 128, Fields: map[string]symbols.Field{"tasks": field(0, strct("list_head")), "pid": field(16, base("u32")), "tgid": field(20, base("u32")), "comm": field(24, arr(16)), "real_parent": field(40, ptr), "start_time": field(48, base("u64")), "mm": field(56, ptr)}}

@@ -11734,11 +11734,15 @@
       "id": "volatility3.framework.automagic.linux",
       "category": "automagic",
       "source": "volatility3/framework/automagic/linux.py",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
       "applicability": "See locked source; source-module inventory includes support modules.",
-      "corpora": [],
-      "comparison": "not_run"
+      "corpora": [
+        "synthetic-linux-x64",
+        "official-linux-sample-1"
+      ],
+      "comparison": "selected_kernel_identity_only",
+      "validation_record": "docs/linux-discovery.md"
     },
     {
       "id": "volatility3.framework.automagic.mac",

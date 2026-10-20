@@ -94,6 +94,21 @@ func TestLocalSymbolIndexCommand(t *testing.T) {
 	}
 }
 
+func TestLinuxDiscoveryCommand(t *testing.T) {
+	f, err := testfixture.Write(t.TempDir(), "linux")
+	if err != nil {
+		t.Fatal(err)
+	}
+	out, stderr, err := run(t, "", "analyze", "linux.pslist", "--image", f.Image, "--symbols", f.Symbols, "--offline", "--format", "jsonl")
+	if err != nil || len(strings.Split(strings.TrimSpace(out), "\n")) != 2 {
+		t.Fatal(out, stderr, err)
+	}
+	out, stderr, err = run(t, "", "doctor", "--image", f.Image, "--symbols", f.Symbols, "--offline")
+	if err != nil || !strings.Contains(out, `"pgd_symbol": "init_top_pgt"`) {
+		t.Fatal(out, stderr, err)
+	}
+}
+
 func TestNativeSymbolConversionCommand(t *testing.T) {
 	source := "../../pkg/symbols/testdata/dwarf-x86_64-v5.elf"
 	target := t.TempDir() + "/converted.json"
