@@ -51,6 +51,7 @@ bin/gomem analyze windows.pslist \
 | `windows.userassist` | 解码名称含 `ntuser.dat` 的 hive 里的 UserAssist 计数；Win7 及以后用 CookiePad 和已知文件夹 GUID；值读失败不补零；[说明](docs/windows-userassist.md) |
 | `windows.getcellroutine` | 报告不在 `ntoskrnl` / `ntkrnlmp` / `ntkrnlpa` / `ntkrpamp` 内的 hive `GetCellRoutine`；未映射保留为行，读失败不当成内核处理函数；[说明](docs/windows-getcellroutine.md) |
 | `windows.amcache` | 从第一个名称含 `amcache` 的 hive 读取执行痕迹；程序和文件按程序 ID 组成树；日期字符串沿用基线里走不到的解析；[说明](docs/windows-amcache.md) |
+| `windows.scheduledtasks` | 从第一个名称含 `software` 的 hive 解码计划任务；动作和触发器做笛卡尔积；沿用基线里对调的运行时间、走不到的时间模式和去掉前导零的 CLSID；[说明](docs/windows-scheduledtasks.md) |
 | `windows.hashdump` | 用 SYSTEM 的 LSA boot key 解密 SAM 的 LM/NT 哈希；缺 hive、boot key 或用户记录时失败，不把空结果当成功；[说明](docs/windows-hashdump.md) |
 | `windows.lsadump` | 用同一 boot key 解密 SECURITY 的 LSA secret；Vista 走独立 AES 块，更早的系统走 DES；缺 hive、密钥或 CurrVal 时失败；[说明](docs/windows-lsadump.md) |
 | `windows.cachedump` | 用 NL$KM 解密域缓存凭据；Vista 为 AES-CBC，更早的系统为 HMAC-MD5 加 RC4；空槽位跳过，缺密钥时失败；[说明](docs/windows-cachedump.md) |
@@ -117,6 +118,8 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `windows.getcellroutine` 读取每个活动 hive 的 `GetCellRoutine`，再用 `PsLoadedModuleList` 的基址和 `SizeOfImage` 判断它落在哪个模块。名称去掉最后一个扩展名后，只有 `ntoskrnl`、`ntkrnlmp`、`ntkrnlpa`、`ntkrpamp` 视为内核处理函数，比较区分大小写，区间含 `base+size`。落在其他模块里就是挂钩；哪个模块都不包含时记为不可用，而不是静默跳过。指针读失败单独成行。官方 Windows 10 19041 样本没有挂钩，也没有读失败，和固定基线的 0 行一致。这只是否定对照。[GetCellRoutine 验证](docs/windows-getcellroutine.md)
 
 `windows.amcache` 打开第一个名称含 `amcache` 的活动 hive。Windows 10 读 `InventoryApplication`、`InventoryApplicationFile` 和 `InventoryDriverBinary`；Windows 8 读 `Programs` 和两层 `File`。文件按程序 ID 挂到对应程序下面。SHA-1 去掉所有前导 0。`InstallDate` 和 `LinkDate` 保持基线那个始终返回不可解析的分支，不另做日期解析。官方 Windows 10 19041 样本有 56 个程序和 101 个文件，选定字段和父子路径与固定基线一致，没有驱动项。[Amcache 验证](docs/windows-amcache.md)
+
+`windows.scheduledtasks` 打开第一个名称含 `software` 的活动 hive，读取 `TaskCache\Tasks` 的直接子键。动作和触发器按笛卡尔积展开。官方 Windows 10 19041 样本的 311 行选定字段与固定基线一致，包括对调后的创建/上次运行时间、始终为空的时间触发器描述，以及去掉前导零的 COM CLSID。[计划任务验证](docs/windows-scheduledtasks.md)
 
 `linux.psaux` 读取任务参数区并保留原始字节、参数元素、捕获长度与来源。用户 Linux 样本的 92 条参数内容和 39 条无 mm 显示与基线一致，2 条读取错误仍保留，完整任务报告失败。[Linux 参数验证](docs/linux-psaux.md)
 

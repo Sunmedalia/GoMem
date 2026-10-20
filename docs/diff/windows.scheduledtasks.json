@@ -1,0 +1,99 @@
+{
+  "fields": {
+    "TaskName": {
+      "native": "TaskName",
+      "reference": "Task Name",
+      "kind": "string",
+      "missing_reasons": ["not_available", "not_applicable"]
+    },
+    "PrincipalID": {
+      "native": "PrincipalID",
+      "reference": "Principal ID",
+      "kind": "string",
+      "missing_reasons": ["not_available", "not_applicable"]
+    },
+    "DisplayName": {
+      "native": "DisplayName",
+      "reference": "Display Name",
+      "kind": "string",
+      "missing_reasons": ["not_available", "not_applicable"]
+    },
+    "Enabled": {
+      "native": "Enabled",
+      "reference": "Enabled",
+      "kind": "bool",
+      "missing_reasons": ["not_available", "not_applicable"]
+    },
+    "CreationTime": {
+      "native": "CreationTime",
+      "reference": "Creation Time",
+      "kind": "timestamp_seconds",
+      "missing_reasons": ["not_available", "not_applicable", "unparsable", "invalid_filetime"]
+    },
+    "LastRunTime": {
+      "native": "LastRunTime",
+      "reference": "Last Run Time",
+      "kind": "timestamp_seconds",
+      "missing_reasons": ["not_available", "not_applicable", "unparsable", "invalid_filetime"]
+    },
+    "LastSuccessfulRunTime": {
+      "native": "LastSuccessfulRunTime",
+      "reference": "Last Successful Run Time",
+      "kind": "timestamp_seconds",
+      "missing_reasons": ["not_available", "not_applicable", "unparsable", "invalid_filetime"]
+    },
+    "TriggerType": {
+      "native": "TriggerType",
+      "reference": "Trigger Type",
+      "kind": "string",
+      "missing_reasons": ["not_available", "not_applicable"]
+    },
+    "TriggerDescription": {
+      "native": "TriggerDescription",
+      "reference": "Trigger Description",
+      "kind": "string",
+      "missing_reasons": ["not_available", "not_applicable"]
+    },
+    "ActionType": {
+      "native": "ActionType",
+      "reference": "Action Type",
+      "kind": "string",
+      "missing_reasons": ["not_available", "not_applicable"]
+    },
+    "Action": {
+      "native": "Action",
+      "reference": "Action",
+      "kind": "string",
+      "missing_reasons": ["not_available", "not_applicable"]
+    },
+    "ActionArguments": {
+      "native": "ActionArguments",
+      "reference": "Action Arguments",
+      "kind": "string",
+      "missing_reasons": ["not_available", "not_applicable"]
+    },
+    "ActionContext": {
+      "native": "ActionContext",
+      "reference": "Action Context",
+      "kind": "string",
+      "missing_reasons": ["not_available", "not_applicable"]
+    },
+    "WorkingDirectory": {
+      "native": "WorkingDirectory",
+      "reference": "Working Directory",
+      "kind": "string",
+      "missing_reasons": ["not_available", "not_applicable"]
+    },
+    "KeyName": {
+      "native": "KeyName",
+      "reference": "Key Name",
+      "kind": "string",
+      "missing_reasons": ["not_available", "not_applicable"]
+    }
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["task"],
+    "excluded_values": ["absent", "unreadable"]
+  }
+}

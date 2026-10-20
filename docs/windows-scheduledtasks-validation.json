@@ -1,0 +1,72 @@
+{
+  "schema": "gomem.windows-scheduledtasks-validation/v1",
+  "date": "2026-10-21",
+  "scope": "One Windows 10 19041 x64 crash dump plus synthetic decoder cases. Not a 32-bit, alternate-version, or timeline acceptance.",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "reference_manifest_sha256": "d6aaf4c8e82bb351c631801ff8f7eae6e066b509a090fd4796f90ea2a45ecaa9",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+  "engine_build_sha256": "b5777c31e065902a3f2df8fdbde661dee81736bdc1f83c1630e3464a2c8badf6",
+  "parameters": {},
+  "task_state": "completed",
+  "rows": 311,
+  "com_handler_rows": 181,
+  "exe_rows": 83,
+  "unavailable_action_rows": 47,
+  "wnf_rows": 121,
+  "time_rows": 45,
+  "logon_rows": 40,
+  "event_rows": 15,
+  "boot_rows": 14,
+  "session_rows": 7,
+  "unavailable_trigger_rows": 69,
+  "reference_rows": 311,
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "TaskName",
+      "PrincipalID",
+      "DisplayName",
+      "Enabled",
+      "CreationTime",
+      "LastRunTime",
+      "LastSuccessfulRunTime",
+      "TriggerType",
+      "TriggerDescription",
+      "ActionType",
+      "Action",
+      "ActionArguments",
+      "ActionContext",
+      "WorkingDirectory",
+      "KeyName"
+    ],
+    "native_rows": 311,
+    "reference_rows": 311,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "0c8bd3927507749edf0225dbabfaf8c5b08383b3e7b5562d7e84157a2de0b3d2",
+      "reference": "0ab44dafd59f1b0de852eaa83232d11864a6f74632b8e8d715223e9dafbb8e4f",
+      "mapping": "dd24397b9455a291f752d16bf3acfecb19ecd00ca8b973dcabeb55b949db7465"
+    },
+    "native_input_rows": 311,
+    "native_non_entity_records": {},
+    "entity_selection": {
+      "field": "RecordType",
+      "values": [
+        "task"
+      ],
+      "excluded_values": [
+        "absent",
+        "unreadable"
+      ]
+    }
+  },
+  "notes": [
+    "Selected fields are task name, principal, display name, enabled, second-truncated creation, last-run and last-success times, trigger type and description, action type, action, arguments, context, working directory and key name.",
+    "The image hive is \\SystemRoot\\System32\\Config\\SOFTWARE. Native output has 311 task rows and no unreadable value rows. 45 time triggers have no description. COM CLSIDs keep the unpadded baseline form.",
+    "Creation Time is the second DynamicInfo FILETIME and Last Run Time is the first. The pinned constructor swaps them. TimeMode values are strings, so an integer mode never selects Once, Daily or Weekly.",
+    "The compared JSONL was written by bin/gomem b5777c31e065902a3f2df8fdbde661dee81736bdc1f83c1630e3464a2c8badf6."
+  ]
+}

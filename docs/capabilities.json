@@ -9729,15 +9729,24 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "The first readable hive whose name contains software, case-insensitively. Task rows are the direct subkeys of Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks. Names come from the first Id REG_SZ under each TaskCache\\Tree key; the displayed name is that key's own name. A missing Tasks key is an absent row. Each task is the Cartesian product of its actions and triggers, and an empty side is one unavailable row. The decoder keeps the pinned behavior: TimeMode members are strings, so every integer schedule mode is Unknown and time descriptions are unavailable; Idle and Registration triggers are stored as Logon; an email action is consumed and emitted as unavailable; DynamicInfo's first and second FILETIMEs are swapped in the creation and last-run columns; COM CLSIDs drop leading zeroes; empty principal, display, description and working-directory strings are unavailable, while an empty action argument is kept. Unreadable value bytes stay errors and are not zero-padded.",
+      "native": "windows.scheduledtasks",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_311_rows_match_actions_triggers_times_and_names",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential",
+        "Timeline output is not implemented",
+        "32-bit images and other Windows versions remain pending",
+        "Time trigger descriptions stay unavailable because the pinned TimeMode values are strings; Idle and Registration are reported as Logon",
+        "Message-box and email actions are covered by synthetic blobs; this image has no message box",
+        "A value cell that cannot be read is not zero-padded; this image did not need that distinction"
+      ],
+      "validation_record": "docs/windows-scheduledtasks.md"
     },
     {
       "id": "windows.registry.userassist.UserAssist",
@@ -9852,7 +9861,7 @@
       "corpora": [],
       "comparison": "not_run",
       "gaps": [
-        "Native implementation and validation pending"
+        "Deprecated alias of windows.registry.scheduled_tasks.ScheduledTasks; native command is windows.scheduledtasks"
       ]
     },
     {

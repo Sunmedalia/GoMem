@@ -56,6 +56,10 @@ def normalized(value, kind, mask=None, missing_reasons=()):
         if remainder > 500 or remainder == 500 and micros % 2:
             micros += 1
         return (base + datetime.timedelta(microseconds=micros)).astimezone(datetime.timezone.utc).isoformat(timespec="microseconds")
+    if kind == "bool":
+        if isinstance(value, bool):
+            return "true" if value else "false"
+        raise ValueError("bool comparison requires a JSON boolean")
     if kind == "linux_path_display" and isinstance(value, str):
         # The pinned Linux path renderer prefixes deleted absolute paths with
         # one display space. Preserve spaces inside filenames and unmarked paths.

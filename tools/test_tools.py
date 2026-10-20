@@ -137,6 +137,10 @@ class DifferentialTests(unittest.TestCase):
         self.assertEqual(normalized_result("2025-01-01T01:00:00.1234567+01:00", "timestamp_seconds"), "2025-01-01T00:00:00+00:00")
         with self.assertRaisesRegex(ValueError, "timezone"):
             normalized_result("2025-01-01T00:00:00", "timestamp_seconds")
+        self.assertEqual(normalized_result(True, "bool"), "true")
+        self.assertEqual(normalized_result({"kind": "bool", "value": False}, "bool"), "false")
+        with self.assertRaisesRegex(ValueError, "boolean"):
+            normalized_result("true", "bool")
     def test_symbol_bitfields_compare_memory_positions(self):
         def table(size, offset, position, endian):
             return {"base_types": {"int": {"kind": "int", "size": size, "signed": False, "endian": endian}},

@@ -21,6 +21,7 @@ fuzz:
 	$(GO) test ./pkg/pe -run '^$$' -fuzz FuzzMappedPEReconstruction -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxVMAMetadata -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzWindowsCommandLineUTF16 -fuzztime 10s
+	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzScheduledTaskBlobs -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxArgumentDisplay -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxClockArithmetic -fuzztime 10s
 	$(GO) test ./pkg/memory -run '^$$' -fuzz FuzzDetect -fuzztime 10s
