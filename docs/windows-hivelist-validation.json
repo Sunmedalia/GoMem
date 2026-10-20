@@ -1,0 +1,59 @@
+{
+  "schema": "gomem.windows-hivelist-validation/v1",
+  "date": "2026-10-21",
+  "scope": "Synthetic x64 list cases plus one Windows 10 19041 x64 crash dump. Not a complete version, architecture or hive-reconstruction acceptance.",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "reference_manifest_sha256": "4b10cd0320b478f03c6fbaed9804da79e8dff3e62e4ce79c1baa53758a43b044",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+  "engine_build_sha256": "b6fbb4afe1c7679e0b8b5ae7b84414df56e875c1034eb4e839b18c1f2645b3d9",
+  "parameters": {
+    "filter": "",
+    "max-nodes": "1024",
+    "dump": "false"
+  },
+  "task_state": "completed",
+  "hive_rows": 24,
+  "summary_rows": 1,
+  "diagnostics": 0,
+  "name_sources": {
+    "FileFullPath": 0,
+    "FileUserName": 21,
+    "HiveRootPath": 2,
+    "none": 1
+  },
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "Offset",
+      "Name"
+    ],
+    "native_rows": 24,
+    "reference_rows": 24,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "95547fb17998d6b218a50315af005b62d64db474ed58e6d57847de3109f63fac",
+      "reference": "fc6f774ff037aa6ecc486cfa77eb840527709cedbb16d8d668cc728042aeeab1",
+      "mapping": "82c55002329c0bcf70f7fdfd8c14addda242255e184377e735d38eb72452a6cb"
+    },
+    "native_input_rows": 25,
+    "native_non_entity_records": {
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "value": "hive",
+      "excluded_values": [
+        "summary",
+        "diagnostic"
+      ]
+    }
+  },
+  "notes": [
+    "Every FileFullPath member on this image had length zero. The reference FileFullPath column is CMHIVE.get_name(), matched here against native Name.",
+    "FileOutput is the literal disabled. The reference renders Disabled and can reconstruct hives; dump remains rejected.",
+    "The selected image list was consistent, so the backward walk was not exercised. Synthetic tests cover an invalid signature and a broken forward link."
+  ]
+}

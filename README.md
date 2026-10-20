@@ -45,6 +45,7 @@ bin/gomem analyze windows.pslist \
 | `windows.pslist` | 活动进程、线程/句柄/会话/WoW64/时间；物理偏移显示及主映像 PE 提取 |
 | `windows.modules` | 内核模块与路径；基址/名称子串筛选；支持从已验证会话层重建 PE |
 | `windows.cmdline` | 读取各进程原生 PEB 命令行；保留原始 UTF-16、捕获长度和明确读取错误；PID 集合筛选 |
+| `windows.hivelist` | 从 `CmpHiveListHead` 枚举注册表 hive；保留签名、三个路径字段和链表断裂；`dump` 在重建实现前会拒绝 |
 | `windows.dlllist` | 进程自身地址空间内的 PEB 加载器链表；原生和 WoW64 列表；支持 PID、基址及 RE2 名称筛选 |
 | `windows.pedump` | 从显式进程/内核/已验证会话空间重建 PE32/PE32+；保留修改、缺页与读取尝试；上限 256MiB |
 | `windows.threads` | 活动进程线程链表、创建/退出时间与进程证据关联；现代 VAD 启动路径；支持 `--param pid=104,108` |
@@ -90,6 +91,8 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `windows.pslist --param physical=true` 显示物理偏移并保持虚拟进程身份；`pslist` 与 `modules` 可用 `--param dump=true` 提取主映像或内核/会话模块 PE。120 个进程通过扩展字段及物理偏移对照，路径读取差异与会话导出范围单独记录。[进程与模块验证](docs/windows-process-modules.md)
 
 `windows.cmdline` 使用各进程自身地址空间读取命令行，显示值、完整声明字符串和原始字节分别保留。官方样本中 96 条可读内容一致，21 条读取错误使全量任务失败并保留结果；嵌入 NUL 和空 PEB 分别记录。[命令行验证](docs/windows-cmdline.md)
+
+`windows.hivelist` 正向遍历内核 hive 链表，签名不符或链表断裂时改为反向补齐，并保留已经读到的 hive。名称按 `FileFullPath`、`FileUserName`、`HiveRootPath` 取第一个非空值，三个字段都保留。Windows 10 19041 样本的 24 个偏移和名称与固定基线一致；该样本的 `FileFullPath` 成员均为空，选中名称来自另外两个字段。`dump` 会明确失败，不会写出假的 hive 文件。[注册表 hive 验证](docs/windows-hivelist.md)
 
 `linux.psaux` 读取任务参数区并保留原始字节、参数元素、捕获长度与来源。用户 Linux 样本的 92 条参数内容和 39 条无 mm 显示与基线一致，2 条读取错误仍保留，完整任务报告失败。[Linux 参数验证](docs/linux-psaux.md)
 

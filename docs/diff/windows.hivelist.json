@@ -1,0 +1,23 @@
+{
+  "fields": {
+    "Offset": {
+      "native": "Offset",
+      "reference": "Offset",
+      "kind": "address",
+      "mask": "0x0000ffffffffffff"
+    },
+    "Name": {
+      "native": "Name",
+      "reference": "FileFullPath",
+      "kind": "string"
+    }
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "hive",
+    "excluded_values": [
+      "summary",
+      "diagnostic"
+    ]
+  }
+}

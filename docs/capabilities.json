@@ -9461,15 +9461,21 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active CmpHiveListHead walk using the exact _CMHIVE layout. Signature must be 0xBEE0BEE0. The selected name is the first nonempty FileFullPath, FileUserName or HiveRootPath; all three fields stay in the row. A forward list break walks backward once and keeps hives already emitted. dump is rejected until hive reconstruction exists.",
+      "native": "windows.hivelist",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_24_hive_offsets_and_names_match_summary_retained",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Hive reconstruction, printkey and physical hivescan fallback are not implemented",
+        "Only one Windows 10 x64 crash dump has a selected-field differential; 32-bit and damaged-list acceptance remain pending",
+        "The upstream FileFullPath column is get_name(); native retains each path field and reports FileOutput as disabled"
+      ],
+      "validation_record": "docs/windows-hivelist.md"
     },
     {
       "id": "windows.registry.hivescan.HiveScan",

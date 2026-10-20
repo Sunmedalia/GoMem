@@ -84,7 +84,7 @@ def generate(source):
                "linux.lsmod.Lsmod": "linux.lsmod", "windows.threads.Threads": "windows.threads",
                "windows.vadinfo.VadInfo": "windows.vadinfo", "linux.proc.Maps": "linux.maps",
                "windows.dlllist.DllList": "windows.dlllist", "windows.pedump.PEDump": "windows.pedump",
-               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux", "linux.envars.Envars": "linux.envars", "linux.elfs.Elfs": "linux.elfs", "linux.psscan.PsScan": "linux.psscan", "linux.lsof.Lsof": "linux.lsof", "linux.sockstat.Sockstat": "linux.sockstat", "linux.pagecache.InodePages": "linux.inodepages", "linux.pagecache.Files": "linux.files", "linux.pagecache.RecoverFs": "linux.recoverfs"}
+               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux", "linux.envars.Envars": "linux.envars", "linux.elfs.Elfs": "linux.elfs", "linux.psscan.PsScan": "linux.psscan", "linux.lsof.Lsof": "linux.lsof", "linux.sockstat.Sockstat": "linux.sockstat", "linux.pagecache.InodePages": "linux.inodepages", "linux.pagecache.Files": "linux.files", "linux.pagecache.RecoverFs": "linux.recoverfs", "windows.registry.hivelist.HiveList": "windows.hivelist"}
 
     def requirements(identifier, seen=None):
         seen = set() if seen is None else seen
@@ -166,6 +166,11 @@ def generate(source):
         if identifier == "windows.threads.Threads":
             plugins[-1].update(applicability="Active process thread lists; exact ETHREAD/EPROCESS types. Start paths currently require modern RTL_AVL_TREE VAD layout. External swap/prototype pages are unresolved.",
                               gaps=["Full version/architecture and parameter coverage pending", "ExitTime signed union differences explicitly preserved; see docs/windows-threads.md", "No thread pool scan or extracted artifacts"])
+        if identifier == "windows.registry.hivelist.HiveList":
+            plugins[-1].update(applicability="Active CmpHiveListHead walk using the exact _CMHIVE layout. Signature must be 0xBEE0BEE0. The selected name is the first nonempty FileFullPath, FileUserName or HiveRootPath; all three fields stay in the row. A forward list break walks backward once and keeps hives already emitted. dump is rejected until hive reconstruction exists.",
+                              corpora=["synthetic-windows-x64", "official-windows-10-19041"],
+                              comparison="selected_24_hive_offsets_and_names_match_summary_retained", validation_record="docs/windows-hivelist.md",
+                              gaps=["Hive reconstruction, printkey and physical hivescan fallback are not implemented", "Only one Windows 10 x64 crash dump has a selected-field differential; 32-bit and damaged-list acceptance remain pending", "The upstream FileFullPath column is get_name(); native retains each path field and reports FileOutput as disabled"])
         if identifier == "windows.cmdline.CmdLine":
             plugins[-1].update(applicability="Native EPROCESS.Peb -> PEB.ProcessParameters -> typed RTL_USER_PROCESS_PARAMETERS.CommandLine, read in each process root. Raw UTF-16LE and partial captures are retained.",
                               corpora=["synthetic-windows-x64", "synthetic-windows-x86-pae", "official-windows-10-19041"],
