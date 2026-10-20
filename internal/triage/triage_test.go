@@ -10,6 +10,7 @@ import (
 	"github.com/Sunmedalia/GoMem/internal/engine"
 	"github.com/Sunmedalia/GoMem/internal/testfixture"
 	"github.com/Sunmedalia/GoMem/pkg/evidence"
+	"github.com/Sunmedalia/GoMem/pkg/symbols"
 )
 
 func row(address uint64, name string) evidence.Row {
@@ -177,18 +178,22 @@ func TestTriageCoverageAndWhitelist(t *testing.T) {
 	}
 	defer e.Close()
 	s, err := Run(ctx, e, []string{"gomem-test-ioc"})
-	if !errors.Is(err, ErrIncomplete) || s.Findings != 1 || len(s.Checks) != len(Rules) {
+	if !errors.Is(err, ErrIncomplete) || s.Findings != 5 || len(s.Checks) != len(Rules) {
 		t.Fatal(s, err)
 	}
 	rows, err := e.Store.Query(ctx, evidence.Query{TaskID: s.FindingTask, Limit: 100})
-	if err != nil || len(rows) != 1 {
+	if err != nil || len(rows) != 5 {
 		t.Fatal(rows, err)
 	}
-	if err = e.Store.Allow(ctx, "literal-ioc", rows[0].Cells["Entity"].String(), "known test literal"); err != nil {
-		t.Fatal(err)
+	for _, row := range rows {
+		if row.Cells["Rule"].String() == "literal-ioc" {
+			if err = e.Store.Allow(ctx, "literal-ioc", row.Cells["Entity"].String(), "known test literal"); err != nil {
+				t.Fatal(err)
+			}
+		}
 	}
 	s, err = Run(ctx, e, []string{"gomem-test-ioc"})
-	if !errors.Is(err, ErrIncomplete) || s.Findings != 0 {
+	if !errors.Is(err, ErrIncomplete) || s.Findings != 4 {
 		t.Fatal(s, err)
 	}
 	tasks, err := e.Store.Tasks(ctx)
@@ -199,5 +204,97 @@ func TestTriageCoverageAndWhitelist(t *testing.T) {
 		if task.Plugin == "triage" && task.State != "failed" {
 			t.Fatal("incomplete triage stored as success", task)
 		}
+	}
+}
+
+func TestLinuxNativeMappingRulesControlsAndSourceReferences(t *testing.T) {
+	for _, scenario := range []string{"positive", "normal", "unknown-deletion"} {
+		t.Run(scenario, func(t *testing.T) {
+			ctx := context.Background()
+			f, err := testfixture.Write(t.TempDir(), "linux")
+			if err != nil {
+				t.Fatal(err)
+			}
+			if scenario == "normal" {
+				data, err := os.ReadFile(f.Image)
+				if err != nil {
+					t.Fatal(err)
+				}
+				binary.LittleEndian.PutUint64(data[0x10028:], 1)
+				binary.LittleEndian.PutUint64(data[0x11028:], 5)
+				if err = os.WriteFile(f.Image, data, 0600); err != nil {
+					t.Fatal(err)
+				}
+			} else if scenario == "unknown-deletion" {
+				table, err := symbols.Load(f.Symbols)
+				if err != nil {
+					t.Fatal(err)
+				}
+				inode := table.Types["inode"]
+				delete(inode.Fields, "i_nlink")
+				table.Types["inode"] = inode
+				encoded, err := table.Encode()
+				if err != nil {
+					t.Fatal(err)
+				}
+				if err = os.WriteFile(f.Symbols, encoded, 0600); err != nil {
+					t.Fatal(err)
+				}
+				data, err := os.ReadFile(f.Image)
+				if err != nil {
+					t.Fatal(err)
+				}
+				binary.LittleEndian.PutUint64(data[0x10038:], 0x13100)
+				if err = os.WriteFile(f.Image, data, 0600); err != nil {
+					t.Fatal(err)
+				}
+			}
+			e, err := engine.Open(ctx, engine.Config{Image: f.Image, Symbols: f.Symbols, DTB: f.DTB, Offline: true, CaseDir: t.TempDir()})
+			if err != nil {
+				t.Fatal(err)
+			}
+			defer e.Close()
+			s, err := Run(ctx, e, nil)
+			if err == nil || s.State == "completed" {
+				t.Fatal("incomplete coverage became success", s, err)
+			}
+			checks := map[string]Check{}
+			for _, check := range s.Checks {
+				checks[check.Rule] = check
+			}
+			if scenario == "unknown-deletion" {
+				if checks["deleted-or-memfd-execution"].State != "failed" {
+					t.Fatal("unknown deletion became normal", s)
+				}
+				return
+			}
+			count := 2
+			if scenario == "normal" {
+				count = 0
+			}
+			for _, id := range []string{"executable-writable-region", "deleted-or-memfd-execution"} {
+				c := checks[id]
+				if c.State != "completed" || c.Findings != count {
+					t.Fatal(s, err)
+				}
+			}
+			if !errors.Is(err, ErrIncomplete) || s.Findings != count*2 {
+				t.Fatal(s, err)
+			}
+			if scenario == "normal" {
+				return
+			}
+			findings, err := e.Store.Query(ctx, evidence.Query{TaskID: s.FindingTask, Limit: 100})
+			if err != nil || len(findings) != 4 {
+				t.Fatal(findings, err)
+			}
+			for _, finding := range findings {
+				refs := finding.Cells["EvidenceIDs"].Data.([]any)
+				source, err := e.Store.Find(ctx, refs[0].(string))
+				if err != nil || source.Provenance.Plugin != "linux.maps" || source.Cells["ProcessIdentity"].String() != finding.Cells["Entity"].String() {
+					t.Fatal(source, err)
+				}
+			}
+		})
 	}
 }

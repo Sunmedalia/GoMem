@@ -97,7 +97,7 @@ GOMEM_CORPUS_DIR="$PWD/.cache/corpus" go test ./internal/engine -run TestOfficia
 
 `go test ./...`、`go test -race ./...` 和 `go vet ./...` 通过。测试覆盖三种分页模式、4KiB 与大页、canonical 高地址、跨页读取、稀疏洞、LiME/ELF/crash/bitmap 映射、截断、循环/不一致链表、错误符号、取消与部分提交、缓存重放和镜像变更、输入/输出别名拒绝、案件锁和中断恢复、压缩符号、TUI 布局与过期消息、导出完整性及 HTML 转义。
 
-六类分诊评估器都有阳性与正常构造输入；IOC 与 Windows 现代 VAD 的直接 RWX pipeline 已贯通。VAD 测试验证阳性、正常及未知权限、原始证据回溯、白名单和任务复用；真实 Windows 样本的权限线索不等同于恶意样本验收。[VAD 验证](windows-vad.md) 记录范围。其他输入缺口继续报告 unavailable，整体分诊保持非零状态。
+六类分诊评估器都有阳性与正常构造输入；IOC、Windows/Linux 直接 RWX、Linux 删除文件/memfd 执行 pipeline 已贯通。测试验证阳性、正常及未知元数据、原始证据回溯、白名单和任务复用；合成场景和真实样本结果不等同于真实恶意 VM 场景验收。[Windows VAD](windows-vad.md) 和 [Linux VMA](linux-maps.md) 记录范围。其他输入缺口继续报告 unavailable，整体分诊保持非零状态。
 
 对镜像识别与 ISF 入口进行了短时 fuzz，并提供有效容器/ISF 种子。短时 fuzz 不是全面安全证明；更长时间、更多 parser 入口和专项损坏语料仍属待办。
 

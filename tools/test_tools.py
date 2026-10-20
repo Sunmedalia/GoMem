@@ -8,6 +8,10 @@ from compare_symbols import normalized
 
 
 class DifferentialTests(unittest.TestCase):
+    def test_linux_deleted_path_display_space_only(self):
+        self.assertEqual(normalized_result(" /home/a file (deleted)", "linux_path_display"), "/home/a file (deleted)")
+        self.assertEqual(normalized_result(" /home/a file ", "linux_path_display"), " /home/a file ")
+        self.assertEqual(normalized_result("/home/a file (deleted)", "linux_path_display"), "/home/a file (deleted)")
     def test_explicit_missing_and_timestamp_precision_profiles(self):
         self.assertEqual(normalized_result({"kind":"missing","reason":"not_set"}, "string", missing_reasons=["not_set"]), {"missing":"reference-null"})
         self.assertNotEqual(normalized_result({"kind":"missing","reason":"not_set","error":"unmapped page"}, "string", missing_reasons=["not_set"]), {"missing":"reference-null"})

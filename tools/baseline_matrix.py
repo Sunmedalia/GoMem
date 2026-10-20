@@ -82,7 +82,7 @@ def generate(source):
     partial = {"banners.Banners": "banners", "windows.pslist.PsList": "windows.pslist",
                "linux.pslist.PsList": "linux.pslist", "windows.modules.Modules": "windows.modules",
                "linux.lsmod.Lsmod": "linux.lsmod", "windows.threads.Threads": "windows.threads",
-               "windows.vadinfo.VadInfo": "windows.vadinfo"}
+               "windows.vadinfo.VadInfo": "windows.vadinfo", "linux.proc.Maps": "linux.maps"}
 
     def requirements(identifier, seen=None):
         seen = set() if seen is None else seen
@@ -118,6 +118,9 @@ def generate(source):
         if identifier == "windows.vadinfo.VadInfo":
             plugins[-1].update(applicability="Modern RTL_AVL_TREE VADs with exact MMVAD_SHORT types and native MmProtectToValue table; PID sets and inclusive address filtering.",
                               gaps=["Old VAD layouts and complete version/architecture coverage pending", "VAD extraction/dump and maxsize are not implemented", "Path read errors remain distinct from baseline nulls; see docs/windows-vad.md"])
+        if identifier == "linux.proc.Maps":
+            plugins[-1].update(applicability="mmap lists or typed Maple Tree nodes; exact VMA/filesystem symbols. Full view retains page offsets beyond positive inode size; include-past-eof=false selects the baseline heuristic view.",
+                              gaps=["Maple Tree has synthetic ABI tests only; real modern kernels, pivot/meta validation and complete versions pending", "VMA extraction/dump/maxsize are not implemented", "Full parameter combinations and scoped/raw path semantics need complete acceptance; see docs/linux-maps.md"])
     infrastructure = []
     for group, directory in [("layers", "volatility3/framework/layers"), ("symbols", "volatility3/framework/symbols"),
                              ("renderers", "volatility3/cli"), ("automagic", "volatility3/framework/automagic")]:

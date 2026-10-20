@@ -124,14 +124,32 @@ func Evaluate(ctx context.Context, r Rule, inputs map[string][]evidence.Row, emi
 					}
 				}
 			} else {
-				if _, err := required(row, "Path"); err != nil {
-					return err
-				}
 				if _, err := required(row, "Executable"); err != nil {
 					return err
 				}
+				if value := row.Cells["Executable"].String(); value != "true" && value != "false" {
+					return fmt.Errorf("invalid mapping executable state")
+				}
+				if row.Cells["Executable"].String() == "false" {
+					continue
+				}
+				if _, err := required(row, "Path"); err != nil {
+					return err
+				}
 				path := row.Cells["Path"].String()
-				hit = row.Cells["Executable"].String() == "true" && (strings.HasPrefix(path, "memfd:") || strings.HasPrefix(path, "/memfd:") || strings.HasSuffix(path, " (deleted)"))
+				memfd := strings.HasPrefix(path, "memfd:") || strings.HasPrefix(path, "/memfd:")
+				deleted := strings.HasSuffix(path, " (deleted)")
+				if _, ok := row.Cells["Deleted"]; ok && !memfd {
+					value, err := required(row, "Deleted")
+					if err != nil {
+						return err
+					}
+					if value.String() != "true" && value.String() != "false" {
+						return fmt.Errorf("invalid mapping deletion state")
+					}
+					deleted = value.String() == "true"
+				}
+				hit = memfd || deleted
 			}
 			if hit {
 				identity, err := required(row, "ProcessIdentity")
@@ -202,10 +220,12 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 	order := []string{"pslist", "modules"}
 	if os == "linux" {
 		names["modules"] = "linux.lsmod"
-	} else {
-		names["maps"] = "windows.vadinfo"
-		order = append(order, "maps")
 	}
+	names["maps"] = "windows.vadinfo"
+	if os == "linux" {
+		names["maps"] = "linux.maps"
+	}
+	order = append(order, "maps")
 	for _, key := range order {
 		res, runErr := e.Run(ctx, names[key], nil, engine.RunOptions{})
 		if runErr != nil {
@@ -276,9 +296,9 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 			}
 		}
 		if available {
-			if rule.Kind == "ioc" || rule.Kind == "rwx" {
+			if rule.Kind == "ioc" || rule.Kind == "rwx" || rule.Kind == "deleted" && os == "linux" {
 				inputTasks, inputKey := iocTasks, "ioc"
-				if rule.Kind == "rwx" {
+				if rule.Kind == "rwx" || rule.Kind == "deleted" {
 					inputTasks, inputKey = []evidence.Task{tasks["maps"]}, "maps"
 				}
 				check.State = "completed"

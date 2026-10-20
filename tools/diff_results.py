@@ -40,6 +40,11 @@ def normalized(value, kind, mask=None, missing_reasons=()):
         if stamp.tzinfo is None:
             raise ValueError("timestamp comparison requires an explicit timezone")
         return stamp.astimezone(datetime.timezone.utc).replace(microsecond=0).isoformat()
+    if kind == "linux_path_display" and isinstance(value, str):
+        # The pinned Linux path renderer prefixes deleted absolute paths with
+        # one display space. Preserve spaces inside filenames and unmarked paths.
+        if value.startswith(" /") and value.endswith(" (deleted)"):
+            return value[1:]
     return value
 
 

@@ -48,6 +48,7 @@ bin/gomem analyze windows.pslist \
 | `windows.vadinfo` | 现代 VAD 区间、动态权限表、提交页数、私有标志和文件路径；支持 PID 集合及包含地址筛选；尚无内存提取 |
 | `linux.pslist` | 匹配 ISF、DTB；活动任务链表；可选 `--kernel-slide` |
 | `linux.lsmod` | 匹配 ISF、DTB；旧布局和 `module_layout`；6.4+ `module_memory` 字段尚未补齐 |
+| `linux.maps` | VMA 链表或 Maple Tree、权限、inode、设备及带作用域的路径；PID/地址集合筛选；尚无内存提取 |
 
 支持 RAW、LiME v1、具有物理 `PT_LOAD` 的 ELF core，以及 Windows 32/64 位完整转储与 bitmap 转储。其他已识别的容器会明确拒绝；通用 ELF 不代表 Xen 格式已实现。
 
@@ -108,9 +109,9 @@ bin/gomem triage --image memory.raw --os linux --case ./case-001 \
   --symbols exact.json.xz --dtb 0x123000 --ioc example.org
 ```
 
-当前连接了进程、模块枚举、精确 IOC 扫描及 Windows 现代 VAD 输入。Windows 的直接可读写执行权限检查已贯通原生解析、分页评估、证据引用、案件白名单和任务复用；真实样本发现 30 个该类区域，包含 JIT 等正常用途的误报可能。[VAD 与分诊验证](docs/windows-vad.md)
+当前连接了进程、模块枚举、精确 IOC 扫描、Windows 现代 VAD 和 Linux VMA 输入。Windows/Linux 的直接可读写执行权限检查、Linux 删除文件/memfd 执行线索已贯通原生解析、分页评估、证据引用、案件白名单和任务复用。[Windows VAD 验证](docs/windows-vad.md)、[Linux 映射验证](docs/linux-maps.md) 分别记录真实与合成场景范围；权限线索也可能来自正常程序。
 
-六类规则具有独立评估器及阳性/正常输入测试；隐藏进程、扫描模块差异、Linux 删除文件/memfd 执行、持久化关联仍缺少完整输入。**因此当前完整分诊会报告 unavailable，返回非零状态，并把分诊任务记录为失败。** 已运行规则的发现仍会保存，包含规则依据、严重程度、误报提示、原始证据引用和来源。
+六类规则具有独立评估器及阳性/正常输入测试；隐藏进程、扫描模块差异、持久化关联仍缺少完整输入。**因此当前完整分诊会报告 unavailable，返回非零状态，并把分诊任务记录为失败。** 已运行规则的发现仍会保存，包含规则依据、严重程度、误报提示、原始证据引用和来源。
 
 进程身份结合镜像、地址空间、对象地址、PID 和可用启动时间，不能仅按 PID 关联。白名单只抑制明确实体，不删除原始证据：
 

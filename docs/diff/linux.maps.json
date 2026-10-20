@@ -1,0 +1,54 @@
+{
+  "fields": {
+    "PID": {
+      "native": "PID",
+      "reference": "PID",
+      "kind": "uint64"
+    },
+    "Process": {
+      "native": "Process",
+      "reference": "Process",
+      "kind": "string"
+    },
+    "Start": {
+      "native": "Start",
+      "reference": "Start",
+      "kind": "address"
+    },
+    "End": {
+      "native": "End",
+      "reference": "End",
+      "kind": "address"
+    },
+    "Protection": {
+      "native": "Protection",
+      "reference": "Flags",
+      "kind": "string"
+    },
+    "PgOff": {
+      "native": "PgOff",
+      "reference": "PgOff",
+      "kind": "address"
+    },
+    "Major": {
+      "native": "Major",
+      "reference": "Major",
+      "kind": "uint64"
+    },
+    "Minor": {
+      "native": "Minor",
+      "reference": "Minor",
+      "kind": "uint64"
+    },
+    "Inode": {
+      "native": "Inode",
+      "reference": "Inode",
+      "kind": "uint64"
+    },
+    "Path": {
+      "native": "Path",
+      "reference": "File Path",
+      "kind": "linux_path_display"
+    }
+  }
+}

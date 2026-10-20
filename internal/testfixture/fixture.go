@@ -57,6 +57,7 @@ func Write(dir, platform string) (Fixture, error) {
 	fixture := Fixture{Image: filepath.Join(dir, platform+".raw"), Symbols: filepath.Join(dir, platform+".json"), OS: platform, DTB: "0x1000"}
 	switch platform {
 	case "linux":
+		t.Bases["i64"] = symbols.Type{Kind: "int", Size: 8, Endian: "little", Signed: true}
 		banner := "Linux version 6.1.0-gomem (deterministic synthetic fixture) #1 SMP"
 		copy(data[0x8000:], banner)
 		t.Meta["linux"] = json.RawMessage(`{}`)
@@ -66,7 +67,11 @@ func Write(dir, platform string) (Fixture, error) {
 		t.Symbols["modules"] = symbols.Symbol{Address: 0xc000}
 		t.Types["task_struct"] = symbols.Type{Kind: "struct", Size: 128, Fields: map[string]symbols.Field{"tasks": field(0, strct("list_head")), "pid": field(16, base("u32")), "tgid": field(20, base("u32")), "comm": field(24, arr(16)), "real_parent": field(40, ptr), "start_time": field(48, base("u64")), "mm": field(56, ptr)}}
 		t.Types["list_head"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"next": field(0, ptr), "prev": field(8, ptr)}}
-		t.Types["mm_struct"] = symbols.Type{Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"pgd": field(0, ptr)}}
+		t.Types["mm_struct"] = symbols.Type{Kind: "struct", Size: 64, Fields: map[string]symbols.Field{"pgd": field(0, ptr), "mmap": field(8, ptr), "start_brk": field(16, base("u64")), "brk": field(24, base("u64")), "start_stack": field(32, base("u64")), "context": field(40, strct("mm_context_t"))}}
+		t.Types["mm_context_t"] = symbols.Type{Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"vdso": field(0, ptr)}}
+		task := t.Types["task_struct"]
+		task.Fields["fs"] = field(64, ptr)
+		t.Types["task_struct"] = task
 		t.Types["module_layout"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"base": field(0, ptr), "size": field(8, base("u64"))}}
 		t.Types["module"] = symbols.Type{Kind: "struct", Size: 96, Fields: map[string]symbols.Field{"list": field(0, strct("list_head")), "name": field(16, arr(32)), "core_layout": field(48, strct("module_layout"))}}
 		list(0x9000, 0xa000, 0xb000)
@@ -89,6 +94,67 @@ func Write(dir, platform string) (Fixture, error) {
 		copy(data[0xd010:], "fixture_module")
 		put(0xd030, 0x10000)
 		put(0xd038, 4096)
+		t.Symbols["simple_dname"] = symbols.Symbol{Address: 0x8100}
+		t.Types["vm_area_struct"] = symbols.Type{Kind: "struct", Size: 64, Fields: map[string]symbols.Field{"vm_start": field(0, ptr), "vm_end": field(8, ptr), "vm_next": field(16, ptr), "vm_prev": field(24, ptr), "vm_mm": field(32, ptr), "vm_flags": field(40, base("u64")), "vm_pgoff": field(48, base("u64")), "vm_file": field(56, ptr)}}
+		t.Types["path"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"dentry": field(0, ptr), "mnt": field(8, ptr)}}
+		t.Types["file"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"f_path": field(0, strct("path"))}}
+		t.Types["fs_struct"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"root": field(0, strct("path"))}}
+		t.Types["qstr"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"len": field(0, base("u32")), "name": field(8, ptr)}}
+		t.Types["dentry"] = symbols.Type{Kind: "struct", Size: 48, Fields: map[string]symbols.Field{"d_parent": field(0, ptr), "d_name": field(8, strct("qstr")), "d_inode": field(24, ptr), "d_op": field(32, ptr)}}
+		t.Types["dentry_operations"] = symbols.Type{Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"d_dname": field(0, ptr)}}
+		t.Types["vfsmount"] = symbols.Type{Kind: "struct", Size: 24, Fields: map[string]symbols.Field{"mnt_root": field(0, ptr), "mnt_parent": field(8, ptr), "mnt_mountpoint": field(16, ptr)}}
+		t.Types["inode"] = symbols.Type{Kind: "struct", Size: 32, Fields: map[string]symbols.Field{"i_ino": field(0, base("u64")), "i_nlink": field(8, base("u32")), "i_sb": field(16, ptr), "i_size": field(24, base("i64"))}}
+		t.Types["super_block"] = symbols.Type{Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"s_dev": field(0, base("u32"))}}
+		put(0xa040, 0x16000)
+		put(0xb040, 0x16000)
+		put(0xe008, 0x10000)
+		put(0xe010, 0x600000)
+		put(0xe018, 0x600800)
+		put(0xe020, 0x900800)
+		put(0xe028, 0xa00000)
+		for i, address := range []uint64{0x10000, 0x11000, 0x12000, 0x12100} {
+			starts := []uint64{0x400000, 0x600000, 0x700000, 0x800000}
+			put(address, starts[i])
+			put(address+8, starts[i]+4096)
+			put(address+32, 0xe000)
+			if i < 3 {
+				put(address+16, []uint64{0x11000, 0x12000, 0x12100}[i])
+			}
+			if i > 0 {
+				put(address+24, []uint64{0x10000, 0x11000, 0x12000}[i-1])
+			}
+			put(address+40, []uint64{5, 7, 1, 1}[i])
+			put(address+56, []uint64{0x13000, 0, 0x13100, 0x13100}[i])
+		}
+		put(0x12100+48, 2)
+		put(0x13000, 0x14000)
+		put(0x13008, 0x15000)
+		put(0x13100, 0x14100)
+		put(0x13108, 0x15000)
+		put(0x15000, 0x17000)
+		put(0x15008, 0x15000)
+		put(0x15010, 0x17000)
+		put(0x16000, 0x17000)
+		put(0x16008, 0x15000)
+		for _, entry := range []struct {
+			address, parent, inode, buffer uint64
+			name                           string
+		}{{0x14000, 0x17000, 0x18200, 0x19000, "memfd:payload"}, {0x14100, 0x14200, 0x18100, 0x19040, "libfoo.so"}, {0x14200, 0x17000, 0, 0x19080, "lib"}, {0x17000, 0x17000, 0, 0x190c0, "/"}} {
+			put(entry.address, entry.parent)
+			binary.LittleEndian.PutUint32(data[entry.address+8:], uint32(len(entry.name)))
+			put(entry.address+16, entry.buffer)
+			put(entry.address+24, entry.inode)
+			copy(data[entry.buffer:], entry.name)
+		}
+		put(0x14020, 0x1a000)
+		put(0x1a000, 0x8100)
+		for i, address := range []uint64{0x18200, 0x18100} {
+			put(address, 123+uint64(i))
+			put(address+8, uint64(i))
+			put(address+16, 0x1b000)
+			put(address+24, 4096)
+		}
+		binary.LittleEndian.PutUint32(data[0x1b000:], 8<<20|1)
 	case "windows":
 		fixture.KernelBase = 0x4000
 		t.Meta["windows"] = json.RawMessage(`{"pdb":{"database":"ntkrnlmp.pdb","GUID":"112233445566778899AABBCCDDEEFF00","age":1,"machine_type":34404}}`)

@@ -2722,15 +2722,21 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "mmap lists or typed Maple Tree nodes; exact VMA/filesystem symbols. Full view retains page offsets beyond positive inode size; include-past-eof=false selects the baseline heuristic view.",
+      "native": "linux.maps",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-x64",
+        "official-linux-sample-1"
+      ],
+      "comparison": "selected_fields_match",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Maple Tree has synthetic ABI tests only; real modern kernels, pivot/meta validation and complete versions pending",
+        "VMA extraction/dump/maxsize are not implemented",
+        "Full parameter combinations and scoped/raw path semantics need complete acceptance; see docs/linux-maps.md"
+      ],
+      "validation_record": "docs/validation.json"
     },
     {
       "id": "linux.psaux.PsAux",

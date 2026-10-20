@@ -198,6 +198,41 @@
           "mapping": "6040dfd785ae0523664274e50b046a7e04cc9a8281f4119939a8d5bf15acc628"
         }
       }
+    },
+    {
+      "id": "linux.proc.Maps",
+      "corpus": "official-linux-sample-1",
+      "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+      "engine_build_sha256": "c9cb9d884a5b3eaf244cf0dc9be274c130fa78d7f624d24b5df4c4f00a2d61db",
+      "parameters": {
+        "include-past-eof": "false"
+      },
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "Process",
+          "Start",
+          "End",
+          "Protection",
+          "PgOff",
+          "Major",
+          "Minor",
+          "Inode",
+          "Path"
+        ],
+        "native_rows": 13990,
+        "reference_rows": 13990,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "e2053d872ff1480206a2f9b08e1b65171bb6dfeff6080466e22c4ecbff4b1ebb",
+          "reference": "434ae2704a4cd1f84b28a3b0b6572eda9a8e43ebdd2399e7b4f258f951468622",
+          "mapping": "77209a57f0c9c405beaaae810471c2b12fba047e0d92bc8c746d4c697798ba52"
+        }
+      }
     }
   ],
   "page_benchmark": {

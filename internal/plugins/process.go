@@ -95,10 +95,41 @@ func visitWindowsProcesses(ctx context.Context, e plugin.Environment, max int, p
 	})
 }
 func linuxProcesses(ctx context.Context, e plugin.Environment, p map[string]string, out plugin.Emit) error {
-	max, pid, e1 := limits(p)
-	if e1 != nil {
-		return e1
+	max, pids, err := limits(p)
+	if err != nil {
+		return err
 	}
+	return visitLinuxProcesses(ctx, e, max, pids, func(a, v uint64, name string, created evidence.Value) error {
+		ppid := evidence.Missing("unreadable_or_unavailable", nil)
+		parent, err := e.Objects.Uint(ctx, a, "task_struct", "real_parent")
+		if err == nil && parent != 0 {
+			ppid = optionalUint(ctx, e, parent, "task_struct", "pid", false)
+		} else if err != nil {
+			ppid = evidence.Missing("unreadable_or_unavailable", err)
+		}
+		dtb := evidence.Missing("not_set", nil)
+		mm, err := e.Objects.Uint(ctx, a, "task_struct", "mm")
+		if err != nil {
+			dtb = evidence.Missing("unreadable_or_unavailable", err)
+		} else if mm != 0 {
+			pgd, er := e.Objects.Uint(ctx, mm, "mm_struct", "pgd")
+			if er != nil {
+				dtb = evidence.Missing("unreadable_or_unavailable", er)
+			} else {
+				dtb = evidence.Address(pgd)
+			}
+		}
+		row := processRow(e, a, v, name, ppid, created, dtb)
+		// Linux pgd is a kernel virtual address, explicitly labeled to avoid passing it as CR3.
+		row.Cells["DTB"] = evidence.Missing("use_PGDVirtual_to_resolve_physical_root", nil)
+		row.Cells["PGDVirtual"] = dtb
+		row.Cells["StartTimeNS"] = created
+		row.Cells["Created"] = evidence.Missing("wall_clock_unavailable", nil)
+		return out(row)
+	})
+}
+
+func visitLinuxProcesses(ctx context.Context, e plugin.Environment, max int, pid map[uint64]bool, emit func(uint64, uint64, string, evidence.Value) error) error {
 	init, err := e.Symbol("init_task")
 	if err != nil {
 		return err
@@ -123,34 +154,7 @@ func linuxProcesses(ctx context.Context, e plugin.Environment, p map[string]stri
 		if err != nil {
 			return err
 		}
-		ppid := evidence.Missing("unreadable_or_unavailable", nil)
-		parent, err := e.Objects.Uint(ctx, a, "task_struct", "real_parent")
-		if err == nil && parent != 0 {
-			ppid = optionalUint(ctx, e, parent, "task_struct", "pid", false)
-		} else if err != nil {
-			ppid = evidence.Missing("unreadable_or_unavailable", err)
-		}
-		// start_time is nanoseconds since boot on modern kernels, not a wall-clock timestamp.
-		created := linuxStartTime(ctx, e, a)
-		dtb := evidence.Missing("not_set", nil)
-		mm, err := e.Objects.Uint(ctx, a, "task_struct", "mm")
-		if err != nil {
-			dtb = evidence.Missing("unreadable_or_unavailable", err)
-		} else if mm != 0 {
-			pgd, er := e.Objects.Uint(ctx, mm, "mm_struct", "pgd")
-			if er != nil {
-				dtb = evidence.Missing("unreadable_or_unavailable", er)
-			} else {
-				dtb = evidence.Address(pgd)
-			}
-		}
-		row := processRow(e, a, v, name, ppid, created, dtb)
-		// Linux pgd is a kernel virtual address, explicitly labeled to avoid passing it as CR3.
-		row.Cells["DTB"] = evidence.Missing("use_PGDVirtual_to_resolve_physical_root", nil)
-		row.Cells["PGDVirtual"] = dtb
-		row.Cells["StartTimeNS"] = created
-		row.Cells["Created"] = evidence.Missing("wall_clock_unavailable", nil)
-		return out(row)
+		return emit(a, v, name, linuxStartTime(ctx, e, a))
 	})
 }
 

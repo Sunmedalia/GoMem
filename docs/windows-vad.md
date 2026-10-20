@@ -20,6 +20,6 @@ bin/gomem triage --image memory.dmp --case ./case-001 --offline
 
 Windows 分诊现按依赖运行进程、模块和 VAD。直接 RWX 规则从持久化 VAD 每次读取 500 行，以 `PAGE_EXECUTE_READWRITE` 数值位判断，支持 GUARD 等修饰符。`PAGE_EXECUTE_WRITECOPY` 作为正常对照；这是窄范围权限线索，无法代表全部注入或恶意内存检测。样本产生 30 条线索，每条引用封存的 VAD 行、进程身份和来源；JIT 等正常程序也可能产生该权限。
 
-合成测试覆盖真实解析链到分诊的阳性、正常权限和未知权限，验证原始行回溯、白名单及完整输入任务复用。未知权限不能算作正常，结构失败不能算作空树。隐藏进程、模块扫描差异、Linux 删除文件/memfd 和持久化输入仍未贯通，完整分诊保留 `incomplete` 并返回非零。现有 30 条线索仍会落盘，其他检查未运行不代表没有异常。
+合成测试覆盖真实解析链到分诊的阳性、正常权限和未知权限，验证原始行回溯、白名单及完整输入任务复用。未知权限不能算作正常，结构失败不能算作空树。隐藏进程、模块扫描差异和持久化输入仍未贯通，完整分诊保留 `incomplete` 并返回非零。现有 30 条线索仍会落盘，其他检查未运行不代表没有异常。Linux 的删除文件/memfd 输入另见 [Linux 映射](linux-maps.md)。
 
 复现使用 [固定对照工具](validation.md) 的 `windows.vadinfo` 输出，再分别运行两个映射。设置绝对路径 `GOMEM_CORPUS_DIR`，运行 `go test ./internal/engine -run TestOfficialWindowsModernVADs -v`：检查全部核心值、可读文件名和恰好 39 个有原因的缺页差异。原生 Windows/Linux 进程、模块及 Windows 线程回归仍需同时运行。
