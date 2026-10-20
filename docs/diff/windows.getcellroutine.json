@@ -1,0 +1,32 @@
+{
+  "fields": {
+    "HiveOffset": {
+      "native": "HiveOffset",
+      "reference": "Hive Offset",
+      "kind": "address",
+      "mask": "0x0000ffffffffffff"
+    },
+    "HiveName": {
+      "native": "HiveName",
+      "reference": "Hive Name",
+      "kind": "string"
+    },
+    "Module": {
+      "native": "Module",
+      "reference": "GetCellRoutine Module",
+      "kind": "string",
+      "missing_reasons": ["not_available"]
+    },
+    "Handler": {
+      "native": "Handler",
+      "reference": "GetCellRoutine Handler",
+      "kind": "address",
+      "mask": "0x0000ffffffffffff"
+    }
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["hook", "unmapped"],
+    "excluded_values": ["unreadable"]
+  }
+}

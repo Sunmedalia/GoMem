@@ -9376,15 +9376,22 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active hives from CmpHiveListHead and kernel modules from PsLoadedModuleList. Module names use the pinned splitext stem. A repeated stem or an unreadable base or size fails the task. An unreadable module name is skipped. GetCellRoutine is read from the embedded _HHIVE. A handler inside ntkrnlmp, ntkrnlpa, ntkrpamp, or ntoskrnl, compared case-sensitively and including the address at base+size, is not reported. Any other containing module is a hook. An address outside every module is not available. An unreadable pointer stays a row and is not treated as a kernel handler.",
+      "native": "windows.getcellroutine",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_image_has_zero_hook_rows_and_zero_unreadable_pointers",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "The selected Windows 10 19041 crash dump has no GetCellRoutine outside the kernel modules, so the differential is a negative control",
+        "Synthetic coverage includes an external module, the inclusive kernel end, a case-sensitive kernel name, an unmapped pointer, an unreadable pointer, and a duplicate stem",
+        "No resident hooked hive has been compared. 32-bit images and session-only modules remain pending",
+        "A hive whose registry layer cannot be constructed is still examined when the header pointer is readable"
+      ],
+      "validation_record": "docs/windows-getcellroutine.md"
     },
     {
       "id": "windows.registry.hashdump.Hashdump",
