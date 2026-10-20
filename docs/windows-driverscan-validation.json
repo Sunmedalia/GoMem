@@ -1,0 +1,54 @@
+{
+  "schema": "gomem.windows-driverscan-validation/v1",
+  "date": "2026-10-21",
+  "scope": "Synthetic Windows 10 top-down cases plus one Windows 10 19041 x64 crash dump. Not a 32-bit or pre-Windows 8 acceptance.",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "reference_manifest_sha256": "da685296871f3c4726596bd4b6796fa7548c132b3d489a2c8fd17412f37ca383",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+  "engine_build_sha256": "bc34bcf863ca455f34521a3f0d76cfb492ff2045144212039476e5eb2251a52d",
+  "parameters": {},
+  "task_state": "completed",
+  "layer": "kernel:x64:dtb=0x6d4000",
+  "ranges": 6416,
+  "scanned_bytes": 387543040,
+  "driver_rows": 142,
+  "skipped_type": 804,
+  "read_failures": 0,
+  "service_key_read_errors": [
+    {
+      "offset": "145201759321712",
+      "buffer": "0x508f8d480000017d",
+      "reason": "noncanonical x64 address",
+      "compared_cell": "null"
+    }
+  ],
+  "reference_rows": 142,
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": ["Offset", "Start", "Size", "ServiceKey", "DriverName", "Name"],
+    "native_rows": 142,
+    "reference_rows": 142,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "7ee468e31cefa526786c5effc66533babb5c43301005f87c195ed0d4b44a49fd",
+      "reference": "a2fc306ba50e9857eaba09a1c30fc6e195c141ae7bdd9c9b62f0ece46777a3f9",
+      "mapping": "12d1a9bbdddfa47fb099de21a391d048237a9014891645646875f1d63a662c14"
+    },
+    "native_input_rows": 143,
+    "native_non_entity_records": {"summary": 1},
+    "entity_selection": {
+      "field": "RecordType",
+      "values": ["driver"],
+      "excluded_values": ["summary", "diagnostic"]
+    }
+  },
+  "notes": [
+    "Compared fields are the low 48 bits of Offset and Start, DriverSize, and the three names.",
+    "The go test binary that produced the compared JSONL is bc34bcf863ca455f34521a3f0d76cfb492ff2045144212039476e5eb2251a52d.",
+    "One ServiceKey buffer is noncanonical. The compared cell matches the reference null and ServiceKeyError retains the read error.",
+    "804 candidates failed the Driver type check and were not emitted."
+  ]
+}

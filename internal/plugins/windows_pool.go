@@ -299,7 +299,7 @@ func poolScanLayout(e plugin.Environment, constraints []poolConstraint) (poolLay
 		layout.optional, layout.padding = optionalHeaderSizes(e.Symbols)
 	}
 	for _, constraint := range constraints {
-		if constraint.objectType != "" && constraint.typeName != "_FILE_OBJECT" && constraint.typeName != "_EPROCESS" && constraint.typeName != "_ETHREAD" && constraint.typeName != "_KMUTANT" {
+		if constraint.objectType != "" && constraint.typeName != "_FILE_OBJECT" && constraint.typeName != "_EPROCESS" && constraint.typeName != "_ETHREAD" && constraint.typeName != "_KMUTANT" && constraint.typeName != "_DRIVER_OBJECT" {
 			return poolLayout{}, fmt.Errorf("pool validity for %s is not implemented", constraint.typeName)
 		}
 	}
@@ -576,6 +576,8 @@ func poolObjectValid(ctx context.Context, constraint poolConstraint, object uint
 		return threadObjectValid(ctx, scan, object)
 	case "_KMUTANT":
 		return mutantObjectValid(ctx, object)
+	case "_DRIVER_OBJECT":
+		return driverObjectValid(ctx)
 	default:
 		if constraint.objectType == "" {
 			return true, nil

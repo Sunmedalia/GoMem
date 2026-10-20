@@ -6123,15 +6123,22 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "DRIVER_OBJECT entries from pool headers tagged Dri\\xf6 or Driv. The scan layer, carving direction, pool-type polarity, alignment and object-type check are the same as windows.filescan. Both tags require type Driver. The pinned DRIVER_OBJECT check accepts every carved object. The DriverStart field must be readable for 8 bytes. A start of zero or a start strictly above MmSystemRangeStart is kept; an unreadable MmSystemRangeStart uses 0xFFFF800000000000 on 64-bit and 0x80000000 on 32-bit. The driver name is the object-header name, without the KMUTANT length checks. The service key is DriverExtension.ServiceKeyName, and the other name is the embedded DriverName. Empty strings and invalid addresses become unavailable. A read error is removed from the compared cell so it matches that null, and kept on ServiceKeyError, DriverNameError or NameError. A row whose three names are all unavailable is omitted. The summary row is not a driver.",
+      "native": "windows.driverscan",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_142_rows_match_offset_start_size_and_names",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has 142 drivers",
+        "32-bit images and real pre-Windows 8 bottom-up scans remain pending. The Dri\\xf6 bottom-up path adds _DRIVER_EXTENSION to the rounded size in the shared scanner and has no separate fixture",
+        "One service-key buffer is the noncanonical address 0x508f8d480000017d. The compared cell matches the reference null; ServiceKeyError keeps the read error",
+        "Reference offsets and starts omit the canonical high bits. The comparison masks both sides to the low 48 bits"
+      ],
+      "validation_record": "docs/windows-driverscan.md"
     },
     {
       "id": "windows.dumpfiles.DumpFiles",
@@ -6388,7 +6395,7 @@
       "gaps": [
         "Only one Windows 10 x64 crash dump has a selected-field differential",
         "32-bit images and real pre-Windows 8 bottom-up scans remain pending; those paths are synthetic only",
-        "driverscan, symlinkscan and modscan remain absent. windows.psscan, windows.thrdscan and windows.mutantscan use this scanner",
+        "symlinkscan and modscan remain absent. windows.psscan, windows.thrdscan, windows.mutantscan and windows.driverscan use this scanner",
         "windows.hivescan still reads PoolBigPageTable and does not use this header scanner",
         "Reference offsets omit the canonical high bits. The comparison masks both sides to the low 48 bits; native rows keep the full address",
         "Three file names on the selected image could not be read and were omitted, matching the pinned plugin. They are counted in the summary, not emitted as empty names"

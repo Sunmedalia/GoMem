@@ -51,11 +51,15 @@ func windowsMutantScan(ctx context.Context, e plugin.Environment, _ map[string]s
 }
 
 func requireMutantFields(e plugin.Environment) error {
-	if e.Objects == nil || e.Symbols == nil {
-		return fmt.Errorf("mutant scan needs kernel symbols")
-	}
 	if _, err := e.Objects.Field("_KMUTANT", "Header"); err != nil {
 		return fmt.Errorf("_KMUTANT.Header: %w", err)
+	}
+	return requireObjectNameFields(e)
+}
+
+func requireObjectNameFields(e plugin.Environment) error {
+	if e.Objects == nil || e.Symbols == nil {
+		return fmt.Errorf("object names need kernel symbols")
 	}
 	if _, err := e.Objects.Field("_OBJECT_HEADER", "Body"); err != nil {
 		return err

@@ -1,0 +1,15 @@
+{
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "Offset", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Start": {"native": "Start", "reference": "Start", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Size": {"native": "Size", "reference": "Size", "kind": "uint64"},
+    "ServiceKey": {"native": "ServiceKey", "reference": "Service Key", "kind": "string", "missing_reasons": ["name_unavailable"]},
+    "DriverName": {"native": "DriverName", "reference": "Driver Name", "kind": "string", "missing_reasons": ["name_unavailable"]},
+    "Name": {"native": "Name", "reference": "Name", "kind": "string", "missing_reasons": ["name_unavailable"]}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["driver"],
+    "excluded_values": ["summary", "diagnostic"]
+  }
+}

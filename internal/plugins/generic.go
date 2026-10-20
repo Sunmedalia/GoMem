@@ -53,6 +53,7 @@ func Register(r *plugin.Registry) error {
 	specs = append(specs, windowsPsScanPlugins()...)
 	specs = append(specs, windowsThrdScanPlugins()...)
 	specs = append(specs, windowsMutantScanPlugins()...)
+	specs = append(specs, windowsDriverScanPlugins()...)
 	specs = append(specs, linuxELFPlugins()...)
 	specs = append(specs, linuxScanPlugins()...)
 	specs = append(specs, linuxLsofPlugins()...)
