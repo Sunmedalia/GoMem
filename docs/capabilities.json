@@ -9255,15 +9255,22 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "The first readable hive whose name contains amcache, case-insensitively. Windows 10 reads Root\\InventoryApplication, Root\\InventoryApplicationFile and Root\\InventoryDriverBinary. Windows 8 reads Root\\Programs and the two-level Root\\File keys. A missing section is skipped. Program rows keep the first key position and the last duplicate id. Files sort by program id and hang under a matching program; other files stay at the root. SHA-1 values strip every leading zero. InstallDate and LinkDate follow the pinned helper, which rejects every decoded value before its date parser. Unreadable value bytes stay unparsable and are not zero-padded.",
+      "native": "windows.amcache",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_157_rows_match_fields_and_program_file_tree",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has no InventoryDriverBinary rows and no Windows 8 File/Programs keys",
+        "InstallDate and LinkDate remain unparsable because the pinned helper never reaches its strptime branch",
+        "A value cell that cannot be read is not zero-padded; this image did not need that distinction",
+        "32-bit images, timeline output and a second Amcache hive remain pending"
+      ],
+      "validation_record": "docs/windows-amcache.md"
     },
     {
       "id": "windows.registry.cachedump.Cachedump",

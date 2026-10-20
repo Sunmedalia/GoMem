@@ -1,0 +1,61 @@
+{
+  "schema": "gomem.windows-amcache-validation/v1",
+  "date": "2026-10-21",
+  "scope": "One Windows 10 19041 x64 crash dump plus synthetic grouping and decoding cases. Not a Windows 8 hive, driver, 32-bit, or timeline acceptance.",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "reference_manifest_sha256": "9b23d091c956c00cef8c6cbf3cf55f90f16195e7d9a9697838eeee5715869921",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+  "engine_build_sha256": "f299672bea19eb0b11754b9ad1f672f17212797b497d74e846360cca655bc1a0",
+  "parameters": {},
+  "task_state": "completed",
+  "program_rows": 56,
+  "file_rows": 101,
+  "driver_rows": 0,
+  "depth0_rows": 100,
+  "depth1_rows": 57,
+  "reference_rows": 157,
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "EntryType",
+      "Path",
+      "Company",
+      "LastModifyTime",
+      "LastModifyTime2",
+      "InstallTime",
+      "CompileTime",
+      "SHA1",
+      "Service",
+      "ProductName",
+      "ProductVersion"
+    ],
+    "native_rows": 157,
+    "reference_rows": 157,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "862f0bc1b49065c9fab7b05f00acab1daf98fa4df05b05d49f92ce78051c60b2",
+      "reference": "0fbbbb4ae90adfc5c465eb4ecc22b9d8972b4a6092b9cf59b0e3dbd0cc4ced74",
+      "mapping": "940f35ee7f556779e7cf899ce65c47df6c963846a4ce63a47ebc6abfb59a91a3"
+    },
+    "native_input_rows": 157,
+    "native_non_entity_records": {},
+    "entity_selection": {
+      "field": "RecordType",
+      "values": [
+        "entry"
+      ],
+      "excluded_values": [
+        "absent"
+      ]
+    }
+  },
+  "notes": [
+    "Selected fields are EntryType, Path, Company, second-truncated LastModifyTime, LastModifyTime2, InstallTime and CompileTime, SHA1, Service, ProductName and ProductVersion. Parent identity is the program Path.",
+    "The image hive is \\??\\C:\\Windows\\AppCompat\\Programs\\Amcache.hve. Native output has 56 programs and 101 files. 57 files are children and 44 files have no parent program. There are no driver rows.",
+    "InstallDate and LinkDate stay unparsable. The pinned _get_datetime_str_value returns before its strptime branch, so both sides show null for InstallTime and CompileTime on this image.",
+    "The compared JSONL was written by bin/gomem f299672bea19eb0b11754b9ad1f672f17212797b497d74e846360cca655bc1a0."
+  ]
+}

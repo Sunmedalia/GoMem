@@ -44,6 +44,7 @@ func Register(r *plugin.Registry) error {
 	specs = append(specs, windowsPrintKeyPlugins()...)
 	specs = append(specs, windowsUserAssistPlugins()...)
 	specs = append(specs, windowsGetCellRoutinePlugins()...)
+	specs = append(specs, windowsAmcachePlugins()...)
 	specs = append(specs, windowsHashdumpPlugins()...)
 	specs = append(specs, windowsCredentialPlugins()...)
 	specs = append(specs, windowsHiveScanPlugins()...)

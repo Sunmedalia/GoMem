@@ -1,0 +1,21 @@
+{
+  "tree_key": "Path",
+  "fields": {
+    "EntryType": {"native": "EntryType", "reference": "EntryType", "kind": "string"},
+    "Path": {"native": "Path", "reference": "Path", "kind": "string", "missing_reasons": ["not_applicable", "not_available", "unparsable"]},
+    "Company": {"native": "Company", "reference": "Company", "kind": "string", "missing_reasons": ["not_applicable", "not_available", "unparsable"]},
+    "LastModifyTime": {"native": "LastModifyTime", "reference": "LastModifyTime", "kind": "timestamp_seconds", "missing_reasons": ["not_set", "not_applicable", "not_available", "unparsable", "invalid_filetime"]},
+    "LastModifyTime2": {"native": "LastModifyTime2", "reference": "LastModifyTime2", "kind": "timestamp_seconds", "missing_reasons": ["not_set", "not_applicable", "not_available", "unparsable", "invalid_filetime"]},
+    "InstallTime": {"native": "InstallTime", "reference": "InstallTime", "kind": "timestamp_seconds", "missing_reasons": ["not_set", "not_applicable", "not_available", "unparsable", "invalid_filetime"]},
+    "CompileTime": {"native": "CompileTime", "reference": "CompileTime", "kind": "timestamp_seconds", "missing_reasons": ["not_set", "not_applicable", "not_available", "unparsable", "invalid_filetime"]},
+    "SHA1": {"native": "SHA1", "reference": "SHA1", "kind": "string", "missing_reasons": ["not_applicable", "not_available", "unparsable"]},
+    "Service": {"native": "Service", "reference": "Service", "kind": "string", "missing_reasons": ["not_applicable", "not_available", "unparsable"]},
+    "ProductName": {"native": "ProductName", "reference": "ProductName", "kind": "string", "missing_reasons": ["not_applicable", "not_available", "unparsable"]},
+    "ProductVersion": {"native": "ProductVersion", "reference": "ProductVersion", "kind": "string", "missing_reasons": ["not_applicable", "not_available", "unparsable"]}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["entry"],
+    "excluded_values": ["absent"]
+  }
+}
