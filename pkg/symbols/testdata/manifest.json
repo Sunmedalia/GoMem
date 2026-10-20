@@ -1,0 +1,34 @@
+{
+  "source_sha256": "826ad441c0b64926a3114cf138d656d3315cdc9ab7b909e7bec0ab2076515002",
+  "clang": "Homebrew clang version 23.1.0",
+  "files": [
+    {
+      "name": "dwarf-x86_64-v2.elf",
+      "sha256": "a688dc7f156db5220fa7b12e2de704da65e7924b54138987a1545727e6f0e3b2"
+    },
+    {
+      "name": "dwarf-x86_64-v4.elf",
+      "sha256": "d9ae21e1ec6b1b3d4a7b6532e855e6697501d7975398e48ddc74e3a5803e7cc1"
+    },
+    {
+      "name": "dwarf-x86_64-v5.elf",
+      "sha256": "be92e3138bb63d54e96acc6abc314c7743d6263abea632be80b4249474e39b28"
+    },
+    {
+      "name": "dwarf-i386-v4.elf",
+      "sha256": "1bfa478d29b6a9d11f91d53b4331c763c32c3f49ac2c9f2f4f8d55d05aa20169"
+    },
+    {
+      "name": "dwarf-powerpc64-v4.elf",
+      "sha256": "09a3a0dcec675c0587307922dff3c410454ad939cc37792b2ba3185f3844f35f"
+    },
+    {
+      "name": "dwarf-x86_64.macho",
+      "sha256": "cdc32a446b4aaba24c5439a36df7c715ba7b27897de4680723b4bfea6f5bf368"
+    },
+    {
+      "name": "dwarf-arm64.macho",
+      "sha256": "e9049eb147d5b6435a53431f348abe90dd9173d2761875490e315040971c3fad"
+    }
+  ]
+}

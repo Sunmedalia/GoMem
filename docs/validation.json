@@ -1,0 +1,168 @@
+{
+  "schema": "gomem.validation/v1",
+  "date": "2026-10-20",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "engine": "0.1.0-dev",
+  "environment": {
+    "go": "go1.26.2",
+    "os": "darwin",
+    "arch": "arm64",
+    "cpu": "Apple M4",
+    "logical_cpus": 10
+  },
+  "results": [
+    {
+      "id": "linux.pslist.PsList",
+      "corpus": "official-linux-sample-1",
+      "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+      "engine_build_sha256": "e47413bfe8c8a7bdf0682bf8b1e5235c6e6a087fdd1490e80bfb963b2259e783",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "PPID",
+          "Name"
+        ],
+        "native_rows": 133,
+        "reference_rows": 133,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "84e45cfbcf402f57ac10fd8266640d14ae7170276ca8c2f6c5eac6e59459db5d",
+          "reference": "a843aaf4d6f6f2b9d9180b02205ac014583576ae444d0954b43b6718862a75ad",
+          "mapping": "74b0de881a56a0f533b955f6ac8aa5dd559374b625bc8ddcd9fe1064d527a061"
+        }
+      }
+    },
+    {
+      "id": "linux.lsmod.Lsmod",
+      "corpus": "official-linux-sample-1",
+      "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+      "engine_build_sha256": "e47413bfe8c8a7bdf0682bf8b1e5235c6e6a087fdd1490e80bfb963b2259e783",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "Name"
+        ],
+        "native_rows": 79,
+        "reference_rows": 79,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "07b5e96f527a584afee1c3044e8daaceecc59ff228b63720a8a7fdb5832ba98e",
+          "reference": "2aad3e582dcf6a6aeee39664d84c632007393338c007e3fd7d37aafabefc9504",
+          "mapping": "8f2c52182ed8eca9144164ec62d5e6d12b21e90dd68fb53378f346f88dbdc245"
+        }
+      }
+    },
+    {
+      "id": "banners.Banners",
+      "corpus": "official-linux-sample-1",
+      "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+      "engine_build_sha256": "e47413bfe8c8a7bdf0682bf8b1e5235c6e6a087fdd1490e80bfb963b2259e783",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "Banner"
+        ],
+        "native_rows": 1,
+        "reference_rows": 1,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "294f26a41238eb8ff43fe0aa38c739b5c46f516178f33bfa0d02bff41f03c2b8",
+          "reference": "dfb049c487bc28e277b076907f47a737274f0d812aba4f3a4df2b9aa9c467758",
+          "mapping": "7733f9db0c8c102839b1d000142216b588d1461b91696dcf141a0b9a876edbfd"
+        }
+      }
+    },
+    {
+      "id": "windows.pslist.PsList",
+      "corpus": "official-windows-10-19041",
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+      "engine_build_sha256": "e47413bfe8c8a7bdf0682bf8b1e5235c6e6a087fdd1490e80bfb963b2259e783",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "PPID",
+          "Name"
+        ],
+        "native_rows": 120,
+        "reference_rows": 120,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "259803514f413cf9acf045f56342f40b98b68c6a94da5188f36948c136e0476f",
+          "reference": "b6b6308c261194fc98f79e7e26bb7573a820d94be78f8fb105bdf3d0061b67a4",
+          "mapping": "14ac26af59fffd379efa76487ad43d8cfd02d7d39d047460aa744fdfd79ac7d8"
+        }
+      }
+    },
+    {
+      "id": "windows.modules.Modules",
+      "corpus": "official-windows-10-19041",
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+      "engine_build_sha256": "e47413bfe8c8a7bdf0682bf8b1e5235c6e6a087fdd1490e80bfb963b2259e783",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "Name",
+          "Base",
+          "Size"
+        ],
+        "native_rows": 176,
+        "reference_rows": 176,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "fe172e7e26f39305e98cf0c8fb49457fec36b7b701823c7d2b35c07aa52b93f8",
+          "reference": "c4f51d0504550b68077cf858e50077d6bdeb6e04090ab5cdf2bb4a0bb5c1d11f",
+          "mapping": "01d0d65710117d1cf4522bfd6bc162f7005a691e48b5c7b9c85b53d95ddc8f34"
+        }
+      }
+    }
+  ],
+  "page_benchmark": {
+    "arch": "arm64",
+    "engine": "0.1.0-dev",
+    "go": "go1.26.2",
+    "logical_cpus": 10,
+    "os": "darwin",
+    "p50_ms": 4.639083,
+    "p95_ms": 8.699667,
+    "p99_ms": 9.198,
+    "page_size": 100,
+    "rows": 100000,
+    "runtime_peak_heap_sys_bytes": 16056320,
+    "samples": 200,
+    "scope": "warm unfiltered SQLite OFFSET pages; cold startup, filtering and real-image peak RSS measured separately"
+  },
+  "acceptance": "Selected fields on two official images only. No official capability is certified complete.",
+  "checks": {
+    "go_test_race": "passed",
+    "go_vet": "passed",
+    "official_corpus_regression": "passed on linux and windows samples",
+    "python_tool_tests": "2 passed",
+    "fuzz_detect": "passed, 760795 executions in final short run",
+    "fuzz_isf": "passed, 1083172 executions in final short run",
+    "cross_compile": "windows/linux/darwin, amd64/arm64",
+    "native_execution": "darwin/arm64 only",
+    "interactive_tui": "PTY launch, plugin run and exit passed"
+  }
+}

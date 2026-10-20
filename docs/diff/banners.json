@@ -1,0 +1,6 @@
+{
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "Offset", "kind": "address"},
+    "Banner": {"native": "Banner", "reference": "Banner", "kind": "string"}
+  }
+}

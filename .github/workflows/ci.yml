@@ -1,0 +1,37 @@
+name: verify-development-preview
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  native:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+      - run: go vet ./...
+      - run: go test ./...
+      - run: go build -trimpath ./cmd/gomem
+      - run: go run ./cmd/gomem doctor --offline
+  acceptance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: go test -race ./...
+      - run: python3 -m unittest discover -s tools -p 'test_*.py'
+      - run: python3 tools/fetch_baseline.py
+      - run: python3 tools/baseline_matrix.py --source .cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75 --check
+      - run: go test ./pkg/memory -run '^$' -fuzz FuzzDetect -fuzztime 5s
+      - run: go test ./pkg/symbols -run '^$' -fuzz FuzzISF -fuzztime 5s
+      - run: go test ./pkg/symbols -run '^$' -fuzz FuzzDWARF -fuzztime 5s

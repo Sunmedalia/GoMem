@@ -1,0 +1,66 @@
+{
+  "schema": "gomem.local-image-validation/v1",
+  "date": "2026-10-20",
+  "environment": "darwin/arm64, Go 1.26.2",
+  "images": [
+    {
+      "file": "kali.raw",
+      "size": 2141917244,
+      "sha256": "cf04d76ab9177d7ee355cc96020d29ae194c065c692304ff25e594ab510c639d",
+      "format": "lime-v1",
+      "tests": [
+        {
+          "plugin": "generic.info",
+          "state": "completed",
+          "rows": 130
+        },
+        {
+          "plugin": "banners",
+          "state": "completed",
+          "rows": 4
+        }
+      ],
+      "limitations": [
+        "ARM64 virtual address translation is unavailable; process/module analysis not run"
+      ]
+    },
+    {
+      "file": "linux-sample-1.bin.gz",
+      "size": 143967523,
+      "sha256": "910f272e5eeecdbf229e648d7b136a6722a11a5000f3995647364339417dfddd",
+      "decoded_size": 536870912,
+      "decoded_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "format": "raw (after local gzip decompression)",
+      "tests": [
+        {
+          "plugin": "generic.info",
+          "state": "completed",
+          "rows": 1
+        },
+        {
+          "plugin": "banners",
+          "state": "completed",
+          "rows": 1,
+          "reference_matched": true
+        },
+        {
+          "plugin": "linux.pslist",
+          "state": "completed",
+          "rows": 133,
+          "reference_matched": true
+        },
+        {
+          "plugin": "linux.lsmod",
+          "state": "completed",
+          "rows": 79,
+          "reference_matched": true
+        }
+      ],
+      "limitations": [
+        "Fixed matching ISF and x64 DTB 23089152; selected-field comparisons only"
+      ]
+    }
+  ],
+  "privacy": "Only acquisition metadata and test counts are recorded here. Images, raw results and cases remain local.",
+  "acceptance": "Smoke tests only; no official capability certified complete."
+}

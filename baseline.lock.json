@@ -1,0 +1,8 @@
+{
+  "name": "Volatility 3",
+  "version": "2.28.2",
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+  "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+}

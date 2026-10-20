@@ -1,0 +1,8 @@
+{
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "OFFSET (V)", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "PPID": {"native": "PPID", "reference": "PPID", "kind": "uint64"},
+    "Name": {"native": "Name", "reference": "COMM", "kind": "string"}
+  }
+}

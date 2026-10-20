@@ -1,0 +1,14 @@
+.cache/
+images/
+bin/
+dist/
+*.db
+*.db-shm
+*.db-wal
+*.raw
+*.lime
+*.dmp
+*.vmem
+*.core
+case-*/
+__pycache__/

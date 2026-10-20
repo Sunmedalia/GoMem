@@ -1,0 +1,653 @@
+{
+  "schema": "gomem.symbol-validation/v1",
+  "date": "2026-10-20",
+  "reference": {
+    "repository": "https://github.com/volatilityfoundation/dwarf2json",
+    "commit": "9f14607e0d339d463ea725fbd5c08aa7b7d40f75",
+    "archive_sha256": "7c23f1247e64e108880755ebd548b156d1c9f846c050bda558a8734547853238"
+  },
+  "fixtures": [
+    {
+      "fixture": "dwarf-x86_64-v2.elf",
+      "input_sha256": "a688dc7f156db5220fa7b12e2de704da65e7924b54138987a1545727e6f0e3b2",
+      "schema": "6.2.0 passed",
+      "report": {
+        "scope": {
+          "types": [
+            "task_struct",
+            "flags",
+            "packed_flags"
+          ],
+          "symbol_addresses": [
+            "init_task",
+            "answer",
+            "linux_banner",
+            "version"
+          ],
+          "enum_base_metadata_compared": false
+        },
+        "matched": true,
+        "type_differences": {},
+        "symbol_differences": {},
+        "sha256": {
+          "native": "c042deed2eda85191993593d9470b0b488489a4c46fe65b4190aa436ea16a7f5",
+          "reference": "9a60b214870302d0a10e6cc7dcc211ae4e3b6f805cd7e2c48a95cb20b3e9799b"
+        }
+      }
+    },
+    {
+      "fixture": "dwarf-x86_64-v4.elf",
+      "input_sha256": "d9ae21e1ec6b1b3d4a7b6532e855e6697501d7975398e48ddc74e3a5803e7cc1",
+      "schema": "6.2.0 passed",
+      "report": {
+        "scope": {
+          "types": [
+            "task_struct",
+            "flags",
+            "packed_flags"
+          ],
+          "symbol_addresses": [
+            "init_task",
+            "answer",
+            "linux_banner",
+            "version"
+          ],
+          "enum_base_metadata_compared": false
+        },
+        "matched": true,
+        "type_differences": {},
+        "symbol_differences": {},
+        "sha256": {
+          "native": "55cb01fa2078030a2e5ab8366a56a29abc82977d051986944b10e4b55df1c808",
+          "reference": "cdffda46a87fd9fd066afecf234b1c8b5275e2bf3a7f4d98d96046563f8b4e90"
+        }
+      }
+    },
+    {
+      "fixture": "dwarf-x86_64-v5.elf",
+      "input_sha256": "be92e3138bb63d54e96acc6abc314c7743d6263abea632be80b4249474e39b28",
+      "schema": "6.2.0 passed",
+      "report": {
+        "scope": {
+          "types": [
+            "task_struct",
+            "flags",
+            "packed_flags"
+          ],
+          "symbol_addresses": [
+            "init_task",
+            "answer",
+            "linux_banner",
+            "version"
+          ],
+          "enum_base_metadata_compared": false
+        },
+        "matched": true,
+        "type_differences": {},
+        "symbol_differences": {},
+        "sha256": {
+          "native": "2ef0401e0b5df75d617c9f11fc6937863f137917d7bfbe63dbb23cb2a68d73f4",
+          "reference": "dde06b0749b87187390b5dc4fab86902541cd3cd89910d905177697021e39aa5"
+        }
+      }
+    },
+    {
+      "fixture": "dwarf-i386-v4.elf",
+      "input_sha256": "1bfa478d29b6a9d11f91d53b4331c763c32c3f49ac2c9f2f4f8d55d05aa20169",
+      "schema": "6.2.0 passed",
+      "report": {
+        "scope": {
+          "types": [
+            "task_struct",
+            "flags",
+            "packed_flags"
+          ],
+          "symbol_addresses": [
+            "init_task",
+            "answer",
+            "linux_banner",
+            "version"
+          ],
+          "enum_base_metadata_compared": false
+        },
+        "matched": true,
+        "type_differences": {},
+        "symbol_differences": {},
+        "sha256": {
+          "native": "61b74fbf6c1a29ce621055ec4c823131032b95e5b431264ca29f6586bfdc0f42",
+          "reference": "79f2be0a9167ce90d1566a6f70af475d35e145620ab304de7e18a913100f7d19"
+        }
+      }
+    },
+    {
+      "fixture": "dwarf-powerpc64-v4.elf",
+      "input_sha256": "09a3a0dcec675c0587307922dff3c410454ad939cc37792b2ba3185f3844f35f",
+      "schema": "6.2.0 passed",
+      "report": {
+        "scope": {
+          "types": [
+            "task_struct",
+            "flags",
+            "packed_flags"
+          ],
+          "symbol_addresses": [
+            "init_task",
+            "answer",
+            "linux_banner",
+            "version"
+          ],
+          "enum_base_metadata_compared": false
+        },
+        "matched": false,
+        "type_differences": {
+          "task_struct": {
+            "native": [
+              "struct",
+              80,
+              {
+                "mask": {
+                  "byte_offset": 48,
+                  "type": [
+                    "base",
+                    "int",
+                    8,
+                    false,
+                    "big"
+                  ]
+                },
+                "signed_value": {
+                  "byte_offset": 48,
+                  "type": [
+                    "base",
+                    "int",
+                    8,
+                    true,
+                    "big"
+                  ]
+                },
+                "alias": {
+                  "byte_offset": 8,
+                  "type": [
+                    "pointer",
+                    8,
+                    [
+                      "recursive",
+                      "struct",
+                      80
+                    ]
+                  ]
+                },
+                "bytes": {
+                  "byte_offset": 58,
+                  "type": [
+                    "array",
+                    3,
+                    [
+                      "base",
+                      "char",
+                      1,
+                      false,
+                      "big"
+                    ]
+                  ]
+                },
+                "callback": {
+                  "byte_offset": 16,
+                  "type": [
+                    "pointer",
+                    8,
+                    [
+                      "function"
+                    ]
+                  ]
+                },
+                "comm": {
+                  "byte_offset": 61,
+                  "type": [
+                    "array",
+                    16,
+                    [
+                      "base",
+                      "char",
+                      1,
+                      false,
+                      "big"
+                    ]
+                  ]
+                },
+                "flags": {
+                  "byte_offset": 32,
+                  "type": [
+                    "struct",
+                    4,
+                    {
+                      "a": {
+                        "memory_bit_offset": 0,
+                        "bits": 3,
+                        "signed": false
+                      },
+                      "b": {
+                        "memory_bit_offset": 3,
+                        "bits": 5,
+                        "signed": true
+                      },
+                      "c": {
+                        "memory_bit_offset": 8,
+                        "bits": 9,
+                        "signed": false
+                      }
+                    }
+                  ]
+                },
+                "grid": {
+                  "byte_offset": 36,
+                  "type": [
+                    "array",
+                    2,
+                    [
+                      "array",
+                      3,
+                      [
+                        "base",
+                        "int",
+                        2,
+                        false,
+                        "big"
+                      ]
+                    ]
+                  ]
+                },
+                "next": {
+                  "byte_offset": 0,
+                  "type": [
+                    "pointer",
+                    8,
+                    [
+                      "recursive",
+                      "struct",
+                      80
+                    ]
+                  ]
+                },
+                "packed": {
+                  "byte_offset": 56,
+                  "type": [
+                    "struct",
+                    2,
+                    {
+                      "a": {
+                        "memory_bit_offset": 0,
+                        "bits": 3,
+                        "signed": false
+                      },
+                      "b": {
+                        "memory_bit_offset": 3,
+                        "bits": 5,
+                        "signed": true
+                      },
+                      "c": {
+                        "memory_bit_offset": 8,
+                        "bits": 1,
+                        "signed": false
+                      }
+                    }
+                  ]
+                },
+                "pid": {
+                  "byte_offset": 24,
+                  "type": [
+                    "base",
+                    "int",
+                    4,
+                    true,
+                    "big"
+                  ]
+                },
+                "state": {
+                  "byte_offset": 28,
+                  "type": [
+                    "enum",
+                    4,
+                    {
+                      "gone": -1,
+                      "idle": 0,
+                      "running": 3,
+                      "running_alias": 3
+                    }
+                  ]
+                }
+              }
+            ],
+            "reference": [
+              "struct",
+              80,
+              {
+                "alias": {
+                  "byte_offset": 8,
+                  "type": [
+                    "pointer",
+                    8,
+                    [
+                      "recursive",
+                      "struct",
+                      80
+                    ]
+                  ]
+                },
+                "bytes": {
+                  "byte_offset": 58,
+                  "type": [
+                    "array",
+                    3,
+                    [
+                      "base",
+                      "char",
+                      1,
+                      false,
+                      "big"
+                    ]
+                  ]
+                },
+                "callback": {
+                  "byte_offset": 16,
+                  "type": [
+                    "pointer",
+                    8,
+                    [
+                      "function"
+                    ]
+                  ]
+                },
+                "comm": {
+                  "byte_offset": 61,
+                  "type": [
+                    "array",
+                    16,
+                    [
+                      "base",
+                      "char",
+                      1,
+                      false,
+                      "big"
+                    ]
+                  ]
+                },
+                "flags": {
+                  "byte_offset": 32,
+                  "type": [
+                    "struct",
+                    4,
+                    {
+                      "a": {
+                        "memory_bit_offset": 29,
+                        "bits": 3,
+                        "signed": false
+                      },
+                      "b": {
+                        "memory_bit_offset": 24,
+                        "bits": 5,
+                        "signed": true
+                      },
+                      "c": {
+                        "memory_bit_offset": 31,
+                        "bits": 9,
+                        "signed": false
+                      }
+                    }
+                  ]
+                },
+                "grid": {
+                  "byte_offset": 36,
+                  "type": [
+                    "array",
+                    2,
+                    [
+                      "array",
+                      3,
+                      [
+                        "base",
+                        "int",
+                        2,
+                        false,
+                        "big"
+                      ]
+                    ]
+                  ]
+                },
+                "next": {
+                  "byte_offset": 0,
+                  "type": [
+                    "pointer",
+                    8,
+                    [
+                      "recursive",
+                      "struct",
+                      80
+                    ]
+                  ]
+                },
+                "packed": {
+                  "byte_offset": 56,
+                  "type": [
+                    "struct",
+                    2,
+                    {
+                      "a": {
+                        "memory_bit_offset": 29,
+                        "bits": 3,
+                        "signed": false
+                      },
+                      "b": {
+                        "memory_bit_offset": 24,
+                        "bits": 5,
+                        "signed": true
+                      },
+                      "c": {
+                        "memory_bit_offset": 39,
+                        "bits": 1,
+                        "signed": false
+                      }
+                    }
+                  ]
+                },
+                "pid": {
+                  "byte_offset": 24,
+                  "type": [
+                    "base",
+                    "int",
+                    4,
+                    true,
+                    "big"
+                  ]
+                },
+                "state": {
+                  "byte_offset": 28,
+                  "type": [
+                    "enum",
+                    4,
+                    {
+                      "gone": -1,
+                      "idle": 0,
+                      "running": 3,
+                      "running_alias": 3
+                    }
+                  ]
+                },
+                "mask": {
+                  "byte_offset": 48,
+                  "type": [
+                    "base",
+                    "int",
+                    8,
+                    false,
+                    "big"
+                  ]
+                },
+                "signed_value": {
+                  "byte_offset": 48,
+                  "type": [
+                    "base",
+                    "int",
+                    8,
+                    true,
+                    "big"
+                  ]
+                }
+              }
+            ]
+          },
+          "flags": {
+            "native": [
+              "struct",
+              4,
+              {
+                "a": {
+                  "memory_bit_offset": 0,
+                  "bits": 3,
+                  "signed": false
+                },
+                "b": {
+                  "memory_bit_offset": 3,
+                  "bits": 5,
+                  "signed": true
+                },
+                "c": {
+                  "memory_bit_offset": 8,
+                  "bits": 9,
+                  "signed": false
+                }
+              }
+            ],
+            "reference": [
+              "struct",
+              4,
+              {
+                "a": {
+                  "memory_bit_offset": 29,
+                  "bits": 3,
+                  "signed": false
+                },
+                "b": {
+                  "memory_bit_offset": 24,
+                  "bits": 5,
+                  "signed": true
+                },
+                "c": {
+                  "memory_bit_offset": 31,
+                  "bits": 9,
+                  "signed": false
+                }
+              }
+            ]
+          },
+          "packed_flags": {
+            "native": [
+              "struct",
+              2,
+              {
+                "a": {
+                  "memory_bit_offset": 0,
+                  "bits": 3,
+                  "signed": false
+                },
+                "b": {
+                  "memory_bit_offset": 3,
+                  "bits": 5,
+                  "signed": true
+                },
+                "c": {
+                  "memory_bit_offset": 8,
+                  "bits": 1,
+                  "signed": false
+                }
+              }
+            ],
+            "reference": [
+              "struct",
+              2,
+              {
+                "a": {
+                  "memory_bit_offset": 29,
+                  "bits": 3,
+                  "signed": false
+                },
+                "b": {
+                  "memory_bit_offset": 24,
+                  "bits": 5,
+                  "signed": true
+                },
+                "c": {
+                  "memory_bit_offset": 39,
+                  "bits": 1,
+                  "signed": false
+                }
+              }
+            ]
+          }
+        },
+        "symbol_differences": {},
+        "sha256": {
+          "native": "735af911be3c5c63e831d9194ecf2e851e6e86f29b82efc07407a4dff7180e7a",
+          "reference": "b25f6af82da9f9584e2410079f7552d966215e325abac9fffb67cd1467f4ec55"
+        }
+      }
+    },
+    {
+      "fixture": "dwarf-x86_64.macho",
+      "input_sha256": "cdc32a446b4aaba24c5439a36df7c715ba7b27897de4680723b4bfea6f5bf368",
+      "schema": "6.2.0 passed",
+      "report": {
+        "scope": {
+          "types": [
+            "task_struct",
+            "flags",
+            "packed_flags"
+          ],
+          "symbol_addresses": [
+            "init_task",
+            "answer",
+            "linux_banner",
+            "version"
+          ],
+          "enum_base_metadata_compared": false
+        },
+        "matched": true,
+        "type_differences": {},
+        "symbol_differences": {},
+        "sha256": {
+          "native": "68478fa87f0f8903f80705dd159530564cc96d5384c716c4af704e10c6d7f221",
+          "reference": "046aabbc0d688ce3c8bfa5d6acb5cd3a3d4e2271860bee8f93e176d4193cb3ad"
+        }
+      }
+    },
+    {
+      "fixture": "dwarf-arm64.macho",
+      "input_sha256": "e9049eb147d5b6435a53431f348abe90dd9173d2761875490e315040971c3fad",
+      "schema": "6.2.0 passed",
+      "report": {
+        "scope": {
+          "types": [
+            "task_struct",
+            "flags",
+            "packed_flags"
+          ],
+          "symbol_addresses": [
+            "init_task",
+            "answer",
+            "linux_banner",
+            "version"
+          ],
+          "enum_base_metadata_compared": false
+        },
+        "matched": true,
+        "type_differences": {},
+        "symbol_differences": {},
+        "sha256": {
+          "native": "553fff3505d19c7e5e215451624f933197521b8d7532d4b6be51b3b6d238c731",
+          "reference": "ff77266e94e5d97c66e05764610154c19d63048a1064490d3c5fc8fd0ea190dd"
+        }
+      }
+    }
+  ],
+  "acceptance": "Selected C layouts only; no complete DWARF or official-plugin acceptance."
+}
