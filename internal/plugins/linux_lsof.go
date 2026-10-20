@@ -63,13 +63,32 @@ func linuxFDTable(ctx context.Context, e plugin.Environment, task uint64) (files
 }
 
 func linuxLsof(ctx context.Context, e plugin.Environment, p map[string]string, out plugin.Emit) error {
-	pointerType, err := e.Symbols.Type("pointer")
-	if err != nil || pointerType.Endian != "" && pointerType.Endian != "little" {
-		return fmt.Errorf("descriptor enumeration requires little-endian Intel pointers")
-	}
 	filesOnly, err := strconv.ParseBool(p["files-only"])
 	if err != nil {
 		return err
+	}
+	var failures pluginFailures
+	err = visitLinuxDescriptors(ctx, e, p, func(row evidence.Row) error {
+		if row.Cells["RecordType"].String() == "file" {
+			task, _ := row.Cells["TaskOffset"].Uint()
+			file, _ := row.Cells["Offset"].Uint()
+			failures.add(linuxOpenFile(ctx, e, task, file, filesOnly, &row))
+		}
+		if ctx.Err() != nil {
+			return ctx.Err()
+		}
+		return out(row)
+	})
+	return errors.Join(err, failures.err("Linux open file metadata"))
+}
+
+// Shared task/thread descriptor producer; consumers interpret only the file
+// fields they need. Socket enumeration does not depend on inode timestamps or
+// successful pathname recovery for unrelated open files.
+func visitLinuxDescriptors(ctx context.Context, e plugin.Environment, p map[string]string, out plugin.Emit) error {
+	pointerType, err := e.Symbols.Type("pointer")
+	if err != nil || pointerType.Endian != "" && pointerType.Endian != "little" {
+		return fmt.Errorf("descriptor enumeration requires little-endian Intel pointers")
 	}
 	maxFDs, err := strconv.ParseUint(p["max-fds"], 0, 64)
 	if err != nil || maxFDs == 0 || maxFDs > 500000 {
@@ -158,7 +177,6 @@ func linuxLsof(ctx context.Context, e plugin.Environment, p map[string]string, o
 				row := baseRow()
 				row.Cells["FD"], row.Cells["Offset"], row.Cells["Files"], row.Cells["FDTable"], row.Cells["Slot"] = evidence.Number(index+k), evidence.Address(pointer), evidence.Address(files), evidence.Address(table), evidence.Address(address+k*width)
 				row.Provenance.Offset = fmt.Sprintf("0x%x", pointer)
-				failures.add(linuxOpenFile(ctx, e, task, pointer, filesOnly, &row))
 				if ctx.Err() != nil {
 					return ctx.Err()
 				}

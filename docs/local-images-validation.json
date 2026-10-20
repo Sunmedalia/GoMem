@@ -158,5 +158,28 @@
     ],
     "lsof_validation": "docs/linux-lsof-validation.json",
     "original_images_reverified": true
+  },
+  "repeat_linux_sockstat_2026_10_20": {
+    "engine_build_sha256": "088eb523aa5b985d4471a3ef21650a0761c958c34b56a0f867173a73c0c8c425",
+    "tests": [
+      {
+        "file": "kali.raw",
+        "plugin": "generic.info",
+        "rows": 130,
+        "state": "completed",
+        "engine_build_sha256": "088eb523aa5b985d4471a3ef21650a0761c958c34b56a0f867173a73c0c8c425",
+        "source_hash_reverified": true
+      },
+      {
+        "file": "linux-sample-1.bin.gz",
+        "plugin": "linux.pslist",
+        "rows": 133,
+        "state": "completed",
+        "engine_build_sha256": "088eb523aa5b985d4471a3ef21650a0761c958c34b56a0f867173a73c0c8c425",
+        "source_hash_reverified": true
+      }
+    ],
+    "socket_validation": "docs/linux-sockstat-validation.json",
+    "original_images_reverified": true
   }
 }

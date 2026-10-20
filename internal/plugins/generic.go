@@ -42,6 +42,7 @@ func Register(r *plugin.Registry) error {
 	specs = append(specs, linuxELFPlugins()...)
 	specs = append(specs, linuxScanPlugins()...)
 	specs = append(specs, linuxLsofPlugins()...)
+	specs = append(specs, linuxSocketPlugins()...)
 	for _, b := range specs {
 		if err := r.Register(b); err != nil {
 			return err

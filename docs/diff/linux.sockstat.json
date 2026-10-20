@@ -1,0 +1,18 @@
+{
+  "native_record_type": {"field": "RecordType", "value": "socket", "excluded_values": ["diagnostic"]},
+  "fields": {
+    "NetNS": {"native": "NetNS", "reference": "NetNS", "kind": "uint64", "missing_reasons": ["namespace_inode_not_in_layout"]},
+    "Process": {"native": "Process", "reference": "Process Name", "kind": "string"},
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "TID": {"native": "TID", "reference": "TID", "kind": "uint64"},
+    "FD": {"native": "FD", "reference": "FD", "kind": "uint64"},
+    "Offset": {"native": "Offset", "reference": "Sock Offset", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Family": {"native": "Family", "reference": "Family", "kind": "string"},
+    "Type": {"native": "Type", "reference": "Type", "kind": "string"},
+    "Proto": {"native": "Proto", "reference": "Proto", "kind": "string", "missing_reasons": ["not_applicable"]},
+    "SourcePort": {"native": "SourcePort", "reference": "Source Port", "kind": "string", "missing_reasons": ["not_applicable"]},
+    "DestinationPort": {"native": "DestinationPort", "reference": "Destination Port", "kind": "string", "missing_reasons": ["not_applicable", "no_peer"]},
+    "State": {"native": "State", "reference": "State", "kind": "string"},
+    "Filter": {"native": "Filter", "reference": "Filter", "kind": "string", "missing_reasons": ["not_applicable"]}
+  }
+}

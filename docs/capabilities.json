@@ -3314,15 +3314,24 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Descriptor-backed sockets identified by exact file operations and typed socket_alloc ownership. Task/thread identities, separate task/socket namespace addresses, INET/UNIX/netlink/packet/vsock/Bluetooth/XDP handlers and cBPF/eBPF metadata; field availability remains explicit.",
+      "native": "linux.sockstat",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-x64-network-families",
+        "synthetic-linux-network-namespace-and-filter-layouts",
+        "official-linux-sample-1",
+        "official-linux-sample-1-reencoded-avml"
+      ],
+      "comparison": "selected_1021_sockets_match_thirteen_fields_INET_UNIX_bytes_independently_verified_five_Bluetooth_layout_gaps_retained",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Full real modern/32-bit family, namespace, interface and filter layout matrix pending; many family paths have synthetic tests only",
+        "Abstract UNIX names retain their explicit length and bytes rather than first-NUL truncation; macOS reference IPv6 nulls arise from host AF_INET6=30 versus Linux=10",
+        "Five selected Bluetooth sockets lack bt_sock in the supplied ISF and remain explicit decoding errors; complete task reports failure",
+        "No closed-socket scan, orphan sockets, packet capture, filter bytecode export or network timeline acceptance"
+      ],
+      "validation_record": "docs/linux-sockstat.md"
     },
     {
       "id": "linux.tracing.ftrace.CheckFtrace",

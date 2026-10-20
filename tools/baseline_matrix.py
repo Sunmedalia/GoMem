@@ -84,7 +84,7 @@ def generate(source):
                "linux.lsmod.Lsmod": "linux.lsmod", "windows.threads.Threads": "windows.threads",
                "windows.vadinfo.VadInfo": "windows.vadinfo", "linux.proc.Maps": "linux.maps",
                "windows.dlllist.DllList": "windows.dlllist", "windows.pedump.PEDump": "windows.pedump",
-               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux", "linux.elfs.Elfs": "linux.elfs", "linux.psscan.PsScan": "linux.psscan", "linux.lsof.Lsof": "linux.lsof"}
+               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux", "linux.elfs.Elfs": "linux.elfs", "linux.psscan.PsScan": "linux.psscan", "linux.lsof.Lsof": "linux.lsof", "linux.sockstat.Sockstat": "linux.sockstat"}
 
     def requirements(identifier, seen=None):
         seen = set() if seen is None else seen
@@ -123,6 +123,11 @@ def generate(source):
                               corpora=["synthetic-linux-x64", "synthetic-linux-clock-and-signal-threads", "official-linux-sample-1", "official-linux-sample-1-reencoded-avml"],
                               comparison="selected_ten_fields_match_133_processes_316_tasks_with_explicit_microsecond_rounding", validation_record="docs/linux-tasks.md",
                               gaps=["Real modern kernel/32-bit clock and thread layout matrix pending; modern paths have synthetic tests only", "ELF main-image extraction has selected legacy x64 validation only; timeline and damaged task-list bidirectional recovery remain pending", "Credential/clock read errors are retained per field; UID values are raw kernel IDs, not user namespace remapping"])
+        if identifier == "linux.sockstat.Sockstat":
+            plugins[-1].update(applicability="Descriptor-backed sockets identified by exact file operations and typed socket_alloc ownership. Task/thread identities, separate task/socket namespace addresses, INET/UNIX/netlink/packet/vsock/Bluetooth/XDP handlers and cBPF/eBPF metadata; field availability remains explicit.",
+                              corpora=["synthetic-linux-x64-network-families", "synthetic-linux-network-namespace-and-filter-layouts", "official-linux-sample-1", "official-linux-sample-1-reencoded-avml"],
+                              comparison="selected_1021_sockets_match_thirteen_fields_INET_UNIX_bytes_independently_verified_five_Bluetooth_layout_gaps_retained", validation_record="docs/linux-sockstat.md",
+                              gaps=["Full real modern/32-bit family, namespace, interface and filter layout matrix pending; many family paths have synthetic tests only", "Abstract UNIX names retain their explicit length and bytes rather than first-NUL truncation; macOS reference IPv6 nulls arise from host AF_INET6=30 versus Linux=10", "Five selected Bluetooth sockets lack bt_sock in the supplied ISF and remain explicit decoding errors; complete task reports failure", "No closed-socket scan, orphan sockets, packet capture, filter bytecode export or network timeline acceptance"])
         if identifier == "linux.lsof.Lsof":
             plugins[-1].update(applicability="Task/thread FD tables through typed files_struct.fdt or legacy inline fields, with raw/scoped paths and inode metadata. files-only selects filesystem traversal rather than filtering inode types. Timestamps retain exact signed seconds and nanoseconds.",
                               corpora=["synthetic-linux-x64", "synthetic-linux-x86-pae", "synthetic-linux-inode-time-and-namespace-layouts", "official-linux-sample-1", "official-linux-sample-1-reencoded-avml"],
