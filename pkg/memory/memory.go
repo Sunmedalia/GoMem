@@ -49,6 +49,9 @@ type Translation struct {
 	Available  uint64
 	Writable   bool
 	Executable bool
+	// Software transition entries do not carry hardware access permissions.
+	PermissionsKnown bool
+	Transition       bool
 }
 type Translator interface {
 	Translate(context.Context, uint64) (Translation, error)

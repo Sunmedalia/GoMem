@@ -53,6 +53,7 @@ type Engine struct {
 	closeOnce             sync.Once
 	closeErr              error
 	imageInfo             os.FileInfo
+	rootFromCrash         bool
 }
 
 func Open(ctx context.Context, c Config) (eng *Engine, err error) {
@@ -89,6 +90,7 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 		return nil, err
 	}
 	var crashHeader *memory.CrashHeader
+	rootFromCrash := false
 	if layer, ok := physical.(interface{ CrashHeader() memory.CrashHeader }); ok {
 		header := layer.CrashHeader()
 		crashHeader = &header
@@ -100,6 +102,7 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 		}
 		if c.DTB == "" && c.OS == "windows" && header.Architecture != "" && header.DirectoryTableBase != 0 {
 			c.DTB = fmt.Sprintf("0x%x", header.DirectoryTableBase)
+			rootFromCrash = true
 		}
 	}
 	if c.Arch != "x64" && c.Arch != "x86" && c.Arch != "pae" {
@@ -135,26 +138,13 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 	if err = plugins.Register(r); err != nil {
 		return nil, err
 	}
-	eng = &Engine{CrashHeader: crashHeader, Config: c, Source: src, Format: format, Hash: hash, Store: st, Registry: r}
+	eng = &Engine{rootFromCrash: rootFromCrash, CrashHeader: crashHeader, Config: c, Source: src, Format: format, Hash: hash, Store: st, Registry: r}
 	eng.Build, err = version.Identity()
 	if err != nil {
 		return nil, err
 	}
 	eng.imageInfo = initialStat
 	eng.Env = plugin.Environment{Physical: physical, OS: c.OS, KernelBase: c.KernelBase, KernelSlide: c.KernelSlide, ImageHash: hash}
-	if c.DTB != "" {
-		root, e := strconv.ParseUint(c.DTB, 0, 64)
-		if e != nil {
-			return nil, fmt.Errorf("--dtb: %w", e)
-		}
-		tr, e := memory.NewIntel(physical, root, c.Arch, 1024)
-		if e != nil {
-			return nil, e
-		}
-		root = tr.Root()
-		eng.Env.Kernel = &memory.Virtual{Physical: physical, Translator: tr, ID: fmt.Sprintf("kernel:%s:dtb=%#x", c.Arch, root)}
-		eng.Config.DTB = fmt.Sprintf("0x%x", root)
-	}
 	if c.Symbols != "" {
 		table, e := symbols.LoadContext(ctx, c.Symbols)
 		if e != nil {
@@ -170,6 +160,20 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 				eng.Env.OS = "mac"
 			}
 		}
+	}
+	kernelOS := eng.Env.OS
+	if c.DTB != "" {
+		root, e := strconv.ParseUint(c.DTB, 0, 64)
+		if e != nil {
+			return nil, fmt.Errorf("--dtb: %w", e)
+		}
+		tr, e := memory.NewIntelForOS(physical, root, c.Arch, eng.Env.OS, 1024)
+		if e != nil {
+			return nil, e
+		}
+		root = tr.Root()
+		eng.Env.Kernel = &memory.Virtual{Physical: physical, Translator: tr, ID: fmt.Sprintf("kernel:%s:dtb=%#x", c.Arch, root)}
+		eng.Config.DTB = fmt.Sprintf("0x%x", root)
 	}
 	if crashHeader != nil && eng.Env.OS == "windows" && eng.Config.KernelBase == 0 {
 		if eng.Env.Kernel == nil {
@@ -227,7 +231,31 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 		eng.SymbolResolution = resolution
 	}
 	if eng.Env.Kernel != nil && eng.Env.Symbols != nil {
+		// An index or automatic PDB acquisition can identify Windows after
+		// the bootstrap layer was created. Apply software paging semantics
+		// before any plugin receives an object reader.
+		if eng.Env.OS == "windows" && kernelOS != "windows" {
+			if layer, ok := eng.Env.Kernel.(*memory.Virtual); ok {
+				if initial, ok := layer.Translator.(*memory.Intel); ok {
+					tr, e := memory.NewIntelForOS(physical, initial.Root(), c.Arch, "windows", 1024)
+					if e != nil {
+						return nil, e
+					}
+					layer.Translator = tr
+				}
+			}
+		}
 		eng.Env.Objects = &object.Reader{Layer: eng.Env.Kernel, Symbols: eng.Env.Symbols}
+		if eng.rootFromCrash && eng.Env.OS == "windows" && eng.Config.KernelBase != 0 && eng.WindowsDiscoveryError == nil {
+			if e := eng.preferWindowsSystemRoot(ctx); e != nil {
+				if ctx.Err() != nil {
+					return nil, ctx.Err()
+				}
+				if eng.WindowsDiscovery != nil {
+					eng.WindowsDiscovery.SystemRootError = e.Error()
+				}
+			}
+		}
 	}
 	if err = eng.unchanged(); err != nil {
 		return nil, err

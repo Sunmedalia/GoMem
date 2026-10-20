@@ -26,6 +26,9 @@ type WindowsDiscovery struct {
 	BaseField         string              `json:"base_field,omitempty"`
 	Identity          symbols.PDBIdentity `json:"pdb"`
 	Verified          bool                `json:"verified"`
+	InitialDTB        string              `json:"initial_dtb,omitempty"`
+	SystemProcess     string              `json:"system_process,omitempty"`
+	SystemRootError   string              `json:"system_root_error,omitempty"`
 }
 type windowsCandidate struct {
 	base       uint64

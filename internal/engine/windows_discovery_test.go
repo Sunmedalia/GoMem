@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -79,6 +80,17 @@ func writeWindowsCrash(t *testing.T, mode, scenario string) testfixture.Fixture 
 	put64(0x7048, 0x6010)
 	put64(0x7050, 0x6000)
 	switch scenario {
+	case "system-root", "bad-system-root", "duplicate-system":
+		put64(0x1b000, 0x1c003)
+		put64(0x1c000, 0x1d003)
+		put64(0x1d000, 0x83)
+		put64(0x8038, 0x1b000)
+		if scenario == "bad-system-root" {
+			put64(0x1b000, 0)
+		}
+		if scenario == "duplicate-system" {
+			put64(0x9010, 4)
+		}
 	case "encoded":
 		clear(data[0x7010:0x7014])
 	case "forged-kdbg":
@@ -150,6 +162,43 @@ func writeWindowsCrash(t *testing.T, mode, scenario string) testfixture.Fixture 
 		t.Fatal(err)
 	}
 	return f
+}
+
+func TestWindowsAutomaticSystemRootValidationAndExplicitPrecedence(t *testing.T) {
+	for _, scenario := range []string{"system-root", "bad-system-root", "duplicate-system"} {
+		for _, explicit := range []bool{false, true} {
+			t.Run(scenario+"/explicit="+strconv.FormatBool(explicit), func(t *testing.T) {
+				f := writeWindowsCrash(t, "x64", scenario)
+				config := engine.Config{Image: f.Image, Symbols: f.Symbols, Offline: true}
+				if explicit {
+					config.DTB = "0x1000"
+				}
+				e, err := engine.Open(context.Background(), config)
+				if err != nil {
+					t.Fatal(err)
+				}
+				defer e.Close()
+				if e.WindowsDiscoveryError != nil {
+					t.Fatal(e.WindowsDiscoveryError)
+				}
+				want := "0x1000"
+				if scenario == "system-root" && !explicit {
+					want = "0x1b000"
+					if e.WindowsDiscovery.InitialDTB != "0x1000" || e.WindowsDiscovery.SystemProcess != "0x8000" {
+						t.Fatal(e.WindowsDiscovery)
+					}
+				} else if !explicit && e.WindowsDiscovery.SystemRootError == "" {
+					t.Fatal("failed optional root validation needs a diagnostic")
+				}
+				if e.Config.DTB != want {
+					t.Fatal("incorrect root selection", e.Config, e.WindowsDiscovery)
+				}
+				if result, err := e.Run(context.Background(), "windows.threads", nil, engine.RunOptions{}); err != nil || result.Task.Rows != 3 {
+					t.Fatal(result, err)
+				}
+			})
+		}
+	}
 }
 
 func TestWindowsCrashAutomaticConfiguration(t *testing.T) {

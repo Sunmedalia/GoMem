@@ -16,6 +16,8 @@ bin/gomem doctor --image memory.dmp --case ./case-001 --offline
 
 符号优先级为显式文件、匹配的本地索引、已验证 PDB 缓存及按精确身份在线获取。显式索引无匹配不会被下载掩盖；默认案件索引无匹配允许进入 PDB 获取。`--offline` 始终禁止网络。PE 的机器类型、可选头宽度、映像大小和 CodeView 范围也参与验证。
 
+仅当 DTB 来自转储头的自动选择时，引擎还会遍历活动进程链表，寻找唯一 PID 4 的 System 对象。其页表根须在新地址空间重新验证相同 System 对象、精确 PE/PDB 和相同模块/进程链表头，才会采用；失败继续使用转储头的已验证根，并保存 `system_root_error`。`initial_dtb`、`dtb`、`system_process` 记录替换依据，显式 `--dtb` 不会被替换。官方样本从 `0x112c98000` 选择 `0x6d4000`；历史自动配置记录保留原始构建结果，新增验证见 [线程验证](windows-threads-validation.json)。
+
 `doctor` 返回 `crash_header_hints` 和已验证的 `windows_discovery`；失败保存为 `windows_discovery_error`。自动配置失败时，物理段/字面扫描等不依赖内核的能力仍可使用；内核插件会返回实际失败原因，不能变为成功的空输出。案件任务保存最终 DTB、架构、内核基址、镜像与符号摘要。自动/显式配置相同时可复用同一已完成任务。
 
 合成测试覆盖 x86、PAE、x64，解码和编码 KDBG、错误 KDBG 指针、伪造 PE、错误页表、符号/身份不匹配、链表损坏、错误指针槽、损坏 PE 大小，以及显式覆盖和缓存复用。官方 Windows 10 19041 完成无手工地址参数的进程/模块对照；通过只读层遮蔽 KDBG 标签，还验证了真实模块链表回退。具体范围和摘要见 [windows-discovery-validation.json](windows-discovery-validation.json)。这些结果不代表全部 Windows 版本或参数完成验收。

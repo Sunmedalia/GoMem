@@ -9,6 +9,7 @@ import collections
 import hashlib
 import json
 import pathlib
+import datetime
 
 
 def load_rows(path, native):
@@ -20,9 +21,11 @@ def load_rows(path, native):
     return data
 
 
-def normalized(value, kind, mask=None):
+def normalized(value, kind, mask=None, missing_reasons=()):
     if isinstance(value, dict) and "kind" in value:
         if value["kind"] == "missing":
+            if value.get("reason") in missing_reasons and not value.get("error"):
+                return {"missing": "reference-null"}
             return {"missing": value.get("reason"), "error": value.get("error")}
         value = value.get("value")
     if value is None:
@@ -32,6 +35,11 @@ def normalized(value, kind, mask=None):
         if mask is not None:
             number &= int(mask, 0)
         return str(number)
+    if kind == "timestamp_seconds":
+        stamp = datetime.datetime.fromisoformat(value)
+        if stamp.tzinfo is None:
+            raise ValueError("timestamp comparison requires an explicit timezone")
+        return stamp.astimezone(datetime.timezone.utc).replace(microsecond=0).isoformat()
     return value
 
 
@@ -48,7 +56,7 @@ def compare(native_path, reference_path, mapping_path):
             key = field["native" if native else "reference"]
             if key not in source:
                 raise ValueError(f"missing mapped column {key}")
-            result[name] = normalized(source[key], field["kind"], field.get("mask"))
+            result[name] = normalized(source[key], field["kind"], field.get("mask"), field.get("missing_reasons", ()))
         return result
 
     native_ids = {row["id"]: row for row in native if row.get("id")}

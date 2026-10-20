@@ -13,8 +13,8 @@ type page struct {
 	data    []byte
 }
 
-// Intel is a bounded, synchronized page-table cache. Nonpresent entries, including
-// transition/prototype/swap entries, are errors until a matching swap resolver exists.
+// Intel is a bounded, synchronized page-table cache. Software page-table
+// encodings are interpreted only when an operating system is explicitly selected.
 type Intel struct {
 	physical MemoryLayer
 	root     uint64
@@ -23,9 +23,22 @@ type Intel struct {
 	pages    map[uint64]*list.Element
 	lru      *list.List
 	capacity int
+	windows  bool
 }
 
 func (i *Intel) Root() uint64 { return i.root }
+
+// NewIntelForOS enables resident Windows transition entries (Transition=1,
+// Prototype=0). Prototype and external swap entries remain explicit errors.
+// The pinned Windows x64 baseline reserves PFN bits above bit 44; this policy
+// is confined to Windows software entries, never generic hardware mappings.
+func NewIntelForOS(p MemoryLayer, root uint64, mode, os string, capacity int) (*Intel, error) {
+	i, err := NewIntel(p, root, mode, capacity)
+	if err == nil {
+		i.windows = os == "windows"
+	}
+	return i, err
+}
 
 func NewIntel(p MemoryLayer, root uint64, mode string, capacity int) (*Intel, error) {
 	if mode != "x64" && mode != "x86" && mode != "pae" {
@@ -82,6 +95,7 @@ func (i *Intel) Translate(ctx context.Context, a uint64) (Translation, error) {
 	width := 8
 	table := i.root
 	w, x := true, true
+	transition := false
 	if i.mode == "x64" {
 		upper := a >> 48
 		if (a>>47)&1 == 0 && upper != 0 || (a>>47)&1 == 1 && upper != 0xffff {
@@ -111,14 +125,17 @@ func (i *Intel) Translate(ctx context.Context, a uint64) (Translation, error) {
 		if e != nil {
 			return Translation{}, e
 		}
-		if entry&1 == 0 {
-			return Translation{}, fmt.Errorf("%w: nonpresent page-table entry at %#x (swap/transition pages unresolved)", ErrUnmapped, table+index*uint64(width))
+		software := entry&1 == 0
+		if software && (!i.windows || entry&2048 == 0 || entry&1024 != 0) {
+			return Translation{}, fmt.Errorf("%w: nonpresent page-table entry %#x at %#x (prototype/swap or unsupported software encoding)", ErrUnmapped, entry, table+index*uint64(width))
 		}
-		if !(i.mode == "pae" && level == 0) {
+		transition = transition || software
+		if !software && !(i.mode == "pae" && level == 0) {
 			w = w && entry&2 != 0
 			x = x && (width == 4 || entry>>63 == 0)
 		}
-		large := entry&128 != 0 && shift > 12
+		// Bit 7 is software protection metadata in a transition entry.
+		large := !software && entry&128 != 0 && shift > 12
 		if large {
 			allowed := (i.mode == "x64" && (shift == 30 || shift == 21)) || (i.mode == "pae" && shift == 21) || (i.mode == "x86" && shift == 22)
 			if !allowed {
@@ -131,6 +148,9 @@ func (i *Intel) Translate(ctx context.Context, a uint64) (Translation, error) {
 				return Translation{}, fmt.Errorf("reserved physical-address bits in large page")
 			}
 			frame := entry & 0x000ffffffffff000
+			if software && i.mode == "x64" {
+				frame &= 0x00001ffffffff000
+			}
 			if width == 4 {
 				frame = entry & 0xfffff000
 				if large {
@@ -140,9 +160,12 @@ func (i *Intel) Translate(ctx context.Context, a uint64) (Translation, error) {
 			if large {
 				frame &= ^(size - 1)
 			}
-			return Translation{frame + (a & (size - 1)), size - (a & (size - 1)), w, x}, nil
+			return Translation{Physical: frame + (a & (size - 1)), Available: size - (a & (size - 1)), Writable: w && !transition, Executable: x && !transition, PermissionsKnown: !transition, Transition: transition}, nil
 		}
 		table = entry & 0x000ffffffffff000
+		if software && i.mode == "x64" {
+			table &= 0x00001ffffffff000
+		}
 	}
 	return Translation{}, fmt.Errorf("incomplete page walk")
 }

@@ -3,11 +3,17 @@ import pathlib
 import tempfile
 import unittest
 
-from diff_results import compare
+from diff_results import compare, normalized as normalized_result
 from compare_symbols import normalized
 
 
 class DifferentialTests(unittest.TestCase):
+    def test_explicit_missing_and_timestamp_precision_profiles(self):
+        self.assertEqual(normalized_result({"kind":"missing","reason":"not_set"}, "string", missing_reasons=["not_set"]), {"missing":"reference-null"})
+        self.assertNotEqual(normalized_result({"kind":"missing","reason":"not_set","error":"unmapped page"}, "string", missing_reasons=["not_set"]), {"missing":"reference-null"})
+        self.assertEqual(normalized_result("2025-01-01T01:00:00.1234567+01:00", "timestamp_seconds"), "2025-01-01T00:00:00+00:00")
+        with self.assertRaisesRegex(ValueError, "timezone"):
+            normalized_result("2025-01-01T00:00:00", "timestamp_seconds")
     def test_symbol_bitfields_compare_memory_positions(self):
         def table(size, offset, position, endian):
             return {"base_types": {"int": {"kind": "int", "size": size, "signed": False, "endian": endian}},

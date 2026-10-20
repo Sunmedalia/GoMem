@@ -94,7 +94,8 @@ func Write(dir, platform string) (Fixture, error) {
 		t.Meta["windows"] = json.RawMessage(`{"pdb":{"database":"ntkrnlmp.pdb","GUID":"112233445566778899AABBCCDDEEFF00","age":1,"machine_type":34404}}`)
 		t.Symbols["PsActiveProcessHead"] = symbols.Symbol{Address: 0x2000}
 		t.Symbols["PsLoadedModuleList"] = symbols.Symbol{Address: 0x2010}
-		t.Types["_EPROCESS"] = symbols.Type{Kind: "struct", Size: 128, Fields: map[string]symbols.Field{"ActiveProcessLinks": field(0, strct("_LIST_ENTRY")), "UniqueProcessId": field(16, ptr), "InheritedFromUniqueProcessId": field(24, ptr), "ImageFileName": field(32, arr(16)), "CreateTime": field(48, base("u64")), "Pcb": field(56, strct("_KPROCESS"))}}
+		t.Types["_LARGE_INTEGER"] = symbols.Type{Kind: "union", Size: 8, Fields: map[string]symbols.Field{"QuadPart": field(0, base("u64"))}}
+		t.Types["_EPROCESS"] = symbols.Type{Kind: "struct", Size: 128, Fields: map[string]symbols.Field{"ActiveProcessLinks": field(0, strct("_LIST_ENTRY")), "UniqueProcessId": field(16, ptr), "InheritedFromUniqueProcessId": field(24, ptr), "ImageFileName": field(32, arr(16)), "CreateTime": field(48, symbols.TypeRef{Kind: "union", Name: "_LARGE_INTEGER"}), "Pcb": field(56, strct("_KPROCESS")), "ThreadListHead": field(64, strct("_LIST_ENTRY")), "VadRoot": field(80, strct("_RTL_AVL_TREE"))}}
 		t.Types["_LIST_ENTRY"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"Flink": field(0, ptr), "Blink": field(8, ptr)}}
 		t.Types["_KPROCESS"] = symbols.Type{Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"DirectoryTableBase": field(0, base("u64"))}}
 		t.Types["_KLDR_DATA_TABLE_ENTRY"] = symbols.Type{Kind: "struct", Size: 64, Fields: map[string]symbols.Field{"InLoadOrderLinks": field(0, strct("_LIST_ENTRY")), "DllBase": field(16, ptr), "SizeOfImage": field(24, base("u32")), "BaseDllName": field(32, strct("_UNICODE_STRING"))}}
@@ -137,6 +138,48 @@ func Write(dir, platform string) (Fixture, error) {
 		put(0xa028, 0xb000)
 		for i, c := range name {
 			binary.LittleEndian.PutUint16(data[0xb000+i*2:], uint16(c))
+		}
+		t.Types["_CLIENT_ID"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"UniqueProcess": field(0, ptr), "UniqueThread": field(8, ptr)}}
+		t.Types["_ETHREAD"] = symbols.Type{Kind: "struct", Size: 128, Fields: map[string]symbols.Field{"ThreadListEntry": field(0, strct("_LIST_ENTRY")), "Cid": field(16, strct("_CLIENT_ID")), "StartAddress": field(32, ptr), "Win32StartAddress": field(40, ptr), "CreateTime": field(48, symbols.TypeRef{Kind: "union", Name: "_LARGE_INTEGER"}), "ExitTime": field(56, symbols.TypeRef{Kind: "union", Name: "_LARGE_INTEGER"})}}
+		list(0x8040, 0x12000, 0x13000)
+		list(0x9040, 0x14000)
+		for i, a := range []uint64{0x12000, 0x13000, 0x14000} {
+			pid, tid, start := uint64(4), uint64(8+i*4), uint64(0x4010)
+			if i == 2 {
+				pid, tid, start = 104, 108, 0x700010
+			}
+			put(a+16, pid)
+			put(a+24, tid)
+			put(a+32, start)
+			put(a+40, start+16)
+			put(a+48, 133000000000000000+uint64(i)*10000000+1234567)
+		}
+		t.Types["_RTL_AVL_TREE"] = symbols.Type{Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"Root": field(0, ptr)}}
+		t.Types["_RTL_BALANCED_NODE"] = symbols.Type{Kind: "struct", Size: 24, Fields: map[string]symbols.Field{"Left": field(0, ptr), "Right": field(8, ptr), "ParentValue": field(16, base("u64"))}}
+		t.Types["_MMVAD_SHORT"] = symbols.Type{Kind: "struct", Size: 64, Fields: map[string]symbols.Field{"VadNode": field(0, strct("_RTL_BALANCED_NODE")), "StartingVpn": field(24, base("u32")), "EndingVpn": field(28, base("u32")), "StartingVpnHigh": field(32, base("char")), "EndingVpnHigh": field(33, base("char"))}}
+		t.Types["_MMVAD"] = symbols.Type{Kind: "struct", Size: 80, Fields: map[string]symbols.Field{"Core": field(0, strct("_MMVAD_SHORT")), "Subsection": field(64, ptr)}}
+		t.Types["_SUBSECTION"] = symbols.Type{Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"ControlArea": field(0, ptr)}}
+		t.Types["_EX_FAST_REF"] = symbols.Type{Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"Value": field(0, base("u64"))}}
+		t.Types["_CONTROL_AREA"] = symbols.Type{Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"FilePointer": field(0, strct("_EX_FAST_REF"))}}
+		t.Types["_FILE_OBJECT"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"FileName": field(0, strct("_UNICODE_STRING"))}}
+		put(0x9050, 0x15000)
+		put(0x15008, 0x16000)
+		put(0x16010, 0x15001)
+		binary.LittleEndian.PutUint32(data[0x15018:], 0x700)
+		binary.LittleEndian.PutUint32(data[0x1501c:], 0x70f)
+		binary.LittleEndian.PutUint32(data[0x16018:], 0x900)
+		binary.LittleEndian.PutUint32(data[0x1601c:], 0x90f)
+		copy(data[0x15000-12:], "Vad ")
+		copy(data[0x16000-12:], "VadS")
+		put(0x15040, 0x17000)
+		put(0x17000, 0x17100)
+		put(0x17100, 0x17203)
+		fileName := `\Device\HarddiskVolume1\worker.exe`
+		binary.LittleEndian.PutUint16(data[0x17200:], uint16(len(fileName)*2))
+		binary.LittleEndian.PutUint16(data[0x17202:], uint16(len(fileName)*2))
+		put(0x17208, 0x17400)
+		for i, c := range fileName {
+			binary.LittleEndian.PutUint16(data[0x17400+i*2:], uint16(c))
 		}
 	default:
 		return Fixture{}, os.ErrInvalid

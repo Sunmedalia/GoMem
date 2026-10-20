@@ -1,0 +1,76 @@
+{
+  "schema": "gomem.windows-threads-validation/v1",
+  "date": "2026-10-20",
+  "environment": "darwin/arm64 Go 1.26.2",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "id": "windows.threads.Threads",
+  "corpus": "official-windows-10-19041",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+  "engine_build_sha256": "c21a9591226d2b536b3395e637a027750920682a575a6e72fc18081ac7000db9",
+  "report": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "Offset",
+      "PID",
+      "TID",
+      "StartAddress",
+      "Win32StartAddress",
+      "StartPath",
+      "Win32StartPath",
+      "CreateTime"
+    ],
+    "native_rows": 1752,
+    "reference_rows": 1752,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "9528895546aaa47c5eebc6889a7bc378dec7eb23f9035b1cc7ad88ed33d01d78",
+      "reference": "0d1903777b0c0f44c192da0314da80ae0fcbf64eb1ada2f7a1ff624a8c498246",
+      "mapping": "aebb76256440c069383716d21c5260ff9d1e47afb410a0fb6eab2f09dbc589d4"
+    }
+  },
+  "discovery": {
+    "method": "crash-header-kdbg-pe+system-process-root",
+    "architecture": "x64",
+    "dtb": "0x6d4000",
+    "kernel_base": "0xfffff8043601f000",
+    "debugger_data": "0xfffff80436c1fb20",
+    "loaded_module_list": "0xfffff80436c49830",
+    "active_process_head": "0xfffff80436c3d110",
+    "pdb": {
+      "database": "ntkrnlmp.pdb",
+      "GUID": "167FE94B5641C005AC3036212A01F8DC",
+      "age": 1
+    },
+    "verified": true,
+    "initial_dtb": "0x112c98000",
+    "system_process": "0xffff840f65d02080"
+  },
+  "exit_time_validation": {
+    "valid_dates_match_seconds": 91,
+    "signed_union_dates_exactly_explained": 1661,
+    "native_policy": "Raw unsigned bits preserved; values beyond RFC3339 year 9999 marked invalid_filetime. These 1661 rows are not counted as full ExitTime parity."
+  },
+  "path_counts": {
+    "StartPath": {
+      "system_thread_mapping_not_applicable": 174,
+      "not_mapped_in_vad": 198,
+      "string": 1380
+    },
+    "Win32StartPath": {
+      "system_thread_mapping_not_applicable": 174,
+      "not_mapped_in_vad": 92,
+      "string": 1486
+    }
+  },
+  "transition_regression": {
+    "virtual_address": "0xffffc20422cf1bd0",
+    "pte_address": "0x1193ae788",
+    "raw_pte": "0x200115678880",
+    "resident_frame": "0x115678000",
+    "result": "previous filename read error resolved; no error-to-null normalization"
+  },
+  "acceptance": "Eight selected fields on one Windows x64 image; all full capability/version/architecture/parameter acceptance remains pending."
+}

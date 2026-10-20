@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"strconv"
-	"time"
+	"strings"
 
 	"github.com/Sunmedalia/GoMem/pkg/evidence"
 	"github.com/Sunmedalia/GoMem/pkg/memory"
@@ -14,7 +14,7 @@ import (
 func processPlugins() []builtin {
 	var out []builtin
 	for _, os := range []string{"windows", "linux"} {
-		s := plugin.Spec{Name: os + ".pslist", Upstream: os + ".pslist.PsList", Platform: os, NeedsKernel: true, Description: "Enumerate the active process list using verified symbols; no pool scan or process extraction", Parameters: []plugin.Parameter{{Name: "pid", Kind: "string", Description: "Optional single PID filter"}, {Name: "max-nodes", Kind: "uint", Default: "131072", Description: "Traversal safety limit"}}, Columns: []evidence.Column{{Name: "Offset", Kind: "address"}, {Name: "PID", Kind: "uint64"}, {Name: "PPID", Kind: "uint64"}, {Name: "Name", Kind: "string"}, {Name: "Created", Kind: "string"}, {Name: "DTB", Kind: "address"}, {Name: "Identity", Kind: "string"}}}
+		s := plugin.Spec{Name: os + ".pslist", Upstream: os + ".pslist.PsList", Platform: os, NeedsKernel: true, Description: "Enumerate the active process list using verified symbols; no pool scan or process extraction", Parameters: []plugin.Parameter{{Name: "pid", Kind: "string", Description: "Optional comma-separated PID filter"}, {Name: "max-nodes", Kind: "uint", Default: "131072", Description: "Traversal safety limit"}}, Columns: []evidence.Column{{Name: "Offset", Kind: "address"}, {Name: "PID", Kind: "uint64"}, {Name: "PPID", Kind: "uint64"}, {Name: "Name", Kind: "string"}, {Name: "Created", Kind: "string"}, {Name: "DTB", Kind: "address"}, {Name: "Identity", Kind: "string"}}}
 		fn := windowsProcesses
 		if os == "linux" {
 			fn = linuxProcesses
@@ -24,18 +24,21 @@ func processPlugins() []builtin {
 	}
 	return out
 }
-func limits(p map[string]string) (int, *uint64, error) {
+func limits(p map[string]string) (int, map[uint64]bool, error) {
 	n, e := strconv.ParseUint(p["max-nodes"], 0, 32)
 	if e != nil || n < 1 || n > 1000000 {
 		return 0, nil, fmt.Errorf("max-nodes must be 1..1000000")
 	}
-	var pid *uint64
+	var pid map[uint64]bool
 	if p["pid"] != "" {
-		v, e := strconv.ParseUint(p["pid"], 0, 32)
-		if e != nil {
-			return 0, nil, e
+		pid = map[uint64]bool{}
+		for _, token := range strings.Split(p["pid"], ",") {
+			v, e := strconv.ParseUint(strings.TrimSpace(token), 0, 32)
+			if e != nil {
+				return 0, nil, fmt.Errorf("pid: %w", e)
+			}
+			pid[v] = true
 		}
-		pid = &v
 	}
 	return int(n), pid, nil
 }
@@ -62,6 +65,11 @@ func windowsProcesses(ctx context.Context, e plugin.Environment, p map[string]st
 	if e1 != nil {
 		return e1
 	}
+	return visitWindowsProcesses(ctx, e, max, pid, func(a, v uint64, name string, created evidence.Value) error {
+		return out(processRow(e, a, v, name, optionalUint(ctx, e, a, "_EPROCESS", "InheritedFromUniqueProcessId", false), created, optionalUint(ctx, e, a, "_EPROCESS", "Pcb.DirectoryTableBase", true)))
+	})
+}
+func visitWindowsProcesses(ctx context.Context, e plugin.Environment, max int, pid map[uint64]bool, emit func(uint64, uint64, string, evidence.Value) error) error {
 	head, err := e.Symbol("PsActiveProcessHead")
 	if err != nil {
 		return err
@@ -75,28 +83,15 @@ func windowsProcesses(ctx context.Context, e plugin.Environment, p map[string]st
 		if err != nil {
 			return err
 		}
-		if pid != nil && v != *pid {
+		if pid != nil && !pid[v] {
 			return nil
 		}
 		name, err := e.Objects.String(ctx, a, "_EPROCESS", "ImageFileName", 64)
 		if err != nil {
 			return err
 		}
-		created := evidence.Missing("symbol_unavailable", nil)
-		stamp, err := e.Objects.Uint(ctx, a, "_EPROCESS", "CreateTime")
-		if err != nil {
-			created = evidence.Missing("unreadable_or_unavailable", err)
-		} else if stamp == 0 {
-			created = evidence.Missing("not_set", nil)
-		} else {
-			secs := stamp / 10000000
-			if secs > 11644473600 && secs < 44148153600 {
-				created = evidence.Text(time.Unix(int64(secs)-11644473600, int64(stamp%10000000)*100).UTC().Format(time.RFC3339Nano))
-			} else {
-				created = evidence.Missing("invalid_filetime", nil)
-			}
-		}
-		return out(processRow(e, a, v, name, optionalUint(ctx, e, a, "_EPROCESS", "InheritedFromUniqueProcessId", false), created, optionalUint(ctx, e, a, "_EPROCESS", "Pcb.DirectoryTableBase", true)))
+		created, _ := windowsTime(ctx, e, a, "_EPROCESS", "CreateTime")
+		return emit(a, v, name, created)
 	})
 }
 func linuxProcesses(ctx context.Context, e plugin.Environment, p map[string]string, out plugin.Emit) error {
@@ -121,7 +116,7 @@ func linuxProcesses(ctx context.Context, e plugin.Environment, p map[string]stri
 		if err != nil {
 			return err
 		}
-		if pid != nil && v != *pid {
+		if pid != nil && !pid[v] {
 			return nil
 		}
 		name, err := e.Objects.String(ctx, a, "task_struct", "comm", 64)

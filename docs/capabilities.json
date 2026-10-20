@@ -1286,7 +1286,6 @@
       "accepted": false,
       "corpora": [
         "synthetic-linux-x64",
-        "synthetic-windows-x64",
         "official-linux-sample-1"
       ],
       "comparison": "selected_fields_match",
@@ -2924,7 +2923,6 @@
       "accepted": false,
       "corpora": [
         "synthetic-linux-x64",
-        "synthetic-windows-x64",
         "official-linux-sample-1"
       ],
       "comparison": "selected_fields_match",
@@ -8188,7 +8186,6 @@
       "status": "partial",
       "accepted": false,
       "corpora": [
-        "synthetic-linux-x64",
         "synthetic-windows-x64",
         "official-windows-10-19041"
       ],
@@ -8867,7 +8864,6 @@
       "status": "partial",
       "accepted": false,
       "corpora": [
-        "synthetic-linux-x64",
         "synthetic-windows-x64",
         "official-windows-10-19041"
       ],
@@ -10485,15 +10481,21 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active process thread lists; exact ETHREAD/EPROCESS types. Start paths currently require modern RTL_AVL_TREE VAD layout. External swap/prototype pages are unresolved.",
+      "native": "windows.threads",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_fields_match",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Full version/architecture and parameter coverage pending",
+        "ExitTime signed union differences explicitly preserved; see docs/windows-threads.md",
+        "No thread pool scan or extracted artifacts"
+      ],
+      "validation_record": "docs/validation.json"
     },
     {
       "id": "windows.timers.Timers",

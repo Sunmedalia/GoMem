@@ -81,7 +81,7 @@ def generate(source):
 
     partial = {"banners.Banners": "banners", "windows.pslist.PsList": "windows.pslist",
                "linux.pslist.PsList": "linux.pslist", "windows.modules.Modules": "windows.modules",
-               "linux.lsmod.Lsmod": "linux.lsmod"}
+               "linux.lsmod.Lsmod": "linux.lsmod", "windows.threads.Threads": "windows.threads"}
 
     def requirements(identifier, seen=None):
         seen = set() if seen is None else seen
@@ -104,13 +104,16 @@ def generate(source):
                         "source": c["source"], "line": c["line"], "alias_target": c["alias_target"],
                         "requirements": requirements(identifier), "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
                         "native": native, "status": "partial" if native else "missing", "accepted": False,
-                        "corpora": ["synthetic-linux-x64", "synthetic-windows-x64"] if native else [],
+                        "corpora": ([f"synthetic-{identifier.split('.')[0]}-x64"] if identifier.startswith(("linux.", "windows.")) else ["synthetic-linux-x64", "synthetic-windows-x64"]) if native else [],
                         "comparison": "not_run", "gaps": ["Official-corpus differential acceptance pending"] if native else ["Native implementation and validation pending"]})
         matching = [v for v in validations if v["id"] == identifier and v["report"]["matched"]]
         if matching:
             plugins[-1]["corpora"] += sorted({v["corpus"] for v in matching})
             plugins[-1]["comparison"] = "selected_fields_match"
             plugins[-1]["validation_record"] = "docs/validation.json"
+        if identifier == "windows.threads.Threads":
+            plugins[-1].update(applicability="Active process thread lists; exact ETHREAD/EPROCESS types. Start paths currently require modern RTL_AVL_TREE VAD layout. External swap/prototype pages are unresolved.",
+                              gaps=["Full version/architecture and parameter coverage pending", "ExitTime signed union differences explicitly preserved; see docs/windows-threads.md", "No thread pool scan or extracted artifacts"])
     infrastructure = []
     for group, directory in [("layers", "volatility3/framework/layers"), ("symbols", "volatility3/framework/symbols"),
                              ("renderers", "volatility3/cli"), ("automagic", "volatility3/framework/automagic")]:

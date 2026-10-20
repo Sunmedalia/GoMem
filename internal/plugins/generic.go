@@ -32,6 +32,7 @@ func Register(r *plugin.Registry) error {
 	}
 	specs = append(specs, processPlugins()...)
 	specs = append(specs, modulePlugins()...)
+	specs = append(specs, threadPlugins()...)
 	for _, b := range specs {
 		if err := r.Register(b); err != nil {
 			return err

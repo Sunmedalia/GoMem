@@ -310,7 +310,7 @@ func (s *Session) process(ctx context.Context, id string) error {
 	if root == 0 {
 		return fmt.Errorf("process root is absent")
 	}
-	tr, err := memory.NewIntel(s.Engine.Env.Physical, root, s.Engine.Config.Arch, 1024)
+	tr, err := memory.NewIntelForOS(s.Engine.Env.Physical, root, s.Engine.Config.Arch, s.Engine.Env.OS, 1024)
 	if err != nil {
 		return err
 	}

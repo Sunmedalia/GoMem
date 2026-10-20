@@ -134,3 +134,8 @@ func ProcessID(image, layer string, address, pid uint64, created string) string 
 	h := sha256.Sum256(b)
 	return hex.EncodeToString(h[:])
 }
+func ThreadID(image, layer string, address, tid uint64, created string) string {
+	b, _ := json.Marshal([]string{"thread-v1", image, layer, fmt.Sprintf("%x", address), fmt.Sprint(tid), created})
+	h := sha256.Sum256(b)
+	return hex.EncodeToString(h[:])
+}
