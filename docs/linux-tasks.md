@@ -24,4 +24,4 @@ GOMEM_CORPUS_DIR="$PWD/.cache/corpus" go test ./internal/engine -run TestOfficia
 go test ./internal/plugins -run '^$' -fuzz FuzzLinuxClockArithmetic -fuzztime 10s
 ```
 
-对照工具支持显式选择 task/thread 行，同时单独报告 diagnostic 数量；不能将排除诊断后的字段相等冒充完整成功。合成测试覆盖旧/新线程链表、所有时钟布局、包装凭据、部分读取、坏归属、循环、计数边界、装饰、筛选和取消。真实现代内核、32 位、损坏主链表双向恢复、ELF dump 和时间线参数仍待补齐；保持 partial、accepted=false。
+对照工具支持显式选择 task/thread 行，同时单独报告 diagnostic 数量；不能将排除诊断后的字段相等冒充完整成功。合成测试覆盖旧/新线程链表、所有时钟布局、包装凭据、部分读取、坏归属、循环、计数边界、装饰、筛选和取消。真实现代内核、32 位、损坏主链表双向恢复和时间线参数仍待补齐；ELF 主映像提取及基线差异见 [ELF 验证](linux-elf.md)；保持 partial、accepted=false。

@@ -690,15 +690,22 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "VMA-start ELF signatures in independent process spaces; strict bounded ELF32/64 headers for extraction. Page-rounded PT_LOAD concatenation uses actual mapped addresses by default, or the pinned reference base-plus-p_vaddr profile.",
+      "native": "linux.elfs",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-x64",
+        "synthetic-elf32-64-endianness",
+        "official-linux-sample-1"
+      ],
+      "comparison": "selected_2419_entities_match_5442_read_diagnostics_retained_mapped_bytes_independently_verified",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Real modern/32-bit acquisition and complete version/parameter/failure coverage pending",
+        "ET_EXEC and high-address vDSO bytes intentionally differ in mapped layout; reference arithmetic exceeding uint64 is rejected explicitly",
+        "Strict headers, aggregate extraction size and empty-load rejection differ from permissive reference cases; output is not original disk ELF"
+      ],
+      "validation_record": "docs/linux-elf.md"
     },
     {
       "id": "linux.envars.Envars",
@@ -2943,7 +2950,7 @@
       "comparison": "selected_ten_fields_match_133_processes_316_tasks_with_explicit_microsecond_rounding",
       "gaps": [
         "Real modern kernel/32-bit clock and thread layout matrix pending; modern paths have synthetic tests only",
-        "ELF dump parameter, timeline and damaged task-list bidirectional recovery remain pending",
+        "ELF main-image extraction has selected legacy x64 validation only; timeline and damaged task-list bidirectional recovery remain pending",
         "Credential/clock read errors are retained per field; UID values are raw kernel IDs, not user namespace remapping"
       ],
       "validation_record": "docs/linux-tasks.md"

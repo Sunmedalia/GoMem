@@ -1,0 +1,1548 @@
+{
+  "schema": "gomem.linux-elf-validation/v1",
+  "date": "2026-10-20",
+  "scope": "One legacy Debian x64 acquisition, selected ELF extraction plus reencoded AVML consistency; no complete capability acceptance",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+  "results": [
+    {
+      "profile": "inventory",
+      "plugin": "linux.elfs",
+      "task_state": "failed",
+      "rows": 7861,
+      "record_types": {
+        "diagnostic": 5442,
+        "elf": 2419
+      },
+      "artifacts": 0,
+      "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "rows_sha256": "c53662fc9e1445475bc5ade9cee9148161a6d907849dae58456bf21d10bb63df",
+      "entity_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "Process",
+          "Start",
+          "End",
+          "Path"
+        ],
+        "native_rows": 2419,
+        "reference_rows": 2419,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "c53662fc9e1445475bc5ade9cee9148161a6d907849dae58456bf21d10bb63df",
+          "reference": "4f708a487c9f909f12ddf16b5514ecec18d7dbe1913d9790a7e0611026ac0b2d",
+          "mapping": "96ccc41ad2b5883854138ffd69d0a551b8b0df10caa43f4dd6c76bd5e1159df1"
+        },
+        "native_input_rows": 7861,
+        "native_non_entity_records": {
+          "diagnostic": 5442
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "elf",
+          "excluded_values": [
+            "diagnostic"
+          ]
+        }
+      },
+      "reference_manifest_sha256": "329db61a9f607318a2d6defd422ae2919a82a6a97752c1c52468a3ed44fb0dd5"
+    },
+    {
+      "profile": "getty-mapped",
+      "plugin": "linux.elfs",
+      "task_state": "failed",
+      "rows": 19,
+      "record_types": {
+        "elf": 9,
+        "diagnostic": 10
+      },
+      "artifacts": 9,
+      "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "rows_sha256": "dab82957e209f3cabc8d0e4319dde740b1a99e633700214f18fcfcf5e49729cd",
+      "entity_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "Process",
+          "Start",
+          "End",
+          "Path"
+        ],
+        "native_rows": 9,
+        "reference_rows": 9,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "dab82957e209f3cabc8d0e4319dde740b1a99e633700214f18fcfcf5e49729cd",
+          "reference": "e09c5b0bdcd87b5f90d9d780a4adc2e7bf43be63411f66f51bc74993a5c31e5b",
+          "mapping": "96ccc41ad2b5883854138ffd69d0a551b8b0df10caa43f4dd6c76bd5e1159df1"
+        },
+        "native_input_rows": 19,
+        "native_non_entity_records": {
+          "diagnostic": 10
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "elf",
+          "excluded_values": [
+            "diagnostic"
+          ]
+        }
+      },
+      "reference_manifest_sha256": "29c3f2a531ec99283b067b5936dd7494d682097b334d302bc71e6e2b14419ee4",
+      "extraction_comparison": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--pid",
+          "3476",
+          "--dump"
+        ],
+        "native_files": 9,
+        "reference_files": 9,
+        "explicit_file_name_mapping": {
+          "pid.3476.elf.0x400000.mapped.dmp": "pid.3476.getty.0x400000.dmp",
+          "pid.3476.elf.0x7fd689c70000.mapped.dmp": "pid.3476.getty.0x7fd689c70000.dmp",
+          "pid.3476.elf.0x7fd689e7c000.mapped.dmp": "pid.3476.getty.0x7fd689e7c000.dmp",
+          "pid.3476.elf.0x7fd68a087000.mapped.dmp": "pid.3476.getty.0x7fd68a087000.dmp",
+          "pid.3476.elf.0x7fd68a29f000.mapped.dmp": "pid.3476.getty.0x7fd68a29f000.dmp",
+          "pid.3476.elf.0x7fd68a4a7000.mapped.dmp": "pid.3476.getty.0x7fd68a4a7000.dmp",
+          "pid.3476.elf.0x7fd68a832000.mapped.dmp": "pid.3476.getty.0x7fd68a832000.dmp",
+          "pid.3476.elf.0x7fd68aa35000.mapped.dmp": "pid.3476.getty.0x7fd68aa35000.dmp",
+          "pid.3476.elf.0x7fff49fff000.mapped.dmp": "pid.3476.getty.0x7fff49fff000.dmp"
+        },
+        "matched": false,
+        "files": [
+          {
+            "name": "pid.3476.elf.0x400000.mapped.dmp",
+            "reference_name": "pid.3476.getty.0x400000.dmp",
+            "size": "45056",
+            "reference_size": "45056",
+            "native_sha256": "0aefd962d02d5bffa10b8097edf7bb45ab132ee023597bfd55e998cf2e62af55",
+            "reference_sha256": "61d9e6520ef1b93e440f9c235baca40cac8a44cd938a93019acb62f220d02cb9",
+            "bytes_equal": false,
+            "differing_bytes": 2269,
+            "first_differing_offsets": [
+              "0x0",
+              "0x1",
+              "0x2",
+              "0x3",
+              "0x4",
+              "0x5",
+              "0x6",
+              "0x10",
+              "0x12",
+              "0x14",
+              "0x18",
+              "0x19",
+              "0x1a",
+              "0x20",
+              "0x28",
+              "0x29",
+              "0x34",
+              "0x36",
+              "0x38",
+              "0x3a",
+              "0x3c",
+              "0x3e",
+              "0x40",
+              "0x44",
+              "0x48",
+              "0x50",
+              "0x52",
+              "0x58",
+              "0x5a",
+              "0x60",
+              "0x61",
+              "0x68"
+            ],
+            "state": "completed_with_gaps",
+            "missing_bytes": "32768",
+            "gap_count": "8",
+            "gaps_sha256": "70caeaba8fab82e072a52f0942256c3a904afea8e526addf72749fba75ca68d5",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:5c9289b897a7f97ecd5c83f6ede464fc7b62b43381441aab322c6427db98c883",
+            "offset": "0x400000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd689c70000.mapped.dmp",
+            "reference_name": "pid.3476.getty.0x7fd689c70000.dmp",
+            "size": "53248",
+            "reference_size": "53248",
+            "native_sha256": "0a40c205c4cc119f9bf54243cf54027f6f82eae9ca3a59f44ae5728b5772efa1",
+            "reference_sha256": "0a40c205c4cc119f9bf54243cf54027f6f82eae9ca3a59f44ae5728b5772efa1",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "28672",
+            "gap_count": "7",
+            "gaps_sha256": "852d6a50775d258c5fb153a204f155ca9f6d1c4512f7d6e2163d3d422545b6df",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:5c9289b897a7f97ecd5c83f6ede464fc7b62b43381441aab322c6427db98c883",
+            "offset": "0x7fd689c70000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd689e7c000.mapped.dmp",
+            "reference_name": "pid.3476.getty.0x7fd689e7c000.dmp",
+            "size": "49152",
+            "reference_size": "49152",
+            "native_sha256": "89f33750f1e250efb6d8956b6111ea22de026d8706feeb33772ee76ce50dcf90",
+            "reference_sha256": "89f33750f1e250efb6d8956b6111ea22de026d8706feeb33772ee76ce50dcf90",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "20480",
+            "gap_count": "5",
+            "gaps_sha256": "7d07f008b3dcd8e98da7fd37a2bbcd1de0662653b1340303a8bf6be1b3ceb5a5",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:5c9289b897a7f97ecd5c83f6ede464fc7b62b43381441aab322c6427db98c883",
+            "offset": "0x7fd689e7c000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68a087000.mapped.dmp",
+            "reference_name": "pid.3476.getty.0x7fd68a087000.dmp",
+            "size": "102400",
+            "reference_size": "102400",
+            "native_sha256": "927b015e1ad92f32bc89b2413a1cc946ff888d84de0aab90c8ce7139b2118268",
+            "reference_sha256": "927b015e1ad92f32bc89b2413a1cc946ff888d84de0aab90c8ce7139b2118268",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "69632",
+            "gap_count": "17",
+            "gaps_sha256": "fead30da6871e2383d90a9979e090d85e39747c064a450b96f11632e9067da72",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:5c9289b897a7f97ecd5c83f6ede464fc7b62b43381441aab322c6427db98c883",
+            "offset": "0x7fd68a087000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68a29f000.mapped.dmp",
+            "reference_name": "pid.3476.getty.0x7fd68a29f000.dmp",
+            "size": "36864",
+            "reference_size": "36864",
+            "native_sha256": "8b78de604a2380acf59396ee4c9d51bd286a0fe30f91441ca6786a4adc664630",
+            "reference_sha256": "8b78de604a2380acf59396ee4c9d51bd286a0fe30f91441ca6786a4adc664630",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "16384",
+            "gap_count": "4",
+            "gaps_sha256": "566968ab9964cc1c8baa4fdaebe85767155694450c049a1748315862c1facdc2",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:5c9289b897a7f97ecd5c83f6ede464fc7b62b43381441aab322c6427db98c883",
+            "offset": "0x7fd68a29f000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68a4a7000.mapped.dmp",
+            "reference_name": "pid.3476.getty.0x7fd68a4a7000.dmp",
+            "size": "1622016",
+            "reference_size": "1622016",
+            "native_sha256": "80ffeace45d6c8d3aaaaadf4a3b7a7c72e9d3abd43e163a43417ae041c5c00b7",
+            "reference_sha256": "80ffeace45d6c8d3aaaaadf4a3b7a7c72e9d3abd43e163a43417ae041c5c00b7",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "1032192",
+            "gap_count": "252",
+            "gaps_sha256": "5686984b7c88f1e3849c5bbfe8701fc33bd4bb15dc1856b834232696b76a0115",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:5c9289b897a7f97ecd5c83f6ede464fc7b62b43381441aab322c6427db98c883",
+            "offset": "0x7fd68a4a7000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68a832000.mapped.dmp",
+            "reference_name": "pid.3476.getty.0x7fd68a832000.dmp",
+            "size": "16384",
+            "reference_size": "16384",
+            "native_sha256": "ec1b7536d96558488e9fb21a79624ab8c851fa09d202e24c224fd3d0f6b3cde6",
+            "reference_sha256": "ec1b7536d96558488e9fb21a79624ab8c851fa09d202e24c224fd3d0f6b3cde6",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed",
+            "missing_bytes": "0",
+            "gap_count": "0",
+            "gaps_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:5c9289b897a7f97ecd5c83f6ede464fc7b62b43381441aab322c6427db98c883",
+            "offset": "0x7fd68a832000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68aa35000.mapped.dmp",
+            "reference_name": "pid.3476.getty.0x7fd68aa35000.dmp",
+            "size": "143360",
+            "reference_size": "143360",
+            "native_sha256": "dd34abcb7f747dff226639a88419604e6cba99a1ce6764a15b19cb646b6bd210",
+            "reference_sha256": "dd34abcb7f747dff226639a88419604e6cba99a1ce6764a15b19cb646b6bd210",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "12288",
+            "gap_count": "3",
+            "gaps_sha256": "491fa2df4a6ea3bcbe9957eb4c47c58d4a89362bfd305c42cb8e08a04314a0eb",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:5c9289b897a7f97ecd5c83f6ede464fc7b62b43381441aab322c6427db98c883",
+            "offset": "0x7fd68aa35000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fff49fff000.mapped.dmp",
+            "reference_name": "pid.3476.getty.0x7fff49fff000.dmp",
+            "size": "4096",
+            "reference_size": "4096",
+            "native_sha256": "6c97578d302d57353326d40dcd0331595cd8cd80f75142afe7d7386faa3f934f",
+            "reference_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+            "bytes_equal": false,
+            "differing_bytes": 2095,
+            "first_differing_offsets": [
+              "0x0",
+              "0x1",
+              "0x2",
+              "0x3",
+              "0x4",
+              "0x5",
+              "0x6",
+              "0x10",
+              "0x12",
+              "0x14",
+              "0x19",
+              "0x1a",
+              "0x1b",
+              "0x1c",
+              "0x1d",
+              "0x1e",
+              "0x1f",
+              "0x20",
+              "0x28",
+              "0x29",
+              "0x34",
+              "0x36",
+              "0x38",
+              "0x3a",
+              "0x3c",
+              "0x3e",
+              "0x40",
+              "0x44",
+              "0x52",
+              "0x53",
+              "0x54",
+              "0x55"
+            ],
+            "state": "completed",
+            "missing_bytes": "0",
+            "gap_count": "0",
+            "gaps_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:5c9289b897a7f97ecd5c83f6ede464fc7b62b43381441aab322c6427db98c883",
+            "offset": "0x7fff49fff000"
+          }
+        ],
+        "native_rows_sha256": "c5896901961482abba5d750a0f872c517fbd1a17ad593678ecba271a955542a2",
+        "reference_manifest_sha256": "29c3f2a531ec99283b067b5936dd7494d682097b334d302bc71e6e2b14419ee4"
+      },
+      "independent_raw_verification": {
+        "verified": true,
+        "scope": "selected ELF64 extractions from RAW four-level x64 only; no full capability acceptance",
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+        "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+        "results": [
+          {
+            "name": "pid.3476.elf.0x400000.mapped.dmp",
+            "elf_type": "2",
+            "layout": "mapped",
+            "base": "0x400000",
+            "bytes_verified": "45056",
+            "missing_bytes": "32768",
+            "segments": 2,
+            "sha256": "0aefd962d02d5bffa10b8097edf7bb45ab132ee023597bfd55e998cf2e62af55",
+            "process_root": "0x1ae4c000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd689c70000.mapped.dmp",
+            "elf_type": "3",
+            "layout": "mapped",
+            "base": "0x7fd689c70000",
+            "bytes_verified": "53248",
+            "missing_bytes": "28672",
+            "segments": 2,
+            "sha256": "0a40c205c4cc119f9bf54243cf54027f6f82eae9ca3a59f44ae5728b5772efa1",
+            "process_root": "0x1ae4c000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd689e7c000.mapped.dmp",
+            "elf_type": "3",
+            "layout": "mapped",
+            "base": "0x7fd689e7c000",
+            "bytes_verified": "49152",
+            "missing_bytes": "20480",
+            "segments": 2,
+            "sha256": "89f33750f1e250efb6d8956b6111ea22de026d8706feeb33772ee76ce50dcf90",
+            "process_root": "0x1ae4c000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68a087000.mapped.dmp",
+            "elf_type": "3",
+            "layout": "mapped",
+            "base": "0x7fd68a087000",
+            "bytes_verified": "102400",
+            "missing_bytes": "69632",
+            "segments": 2,
+            "sha256": "927b015e1ad92f32bc89b2413a1cc946ff888d84de0aab90c8ce7139b2118268",
+            "process_root": "0x1ae4c000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68a29f000.mapped.dmp",
+            "elf_type": "3",
+            "layout": "mapped",
+            "base": "0x7fd68a29f000",
+            "bytes_verified": "36864",
+            "missing_bytes": "16384",
+            "segments": 2,
+            "sha256": "8b78de604a2380acf59396ee4c9d51bd286a0fe30f91441ca6786a4adc664630",
+            "process_root": "0x1ae4c000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68a4a7000.mapped.dmp",
+            "elf_type": "3",
+            "layout": "mapped",
+            "base": "0x7fd68a4a7000",
+            "bytes_verified": "1622016",
+            "missing_bytes": "1032192",
+            "segments": 2,
+            "sha256": "80ffeace45d6c8d3aaaaadf4a3b7a7c72e9d3abd43e163a43417ae041c5c00b7",
+            "process_root": "0x1ae4c000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68a832000.mapped.dmp",
+            "elf_type": "3",
+            "layout": "mapped",
+            "base": "0x7fd68a832000",
+            "bytes_verified": "16384",
+            "missing_bytes": "0",
+            "segments": 2,
+            "sha256": "ec1b7536d96558488e9fb21a79624ab8c851fa09d202e24c224fd3d0f6b3cde6",
+            "process_root": "0x1ae4c000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68aa35000.mapped.dmp",
+            "elf_type": "3",
+            "layout": "mapped",
+            "base": "0x7fd68aa35000",
+            "bytes_verified": "143360",
+            "missing_bytes": "12288",
+            "segments": 2,
+            "sha256": "dd34abcb7f747dff226639a88419604e6cba99a1ce6764a15b19cb646b6bd210",
+            "process_root": "0x1ae4c000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fff49fff000.mapped.dmp",
+            "elf_type": "3",
+            "layout": "mapped",
+            "base": "0x7fff49fff000",
+            "bytes_verified": "4096",
+            "missing_bytes": "0",
+            "segments": 1,
+            "sha256": "6c97578d302d57353326d40dcd0331595cd8cd80f75142afe7d7386faa3f934f",
+            "process_root": "0x1ae4c000"
+          }
+        ],
+        "skipped": {
+          "not_requested": 10
+        }
+      }
+    },
+    {
+      "profile": "getty-reference",
+      "plugin": "linux.elfs",
+      "task_state": "failed",
+      "rows": 19,
+      "record_types": {
+        "elf": 9,
+        "diagnostic": 10
+      },
+      "artifacts": 8,
+      "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "rows_sha256": "d8d01faa2a5139e6a73237787f05f256fbaeb19cbdc4f1d9e629607b632ef962",
+      "entity_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "Process",
+          "Start",
+          "End",
+          "Path"
+        ],
+        "native_rows": 9,
+        "reference_rows": 9,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "d8d01faa2a5139e6a73237787f05f256fbaeb19cbdc4f1d9e629607b632ef962",
+          "reference": "e09c5b0bdcd87b5f90d9d780a4adc2e7bf43be63411f66f51bc74993a5c31e5b",
+          "mapping": "96ccc41ad2b5883854138ffd69d0a551b8b0df10caa43f4dd6c76bd5e1159df1"
+        },
+        "native_input_rows": 19,
+        "native_non_entity_records": {
+          "diagnostic": 10
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "elf",
+          "excluded_values": [
+            "diagnostic"
+          ]
+        }
+      },
+      "reference_manifest_sha256": "29c3f2a531ec99283b067b5936dd7494d682097b334d302bc71e6e2b14419ee4",
+      "extraction_comparison": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--pid",
+          "3476",
+          "--dump"
+        ],
+        "native_files": 8,
+        "reference_files": 9,
+        "explicit_file_name_mapping": {
+          "pid.3476.elf.0x400000.reference.dmp": "pid.3476.getty.0x400000.dmp",
+          "pid.3476.elf.0x7fd689c70000.reference.dmp": "pid.3476.getty.0x7fd689c70000.dmp",
+          "pid.3476.elf.0x7fd689e7c000.reference.dmp": "pid.3476.getty.0x7fd689e7c000.dmp",
+          "pid.3476.elf.0x7fd68a087000.reference.dmp": "pid.3476.getty.0x7fd68a087000.dmp",
+          "pid.3476.elf.0x7fd68a29f000.reference.dmp": "pid.3476.getty.0x7fd68a29f000.dmp",
+          "pid.3476.elf.0x7fd68a4a7000.reference.dmp": "pid.3476.getty.0x7fd68a4a7000.dmp",
+          "pid.3476.elf.0x7fd68a832000.reference.dmp": "pid.3476.getty.0x7fd68a832000.dmp",
+          "pid.3476.elf.0x7fd68aa35000.reference.dmp": "pid.3476.getty.0x7fd68aa35000.dmp"
+        },
+        "matched": false,
+        "files": [
+          {
+            "name": "pid.3476.elf.0x400000.reference.dmp",
+            "reference_name": "pid.3476.getty.0x400000.dmp",
+            "size": "45056",
+            "reference_size": "45056",
+            "native_sha256": "61d9e6520ef1b93e440f9c235baca40cac8a44cd938a93019acb62f220d02cb9",
+            "reference_sha256": "61d9e6520ef1b93e440f9c235baca40cac8a44cd938a93019acb62f220d02cb9",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "45056",
+            "gap_count": "11",
+            "gaps_sha256": "8d306c0e59671d7d41a218f1e1d9daba09e77e4482b9d59a1c737d3697f2346d",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:5c9289b897a7f97ecd5c83f6ede464fc7b62b43381441aab322c6427db98c883",
+            "offset": "0x400000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd689c70000.reference.dmp",
+            "reference_name": "pid.3476.getty.0x7fd689c70000.dmp",
+            "size": "53248",
+            "reference_size": "53248",
+            "native_sha256": "0a40c205c4cc119f9bf54243cf54027f6f82eae9ca3a59f44ae5728b5772efa1",
+            "reference_sha256": "0a40c205c4cc119f9bf54243cf54027f6f82eae9ca3a59f44ae5728b5772efa1",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "28672",
+            "gap_count": "7",
+            "gaps_sha256": "852d6a50775d258c5fb153a204f155ca9f6d1c4512f7d6e2163d3d422545b6df",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:5c9289b897a7f97ecd5c83f6ede464fc7b62b43381441aab322c6427db98c883",
+            "offset": "0x7fd689c70000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd689e7c000.reference.dmp",
+            "reference_name": "pid.3476.getty.0x7fd689e7c000.dmp",
+            "size": "49152",
+            "reference_size": "49152",
+            "native_sha256": "89f33750f1e250efb6d8956b6111ea22de026d8706feeb33772ee76ce50dcf90",
+            "reference_sha256": "89f33750f1e250efb6d8956b6111ea22de026d8706feeb33772ee76ce50dcf90",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "20480",
+            "gap_count": "5",
+            "gaps_sha256": "7d07f008b3dcd8e98da7fd37a2bbcd1de0662653b1340303a8bf6be1b3ceb5a5",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:5c9289b897a7f97ecd5c83f6ede464fc7b62b43381441aab322c6427db98c883",
+            "offset": "0x7fd689e7c000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68a087000.reference.dmp",
+            "reference_name": "pid.3476.getty.0x7fd68a087000.dmp",
+            "size": "102400",
+            "reference_size": "102400",
+            "native_sha256": "927b015e1ad92f32bc89b2413a1cc946ff888d84de0aab90c8ce7139b2118268",
+            "reference_sha256": "927b015e1ad92f32bc89b2413a1cc946ff888d84de0aab90c8ce7139b2118268",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "69632",
+            "gap_count": "17",
+            "gaps_sha256": "fead30da6871e2383d90a9979e090d85e39747c064a450b96f11632e9067da72",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:5c9289b897a7f97ecd5c83f6ede464fc7b62b43381441aab322c6427db98c883",
+            "offset": "0x7fd68a087000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68a29f000.reference.dmp",
+            "reference_name": "pid.3476.getty.0x7fd68a29f000.dmp",
+            "size": "36864",
+            "reference_size": "36864",
+            "native_sha256": "8b78de604a2380acf59396ee4c9d51bd286a0fe30f91441ca6786a4adc664630",
+            "reference_sha256": "8b78de604a2380acf59396ee4c9d51bd286a0fe30f91441ca6786a4adc664630",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "16384",
+            "gap_count": "4",
+            "gaps_sha256": "566968ab9964cc1c8baa4fdaebe85767155694450c049a1748315862c1facdc2",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:5c9289b897a7f97ecd5c83f6ede464fc7b62b43381441aab322c6427db98c883",
+            "offset": "0x7fd68a29f000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68a4a7000.reference.dmp",
+            "reference_name": "pid.3476.getty.0x7fd68a4a7000.dmp",
+            "size": "1622016",
+            "reference_size": "1622016",
+            "native_sha256": "80ffeace45d6c8d3aaaaadf4a3b7a7c72e9d3abd43e163a43417ae041c5c00b7",
+            "reference_sha256": "80ffeace45d6c8d3aaaaadf4a3b7a7c72e9d3abd43e163a43417ae041c5c00b7",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "1032192",
+            "gap_count": "252",
+            "gaps_sha256": "5686984b7c88f1e3849c5bbfe8701fc33bd4bb15dc1856b834232696b76a0115",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:5c9289b897a7f97ecd5c83f6ede464fc7b62b43381441aab322c6427db98c883",
+            "offset": "0x7fd68a4a7000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68a832000.reference.dmp",
+            "reference_name": "pid.3476.getty.0x7fd68a832000.dmp",
+            "size": "16384",
+            "reference_size": "16384",
+            "native_sha256": "ec1b7536d96558488e9fb21a79624ab8c851fa09d202e24c224fd3d0f6b3cde6",
+            "reference_sha256": "ec1b7536d96558488e9fb21a79624ab8c851fa09d202e24c224fd3d0f6b3cde6",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed",
+            "missing_bytes": "0",
+            "gap_count": "0",
+            "gaps_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:5c9289b897a7f97ecd5c83f6ede464fc7b62b43381441aab322c6427db98c883",
+            "offset": "0x7fd68a832000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68aa35000.reference.dmp",
+            "reference_name": "pid.3476.getty.0x7fd68aa35000.dmp",
+            "size": "143360",
+            "reference_size": "143360",
+            "native_sha256": "dd34abcb7f747dff226639a88419604e6cba99a1ce6764a15b19cb646b6bd210",
+            "reference_sha256": "dd34abcb7f747dff226639a88419604e6cba99a1ce6764a15b19cb646b6bd210",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "12288",
+            "gap_count": "3",
+            "gaps_sha256": "491fa2df4a6ea3bcbe9957eb4c47c58d4a89362bfd305c42cb8e08a04314a0eb",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:5c9289b897a7f97ecd5c83f6ede464fc7b62b43381441aab322c6427db98c883",
+            "offset": "0x7fd68aa35000"
+          }
+        ],
+        "native_rows_sha256": "5e2e475498ba3205415b7494b3022f616a3539881767e57b6992e6b239b23880",
+        "reference_manifest_sha256": "29c3f2a531ec99283b067b5936dd7494d682097b334d302bc71e6e2b14419ee4"
+      },
+      "independent_raw_verification": {
+        "verified": true,
+        "scope": "selected ELF64 extractions from RAW four-level x64 only; no full capability acceptance",
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+        "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+        "results": [
+          {
+            "name": "pid.3476.elf.0x400000.reference.dmp",
+            "elf_type": "2",
+            "layout": "reference",
+            "base": "0x400000",
+            "bytes_verified": "45056",
+            "missing_bytes": "45056",
+            "segments": 2,
+            "sha256": "61d9e6520ef1b93e440f9c235baca40cac8a44cd938a93019acb62f220d02cb9",
+            "process_root": "0x1ae4c000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd689c70000.reference.dmp",
+            "elf_type": "3",
+            "layout": "reference",
+            "base": "0x7fd689c70000",
+            "bytes_verified": "53248",
+            "missing_bytes": "28672",
+            "segments": 2,
+            "sha256": "0a40c205c4cc119f9bf54243cf54027f6f82eae9ca3a59f44ae5728b5772efa1",
+            "process_root": "0x1ae4c000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd689e7c000.reference.dmp",
+            "elf_type": "3",
+            "layout": "reference",
+            "base": "0x7fd689e7c000",
+            "bytes_verified": "49152",
+            "missing_bytes": "20480",
+            "segments": 2,
+            "sha256": "89f33750f1e250efb6d8956b6111ea22de026d8706feeb33772ee76ce50dcf90",
+            "process_root": "0x1ae4c000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68a087000.reference.dmp",
+            "elf_type": "3",
+            "layout": "reference",
+            "base": "0x7fd68a087000",
+            "bytes_verified": "102400",
+            "missing_bytes": "69632",
+            "segments": 2,
+            "sha256": "927b015e1ad92f32bc89b2413a1cc946ff888d84de0aab90c8ce7139b2118268",
+            "process_root": "0x1ae4c000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68a29f000.reference.dmp",
+            "elf_type": "3",
+            "layout": "reference",
+            "base": "0x7fd68a29f000",
+            "bytes_verified": "36864",
+            "missing_bytes": "16384",
+            "segments": 2,
+            "sha256": "8b78de604a2380acf59396ee4c9d51bd286a0fe30f91441ca6786a4adc664630",
+            "process_root": "0x1ae4c000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68a4a7000.reference.dmp",
+            "elf_type": "3",
+            "layout": "reference",
+            "base": "0x7fd68a4a7000",
+            "bytes_verified": "1622016",
+            "missing_bytes": "1032192",
+            "segments": 2,
+            "sha256": "80ffeace45d6c8d3aaaaadf4a3b7a7c72e9d3abd43e163a43417ae041c5c00b7",
+            "process_root": "0x1ae4c000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68a832000.reference.dmp",
+            "elf_type": "3",
+            "layout": "reference",
+            "base": "0x7fd68a832000",
+            "bytes_verified": "16384",
+            "missing_bytes": "0",
+            "segments": 2,
+            "sha256": "ec1b7536d96558488e9fb21a79624ab8c851fa09d202e24c224fd3d0f6b3cde6",
+            "process_root": "0x1ae4c000"
+          },
+          {
+            "name": "pid.3476.elf.0x7fd68aa35000.reference.dmp",
+            "elf_type": "3",
+            "layout": "reference",
+            "base": "0x7fd68aa35000",
+            "bytes_verified": "143360",
+            "missing_bytes": "12288",
+            "segments": 2,
+            "sha256": "dd34abcb7f747dff226639a88419604e6cba99a1ce6764a15b19cb646b6bd210",
+            "process_root": "0x1ae4c000"
+          }
+        ],
+        "skipped": {
+          "not_requested": 10,
+          "elf_layout_unavailable": 1
+        }
+      }
+    },
+    {
+      "profile": "pid1-mapped",
+      "plugin": "linux.elfs",
+      "task_state": "failed",
+      "rows": 24,
+      "record_types": {
+        "diagnostic": 19,
+        "elf": 5
+      },
+      "artifacts": 5,
+      "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "rows_sha256": "6b56553b42ac98fbccb28acde877fe1f1e3da8d3b05ccb094891b1e8c66e24cd",
+      "entity_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "Process",
+          "Start",
+          "End",
+          "Path"
+        ],
+        "native_rows": 5,
+        "reference_rows": 5,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "6b56553b42ac98fbccb28acde877fe1f1e3da8d3b05ccb094891b1e8c66e24cd",
+          "reference": "fdb23f668985e6c4d8e1c5444f1556653b9c14bcff4bb1c161d1ea68fec22578",
+          "mapping": "96ccc41ad2b5883854138ffd69d0a551b8b0df10caa43f4dd6c76bd5e1159df1"
+        },
+        "native_input_rows": 24,
+        "native_non_entity_records": {
+          "diagnostic": 19
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "elf",
+          "excluded_values": [
+            "diagnostic"
+          ]
+        }
+      },
+      "reference_manifest_sha256": "afeafe256ea3ef3dcef9e8e9f22917cb48bd176feb750b61c7505b31b2ab8342",
+      "extraction_comparison": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--pid",
+          "1",
+          "--dump"
+        ],
+        "native_files": 5,
+        "reference_files": 5,
+        "explicit_file_name_mapping": {
+          "pid.1.elf.0x7f489741c000.mapped.dmp": "pid.1.init.0x7f489741c000.dmp",
+          "pid.1.elf.0x7f4897620000.mapped.dmp": "pid.1.init.0x7f4897620000.dmp",
+          "pid.1.elf.0x7f48979ab000.mapped.dmp": "pid.1.init.0x7f48979ab000.dmp",
+          "pid.1.elf.0x7f4897e0b000.mapped.dmp": "pid.1.init.0x7f4897e0b000.dmp",
+          "pid.1.elf.0x7fff14da9000.mapped.dmp": "pid.1.init.0x7fff14da9000.dmp"
+        },
+        "matched": false,
+        "files": [
+          {
+            "name": "pid.1.elf.0x7f489741c000.mapped.dmp",
+            "reference_name": "pid.1.init.0x7f489741c000.dmp",
+            "size": "16384",
+            "reference_size": "16384",
+            "native_sha256": "88ed351d6e855837831c3a419339ee8709fbd2374111c829c3b1c27e18f0e15d",
+            "reference_sha256": "88ed351d6e855837831c3a419339ee8709fbd2374111c829c3b1c27e18f0e15d",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "8192",
+            "gap_count": "2",
+            "gaps_sha256": "f182132fe6da6da92004a59a9cbdc333b43d1ed8ca659c00a984b818eb8a4c71",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:41860578e4e44f4a6c5f37a5af14f38f0e253f41ce5285ac9e247e5aafd06f9a",
+            "offset": "0x7f489741c000"
+          },
+          {
+            "name": "pid.1.elf.0x7f4897620000.mapped.dmp",
+            "reference_name": "pid.1.init.0x7f4897620000.dmp",
+            "size": "1622016",
+            "reference_size": "1622016",
+            "native_sha256": "75e490d46979847f453d014f084007c87fe798d3c598f4b57bbb0d0cc295daa4",
+            "reference_sha256": "75e490d46979847f453d014f084007c87fe798d3c598f4b57bbb0d0cc295daa4",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "1122304",
+            "gap_count": "274",
+            "gaps_sha256": "8423536c719ed84f544a571f4965fc3fa8392e871521c44602eeb86c912d29da",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:41860578e4e44f4a6c5f37a5af14f38f0e253f41ce5285ac9e247e5aafd06f9a",
+            "offset": "0x7f4897620000"
+          },
+          {
+            "name": "pid.1.elf.0x7f48979ab000.mapped.dmp",
+            "reference_name": "pid.1.init.0x7f48979ab000.dmp",
+            "size": "135168",
+            "reference_size": "135168",
+            "native_sha256": "637c42fa8d10b4d46c96ce6e806f396019d28cb9022c0c3c01cee196c94d1a6d",
+            "reference_sha256": "637c42fa8d10b4d46c96ce6e806f396019d28cb9022c0c3c01cee196c94d1a6d",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "90112",
+            "gap_count": "22",
+            "gaps_sha256": "e822eb1307c757f3eb879e46280d02858b907175bfa0b636bc2bf97f8eeee9cb",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:41860578e4e44f4a6c5f37a5af14f38f0e253f41ce5285ac9e247e5aafd06f9a",
+            "offset": "0x7f48979ab000"
+          },
+          {
+            "name": "pid.1.elf.0x7f4897e0b000.mapped.dmp",
+            "reference_name": "pid.1.init.0x7f4897e0b000.dmp",
+            "size": "143360",
+            "reference_size": "143360",
+            "native_sha256": "7c096a0eda4eb4a5782bd320df3d4114cec14c59f6272c4625b192bfc1290fed",
+            "reference_sha256": "7c096a0eda4eb4a5782bd320df3d4114cec14c59f6272c4625b192bfc1290fed",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "32768",
+            "gap_count": "8",
+            "gaps_sha256": "7c7f831ec3b21e3c6ba6bbe71f1b9de14244652de3643e80b15835c284885b77",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:41860578e4e44f4a6c5f37a5af14f38f0e253f41ce5285ac9e247e5aafd06f9a",
+            "offset": "0x7f4897e0b000"
+          },
+          {
+            "name": "pid.1.elf.0x7fff14da9000.mapped.dmp",
+            "reference_name": "pid.1.init.0x7fff14da9000.dmp",
+            "size": "4096",
+            "reference_size": "4096",
+            "native_sha256": "6c97578d302d57353326d40dcd0331595cd8cd80f75142afe7d7386faa3f934f",
+            "reference_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+            "bytes_equal": false,
+            "differing_bytes": 2095,
+            "first_differing_offsets": [
+              "0x0",
+              "0x1",
+              "0x2",
+              "0x3",
+              "0x4",
+              "0x5",
+              "0x6",
+              "0x10",
+              "0x12",
+              "0x14",
+              "0x19",
+              "0x1a",
+              "0x1b",
+              "0x1c",
+              "0x1d",
+              "0x1e",
+              "0x1f",
+              "0x20",
+              "0x28",
+              "0x29",
+              "0x34",
+              "0x36",
+              "0x38",
+              "0x3a",
+              "0x3c",
+              "0x3e",
+              "0x40",
+              "0x44",
+              "0x52",
+              "0x53",
+              "0x54",
+              "0x55"
+            ],
+            "state": "completed",
+            "missing_bytes": "0",
+            "gap_count": "0",
+            "gaps_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:41860578e4e44f4a6c5f37a5af14f38f0e253f41ce5285ac9e247e5aafd06f9a",
+            "offset": "0x7fff14da9000"
+          }
+        ],
+        "native_rows_sha256": "8b3e6197b108639e8ac42b8b3ab311394d2bd27dcf9698d38951262994dfdaba",
+        "reference_manifest_sha256": "afeafe256ea3ef3dcef9e8e9f22917cb48bd176feb750b61c7505b31b2ab8342"
+      },
+      "independent_raw_verification": {
+        "verified": true,
+        "scope": "selected ELF64 extractions from RAW four-level x64 only; no full capability acceptance",
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+        "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+        "results": [
+          {
+            "name": "pid.1.elf.0x7f489741c000.mapped.dmp",
+            "elf_type": "3",
+            "layout": "mapped",
+            "base": "0x7f489741c000",
+            "bytes_verified": "16384",
+            "missing_bytes": "8192",
+            "segments": 2,
+            "sha256": "88ed351d6e855837831c3a419339ee8709fbd2374111c829c3b1c27e18f0e15d",
+            "process_root": "0x1d4cf000"
+          },
+          {
+            "name": "pid.1.elf.0x7f4897620000.mapped.dmp",
+            "elf_type": "3",
+            "layout": "mapped",
+            "base": "0x7f4897620000",
+            "bytes_verified": "1622016",
+            "missing_bytes": "1122304",
+            "segments": 2,
+            "sha256": "75e490d46979847f453d014f084007c87fe798d3c598f4b57bbb0d0cc295daa4",
+            "process_root": "0x1d4cf000"
+          },
+          {
+            "name": "pid.1.elf.0x7f48979ab000.mapped.dmp",
+            "elf_type": "3",
+            "layout": "mapped",
+            "base": "0x7f48979ab000",
+            "bytes_verified": "135168",
+            "missing_bytes": "90112",
+            "segments": 2,
+            "sha256": "637c42fa8d10b4d46c96ce6e806f396019d28cb9022c0c3c01cee196c94d1a6d",
+            "process_root": "0x1d4cf000"
+          },
+          {
+            "name": "pid.1.elf.0x7f4897e0b000.mapped.dmp",
+            "elf_type": "3",
+            "layout": "mapped",
+            "base": "0x7f4897e0b000",
+            "bytes_verified": "143360",
+            "missing_bytes": "32768",
+            "segments": 2,
+            "sha256": "7c096a0eda4eb4a5782bd320df3d4114cec14c59f6272c4625b192bfc1290fed",
+            "process_root": "0x1d4cf000"
+          },
+          {
+            "name": "pid.1.elf.0x7fff14da9000.mapped.dmp",
+            "elf_type": "3",
+            "layout": "mapped",
+            "base": "0x7fff14da9000",
+            "bytes_verified": "4096",
+            "missing_bytes": "0",
+            "segments": 1,
+            "sha256": "6c97578d302d57353326d40dcd0331595cd8cd80f75142afe7d7386faa3f934f",
+            "process_root": "0x1d4cf000"
+          }
+        ],
+        "skipped": {
+          "not_requested": 19
+        }
+      }
+    },
+    {
+      "profile": "main-mapped",
+      "plugin": "linux.pslist",
+      "task_state": "completed",
+      "rows": 1,
+      "record_types": {
+        "task": 1
+      },
+      "artifacts": 1,
+      "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "rows_sha256": "4a50966b467bf005c4bd1a170f0e86b1bee91c873ed61de4adf6b5b6f25b6a02",
+      "entity_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "TID",
+          "PPID",
+          "Name",
+          "UID",
+          "GID",
+          "EUID",
+          "EGID",
+          "Created"
+        ],
+        "native_rows": 1,
+        "reference_rows": 1,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "4a50966b467bf005c4bd1a170f0e86b1bee91c873ed61de4adf6b5b6f25b6a02",
+          "reference": "5aec0b07fff2d4c4605598f59d3c2434e3f3820d976f32026fbefdb5fb741021",
+          "mapping": "b514469d7c8673129dcc3bc5fd708df2d15bd6eb4aa4e692550c4dfa7719ccb5"
+        },
+        "native_input_rows": 1,
+        "native_non_entity_records": {},
+        "entity_selection": {
+          "field": "RecordType",
+          "values": [
+            "task",
+            "thread"
+          ],
+          "excluded_values": [
+            "diagnostic"
+          ]
+        }
+      },
+      "reference_manifest_sha256": "94fd07f3d502e49976365275dfb65d0ce5c555c1078d78982a3f728d7034e9d1",
+      "extraction_comparison": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--pid",
+          "3476",
+          "--dump"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "explicit_file_name_mapping": {
+          "pid.3476.elf.0x400000.mapped.dmp": "pid.3476.getty.0x400000.dmp"
+        },
+        "matched": false,
+        "files": [
+          {
+            "name": "pid.3476.elf.0x400000.mapped.dmp",
+            "reference_name": "pid.3476.getty.0x400000.dmp",
+            "size": "45056",
+            "reference_size": "45056",
+            "native_sha256": "0aefd962d02d5bffa10b8097edf7bb45ab132ee023597bfd55e998cf2e62af55",
+            "reference_sha256": "61d9e6520ef1b93e440f9c235baca40cac8a44cd938a93019acb62f220d02cb9",
+            "bytes_equal": false,
+            "differing_bytes": 2269,
+            "first_differing_offsets": [
+              "0x0",
+              "0x1",
+              "0x2",
+              "0x3",
+              "0x4",
+              "0x5",
+              "0x6",
+              "0x10",
+              "0x12",
+              "0x14",
+              "0x18",
+              "0x19",
+              "0x1a",
+              "0x20",
+              "0x28",
+              "0x29",
+              "0x34",
+              "0x36",
+              "0x38",
+              "0x3a",
+              "0x3c",
+              "0x3e",
+              "0x40",
+              "0x44",
+              "0x48",
+              "0x50",
+              "0x52",
+              "0x58",
+              "0x5a",
+              "0x60",
+              "0x61",
+              "0x68"
+            ],
+            "state": "completed_with_gaps",
+            "missing_bytes": "32768",
+            "gap_count": "8",
+            "gaps_sha256": "70caeaba8fab82e072a52f0942256c3a904afea8e526addf72749fba75ca68d5",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:5c9289b897a7f97ecd5c83f6ede464fc7b62b43381441aab322c6427db98c883",
+            "offset": "0x400000"
+          }
+        ],
+        "native_rows_sha256": "2720a4d1f81213fba9223359110c75de9b25214cf7f50dd7b5253bab05260f2b",
+        "reference_manifest_sha256": "94fd07f3d502e49976365275dfb65d0ce5c555c1078d78982a3f728d7034e9d1"
+      },
+      "independent_raw_verification": {
+        "verified": true,
+        "scope": "selected ELF64 extractions from RAW four-level x64 only; no full capability acceptance",
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+        "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+        "results": [
+          {
+            "name": "pid.3476.elf.0x400000.mapped.dmp",
+            "elf_type": "2",
+            "layout": "mapped",
+            "base": "0x400000",
+            "bytes_verified": "45056",
+            "missing_bytes": "32768",
+            "segments": 2,
+            "sha256": "0aefd962d02d5bffa10b8097edf7bb45ab132ee023597bfd55e998cf2e62af55",
+            "process_root": "0x1ae4c000"
+          }
+        ],
+        "skipped": {}
+      }
+    },
+    {
+      "profile": "main-reference",
+      "plugin": "linux.pslist",
+      "task_state": "completed",
+      "rows": 1,
+      "record_types": {
+        "task": 1
+      },
+      "artifacts": 1,
+      "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "rows_sha256": "5bf3eda430398a6291eaab424e4c4e47cc0ff1e45a69867e36fbd1eb798e6641",
+      "entity_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "TID",
+          "PPID",
+          "Name",
+          "UID",
+          "GID",
+          "EUID",
+          "EGID",
+          "Created"
+        ],
+        "native_rows": 1,
+        "reference_rows": 1,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "5bf3eda430398a6291eaab424e4c4e47cc0ff1e45a69867e36fbd1eb798e6641",
+          "reference": "5aec0b07fff2d4c4605598f59d3c2434e3f3820d976f32026fbefdb5fb741021",
+          "mapping": "b514469d7c8673129dcc3bc5fd708df2d15bd6eb4aa4e692550c4dfa7719ccb5"
+        },
+        "native_input_rows": 1,
+        "native_non_entity_records": {},
+        "entity_selection": {
+          "field": "RecordType",
+          "values": [
+            "task",
+            "thread"
+          ],
+          "excluded_values": [
+            "diagnostic"
+          ]
+        }
+      },
+      "reference_manifest_sha256": "94fd07f3d502e49976365275dfb65d0ce5c555c1078d78982a3f728d7034e9d1",
+      "extraction_comparison": {
+        "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+        "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "reference_parameters": [
+          "--pid",
+          "3476",
+          "--dump"
+        ],
+        "native_files": 1,
+        "reference_files": 1,
+        "explicit_file_name_mapping": {
+          "pid.3476.elf.0x400000.reference.dmp": "pid.3476.getty.0x400000.dmp"
+        },
+        "matched": true,
+        "files": [
+          {
+            "name": "pid.3476.elf.0x400000.reference.dmp",
+            "reference_name": "pid.3476.getty.0x400000.dmp",
+            "size": "45056",
+            "reference_size": "45056",
+            "native_sha256": "61d9e6520ef1b93e440f9c235baca40cac8a44cd938a93019acb62f220d02cb9",
+            "reference_sha256": "61d9e6520ef1b93e440f9c235baca40cac8a44cd938a93019acb62f220d02cb9",
+            "bytes_equal": true,
+            "differing_bytes": 0,
+            "first_differing_offsets": [],
+            "state": "completed_with_gaps",
+            "missing_bytes": "45056",
+            "gap_count": "11",
+            "gaps_sha256": "8d306c0e59671d7d41a218f1e1d9daba09e77e4482b9d59a1c737d3697f2346d",
+            "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+            "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+            "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+            "layer": "process:5c9289b897a7f97ecd5c83f6ede464fc7b62b43381441aab322c6427db98c883",
+            "offset": "0x400000"
+          }
+        ],
+        "native_rows_sha256": "6fe942894ff60be300fd5db13a5bdd05f5acd3614a75d1f5e6217c86a83b899e",
+        "reference_manifest_sha256": "94fd07f3d502e49976365275dfb65d0ce5c555c1078d78982a3f728d7034e9d1"
+      },
+      "independent_raw_verification": {
+        "verified": true,
+        "scope": "selected ELF64 extractions from RAW four-level x64 only; no full capability acceptance",
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+        "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+        "results": [
+          {
+            "name": "pid.3476.elf.0x400000.reference.dmp",
+            "elf_type": "2",
+            "layout": "reference",
+            "base": "0x400000",
+            "bytes_verified": "45056",
+            "missing_bytes": "45056",
+            "segments": 2,
+            "sha256": "61d9e6520ef1b93e440f9c235baca40cac8a44cd938a93019acb62f220d02cb9",
+            "process_root": "0x1ae4c000"
+          }
+        ],
+        "skipped": {}
+      }
+    },
+    {
+      "profile": "pid1-main",
+      "plugin": "linux.pslist",
+      "task_state": "failed",
+      "rows": 1,
+      "record_types": {
+        "task": 1
+      },
+      "artifacts": 0,
+      "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "rows_sha256": "c0b4a3eb4dfbe89106c456f09dc1bdcece36a6c9d536b7cf25f2c1809d36f1da"
+    },
+    {
+      "profile": "kernel-main",
+      "plugin": "linux.pslist",
+      "task_state": "completed",
+      "rows": 1,
+      "record_types": {
+        "task": 1
+      },
+      "artifacts": 0,
+      "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "rows_sha256": "84c045644a963453642c376b2c96c51b58c5516165644c3c6d214b5b40d81fc3"
+    },
+    {
+      "profile": "avml-getty",
+      "plugin": "linux.elfs",
+      "task_state": "failed",
+      "rows": 19,
+      "record_types": {
+        "elf": 9,
+        "diagnostic": 10
+      },
+      "artifacts": 9,
+      "image_sha256": "5b4d1fb2174127c3922af8ca623d00a4d37757c48154f0eb0a5c660f4551d324",
+      "rows_sha256": "2102ff34615174a63645f08201edb82d9873280e1ac3f98678fb61fe7138f438"
+    }
+  ],
+  "bundle_validation": [
+    {
+      "profile": "inventory",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "43b13865c46a3c0feacd33098493a9dd9609fa208189901d1400c83789703802"
+    },
+    {
+      "profile": "getty-mapped",
+      "report": {
+        "tasks": 1,
+        "members": 21,
+        "verified": true,
+        "artifacts": 9,
+        "included_artifacts": 9,
+        "partial_artifacts": 0
+      },
+      "sha256": "ee6aa3d2e8ae6628c24ed50582e1b479a3858748e961785c68c529c509a6810c"
+    },
+    {
+      "profile": "getty-reference",
+      "report": {
+        "tasks": 1,
+        "members": 19,
+        "verified": true,
+        "artifacts": 8,
+        "included_artifacts": 8,
+        "partial_artifacts": 0
+      },
+      "sha256": "a50ad2641a8239ee3c2b3c4238231628d2b31668dfa12c4828f43df4b613f6d2"
+    },
+    {
+      "profile": "pid1-mapped",
+      "report": {
+        "tasks": 1,
+        "members": 13,
+        "verified": true,
+        "artifacts": 5,
+        "included_artifacts": 5,
+        "partial_artifacts": 0
+      },
+      "sha256": "418c9911bda81636b80eb76651d5fb69a2249a1197025a59260b1d9ecb265286"
+    },
+    {
+      "profile": "main-mapped",
+      "report": {
+        "tasks": 1,
+        "members": 5,
+        "verified": true,
+        "artifacts": 1,
+        "included_artifacts": 1,
+        "partial_artifacts": 0
+      },
+      "sha256": "970dddaeaef165261cf7588ffc78c14a439725c8641bf7f95ea440c98a26c71f"
+    },
+    {
+      "profile": "main-reference",
+      "report": {
+        "tasks": 1,
+        "members": 5,
+        "verified": true,
+        "artifacts": 1,
+        "included_artifacts": 1,
+        "partial_artifacts": 0
+      },
+      "sha256": "2ca69da5cd70ad1c5402d0fabe5040ad7b008b8373b80c9f74e91d6aaa20010c"
+    },
+    {
+      "profile": "pid1-main",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "7505cc585676ad90fb4f8f6c091a5d291db1893d969403e04078a4be6d0ee1e3"
+    },
+    {
+      "profile": "kernel-main",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "e9dfa9524f173ecb505092642978737a66df945e521bd7dfe3d0632fc5eaa907"
+    },
+    {
+      "profile": "avml-getty",
+      "report": {
+        "tasks": 1,
+        "members": 21,
+        "verified": true,
+        "artifacts": 9,
+        "included_artifacts": 9,
+        "partial_artifacts": 0
+      },
+      "sha256": "b252be03e7ff46c0d5fcc6691d2862435169984f01dfd46cd7fd5be65ed283b3"
+    }
+  ],
+  "avml_consistency": {
+    "artifacts": 9,
+    "matched": true,
+    "scope": "same decoded acquisition, file sizes/digests/gap counts/states; not a new acquisition"
+  },
+  "original_images_sha256": {
+    "images/kali.raw": "cf04d76ab9177d7ee355cc96020d29ae194c065c692304ff25e594ab510c639d",
+    "images/linux-sample-1.bin.gz": "910f272e5eeecdbf229e648d7b136a6722a11a5000f3995647364339417dfddd"
+  },
+  "original_images_reverified_before_and_after": true,
+  "local_image_smoke": [
+    {
+      "file": "kali.raw",
+      "plugin": "generic.info",
+      "rows": 130,
+      "state": "completed",
+      "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+      "source_hash_reverified": true
+    },
+    {
+      "file": "linux-sample-1.bin.gz",
+      "plugin": "linux.pslist",
+      "rows": 133,
+      "state": "completed",
+      "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+      "source_hash_reverified": true
+    }
+  ],
+  "fuzz": {
+    "target": "FuzzELFHeaders",
+    "duration": "10s",
+    "executions": 2869659
+  },
+  "checks": {
+    "go_test_all": "passed",
+    "go_vet_all": "passed",
+    "go_race_all": "passed; final ELF/header interval and engine changes rechecked with race",
+    "official_corpus_suite": "passed",
+    "python_tool_tests": 15,
+    "capability_inventory": 195,
+    "fully_accepted_capabilities": 0,
+    "cross_builds": [
+      {
+        "name": "gomem-0.1.0-dev-windows-amd64.exe",
+        "sha256": "c0ae2cf577740a43015620ab629d507ec9ced718c45359d031fc7324e8d2176c",
+        "target": "windows/amd64"
+      },
+      {
+        "name": "gomem-0.1.0-dev-windows-arm64.exe",
+        "sha256": "cbd1081e507c729a152373d4be64c1727ccdfd3c59e82b671956cb4378ea6cd3",
+        "target": "windows/arm64"
+      },
+      {
+        "name": "gomem-0.1.0-dev-linux-amd64",
+        "sha256": "413af7d4f60023246d17e03e2e845118ddcab9fa0d690cb99a798e9ba4339829",
+        "target": "linux/amd64"
+      },
+      {
+        "name": "gomem-0.1.0-dev-linux-arm64",
+        "sha256": "65f6ba823c53ad5e1dd201adf485f87bac2e4209b1fa699a45d4707783528e69",
+        "target": "linux/arm64"
+      },
+      {
+        "name": "gomem-0.1.0-dev-darwin-amd64",
+        "sha256": "6481ff9b64b3817093821b6b97f307c5fec813441dd9b2b97d17edb1557da4d5",
+        "target": "darwin/amd64"
+      },
+      {
+        "name": "gomem-0.1.0-dev-darwin-arm64",
+        "sha256": "e3de1d7d7af267eed331beb5baf792bf790375eb8755d8380a6ab25aef9d51e9",
+        "target": "darwin/arm64"
+      }
+    ]
+  }
+}

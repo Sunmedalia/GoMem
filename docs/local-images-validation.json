@@ -89,5 +89,28 @@
       "engine_build_sha256": "6536c7e432a40925ec8d99ce39480c58667bed0f34830c2db45b2047abea1558",
       "source_hash_reverified": true
     }
-  ]
+  ],
+  "repeat_linux_elf_2026_10_20": {
+    "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+    "tests": [
+      {
+        "file": "kali.raw",
+        "plugin": "generic.info",
+        "rows": 130,
+        "state": "completed",
+        "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+        "source_hash_reverified": true
+      },
+      {
+        "file": "linux-sample-1.bin.gz",
+        "plugin": "linux.pslist",
+        "rows": 133,
+        "state": "completed",
+        "engine_build_sha256": "f92885f92cb59ec12b3c024d3cfbe3ee0793771199fbce05083f63e2eb96df0b",
+        "source_hash_reverified": true
+      }
+    ],
+    "elf_validation": "docs/linux-elf-validation.json",
+    "original_images_reverified": true
+  }
 }

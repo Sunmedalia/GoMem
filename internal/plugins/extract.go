@@ -85,16 +85,40 @@ func processMemory(ctx context.Context, e plugin.Environment, process, mm uint64
 }
 
 func extractRegion(ctx context.Context, e plugin.Environment, layer memory.MemoryLayer, name string, start, size uint64) (evidence.Value, error) {
-	if e.Artifacts == nil || size == 0 || size-1 > ^uint64(0)-start {
+	return extractRanges(ctx, e, layer, name, start, []extractionRange{{start, size}})
+}
+
+type extractionRange struct{ start, size uint64 }
+
+func extractRanges(ctx context.Context, e plugin.Environment, layer memory.MemoryLayer, name string, base uint64, ranges []extractionRange) (evidence.Value, error) {
+	var size uint64
+	for _, r := range ranges {
+		if r.size == 0 || r.size-1 > ^uint64(0)-r.start || r.size > ^uint64(0)-size {
+			err := fmt.Errorf("invalid extraction range")
+			return evidence.Missing("extraction_unavailable", err), err
+		}
+		size += r.size
+	}
+	if e.Artifacts == nil || size == 0 {
 		err := fmt.Errorf("extraction sink or region range unavailable")
 		return evidence.Missing("extraction_unavailable", err), err
 	}
-	w, err := e.Artifacts.Create(ctx, evidence.ArtifactRequest{Name: name, Size: size, Layer: layer.Name(), Offset: fmt.Sprintf("0x%x", start)})
+	w, err := e.Artifacts.Create(ctx, evidence.ArtifactRequest{Name: name, Size: size, Layer: layer.Name(), Offset: fmt.Sprintf("0x%x", base)})
 	if err != nil {
 		return evidence.Missing("extraction_unavailable", err), err
 	}
-	// Resolve each 4KiB source page independently. Captured prefixes are retained,
-	// and only the failed remainder is padded with an explicit source-error log.
+	for _, r := range ranges {
+		if err = writeRegion(ctx, layer, w, r.start, r.size); err != nil {
+			break
+		}
+	}
+	a, finishErr := w.Finish(ctx, err)
+	return evidence.Value{Kind: "artifact", Data: a}, errors.Join(err, finishErr)
+}
+
+// Resolve each source page independently; padding logs retain actual virtual
+// addresses even when noncontiguous spans are concatenated into one artifact.
+func writeRegion(ctx context.Context, layer memory.MemoryLayer, w evidence.ArtifactWriter, start, size uint64) (err error) {
 	buffer := make([]byte, 4096)
 	for offset := uint64(0); offset < size; {
 		if err = ctx.Err(); err != nil {
@@ -108,7 +132,11 @@ func extractRegion(ctx context.Context, e plugin.Environment, layer memory.Memor
 			break
 		}
 		if got > 0 {
-			if _, err = w.Write(buffer[:got]); err != nil {
+			var written int
+			if written, err = w.Write(buffer[:got]); err == nil && written != got {
+				err = io.ErrShortWrite
+			}
+			if err != nil {
 				break
 			}
 		}
@@ -128,6 +156,5 @@ func extractRegion(ctx context.Context, e plugin.Environment, layer memory.Memor
 		}
 		offset += n
 	}
-	a, finishErr := w.Finish(ctx, err)
-	return evidence.Value{Kind: "artifact", Data: a}, errors.Join(err, finishErr)
+	return err
 }

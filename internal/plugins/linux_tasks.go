@@ -152,10 +152,34 @@ func linuxTaskListing(ctx context.Context, e plugin.Environment, p map[string]st
 		return fmt.Errorf("max-tasks must be 1..1000000")
 	}
 	clock := linuxClock(ctx, e)
+	dump, layout, elfLimit, err := linuxELFOptions(p)
+	if err != nil {
+		return err
+	}
 	seen := map[uint64]bool{}
 	var failures pluginFailures
 	var outputErr error
-	emit := func(row evidence.Row) error { outputErr = out(row); return outputErr }
+	emit := func(row evidence.Row) error {
+		row.Cells["FileOutput"], row.Cells["ELF"], row.Cells["ImageBase"] = evidence.Missing("not_requested", nil), evidence.Missing("not_requested", nil), evidence.Missing("not_requested", nil)
+		if dump && row.Cells["RecordType"].String() != "diagnostic" {
+			task, _ := row.Cells["Offset"].Uint()
+			tid, _ := row.Cells["TID"].Uint()
+			var er error
+			row.Cells["FileOutput"], row.Cells["ELF"], row.Cells["ImageBase"], er = linuxMainELF(ctx, e, task, tid, row.Cells["Identity"].String(), layout, elfLimit, max)
+			if er != nil {
+				row.Cells["Error"] = evidence.Missing("main_elf_extraction_failed", er)
+				if row.Cells["FileOutput"].Kind == "missing" {
+					row.Cells["FileOutput"] = evidence.Missing("main_elf_extraction_failed", er)
+				}
+				failures.add(er)
+			}
+		}
+		if ctx.Err() != nil {
+			return ctx.Err()
+		}
+		outputErr = out(row)
+		return outputErr
+	}
 	err = visitLinuxProcesses(ctx, e, max, pids, func(leader, tid uint64, name string, start evidence.Value) error {
 		if seen[leader] {
 			return fmt.Errorf("task appears in multiple task/thread groups")

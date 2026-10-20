@@ -75,3 +75,22 @@ func TestExtractionRetainsCapturedPrefixesAndCanceledFiles(t *testing.T) {
 		})
 	}
 }
+
+func TestNoncontiguousExtractionCancellationRetainsOnlyCapturedSpan(t *testing.T) {
+	s, err := store.Open(t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer s.Close()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	task, err := s.Begin(ctx, "test", "test", evidence.Provenance{Plugin: "test"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	cell, err := extractRanges(ctx, plugin.Environment{Artifacts: s.TaskArtifacts(task)}, partialExtractionLayer{cancel: cancel}, "ranges.bin", 0, []extractionRange{{0, 4096}, {0x7000, 4096}})
+	a := cell.Data.(evidence.Artifact)
+	if !errors.Is(err, context.Canceled) || a.State != "partial" || a.Size != "4096" || a.MissingBytes != "0" {
+		t.Fatal(a, err)
+	}
+}

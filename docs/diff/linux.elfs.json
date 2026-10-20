@@ -1,0 +1,10 @@
+{
+  "native_record_type": {"field": "RecordType", "value": "elf", "excluded_values": ["diagnostic"]},
+  "fields": {
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "Process": {"native": "Process", "reference": "Process", "kind": "string"},
+    "Start": {"native": "Start", "reference": "Start", "kind": "address"},
+    "End": {"native": "End", "reference": "End", "kind": "address"},
+    "Path": {"native": "Path", "reference": "File Path", "kind": "string", "missing_reasons": ["anonymous"]}
+  }
+}

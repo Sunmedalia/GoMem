@@ -84,7 +84,7 @@ def generate(source):
                "linux.lsmod.Lsmod": "linux.lsmod", "windows.threads.Threads": "windows.threads",
                "windows.vadinfo.VadInfo": "windows.vadinfo", "linux.proc.Maps": "linux.maps",
                "windows.dlllist.DllList": "windows.dlllist", "windows.pedump.PEDump": "windows.pedump",
-               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux"}
+               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux", "linux.elfs.Elfs": "linux.elfs"}
 
     def requirements(identifier, seen=None):
         seen = set() if seen is None else seen
@@ -122,7 +122,12 @@ def generate(source):
             plugins[-1].update(applicability="Active tasks with typed cred/kuid fields and root boot clock; PID/TID/PPID, nanosecond counters and explicit time models. Optional threads use thread_group or signal.thread_head/thread_node with ownership checks.",
                               corpora=["synthetic-linux-x64", "synthetic-linux-clock-and-signal-threads", "official-linux-sample-1", "official-linux-sample-1-reencoded-avml"],
                               comparison="selected_ten_fields_match_133_processes_316_tasks_with_explicit_microsecond_rounding", validation_record="docs/linux-tasks.md",
-                              gaps=["Real modern kernel/32-bit clock and thread layout matrix pending; modern paths have synthetic tests only", "ELF dump parameter, timeline and damaged task-list bidirectional recovery remain pending", "Credential/clock read errors are retained per field; UID values are raw kernel IDs, not user namespace remapping"])
+                              gaps=["Real modern kernel/32-bit clock and thread layout matrix pending; modern paths have synthetic tests only", "ELF main-image extraction has selected legacy x64 validation only; timeline and damaged task-list bidirectional recovery remain pending", "Credential/clock read errors are retained per field; UID values are raw kernel IDs, not user namespace remapping"])
+        if identifier == "linux.elfs.Elfs":
+            plugins[-1].update(applicability="VMA-start ELF signatures in independent process spaces; strict bounded ELF32/64 headers for extraction. Page-rounded PT_LOAD concatenation uses actual mapped addresses by default, or the pinned reference base-plus-p_vaddr profile.",
+                              corpora=["synthetic-linux-x64", "synthetic-elf32-64-endianness", "official-linux-sample-1"],
+                              comparison="selected_2419_entities_match_5442_read_diagnostics_retained_mapped_bytes_independently_verified", validation_record="docs/linux-elf.md",
+                              gaps=["Real modern/32-bit acquisition and complete version/parameter/failure coverage pending", "ET_EXEC and high-address vDSO bytes intentionally differ in mapped layout; reference arithmetic exceeding uint64 is rejected explicitly", "Strict headers, aggregate extraction size and empty-load rejection differ from permissive reference cases; output is not original disk ELF"])
         if identifier == "windows.modules.Modules":
             plugins[-1].update(applicability="Loaded kernel list, exact base and case-sensitive base-name substring filters. PE extraction tries kernel then typed per-session process roots, with bounded attempts recorded.",
                               comparison="selected_core_fields_and_157_paths_match_19_read_errors_preserved_PE_ImageBase_difference_explained", validation_record="docs/windows-process-modules.md",
