@@ -76,6 +76,24 @@ func TestFailuresAreNotEmptySuccess(t *testing.T) {
 	}
 }
 
+func TestLocalSymbolIndexCommand(t *testing.T) {
+	f, err := testfixture.Write(t.TempDir(), "linux")
+	if err != nil {
+		t.Fatal(err)
+	}
+	caseDir := t.TempDir()
+	if _, _, err = run(t, "", "symbols", "index", f.Symbols, "--case", caseDir); err != nil {
+		t.Fatal(err)
+	}
+	if _, _, err = run(t, "", "symbols", "index", f.Symbols, "--case", caseDir); err == nil {
+		t.Fatal("existing index overwritten")
+	}
+	out, stderr, err := run(t, "", "analyze", "linux.pslist", "--image", f.Image, "--case", caseDir, "--dtb", f.DTB, "--offline", "--format", "jsonl")
+	if err != nil || len(strings.Split(strings.TrimSpace(out), "\n")) != 2 {
+		t.Fatal(out, stderr, err)
+	}
+}
+
 func TestNativeSymbolConversionCommand(t *testing.T) {
 	source := "../../pkg/symbols/testdata/dwarf-x86_64-v5.elf"
 	target := t.TempDir() + "/converted.json"

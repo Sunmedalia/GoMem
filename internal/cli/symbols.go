@@ -20,6 +20,35 @@ import (
 func symbolCommands(c *engine.Config, out io.Writer) *cobra.Command {
 	cmd := &cobra.Command{Use: "symbols", Short: "Inspect, convert or fetch native symbol tables"}
 	cmd.AddCommand(convertSymbols(c, out))
+	var indexOutput string
+	index := &cobra.Command{Use: "index PATH...", Short: "Index exact kernel identities from local symbol tables or ZIP packages", Args: cobra.MinimumNArgs(1), RunE: func(cmd *cobra.Command, args []string) error {
+		index, err := symbols.BuildIndex(cmd.Context(), args)
+		if err != nil {
+			return err
+		}
+		data, err := index.Encode()
+		if err != nil {
+			return err
+		}
+		target := indexOutput
+		if target == "" && c.CaseDir != "" {
+			dir := filepath.Join(c.CaseDir, "symbols")
+			if err = os.MkdirAll(dir, 0700); err != nil {
+				return err
+			}
+			target = filepath.Join(dir, "index.json")
+		}
+		if target == "" || target == "-" {
+			return writeCanceled(cmd.Context(), out, data)
+		}
+		if err = writeNewSymbols(cmd.Context(), target, data); err != nil {
+			return err
+		}
+		_, err = fmt.Fprintf(out, "%s (%d tables)\n", target, len(index.Entries))
+		return err
+	}}
+	index.Flags().StringVar(&indexOutput, "output", "", "New index path, '-' for stdout; default stdout or CASE/symbols/index.json")
+	cmd.AddCommand(index)
 	cmd.AddCommand(&cobra.Command{Use: "inspect PATH", Args: cobra.ExactArgs(1), RunE: func(cmd *cobra.Command, args []string) error {
 		t, err := symbols.LoadContext(cmd.Context(), args[0])
 		if err != nil {

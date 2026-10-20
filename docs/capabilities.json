@@ -11895,6 +11895,19 @@
       "validation_record": "docs/native-symbols.md"
     },
     {
+      "id": "symbols.local-index",
+      "category": "acceptance",
+      "status": "partial",
+      "accepted": false,
+      "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.",
+      "corpora": [
+        "synthetic-linux-x64",
+        "synthetic-windows-x64"
+      ],
+      "comparison": "kernel_identity_tests_only",
+      "validation_record": "docs/native-symbols.md"
+    },
+    {
       "id": "symbols.isf.zip",
       "category": "acceptance",
       "status": "partial",

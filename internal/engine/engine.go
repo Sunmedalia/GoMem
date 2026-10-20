@@ -26,6 +26,7 @@ import (
 
 type Config struct {
 	Image, CaseDir, Symbols, OS, Arch, DTB string
+	SymbolIndex                            string
 	KernelBase, KernelSlide                uint64
 	Offline                                bool
 }
@@ -117,6 +118,17 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 	}
 	eng.imageInfo = initialStat
 	eng.Env = plugin.Environment{Physical: physical, OS: c.OS, KernelBase: c.KernelBase, KernelSlide: c.KernelSlide, ImageHash: hash}
+	if c.DTB != "" {
+		root, e := strconv.ParseUint(c.DTB, 0, 64)
+		if e != nil {
+			return nil, fmt.Errorf("--dtb: %w", e)
+		}
+		tr, e := memory.NewIntel(physical, root, c.Arch, 1024)
+		if e != nil {
+			return nil, e
+		}
+		eng.Env.Kernel = &memory.Virtual{Physical: physical, Translator: tr, ID: fmt.Sprintf("kernel:%s:dtb=%#x", c.Arch, root)}
+	}
 	if c.Symbols != "" {
 		table, e := symbols.LoadContext(ctx, c.Symbols)
 		if e != nil {
@@ -133,16 +145,24 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 			}
 		}
 	}
-	if c.DTB != "" {
-		root, e := strconv.ParseUint(c.DTB, 0, 64)
-		if e != nil {
-			return nil, fmt.Errorf("--dtb: %w", e)
+	if c.Symbols == "" {
+		indexPath := c.SymbolIndex
+		if indexPath == "" && c.CaseDir != "" && c.DTB != "" {
+			candidate := filepath.Join(c.CaseDir, "symbols", "index.json")
+			if _, statErr := os.Stat(candidate); statErr == nil {
+				indexPath = candidate
+			} else if !os.IsNotExist(statErr) {
+				return nil, statErr
+			}
 		}
-		tr, e := memory.NewIntel(physical, root, c.Arch, 1024)
-		if e != nil {
-			return nil, e
+		if indexPath != "" {
+			table, selected, e := eng.selectSymbols(ctx, indexPath)
+			if e != nil {
+				return nil, e
+			}
+			eng.Env.Symbols, eng.Env.OS = table, selected.OS
+			eng.Config.SymbolIndex, eng.Config.Symbols = indexPath, selected.Location
 		}
-		eng.Env.Kernel = &memory.Virtual{Physical: physical, Translator: tr, ID: fmt.Sprintf("kernel:%s:dtb=%#x", c.Arch, root)}
 	}
 	if eng.Env.Kernel != nil && eng.Env.Symbols != nil {
 		eng.Env.Objects = &object.Reader{Layer: eng.Env.Kernel, Symbols: eng.Env.Symbols}
@@ -196,7 +216,7 @@ func (e *Engine) Check(ctx context.Context, s plugin.Spec) error {
 		return nil
 	}
 	if e.Env.Symbols == nil {
-		mode := "automatic symbol discovery is not implemented in this preview"
+		mode := "use --symbols or --symbol-index with --dtb; online discovery is pending"
 		if e.Config.Offline {
 			mode = "offline mode"
 		}

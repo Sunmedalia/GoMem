@@ -1,0 +1,107 @@
+{
+  "schema": "gomem.symbol-index-validation/v1",
+  "date": "2026-10-20",
+  "environment": "darwin/arm64, Go 1.26.2",
+  "selection": "offline; no explicit --symbols or --os; known DTBs, Windows kernel base; exact kernel identity and full indexed table digest verified",
+  "symbols": [
+    {
+      "os": "linux",
+      "sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a"
+    },
+    {
+      "os": "windows",
+      "sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce"
+    }
+  ],
+  "results": [
+    {
+      "plugin": "linux.pslist",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "PPID",
+          "Name"
+        ],
+        "native_rows": 133,
+        "reference_rows": 133,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "d481dd04a3cc679076874696636926009e3a2ff15a21013a3ef197e5c3c2d548",
+          "reference": "a843aaf4d6f6f2b9d9180b02205ac014583576ae444d0954b43b6718862a75ad",
+          "mapping": "74b0de881a56a0f533b955f6ac8aa5dd559374b625bc8ddcd9fe1064d527a061"
+        }
+      }
+    },
+    {
+      "plugin": "linux.lsmod",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "Name"
+        ],
+        "native_rows": 79,
+        "reference_rows": 79,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "84cbdc81014fe97b9d7fe436f89c699b8e3b0ee311c16b34cc7025dd92741335",
+          "reference": "2aad3e582dcf6a6aeee39664d84c632007393338c007e3fd7d37aafabefc9504",
+          "mapping": "8f2c52182ed8eca9144164ec62d5e6d12b21e90dd68fb53378f346f88dbdc245"
+        }
+      }
+    },
+    {
+      "plugin": "windows.pslist",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "PPID",
+          "Name"
+        ],
+        "native_rows": 120,
+        "reference_rows": 120,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "1098b6e03e6e942b53d0e4c4998ca4b28699146593dc3f50ff5cab158d3342d4",
+          "reference": "b6b6308c261194fc98f79e7e26bb7573a820d94be78f8fb105bdf3d0061b67a4",
+          "mapping": "14ac26af59fffd379efa76487ad43d8cfd02d7d39d047460aa744fdfd79ac7d8"
+        }
+      }
+    },
+    {
+      "plugin": "windows.modules",
+      "report": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "Name",
+          "Base",
+          "Size"
+        ],
+        "native_rows": 176,
+        "reference_rows": 176,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "6770a59828aeca4854095ccb1b2f858a5844e0d4e068d3eb24dd665264766853",
+          "reference": "c4f51d0504550b68077cf858e50077d6bdeb6e04090ab5cdf2bb4a0bb5c1d11f",
+          "mapping": "01d0d65710117d1cf4522bfd6bc162f7005a691e48b5c7b9c85b53d95ddc8f34"
+        }
+      }
+    }
+  ],
+  "acceptance": "Selected fields only; no official capability certified complete.",
+  "engine_build_sha256": "4e5a9351c72309fd883e17e58e36addb4c4611a25749e8ae502e62d64b24a522",
+  "index_sha256": "77695c6893f1cc56e2bb959cc3f4569321cec8bac9838fa4d0d1ee5f1dbe726c"
+}

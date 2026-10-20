@@ -55,7 +55,16 @@ bin/gomem analyze windows.pslist \
 
 支持从带 DWARF 的 ELF 或 Mach-O 原生读取符号，也可用 `symbols convert DEBUG_FILE --output kernel.json` 转为 ISF。可选 `--system-map`、`--symbols-from` 合并地址；多架构 Mach-O 使用 `--binary-arch x86_64` 选择切片。类型覆盖 typedef、递归结构、匿名成员、数组、枚举和位字段。[原生符号验证与限制](docs/native-symbols.md)
 
-**本预览需要显式指定符号和地址空间参数。** 自动识别、默认自动下载与 PDB/MSF 原生转换尚未实现。`--offline` 会禁止显式符号下载。已知 ISF 可通过 `symbols fetch HTTPS_URL --sha256 CHECKSUM --case CASE` 获取，再由分析路径验证身份；镜像不会上传。
+可为本地符号建立索引，给定 DTB 后按目标虚拟内存中的完整 Linux banner 或 Windows PDB 身份选择符号：
+
+```sh
+bin/gomem symbols index exact-linux.json.xz exact-windows.json --case ./case-001
+bin/gomem analyze linux.pslist --image memory.raw --case ./case-001 --dtb 0x123000 --offline
+```
+
+默认读取 `CASE/symbols/index.json`，也可用 `--symbol-index INDEX`；`--symbols` 优先。索引核验完整表摘要，拒绝过期来源和多个不同表同时匹配。Windows 仍需 `--kernel-base`。索引不会根据文件名猜测版本。
+
+**本预览需要显式指定地址空间参数，并提供符号或本地索引。** DTB/内核基址自动识别、默认自动下载与 PDB/MSF 原生转换尚未实现。`--offline` 会禁止显式符号下载。已知 ISF 可通过 `symbols fetch HTTPS_URL --sha256 CHECKSUM --case CASE` 获取，再由分析路径验证身份；镜像不会上传。
 
 ## 调查工作流
 

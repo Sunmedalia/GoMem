@@ -212,18 +212,11 @@ func (t *ISF) Banner() ([]byte, error) {
 	return nil, fmt.Errorf("symbol table lacks a kernel banner constant")
 }
 func (t *ISF) MatchPDB(database, guid string, age uint64) error {
-	var meta struct {
-		PDB struct {
-			Database string `json:"database"`
-			GUID     string `json:"GUID"`
-			Age      uint64 `json:"age"`
-		} `json:"pdb"`
+	p, err := t.PDBIdentity()
+	if err != nil {
+		return err
 	}
-	if e := json.Unmarshal(t.Meta["windows"], &meta); e != nil {
-		return e
-	}
-	p := meta.PDB
-	if !strings.EqualFold(p.Database, database) || !strings.EqualFold(strings.ReplaceAll(p.GUID, "-", ""), strings.ReplaceAll(guid, "-", "")) || p.Age != age {
+	if !p.Equal(PDBIdentity{Database: database, GUID: guid, Age: age}) {
 		return fmt.Errorf("PDB identity mismatch: have %s %s/%d", p.Database, p.GUID, p.Age)
 	}
 	return nil

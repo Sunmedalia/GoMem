@@ -20,6 +20,7 @@ fuzz:
 	$(GO) test ./pkg/memory -run '^$$' -fuzz FuzzDetect -fuzztime 10s
 	$(GO) test ./pkg/symbols -run '^$$' -fuzz FuzzISF -fuzztime 10s
 	$(GO) test ./pkg/symbols -run '^$$' -fuzz FuzzDWARF -fuzztime 10s
+	$(GO) test ./pkg/symbols -run '^$$' -fuzz FuzzSymbolIndex -fuzztime 10s
 bench:
 	$(GO) test -run '^$$' -bench . -benchmem ./pkg/memory ./internal/store ./internal/tui
 	$(GO) run ./tools/bench

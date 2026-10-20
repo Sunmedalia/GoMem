@@ -46,6 +46,13 @@ func (e *Engine) verifySymbols(ctx context.Context) error {
 	}
 }
 func verifyPE(ctx context.Context, l memory.MemoryLayer, base uint64, t *symbols.ISF) error {
+	identity, err := readKernelPDB(ctx, l, base)
+	if err != nil {
+		return err
+	}
+	return t.MatchPDB(identity.Database, identity.GUID, identity.Age)
+}
+func readKernelPDB(ctx context.Context, l memory.MemoryLayer, base uint64) (identity symbols.PDBIdentity, err error) {
 	read := func(off uint64, n int) ([]byte, error) {
 		a, e := memory.Add(base, off)
 		if e != nil {
@@ -55,29 +62,29 @@ func verifyPE(ctx context.Context, l memory.MemoryLayer, base uint64, t *symbols
 	}
 	dos, err := read(0, 64)
 	if err != nil {
-		return err
+		return identity, err
 	}
 	if string(dos[:2]) != "MZ" {
-		return fmt.Errorf("kernel base lacks PE DOS signature")
+		return identity, fmt.Errorf("kernel base lacks PE DOS signature")
 	}
 	peOff := uint64(binary.LittleEndian.Uint32(dos[60:]))
 	if peOff > 16<<20 {
-		return fmt.Errorf("invalid kernel PE offset")
+		return identity, fmt.Errorf("invalid kernel PE offset")
 	}
 	h, err := read(peOff, 24)
 	if err != nil {
-		return err
+		return identity, err
 	}
 	if string(h[:4]) != "PE\x00\x00" {
-		return fmt.Errorf("invalid kernel PE signature")
+		return identity, fmt.Errorf("invalid kernel PE signature")
 	}
 	size := int(binary.LittleEndian.Uint16(h[20:]))
 	if size < 96 || size > 4096 {
-		return fmt.Errorf("invalid PE optional header size")
+		return identity, fmt.Errorf("invalid PE optional header size")
 	}
 	opt, err := read(peOff+24, size)
 	if err != nil {
-		return err
+		return identity, err
 	}
 	data := 112
 	count := 108
@@ -87,19 +94,19 @@ func verifyPE(ctx context.Context, l memory.MemoryLayer, base uint64, t *symbols
 		data = 96
 		count = 92
 	default:
-		return fmt.Errorf("unsupported PE optional header")
+		return identity, fmt.Errorf("unsupported PE optional header")
 	}
 	if len(opt) < data+7*8 || binary.LittleEndian.Uint32(opt[count:]) < 7 {
-		return fmt.Errorf("kernel PE debug directory is absent")
+		return identity, fmt.Errorf("kernel PE debug directory is absent")
 	}
 	rva := uint64(binary.LittleEndian.Uint32(opt[data+6*8:]))
 	n := uint64(binary.LittleEndian.Uint32(opt[data+6*8+4:]))
 	if n == 0 || n > 65536 || n%28 != 0 {
-		return fmt.Errorf("invalid PE debug directory length")
+		return identity, fmt.Errorf("invalid PE debug directory length")
 	}
 	entries, err := read(rva, int(n))
 	if err != nil {
-		return err
+		return identity, err
 	}
 	for i := 0; i < len(entries); i += 28 {
 		d := entries[i : i+28]
@@ -112,7 +119,7 @@ func verifyPE(ctx context.Context, l memory.MemoryLayer, base uint64, t *symbols
 		}
 		cv, err := read(uint64(binary.LittleEndian.Uint32(d[20:])), lenCV)
 		if err != nil {
-			return err
+			return identity, err
 		}
 		if string(cv[:4]) != "RSDS" {
 			continue
@@ -123,16 +130,13 @@ func verifyPE(ctx context.Context, l memory.MemoryLayer, base uint64, t *symbols
 		name := cv[24:]
 		end := bytes.IndexByte(name, 0)
 		if end < 0 {
-			return fmt.Errorf("unterminated PDB path")
+			return identity, fmt.Errorf("unterminated PDB path")
 		}
 		name = name[:end]
 		if slash := bytes.LastIndexAny(name, "/\\"); slash >= 0 {
 			name = name[slash+1:]
 		}
-		if err := t.MatchPDB(string(name), guid, age); err != nil {
-			return err
-		}
-		return nil
+		return symbols.PDBIdentity{Database: string(name), GUID: guid, Age: age}, nil
 	}
-	return fmt.Errorf("kernel PE has no supported RSDS PDB identity")
+	return identity, fmt.Errorf("kernel PE has no supported RSDS PDB identity")
 }

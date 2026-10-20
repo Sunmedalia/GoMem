@@ -125,13 +125,16 @@ def generate(source):
                                    "accepted": False, "applicability": "See locked source; source-module inventory includes support modules.",
                                    "corpora": [], "comparison": "not_run"})
     for identifier in ("source.file", "source.http", "source.https", "source.ftp", "source.s3", "source.gs", "source.leechcore",
-                       "symbols.pdb-msf", "symbols.dwarf", "symbols.isf.zip", "symbols.isf.gzip", "symbols.isf.xz", "symbols.auto-download",
+                       "symbols.pdb-msf", "symbols.dwarf", "symbols.local-index", "symbols.isf.zip", "symbols.isf.gzip", "symbols.isf.xz", "symbols.auto-download",
                        "exploration.address-space", "exploration.types", "exploration.search", "exploration.disassembly", "paging.swap",
                        "export.extracted-files", "extension.yara", "extension.capstone", "renderer.arrow", "renderer.mermaid"):
-        infrastructure.append({"id": identifier, "category": "acceptance", "status": "partial" if identifier in ("source.file", "symbols.dwarf", "symbols.isf.zip", "symbols.isf.gzip", "symbols.isf.xz", "exploration.types", "exploration.address-space", "exploration.search") else "missing",
+        infrastructure.append({"id": identifier, "category": "acceptance", "status": "partial" if identifier in ("source.file", "symbols.dwarf", "symbols.local-index", "symbols.isf.zip", "symbols.isf.gzip", "symbols.isf.xz", "exploration.types", "exploration.address-space", "exploration.search") else "missing",
                                "accepted": False, "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.", "corpora": [], "comparison": "not_run"})
         if identifier == "symbols.dwarf":
             infrastructure[-1].update(corpora=["synthetic-dwarf-c-elf-macho"], comparison="selected_layouts_only",
+                                      validation_record="docs/native-symbols.md")
+        if identifier == "symbols.local-index":
+            infrastructure[-1].update(corpora=["synthetic-linux-x64", "synthetic-windows-x64"], comparison="kernel_identity_tests_only",
                                       validation_record="docs/native-symbols.md")
     return {"schema": "gomem.capabilities/v1", "baseline": lock, "release": "development-preview", "plugin_count": len(plugins),
             "accepted_plugins": 0, "plugins": plugins, "infrastructure": infrastructure}
