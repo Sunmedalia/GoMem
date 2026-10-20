@@ -5248,15 +5248,22 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Native EPROCESS.Peb -> PEB.ProcessParameters -> typed RTL_USER_PROCESS_PARAMETERS.CommandLine, read in each process root. Raw UTF-16LE and partial captures are retained.",
+      "native": "windows.cmdline",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "synthetic-windows-x86-pae",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_readable_command_lines_match_errors_and_empty_strings_preserved",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Full version/architecture and all failure/parameter combinations pending",
+        "Read errors remain distinct from reference nulls; empty captured strings are not marked unreadable",
+        "ArgsFull retains the declared string, including post-NUL text and BOM; raw bytes remain authoritative"
+      ],
+      "validation_record": "docs/windows-cmdline.md"
     },
     {
       "id": "windows.cmdscan.CmdScan",

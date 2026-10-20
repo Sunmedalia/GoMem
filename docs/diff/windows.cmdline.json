@@ -1,0 +1,7 @@
+{
+  "fields": {
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "Process": {"native": "Process", "reference": "Process", "kind": "string"},
+    "Args": {"native": "Args", "reference": "Args", "kind": "string", "missing_reasons": ["no_process_peb", "process_parameters_not_set"]}
+  }
+}

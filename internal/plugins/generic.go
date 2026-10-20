@@ -37,6 +37,7 @@ func Register(r *plugin.Registry) error {
 	specs = append(specs, linuxMapPlugins()...)
 	specs = append(specs, dllPlugins()...)
 	specs = append(specs, pePlugins()...)
+	specs = append(specs, cmdlinePlugins()...)
 	for _, b := range specs {
 		if err := r.Register(b); err != nil {
 			return err

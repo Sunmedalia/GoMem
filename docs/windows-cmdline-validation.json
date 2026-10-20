@@ -1,0 +1,1140 @@
+{
+  "schema": "gomem.windows-cmdline-validation/v1",
+  "date": "2026-10-20",
+  "scope": "Selected Windows 10 x64 command lines, not complete capability acceptance",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "reference_manifest_sha256": "be0480fadf5464997d9a002acf1426412b87837a8252956694164110382aedfa",
+  "engine_build_sha256": "f1c5a16824a11dd2b485462dd6f30e55f538c57d4cf510132d77efcbc1b8894b",
+  "results": [
+    {
+      "profile": "cmdline",
+      "task_state": "failed",
+      "core_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "Process"
+        ],
+        "native_rows": 120,
+        "reference_rows": 120,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "acd3011010db6cdc7626c0037dab325f14bf3b2aca9692f7d638d348b6e10cd8",
+          "reference": "69ef1f2fcb8c2696f37bd0e6d62dff9517756b20916fcdef4eb84c5fdde4bca7",
+          "mapping": "bf0944fbd6bd39ff98a90ed1f4c3470ae6852302ca2ee869d5ce5c229ce80ebf"
+        }
+      },
+      "raw_three_field_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "Process",
+          "Args"
+        ],
+        "native_rows": 120,
+        "reference_rows": 120,
+        "matched": false,
+        "missing": [
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "3616",
+            "Process": "winlogon.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "3728",
+            "Process": "WUDFHost.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "3812",
+            "Process": "fontdrvhost.ex",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "4332",
+            "Process": "MicrosoftEdgeU",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "4832",
+            "Process": "userinit.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "4208",
+            "Process": "WaSecAgentProv",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "3908",
+            "Process": "SkypeApp.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "1412",
+            "Process": "SkypeBackgroun",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "4136",
+            "Process": "smartscreen.ex",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "6204",
+            "Process": "msedge.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "6672",
+            "Process": "msedge.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "3896",
+            "Process": "conhost.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "3292",
+            "Process": "backgroundTask",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "1040",
+            "Process": "SearchApp.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "4812",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "5840",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "7108",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "3528",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "6736",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "1584",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "8040",
+            "Process": "BackgroundTran",
+            "parent": null
+          }
+        ],
+        "extra": [
+          {
+            "Args": {
+              "error": "process:b907b09abfc8294ad2f5f681a7ae5c81bb4b17193bbcc4cf451e189b7dd11d79: read 0xbc29d80020 (8 bytes): unmapped memory: nonpresent page-table entry 0x5a66100002094 at 0xb371c00 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "3616",
+            "Process": "winlogon.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:fcc0f4f8dec39ae6eadc18935f8812eac15a53c2f1826a73cd8e52e105f5b5ff: read 0x2aa8a252000 (944 bytes): unmapped memory: nonpresent page-table entry 0x5a60300002094 at 0x10787290 (prototype/swap or unsupported software encoding)",
+              "missing": "command_line_buffer_unreadable"
+            },
+            "PID": "3728",
+            "Process": "WUDFHost.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:5d33528a338c1d852383b30958ec059f162ab2cc2d619896d6291873470026c6: read 0x3a1e7e7020 (8 bytes): unmapped memory: nonpresent page-table entry 0x67dd300002084 at 0x12c22f38 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "3812",
+            "Process": "fontdrvhost.ex",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:5eaf78dacadde47deee8430b9b98c51cb64cd7dcaac07a4679735b244917d2ca: read 0x711b10 (2 bytes): unmapped memory: nonpresent page-table entry 0x683a00002094 at 0x24a1a888 (prototype/swap or unsupported software encoding)",
+              "missing": "command_line_descriptor_unreadable"
+            },
+            "PID": "4332",
+            "Process": "MicrosoftEdgeU",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:44c4099bccf3804f1ca83101a607cbc1f40aa9ddf09a18d0ef9b1f60b66479b4: read 0xde1f84d020 (8 bytes): unmapped memory: nonpresent page-table entry 0x0 at 0x2887d008 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "4832",
+            "Process": "userinit.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:90866209639197fce01d3b30ffc995b7353d802a6a0cad84d770d8a7f11308b0: read 0xf948ba7020 (8 bytes): unmapped memory: nonpresent page-table entry 0x2b29700000084 at 0x2becdd38 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "4208",
+            "Process": "WaSecAgentProv",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:a91c1193d037fdbedda1fe89f1d660e7ae5041a90c3620613af55b30622b99d1: read 0xbf47df0020 (8 bytes): unmapped memory: nonpresent page-table entry 0x23574001f0084 at 0x383cf1f0 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "3908",
+            "Process": "SkypeApp.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:e83b23a89fac404046a306589a8c863adc8393fad04ad68ca78b202ccdbd2645: read 0xeb7374a020 (8 bytes): unmapped memory: nonpresent page-table entry 0x2a24600000084 at 0x1c7a8a50 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "1412",
+            "Process": "SkypeBackgroun",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:a9972b6a4fdddcefcb5d3e44348edaf8d8b5ffc829df51a756f01772f70cdf5b: read 0x24ec0051c00 (2 bytes): unmapped memory: nonpresent page-table entry 0x629b200002084 at 0x3502c288 (prototype/swap or unsupported software encoding)",
+              "missing": "command_line_descriptor_unreadable"
+            },
+            "PID": "4136",
+            "Process": "smartscreen.ex",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:57c9d0b16b354f859e83c2a0731d2cc8c5a1b86359dd1c573bdbc0649915c667: read 0x21fb6e036f0 (2 bytes): unmapped memory: nonpresent page-table entry 0x4f14b00002094 at 0x2f332018 (prototype/swap or unsupported software encoding)",
+              "missing": "command_line_descriptor_unreadable"
+            },
+            "PID": "6204",
+            "Process": "msedge.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:94f8359e9c05b41f4cc2781ee79c398cb54ee38d6ccee15e17f91d8611c915dc: read 0x23345603a00 (2 bytes): unmapped memory: nonpresent page-table entry 0x5beab00002084 at 0x3d566018 (prototype/swap or unsupported software encoding)",
+              "missing": "command_line_descriptor_unreadable"
+            },
+            "PID": "6672",
+            "Process": "msedge.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:857750f00e4183671f7e4fc4eb84f9e3f6e9f1653442d4043f4f20b42163643e: read 0x25815101d30 (2 bytes): unmapped memory: nonpresent page-table entry 0x5ae5800002094 at 0xd95808 (prototype/swap or unsupported software encoding)",
+              "missing": "command_line_descriptor_unreadable"
+            },
+            "PID": "3896",
+            "Process": "conhost.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:8c507d612f8080a8b57484fa08d44fd5ebaa4256e804be2083908e0652b62586: read 0x20439a0020 (8 bytes): unmapped memory: nonpresent page-table entry 0x0 at 0x1198a2000 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "3292",
+            "Process": "backgroundTask",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:96232113fdf5ce0b9838a062340b0fe2b06af40b7c352a36c65f5792280b2141: read 0x2029a003560 (2 bytes): unmapped memory: nonpresent page-table entry 0x665c100002094 at 0x1327fb018 (prototype/swap or unsupported software encoding)",
+              "missing": "command_line_descriptor_unreadable"
+            },
+            "PID": "1040",
+            "Process": "SearchApp.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:aa65881e0b94fe56e8edb7e68a2704d2c04d4f21f851b966c02568305efda893: read 0xae94302020 (8 bytes): unmapped memory: nonpresent page-table entry 0x66c8800002094 at 0x11e60810 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "4812",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:b7074a139b308e3220a265c2f026280182e91618e114a79f407d5ba548eab019: read 0xb6d4a1f020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6a47900002084 at 0x165d10f8 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "5840",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:c8de7fda49abf4df3ef326a41a0444e4cb45bd956bb0ff77c5f210dac3d0dd66: read 0x5ab1a27020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6a58600002084 at 0x5ea5138 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "7108",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:e0eecc68c2e4dc65620cbe58ce025b111b5cc4def18049df3140b5ef5f968a0a: read 0xfb05170020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6aef100002084 at 0x8b98b80 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "3528",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:d6fdf211dae4671293f8c0330b0b653b0fce00e05c02ca17adc353c57a1f902e: read 0x8da868b020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6b4de00002084 at 0x174bd458 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "6736",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:951772b9aa88d30d825e08d7980171fc223364a793a29d8752a04e072f6c7d31: read 0x6299de4020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6b8bd00002084 at 0x13577af20 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "1584",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:3d8251901145adc02411a487852ddbb1e427b15ab2b0e21067540fe0e0397620: read 0x33c5c3c020 (8 bytes): unmapped memory: nonpresent page-table entry 0x0 at 0x2a971000 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "8040",
+            "Process": "BackgroundTran",
+            "parent": null
+          }
+        ],
+        "sha256": {
+          "native": "acd3011010db6cdc7626c0037dab325f14bf3b2aca9692f7d638d348b6e10cd8",
+          "reference": "69ef1f2fcb8c2696f37bd0e6d62dff9517756b20916fcdef4eb84c5fdde4bca7",
+          "mapping": "fb1b90e233db135be396ed935d3f5b7303f25b40abfcaefaf805fecc2f7b44c8"
+        }
+      },
+      "readable_args_matched": 96,
+      "no_peb": 3,
+      "read_errors": [
+        {
+          "pid": "3616",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:b907b09abfc8294ad2f5f681a7ae5c81bb4b17193bbcc4cf451e189b7dd11d79: read 0xbc29d80020 (8 bytes): unmapped memory: nonpresent page-table entry 0x5a66100002094 at 0xb371c00 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "3728",
+          "reason": "command_line_buffer_unreadable",
+          "error": "process:fcc0f4f8dec39ae6eadc18935f8812eac15a53c2f1826a73cd8e52e105f5b5ff: read 0x2aa8a252000 (944 bytes): unmapped memory: nonpresent page-table entry 0x5a60300002094 at 0x10787290 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "3812",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:5d33528a338c1d852383b30958ec059f162ab2cc2d619896d6291873470026c6: read 0x3a1e7e7020 (8 bytes): unmapped memory: nonpresent page-table entry 0x67dd300002084 at 0x12c22f38 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "4332",
+          "reason": "command_line_descriptor_unreadable",
+          "error": "process:5eaf78dacadde47deee8430b9b98c51cb64cd7dcaac07a4679735b244917d2ca: read 0x711b10 (2 bytes): unmapped memory: nonpresent page-table entry 0x683a00002094 at 0x24a1a888 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "4832",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:44c4099bccf3804f1ca83101a607cbc1f40aa9ddf09a18d0ef9b1f60b66479b4: read 0xde1f84d020 (8 bytes): unmapped memory: nonpresent page-table entry 0x0 at 0x2887d008 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "4208",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:90866209639197fce01d3b30ffc995b7353d802a6a0cad84d770d8a7f11308b0: read 0xf948ba7020 (8 bytes): unmapped memory: nonpresent page-table entry 0x2b29700000084 at 0x2becdd38 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "3908",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:a91c1193d037fdbedda1fe89f1d660e7ae5041a90c3620613af55b30622b99d1: read 0xbf47df0020 (8 bytes): unmapped memory: nonpresent page-table entry 0x23574001f0084 at 0x383cf1f0 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "1412",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:e83b23a89fac404046a306589a8c863adc8393fad04ad68ca78b202ccdbd2645: read 0xeb7374a020 (8 bytes): unmapped memory: nonpresent page-table entry 0x2a24600000084 at 0x1c7a8a50 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "4136",
+          "reason": "command_line_descriptor_unreadable",
+          "error": "process:a9972b6a4fdddcefcb5d3e44348edaf8d8b5ffc829df51a756f01772f70cdf5b: read 0x24ec0051c00 (2 bytes): unmapped memory: nonpresent page-table entry 0x629b200002084 at 0x3502c288 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "6204",
+          "reason": "command_line_descriptor_unreadable",
+          "error": "process:57c9d0b16b354f859e83c2a0731d2cc8c5a1b86359dd1c573bdbc0649915c667: read 0x21fb6e036f0 (2 bytes): unmapped memory: nonpresent page-table entry 0x4f14b00002094 at 0x2f332018 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "6672",
+          "reason": "command_line_descriptor_unreadable",
+          "error": "process:94f8359e9c05b41f4cc2781ee79c398cb54ee38d6ccee15e17f91d8611c915dc: read 0x23345603a00 (2 bytes): unmapped memory: nonpresent page-table entry 0x5beab00002084 at 0x3d566018 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "3896",
+          "reason": "command_line_descriptor_unreadable",
+          "error": "process:857750f00e4183671f7e4fc4eb84f9e3f6e9f1653442d4043f4f20b42163643e: read 0x25815101d30 (2 bytes): unmapped memory: nonpresent page-table entry 0x5ae5800002094 at 0xd95808 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "3292",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:8c507d612f8080a8b57484fa08d44fd5ebaa4256e804be2083908e0652b62586: read 0x20439a0020 (8 bytes): unmapped memory: nonpresent page-table entry 0x0 at 0x1198a2000 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "1040",
+          "reason": "command_line_descriptor_unreadable",
+          "error": "process:96232113fdf5ce0b9838a062340b0fe2b06af40b7c352a36c65f5792280b2141: read 0x2029a003560 (2 bytes): unmapped memory: nonpresent page-table entry 0x665c100002094 at 0x1327fb018 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "4812",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:aa65881e0b94fe56e8edb7e68a2704d2c04d4f21f851b966c02568305efda893: read 0xae94302020 (8 bytes): unmapped memory: nonpresent page-table entry 0x66c8800002094 at 0x11e60810 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "5840",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:b7074a139b308e3220a265c2f026280182e91618e114a79f407d5ba548eab019: read 0xb6d4a1f020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6a47900002084 at 0x165d10f8 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "7108",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:c8de7fda49abf4df3ef326a41a0444e4cb45bd956bb0ff77c5f210dac3d0dd66: read 0x5ab1a27020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6a58600002084 at 0x5ea5138 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "3528",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:e0eecc68c2e4dc65620cbe58ce025b111b5cc4def18049df3140b5ef5f968a0a: read 0xfb05170020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6aef100002084 at 0x8b98b80 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "6736",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:d6fdf211dae4671293f8c0330b0b653b0fce00e05c02ca17adc353c57a1f902e: read 0x8da868b020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6b4de00002084 at 0x174bd458 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "1584",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:951772b9aa88d30d825e08d7980171fc223364a793a29d8752a04e072f6c7d31: read 0x6299de4020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6b8bd00002084 at 0x13577af20 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "8040",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:3d8251901145adc02411a487852ddbb1e427b15ab2b0e21067540fe0e0397620: read 0x33c5c3c020 (8 bytes): unmapped memory: nonpresent page-table entry 0x0 at 0x2a971000 (prototype/swap or unsupported software encoding)"
+        }
+      ],
+      "missing_reasons": {
+        "no_process_peb": 3,
+        "process_parameters_pointer_unreadable": 14,
+        "command_line_buffer_unreadable": 1,
+        "command_line_descriptor_unreadable": 6
+      },
+      "embedded_nul": [
+        {
+          "pid": "5060",
+          "declared_bytes": "96",
+          "display_characters": 37,
+          "full_characters": 48,
+          "raw_sha256": "806c3392d01f5c71cc873d6f94b138deafb0e499d2a3f3cfe86dd9c84d8f6d5a"
+        },
+        {
+          "pid": "6316",
+          "declared_bytes": "86",
+          "display_characters": 37,
+          "full_characters": 43,
+          "raw_sha256": "70a2c1a1473774ce9009b4f64af5148b8c25daceea2576a27a69b91b8c1e3db5"
+        }
+      ],
+      "raw_capture_length_and_full_decoding_verified": 96,
+      "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce"
+    },
+    {
+      "profile": "cmdline-pdb",
+      "task_state": "failed",
+      "core_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "Process"
+        ],
+        "native_rows": 120,
+        "reference_rows": 120,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "01ce9ff27cbbf08d8e9a361cc8b351155a5fdc78d2cc671bd9bbd1fe72ea18ac",
+          "reference": "69ef1f2fcb8c2696f37bd0e6d62dff9517756b20916fcdef4eb84c5fdde4bca7",
+          "mapping": "bf0944fbd6bd39ff98a90ed1f4c3470ae6852302ca2ee869d5ce5c229ce80ebf"
+        }
+      },
+      "raw_three_field_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "PID",
+          "Process",
+          "Args"
+        ],
+        "native_rows": 120,
+        "reference_rows": 120,
+        "matched": false,
+        "missing": [
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "3616",
+            "Process": "winlogon.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "3728",
+            "Process": "WUDFHost.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "3812",
+            "Process": "fontdrvhost.ex",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "4332",
+            "Process": "MicrosoftEdgeU",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "4832",
+            "Process": "userinit.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "4208",
+            "Process": "WaSecAgentProv",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "3908",
+            "Process": "SkypeApp.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "1412",
+            "Process": "SkypeBackgroun",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "4136",
+            "Process": "smartscreen.ex",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "6204",
+            "Process": "msedge.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "6672",
+            "Process": "msedge.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "3896",
+            "Process": "conhost.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "3292",
+            "Process": "backgroundTask",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "1040",
+            "Process": "SearchApp.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "4812",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "5840",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "7108",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "3528",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "6736",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "1584",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "missing": "reference-null"
+            },
+            "PID": "8040",
+            "Process": "BackgroundTran",
+            "parent": null
+          }
+        ],
+        "extra": [
+          {
+            "Args": {
+              "error": "process:b907b09abfc8294ad2f5f681a7ae5c81bb4b17193bbcc4cf451e189b7dd11d79: read 0xbc29d80020 (8 bytes): unmapped memory: nonpresent page-table entry 0x5a66100002094 at 0xb371c00 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "3616",
+            "Process": "winlogon.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:fcc0f4f8dec39ae6eadc18935f8812eac15a53c2f1826a73cd8e52e105f5b5ff: read 0x2aa8a252000 (944 bytes): unmapped memory: nonpresent page-table entry 0x5a60300002094 at 0x10787290 (prototype/swap or unsupported software encoding)",
+              "missing": "command_line_buffer_unreadable"
+            },
+            "PID": "3728",
+            "Process": "WUDFHost.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:5d33528a338c1d852383b30958ec059f162ab2cc2d619896d6291873470026c6: read 0x3a1e7e7020 (8 bytes): unmapped memory: nonpresent page-table entry 0x67dd300002084 at 0x12c22f38 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "3812",
+            "Process": "fontdrvhost.ex",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:5eaf78dacadde47deee8430b9b98c51cb64cd7dcaac07a4679735b244917d2ca: read 0x711b10 (2 bytes): unmapped memory: nonpresent page-table entry 0x683a00002094 at 0x24a1a888 (prototype/swap or unsupported software encoding)",
+              "missing": "command_line_descriptor_unreadable"
+            },
+            "PID": "4332",
+            "Process": "MicrosoftEdgeU",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:44c4099bccf3804f1ca83101a607cbc1f40aa9ddf09a18d0ef9b1f60b66479b4: read 0xde1f84d020 (8 bytes): unmapped memory: nonpresent page-table entry 0x0 at 0x2887d008 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "4832",
+            "Process": "userinit.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:90866209639197fce01d3b30ffc995b7353d802a6a0cad84d770d8a7f11308b0: read 0xf948ba7020 (8 bytes): unmapped memory: nonpresent page-table entry 0x2b29700000084 at 0x2becdd38 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "4208",
+            "Process": "WaSecAgentProv",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:a91c1193d037fdbedda1fe89f1d660e7ae5041a90c3620613af55b30622b99d1: read 0xbf47df0020 (8 bytes): unmapped memory: nonpresent page-table entry 0x23574001f0084 at 0x383cf1f0 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "3908",
+            "Process": "SkypeApp.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:e83b23a89fac404046a306589a8c863adc8393fad04ad68ca78b202ccdbd2645: read 0xeb7374a020 (8 bytes): unmapped memory: nonpresent page-table entry 0x2a24600000084 at 0x1c7a8a50 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "1412",
+            "Process": "SkypeBackgroun",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:a9972b6a4fdddcefcb5d3e44348edaf8d8b5ffc829df51a756f01772f70cdf5b: read 0x24ec0051c00 (2 bytes): unmapped memory: nonpresent page-table entry 0x629b200002084 at 0x3502c288 (prototype/swap or unsupported software encoding)",
+              "missing": "command_line_descriptor_unreadable"
+            },
+            "PID": "4136",
+            "Process": "smartscreen.ex",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:57c9d0b16b354f859e83c2a0731d2cc8c5a1b86359dd1c573bdbc0649915c667: read 0x21fb6e036f0 (2 bytes): unmapped memory: nonpresent page-table entry 0x4f14b00002094 at 0x2f332018 (prototype/swap or unsupported software encoding)",
+              "missing": "command_line_descriptor_unreadable"
+            },
+            "PID": "6204",
+            "Process": "msedge.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:94f8359e9c05b41f4cc2781ee79c398cb54ee38d6ccee15e17f91d8611c915dc: read 0x23345603a00 (2 bytes): unmapped memory: nonpresent page-table entry 0x5beab00002084 at 0x3d566018 (prototype/swap or unsupported software encoding)",
+              "missing": "command_line_descriptor_unreadable"
+            },
+            "PID": "6672",
+            "Process": "msedge.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:857750f00e4183671f7e4fc4eb84f9e3f6e9f1653442d4043f4f20b42163643e: read 0x25815101d30 (2 bytes): unmapped memory: nonpresent page-table entry 0x5ae5800002094 at 0xd95808 (prototype/swap or unsupported software encoding)",
+              "missing": "command_line_descriptor_unreadable"
+            },
+            "PID": "3896",
+            "Process": "conhost.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:8c507d612f8080a8b57484fa08d44fd5ebaa4256e804be2083908e0652b62586: read 0x20439a0020 (8 bytes): unmapped memory: nonpresent page-table entry 0x0 at 0x1198a2000 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "3292",
+            "Process": "backgroundTask",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:96232113fdf5ce0b9838a062340b0fe2b06af40b7c352a36c65f5792280b2141: read 0x2029a003560 (2 bytes): unmapped memory: nonpresent page-table entry 0x665c100002094 at 0x1327fb018 (prototype/swap or unsupported software encoding)",
+              "missing": "command_line_descriptor_unreadable"
+            },
+            "PID": "1040",
+            "Process": "SearchApp.exe",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:aa65881e0b94fe56e8edb7e68a2704d2c04d4f21f851b966c02568305efda893: read 0xae94302020 (8 bytes): unmapped memory: nonpresent page-table entry 0x66c8800002094 at 0x11e60810 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "4812",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:b7074a139b308e3220a265c2f026280182e91618e114a79f407d5ba548eab019: read 0xb6d4a1f020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6a47900002084 at 0x165d10f8 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "5840",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:c8de7fda49abf4df3ef326a41a0444e4cb45bd956bb0ff77c5f210dac3d0dd66: read 0x5ab1a27020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6a58600002084 at 0x5ea5138 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "7108",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:e0eecc68c2e4dc65620cbe58ce025b111b5cc4def18049df3140b5ef5f968a0a: read 0xfb05170020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6aef100002084 at 0x8b98b80 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "3528",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:d6fdf211dae4671293f8c0330b0b653b0fce00e05c02ca17adc353c57a1f902e: read 0x8da868b020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6b4de00002084 at 0x174bd458 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "6736",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:951772b9aa88d30d825e08d7980171fc223364a793a29d8752a04e072f6c7d31: read 0x6299de4020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6b8bd00002084 at 0x13577af20 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "1584",
+            "Process": "msedgewebview2",
+            "parent": null
+          },
+          {
+            "Args": {
+              "error": "process:3d8251901145adc02411a487852ddbb1e427b15ab2b0e21067540fe0e0397620: read 0x33c5c3c020 (8 bytes): unmapped memory: nonpresent page-table entry 0x0 at 0x2a971000 (prototype/swap or unsupported software encoding)",
+              "missing": "process_parameters_pointer_unreadable"
+            },
+            "PID": "8040",
+            "Process": "BackgroundTran",
+            "parent": null
+          }
+        ],
+        "sha256": {
+          "native": "01ce9ff27cbbf08d8e9a361cc8b351155a5fdc78d2cc671bd9bbd1fe72ea18ac",
+          "reference": "69ef1f2fcb8c2696f37bd0e6d62dff9517756b20916fcdef4eb84c5fdde4bca7",
+          "mapping": "fb1b90e233db135be396ed935d3f5b7303f25b40abfcaefaf805fecc2f7b44c8"
+        }
+      },
+      "readable_args_matched": 96,
+      "no_peb": 3,
+      "read_errors": [
+        {
+          "pid": "3616",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:b907b09abfc8294ad2f5f681a7ae5c81bb4b17193bbcc4cf451e189b7dd11d79: read 0xbc29d80020 (8 bytes): unmapped memory: nonpresent page-table entry 0x5a66100002094 at 0xb371c00 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "3728",
+          "reason": "command_line_buffer_unreadable",
+          "error": "process:fcc0f4f8dec39ae6eadc18935f8812eac15a53c2f1826a73cd8e52e105f5b5ff: read 0x2aa8a252000 (944 bytes): unmapped memory: nonpresent page-table entry 0x5a60300002094 at 0x10787290 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "3812",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:5d33528a338c1d852383b30958ec059f162ab2cc2d619896d6291873470026c6: read 0x3a1e7e7020 (8 bytes): unmapped memory: nonpresent page-table entry 0x67dd300002084 at 0x12c22f38 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "4332",
+          "reason": "command_line_descriptor_unreadable",
+          "error": "process:5eaf78dacadde47deee8430b9b98c51cb64cd7dcaac07a4679735b244917d2ca: read 0x711b10 (2 bytes): unmapped memory: nonpresent page-table entry 0x683a00002094 at 0x24a1a888 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "4832",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:44c4099bccf3804f1ca83101a607cbc1f40aa9ddf09a18d0ef9b1f60b66479b4: read 0xde1f84d020 (8 bytes): unmapped memory: nonpresent page-table entry 0x0 at 0x2887d008 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "4208",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:90866209639197fce01d3b30ffc995b7353d802a6a0cad84d770d8a7f11308b0: read 0xf948ba7020 (8 bytes): unmapped memory: nonpresent page-table entry 0x2b29700000084 at 0x2becdd38 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "3908",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:a91c1193d037fdbedda1fe89f1d660e7ae5041a90c3620613af55b30622b99d1: read 0xbf47df0020 (8 bytes): unmapped memory: nonpresent page-table entry 0x23574001f0084 at 0x383cf1f0 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "1412",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:e83b23a89fac404046a306589a8c863adc8393fad04ad68ca78b202ccdbd2645: read 0xeb7374a020 (8 bytes): unmapped memory: nonpresent page-table entry 0x2a24600000084 at 0x1c7a8a50 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "4136",
+          "reason": "command_line_descriptor_unreadable",
+          "error": "process:a9972b6a4fdddcefcb5d3e44348edaf8d8b5ffc829df51a756f01772f70cdf5b: read 0x24ec0051c00 (2 bytes): unmapped memory: nonpresent page-table entry 0x629b200002084 at 0x3502c288 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "6204",
+          "reason": "command_line_descriptor_unreadable",
+          "error": "process:57c9d0b16b354f859e83c2a0731d2cc8c5a1b86359dd1c573bdbc0649915c667: read 0x21fb6e036f0 (2 bytes): unmapped memory: nonpresent page-table entry 0x4f14b00002094 at 0x2f332018 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "6672",
+          "reason": "command_line_descriptor_unreadable",
+          "error": "process:94f8359e9c05b41f4cc2781ee79c398cb54ee38d6ccee15e17f91d8611c915dc: read 0x23345603a00 (2 bytes): unmapped memory: nonpresent page-table entry 0x5beab00002084 at 0x3d566018 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "3896",
+          "reason": "command_line_descriptor_unreadable",
+          "error": "process:857750f00e4183671f7e4fc4eb84f9e3f6e9f1653442d4043f4f20b42163643e: read 0x25815101d30 (2 bytes): unmapped memory: nonpresent page-table entry 0x5ae5800002094 at 0xd95808 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "3292",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:8c507d612f8080a8b57484fa08d44fd5ebaa4256e804be2083908e0652b62586: read 0x20439a0020 (8 bytes): unmapped memory: nonpresent page-table entry 0x0 at 0x1198a2000 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "1040",
+          "reason": "command_line_descriptor_unreadable",
+          "error": "process:96232113fdf5ce0b9838a062340b0fe2b06af40b7c352a36c65f5792280b2141: read 0x2029a003560 (2 bytes): unmapped memory: nonpresent page-table entry 0x665c100002094 at 0x1327fb018 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "4812",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:aa65881e0b94fe56e8edb7e68a2704d2c04d4f21f851b966c02568305efda893: read 0xae94302020 (8 bytes): unmapped memory: nonpresent page-table entry 0x66c8800002094 at 0x11e60810 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "5840",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:b7074a139b308e3220a265c2f026280182e91618e114a79f407d5ba548eab019: read 0xb6d4a1f020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6a47900002084 at 0x165d10f8 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "7108",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:c8de7fda49abf4df3ef326a41a0444e4cb45bd956bb0ff77c5f210dac3d0dd66: read 0x5ab1a27020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6a58600002084 at 0x5ea5138 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "3528",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:e0eecc68c2e4dc65620cbe58ce025b111b5cc4def18049df3140b5ef5f968a0a: read 0xfb05170020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6aef100002084 at 0x8b98b80 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "6736",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:d6fdf211dae4671293f8c0330b0b653b0fce00e05c02ca17adc353c57a1f902e: read 0x8da868b020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6b4de00002084 at 0x174bd458 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "1584",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:951772b9aa88d30d825e08d7980171fc223364a793a29d8752a04e072f6c7d31: read 0x6299de4020 (8 bytes): unmapped memory: nonpresent page-table entry 0x6b8bd00002084 at 0x13577af20 (prototype/swap or unsupported software encoding)"
+        },
+        {
+          "pid": "8040",
+          "reason": "process_parameters_pointer_unreadable",
+          "error": "process:3d8251901145adc02411a487852ddbb1e427b15ab2b0e21067540fe0e0397620: read 0x33c5c3c020 (8 bytes): unmapped memory: nonpresent page-table entry 0x0 at 0x2a971000 (prototype/swap or unsupported software encoding)"
+        }
+      ],
+      "missing_reasons": {
+        "no_process_peb": 3,
+        "process_parameters_pointer_unreadable": 14,
+        "command_line_buffer_unreadable": 1,
+        "command_line_descriptor_unreadable": 6
+      },
+      "embedded_nul": [
+        {
+          "pid": "5060",
+          "declared_bytes": "96",
+          "display_characters": 37,
+          "full_characters": 48,
+          "raw_sha256": "806c3392d01f5c71cc873d6f94b138deafb0e499d2a3f3cfe86dd9c84d8f6d5a"
+        },
+        {
+          "pid": "6316",
+          "declared_bytes": "86",
+          "display_characters": 37,
+          "full_characters": 43,
+          "raw_sha256": "70a2c1a1473774ce9009b4f64af5148b8c25daceea2576a27a69b91b8c1e3db5"
+        }
+      ],
+      "raw_capture_length_and_full_decoding_verified": 96,
+      "symbols_sha256": "f288d5d6d2bf1cfd7f1d76f271cfded7b7629224276a5748cc2a8db006c51b2a"
+    }
+  ],
+  "isf_pdb_cells_equal": true,
+  "bundle_validation": [
+    {
+      "profile": "cmdline",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "e251e89bddcde49c5bc17ffcfd542d50ef101e507be7688b9c610a5bcd2a29c2"
+    },
+    {
+      "profile": "cmdline-pdb",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "bf10ceadfdb5a85a9af4a18ef9c026175a6d7e9486c0f51d9522e9f34fcaf8f2"
+    }
+  ],
+  "fuzz": {
+    "target": "FuzzWindowsCommandLineUTF16",
+    "duration": "10s",
+    "executions": 421852,
+    "scope": "UTF-16 decoder invariants; not the complete process object parser"
+  },
+  "checks": [
+    "go test ./...",
+    "go vet ./...",
+    "go test -race ./...",
+    "GOMEM_CORPUS_DIR=/Volumes/l/GoMem/.cache/corpus go test ./internal/engine -run ^TestOfficial -count=1",
+    "python3 -m unittest discover -s tools -p test_*.py",
+    "python3 tools/baseline_matrix.py --source PINNED_BASELINE --check"
+  ],
+  "cross_builds": [
+    {
+      "name": "gomem-0.1.0-dev-windows-amd64.exe",
+      "sha256": "2bc652ad6cfc19527198bd90a0adfa460d2a59990ba7941d25b2ad562afebd16",
+      "target": "windows/amd64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-windows-arm64.exe",
+      "sha256": "44b4e7ccde196fdb82772ac873ea2f1e8aeaad13db89a15db0a0f6bb595529f4",
+      "target": "windows/arm64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-linux-amd64",
+      "sha256": "4cbc058b1534f18bc4c03311847834c2698c582e4347d9050b965c6f063fc210",
+      "target": "linux/amd64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-linux-arm64",
+      "sha256": "9fe041eb7d936480ec9225c9dac4faaf5063ea56a0d54bda6d41bc71d05dc21b",
+      "target": "linux/arm64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-darwin-amd64",
+      "sha256": "c828b763ae48d6366a90510b314e2d4db78afb8c45d07409fd2e7246a7a76dd4",
+      "target": "darwin/amd64"
+    },
+    {
+      "name": "gomem-0.1.0-dev-darwin-arm64",
+      "sha256": "c85a7f951f1ab5083979a980d070b294a16a574a622c362ad3ee368a01fc384c",
+      "target": "darwin/arm64"
+    }
+  ],
+  "cross_build_scope": "Compilation only; native CI tracked separately"
+}

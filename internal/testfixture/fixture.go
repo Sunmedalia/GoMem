@@ -177,7 +177,8 @@ func Write(dir, platform string) (Fixture, error) {
 		processType.Fields["ObjectTable"] = field(120, ptr)
 		processType.Fields["Session"] = field(128, ptr)
 		t.Types["_EPROCESS"] = processType
-		t.Types["_PEB"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"Ldr": field(0, ptr), "ImageBaseAddress": field(8, ptr)}}
+		t.Types["_PEB"] = symbols.Type{Kind: "struct", Size: 24, Fields: map[string]symbols.Field{"Ldr": field(0, ptr), "ImageBaseAddress": field(8, ptr), "ProcessParameters": field(16, ptr)}}
+		t.Types["_RTL_USER_PROCESS_PARAMETERS"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"CommandLine": field(0, strct("_UNICODE_STRING"))}}
 		t.Types["_HANDLE_TABLE"] = symbols.Type{Kind: "struct", Size: 4, Fields: map[string]symbols.Field{"HandleCount": field(0, base("u32"))}}
 		t.Types["_MM_SESSION_SPACE"] = symbols.Type{Kind: "struct", Size: 4, Fields: map[string]symbols.Field{"SessionId": field(0, base("u32"))}}
 		t.Types["_PEB_LDR_DATA"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"InLoadOrderModuleList": field(0, strct("_LIST_ENTRY"))}}
@@ -301,6 +302,14 @@ func Write(dir, platform string) (Fixture, error) {
 		put(0x9058, 0x1b000)
 		put(0x1b000, 0x1b100)
 		put(0x1b008, 0x4000)
+		put(0x1b010, 0x1e100)
+		commandLine := `"C:\Windows\worker.exe" --flag sample`
+		binary.LittleEndian.PutUint16(data[0x1e100:], uint16(len(commandLine)*2))
+		binary.LittleEndian.PutUint16(data[0x1e102:], uint16(len(commandLine)*2+2))
+		put(0x1e108, 0x1e200)
+		for i, c := range commandLine {
+			binary.LittleEndian.PutUint16(data[0x1e200+i*2:], uint16(c))
+		}
 		list(0x1b100, 0x1c000, 0x1c100)
 		for i, a := range []uint64{0x1c000, 0x1c100} {
 			put(a+16, 0x400000+uint64(i)*0x100000)

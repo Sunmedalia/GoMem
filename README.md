@@ -44,6 +44,7 @@ bin/gomem analyze windows.pslist \
 | `generic.ioc` | 精确字节串；`--param needle=example`；支持块边界、连续物理段边界和重叠命中 |
 | `windows.pslist` | 活动进程、线程/句柄/会话/WoW64/时间；物理偏移显示及主映像 PE 提取 |
 | `windows.modules` | 内核模块与路径；基址/名称子串筛选；支持从已验证会话层重建 PE |
+| `windows.cmdline` | 读取各进程原生 PEB 命令行；保留原始 UTF-16、捕获长度和明确读取错误；PID 集合筛选 |
 | `windows.dlllist` | 进程自身地址空间内的 PEB 加载器链表；原生和 WoW64 列表；支持 PID、基址及 RE2 名称筛选 |
 | `windows.pedump` | 从显式进程/内核/已验证会话空间重建 PE32/PE32+；保留修改、缺页与读取尝试；上限 256MiB |
 | `windows.threads` | 活动进程线程链表、创建/退出时间与进程证据关联；现代 VAD 启动路径；支持 `--param pid=104,108` |
@@ -78,6 +79,8 @@ Windows 在已提供 DTB 和内核基址时可自动获取缺失符号：从目�
 Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址：转储头线索经 KDBG/模块链表、映射 PE 和精确符号交叉验证。可直接运行 `gomem analyze windows.pslist --image memory.dmp --case ./case-001`；详细条件与失败行为见 [Windows 自动配置](docs/windows-discovery.md)。
 
 `windows.pslist --param physical=true` 显示物理偏移并保持虚拟进程身份；`pslist` 与 `modules` 可用 `--param dump=true` 提取主映像或内核/会话模块 PE。120 个进程通过扩展字段及物理偏移对照，路径读取差异与会话导出范围单独记录。[进程与模块验证](docs/windows-process-modules.md)
+
+`windows.cmdline` 使用各进程自身地址空间读取命令行，显示值、完整声明字符串和原始字节分别保留。官方样本中 96 条可读内容一致，21 条读取错误使全量任务失败并保留结果；嵌入 NUL 和空 PEB 分别记录。[命令行验证](docs/windows-cmdline.md)
 
 `windows.threads` 输出无损线程地址、CID、100ns 精度时间及原始时间值，并用进程身份关联 pslist 证据。官方 Windows 10 样本的 1,752 条线程通过八字段对照；退出时间联合体的差异单独核验，未作为全字段一致。路径读取失败会保留原始错误。[线程验证与适用范围](docs/windows-threads.md)
 
