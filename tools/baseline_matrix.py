@@ -83,7 +83,8 @@ def generate(source):
                "linux.pslist.PsList": "linux.pslist", "windows.modules.Modules": "windows.modules",
                "linux.lsmod.Lsmod": "linux.lsmod", "windows.threads.Threads": "windows.threads",
                "windows.vadinfo.VadInfo": "windows.vadinfo", "linux.proc.Maps": "linux.maps",
-               "windows.dlllist.DllList": "windows.dlllist", "windows.pedump.PEDump": "windows.pedump"}
+               "windows.dlllist.DllList": "windows.dlllist", "windows.pedump.PEDump": "windows.pedump",
+               "windows.cmdline.CmdLine": "windows.cmdline"}
 
     def requirements(identifier, seen=None):
         seen = set() if seen is None else seen
@@ -124,6 +125,11 @@ def generate(source):
         if identifier == "windows.threads.Threads":
             plugins[-1].update(applicability="Active process thread lists; exact ETHREAD/EPROCESS types. Start paths currently require modern RTL_AVL_TREE VAD layout. External swap/prototype pages are unresolved.",
                               gaps=["Full version/architecture and parameter coverage pending", "ExitTime signed union differences explicitly preserved; see docs/windows-threads.md", "No thread pool scan or extracted artifacts"])
+        if identifier == "windows.cmdline.CmdLine":
+            plugins[-1].update(applicability="Native EPROCESS.Peb -> PEB.ProcessParameters -> typed RTL_USER_PROCESS_PARAMETERS.CommandLine, read in each process root. Raw UTF-16LE and partial captures are retained.",
+                              corpora=["synthetic-windows-x64", "synthetic-windows-x86-pae", "official-windows-10-19041"],
+                              comparison="selected_readable_command_lines_match_errors_and_empty_strings_preserved", validation_record="docs/windows-cmdline.md",
+                              gaps=["Full version/architecture and all failure/parameter combinations pending", "Read errors remain distinct from reference nulls; empty captured strings are not marked unreadable", "ArgsFull retains the declared string, including post-NUL text and BOM; raw bytes remain authoritative"])
         if identifier == "windows.vadinfo.VadInfo":
             plugins[-1].update(applicability="Modern RTL_AVL_TREE VADs with exact MMVAD_SHORT types and native MmProtectToValue table; PID sets and inclusive address filtering.",
                               gaps=["Old VAD layouts and complete version/architecture coverage pending", "Extraction has selected x64 region byte comparisons only; full failure/version/parameter acceptance pending", "Path read errors remain distinct from baseline nulls; see docs/windows-vad.md"])
