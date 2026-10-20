@@ -299,7 +299,7 @@ func poolScanLayout(e plugin.Environment, constraints []poolConstraint) (poolLay
 		layout.optional, layout.padding = optionalHeaderSizes(e.Symbols)
 	}
 	for _, constraint := range constraints {
-		if constraint.objectType != "" && constraint.typeName != "_FILE_OBJECT" && constraint.typeName != "_EPROCESS" {
+		if constraint.objectType != "" && constraint.typeName != "_FILE_OBJECT" && constraint.typeName != "_EPROCESS" && constraint.typeName != "_ETHREAD" {
 			return poolLayout{}, fmt.Errorf("pool validity for %s is not implemented", constraint.typeName)
 		}
 	}
@@ -572,6 +572,8 @@ func poolObjectValid(ctx context.Context, constraint poolConstraint, object uint
 		return fileObjectValid(ctx, scan, native, object)
 	case "_EPROCESS":
 		return processObjectValid(ctx, scan, object)
+	case "_ETHREAD":
+		return threadObjectValid(ctx, scan, object)
 	default:
 		if constraint.objectType == "" {
 			return true, nil
