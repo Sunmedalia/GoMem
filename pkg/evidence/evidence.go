@@ -31,6 +31,19 @@ func Missing(reason string, e error) Value {
 	}
 	return v
 }
+func (v Value) MarshalJSON() ([]byte, error) {
+	type wire struct {
+		Kind   string `json:"kind"`
+		Data   any    `json:"value,omitempty"`
+		Reason string `json:"reason,omitempty"`
+		Error  string `json:"error,omitempty"`
+	}
+	if text, ok := v.Data.(string); ok && v.Kind == "string" && text == "" && v.Reason == "" && v.Error == "" {
+		return []byte(`{"kind":"string","value":""}`), nil
+	}
+	return json.Marshal(wire{Kind: v.Kind, Data: v.Data, Reason: v.Reason, Error: v.Error})
+}
+
 func (v Value) String() string {
 	if v.Kind == "missing" {
 		if v.Error != "" {

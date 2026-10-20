@@ -56,6 +56,12 @@ type poolHit struct {
 	native memory.MemoryLayer
 }
 
+// poolFatalError stops the scan. A failed symlink creation-time read is not
+// caught by the pinned plugin, so it must fail the task instead of dropping one row.
+type poolFatalError struct{ error }
+
+func (e poolFatalError) Unwrap() error { return e.error }
+
 func builtinPoolConstraints(tags ...string) ([]poolConstraint, error) {
 	all := []poolConstraint{
 		{tag: []byte("AtmT"), typeName: "_RTL_ATOM_TABLE", minSize: 200, hasMin: true, pageType: poolPaged | poolNonPaged | poolFree},
@@ -190,6 +196,10 @@ func scanPoolObjects(ctx context.Context, e plugin.Environment, constraints []po
 				if ctx.Err() != nil {
 					return ctx.Err()
 				}
+				var fatal poolFatalError
+				if errors.As(err, &fatal) {
+					return err
+				}
 				skippedName++
 				continue
 			}
@@ -299,7 +309,7 @@ func poolScanLayout(e plugin.Environment, constraints []poolConstraint) (poolLay
 		layout.optional, layout.padding = optionalHeaderSizes(e.Symbols)
 	}
 	for _, constraint := range constraints {
-		if constraint.objectType != "" && constraint.typeName != "_FILE_OBJECT" && constraint.typeName != "_EPROCESS" && constraint.typeName != "_ETHREAD" && constraint.typeName != "_KMUTANT" && constraint.typeName != "_DRIVER_OBJECT" {
+		if constraint.objectType != "" && constraint.typeName != "_FILE_OBJECT" && constraint.typeName != "_EPROCESS" && constraint.typeName != "_ETHREAD" && constraint.typeName != "_KMUTANT" && constraint.typeName != "_DRIVER_OBJECT" && constraint.typeName != "_OBJECT_SYMBOLIC_LINK" {
 			return poolLayout{}, fmt.Errorf("pool validity for %s is not implemented", constraint.typeName)
 		}
 	}
@@ -578,6 +588,8 @@ func poolObjectValid(ctx context.Context, constraint poolConstraint, object uint
 		return mutantObjectValid(ctx, object)
 	case "_DRIVER_OBJECT":
 		return driverObjectValid(ctx)
+	case "_OBJECT_SYMBOLIC_LINK":
+		return symlinkObjectValid(ctx)
 	default:
 		if constraint.objectType == "" {
 			return true, nil

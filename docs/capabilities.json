@@ -6395,7 +6395,7 @@
       "gaps": [
         "Only one Windows 10 x64 crash dump has a selected-field differential",
         "32-bit images and real pre-Windows 8 bottom-up scans remain pending; those paths are synthetic only",
-        "symlinkscan and modscan remain absent. windows.psscan, windows.thrdscan, windows.mutantscan and windows.driverscan use this scanner",
+        "modscan remains absent. windows.psscan, windows.thrdscan, windows.mutantscan, windows.driverscan and windows.symlinkscan use this scanner",
         "windows.hivescan still reads PoolBigPageTable and does not use this header scanner",
         "Reference offsets omit the canonical high bits. The comparison masks both sides to the low 48 bits; native rows keep the full address",
         "Three file names on the selected image could not be read and were omitted, matching the pinned plugin. They are counted in the summary, not emitted as empty names"
@@ -10575,15 +10575,24 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "OBJECT_SYMBOLIC_LINK entries from pool headers tagged Sym\\xe2 or Symb. The scan layer, carving direction, alignment and object-type check are the same as windows.filescan, except both tags select paged or free pool. On Vista and later an odd PoolType is paged. Both tags require type SymbolicLink. The pinned check accepts every carved object. The source name is the object-header NameInfo string and does not use the KMUTANT length checks. A zero name-info offset or an unreadable name drops the row. A LinkTarget length of zero is an empty string and does not read the buffer; an unreadable target drops the row. CreationTime uses the unshifted QuadPart. A failed CreationTime read fails the task. A zero second count is not set, and values outside years 1 through 9999 stay unparsable. Timeline output is not implemented. The summary row is not a symlink.",
+      "native": "windows.symlinkscan",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_219_rows_match_offset_time_and_names",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has 219 symlinks, including one empty target",
+        "32-bit images and real pre-Windows 8 bottom-up scans remain pending. The bottom-up path uses the shared scanner and has no separate symlink fixture",
+        "Twelve name or target reads were dropped and counted. 523 candidates failed the SymbolicLink type check",
+        "Reference offsets omit the canonical high bits. The comparison masks both sides to the low 48 bits",
+        "Timeline output is not implemented",
+        "The local year window follows datetime.now().year. This comparison was run in 2026"
+      ],
+      "validation_record": "docs/windows-symlinkscan.md"
     },
     {
       "id": "windows.thrdscan.ThrdScan",

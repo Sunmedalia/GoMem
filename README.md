@@ -52,6 +52,7 @@ bin/gomem analyze windows.pslist \
 | `windows.thrdscan` | 扫描池头中的 `_ETHREAD`，输出线程、启动地址、文件路径和创建/退出时间；[说明](docs/windows-thrdscan.md) |
 | `windows.mutantscan` | 扫描池头中的 `_KMUTANT`，输出对象地址和对象头名称；没有名称时保留该行；[说明](docs/windows-mutantscan.md) |
 | `windows.driverscan` | 扫描池头中的 `_DRIVER_OBJECT`，保留起始地址为 0 或落在内核空间的驱动，并输出三个名称；[说明](docs/windows-driverscan.md) |
+| `windows.symlinkscan` | 扫描换页池头中的 `_OBJECT_SYMBOLIC_LINK`，输出来源名、目标名和创建时间；[说明](docs/windows-symlinkscan.md) |
 | `windows.printkey` | 枚举活动 hive 的稳定与易失子键和值；内核 HMAP 优先，低地址只走 Registry 进程；不可读 hive 保留为行而不单独失败任务；[说明](docs/windows-printkey.md) |
 | `windows.userassist` | 解码名称含 `ntuser.dat` 的 hive 里的 UserAssist 计数；Win7 及以后用 CookiePad 和已知文件夹 GUID；值读失败不补零；[说明](docs/windows-userassist.md) |
 | `windows.getcellroutine` | 报告不在 `ntoskrnl` / `ntkrnlmp` / `ntkrnlpa` / `ntkrpamp` 内的 hive `GetCellRoutine`；未映射保留为行，读失败不当成内核处理函数；[说明](docs/windows-getcellroutine.md) |
@@ -110,7 +111,7 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 
 `windows.hivescan` 从大页池表找出在用的 `CM10` 分配。Windows 10 19041 样本的 24 个地址与固定基线一致，并且都带有 `0xBEE0BEE0` 签名。32 位和 Windows 8 以前的 hive 仍会明确失败，不从文件对象扫描里恢复。[池扫描验证](docs/windows-hivescan.md)
 
-`windows.filescan` 在池头中寻找分配态 `Fil\xe5` 和释放态 `File`，雕出 `_FILE_OBJECT`。Windows 10 19041 样本扫过 6416 个内核范围、387,543,040 字节，4866 个文件的低 48 位地址和文件名与固定基线一致。3 个文件名读不完整的对象被丢掉并计入摘要，没有写成空名字。32 位、Windows 8 以前的真实镜像，以及符号链接和模块对象还没有验收。[文件对象扫描验证](docs/windows-filescan.md)
+`windows.filescan` 在池头中寻找分配态 `Fil\xe5` 和释放态 `File`，雕出 `_FILE_OBJECT`。Windows 10 19041 样本扫过 6416 个内核范围、387,543,040 字节，4866 个文件的低 48 位地址和文件名与固定基线一致。3 个文件名读不完整的对象被丢掉并计入摘要，没有写成空名字。32 位、Windows 8 以前的真实镜像，以及模块对象还没有验收。[文件对象扫描验证](docs/windows-filescan.md)
 
 `windows.psscan` 用同一套池头扫描寻找 `Pro\xe3` 和 `Proc`。Windows 10 19041 样本得到 121 个进程，选定字段与固定基线一致，比活动链表多一个不在链表上的 PID 408 `MpCmdRun.exe`。句柄列因为没有 `HandleCount` 而保持为空。32 位、Windows 8 以前的真实镜像和时间线还没有验收。[进程池扫描验证](docs/windows-psscan.md)
 
@@ -119,6 +120,8 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `windows.mutantscan` 用同一套池头扫描寻找 `Mut\xe1` 和 `Muta`，类型必须是 Mutant。固定基线的 `_KMUTANT` 检查接受每一个雕出来的对象。名称来自对象头：Windows 7 及以后用 `ObpInfoMaskToOffset` 在 `InfoMask & 3` 处取偏移。偏移或长度无效时名称不可用，行仍然保留。Windows 10 19041 样本有 742 个互斥体，低 48 位地址和名称与固定基线一致，其中 448 个名称不可用。类型不符的候选有 2199 个，没有读失败。32 位和 Windows 8 以前的真实镜像还没有验收。[互斥体扫描验证](docs/windows-mutantscan.md)
 
 `windows.driverscan` 用同一套池头扫描寻找 `Dri\xf6` 和 `Driv`，类型必须是 Driver。`DriverStart` 要能读 8 字节，并且是 0 或者严格高于 `MmSystemRangeStart`。三个名称里至少要有一个；空字符串和无效地址都算不可用。Windows 10 19041 样本有 142 个驱动，低 48 位偏移、起始地址、大小和三个名称与固定基线一致。其中一个服务键缓冲区是非规范地址 `0x508f8d480000017d`，对照列和基线一样为空，读取错误留在 `ServiceKeyError`。另有 804 个候选类型不符。32 位和 Windows 8 以前的真实镜像还没有验收。[驱动扫描验证](docs/windows-driverscan.md)
+
+`windows.symlinkscan` 用同一套池头扫描寻找 `Sym\xe2` 和 `Symb`，但只接受换页池和空闲池，类型必须是 SymbolicLink。来源名不做互斥体的长度检查；长度为 0 仍是空字符串。名字缺失或目标读失败会丢掉该行。目标长度为 0 时保留空字符串。创建时间读取失败会让任务失败。Windows 10 19041 样本有 219 个符号链接，低 48 位偏移、创建时间、来源名和目标名与固定基线一致，其中一个目标为空。另有 12 个名字或目标读失败、523 个类型不符。32 位、Windows 8 以前的真实镜像和时间线还没有验收。[符号链接扫描验证](docs/windows-symlinkscan.md)
 
 `windows.hashdump` 读取 `ControlSet001` 的 LSA 类数据并解密 SAM。合成向量与固定基线的 RC4/AES 路径一致，NT 盐保持在 `nt_offset+8`。Windows 10 19041 样本的 `JD` class 页不在内存中，基线输出 0 行，本地任务失败并保留读取错误，没有可对照的账户哈希。[SAM 哈希验证](docs/windows-hashdump.md)
 

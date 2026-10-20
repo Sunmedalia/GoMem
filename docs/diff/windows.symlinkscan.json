@@ -1,0 +1,13 @@
+{
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "Offset", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "CreateTime": {"native": "CreateTime", "reference": "CreateTime", "kind": "timestamp_seconds", "missing_reasons": ["not_set", "unparsable_filetime"]},
+    "FromName": {"native": "FromName", "reference": "From Name", "kind": "string"},
+    "ToName": {"native": "ToName", "reference": "To Name", "kind": "string"}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["symlink"],
+    "excluded_values": ["summary", "diagnostic"]
+  }
+}
