@@ -1,0 +1,69 @@
+{
+  "schema": "gomem.windows-psscan-validation/v1",
+  "date": "2026-10-21",
+  "scope": "Synthetic bottom-up pool cases plus one Windows 10 19041 x64 crash dump. Not a 32-bit, pre-Windows 8, timeline, or dump-byte acceptance.",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "reference_manifest_sha256": "49e1584d51ee3d030efa68c46bdaaf85d697e268910ebfc7a20d61f28150d00f",
+  "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+  "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+  "engine_build_sha256": "44c0fec5c6dd49e9909395ff07e904bfa53cfcd8e3a432c28bdc915f75386250",
+  "parameters": {},
+  "task_state": "completed",
+  "layer": "kernel:x64:dtb=0x6d4000",
+  "ranges": 6416,
+  "scanned_bytes": 387543040,
+  "process_rows": 121,
+  "active_list_rows": 120,
+  "unlinked_processes": [
+    {"pid": 408, "name": "MpCmdRun.exe"}
+  ],
+  "read_failures": 0,
+  "reference_rows": 121,
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "Offset",
+      "PID",
+      "PPID",
+      "Name",
+      "Threads",
+      "Handles",
+      "SessionId",
+      "Wow64",
+      "CreateTime",
+      "ExitTime",
+      "FileOutput"
+    ],
+    "native_rows": 121,
+    "reference_rows": 121,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "69513902df750a49c237e32a95af00debdeccce6d64d837b6e05a8c8bfc248f6",
+      "reference": "4db382f46986335ce52cef7283564be9a53a47a092f98c5b967690940c4a189d",
+      "mapping": "702a58ca5c315b7a15aa57abb9e8b5d9771f9d20889426a2d31859cbc94b4089"
+    },
+    "native_input_rows": 122,
+    "native_non_entity_records": {
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "values": [
+        "process"
+      ],
+      "excluded_values": [
+        "summary",
+        "diagnostic"
+      ]
+    }
+  },
+  "notes": [
+    "Compared fields are the low 48 bits of Offset, PID, PPID, ImageFileName, thread count, handle absence, session, Wow64, second-truncated create and exit times, and the literal Disabled file column.",
+    "The go test binary that produced the compared JSONL is 44c0fec5c6dd49e9909395ff07e904bfa53cfcd8e3a432c28bdc915f75386250.",
+    "The active PsList reference has 120 processes. PsScan adds PID 408 MpCmdRun.exe, which is not on PsActiveProcessHead.",
+    "This image has no HANDLE_TABLE.HandleCount, so both sides leave Handles empty. Four session pointers are zero and stay not applicable.",
+    "The year window uses the local year at runtime. This comparison ran in 2026."
+  ]
+}

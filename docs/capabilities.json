@@ -6388,7 +6388,7 @@
       "gaps": [
         "Only one Windows 10 x64 crash dump has a selected-field differential",
         "32-bit images and real pre-Windows 8 bottom-up scans remain pending; those paths are synthetic only",
-        "Other executive pool types are not implemented. psscan, driverscan, mutantscan, symlinkscan and modscan remain absent",
+        "Other executive pool types are not implemented. driverscan, mutantscan, symlinkscan and modscan remain absent. windows.psscan uses this scanner for EPROCESS",
         "windows.hivescan still reads PoolBigPageTable and does not use this header scanner",
         "Reference offsets omit the canonical high bits. The comparison masks both sides to the low 48 bits; native rows keep the full address",
         "Three file names on the selected image could not be read and were omitted, matching the pinned plugin. They are counted in the summary, not emitted as empty names"
@@ -9075,15 +9075,24 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "EPROCESS objects from pool headers tagged Pro\\xe3 or Proc. The scan layer, carving direction, pool-type polarity, alignment and page-table rules are the same as windows.filescan. Process constraints skip the object-type name check. A candidate is kept only when the pinned EPROCESS checks pass: the UTF-8 image name, truncated at NUL or U+FFFD, is nonempty; unless the name is System and the PID is 4, CreateTime is a UTC datetime whose year is after 1998 and before the local current year plus 10, and an ExitTime datetime in that same window is not earlier than creation. PID is nonzero, divisible by 4 and no greater than 0xFFFFFFFC. DirectoryTableBase, or its first array element, is nonzero outside the low 12 bits. ThreadListHead.Flink and Blink are both at least 0x80000000. A field read that the pinned generator would raise is omitted. Handles without a HandleCount member stay unavailable. A null session pointer is not applicable. Wow64 is false when neither process pointer exists. dump=false reports the literal Disabled. A dump error becomes the literal Error outputting file and does not by itself fail the task. physical translates the scanned address through the kernel layer. The summary row is not a process.",
+      "native": "windows.psscan",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_121_rows_match_identity_times_session_and_wow64",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has 121 pool processes, including one MpCmdRun.exe that is absent from the active list",
+        "32-bit images and real pre-Windows 8 bottom-up scans remain pending; the bottom-up path is synthetic",
+        "Timeline output is not implemented",
+        "dump was not compared on this image. The reference and native default are the literal Disabled",
+        "The local year window follows datetime.now().year. This comparison was run in 2026",
+        "Reference offsets omit the canonical high bits. The comparison masks both sides to the low 48 bits"
+      ],
+      "validation_record": "docs/windows-psscan.md"
     },
     {
       "id": "windows.pstree.PsTree",

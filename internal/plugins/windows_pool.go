@@ -94,7 +94,7 @@ func builtinPoolConstraints(tags ...string) ([]poolConstraint, error) {
 	return out, nil
 }
 
-func scanPoolObjects(ctx context.Context, e plugin.Environment, constraints []poolConstraint, out plugin.Emit, emit func(context.Context, poolHit) (evidence.Row, bool, error)) error {
+func scanPoolObjects(ctx context.Context, e plugin.Environment, constraints []poolConstraint, hitLabel string, rowFor func(string, uint64) evidence.Row, out plugin.Emit, emit func(context.Context, poolHit) (evidence.Row, bool, error)) error {
 	if e.Objects == nil || e.Symbols == nil || e.Kernel == nil || e.Physical == nil {
 		return fmt.Errorf("pool scan needs kernel symbols, a kernel layer and physical memory")
 	}
@@ -206,12 +206,12 @@ func scanPoolObjects(ctx context.Context, e plugin.Environment, constraints []po
 	if err != nil {
 		return err
 	}
-	summary := fileScanRow(scanLayer.Name(), 0)
+	summary := rowFor(scanLayer.Name(), 0)
 	summary.Cells["RecordType"] = evidence.Text("summary")
 	summary.Cells["Coverage"] = poolCoverage(map[string]string{
 		"ranges":           formatCount(uint64(len(ranges))),
 		"scanned_bytes":    formatCount(scanned),
-		"files":            formatCount(hits),
+		hitLabel:           formatCount(hits),
 		"skipped_invalid":  formatCount(skippedInvalid),
 		"skipped_type":     formatCount(skippedType),
 		"skipped_name":     formatCount(skippedName),
@@ -225,7 +225,7 @@ func scanPoolObjects(ctx context.Context, e plugin.Environment, constraints []po
 	cause := failures.err("Windows pool scan")
 	if cause != nil {
 		summary.Cells["Error"] = evidence.Missing("pool_scan_incomplete", cause)
-		diagnostic := fileScanRow(scanLayer.Name(), 0)
+		diagnostic := rowFor(scanLayer.Name(), 0)
 		diagnostic.Cells["RecordType"] = evidence.Text("diagnostic")
 		diagnostic.Cells["Error"] = evidence.Missing("pool_scan_incomplete", cause)
 		if err := out(diagnostic); err != nil {
@@ -299,7 +299,7 @@ func poolScanLayout(e plugin.Environment, constraints []poolConstraint) (poolLay
 		layout.optional, layout.padding = optionalHeaderSizes(e.Symbols)
 	}
 	for _, constraint := range constraints {
-		if constraint.objectType != "" && constraint.typeName != "_FILE_OBJECT" {
+		if constraint.objectType != "" && constraint.typeName != "_FILE_OBJECT" && constraint.typeName != "_EPROCESS" {
 			return poolLayout{}, fmt.Errorf("pool validity for %s is not implemented", constraint.typeName)
 		}
 	}
@@ -570,6 +570,8 @@ func poolObjectValid(ctx context.Context, constraint poolConstraint, object uint
 	switch constraint.typeName {
 	case "_FILE_OBJECT":
 		return fileObjectValid(ctx, scan, native, object)
+	case "_EPROCESS":
+		return processObjectValid(ctx, scan, object)
 	default:
 		if constraint.objectType == "" {
 			return true, nil

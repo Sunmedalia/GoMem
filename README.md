@@ -48,6 +48,7 @@ bin/gomem analyze windows.pslist \
 | `windows.hivelist` | 从 `CmpHiveListHead` 枚举注册表 hive；保留签名、三个路径字段和链表断裂；`dump` 重建稳定 hive，缺页记入空洞日志并令任务失败 |
 | `windows.hivescan` | 在 64 位 Windows 8.1 及以后扫描 `PoolBigPageTable` 的在用 `CM10` 分配；旧式池头扫描会明确失败；[说明](docs/windows-hivescan.md) |
 | `windows.filescan` | 扫描池头中的文件对象，输出规范虚拟地址和文件名；Windows 10 扫内核层，更早的系统扫物理内存；[说明](docs/windows-filescan.md) |
+| `windows.psscan` | 扫描池头中的 `_EPROCESS`，字段与活动进程列表相同；可按 PID 过滤；[说明](docs/windows-psscan.md) |
 | `windows.printkey` | 枚举活动 hive 的稳定与易失子键和值；内核 HMAP 优先，低地址只走 Registry 进程；不可读 hive 保留为行而不单独失败任务；[说明](docs/windows-printkey.md) |
 | `windows.userassist` | 解码名称含 `ntuser.dat` 的 hive 里的 UserAssist 计数；Win7 及以后用 CookiePad 和已知文件夹 GUID；值读失败不补零；[说明](docs/windows-userassist.md) |
 | `windows.getcellroutine` | 报告不在 `ntoskrnl` / `ntkrnlmp` / `ntkrnlpa` / `ntkrpamp` 内的 hive `GetCellRoutine`；未映射保留为行，读失败不当成内核处理函数；[说明](docs/windows-getcellroutine.md) |
@@ -107,6 +108,8 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `windows.hivescan` 从大页池表找出在用的 `CM10` 分配。Windows 10 19041 样本的 24 个地址与固定基线一致，并且都带有 `0xBEE0BEE0` 签名。32 位和 Windows 8 以前的 hive 仍会明确失败，不从文件对象扫描里恢复。[池扫描验证](docs/windows-hivescan.md)
 
 `windows.filescan` 在池头中寻找分配态 `Fil\xe5` 和释放态 `File`，雕出 `_FILE_OBJECT`。Windows 10 19041 样本扫过 6416 个内核范围、387,543,040 字节，4866 个文件的低 48 位地址和文件名与固定基线一致。3 个文件名读不完整的对象被丢掉并计入摘要，没有写成空名字。32 位、Windows 8 以前的真实镜像，以及其他执行体对象还没有验收。[文件对象扫描验证](docs/windows-filescan.md)
+
+`windows.psscan` 用同一套池头扫描寻找 `Pro\xe3` 和 `Proc`。Windows 10 19041 样本得到 121 个进程，选定字段与固定基线一致，比活动链表多一个不在链表上的 PID 408 `MpCmdRun.exe`。句柄列因为没有 `HandleCount` 而保持为空。32 位、Windows 8 以前的真实镜像和时间线还没有验收。[进程池扫描验证](docs/windows-psscan.md)
 
 `windows.hashdump` 读取 `ControlSet001` 的 LSA 类数据并解密 SAM。合成向量与固定基线的 RC4/AES 路径一致，NT 盐保持在 `nt_offset+8`。Windows 10 19041 样本的 `JD` class 页不在内存中，基线输出 0 行，本地任务失败并保留读取错误，没有可对照的账户哈希。[SAM 哈希验证](docs/windows-hashdump.md)
 

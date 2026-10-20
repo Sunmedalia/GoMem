@@ -29,7 +29,7 @@ func windowsFileScan(ctx context.Context, e plugin.Environment, _ map[string]str
 	if err != nil {
 		return err
 	}
-	return scanPoolObjects(ctx, e, constraints, out, func(ctx context.Context, found poolHit) (evidence.Row, bool, error) {
+	return scanPoolObjects(ctx, e, constraints, "files", fileScanRow, out, func(ctx context.Context, found poolHit) (evidence.Row, bool, error) {
 		name, err := readPoolUnicode(ctx, found.scan, found.native, found.object, "_FILE_OBJECT", "FileName", 0)
 		if err != nil {
 			return evidence.Row{}, false, err
