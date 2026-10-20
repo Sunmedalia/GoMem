@@ -10906,15 +10906,22 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Kernel timers from the KPCR timer table when the image is Windows 8 or later, or when PE metadata is absent and the Windows 7 or Windows 8 symbol fallback matches. A present PE version is a 4-tuple, so the pinned is_windows_7 equality with (6, 1) is false. Older kernels use KiTimerTableListHead, 512 entries on 64-bit or Vista and later and 256 otherwise. Each list walks Flink only. An unreadable link or object stops that list. A cycle stops it. The back link is not checked. Header.Type must be 8 or 9; an unreadable type fails the task. Other types are counted and skipped. When KiWaitNever and KiWaitAlways exist, Dpc is decoded with the pinned rotate-left, canonicalize(timer), bswap64, and the two keys. An unreadable Dpc, key, decoded KDPC, or a zero DeferredRoutine skips that timer. DueTime is HighPart:LowPart using Python format #010x, so the sign sits outside 0x and the width is 10. Period is the unsigned 32-bit value. SignalState is Yes when the signed 32-bit value is non-zero and otherwise a single dash. Modules and symbols use the same PsLoadedModuleList and kernel-symbol rules as windows.driverirp. No module makes Module and Symbol not_available. A module without a symbol makes only Symbol not_available. Native addresses stay canonical. Reference addresses drop the high bits, so Offset and Routine are compared after a low-48 mask. The summary row is not a timer.",
+      "native": "windows.timers",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_44_rows_match_offset_due_period_signal_routine_module_and_symbol",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has one processor, 512 timer lists, 317 examined timers, no invalid type, 273 skipped DPC reads, and 44 rows. Nine are signaled and 35 are not. All 44 routines fall in a loaded module. 23 have no kernel symbol. No timer has more than one symbol",
+        "32-bit images, real Windows 7 KPCR tables, and the KiTimerTableListHead path have no corpus differential. The synthetic fixture covers the DPC decode, 64-bit rotate, byte swap, and Python due-time formatting",
+        "Reference offsets and routines omit the canonical high bits. The comparison masks both sides to the low 48 bits",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-timers.md"
     },
     {
       "id": "windows.truecrypt.Passphrase",

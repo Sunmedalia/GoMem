@@ -1,0 +1,16 @@
+{
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "Offset", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "DueTime": {"native": "DueTime", "reference": "DueTime", "kind": "string"},
+    "Period(ms)": {"native": "Period", "reference": "Period(ms)", "kind": "uint64"},
+    "Signaled": {"native": "Signaled", "reference": "Signaled", "kind": "string"},
+    "Routine": {"native": "Routine", "reference": "Routine", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Module": {"native": "Module", "reference": "Module", "kind": "string", "missing_reasons": ["not_available"]},
+    "Symbol": {"native": "Symbol", "reference": "Symbol", "kind": "string", "missing_reasons": ["not_available"]}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["timer"],
+    "excluded_values": ["summary"]
+  }
+}
