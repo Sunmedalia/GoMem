@@ -27,7 +27,7 @@ type Rule struct {
 }
 
 var Rules = []Rule{
-	{"hidden-process", "high", "A scanned process object is absent from the active list by object address; PID alone is not compared.", "Terminated or partially acquired process objects can differ from the active list.", []string{"pslist", "psscan"}, "difference"},
+	{"hidden-process", "high", "A scanned task candidate is absent from the active task/thread list by object coordinates; PID alone is not compared.", "Exited tasks, stale allocations and partial acquisitions can differ from the active list; exited candidates are informational.", []string{"pslist", "psscan"}, "difference"},
 	{"executable-writable-region", "high", "A mapping has direct read/write/execute protection.", "JIT runtimes and unpackers can legitimately use writable executable memory.", []string{"maps"}, "rwx"},
 	{"module-enumeration-difference", "medium", "A scanned module object is absent from the loaded-module list by object address.", "Unloaded modules and stale pool allocations may remain in RAM.", []string{"modules", "modscan"}, "difference"},
 	{"deleted-or-memfd-execution", "high", "A mapping explicitly marked executable references a deleted file or memfd.", "Package upgrades, containers and legitimate in-memory software can produce these mappings.", []string{"maps"}, "deleted"},
@@ -63,18 +63,7 @@ func Evaluate(ctx context.Context, r Rule, inputs map[string][]evidence.Row, emi
 		}
 	}
 	finding := func(row evidence.Row, entity string, refs []string) error {
-		if err := ctx.Err(); err != nil {
-			return err
-		}
-		if row.ID == "" || row.Provenance.ImageSHA256 == "" {
-			return fmt.Errorf("rule input lacks sealed evidence provenance")
-		}
-		cells := map[string]evidence.Value{"Rule": evidence.Text(r.ID), "Severity": evidence.Text(r.Severity), "Basis": evidence.Text(r.Basis), "FalsePositive": evidence.Text(r.FalsePositive), "Entity": evidence.Text(entity), "EvidenceIDs": {Kind: "references", Data: refs}}
-		p := row.Provenance
-		p.Plugin = "triage." + r.ID
-		out := evidence.Row{Cells: cells, Provenance: p}
-		out.Seal()
-		return emit(out)
+		return emitFinding(ctx, r, row, entity, refs, emit)
 	}
 	switch r.Kind {
 	case "ioc":
@@ -84,25 +73,13 @@ func Evaluate(ctx context.Context, r Rule, inputs map[string][]evidence.Row, emi
 			}
 		}
 	case "difference":
-		known := make(map[string]bool)
+		known := &differenceIndex{objects: map[string]bool{}}
 		for _, row := range inputs[r.Inputs[0]] {
-			key, err := objectKey(row)
-			if err != nil {
+			if err := known.add(r, row); err != nil {
 				return err
 			}
-			known[key] = true
 		}
-		for _, row := range inputs[r.Inputs[1]] {
-			key, err := objectKey(row)
-			if err != nil {
-				return err
-			}
-			if !known[key] {
-				if err = finding(row, key, []string{row.ID}); err != nil {
-					return err
-				}
-			}
-		}
+		return evaluateDifferenceRows(ctx, r, known, inputs[r.Inputs[1]], emit)
 	case "rwx", "deleted":
 		for _, row := range inputs["maps"] {
 			hit := false
@@ -198,6 +175,23 @@ func required(row evidence.Row, name string) (evidence.Value, error) {
 	return v, nil
 }
 func objectKey(row evidence.Row) (string, error) {
+	if _, ok := row.Cells["PhysicalLayer"]; ok {
+		if _, exists := row.Cells["PhysicalOffset"]; !exists {
+			return "", fmt.Errorf("physical evidence has no physical offset")
+		}
+	}
+	if physical, ok := row.Cells["PhysicalOffset"]; ok {
+		layer, err := required(row, "PhysicalLayer")
+		if err != nil {
+			return "", err
+		}
+		address, err := physical.Uint()
+		if err != nil || physical.Kind != "address" || layer.Kind != "string" || row.Provenance.ImageSHA256 == "" {
+			return "", fmt.Errorf("evidence lacks readable physical object coordinates")
+		}
+		return fmt.Sprintf("%s:physical:%s:0x%x", row.Provenance.ImageSHA256, layer.String(), address), nil
+	}
+
 	a, ok := row.Cells["Offset"]
 	if !ok || a.Kind != "address" || row.Provenance.ImageSHA256 == "" || row.Provenance.Layer == "" {
 		return "", fmt.Errorf("enumeration evidence lacks object address, image or layer")
@@ -205,7 +199,8 @@ func objectKey(row evidence.Row) (string, error) {
 	if _, err := a.Uint(); err != nil {
 		return "", err
 	}
-	return row.Provenance.ImageSHA256 + ":" + row.Provenance.Layer + ":" + a.String(), nil
+	address, _ := a.Uint()
+	return fmt.Sprintf("%s:virtual:%s:0x%x", row.Provenance.ImageSHA256, row.Provenance.Layer, address), nil
 }
 
 func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summary, err error) {
@@ -226,8 +221,16 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 		names["maps"] = "linux.maps"
 	}
 	order = append(order, "maps")
+	if os == "linux" {
+		names["psscan"] = "linux.psscan"
+		order = append(order, "psscan")
+	}
 	for _, key := range order {
-		res, runErr := e.Run(ctx, names[key], nil, engine.RunOptions{})
+		var parameters map[string]string
+		if key == "pslist" && os == "linux" {
+			parameters = map[string]string{"threads": "true"}
+		}
+		res, runErr := e.Run(ctx, names[key], parameters, engine.RunOptions{})
 		if runErr != nil {
 			failures[key] = runErr.Error()
 		} else {
@@ -257,7 +260,7 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 	}
 	b, _ := json.Marshal(summary.Tasks)
 	hash := sha256.Sum256(b)
-	task, err := e.Store.Begin(ctx, "triage:"+hex.EncodeToString(hash[:]), "triage", evidence.Provenance{ImageSHA256: e.Hash, Engine: version.Version, EngineBuild: e.Build, Plugin: "triage", Layer: e.Env.Physical.Name(), Parameters: map[string]string{"rules": "v1"}})
+	task, err := e.Store.Begin(ctx, "triage:"+hex.EncodeToString(hash[:]), "triage", evidence.Provenance{ImageSHA256: e.Hash, Engine: version.Version, EngineBuild: e.Build, Plugin: "triage", Layer: e.Env.Physical.Name(), Parameters: map[string]string{"rules": "v2"}})
 	if err != nil {
 		return summary, err
 	}
@@ -295,6 +298,28 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 				break
 			}
 		}
+		emit := func(row evidence.Row) error {
+			allowed, allowErr := e.Store.Allowed(ctx, rule.ID, row.Cells["Entity"].String())
+			if allowErr != nil {
+				return allowErr
+			}
+			if allowed {
+				return nil
+			}
+			if rule.Kind == "difference" {
+				row.Cells["Comparison"] = evidence.Value{Kind: "structure", Data: map[string]any{
+					"active_task": tasks[rule.Inputs[0]], "scanned_task": tasks[rule.Inputs[1]],
+					"coordinate_model": "same image and address space; physical coordinates when declared",
+				}}
+				row.Seal()
+			}
+			if appendErr := e.Store.Append(ctx, task.ID, []evidence.Row{row}); appendErr != nil {
+				return appendErr
+			}
+			check.Findings++
+			summary.Findings++
+			return nil
+		}
 		if available {
 			if rule.Kind == "ioc" || rule.Kind == "rwx" || rule.Kind == "deleted" && os == "linux" {
 				inputTasks, inputKey := iocTasks, "ioc"
@@ -309,26 +334,40 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 							err = readErr
 							break
 						}
-						evalErr := Evaluate(ctx, rule, map[string][]evidence.Row{inputKey: rows}, func(row evidence.Row) error {
-							allowed, allowErr := e.Store.Allowed(ctx, rule.ID, row.Cells["Entity"].String())
-							if allowErr != nil {
-								return allowErr
-							}
-							if allowed {
-								return nil
-							}
-							if appendErr := e.Store.Append(ctx, task.ID, []evidence.Row{row}); appendErr != nil {
-								return appendErr
-							}
-							check.Findings++
-							summary.Findings++
-							return nil
-						})
+						evalErr := Evaluate(ctx, rule, map[string][]evidence.Row{inputKey: rows}, emit)
 						if evalErr != nil {
 							err = evalErr
 							break
 						}
 						if len(rows) < 500 {
+							break
+						}
+					}
+					if err != nil {
+						break
+					}
+				}
+			} else if rule.Kind == "difference" {
+				check.State = "completed"
+				known := &differenceIndex{objects: map[string]bool{}}
+				for index, key := range rule.Inputs {
+					input := tasks[key]
+					for off := 0; ; off += 500 {
+						rows, readErr := e.Store.Query(ctx, evidence.Query{TaskID: input.ID, Offset: off, Limit: 500})
+						if readErr != nil {
+							err = readErr
+							break
+						}
+						if index == 0 {
+							for _, row := range rows {
+								if err = known.add(rule, row); err != nil {
+									break
+								}
+							}
+						} else {
+							err = evaluateDifferenceRows(ctx, rule, known, rows, emit)
+						}
+						if err != nil || len(rows) < 500 {
 							break
 						}
 					}

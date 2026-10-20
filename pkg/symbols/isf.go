@@ -137,12 +137,24 @@ func (e Enumeration) Names(value uint64) []string {
 
 type SymbolTable interface {
 	Lookup(string) (Symbol, error)
+	Names() []string
 	Type(string) (Type, error)
 	Digest() string
 	Metadata() map[string]json.RawMessage
 	PointerSize() int
 	Enumeration(string) (Enumeration, error)
 }
+
+// Names returns a stable snapshot for native symbol-index consumers/scanners.
+func (t *ISF) Names() []string {
+	names := make([]string, 0, len(t.Symbols))
+	for name := range t.Symbols {
+		names = append(names, name)
+	}
+	sort.Strings(names)
+	return names
+}
+
 type ISF struct {
 	Meta         map[string]json.RawMessage `json:"metadata"`
 	Bases        map[string]Type            `json:"base_types"`

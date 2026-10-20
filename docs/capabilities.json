@@ -2996,15 +2996,23 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Physical scheduler-pointer task candidates using exact task_struct layouts and little-endian 32/64-bit symbols. One bounded physical pass; PID/exit-state heuristics, coverage and read diagnostics are explicit. Parent pointers use the kernel address space.",
+      "native": "linux.psscan",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-x64",
+        "synthetic-linux-x86-pae",
+        "official-linux-sample-1",
+        "official-linux-sample-1-reencoded-avml"
+      ],
+      "comparison": "selected_321_tasks_match_six_fields_with_independent_RAW_scan_and_316_active_task_coordinates",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Real modern/32-bit acquisitions and full parameter/failure/version coverage pending",
+        "Scheduler pointer and PID/exit-state checks identify candidates, not proven processes; task inline fields are assumed physically contiguous",
+        "Default TID limit mirrors the reference (pid < 65535); max-pid can explicitly widen it. Stale/exiting candidates are not proof of hiding"
+      ],
+      "validation_record": "docs/linux-psscan.md"
     },
     {
       "id": "linux.pstree.PsTree",

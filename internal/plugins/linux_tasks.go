@@ -60,6 +60,16 @@ func linuxTaskRow(ctx context.Context, e plugin.Environment, task, leader, tid, 
 	}
 	row := processRow(e, task, tgid, name, ppid, start, pgd)
 	c := row.Cells
+	c["PhysicalLayer"] = evidence.Text(e.Physical.Name())
+	c["PhysicalOffset"] = evidence.Missing("physical_translation_unavailable", nil)
+	if layer, ok := e.Kernel.(*memory.Virtual); ok {
+		mapping, er := layer.Translator.Translate(ctx, task)
+		if er == nil {
+			c["PhysicalOffset"] = evidence.Address(mapping.Physical)
+		} else {
+			c["PhysicalOffset"] = evidence.Missing("physical_translation_unavailable", er)
+		}
+	}
 	c["DTB"] = evidence.Missing("use_PGDVirtual_to_resolve_physical_root", nil)
 	c["PGDVirtual"], c["StartTimeNS"] = pgd, start
 	c["Identity"], c["ProcessOffset"] = evidence.Text(identity), evidence.Address(leader)

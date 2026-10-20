@@ -84,7 +84,7 @@ def generate(source):
                "linux.lsmod.Lsmod": "linux.lsmod", "windows.threads.Threads": "windows.threads",
                "windows.vadinfo.VadInfo": "windows.vadinfo", "linux.proc.Maps": "linux.maps",
                "windows.dlllist.DllList": "windows.dlllist", "windows.pedump.PEDump": "windows.pedump",
-               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux", "linux.elfs.Elfs": "linux.elfs"}
+               "windows.cmdline.CmdLine": "windows.cmdline", "linux.psaux.PsAux": "linux.psaux", "linux.elfs.Elfs": "linux.elfs", "linux.psscan.PsScan": "linux.psscan"}
 
     def requirements(identifier, seen=None):
         seen = set() if seen is None else seen
@@ -123,6 +123,11 @@ def generate(source):
                               corpora=["synthetic-linux-x64", "synthetic-linux-clock-and-signal-threads", "official-linux-sample-1", "official-linux-sample-1-reencoded-avml"],
                               comparison="selected_ten_fields_match_133_processes_316_tasks_with_explicit_microsecond_rounding", validation_record="docs/linux-tasks.md",
                               gaps=["Real modern kernel/32-bit clock and thread layout matrix pending; modern paths have synthetic tests only", "ELF main-image extraction has selected legacy x64 validation only; timeline and damaged task-list bidirectional recovery remain pending", "Credential/clock read errors are retained per field; UID values are raw kernel IDs, not user namespace remapping"])
+        if identifier == "linux.psscan.PsScan":
+            plugins[-1].update(applicability="Physical scheduler-pointer task candidates using exact task_struct layouts and little-endian 32/64-bit symbols. One bounded physical pass; PID/exit-state heuristics, coverage and read diagnostics are explicit. Parent pointers use the kernel address space.",
+                              corpora=["synthetic-linux-x64", "synthetic-linux-x86-pae", "official-linux-sample-1", "official-linux-sample-1-reencoded-avml"],
+                              comparison="selected_321_tasks_match_six_fields_with_independent_RAW_scan_and_316_active_task_coordinates", validation_record="docs/linux-psscan.md",
+                              gaps=["Real modern/32-bit acquisitions and full parameter/failure/version coverage pending", "Scheduler pointer and PID/exit-state checks identify candidates, not proven processes; task inline fields are assumed physically contiguous", "Default TID limit mirrors the reference (pid < 65535); max-pid can explicitly widen it. Stale/exiting candidates are not proof of hiding"])
         if identifier == "linux.elfs.Elfs":
             plugins[-1].update(applicability="VMA-start ELF signatures in independent process spaces; strict bounded ELF32/64 headers for extraction. Page-rounded PT_LOAD concatenation uses actual mapped addresses by default, or the pinned reference base-plus-p_vaddr profile.",
                               corpora=["synthetic-linux-x64", "synthetic-elf32-64-endianness", "official-linux-sample-1"],

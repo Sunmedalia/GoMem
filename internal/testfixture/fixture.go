@@ -65,7 +65,7 @@ func Write(dir, platform string) (Fixture, error) {
 		t.Symbols["init_top_pgt"] = symbols.Symbol{Address: 0x1000}
 		t.Symbols["init_task"] = symbols.Symbol{Address: 0x9000}
 		t.Symbols["modules"] = symbols.Symbol{Address: 0xc000}
-		t.Types["task_struct"] = symbols.Type{Kind: "struct", Size: 128, Fields: map[string]symbols.Field{"tasks": field(0, strct("list_head")), "pid": field(16, base("u32")), "tgid": field(20, base("u32")), "comm": field(24, arr(16)), "real_parent": field(40, ptr), "start_time": field(48, base("u64")), "mm": field(56, ptr)}}
+		t.Types["task_struct"] = symbols.Type{Kind: "struct", Size: 144, Fields: map[string]symbols.Field{"sched_class": field(128, ptr), "exit_state": field(136, base("u32")), "tasks": field(0, strct("list_head")), "pid": field(16, base("u32")), "tgid": field(20, base("u32")), "comm": field(24, arr(16)), "real_parent": field(40, ptr), "start_time": field(48, base("u64")), "mm": field(56, ptr)}}
 		t.Types["list_head"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"next": field(0, ptr), "prev": field(8, ptr)}}
 		t.Types["mm_struct"] = symbols.Type{Kind: "struct", Size: 64, Fields: map[string]symbols.Field{"pgd": field(0, ptr), "mmap": field(8, ptr), "start_brk": field(16, base("u64")), "brk": field(24, base("u64")), "start_stack": field(32, base("u64")), "context": field(40, strct("mm_context_t")), "arg_start": field(48, ptr), "arg_end": field(56, ptr)}}
 		t.Types["mm_context_t"] = symbols.Type{Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"vdso": field(0, ptr)}}
@@ -105,6 +105,7 @@ func Write(dir, platform string) (Fixture, error) {
 			put(a+88, a)
 			list(a + 96)
 			put(a+112, uint64(i+1)*1000000000+1234567)
+			put(a+128, 0x8200)
 			for j, value := range []uint32{1000 + uint32(i), 100, 0, 0} {
 				binary.LittleEndian.PutUint32(data[0x1c800+i*32+j*4:], value)
 			}
@@ -114,6 +115,7 @@ func Write(dir, platform string) (Fixture, error) {
 		copy(data[0xd010:], "fixture_module")
 		put(0xd030, 0x10000)
 		put(0xd038, 4096)
+		t.Symbols["fair_sched_class"] = symbols.Symbol{Address: 0x8200}
 		t.Symbols["simple_dname"] = symbols.Symbol{Address: 0x8100}
 		t.Types["vm_area_struct"] = symbols.Type{Kind: "struct", Size: 64, Fields: map[string]symbols.Field{"vm_start": field(0, ptr), "vm_end": field(8, ptr), "vm_next": field(16, ptr), "vm_prev": field(24, ptr), "vm_mm": field(32, ptr), "vm_flags": field(40, base("u64")), "vm_pgoff": field(48, base("u64")), "vm_file": field(56, ptr)}}
 		t.Types["path"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"dentry": field(0, ptr), "mnt": field(8, ptr)}}

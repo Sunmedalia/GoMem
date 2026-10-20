@@ -112,5 +112,28 @@
     ],
     "elf_validation": "docs/linux-elf-validation.json",
     "original_images_reverified": true
+  },
+  "repeat_linux_psscan_2026_10_20": {
+    "engine_build_sha256": "362714aec688815e6c77b10b484bc0eeac56c0d1906cb1e9ada4fad20083914e",
+    "tests": [
+      {
+        "file": "kali.raw",
+        "plugin": "generic.info",
+        "rows": 130,
+        "state": "completed",
+        "engine_build_sha256": "362714aec688815e6c77b10b484bc0eeac56c0d1906cb1e9ada4fad20083914e",
+        "source_hash_reverified": true
+      },
+      {
+        "file": "linux-sample-1.bin.gz",
+        "plugin": "linux.pslist",
+        "rows": 133,
+        "state": "completed",
+        "engine_build_sha256": "362714aec688815e6c77b10b484bc0eeac56c0d1906cb1e9ada4fad20083914e",
+        "source_hash_reverified": true
+      }
+    ],
+    "scan_validation": "docs/linux-psscan-validation.json",
+    "original_images_reverified": true
   }
 }

@@ -1,0 +1,11 @@
+{
+  "native_record_type": {"field": "RecordType", "value": "task", "excluded_values": ["diagnostic", "scan_summary"]},
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "OFFSET (P)", "kind": "address"},
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "TID": {"native": "TID", "reference": "TID", "kind": "uint64"},
+    "PPID": {"native": "PPID", "reference": "PPID", "kind": "uint64"},
+    "Name": {"native": "Name", "reference": "COMM", "kind": "string"},
+    "ExitState": {"native": "ExitState", "reference": "EXIT_STATE", "kind": "string"}
+  }
+}

@@ -1,0 +1,587 @@
+{
+  "schema": "gomem.linux-task-scan-validation/v1",
+  "date": "2026-10-20",
+  "scope": "One legacy Debian x64 acquisition plus reencoded AVML; complete version and capability acceptance pending",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "engine_build_sha256": "362714aec688815e6c77b10b484bc0eeac56c0d1906cb1e9ada4fad20083914e",
+  "results": [
+    {
+      "profile": "raw",
+      "rows": 322,
+      "tasks": 321,
+      "state": "completed",
+      "entity_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "TID",
+          "PPID",
+          "Name",
+          "ExitState"
+        ],
+        "native_rows": 321,
+        "reference_rows": 321,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "1dba5a945382f6350cf1855f943a569545ce3ecca43a088b0efb458750277a6c",
+          "reference": "4ae8ab1159b9a583cdc21ea6f702f32a7467c402d8e8a6db65bbfdb07ca322e2",
+          "mapping": "1f036f72af2e073fa9db640be1a8663e50530ec4471121d4e6233865b962001b"
+        },
+        "native_input_rows": 322,
+        "native_non_entity_records": {
+          "scan_summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "task",
+          "excluded_values": [
+            "diagnostic",
+            "scan_summary"
+          ]
+        }
+      },
+      "reference_manifest_sha256": "17e1ad87323445c4c45e6962b2ffcd590536fb5f317e8d6dbbf99d3ede52dcd6",
+      "scan_summary": {
+        "accepted_candidates": "321",
+        "assumption": "task_struct inline fields are physically contiguous; signature and PID/exit-state checks are heuristic",
+        "candidate_read_failures": "0",
+        "complete": true,
+        "needles": [
+          {
+            "address": "0xffffffff81405120",
+            "symbols": [
+              "stop_sched_class"
+            ]
+          },
+          {
+            "address": "0xffffffff814051e0",
+            "symbols": [
+              "rt_sched_class"
+            ]
+          },
+          {
+            "address": "0xffffffff814052a0",
+            "symbols": [
+              "fair_sched_class"
+            ]
+          },
+          {
+            "address": "0xffffffff81405360",
+            "symbols": [
+              "idle_sched_class"
+            ]
+          }
+        ],
+        "pointer_hits": "373",
+        "ranges": [
+          {
+            "length": "536870912",
+            "start": "0x0"
+          }
+        ],
+        "rejected_exit_state": "33",
+        "rejected_pid": "19",
+        "rejected_underflow": "0"
+      },
+      "independent_RAW_oracle": {
+        "verified": true,
+        "scope": "selected RAW/Linux little-endian x64 only; scheduler/PID/exit-state checks remain heuristic",
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "symbols_sha256": "074c3c378fa9d31d8d52224b8deb80b6b036234617159bed78279b4b467e756a",
+        "engine_build_sha256": "362714aec688815e6c77b10b484bc0eeac56c0d1906cb1e9ada4fad20083914e",
+        "counts": {
+          "pointer_hits": 373,
+          "accepted_candidates": 321,
+          "rejected_exit_state": 33,
+          "rejected_pid": 19,
+          "rejected_underflow": 0
+        },
+        "active_task_coordinates_verified": 316,
+        "scanned_tasks": 321,
+        "valid_start_counters": 320,
+        "invalid_start_counters_retained_as_missing": 1,
+        "exit_states": {
+          "32": 5,
+          "0": 316
+        },
+        "absent_from_active": [
+          {
+            "physical_offset": "0x1ef5140",
+            "tid": "6949",
+            "exit_state": "32"
+          },
+          {
+            "physical_offset": "0x4404800",
+            "tid": "8577",
+            "exit_state": "32"
+          },
+          {
+            "physical_offset": "0x1c278780",
+            "tid": "8593",
+            "exit_state": "32"
+          },
+          {
+            "physical_offset": "0x1caf78c0",
+            "tid": "8572",
+            "exit_state": "32"
+          },
+          {
+            "physical_offset": "0x1d006040",
+            "tid": "8588",
+            "exit_state": "32"
+          }
+        ]
+      },
+      "triage": {
+        "checks": [
+          {
+            "rule": "hidden-process",
+            "state": "completed",
+            "findings": 5
+          },
+          {
+            "rule": "executable-writable-region",
+            "state": "completed",
+            "findings": 0
+          },
+          {
+            "rule": "module-enumeration-difference",
+            "state": "unavailable",
+            "reason": "native input plugin for modscan is not implemented",
+            "findings": 0
+          },
+          {
+            "rule": "deleted-or-memfd-execution",
+            "state": "completed",
+            "findings": 0
+          },
+          {
+            "rule": "persistence-process-link",
+            "state": "unavailable",
+            "reason": "native input plugin for persistence is not implemented",
+            "findings": 0
+          },
+          {
+            "rule": "literal-ioc",
+            "state": "unavailable",
+            "reason": "no --ioc literals configured",
+            "findings": 0
+          }
+        ],
+        "state": "incomplete",
+        "findings": 5,
+        "severity_counts": {
+          "info": 5
+        },
+        "all_sources_resolved": true,
+        "comparison_tasks_verified": true
+      },
+      "repeat_completed_producers_reused": true
+    },
+    {
+      "profile": "avml",
+      "rows": 322,
+      "tasks": 321,
+      "state": "completed",
+      "entity_comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "PID",
+          "TID",
+          "PPID",
+          "Name",
+          "ExitState"
+        ],
+        "native_rows": 321,
+        "reference_rows": 321,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "d970a1ce67d8a60a41e9f4fc29223118e954b5f1c02b4e175ad73dd70787c03b",
+          "reference": "4ae8ab1159b9a583cdc21ea6f702f32a7467c402d8e8a6db65bbfdb07ca322e2",
+          "mapping": "1f036f72af2e073fa9db640be1a8663e50530ec4471121d4e6233865b962001b"
+        },
+        "native_input_rows": 322,
+        "native_non_entity_records": {
+          "scan_summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "task",
+          "excluded_values": [
+            "diagnostic",
+            "scan_summary"
+          ]
+        }
+      },
+      "reference_manifest_sha256": "b3f26dd822e14749d9dcb5c21e373ba8685b77db75789c7d93d2087b3d178b16",
+      "scan_summary": {
+        "accepted_candidates": "321",
+        "assumption": "task_struct inline fields are physically contiguous; signature and PID/exit-state checks are heuristic",
+        "candidate_read_failures": "0",
+        "complete": true,
+        "needles": [
+          {
+            "address": "0xffffffff81405120",
+            "symbols": [
+              "stop_sched_class"
+            ]
+          },
+          {
+            "address": "0xffffffff814051e0",
+            "symbols": [
+              "rt_sched_class"
+            ]
+          },
+          {
+            "address": "0xffffffff814052a0",
+            "symbols": [
+              "fair_sched_class"
+            ]
+          },
+          {
+            "address": "0xffffffff81405360",
+            "symbols": [
+              "idle_sched_class"
+            ]
+          }
+        ],
+        "pointer_hits": "373",
+        "ranges": [
+          {
+            "length": "16777216",
+            "start": "0x0"
+          },
+          {
+            "length": "16777216",
+            "start": "0x1000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x2000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x3000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x4000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x5000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x6000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x7000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x8000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x9000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0xa000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0xb000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0xc000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0xd000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0xe000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0xf000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x10000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x11000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x12000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x13000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x14000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x15000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x16000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x17000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x18000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x19000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x1a000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x1b000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x1c000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x1d000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x1e000000"
+          },
+          {
+            "length": "16777216",
+            "start": "0x1f000000"
+          }
+        ],
+        "rejected_exit_state": "33",
+        "rejected_pid": "19",
+        "rejected_underflow": "0"
+      },
+      "triage": {
+        "checks": [
+          {
+            "rule": "hidden-process",
+            "state": "completed",
+            "findings": 5
+          },
+          {
+            "rule": "executable-writable-region",
+            "state": "completed",
+            "findings": 0
+          },
+          {
+            "rule": "module-enumeration-difference",
+            "state": "unavailable",
+            "reason": "native input plugin for modscan is not implemented",
+            "findings": 0
+          },
+          {
+            "rule": "deleted-or-memfd-execution",
+            "state": "completed",
+            "findings": 0
+          },
+          {
+            "rule": "persistence-process-link",
+            "state": "unavailable",
+            "reason": "native input plugin for persistence is not implemented",
+            "findings": 0
+          },
+          {
+            "rule": "literal-ioc",
+            "state": "unavailable",
+            "reason": "no --ioc literals configured",
+            "findings": 0
+          }
+        ],
+        "state": "incomplete",
+        "findings": 5,
+        "severity_counts": {
+          "info": 5
+        },
+        "all_sources_resolved": true,
+        "comparison_tasks_verified": true
+      },
+      "repeat_completed_producers_reused": true
+    }
+  ],
+  "bundle_validation": [
+    {
+      "profile": "raw-scan",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "7033c7dea6ee6d698933808017a397ccec03e8b7dc632b9f15f51431aa4e2b78"
+    },
+    {
+      "profile": "raw-active",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "a8dea7009ad2d8d977fe1b7c4b8b05543fa5f14762b7e7df0052e252678960d8"
+    },
+    {
+      "profile": "raw-findings",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "b3a08ad64756168c5868b1275f2e454c289733032750ccb4e1fd05c2b32d5396"
+    },
+    {
+      "profile": "avml-scan",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "c3c2b0204de914a457152ea85ec78c6f0fbb3604f7d72fabfc19d6f613d572f0"
+    },
+    {
+      "profile": "avml-active",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "9771178ab0aac6494d7f26d28e57a3c6588595fa7bb3cc9e40c84ed8e03fd6d1"
+    },
+    {
+      "profile": "avml-findings",
+      "report": {
+        "tasks": 1,
+        "members": 2,
+        "verified": true
+      },
+      "sha256": "46228f8935588dd56168f2317cf34948a9d546b7e97e10684a238fe1b3dc6c92"
+    }
+  ],
+  "avml_decoded_task_consistency_verified": true,
+  "original_images_sha256": {
+    "images/kali.raw": "cf04d76ab9177d7ee355cc96020d29ae194c065c692304ff25e594ab510c639d",
+    "images/linux-sample-1.bin.gz": "910f272e5eeecdbf229e648d7b136a6722a11a5000f3995647364339417dfddd"
+  },
+  "original_images_reverified_before_and_after": true,
+  "local_image_smoke": [
+    {
+      "file": "kali.raw",
+      "plugin": "generic.info",
+      "rows": 130,
+      "state": "completed",
+      "engine_build_sha256": "362714aec688815e6c77b10b484bc0eeac56c0d1906cb1e9ada4fad20083914e",
+      "source_hash_reverified": true
+    },
+    {
+      "file": "linux-sample-1.bin.gz",
+      "plugin": "linux.pslist",
+      "rows": 133,
+      "state": "completed",
+      "engine_build_sha256": "362714aec688815e6c77b10b484bc0eeac56c0d1906cb1e9ada4fad20083914e",
+      "source_hash_reverified": true
+    }
+  ],
+  "fuzz": {
+    "target": "FuzzPointerScan",
+    "duration": "10s",
+    "executions": 657479
+  },
+  "whole_case_exports": [
+    {
+      "profile": "raw",
+      "report": {
+        "tasks": 9,
+        "members": 10,
+        "verified": true
+      },
+      "sha256": "313a9733c0772bbee04c66e724efe4b1c1255db2b8d52543a1327be31ff8a0b1",
+      "finding_rows": 5,
+      "all_evidence_references_and_comparison_tasks_resolved": true
+    },
+    {
+      "profile": "avml",
+      "report": {
+        "tasks": 8,
+        "members": 9,
+        "verified": true
+      },
+      "sha256": "ab9a73a3729c2174c19cbbb30f55822a8ff65c583b3f0fde356358448e67a600",
+      "finding_rows": 5,
+      "all_evidence_references_and_comparison_tasks_resolved": true
+    }
+  ],
+  "checks": {
+    "go_test_all": "passed",
+    "go_vet_all": "passed",
+    "go_race_all": "passed",
+    "official_corpus_suite": "passed",
+    "python_tool_tests": 17,
+    "argument_oracle_cases": 428,
+    "capability_inventory": 195,
+    "fully_accepted_capabilities": 0,
+    "cross_builds": [
+      {
+        "name": "gomem-0.1.0-dev-windows-amd64.exe",
+        "sha256": "88d05378d686a0ac6bad27bea1d30cca98654adcf5886d561be9426831be8bea",
+        "target": "windows/amd64"
+      },
+      {
+        "name": "gomem-0.1.0-dev-windows-arm64.exe",
+        "sha256": "db1cd986931f33e415c95b7071f5d0310f5c4ab69772899c515d704385d6ab7b",
+        "target": "windows/arm64"
+      },
+      {
+        "name": "gomem-0.1.0-dev-linux-amd64",
+        "sha256": "d62473914c6b3d1e727ab8862b51a4ffde449df38b2c0395c393fc2f916e0565",
+        "target": "linux/amd64"
+      },
+      {
+        "name": "gomem-0.1.0-dev-linux-arm64",
+        "sha256": "e9b41e709cba0f904470eec6fd94d1dc070a91d15559e991771b3871d0590706",
+        "target": "linux/arm64"
+      },
+      {
+        "name": "gomem-0.1.0-dev-darwin-amd64",
+        "sha256": "881e676652f01a8619f2c8e9518723c7a9fbc76e62556506de36d8d00428087a",
+        "target": "darwin/amd64"
+      },
+      {
+        "name": "gomem-0.1.0-dev-darwin-arm64",
+        "sha256": "2839526a8b6676900adf65468a0012f8e836c488f6df7fac310f590c6e1db34f",
+        "target": "darwin/arm64"
+      }
+    ]
+  }
+}
