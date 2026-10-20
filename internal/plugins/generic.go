@@ -71,6 +71,7 @@ func Register(r *plugin.Registry) error {
 	specs = append(specs, windowsHandlePlugins()...)
 	specs = append(specs, windowsSSDTPlugins()...)
 	specs = append(specs, windowsDriverIRPPlugins()...)
+	specs = append(specs, windowsDriverModulePlugins()...)
 	specs = append(specs, windowsSymlinkScanPlugins()...)
 	specs = append(specs, windowsModScanPlugins()...)
 	specs = append(specs, linuxELFPlugins()...)

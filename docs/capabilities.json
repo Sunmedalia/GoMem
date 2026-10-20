@@ -6115,7 +6115,7 @@
       "corpora": [],
       "comparison": "not_run",
       "gaps": [
-        "Native implementation and validation pending"
+        "Deprecated alias of windows.malware.drivermodule.DriverModule; native command is windows.drivermodule"
       ]
     },
     {
@@ -7261,15 +7261,23 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "DRIVER_OBJECT entries from the same Dri\\xf6 and Driv pool scan and DriverStart rule as windows.driverirp. A masked start of zero is kept. Any other masked start at or below the masked MmSystemRangeStart is omitted. Modules come from PsLoadedModuleList. A canonical start inside any loaded module, using base <= address <= base+size, is a normal driver and is omitted. The three names are the object-header name, DriverExtension.ServiceKeyName, and the embedded DriverName. Empty strings and invalid addresses are unavailable. A read error is removed from the compared cell and kept on DriverNameError, ServiceKeyError, or NameError. A driver whose three names are all unavailable is omitted. Known Exception is true only when the header name is exactly ACPI_HAL, PnpManager, RAW, WMIxWDM, Win32k, or Fs_Rec. The service key and alternative name do not select that flag. Native addresses stay canonical. Reference offsets drop the high bits, so Offset is compared after a low-48 mask. The summary row is not a hidden driver. windows.drivermodule.DriverModule is only the deprecated upstream alias.",
+      "native": "windows.drivermodule",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_1_row_matches_offset_known_exception_and_names",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. 142 drivers pass the start check, 141 starts fall inside a loaded module, and the one emitted driver is RAW with start zero. Its service key is unavailable and Known Exception is true",
+        "The other five built-in names are inside loaded modules on this image and are not emitted. 804 candidates failed the Driver type check. No start was unreadable and no passed driver lacked all three names",
+        "32-bit images have no corpus differential. The synthetic fixture covers a zero start, an in-module start, an outside start, an unnamed driver, a non-canonical user pointer, and a known name that appears only as the service key",
+        "Reference offsets omit the canonical high bits. The comparison masks both sides to the low 48 bits",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-drivermodule.md"
     },
     {
       "id": "windows.malware.hollowprocesses.HollowProcesses",
