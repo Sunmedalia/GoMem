@@ -1,0 +1,13 @@
+{
+  "fields": {
+    "Index": {"native": "Index", "reference": "Index", "kind": "uint64"},
+    "Address": {"native": "Address", "reference": "Address", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Module": {"native": "Module", "reference": "Module", "kind": "string"},
+    "Symbol": {"native": "Symbol", "reference": "Symbol", "kind": "string", "missing_reasons": ["not_available"]}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["service"],
+    "excluded_values": ["summary"]
+  }
+}

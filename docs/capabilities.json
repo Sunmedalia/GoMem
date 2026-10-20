@@ -10262,15 +10262,24 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Native service table from KiServiceTable and the signed 32-bit KiServiceLimit. There are no parameters. Modules come from PsLoadedModuleList in list order. An unreadable BaseDllName drops that module. An unreadable DllBase or SizeOfImage fails the task. The module name is os.path.splitext(BaseDllName)[0], and a repeated stem fails the task. On 64-bit, each entry is a signed 32-bit value whose low 4 bits are discarded with an arithmetic shift; the remainder is a displacement from KiServiceTable and may be negative. On 32-bit, each entry is the absolute unsigned pointer. A module contains an address when base <= address <= base+size, including the byte one past the image. Every loaded module is checked, so overlapping modules emit more than one row. Symbol names come from the kernel symbol table at address-module.base, exact matches only, in symbol-name order. The displayed name is the second bang-separated piece of table!name. No symbol is not_available without an error. An address outside every module emits no row. A negative limit or an unreadable entry fails the task. Native addresses stay canonical. Reference addresses drop the high bits, so Address is compared after a low-48 mask. The summary row is not a service.",
+      "native": "windows.ssdt",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_783_rows_match_index_address_module_and_symbol",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has 473 services and 783 rows, all in ntoskrnl, with no address outside a module and no missing symbol",
+        "176 modules were loaded. Eighteen service addresses have more than one kernel symbol, and those names stay in symbol-name order",
+        "32-bit images are covered by a synthetic absolute-pointer fixture only",
+        "Win32k and KeServiceDescriptorTableShadow are not read. The pinned plugin does not read them either",
+        "Reference addresses omit the canonical high bits. The comparison masks both sides to the low 48 bits",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-ssdt.md"
     },
     {
       "id": "windows.strings.Strings",
