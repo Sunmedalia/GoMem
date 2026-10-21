@@ -142,9 +142,9 @@ bin/gomem analyze windows.pslist \
 
 支持 RAW、LiME v1、AVML v2 Snappy 帧、具有物理 `PT_LOAD` 的 ELF core，以及 Windows 32/64 位完整转储与 bitmap 转储。AVML 按需解码、核验帧 CRC 和长度尾部，使用有界随机读取缓存；[适用条件与验证](docs/avml.md)。其他已识别的容器会明确拒绝；通用 ELF 不代表 Xen 格式已实现。
 
-支持 x86、PAE、四级 x64 页表、4KiB 页及相应大页。Windows 支持镜像中仍驻留的 transition 页，保留权限未知状态；外部交换页、prototype 及未支持的非驻留编码返回读取错误。输入以只读方式打开，按块散列，检查修改时间与大小变化。分析期间仍应保持采集文件不可变。
+支持 x86、PAE、四级 x64 页表，以及 Linux ARM64 的 4KiB/48 位四级页表（4KiB 页、2MiB/1GiB 块）。ARM64 从精确符号表的 `metadata.zero` 识别架构及页配置，不支持的配置明确报错。Windows 支持镜像中仍驻留的 transition 页，保留权限未知状态；外部交换页、prototype 及未支持的非驻留编码返回读取错误。输入以只读方式打开，按块散列，检查修改时间与大小变化。分析期间仍应保持采集文件不可变。
 
-新增镜像识别与本地库：`gomem images inspect memory.raw` 可直接获取 Windows/Linux 内核身份候选，`gomem symbols match memory.raw --download` 自动匹配并逐项询问是否下载。`gomem tui` 无需预先指定镜像即可管理 `images/` 和 `sysmbols/` 内的本地文件，支持导入、重命名、确认删除、选择符号及进入分析。见 [本地库与符号匹配](docs/local-library.md)。
+新增镜像识别与本地库：`gomem images inspect memory.raw` 可直接获取 Windows/Linux 内核身份候选，`gomem symbols match memory.raw --offline` 可直接匹配本地符号，默认先查本地、未匹配再查远程；`--download` 逐项询问是否下载。`gomem tui` 无需预先指定镜像即可管理 `images/` 和 `sysmbols/` 内的本地文件，支持导入、重命名、确认删除、选择符号及进入分析。见 [本地库与符号匹配](docs/local-library.md)。
 
 符号支持 ISF JSON、gzip、xz、ZIP 中的压缩成员，例如 `symbols.zip#linux/kernel.json.xz`。解压限制为 128MiB，xz 字典上限 64MiB。Linux 在目标虚拟地址比对完整 banner；Windows 从内存中 PE debug directory 比对 PDB 名称、GUID 和 Age。[上游符号规则](https://volatility3.readthedocs.io/en/stable/symbol-tables.html)
 
@@ -161,7 +161,7 @@ bin/gomem analyze linux.pslist --image memory.raw --case ./case-001 --dtb 0x1230
 
 默认读取 `CASE/symbols/index.json`，也可用 `--symbol-index INDEX`；`--symbols` 优先。索引核验完整表摘要，拒绝过期来源和多个不同表同时匹配。Windows 仍需 `--kernel-base`。索引不会根据文件名猜测版本。
 
-已有精确符号时，支持部分 Linux x64 内核的 DTB 自动发现：从物理 banner 和初始页表符号的相对位置生成候选，同时验证页表根自身映射和完整 banner。显式 `--dtb` 优先；虚拟 KASLR slide 仍需 `--kernel-slide`。`doctor --image ... --symbols ...` 显示发现依据。[适用条件与验证](docs/linux-discovery.md)
+已有精确符号时，支持部分 Linux x64/ARM64 内核的 DTB 自动发现：从物理 banner 和初始页表符号的相对位置生成候选，同时验证页表根自身映射和完整 banner。显式 `--dtb` 优先；虚拟 KASLR slide 仍需 `--kernel-slide`。`doctor --image ... --symbols ...` 显示发现依据。[适用条件与验证](docs/linux-discovery.md)
 
 Windows 在已提供 DTB 和内核基址时可自动获取缺失符号：从目标 PE 读取 PDB 身份，在 Microsoft HTTPS 符号服务器下载并原生转换，写入案件的 `symbols/windows` 缓存。`--offline` 禁止网络并允许验证后的缓存复用；也可用 `--symbol-cache`、`--symbol-server` 指定缓存和 HTTPS 服务器。[自动获取与缓存](docs/pdb-symbols.md)
 

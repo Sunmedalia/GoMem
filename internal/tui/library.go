@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 
@@ -21,6 +22,9 @@ import (
 
 // Workspace owns the engine lifetime and permits library use without an image.
 type Workspace struct {
+	local         library.LocalResult
+	localCursor   int
+	remoteStatus  string
 	ctx           context.Context
 	config        engine.Config
 	library       library.Library
@@ -59,13 +63,15 @@ type libraryFilesMsg struct {
 }
 
 type libraryMsg struct {
-	cancel  context.CancelFunc
-	probe   *library.Probe
-	matches []library.Candidate
-	text    string
-	path    string
-	eng     *engine.Engine
-	err     error
+	local        *library.LocalResult
+	remoteStatus string
+	cancel       context.CancelFunc
+	probe        *library.Probe
+	matches      []library.Candidate
+	text         string
+	path         string
+	eng          *engine.Engine
+	err          error
 }
 
 func NewWorkspace(ctx context.Context, config engine.Config, l library.Library) *Workspace {
@@ -93,8 +99,7 @@ func (w *Workspace) Init() tea.Cmd {
 	if w.image != "" {
 		path := w.image
 		return tea.Batch(w.load(), w.task(func(ctx context.Context) libraryMsg {
-			p, err := library.ProbeFile(ctx, path)
-			return libraryMsg{probe: &p, err: err}
+			return probeLocalImage(ctx, w.library, path)
 		}))
 	}
 	return w.load()
@@ -127,11 +132,6 @@ func (w *Workspace) task(fn func(context.Context) libraryMsg) tea.Cmd {
 		return result
 	}
 }
-func (w *Workspace) show(value any) {
-	b, _ := json.MarshalIndent(value, "", "  ")
-	w.detail.SetContent(commandText(string(b)))
-	w.detail.GotoTop()
-}
 func (w *Workspace) inspect() tea.Cmd {
 	name, ok := w.selected()
 	if !ok {
@@ -142,12 +142,17 @@ func (w *Workspace) inspect() tea.Cmd {
 		w.image = path
 		w.probe = library.Probe{}
 		w.matches = nil
+		w.local = library.LocalResult{}
+		w.remoteStatus = ""
 		w.config.Symbols = ""
 		w.status = "Scanning image for resident kernel identities… ctrl+x cancels"
 		return w.task(func(ctx context.Context) libraryMsg {
-			p, err := library.ProbeFile(ctx, path)
-			return libraryMsg{probe: &p, err: err}
+			return probeLocalImage(ctx, w.library, path)
 		})
+	}
+	if library.IsSourceRecord(path) {
+		w.status = "This .source.json file is provenance only; import the full ISF or vmlinux symbol file"
+		return nil
 	}
 	return w.task(func(ctx context.Context) libraryMsg {
 		t, err := symbols.LoadContext(ctx, path)
@@ -202,14 +207,32 @@ func (w *Workspace) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 		if x.probe != nil {
 			w.probe = *x.probe
-			w.show(w.probe)
-			w.status = "Kernel identity scan complete. m matches download URLs; o opens analysis."
+		}
+		if x.local != nil {
+			w.local = *x.local
+			w.localCursor = 0
 		}
 		if x.matches != nil {
 			w.matches = x.matches
 			w.matchCursor = 0
-			w.show(w.matches)
-			w.status = fmt.Sprintf("%d exact symbol URL(s). [ / ] selects a candidate; d asks to download. No files downloaded.", len(w.matches))
+		}
+		if x.remoteStatus != "" {
+			w.remoteStatus = x.remoteStatus
+		}
+		if x.probe != nil || x.local != nil || x.matches != nil {
+			if w.config.Symbols == "" {
+				if path, err := w.local.Unique(); err == nil {
+					w.config.Symbols = path
+				}
+			}
+			w.showMatches()
+			w.status = fmt.Sprintf("%d local table(s), %d local diagnostic(s), %d remote URL(s). s selects local; d confirms download.", len(w.local.Matches), len(w.local.Diagnostics), len(w.matches))
+			if len(w.local.Matches) == 0 && len(w.local.Diagnostics) > 0 {
+				w.status += " " + w.local.Diagnostics[0].Status + ": " + w.local.Diagnostics[0].Message
+			}
+			if w.remoteStatus != "" {
+				w.status += " " + w.remoteStatus
+			}
 		}
 		if x.text != "" {
 			w.detail.SetContent(commandText(x.text))
@@ -298,12 +321,13 @@ func (w *Workspace) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					w.status = err.Error()
 				} else {
 					w.status = "Removed " + name
-					if w.library.Path(w.kind, name) == w.image {
+					if sameLibraryPath(w.library.Path(w.kind, name), w.image) {
 						w.image = ""
 						w.probe = library.Probe{}
+						w.local = library.LocalResult{}
 						w.matches = nil
 					}
-					if w.library.Path(w.kind, name) == w.config.Symbols {
+					if sameLibraryPath(w.library.Path(w.kind, name), w.config.Symbols) {
 						w.config.Symbols = ""
 					}
 				}
@@ -338,10 +362,10 @@ func (w *Workspace) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 						w.status = err.Error()
 					} else {
 						old, path := w.library.Path(w.kind, name), w.library.Path(w.kind, value)
-						if w.image == old {
+						if sameLibraryPath(w.image, old) {
 							w.image = path
 						}
-						if w.config.Symbols == old {
+						if sameLibraryPath(w.config.Symbols, old) {
 							w.config.Symbols = path
 						}
 						w.status = "Renamed " + name
@@ -410,16 +434,21 @@ func (w *Workspace) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 		case "enter":
 			return w, w.inspect()
-		case "m":
-			if len(w.probe.Identities) == 0 {
-				w.status = "Inspect an image with enter first; no kernel identity available"
+		case "m", "l", "M":
+			return w, w.matchSymbols(x.String() == "l", x.String() == "M")
+		case "<":
+			w.localCursor = max(0, w.localCursor-1)
+		case ">":
+			w.localCursor = min(max(0, len(w.local.Matches)-1), w.localCursor+1)
+		case "s":
+			if len(w.local.Matches) == 0 {
+				w.status = "No matching local table; press l to scan sysmbols/"
 				return w, nil
 			}
-			p, remote := w.probe, library.Remote{Offline: w.config.Offline}
-			w.status = "Matching exact kernel identities…"
+			entry := w.local.Matches[w.localCursor].Table
 			return w, w.task(func(ctx context.Context) libraryMsg {
-				matches, err := remote.Lookup(ctx, p)
-				return libraryMsg{matches: matches, err: err}
+				_, err := symbols.LoadEntry(ctx, entry)
+				return libraryMsg{path: entry.Location, err: err}
 			})
 		case "d":
 			if len(w.matches) > 0 {
@@ -477,28 +506,16 @@ func (w *Workspace) openAnalysis() tea.Cmd {
 	}
 	w.status = "Opening analysis with local symbols…"
 	return w.task(func(ctx context.Context) libraryMsg {
-		if c.Symbols == "" && len(p.Identities) == 1 {
-			files, err := l.List(library.Symbols)
+		if c.Symbols == "" && len(p.Identities) > 0 {
+			local, err := l.MatchLocal(ctx, p)
 			if err != nil {
 				return libraryMsg{err: err}
 			}
-			matches := map[string]string{}
-			for _, file := range files {
-				path := l.Path(library.Symbols, file.Name)
-				t, err := symbols.LoadContext(ctx, path)
-				if err != nil {
-					return libraryMsg{err: fmt.Errorf("inspect local symbols %s: %w", file.Name, err)}
-				}
-				if p.Identities[0].Matches(t) {
-					matches[t.Digest()] = path
-				}
+			path, err := local.Unique()
+			if err != nil {
+				return libraryMsg{err: err}
 			}
-			if len(matches) > 1 {
-				return libraryMsg{err: fmt.Errorf("multiple different local tables match; select a symbol table with enter")}
-			}
-			for _, path := range matches {
-				c.Symbols = path
-			}
+			c.Symbols = path
 		}
 		e, err := engine.Open(ctx, c)
 		return libraryMsg{eng: e, err: err}
@@ -512,9 +529,22 @@ func (w *Workspace) View() tea.View {
 	var b strings.Builder
 	fmt.Fprintf(&b, "GoMem · LOCAL LIBRARY · %s/\n", render.Safe(w.library.Directory(w.kind)))
 	b.WriteString("tab images/sysmbols · i import · r rename · x delete · enter inspect/select · R refresh\n")
-	b.WriteString("m match URLs · [/] candidate · d download · o analysis · a resume · c close analysis · L library (in analysis)\n")
+	b.WriteString("l local · m local first · M remote · </> local candidate · s select · [/] remote · d download\n")
 	fmt.Fprintf(&b, "Image: %s\nSymbols: %s\n", render.Safe(w.image), render.Safe(w.config.Symbols))
-	rows := max(2, w.height-w.detail.Height()-10)
+	summaryRows := 0
+	if len(w.local.Matches) > 0 {
+		summaryRows++
+	}
+	if len(w.local.Diagnostics) > 0 {
+		summaryRows++
+	}
+	if len(w.matches) > 0 {
+		summaryRows++
+	}
+	if w.edit != "" {
+		summaryRows++
+	}
+	rows := max(1, w.height-w.detail.Height()-9-summaryRows)
 	start := max(0, w.cursor-rows+1)
 	for i := start; i < min(len(w.files), start+rows); i++ {
 		marker := "  "
@@ -525,6 +555,12 @@ func (w *Workspace) View() tea.View {
 	}
 	if len(w.files) == 0 {
 		b.WriteString("  No local files. Press i to import a copy.\n")
+	}
+	if len(w.local.Matches) > 0 {
+		fmt.Fprintf(&b, "Local table %d/%d: %s\n", w.localCursor+1, len(w.local.Matches), render.Safe(w.local.Matches[w.localCursor].Table.Location))
+	}
+	if len(w.local.Diagnostics) > 0 {
+		fmt.Fprintf(&b, "Local diagnostics: %d (source-only records / errors; see details)\n", len(w.local.Diagnostics))
 	}
 	if len(w.matches) > 0 {
 		fmt.Fprintf(&b, "Download candidate %d/%d: %s\n", w.matchCursor+1, len(w.matches), render.Safe(w.matches[w.matchCursor].Name))
@@ -538,7 +574,7 @@ func (w *Workspace) View() tea.View {
 	if w.edit != "" {
 		b.WriteString(w.edit + ": " + w.input.View() + "\n")
 	}
-	b.WriteString("↑/↓ select · ctrl+arrows scroll details · ctrl+x cancel · q quit")
+	b.WriteString("o analysis · a resume · c close · L library in analysis · ctrl+arrows detail · ctrl+x cancel · q quit")
 	lines := strings.Split(b.String(), "\n")
 	for i := range lines {
 		lines[i] = ansi.Truncate(lines[i], max(10, w.width), "…")
@@ -601,6 +637,8 @@ func (w *Workspace) syncChildEngine() {
 	w.engine = current.engine
 	w.probe = library.Probe{}
 	w.matches = nil
+	w.local = library.LocalResult{}
+	w.remoteStatus = ""
 	if current.engine != nil {
 		offline := w.config.Offline
 		w.config = current.engine.Config
@@ -609,4 +647,69 @@ func (w *Workspace) syncChildEngine() {
 	} else {
 		w.image = ""
 	}
+}
+
+func probeLocalImage(ctx context.Context, l library.Library, path string) libraryMsg {
+	p, err := library.ProbeFile(ctx, path)
+	if err != nil {
+		return libraryMsg{err: err}
+	}
+	local, err := l.MatchLocal(ctx, p)
+	return libraryMsg{probe: &p, local: &local, err: err}
+}
+func (w *Workspace) showMatches() {
+	// Keep the OS and observed identities at the top of the detail viewport.
+	probe, _ := json.MarshalIndent(w.probe, "", "  ")
+	matching, _ := json.MarshalIndent(struct {
+		Local        library.LocalResult `json:"local"`
+		Remote       []library.Candidate `json:"remote"`
+		RemoteStatus string              `json:"remote_status"`
+	}{w.local, w.matches, w.remoteStatus}, "", "  ")
+	w.detail.SetContent(commandText(string(probe) + "\n\n" + string(matching)))
+	w.detail.GotoTop()
+}
+func (w *Workspace) matchSymbols(localOnly, forceRemote bool) tea.Cmd {
+	if len(w.probe.Identities) == 0 {
+		w.status = "Inspect an image with enter first; no kernel identity available"
+		return nil
+	}
+	p, l, offline := w.probe, w.library, w.config.Offline
+	w.status = "Matching local kernel identities… ctrl+x cancels"
+	return w.task(func(ctx context.Context) libraryMsg {
+		local, err := l.MatchLocal(ctx, p)
+		if err != nil {
+			return libraryMsg{err: err}
+		}
+		msg := libraryMsg{local: &local, matches: []library.Candidate{}, remoteStatus: "Remote not queried: matching local tables available"}
+		if localOnly || offline {
+			msg.remoteStatus = "Local matching only"
+			return msg
+		}
+		if len(local.Matches) > 0 && !forceRemote {
+			return msg
+		}
+		matches, err := (library.Remote{}).Lookup(ctx, p)
+		if ctx.Err() != nil {
+			return libraryMsg{err: ctx.Err()}
+		}
+		if err != nil {
+			msg.remoteStatus = "Remote lookup failed: " + err.Error()
+			return msg
+		}
+		msg.matches = matches
+		msg.remoteStatus = "Remote lookup complete"
+		return msg
+	})
+}
+
+func sameLibraryPath(a, b string) bool {
+	if a == "" || b == "" {
+		return false
+	}
+	left, err := filepath.Abs(a)
+	if err != nil {
+		return false
+	}
+	right, err := filepath.Abs(b)
+	return err == nil && left == right
 }

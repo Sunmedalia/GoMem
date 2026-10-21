@@ -4,6 +4,7 @@ import (
 	"archive/zip"
 	"bytes"
 	"compress/gzip"
+	"encoding/json"
 	"os"
 	"path/filepath"
 	"testing"
@@ -81,4 +82,24 @@ func FuzzISF(f *testing.F) {
 		}
 		_, _ = symbols.Parse(b)
 	})
+}
+
+func TestARM64MetadataGeometry(t *testing.T) {
+	for _, tc := range []struct {
+		metadata string
+		valid    bool
+	}{
+		{`{"architecture":"aarch64","page_shift":12,"va_bits":48}`, true},
+		{`{"architecture":"aarch64","page_shift":16,"va_bits":48}`, false},
+		{`{"architecture":"aarch64","page_shift":12,"va_bits":52}`, false},
+		{`{"architecture":"aarch64"}`, false},
+	} {
+		table := &symbols.ISF{Meta: map[string]json.RawMessage{"zero": json.RawMessage(tc.metadata)}, Bases: map[string]symbols.Type{"pointer": {Size: 8}}}
+		if table.Architecture() != "aarch64" {
+			t.Fatal(table.Architecture())
+		}
+		if err := table.ValidateARM64(); (err == nil) != tc.valid {
+			t.Fatal(tc, err)
+		}
+	}
 }

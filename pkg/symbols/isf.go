@@ -313,6 +313,12 @@ func (t *ISF) Architecture() string {
 	if t.architecture != "" {
 		return t.architecture
 	}
+	var zero struct {
+		Architecture string `json:"architecture"`
+	}
+	if json.Unmarshal(t.Meta["zero"], &zero) == nil && zero.Architecture != "" {
+		return zero.Architecture
+	}
 	var windows struct {
 		PDB struct {
 			Machine uint16 `json:"machine_type"`
@@ -548,4 +554,22 @@ func (r contextReader) Read(p []byte) (int, error) {
 		return 0, err
 	}
 	return r.r.Read(p)
+}
+
+// ValidateARM64 refuses geometries the native walker cannot interpret.
+func (t *ISF) ValidateARM64() error {
+	var config struct {
+		PageShift int `json:"page_shift"`
+		VABits    int `json:"va_bits"`
+	}
+	if err := json.Unmarshal(t.Meta["zero"], &config); err != nil {
+		return fmt.Errorf("ARM64 requires symbol metadata.zero page_shift=12 and va_bits=48: %w", err)
+	}
+	if config.PageShift != 12 || config.VABits != 48 {
+		return fmt.Errorf("unsupported ARM64 geometry: page_shift=%d va_bits=%d (requires 12/48)", config.PageShift, config.VABits)
+	}
+	if t.PointerSize() != 8 {
+		return fmt.Errorf("ARM64 requires 64-bit symbols")
+	}
+	return nil
 }

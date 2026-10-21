@@ -74,7 +74,7 @@ func processMemory(ctx context.Context, e plugin.Environment, process, mm uint64
 		}
 		root = translated.Physical
 	}
-	translator, err := memory.NewIntelForOS(e.Physical, root, e.Architecture, e.OS, 1024)
+	translator, err := memory.NewTranslatorForOS(e.Physical, root, e.Architecture, e.OS, 1024)
 	if err != nil {
 		return nil, err
 	}

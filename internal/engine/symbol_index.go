@@ -32,11 +32,14 @@ func (e *Engine) selectSymbols(ctx context.Context, path string) (*symbols.ISF, 
 		if err = ctx.Err(); err != nil {
 			return nil, none, err
 		}
-		if e.Config.OS != "" && e.Config.OS != candidate.OS || (e.Config.Arch == "x64") != (candidate.PointerSize == 8) {
+		if e.Config.OS != "" && e.Config.OS != candidate.OS || (e.Config.Arch == "x64" || e.Config.Arch == "arm64") != (candidate.PointerSize == 8) {
 			continue
 		}
 		arch := candidate.Architecture
-		if arch != "" && arch != "EM_X86_64" && arch != "EM_386" && arch != "x86_64" && arch != "i386" {
+		if !architectureMatches(arch, e.Config.Arch) {
+			continue
+		}
+		if e.Config.Arch == "arm64" && candidate.OS != "linux" {
 			continue
 		}
 		matched := false
@@ -85,6 +88,11 @@ func (e *Engine) selectSymbols(ctx context.Context, path string) (*symbols.ISF, 
 		table, err := symbols.LoadEntry(ctx, selected)
 		if err != nil {
 			return nil, none, fmt.Errorf("indexed symbols: %w", err)
+		}
+		if e.Config.Arch == "arm64" {
+			if err := table.ValidateARM64(); err != nil {
+				return nil, none, err
+			}
 		}
 		return table, selected, nil
 	}

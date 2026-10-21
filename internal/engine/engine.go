@@ -105,7 +105,7 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 			rootFromCrash = true
 		}
 	}
-	if c.Arch != "x64" && c.Arch != "x86" && c.Arch != "pae" {
+	if c.Arch != "x64" && c.Arch != "x86" && c.Arch != "pae" && c.Arch != "arm64" {
 		return nil, fmt.Errorf("unsupported architecture %q", c.Arch)
 	}
 	hash, err := Hash(ctx, src)
@@ -150,6 +150,23 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 		if e != nil {
 			return nil, fmt.Errorf("symbols: %w", e)
 		}
+		if arch := table.Architecture(); arch == "aarch64" || arch == "arm64" || arch == "EM_AARCH64" {
+			if autoArch {
+				c.Arch = "arm64"
+				eng.Config.Arch = c.Arch
+				eng.Env.Architecture = c.Arch
+			} else if c.Arch != "arm64" {
+				return nil, fmt.Errorf("ARM64 symbols disagree with --arch %s", c.Arch)
+			}
+		}
+		if c.Arch == "arm64" {
+			if !architectureMatches(table.Architecture(), c.Arch) {
+				return nil, fmt.Errorf("symbol architecture %s disagrees with ARM64", table.Architecture())
+			}
+			if err := table.ValidateARM64(); err != nil {
+				return nil, err
+			}
+		}
 		eng.Env.Symbols = table
 		if eng.Env.OS == "" {
 			if _, ok := table.Meta["windows"]; ok {
@@ -167,7 +184,7 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 		if e != nil {
 			return nil, fmt.Errorf("--dtb: %w", e)
 		}
-		tr, e := memory.NewIntelForOS(physical, root, c.Arch, eng.Env.OS, 1024)
+		tr, e := memory.NewTranslatorForOS(physical, root, c.Arch, eng.Env.OS, 1024)
 		if e != nil {
 			return nil, e
 		}
@@ -328,16 +345,16 @@ func (e *Engine) Check(ctx context.Context, s plugin.Spec) error {
 	ptr := e.Env.Symbols.PointerSize()
 	if native, ok := e.Env.Symbols.(interface{ Architecture() string }); ok {
 		arch := native.Architecture()
-		if arch != "" && arch != "EM_X86_64" && arch != "EM_386" && arch != "x86_64" && arch != "i386" {
+		if !architectureMatches(arch, e.Config.Arch) {
 			return fmt.Errorf("native debug architecture %s has no %s translator", arch, e.Config.Arch)
 		}
 	}
 	if pointer, err := e.Env.Symbols.Type("pointer"); err != nil {
 		return err
 	} else if pointer.Endian != "" && pointer.Endian != "little" {
-		return fmt.Errorf("Intel translation requires little-endian symbols")
+		return fmt.Errorf("translation requires little-endian symbols")
 	}
-	if (e.Config.Arch == "x64") != (ptr == 8) {
+	if (e.Config.Arch == "x64" || e.Config.Arch == "arm64") != (ptr == 8) {
 		return fmt.Errorf("architecture and symbol pointer size disagree")
 	}
 	return e.verifySymbols(ctx)

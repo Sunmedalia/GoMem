@@ -687,7 +687,7 @@
       ],
       "comparison": "96_pinned_real_object_cases_selected_four_columns_match_144_native_paging_cases_Debian_unsupported_negative_only",
       "gaps": [
-        "No positive real eBPF corpus: Debian 3.2 lacks prog_idr and both engines explicitly reject it. Kali ARM64 virtual translation remains unavailable; modern/real x86/PAE and full version/parameter acceptance pending",
+        "No positive real eBPF corpus: Debian 3.2 lacks prog_idr and both engines explicitly reject it. Kali ARM64 translation is available, but this Intel-only plugin remains unvalidated on ARM64; modern/real x86/PAE and full version/parameter acceptance pending",
         "Legacy pinned IDR.idr_max selects only IDs 0..15; native preserves all IDs below cur and marks Selected for the pinned subset. Tagged entries remain diagnostics, not programs. The fixed name conversion truncates at NUL or the first Unicode replacement character; original bytes and decoded text remain available",
         "Unavailable optional metadata remains typed missing; actual index/metadata read errors, unknown enum values, invalid layouts, cycles and exhausted bounds fail tasks with partial evidence. Failed tasks are not cached. These explicit failures differ from silent baseline omissions; full damaged-image and renderer acceptance pending"
       ],
@@ -1288,7 +1288,7 @@
         "Kernel aliases use lexicographic first exact-address name; module symbols use first exact ELF entry within indexes 0..4096. No nearest-symbol or interior-function assertion; qualifier splitting preserves the fixed helper's first component after !",
         "Native pointer target probes read one byte while the fixed Pointer.is_readable uses its declared subtype extent; complete pointer-readability equivalence remains pending. Native requires complete 512-byte symbol-name reads instead of the baseline's padded reads. Unreadable private/handler targets retain task observations and fail analysis while the reference skips them. Full-name byte faults retain comm fallback and captured read errors",
         "Strict forward backlink/tail checks and native task inspection do not reproduce all fixed task.is_valid, bidirectional recovery and duplicate-thread cases. Missing module sources fail the task and source booleans do not establish complete negative evidence",
-        "Debian 3.2 lacks kthread.threadfn; unmodified baseline and native reject it as unsupported. No Linux >=5.8 real image differential is established. Kali still requires an ARM64 virtual translator and actual kernel symbols",
+        "Debian 3.2 lacks kthread.threadfn; unmodified baseline and native reject it as unsupported. No Linux >=5.8 real image differential is established. Kali ARM64 translation and symbols are available; this plugin still lacks an ARM64 differential",
         "Full modern-kernel corpus, damaged-image, parameter/version and capability acceptance remain pending"
       ],
       "validation_record": "docs/linux-kthreads.md"
@@ -2430,7 +2430,7 @@
         "Nine synthetic ABI/kallsyms profiles remove modules/init_task/module_kset and module list/layout/taint/parameter members before loading symbols. Positive direct extraction and cached JSONL replay still succeed",
         "Unreadable bases/names/metadata/symbols and native count/byte bounds fail tasks with explicit missing file/size evidence. Reference invalid-base or reconstruction failure yields no row; that diagnostic difference is intentional",
         "Shared extraction retains the pinned ELF index/link quirks and native limits; see docs/linux-module-elf.md. Output is a reconstruction, not a fully normalized/original disk ELF",
-        "Actual x86/PAE acquisitions, real modern metadata, ARM64 virtual translation and full smeared/version/parameter acceptance remain pending"
+        "Actual x86/PAE acquisitions, real modern metadata, ARM64 module extraction and full smeared/version/parameter acceptance remain pending"
       ],
       "validation_record": "docs/linux-module-extract.md"
     },
@@ -4017,7 +4017,7 @@
         "268 fixed parser/renderer cases cover printable rejection, CR/LF/VT/FF, blank stops, duplicate order, empty keys/values, equals within values, signed/arbitrary-precision values, base prefixes, underscores and invalid integers. Synthetic tests cover chunk boundaries, missing/truncated bytes, bad headers/tags, limits, cancellation, output errors, persisted evidence and cache reuse",
         "Native records malformed candidates as failures while continuing independent notes; the fixed plugin may abort. Limits are native: max-descriptor 1 MiB by default and at most 16 MiB, up to 1000000 candidates/rows, at most 65536 radix digits, and Python-default 4300 decimal input digits",
         "Python interpreter decimal conversion settings can differ for extreme nondecimal values rendered as decimal; full extreme-value/primary-layer/version acceptance remains pending. ELF note endianness follows the pinned little-endian type, rather than introducing unvalidated big-endian support",
-        "Kali physical VMCOREINFO parsing is verified without ARM64 virtual translation; process/network/task analysis for that image remains unsupported"
+        "Kali physical VMCOREINFO parsing is verified; separate ARM64 translation/pslist/pstree smoke checks are recorded in docs/linux-arm64-validation.json, with full differentials pending"
       ],
       "validation_record": "docs/linux-vmcoreinfo.md"
     },
@@ -12583,7 +12583,9 @@
       "applicability": "See locked source; source-module inventory includes support modules.",
       "corpora": [
         "synthetic-linux-x64",
-        "official-linux-sample-1"
+        "official-linux-sample-1",
+        "synthetic-linux-arm64",
+        "local-kali-6.8.11-arm64-smoke"
       ],
       "comparison": "selected_kernel_identity_only",
       "validation_record": "docs/linux-discovery.md"
@@ -12870,6 +12872,19 @@
       "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.",
       "corpora": [],
       "comparison": "not_run"
+    },
+    {
+      "id": "paging.arm64",
+      "category": "acceptance",
+      "status": "partial",
+      "accepted": false,
+      "applicability": "Native Linux ARM64 stage-1, little endian, 4KiB granule, 48-bit VA/PA; exact ISF architecture and geometry metadata required. 4KiB/2MiB/1GiB leaves; sparse descriptor reads. Other granules, TBI/MTE, LPA2 and automatic virtual KASLR are unsupported.",
+      "corpora": [
+        "synthetic-linux-arm64",
+        "local-kali-6.8.11-arm64-smoke"
+      ],
+      "comparison": "native_smoke_only_no_independent_ARM64_differential",
+      "validation_record": "docs/linux-arm64-validation.json"
     },
     {
       "id": "paging.swap",

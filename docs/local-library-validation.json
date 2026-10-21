@@ -3,16 +3,50 @@
   "date": "2026-10-21",
   "scope": "Read-only image identity candidates, exact symbol URL matching, confirmed acquisition and TUI local libraries",
   "commands": [
-    {"command": "make build", "result": "passed"},
-    {"command": "make check", "result": "passed: go vet, all Go race tests, 29 Python tests, 428 argument reference cases"},
-    {"command": "python3 tools/build_inode_mode_oracle.py --check", "result": "passed: 32768 modes"},
-    {"command": "go test -race ./internal/tui ./internal/cli ./internal/library", "result": "passed after final confirmation-target changes"},
-    {"command": "bin/gomem images inspect .cache/fixtures/linux.raw", "result": "linux candidate; exact synthetic banner at physical 0x8000"},
-    {"command": "bin/gomem images inspect .cache/fixtures/windows.raw", "result": "windows candidate; ntkrnlmp.pdb GUID/Age at physical 0x4400"},
-    {"command": "bin/gomem symbols match .cache/fixtures/linux.raw", "result": "empty exact match list; synthetic fixture has no upstream table"},
-    {"command": "bin/gomem symbols match .cache/library-upstream-banner.raw", "result": "live catalog returned the exact Debian 2.6.32-5-amd64 release asset URL; no symbol file downloaded"},
-    {"command": "bin/gomem doctor --offline", "result": "passed; release gate remains development preview"},
-    {"command": "git diff --check", "result": "passed"}
+    {
+      "command": "make build",
+      "result": "passed"
+    },
+    {
+      "command": "make check",
+      "result": "passed: go vet, all Go race tests, 29 Python tests, 428 argument reference cases"
+    },
+    {
+      "command": "python3 tools/build_inode_mode_oracle.py --check",
+      "result": "passed: 32768 modes"
+    },
+    {
+      "command": "go test -race ./internal/tui ./internal/cli ./internal/library",
+      "result": "passed after final confirmation-target changes"
+    },
+    {
+      "command": "bin/gomem images inspect .cache/fixtures/linux.raw",
+      "result": "linux candidate; exact synthetic banner at physical 0x8000"
+    },
+    {
+      "command": "bin/gomem images inspect .cache/fixtures/windows.raw",
+      "result": "windows candidate; ntkrnlmp.pdb GUID/Age at physical 0x4400"
+    },
+    {
+      "command": "bin/gomem symbols match .cache/fixtures/linux.raw",
+      "result": "empty exact match list; synthetic fixture has no upstream table"
+    },
+    {
+      "command": "bin/gomem symbols match .cache/library-upstream-banner.raw",
+      "result": "live catalog returned the exact Debian 2.6.32-5-amd64 release asset URL; no symbol file downloaded"
+    },
+    {
+      "command": "bin/gomem doctor --offline",
+      "result": "passed; release gate remains development preview"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    },
+    {
+      "command": "bin/gomem symbols match images/kali.raw --offline",
+      "result": "one local exact match: kali-6.8.11-arm64.json.xz (table sha256 7b27ed03e5abd81b4913ca01a0265aabf0ffc5491a306b9d0b271bfd452ebf56); companion source.json reported as source-only; no network/download"
+    }
   ],
   "automated_coverage": [
     "unknown, Linux, Windows and ambiguous physical identities",
@@ -24,11 +58,14 @@
     "confirmation keeps its named file across an asynchronous list refresh",
     "exact local table selection and analysis engine lifetime",
     "active analysis file protection and stale session message rejection",
-    "upstream importer integration preserves platform filtering, engine ownership and lifetime after image switches"
+    "upstream importer integration preserves platform filtering, engine ownership and lifetime after image switches",
+    "local matching across multiple image identities; source-only records and invalid-table diagnostics do not hide valid matches",
+    "exact local ISF/ZIP/Windows PDB matching, duplicate-content deduplication, distinct-table ambiguity and stale selection rejection",
+    "offline and local-only CLI matching; successful local matches skip remote lookup by default"
   ],
   "preview": "screenshots/local-library.png",
   "limitations": [
-    "Synthetic fixtures and mocked HTTPS verify download behavior; live smoke check verifies catalog lookup only",
+    "Synthetic fixtures and mocked HTTPS verify download behavior; live smoke checks verify catalog lookup and local Kali identity matching",
     "No official real-image corpus or release acceptance is claimed",
     "Physical banner/RSDS candidates are not proof of the active kernel",
     "Full debug symbols are acquired externally, not reconstructed from arbitrary RAM",

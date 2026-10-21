@@ -25,10 +25,10 @@ type LinuxDiscovery struct {
 // back to the observed physical addresses before it can be used.
 func (e *Engine) discoverLinux(ctx context.Context) (*memory.Virtual, *LinuxDiscovery, error) {
 	table, ok := e.Env.Symbols.(*symbols.ISF)
-	if !ok || e.Env.OS != "linux" || e.Config.Arch != "x64" || table.PointerSize() != 8 {
+	if !ok || e.Env.OS != "linux" || (e.Config.Arch != "x64" && e.Config.Arch != "arm64") || table.PointerSize() != 8 {
 		return nil, nil, nil
 	}
-	if arch := table.Architecture(); arch != "" && arch != "EM_X86_64" && arch != "x86_64" {
+	if arch := table.Architecture(); !architectureMatches(arch, e.Config.Arch) {
 		return nil, nil, nil
 	}
 	if pointer, err := table.Type("pointer"); err != nil || pointer.Endian != "" && pointer.Endian != "little" {
@@ -94,11 +94,11 @@ func (e *Engine) discoverLinux(ctx context.Context) (*memory.Virtual, *LinuxDisc
 		if root == 0 || root&0xfff != 0 {
 			return nil
 		}
-		tr, err := memory.NewIntel(e.Env.Physical, root, "x64", 1024)
+		tr, err := memory.NewTranslatorForOS(e.Env.Physical, root, e.Config.Arch, e.Env.OS, 1024)
 		if err != nil {
 			return err
 		}
-		layer := &memory.Virtual{Physical: e.Env.Physical, Translator: tr, ID: fmt.Sprintf("kernel:x64:dtb=%#x", root)}
+		layer := &memory.Virtual{Physical: e.Env.Physical, Translator: tr, ID: fmt.Sprintf("kernel:%s:dtb=%#x", e.Config.Arch, root)}
 		verify := func() error {
 			self, err := tr.Translate(ctx, pgdVirtual)
 			if err != nil {
@@ -129,7 +129,7 @@ func (e *Engine) discoverLinux(ctx context.Context) (*memory.Virtual, *LinuxDisc
 			}
 			return ctx.Err()
 		}
-		matches[root] = candidate{layer, &LinuxDiscovery{Method: "linux-x64-linear-kernel-image", DTB: fmt.Sprintf("0x%x", root), BannerPhysical: fmt.Sprintf("0x%x", physical), PGDSymbol: name, PGDVirtual: fmt.Sprintf("0x%x", pgdVirtual), KernelSlide: fmt.Sprintf("0x%x", e.Config.KernelSlide)}}
+		matches[root] = candidate{layer, &LinuxDiscovery{Method: "linux-" + e.Config.Arch + "-linear-kernel-image", DTB: fmt.Sprintf("0x%x", root), BannerPhysical: fmt.Sprintf("0x%x", physical), PGDSymbol: name, PGDVirtual: fmt.Sprintf("0x%x", pgdVirtual), KernelSlide: fmt.Sprintf("0x%x", e.Config.KernelSlide)}}
 		return nil
 	})
 	if err != nil {

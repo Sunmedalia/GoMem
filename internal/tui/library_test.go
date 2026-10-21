@@ -114,6 +114,56 @@ func TestWorkspaceDownloadRequiresConfirmationAndOfflineFails(t *testing.T) {
 	}
 }
 
+func TestWorkspaceAutomaticallySelectsLocalSymbolsAmongMultipleBanners(t *testing.T) {
+	ctx := context.Background()
+	f, err := testfixture.Write(t.TempDir(), "linux")
+	if err != nil {
+		t.Fatal(err)
+	}
+	l := library.Library{Root: t.TempDir()}
+	if _, err = l.Import(ctx, library.Symbols, f.Symbols); err != nil {
+		t.Fatal(err)
+	}
+	if err = os.WriteFile(l.Path(library.Symbols, "kernel.json.source.json"), []byte(`{"source_url":"https://example.test/debug"}`), 0600); err != nil {
+		t.Fatal(err)
+	}
+	b, err := os.ReadFile(f.Image)
+	if err != nil {
+		t.Fatal(err)
+	}
+	copy(b[0x1f000:], "Linux version 4.4.0 embedded foreign banner\x00")
+	if err = os.WriteFile(f.Image, b, 0600); err != nil {
+		t.Fatal(err)
+	}
+	if _, err = l.Import(ctx, library.Images, f.Image); err != nil {
+		t.Fatal(err)
+	}
+	w := NewWorkspace(ctx, engine.Config{Offline: true}, l)
+	defer w.Close()
+	applyLibrary(w, w.Init())
+	applyLibrary(w, workspaceKey(w, "enter"))
+	if len(w.probe.Identities) != 2 || len(w.local.Matches) != 1 || len(w.local.Diagnostics) != 1 || w.config.Symbols == "" {
+		t.Fatal(w.status, w.local)
+	}
+	applyLibrary(w, workspaceKey(w, "l"))
+	if len(w.local.Matches) != 1 || len(w.matches) != 0 || w.remoteStatus != "Local matching only" {
+		t.Fatal(w.status)
+	}
+	applyLibrary(w, workspaceKey(w, "m"))
+	if len(w.local.Matches) != 1 || len(w.matches) != 0 || strings.Contains(w.remoteStatus, "failed") {
+		t.Fatal(w.status)
+	}
+	// Local selection revalidates the table rather than trusting a stale scan.
+	path := w.config.Symbols
+	if err = os.WriteFile(path, []byte("invalid table"), 0600); err != nil {
+		t.Fatal(err)
+	}
+	applyLibrary(w, workspaceKey(w, "s"))
+	if !strings.Contains(w.status, "invalid") {
+		t.Fatal("stale local table accepted", w.status)
+	}
+}
+
 func TestWorkspaceConfirmationKeepsTheNamedFileAfterRefresh(t *testing.T) {
 	l := library.Library{Root: t.TempDir()}
 	w := NewWorkspace(context.Background(), engine.Config{}, l)
@@ -200,7 +250,7 @@ func TestWorkspaceImportRenameAndView(t *testing.T) {
 	if !strings.Contains(view, "\n  \"os\": \"linux\"") {
 		t.Fatal("details lost newlines", view)
 	}
-	for _, text := range []string{"LOCAL LIBRARY", "renamed.raw", "linux", "candidate", "m match"} {
+	for _, text := range []string{"LOCAL LIBRARY", "renamed.raw", "linux", "candidate", "m local first"} {
 		if !strings.Contains(view, text) {
 			t.Fatal("missing", text, view)
 		}

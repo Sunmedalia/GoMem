@@ -47,8 +47,8 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 	f.StringVar(&cfg.SymbolCache, "symbol-cache", "", "Symbol cache (default CASE/symbols/windows, otherwise OS user cache)")
 	f.StringVar(&cfg.SymbolServer, "symbol-server", symbols.MicrosoftSymbolServer, "HTTPS PDB symbol server base URL")
 	f.StringVar(&cfg.OS, "os", "", "Target OS: windows, linux, mac")
-	f.StringVar(&cfg.Arch, "arch", "auto", "Address translation: auto (crash metadata, otherwise x64), x64, x86, pae")
-	f.StringVar(&cfg.DTB, "dtb", "", "Physical page-table root; optional for Windows crash dumps and supported Linux x64 kernels")
+	f.StringVar(&cfg.Arch, "arch", "auto", "Address translation: auto (image/symbol metadata, otherwise x64), x64, x86, pae, arm64")
+	f.StringVar(&cfg.DTB, "dtb", "", "Physical page-table root; optional for Windows crash dumps and supported Linux x64/ARM64 kernels")
 	f.Uint64Var(&cfg.KernelBase, "kernel-base", 0, "Windows kernel virtual base")
 	f.Uint64Var(&cfg.KernelSlide, "kernel-slide", 0, "Linux virtual relocation added to symbol addresses")
 	f.BoolVar(&cfg.Offline, "offline", false, "Disable symbol download; allow verified local cache reuse")
@@ -143,7 +143,7 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 		if err != nil {
 			return err
 		}
-		diagnostic := map[string]any{"engine": version.Version, "release": "development-preview", "baseline": version.Baseline, "baseline_commit": version.BaselineCommit, "native_plugins": registry.List(), "upstream_plugin_classes": matrix.PluginCount, "accepted_plugins": matrix.Accepted, "release_ready": false, "extensions": map[string]bool{"yara": false, "capstone": false, "leechcore": false}, "formats": []string{"raw", "lime-v1", "avml-v2-snappy-framed", "elf-core-physical-pt_load", "windows-complete-32/64", "windows-bitmap-32/64"}, "symbol_inputs": []string{"isf-json/gzip/xz/zip", "elf-dwarf", "macho-dwarf", "pdb-msf7-codeview"}, "missing": []string{"complete image/kernel/DTB discovery (partial Linux x64 and Windows crash only)", "macOS automatic symbol acquisition, CAB PDB transport and fully automatic Linux address-space setup", "full PDB/CodeView and legacy MSF validation", "full DWARF/kernel-version validation", "macOS analysis", "swap resolution", "VMware/QEMU/Xen and full format/version acceptance", "remote sources", "full plugin parameter parity", "official-corpus differential acceptance", "full renderers and extraction"}}
+		diagnostic := map[string]any{"engine": version.Version, "release": "development-preview", "baseline": version.Baseline, "baseline_commit": version.BaselineCommit, "native_plugins": registry.List(), "upstream_plugin_classes": matrix.PluginCount, "accepted_plugins": matrix.Accepted, "release_ready": false, "extensions": map[string]bool{"yara": false, "capstone": false, "leechcore": false}, "formats": []string{"raw", "lime-v1", "avml-v2-snappy-framed", "elf-core-physical-pt_load", "windows-complete-32/64", "windows-bitmap-32/64"}, "symbol_inputs": []string{"isf-json/gzip/xz/zip", "elf-dwarf", "macho-dwarf", "pdb-msf7-codeview"}, "missing": []string{"complete image/kernel/DTB discovery (partial Linux x64/ARM64 and Windows crash only)", "macOS automatic symbol acquisition, CAB PDB transport and fully automatic Linux address-space setup", "full PDB/CodeView and legacy MSF validation", "full DWARF/kernel-version validation", "macOS analysis", "swap resolution", "VMware/QEMU/Xen and full format/version acceptance", "remote sources", "full plugin parameter parity", "official-corpus differential acceptance", "full renderers and extraction"}}
 		diagnostic["release_ready"] = gate.Ready
 		diagnostic["symbol_lookup"] = "explicit table, local identity index, interactive Linux banner matching or exact Windows PDB acquisition (known DTB/kernel base required)"
 		diagnostic["acceptance"] = gate

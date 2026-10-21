@@ -136,3 +136,29 @@ func FuzzLinuxModuleMemoryLayouts(f *testing.F) {
 		}
 	})
 }
+
+func TestLinuxModuleMemoryIgnoresNegativeSentinel(t *testing.T) {
+	layer := capabilityLayer(make([]byte, 32))
+	binary.LittleEndian.PutUint64(layer, 0x1234000)
+	binary.LittleEndian.PutUint64(layer[8:], 4096)
+	u64 := symbols.TypeRef{Kind: "base", Name: "u64"}
+	mem := symbols.TypeRef{Kind: "struct", Name: "module_memory"}
+	table := &symbols.ISF{Bases: map[string]symbols.Type{"u64": {Kind: "int", Size: 8, Endian: "little"}, "pointer": {Kind: "int", Size: 8, Endian: "little"}}, Types: map[string]symbols.Type{
+		"module":        {Kind: "struct", Size: 32, Fields: map[string]symbols.Field{"mem": {Type: symbols.TypeRef{Kind: "array", Count: 1, Subtype: &mem}}}},
+		"module_memory": {Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"base": {Type: u64}, "size": {Offset: 8, Type: u64}}},
+	}, Enums: map[string]symbols.Enumeration{"mod_mem_type": {Size: 4, Constants: map[string]json.Number{"MOD_INVALID": "-1", "MOD_TEXT": "0"}}}}
+	env := plugin.Environment{Kernel: layer, Symbols: table, Objects: &object.Reader{Layer: layer, Symbols: table}}
+	var failures pluginFailures
+	n := &linuxModuleRead{context.Background(), env, map[string]evidence.Value{}, &failures}
+	for kind, want := range map[string]uint64{"base": 0x1234000, "text": 4096} {
+		got, err := n.layout(0, kind)
+		if err != nil || got != want {
+			t.Fatal(kind, got, err)
+		}
+	}
+	// A negative index actually used for addressing remains an error.
+	table.Enums["mod_mem_type"].Constants["MOD_TEXT"] = "-1"
+	if _, err := n.layout(0, "text"); err == nil {
+		t.Fatal("accepted negative array index")
+	}
+}

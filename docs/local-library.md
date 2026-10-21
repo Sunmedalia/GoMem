@@ -5,13 +5,14 @@
 ```sh
 bin/gomem images inspect memory.raw
 bin/gomem symbols match memory.raw
+bin/gomem symbols match memory.raw --offline
 bin/gomem symbols match memory.raw --download
 bin/gomem tui --library-dir . --case .cache/my-case
 ```
 
 `images inspect` 输出镜像格式、系统候选、物理地址，以及 Linux 完整 banner 或 Windows 内核 PDB 名称、GUID、Age。复用原生物理内存映射，支持 raw、LiME、AVML、受支持的 ELF core 和 Windows crash dump；不会把容器头当成普通 RAM 扫描，不需要 Python 或 Volatility。
 
-`symbols match` 自动匹配地址，默认不下载；`--download` 对每个候选显示 URL 并询问 `[y/N]`，只有输入 `y` 或 `yes` 才下载。EOF、空输入及其他回答均跳过下载。`--offline` 禁止远程目录查询和下载；Windows URL 可以根据已知 PDB 身份在本地生成。
+`symbols match` 先逐个比对 `sysmbols/` 中的本地表与镜像的全部身份候选，输出 `local.matches` 和 `local.diagnostics`。找到本地表时默认不联网；未找到时再自动匹配远程地址，`--remote` 可强制同时查询远程，`--local-only` 只查本地。默认不下载；`--download` 对每个候选显示 URL 并询问 `[y/N]`，只有输入 `y` 或 `yes` 才下载。EOF、空输入及其他回答均跳过下载。`--offline` 正常执行本地匹配，禁止远程目录查询和下载；没有本地匹配时返回空匹配及明确诊断。
 
 ## TUI 操作
 
@@ -24,8 +25,11 @@ bin/gomem tui --library-dir . --case .cache/my-case
 | `i` | 输入路径，将本地文件复制到当前库；保留原文件 |
 | `r` | 重命名所选本地文件；不覆盖已有文件 |
 | `x` | 删除所选本地副本；需再次按 `y` 确认 |
-| `enter` | 扫描并选中镜像；或检查并选中本地符号表 |
-| `m` | 根据已扫描的内核身份查询精确符号地址 |
+| `enter` | 扫描镜像并自动查找本地符号；或检查并选中本地符号表 |
+| `l` | 重新扫描本地符号，完全不联网 |
+| `m` | 优先匹配本地，无匹配时再查询远程；离线模式只查本地 |
+| `M` | 同时查询本地与远程符号；离线模式只查本地 |
+| `<` / `>`、`s` | 选择并应用本地候选；应用前重新校验，拒绝过期结果 |
 | `[` / `]` | 在多个下载候选间选择 |
 | `d` | 显示所选下载地址；再次按 `y` 才下载 |
 | `o` | 使用所选镜像和本地符号打开分析界面 |
@@ -36,7 +40,7 @@ bin/gomem tui --library-dir . --case .cache/my-case
 | `ctrl+x` | 取消当前扫描、导入或下载 |
 | `q` | 退出 |
 
-选择另一镜像会清除此前扫描结果、下载候选和符号选择。`o` 在只有一个身份候选时，可以自动选择库内身份完全匹配的表；多个不同内容的表匹配时需手动选择。选择符号表时也核验其身份是否与所选镜像的候选一致。损坏的本地表会明确报错，不会静默从匹配范围排除。
+选择另一镜像会清除此前扫描结果、下载候选和符号选择。扫描镜像后就显示本地匹配结果，唯一内容的匹配表会自动选中。即使镜像存在多个残留 banner，也会逐个精确比对；多个不同内容的表匹配时需手动选择。`o` 也会按上述规则匹配尚未选择的本地符号。选择符号表时也核验其身份是否与所选镜像的候选一致。损坏的本地表逐项列入 `diagnostics`，不影响其他有效表的匹配；错误不会静默隐藏。`.source.json` 是符号来源说明，列为 `source-only`，不会当作完整 ISF 解析。Linux 完整 banner 仍严格比较，包括末尾换行；多个相同内容的副本只算一种表。本地扫描也支持 ZIP 成员和原生调试文件。
 
 分析界面保留平台能力筛选、按当前镜像筛选历史任务，以及 `i` 打开的路径/目录/最近镜像导入器。导入器更换镜像后，本地库同步当前引擎与文件保护状态。分析仍使用现有的引擎、证据库与分页功能，可继续传入 `--dtb`、`--kernel-base`、`--kernel-slide`、`--case` 等参数。管理器打开分析时禁用隐式网络下载；符号下载统一通过上述确认流程进行。已打开分析的镜像和符号表禁止在库内重命名、删除；先按 `c` 关闭会话。
 
@@ -58,4 +62,7 @@ Linux 下载限制为 128 MiB，保留原始 JSON/gzip/xz 文件，解压与解�
 
 受支持的容器也可能缺少身份所在页面；未发现标识不代表系统属于另一 OS。实际读错误、未映射页面、取消与格式不支持会返回错误；不会转成空结果。损坏、压缩或不受支持的采集格式不能保证识别。通用 Windows raw DTB/基址发现、Linux ARM 地址翻译和任意内核的自动地址空间配置不在本次能力范围内。
 
-新增验证位于 `internal/library/library_test.go`、`internal/tui/library_test.go` 和 `internal/cli/images_test.go`，覆盖跨扫描边界、未知/歧义身份、读失败、取消、精确匹配、release URL、离线、拒绝下载、身份不匹配、不覆盖文件、路径限制、保留原镜像以及关闭/重开分析会话。使用确定性合成镜像及模拟 HTTPS 响应；不构成官方真实镜像语料的发布验收。预览图来自测试模型的实际文本输出渲染。
+新增验证位于 `internal/library/local_test.go`、`internal/library/library_test.go`、`internal/tui/library_test.go` 和 `internal/cli/images_test.go`，覆盖跨扫描边界、未知/歧义身份、读失败、取消、精确匹配、release URL、离线、拒绝下载、身份不匹配、不覆盖文件、路径限制、保留原镜像以及关闭/重开分析会话。使用确定性合成镜像及模拟 HTTPS 响应；不构成官方真实镜像语料的发布验收。预览图来自测试模型的实际文本输出渲染。
+
+
+本地 Kali 实测：`images/kali.raw` 是 LiME 镜像，扫描到多个不同身份字符串。本地 `sysmbols/kali-6.8.11-arm64.json.xz` 与其中 `#1 SMP Kali 6.8.11-1kali2 (2024-05-30)` 的完整 banner（含末尾换行）精确匹配，表内容 SHA-256 为 `7b27ed03e5abd81b4913ca01a0265aabf0ffc5491a306b9d0b271bfd452ebf56`。伴随 `.source.json` 被明确标为来源说明，全过程不联网、不下载。本地匹配本身只证明表与驻留候选一致。ARM64 地址翻译现已验证此镜像的根映射及完整 banner，自动发现 DTB `0xb387e000`，无需手填地址。按 `o` 进入分析页，`/` 搜索 `linux.pslist`，回车结束搜索，再回车打开参数，`ctrl+s` 运行；实测 169 条进程记录。详见 [ARM64 验证](linux-arm64.md)。

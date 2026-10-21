@@ -3,6 +3,7 @@ package engine_test
 import (
 	"context"
 	"encoding/binary"
+	"encoding/json"
 	"os"
 	"strings"
 	"testing"
@@ -121,5 +122,58 @@ func TestLinuxRootDiscoveryWithExplicitVirtualSlide(t *testing.T) {
 	defer e.Close()
 	if e.Discovery == nil || e.Discovery.PGDVirtual != "0x201000" || e.Discovery.DTB != "0x1000" {
 		t.Fatal(e.Discovery)
+	}
+}
+
+func TestARM64AutoDiscoveryAndProcessList(t *testing.T) {
+	f, err := testfixture.Write(t.TempDir(), "linux")
+	if err != nil {
+		t.Fatal(err)
+	}
+	data, err := os.ReadFile(f.Image)
+	if err != nil {
+		t.Fatal(err)
+	}
+	// Replace the Intel 2 MiB leaf with an ARM64 level-2 block descriptor.
+	binary.LittleEndian.PutUint64(data[0x3000:], 1)
+	if err = os.WriteFile(f.Image, data, 0600); err != nil {
+		t.Fatal(err)
+	}
+	b, err := os.ReadFile(f.Symbols)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var table map[string]any
+	if err = json.Unmarshal(b, &table); err != nil {
+		t.Fatal(err)
+	}
+	table["metadata"].(map[string]any)["zero"] = map[string]any{"architecture": "aarch64", "page_shift": 12, "va_bits": 48}
+	b, err = json.Marshal(table)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err = os.WriteFile(f.Symbols, b, 0600); err != nil {
+		t.Fatal(err)
+	}
+	c := engine.Config{Image: f.Image, Symbols: f.Symbols, Offline: true}
+	for _, root := range []string{"", "0x1000"} {
+		c.DTB = root
+		e, err := engine.Open(context.Background(), c)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if e.Config.Arch != "arm64" || e.Env.Architecture != "arm64" || e.Config.DTB != "0x1000" {
+			t.Fatal(e.Config)
+		}
+		result, err := e.Run(context.Background(), "linux.pslist", nil, engine.RunOptions{})
+		e.Close()
+		if err != nil || result.Task.Rows != 2 {
+			t.Fatal(result, err)
+		}
+	}
+	c.Arch = "x64"
+	if e, err := engine.Open(context.Background(), c); err == nil {
+		e.Close()
+		t.Fatal("accepted mismatched architecture")
 	}
 }

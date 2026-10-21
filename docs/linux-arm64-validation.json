@@ -1,0 +1,90 @@
+{
+  "schema": "gomem.linux-arm64-validation/v1",
+  "date": "2026-10-21",
+  "scope": "Local native smoke validation, not an independent differential or full capability acceptance",
+  "image_sha256": "cf04d76ab9177d7ee355cc96020d29ae194c065c692304ff25e594ab510c639d",
+  "symbols_sha256": "7b27ed03e5abd81b4913ca01a0265aabf0ffc5491a306b9d0b271bfd452ebf56",
+  "build_sha256": "b2921307f9d67e29d10c4b48997d4b9978d03bf1161331faa5f788230442fbbe",
+  "selected_arch": "arm64",
+  "discovery": {
+    "method": "linux-arm64-linear-kernel-image",
+    "dtb": "0xb387e000",
+    "banner_physical": "0xb3079a38",
+    "pgd_symbol": "swapper_pg_dir",
+    "pgd_virtual": "0xffff80008187e000",
+    "kernel_slide": "0x0"
+  },
+  "results": [
+    {
+      "plugin": "linux.pslist",
+      "state": "completed",
+      "rows": 169,
+      "record_types": {
+        "task": 169
+      },
+      "output_sha256": "d3ff2448e0bb220aec08bb5a63caab265f588742d75ebd4dc32e799faff7145b"
+    },
+    {
+      "plugin": "linux.pstree",
+      "state": "completed",
+      "rows": 508,
+      "record_types": {
+        "observation": 169,
+        "selection": 169,
+        "process": 169,
+        "summary": 1
+      },
+      "output_sha256": "bac606914f92ffd61d892b350eed1e2aaf694ea85404be08faa5eb62323e4630"
+    },
+    {
+      "plugin": "linux.lsmod",
+      "state": "failed",
+      "rows": 110,
+      "record_types": {
+        "module": 110
+      },
+      "output_sha256": "86b18597dc5b535436d00f53c0cb5a4cd0c9c2d276837d69ae965d61c7eb1b4d",
+      "limitation": "11 retained module argument failures; 110 module records remain partial evidence"
+    },
+    {
+      "plugin": "linux.psaux",
+      "parameters": {
+        "pid": "1"
+      },
+      "state": "completed",
+      "rows": 1,
+      "output_sha256": "7b0b14bd58b72aeb77134e63967892d2eaf3950197bf93e7d70247dd20eb132f",
+      "scope": "User process page-table translation and argument read"
+    }
+  ],
+  "tui": {
+    "opened_from_library": true,
+    "plugin": "linux.pslist",
+    "state": "completed",
+    "rows": 169,
+    "visible_examples": [
+      "systemd",
+      "kthreadd"
+    ],
+    "keys": [
+      "o",
+      "/linux.pslist",
+      "enter",
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  "checks": [
+    "make check",
+    "go test -race ./pkg/memory ./pkg/symbols ./internal/engine",
+    "python3 tools/build_inode_mode_oracle.py --check",
+    "capability matrix regeneration and --check",
+    "git diff --check"
+  ],
+  "limitations": [
+    "Only 4KiB granules, 48-bit virtual and physical addressing, little endian Linux with explicit ISF geometry metadata",
+    "Virtual KASLR slide is not automatically discovered",
+    "No ARM64 independent-tool differential",
+    "Architecture-specific Linux plugins can remain unsupported; module argument reads retain errors"
+  ]
+}

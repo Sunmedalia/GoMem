@@ -86,10 +86,13 @@ func (n *linuxModuleRead) layout(module uint64, kind string) (uint64, error) {
 	}
 	if modern {
 		names := map[string][]string{"base": {"MOD_TEXT"}, "core": {"MOD_TEXT", "MOD_DATA", "MOD_RODATA", "MOD_RO_AFTER_INIT"}, "text": {"MOD_TEXT"}, "init": {"MOD_INIT_TEXT", "MOD_INIT_DATA", "MOD_INIT_RODATA"}}[kind]
-		enum, err := linuxEnumChoices(n.e, "mod_mem_type", nil)
+		enum, err := n.e.Symbols.Enumeration("mod_mem_type")
 		if err != nil {
 			n.failures.add(err)
 			return 0, err
+		}
+		if enum.Size == 0 || enum.Size > 8 {
+			return 0, fmt.Errorf("invalid mod_mem_type enum size %d", enum.Size)
 		}
 		array, err := n.e.Objects.Field("module", "mem")
 		if err != nil {
@@ -108,8 +111,10 @@ func (n *linuxModuleRead) layout(module uint64, kind string) (uint64, error) {
 		}
 		var sum uint64
 		for _, name := range names {
-			index, ok := enum[name]
-			if !ok || index >= array.Type.Count {
+			// Parse only array indices; MOD_INVALID=-1 is a valid sentinel.
+			valueNumber, ok := enum.Constants[name]
+			index, parseErr := strconv.ParseUint(string(valueNumber), 10, 64)
+			if !ok || parseErr != nil || index >= array.Type.Count {
 				return 0, fmt.Errorf("missing/out-of-range mod_mem_type.%s", name)
 			}
 			if stride == 0 || index > (^uint64(0)-array.Offset)/stride {
