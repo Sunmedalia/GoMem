@@ -6,7 +6,6 @@ import (
 	"fmt"
 
 	"github.com/Sunmedalia/GoMem/pkg/evidence"
-	"github.com/Sunmedalia/GoMem/pkg/memory"
 	"github.com/Sunmedalia/GoMem/pkg/plugin"
 )
 
@@ -18,10 +17,10 @@ type linuxNetfilterProto struct {
 func linuxNetfilterPlugins() []builtin {
 	return []builtin{{plugin.Spec{
 		Name: "linux.netfilter", Upstream: "linux.malware.netfilter.Netfilter", Platform: "linux", NeedsKernel: true,
-		Description: "List legacy global Netfilter hook operations present through kernel 4.2",
+		Description: "Enumerate global, namespace and device Netfilter hooks",
 		Parameters:  []plugin.Parameter{{Name: "max-nodes", Kind: "uint", Default: "131072", Description: "Module source and per-hook list bound, 1..1000000"}, {Name: "max-scan-bytes", Kind: "uint", Default: "268435456", Description: "Module allocation scan bound, 1..8589934592"}},
 		Columns: []evidence.Column{
-			{Name: "Net NS", Kind: "missing"}, {Name: "Proto", Kind: "string"}, {Name: "Hook", Kind: "string"},
+			{Name: "Net NS", Kind: "uint64"}, {Name: "Namespace", Kind: "address"}, {Name: "Device", Kind: "address"}, {Name: "Layout", Kind: "string"}, {Name: "Slot", Kind: "address"}, {Name: "Proto", Kind: "string"}, {Name: "Hook", Kind: "string"},
 			{Name: "Priority", Kind: "int64"}, {Name: "Handler", Kind: "address"}, {Name: "Module", Kind: "string"},
 			{Name: "Symbol", Kind: "string"}, {Name: "Is Hooked", Kind: "string"},
 			{Name: "Offset", Kind: "address"}, {Name: "FieldEvidence", Kind: "structure"},
@@ -62,26 +61,10 @@ func linuxNetfilter(ctx context.Context, e plugin.Environment, p map[string]stri
 	if err != nil {
 		return err
 	}
-	hooks, err := e.Symbols.Lookup("nf_hooks")
-	if err != nil {
-		return fmt.Errorf("legacy nf_hooks table is absent; namespace Netfilter layouts are not implemented")
-	}
-	if hooks.Type == nil || hooks.Type.Kind != "array" || hooks.Type.Count != 13 || hooks.Type.Underlying() == nil || hooks.Type.Underlying().Kind != "array" || hooks.Type.Underlying().Count != 8 || hooks.Type.Underlying().Underlying() == nil || hooks.Type.Underlying().Underlying().Name != "list_head" {
-		return fmt.Errorf("nf_hooks is not list_head[13][8]")
-	}
-	list, err := e.Symbols.Type("list_head")
-	if err != nil || list.Size == 0 || list.Size > 64 {
-		return fmt.Errorf("invalid list_head size: %v", err)
-	}
-	link, err := e.Objects.Field("nf_hook_ops", "list")
+	layouts, err := linuxNetfilterLayouts(e)
 	if err != nil {
 		return err
 	}
-	base, err := e.Symbol("nf_hooks")
-	if err != nil {
-		return err
-	}
-	protocols := linuxNetfilterProtocols()
 	var failures pluginFailures
 	var emitErr error
 	emit := func(row evidence.Row) error {
@@ -114,56 +97,19 @@ func linuxNetfilter(ctx context.Context, e plugin.Environment, p map[string]stri
 	if err != nil {
 		return err
 	}
-	for proto, protocol := range protocols {
-		if len(protocol.hooks) == 0 || protocol.name == "INET" || protocol.name == "NETDEV" {
-			continue
-		}
-		for hook, hookName := range protocol.hooks {
-			if err = ctx.Err(); err != nil {
-				return err
-			}
-			index := uint64(proto*8 + hook)
-			head, addErr := memory.Add(base, index*list.Size)
-			if addErr != nil {
-				return addErr
-			}
-			_, headProof, headErr := linuxCaptureField(ctx, e, head, "list_head", "")
-			headRow := evidence.Row{Cells: map[string]evidence.Value{
-				"RecordType": evidence.Text("netfilter_list"), "Proto": evidence.Text(protocol.name), "Hook": evidence.Text(hookName), "Offset": evidence.Address(head),
-				"FieldEvidence": evidence.Value{Kind: "structure", Data: map[string]evidence.Value{"Head": headProof}},
-			}, Provenance: evidence.Provenance{Layer: e.Kernel.Name(), Offset: fmt.Sprintf("0x%x", head)}}
-			if headErr != nil {
-				headRow.Cells["Error"] = evidence.Missing("hook_head_unreadable", headErr)
-				failures.add(headErr)
-			}
-			if err = emit(headRow); err != nil {
-				return err
-			}
-			err = e.Objects.WalkList(ctx, head, link.Offset, maxNodes, func(ops uint64) error {
-				return linuxNetfilterRow(ctx, e, &failures, modules, kernel, attributionErr, protocol.name, hookName, ops, emit)
-			})
-			if err != nil {
-				if emitErr != nil {
-					return emitErr
-				}
-				if ctx.Err() != nil {
-					return ctx.Err()
-				}
-				row := evidence.Row{Cells: map[string]evidence.Value{
-					"Net NS": evidence.Missing("not_applicable", nil), "Proto": evidence.Text(protocol.name), "Hook": evidence.Text(hookName),
-					"Priority": evidence.Missing("hook_list_incomplete", err), "Handler": evidence.Missing("hook_list_incomplete", err),
-					"Module": evidence.Missing("hook_list_incomplete", err), "Symbol": evidence.Missing("hook_list_incomplete", err),
-					"Is Hooked": evidence.Missing("hook_list_incomplete", err), "Offset": evidence.Address(head),
-					"FieldEvidence": evidence.Missing("hook_list_incomplete", err), "RecordType": evidence.Text("netfilter_error"),
-					"Error": evidence.Missing("hook_list_incomplete", err),
-				}, Provenance: evidence.Provenance{Layer: e.Kernel.Name(), Offset: fmt.Sprintf("0x%x", head)}}
-				if emitErr := emit(row); emitErr != nil {
-					return emitErr
-				}
-				failures.add(err)
-			}
-		}
+	runner := &linuxNFReader{ctx: ctx, e: e, max: maxNodes, failures: &failures, emit: emit}
+	runner.hook = func(scope linuxNFScope, fields map[string]evidence.Value, ops uint64) error {
+		return linuxNetfilterRow(ctx, e, &failures, modules, kernel, attributionErr, scope.proto, scope.hook, ops, func(row evidence.Row) error {
+			scope.decorate(&row)
+			proof := row.Cells["FieldEvidence"].Data.(map[string]evidence.Value)
+			proof["Route"] = evidence.Value{Kind: "structure", Data: fields}
+			return emit(row)
+		})
 	}
+	if err = runner.run(layouts); err != nil {
+		return err
+	}
+
 	return errors.Join(failures.err("Linux Netfilter hooks"), ctx.Err())
 }
 

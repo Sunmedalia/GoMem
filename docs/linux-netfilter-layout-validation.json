@@ -1,0 +1,98 @@
+{
+  "schema": "gomem.netfilter-layout-validation/v1",
+  "date": "2026-10-21",
+  "baseline": {
+    "version": "2.28.2",
+    "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75"
+  },
+  "release": "development-preview",
+  "accepted": false,
+  "synthetic": {
+    "paging_architectures": [
+      "x64",
+      "x86",
+      "pae"
+    ],
+    "namespace_layouts": [
+      "list",
+      "entry",
+      "entries",
+      "split"
+    ],
+    "namespace_device_combinations": 24,
+    "pinned_oracle_cases": 16,
+    "oracle_scope": "Unmodified _run, namespace/protocol/device loops, container decoding and adjacent original pointer array arithmetic; mocked kernel object boundaries and module attribution. Native rows and adjacent-array addresses compared.",
+    "evidence_checks": [
+      "reread complete source captures",
+      "verify seals after every emission has finished",
+      "byte-identical fresh and cached JSONL",
+      "distinct rows for namespaces sharing original operations",
+      "retain source proof on count/null/unreadable-original failures"
+    ],
+    "fault_checks": [
+      "entry cycles",
+      "unreadable next entry",
+      "oversized or zero count",
+      "multiple original pointers",
+      "null or unreadable original operations",
+      "absent original member",
+      "invalid matrix dimensions",
+      "broken namespace links",
+      "output errors",
+      "cancellation"
+    ],
+    "additional_scopes": [
+      "global and namespace simultaneously",
+      "device only",
+      "ingress without egress",
+      "two namespaces with same original operation"
+    ]
+  },
+  "real_images": [
+    {
+      "file": "images/linux-sample-1.bin.gz",
+      "decoded_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "netfilter": {
+        "reference_rows": 0,
+        "native_hook_rows": 0,
+        "reread_list_heads": 25,
+        "source_and_list_rows": 573,
+        "cache_equal": true
+      },
+      "vmcoreinfo_entries": 47
+    },
+    {
+      "file": "images/kali.raw",
+      "sha256": "cf04d76ab9177d7ee355cc96020d29ae194c065c692304ff25e594ab510c639d",
+      "vmcoreinfo_entries": 111,
+      "limitation": "ARM64 virtual translation is unavailable; this physical metadata check establishes no process or Netfilter analysis coverage."
+    }
+  ],
+  "commands": [
+    "make check",
+    "make matrix",
+    "python3 tools/build_inode_mode_oracle.py --check",
+    "python3 tools/build_netfilter_oracle.py --check",
+    "go test -race ./internal/engine -run TestLinuxNetfilter -count=1",
+    "GOMEM_CORPUS_DIR=\"$PWD/.cache/corpus\" GOMEM_NETFILTER_REFERENCE=\"$PWD/.cache/netfilter-validation/reference\" GOMEM_KALI_IMAGE=\"$PWD/images/kali.raw\" go test -race ./internal/engine -run \"TestOfficialLinuxNetfilter|TestOfficialVMCoreInfo\" -count=1 -v"
+  ],
+  "gaps": [
+    "modern namespace/device real acquisitions",
+    "positive real module-owned or unknown hooks",
+    "actual x86/PAE images",
+    "ARM64 translation",
+    "all parameter and damaged-input differentials",
+    "full baseline acceptance"
+  ],
+  "cli": {
+    "task": "db52122c34a0f25d1cea2f89679df058",
+    "rows": 573,
+    "fresh_cache_jsonl_equal": true,
+    "doctor": {
+      "release": "development-preview",
+      "release_ready": false,
+      "accepted_plugins": 0,
+      "upstream_plugin_classes": 195
+    }
+  }
+}

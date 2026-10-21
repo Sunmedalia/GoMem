@@ -16,7 +16,17 @@ import (
 
 func netfilterEngine(t *testing.T, handler uint64, fault string) *engine.Engine {
 	t.Helper()
-	f := modxFixture(t, "x64", "legacy", "")
+	return netfilterConfiguredEngine(t, handler, fault, nil)
+}
+
+func netfilterConfiguredEngine(t *testing.T, handler uint64, fault string, configure func(*symbols.ISF, []byte)) *engine.Engine {
+	t.Helper()
+	return netfilterConfiguredArchEngine(t, "x64", handler, fault, configure)
+}
+
+func netfilterConfiguredArchEngine(t *testing.T, arch string, handler uint64, fault string, configure func(*symbols.ISF, []byte)) *engine.Engine {
+	t.Helper()
+	f := modxFixture(t, arch, "legacy", "")
 	table, err := symbols.Load(f.Symbols)
 	if err != nil {
 		t.Fatal(err)
@@ -66,6 +76,9 @@ func netfilterEngine(t *testing.T, handler uint64, fault string) *engine.Engine 
 	if fault == "list" {
 		put(head, 0)
 	}
+	if configure != nil {
+		configure(table, data)
+	}
 	encoded, err := table.Encode()
 	if err != nil {
 		t.Fatal(err)
@@ -76,7 +89,7 @@ func netfilterEngine(t *testing.T, handler uint64, fault string) *engine.Engine 
 	if err = os.WriteFile(f.Image, data, 0600); err != nil {
 		t.Fatal(err)
 	}
-	e, err := engine.Open(context.Background(), engine.Config{Image: f.Image, Symbols: f.Symbols, DTB: f.DTB, Arch: "x64", OS: "linux", Offline: true, CaseDir: t.TempDir()})
+	e, err := engine.Open(context.Background(), engine.Config{Image: f.Image, Symbols: f.Symbols, DTB: f.DTB, Arch: arch, OS: "linux", Offline: true, CaseDir: t.TempDir()})
 	if err != nil {
 		t.Fatal(err)
 	}

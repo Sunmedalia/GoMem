@@ -2200,19 +2200,20 @@
           }
         }
       ],
-      "applicability": "Intel Linux through 4.2 with global nf_hooks as list_head[13][8]. Walk IPV4, ARP, BRIDGE, IPV6 and DECNET hook lists. Net NS is not applicable. Handler module and exact symbol use the shared module lookup. Later per-namespace hook arrays are rejected.",
+      "applicability": "Symbol-described Intel Linux: global nf_hooks list matrix, net.nf.hooks list/entry/entries matrices, split per-protocol entries arrays, and device ingress/optional egress using all three containers. Run all applicable layouts in pinned order. Preserve namespace/device/slot identity and original-ops captures. Handler module and exact symbol use the shared module lookup.",
       "native": "linux.netfilter",
       "status": "partial",
       "accepted": false,
       "corpora": [
         "official-linux-sample-1-legacy-global-hooks",
-        "synthetic-linux-netfilter-x64"
+        "synthetic-linux-netfilter-x64-x86-pae",
+        "pinned-netfilter-16-mocked-traversal-cases"
       ],
-      "comparison": "legacy_real_negative_25_empty_heads_reread_cache_equal_synthetic_kernel_unknown_and_incomplete_sources",
+      "comparison": "legacy_real_negative_25_heads_reread_24_synthetic_layouts_match_16_pinned_traversal_cases_cache_equal",
       "gaps": [
-        "Kernels 4.3 and later, ingress/egress and per-namespace layouts are not implemented",
+        "Namespace/device layouts have synthetic paging and mocked-boundary pinned traversal differentials only; modern real acquisitions, positive hooks, actual x86/PAE and ARM64 remain pending",
         "Only a Debian 3.2 negative control has a real differential: zero hooks, 25 empty heads independently reread, 548 module-source observations retained and cached JSONL equal. Kernel/unknown attribution is synthetic; positive module-owned and hooked real callbacks remain pending",
-        "Source failures fail the task and leave unmatched-handler classification unavailable. The selected-owner module symbol helper differs from the pinned final-range-owner behavior. Native backward-link checks and resource bounds differ from silent upstream skips",
+        "Source failures fail the task and leave unmatched-handler classification unavailable. The selected-owner module symbol helper differs from the pinned final-range-owner behavior. Native backward-link checks, null original-pointer failures and resource bounds differ from silent upstream skips",
         "Full protocol/version acceptance remains pending"
       ],
       "validation_record": "docs/linux-netfilter.md"

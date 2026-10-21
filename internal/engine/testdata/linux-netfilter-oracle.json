@@ -1,0 +1,478 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Run pinned Netfilter traversal on deterministic kernel object boundaries.\n\nThe actual namespace/protocol/device loops, container decoders and flexible\norig_ops arithmetic run unchanged. Object access and module attribution are\nmocked; this is not real modern-kernel acceptance.\n",
+  "cases": [
+    {
+      "bits": 32,
+      "kind": "list",
+      "device": false,
+      "rows": [
+        {
+          "netns": 42,
+          "proto": "IPV4",
+          "hook": "LOCAL_IN",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        }
+      ],
+      "original_array_reads": []
+    },
+    {
+      "bits": 32,
+      "kind": "list",
+      "device": true,
+      "rows": [
+        {
+          "netns": 42,
+          "proto": "IPV4",
+          "hook": "LOCAL_IN",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        },
+        {
+          "netns": 42,
+          "proto": "NETDEV",
+          "hook": "INGRESS",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        },
+        {
+          "netns": 42,
+          "proto": "NETDEV",
+          "hook": "EGRESS",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        }
+      ],
+      "original_array_reads": []
+    },
+    {
+      "bits": 32,
+      "kind": "entry",
+      "device": false,
+      "rows": [
+        {
+          "netns": 42,
+          "proto": "IPV4",
+          "hook": "LOCAL_IN",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        }
+      ],
+      "original_array_reads": []
+    },
+    {
+      "bits": 32,
+      "kind": "entry",
+      "device": true,
+      "rows": [
+        {
+          "netns": 42,
+          "proto": "IPV4",
+          "hook": "LOCAL_IN",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        },
+        {
+          "netns": 42,
+          "proto": "NETDEV",
+          "hook": "INGRESS",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        },
+        {
+          "netns": 42,
+          "proto": "NETDEV",
+          "hook": "EGRESS",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        }
+      ],
+      "original_array_reads": []
+    },
+    {
+      "bits": 32,
+      "kind": "entries",
+      "device": false,
+      "rows": [
+        {
+          "netns": 42,
+          "proto": "IPV4",
+          "hook": "LOCAL_IN",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        }
+      ],
+      "original_array_reads": [
+        137256
+      ]
+    },
+    {
+      "bits": 32,
+      "kind": "entries",
+      "device": true,
+      "rows": [
+        {
+          "netns": 42,
+          "proto": "IPV4",
+          "hook": "LOCAL_IN",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        },
+        {
+          "netns": 42,
+          "proto": "NETDEV",
+          "hook": "INGRESS",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        },
+        {
+          "netns": 42,
+          "proto": "NETDEV",
+          "hook": "EGRESS",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        }
+      ],
+      "original_array_reads": [
+        137256,
+        137512,
+        137768
+      ]
+    },
+    {
+      "bits": 32,
+      "kind": "split",
+      "device": false,
+      "rows": [
+        {
+          "netns": 42,
+          "proto": "IPV4",
+          "hook": "LOCAL_IN",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        }
+      ],
+      "original_array_reads": [
+        137256
+      ]
+    },
+    {
+      "bits": 32,
+      "kind": "split",
+      "device": true,
+      "rows": [
+        {
+          "netns": 42,
+          "proto": "IPV4",
+          "hook": "LOCAL_IN",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        },
+        {
+          "netns": 42,
+          "proto": "NETDEV",
+          "hook": "INGRESS",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        },
+        {
+          "netns": 42,
+          "proto": "NETDEV",
+          "hook": "EGRESS",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        }
+      ],
+      "original_array_reads": [
+        137256,
+        137512,
+        137768
+      ]
+    },
+    {
+      "bits": 64,
+      "kind": "list",
+      "device": false,
+      "rows": [
+        {
+          "netns": 42,
+          "proto": "IPV4",
+          "hook": "LOCAL_IN",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        }
+      ],
+      "original_array_reads": []
+    },
+    {
+      "bits": 64,
+      "kind": "list",
+      "device": true,
+      "rows": [
+        {
+          "netns": 42,
+          "proto": "IPV4",
+          "hook": "LOCAL_IN",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        },
+        {
+          "netns": 42,
+          "proto": "NETDEV",
+          "hook": "INGRESS",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        },
+        {
+          "netns": 42,
+          "proto": "NETDEV",
+          "hook": "EGRESS",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        }
+      ],
+      "original_array_reads": []
+    },
+    {
+      "bits": 64,
+      "kind": "entry",
+      "device": false,
+      "rows": [
+        {
+          "netns": 42,
+          "proto": "IPV4",
+          "hook": "LOCAL_IN",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        }
+      ],
+      "original_array_reads": []
+    },
+    {
+      "bits": 64,
+      "kind": "entry",
+      "device": true,
+      "rows": [
+        {
+          "netns": 42,
+          "proto": "IPV4",
+          "hook": "LOCAL_IN",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        },
+        {
+          "netns": 42,
+          "proto": "NETDEV",
+          "hook": "INGRESS",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        },
+        {
+          "netns": 42,
+          "proto": "NETDEV",
+          "hook": "EGRESS",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        }
+      ],
+      "original_array_reads": []
+    },
+    {
+      "bits": 64,
+      "kind": "entries",
+      "device": false,
+      "rows": [
+        {
+          "netns": 42,
+          "proto": "IPV4",
+          "hook": "LOCAL_IN",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        }
+      ],
+      "original_array_reads": [
+        137256
+      ]
+    },
+    {
+      "bits": 64,
+      "kind": "entries",
+      "device": true,
+      "rows": [
+        {
+          "netns": 42,
+          "proto": "IPV4",
+          "hook": "LOCAL_IN",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        },
+        {
+          "netns": 42,
+          "proto": "NETDEV",
+          "hook": "INGRESS",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        },
+        {
+          "netns": 42,
+          "proto": "NETDEV",
+          "hook": "EGRESS",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        }
+      ],
+      "original_array_reads": [
+        137256,
+        137512,
+        137768
+      ]
+    },
+    {
+      "bits": 64,
+      "kind": "split",
+      "device": false,
+      "rows": [
+        {
+          "netns": 42,
+          "proto": "IPV4",
+          "hook": "LOCAL_IN",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        }
+      ],
+      "original_array_reads": [
+        137256
+      ]
+    },
+    {
+      "bits": 64,
+      "kind": "split",
+      "device": true,
+      "rows": [
+        {
+          "netns": 42,
+          "proto": "IPV4",
+          "hook": "LOCAL_IN",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        },
+        {
+          "netns": 42,
+          "proto": "NETDEV",
+          "hook": "INGRESS",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        },
+        {
+          "netns": 42,
+          "proto": "NETDEV",
+          "hook": "EGRESS",
+          "priority": -1,
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "test_kernel_handler",
+          "hooked": false
+        }
+      ],
+      "original_array_reads": [
+        137256,
+        137512,
+        137768
+      ]
+    }
+  ]
+}
