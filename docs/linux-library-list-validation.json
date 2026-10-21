@@ -1,0 +1,75 @@
+{
+  "schema": "gomem.linux-library-list-validation/v1",
+  "date": "2026-10-21",
+  "release": "development-preview",
+  "accepted": false,
+  "baseline": {
+    "name": "Volatility 3",
+    "version": "2.28.2",
+    "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+    "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+  },
+  "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+  "reference_output_sha256": "e330d465c9922915e681bdf2694c28ed609c1927b046de9d541fb682e8d83bc9",
+  "reference_parameters": [],
+  "native_output_sha256": "a4457105a63d115afcc46297b6d6eb5d1d9aa4d86ead07a2ea3ecebfd8f18515",
+  "readable_libraries": 2673,
+  "compared_fields": [
+    "Name",
+    "Pid",
+    "LoadAddress",
+    "Path"
+  ],
+  "comparison": "all 2673 rows match as a multiset; no normalization of evidence fields",
+  "vma_scans": 14045,
+  "incomplete_vma_scans": 5726,
+  "unreadable_name_candidates": 29,
+  "native_task_state": "failed",
+  "oracle": {
+    "cases": 30,
+    "scope": "Actual ELF class/program-header/dynamic/GOT/link-map/name objects and LibraryList dedup; mocked task/VMA boundary only",
+    "sha256": "89b61555c15ac762cec9166046fa5132d0e52358162cd3bf1df128512cc9188c"
+  },
+  "synthetic": [
+    "x64/x86/PAE process paging",
+    "linked-list/dense/range Maple VMAs",
+    "PID filters and resource bounds",
+    "name and signature holes, corrupt class and cycles",
+    "evidence store seal read-back and identical cache/retry JSONL",
+    "cancellation and output errors"
+  ],
+  "checks": [
+    "make check",
+    "make matrix",
+    "python3 tools/build_inode_mode_oracle.py --check",
+    "python3 tools/build_library_list_oracle.py --check",
+    "go test ./internal/plugins -run ^$ -fuzz FuzzLinuxLibraryList -fuzztime 10s",
+    "GOMEM_CORPUS_DIR=$PWD/.cache/corpus GOMEM_LIBRARY_LIST_REFERENCE=$PWD/.cache/library-list-validation/reference go test -race ./internal/engine -run TestOfficialLinuxLibraryList -count=1 -v"
+  ],
+  "fuzz": {
+    "executions": 3909,
+    "new_interesting": 1,
+    "failure": false
+  },
+  "limitations": [
+    "Real differential covers Debian 3.2 x64 only",
+    "Matching readable rows does not establish full coverage",
+    "Modern/real 32-bit/compat/ARM64 and full parameter/failure acceptance remain pending",
+    "195 upstream plugins inventoried; zero certified complete"
+  ],
+  "independent_capture_rereads": {
+    "process": 16038,
+    "kernel": 8019
+  },
+  "failed_retry": "not cached; byte-identical sealed JSONL across fresh task IDs",
+  "corpus_race_seconds": 381.16,
+  "filtered_cli": {
+    "parameter": "pids=2363",
+    "library_rows": 13,
+    "total_rows": 178,
+    "comparison": "all four upstream fields match full-reference PID subset",
+    "output_sha256": "8c323b9b04fa9e977708fc6b73f3ac12d9ea62a805503aafc7b138d732f3e92a"
+  }
+}

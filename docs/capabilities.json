@@ -1324,15 +1324,22 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Intel active tasks with optional pids filter and typed list/Maple VMAs. Read ELF32/64 PT_DYNAMIC, select DT_PLTGOT, read GOT[1] using kernel pointer width, and follow class-sized link_map records. Rebase PT_DYNAMIC for ET_DYN only; runtime d_ptr is absolute. Skip zero load/name pointers and deduplicate process-wide load addresses before reading exactly 256 name bytes. Preserve process/VMA/ELF/dynamic/GOT/link/name captures and explicit scan coverage.",
+      "native": "linux.library_list",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "official-linux-sample-1",
+        "synthetic-linux-library-list-x64-x86-pae-list-maple",
+        "pinned-library-list-30-byte-backed-object-cases"
+      ],
+      "comparison": "2673_real_library_rows_match_name_pid_load_address_path_with_explicit_acquisition_gaps",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Real validation covers Debian 3.2 x64 only; modern kernels, real x86/PAE, compat tasks and complete parameter/version matrix remain pending",
+        "Native reports unavailable signatures, dynamic data and library names as failures instead of silent upstream omissions. Repeated nodes, 4096 program headers, 256 entries per dynamic segment, 4096 total dynamic entries per VMA and configured task/VMA/link bounds are explicit; complete damaged-input acceptance is pending",
+        "GOT link-map enumeration does not prove all mapped or hidden libraries; static binaries, fully resolved GOT entries, loader namespaces and missing pages can limit visibility. ARM64 translation is unavailable"
+      ],
+      "validation_record": "docs/linux-library-list.md"
     },
     {
       "id": "linux.lsmod.Lsmod",

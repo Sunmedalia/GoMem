@@ -18,6 +18,7 @@ baseline:
 matrix:
 	python3 tools/baseline_matrix.py --source $(BASELINE) --check
 fuzz:
+	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxLibraryList -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxMalfindDisassembly -fuzztime 10s
 	$(GO) test ./pkg/elfimage -run '^$$' -fuzz FuzzModuleELFRebuild -fuzztime 10s
 	$(GO) test ./pkg/pe -run '^$$' -fuzz FuzzMappedPEReconstruction -fuzztime 10s
