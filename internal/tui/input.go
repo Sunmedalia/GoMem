@@ -67,6 +67,10 @@ func (m model) globalKey(msg tea.KeyPressMsg) (model, tea.Cmd, bool) {
 		m.detail.ScrollRight(4)
 	case key.Matches(msg, keys.Help):
 		m.showHelp = true
+	case key.Matches(msg, keys.TabSelect):
+		return m, m.selectTab(int(msg.String()[0] - '1')), true
+	case key.Matches(msg, keys.CloseTab):
+		return m, m.closeTab(), true
 	case key.Matches(msg, keys.Import):
 		if m.running || m.commandRunning {
 			m.say(levelWarn, "Wait for the running task or cancel with ctrl+x before importing")
@@ -84,7 +88,7 @@ func (m model) globalKey(msg tea.KeyPressMsg) (model, tea.Cmd, bool) {
 		if m.focus == focusNav {
 			return m, m.prompt.open(promptSearch, "Search capabilities", m.caps.query), true
 		}
-		return m, m.prompt.open(promptFilter, "Filter current task", m.res.filter), true
+		return m, m.prompt.open(promptFilter, `Filter: text · Column:text · Column=value · "Two Words":text`, m.res.filter), true
 	case key.Matches(msg, keys.Tasks):
 		if m.running || m.commandRunning {
 			m.say(levelWarn, "Wait for the running task or cancel with ctrl+x")
@@ -100,18 +104,21 @@ func (m model) globalKey(msg tea.KeyPressMsg) (model, tea.Cmd, bool) {
 			m.layout()
 		}
 	case key.Matches(msg, keys.Next):
-		if len(m.res.rows) == pageSize {
-			m.res.offset += pageSize
+		if m.res.nextPage() {
 			return m, m.query(), true
 		}
+	case key.Matches(msg, keys.Prev, keys.Reverse) && m.res.tree.on:
+		m.say(levelWarn, "The tree holds the whole task; press T for pages")
 	case key.Matches(msg, keys.Prev):
-		m.res.offset = max(0, m.res.offset-pageSize)
+		m.res.prevPage()
 		return m, m.query(), true
 	case key.Matches(msg, keys.Reverse):
 		m.res.desc = !m.res.desc
-		m.res.offset = 0
+		m.res.resetPaging()
 		m.layout()
 		return m, m.query(), true
+	case key.Matches(msg, keys.Sort) && m.res.tree.on:
+		m.say(levelWarn, "Trees keep evidence order; press T for sortable pages")
 	case key.Matches(msg, keys.Sort):
 		m.res.cycleSort()
 		m.layout()
@@ -267,6 +274,9 @@ func (m model) launcherKey(msg tea.KeyPressMsg) (model, tea.Cmd, bool) {
 
 func (m model) resultKey(msg tea.KeyPressMsg) (model, tea.Cmd, bool) {
 	half := max(1, m.res.grid.rows()/2)
+	if next, cmd, ok := m.treeKey(msg); ok {
+		return next, cmd, true
+	}
 	switch {
 	case key.Matches(msg, keys.Expand):
 		m.expanded = !m.expanded
@@ -356,7 +366,13 @@ func (m model) promptKey(msg tea.KeyPressMsg) (model, tea.Cmd) {
 			return m, nil
 		case promptFilter:
 			m.res.filter = line
-			m.res.offset = 0
+			m.res.resetPaging()
+			if m.res.tree.on && m.res.tree.task == m.res.task.ID {
+				// The whole task is loaded; filtering needs no query.
+				m.res.applyTree()
+				m.refreshDetail()
+				return m, nil
+			}
 			return m, m.query()
 		}
 		return m.execute(line)
@@ -491,6 +507,8 @@ func (m model) click(mouse tea.Mouse) (model, tea.Cmd, bool) {
 				return m, m.openTask(t), true
 			}
 		}
+	case r == regionCenter && !m.form.open && line == 1:
+		return m, m.selectTab(m.tabAt(mouse.X - m.centerLeft())), true
 	case r == regionCenter && !m.form.open:
 		m.focus = focusResults
 		if i := m.res.grid.top + line - 3; line >= 3 && i < len(m.res.rows) {
@@ -591,4 +609,56 @@ func (m model) launcherClick(mouse tea.Mouse) (model, tea.Cmd, bool) {
 		return m, m.openImage(path), true
 	}
 	return m, cmd, true
+}
+
+// centerLeft is the screen column where the center panel's content starts.
+func (m model) centerLeft() int {
+	left, _, _, _ := m.sizes()
+	return left + 2
+}
+
+// treeKey toggles the tree view and, while it shows, expands and collapses.
+func (m model) treeKey(msg tea.KeyPressMsg) (model, tea.Cmd, bool) {
+	r := &m.res
+	if key.Matches(msg, keys.TreeToggle) {
+		if r.task.ID == "" {
+			m.say(levelWarn, "Run or open a task first")
+			return m, nil, true
+		}
+		r.tree = tree{on: !r.tree.on}
+		r.prefix = nil
+		r.resetPaging()
+		r.layoutAt = ""
+		m.layout()
+		if r.tree.on {
+			m.say(levelInfo, "Loading the whole task as a tree…")
+		}
+		return m, m.query(), true
+	}
+	if !r.tree.on || len(r.tree.lines) == 0 {
+		return m, nil, false
+	}
+	line := r.grid.Cursor()
+	id := r.tree.all[r.tree.lines[line].row].ID
+	switch {
+	case key.Matches(msg, keys.Expand1):
+		delete(r.tree.collapsed, id)
+	case key.Matches(msg, keys.Collapse1):
+		if r.tree.hasChildren(r.tree.lines[line].row) && !r.tree.collapsed[id] && r.filter == "" {
+			r.tree.collapsed[id] = true
+		} else if p := r.tree.parentLine(line); p >= 0 {
+			r.grid.setCursor(p)
+			m.refreshDetail()
+			return m, nil, true
+		}
+	case key.Matches(msg, keys.ExpandAll):
+		r.tree.setAll(false)
+	case key.Matches(msg, keys.Fold):
+		r.tree.setAll(true)
+	default:
+		return m, nil, false
+	}
+	r.applyTree()
+	m.refreshDetail()
+	return m, nil, true
 }

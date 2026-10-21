@@ -422,7 +422,7 @@ func TestStatusLevelsProgressAndTheme(t *testing.T) {
 	m.running, m.res.task.ID, m.runStarted = true, "a", time.Now()
 	updated, _ := m.Update(progressMsg{"a", 42})
 	m = updated.(model)
-	if !strings.Contains(m.statusLine(), "42 rows") || !strings.Contains(m.res.View(m.st, false, m.activity()), "42 rows") {
+	if !strings.Contains(m.statusLine(), "42 rows") || !strings.Contains(m.res.View(m.st, false, m.activity(), ""), "42 rows") {
 		t.Fatal(m.statusLine())
 	}
 	m.generation = 5
@@ -637,5 +637,135 @@ func TestPlatformTabsAndTaskScope(t *testing.T) {
 	m, _ = press(t, m, "a")
 	if len(m.picker.tasks) != 2 || !strings.Contains(fits(t, m), "all images") {
 		t.Fatal("a did not show every image's tasks")
+	}
+}
+
+func TestResultTabsKeepTasksAndRouteRuns(t *testing.T) {
+	m := fixtureModel(t)
+	m, next := feed(t, m, m.start("linux.pslist", nil))
+	for _, c := range next {
+		m, _ = feed(t, m, c)
+	}
+	if len(m.tabs) != 1 || m.res.task.Plugin != "linux.pslist" || len(m.res.rows) != 2 {
+		t.Fatal("first run did not fill the first tab", len(m.tabs), m.res.task.Plugin)
+	}
+	m.res.filter = "worker"
+	// A second run opens a second tab; switching away before it finishes
+	// still delivers its result to its own tab.
+	run := m.start("generic.info", nil)
+	if len(m.tabs) != 2 || m.active != 1 {
+		t.Fatal("second run did not open a tab", len(m.tabs), m.active)
+	}
+	m, _ = press(t, m, "1")
+	if m.active != 0 || m.res.task.Plugin != "linux.pslist" || m.res.filter != "worker" {
+		t.Fatal("tab 1 lost its state", m.res.task.Plugin, m.res.filter)
+	}
+	m, _ = feed(t, m, run)
+	if m.running || m.tabs[1].task.Plugin != "generic.info" || m.res.task.Plugin != "linux.pslist" {
+		t.Fatal("run result reached the wrong tab", m.tabs[1].task.Plugin, m.res.task.Plugin)
+	}
+	out := fits(t, m)
+	if !strings.Contains(out, "1 pslist") || !strings.Contains(out, "2 info") {
+		t.Fatal("tab bar missing\n" + out)
+	}
+	left, _, _, _ := m.sizes()
+	updated, cmd := m.Update(tea.MouseClickMsg{X: left + 2 + len("1 pslist "), Y: 3, Button: tea.MouseLeft})
+	m = updated.(model)
+	if m.active != 1 || cmd == nil {
+		t.Fatal("tab click", m.active)
+	}
+	m, _ = press(t, m, "w")
+	if len(m.tabs) != 1 || m.res.task.Plugin != "linux.pslist" {
+		t.Fatal("close tab", len(m.tabs), m.res.task.Plugin)
+	}
+}
+
+func TestColumnFilters(t *testing.T) {
+	cols := []evidence.Column{{Name: "Symbol Name"}, {Name: "PID"}, {Name: "Name"}}
+	plain, terms := parseFilter(`"symbol name":abc foo pid=1 other:x name:`, cols)
+	if plain != "foo other:x" || len(terms) != 3 || terms[0] != (evidence.ColumnFilter{Column: "Symbol Name", Value: "abc"}) || terms[1] != (evidence.ColumnFilter{Column: "PID", Value: "1", Exact: true}) || terms[2].Column != "Name" {
+		t.Fatal(plain, terms)
+	}
+	m := fixtureModel(t)
+	m = runPslist(t, m)
+	for filter, want := range map[string]int{"Name:WORK": 1, "PID=100": 1, "name=WORKER": 0, "ppid=100 init": 0, "ppid:0": 2, "ppid=0": 1} {
+		m, _ = press(t, m, "tab")
+		m.focus = focusResults
+		m, _ = press(t, m, "/")
+		m.prompt.input.SetValue(filter)
+		m, cmd := press(t, m, "enter")
+		m = deliver(t, m, cmd)
+		if len(m.res.rows) != want {
+			t.Fatalf("%q: %d rows", filter, len(m.res.rows))
+		}
+	}
+}
+
+func TestTreeLayoutFilterAndCycles(t *testing.T) {
+	row := func(id, parent, name string) evidence.Row {
+		return evidence.Row{ID: id, ParentID: parent, Cells: map[string]evidence.Value{"Name": evidence.Text(name)}}
+	}
+	var tr tree
+	tr.build([]evidence.Row{
+		row("1", "", "init"), row("2", "1", "sshd"), row("3", "2", "bash"), row("4", "1", "cron"),
+		row("5", "missing", "orphan"), row("6", "7", "loop-a"), row("7", "6", "loop-b"),
+	})
+	all := func(evidence.Row) bool { return true }
+	draw := func() string {
+		var b strings.Builder
+		for _, l := range tr.lines {
+			b.WriteString(l.prefix + tr.all[l.row].Cells["Name"].String() + "\n")
+		}
+		return b.String()
+	}
+	tr.flatten(all, false)
+	want := "▾ init\n├─▾ sshd\n│ └─  bash\n└─  cron\n  orphan\n▾ loop-a\n└─  loop-b\n"
+	if got := draw(); got != want {
+		t.Fatalf("tree:\n%s\nwant:\n%s", got, want)
+	}
+	tr.collapsed["2"] = true
+	tr.flatten(all, false)
+	if got := draw(); !strings.Contains(got, "├─▸ sshd\n└─  cron") {
+		t.Fatal(got)
+	}
+	tr.flatten(matcher("bash", []evidence.Column{{Name: "Name"}}), true)
+	if got := draw(); got != "▾ init\n└─▾ sshd\n  └─  bash\n" {
+		t.Fatalf("filter keeps ancestors and opens collapsed nodes:\n%s", got)
+	}
+}
+
+func TestTreeViewToggleExpandAndCollapse(t *testing.T) {
+	m := fixtureModel(t)
+	res, err := m.engine.Run(m.ctx, "linux.pstree", nil, engine.RunOptions{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	m.res.task = res.Task
+	m.layout()
+	m = deliver(t, m, m.query())
+	m.focus = focusResults
+	m, cmd := press(t, m, "T")
+	m = deliver(t, m, cmd)
+	if !m.res.tree.on || len(m.res.tree.all) != int(res.Task.Rows) || len(m.res.rows) == 0 || !strings.Contains(fits(t, m), "TREE") {
+		t.Fatal("tree did not load", len(m.res.tree.all), len(m.res.rows))
+	}
+	m, cmd = press(t, m, "n")
+	if cmd != nil {
+		t.Fatal("paging in a tree")
+	}
+	// Collapse every parent, then expand them all again.
+	shown := len(m.res.rows)
+	m, _ = press(t, m, "-")
+	if m.res.tree.linked && len(m.res.rows) >= shown {
+		t.Fatal("collapse all kept every row", len(m.res.rows), shown)
+	}
+	m, _ = press(t, m, "+")
+	if len(m.res.rows) != shown {
+		t.Fatal("expand all", len(m.res.rows), shown)
+	}
+	m, cmd = press(t, m, "T")
+	m = deliver(t, m, cmd)
+	if m.res.tree.on || m.res.prefix != nil || len(m.res.rows) != int(res.Task.Rows) {
+		t.Fatal("tree did not switch back to pages")
 	}
 }

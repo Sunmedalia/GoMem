@@ -572,7 +572,7 @@ func wrapChildCommand(seq uint64, cmd tea.Cmd) tea.Cmd {
 				cmds[i] = wrapChildCommand(seq, c)
 			}
 			return tea.Batch(cmds...)()
-		case tick, started, done, pageMsg, commandMsg, tasksMsg, historyMsg, progressMsg, openedMsg, spinner.TickMsg, tea.QuitMsg:
+		case tick, started, done, pageMsg, treeMsg, commandMsg, tasksMsg, historyMsg, progressMsg, openedMsg, spinner.TickMsg, tea.QuitMsg:
 			return childMsg{seq, msg}
 		}
 		return msg

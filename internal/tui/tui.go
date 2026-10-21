@@ -68,6 +68,8 @@ type model struct {
 	st             styles
 	caps           capabilities
 	res            results
+	tabs           []results
+	active         int
 	detail         viewport.Model
 	prompt         prompt
 	picker         taskPicker
@@ -140,7 +142,7 @@ func (m *model) setEngine(eng *engine.Engine) {
 	m.engine = eng
 	m.explorer = explore.New(eng)
 	m.caps = newCapabilities(eng.Registry.List(), eng.Env.OS)
-	m.res = results{}
+	m.res, m.tabs, m.active = results{}, nil, 0
 	m.picker = taskPicker{}
 	m.form = paramForm{}
 	m.showCommand, m.expanded = false, false
@@ -231,7 +233,7 @@ func (m model) loadTasks() tea.Cmd {
 	}
 }
 func (m model) countRows() tea.Cmd {
-	id := m.res.task.ID
+	id := m.runningTask()
 	return func() tea.Msg {
 		n, err := m.engine.Store.TaskRows(m.ctx, id)
 		if err != nil {
@@ -329,7 +331,9 @@ func (m *model) start(name string, params map[string]string) tea.Cmd {
 	m.say(levelInfo, "Running "+name)
 	m.generation++
 	generation := m.generation
+	m.openTab()
 	m.res.reset(evidence.Task{})
+	m.res.gen = generation
 	m.layout()
 	eng, events := m.engine, m.events
 	run := func() tea.Msg {
@@ -345,11 +349,158 @@ func (m *model) start(name string, params map[string]string) tea.Cmd {
 	return tea.Batch(run, m.spin.Tick)
 }
 
+const maxTabs = 9
+
+// stash saves the live tab into its slot.
+func (m *model) stash() {
+	if len(m.tabs) == 0 {
+		m.tabs, m.active = []results{m.res}, 0
+	}
+	m.tabs[m.active] = m.res
+}
+
+// openTab makes room for new evidence: an empty current tab is reused,
+// otherwise a tab is added, dropping the oldest idle tab at the limit.
+func (m *model) openTab() {
+	m.stash()
+	if m.res.task.ID == "" && m.res.gen == 0 {
+		return
+	}
+	if len(m.tabs) >= maxTabs {
+		for i, t := range m.tabs {
+			if !(m.running && t.gen == m.generation) {
+				m.tabs = append(m.tabs[:i], m.tabs[i+1:]...)
+				break
+			}
+		}
+	}
+	m.tabs = append(m.tabs, results{})
+	m.active = len(m.tabs) - 1
+	m.res = results{}
+}
+
+// selectTab shows tab i and refreshes its page.
+func (m *model) selectTab(i int) tea.Cmd {
+	if i < 0 || i >= len(m.tabs) || i == m.active {
+		return nil
+	}
+	m.stash()
+	m.active = i
+	m.res = m.tabs[i]
+	m.res.layoutAt = ""
+	m.showCommand = false
+	m.layout()
+	if m.res.task.ID == "" {
+		return nil
+	}
+	return m.query()
+}
+
+// closeTab removes the current tab unless its task is still running.
+func (m *model) closeTab() tea.Cmd {
+	if m.running && m.res.gen == m.generation {
+		m.say(levelWarn, "Cancel the running task with ctrl+x before closing its tab")
+		return nil
+	}
+	m.stash()
+	if len(m.tabs) <= 1 {
+		m.res, m.tabs, m.active = results{}, nil, 0
+		m.layout()
+		return nil
+	}
+	m.tabs = append(m.tabs[:m.active], m.tabs[m.active+1:]...)
+	m.active = min(m.active, len(m.tabs)-1)
+	m.res = m.tabs[m.active]
+	m.res.layoutAt = ""
+	m.layout()
+	if m.res.task.ID == "" {
+		return nil
+	}
+	return m.query()
+}
+
+// tabFor finds the tab a run fills, live or stashed.
+func (m *model) tabFor(gen uint64) *results {
+	if m.res.gen == gen {
+		return &m.res
+	}
+	for i := range m.tabs {
+		if i != m.active && m.tabs[i].gen == gen {
+			return &m.tabs[i]
+		}
+	}
+	return nil
+}
+
+// runningTask is the ID of the running task, wherever its tab is.
+func (m *model) runningTask() string {
+	if t := m.tabFor(m.generation); m.running && t != nil {
+		return t.task.ID
+	}
+	return ""
+}
+
+// tabBar labels each tab with its number and plugin, without the platform.
+func (m model) tabBar(width int) string {
+	if len(m.tabs) <= 1 {
+		return ""
+	}
+	parts := make([]string, len(m.tabs))
+	for i, t := range m.tabs {
+		if i == m.active {
+			t = m.res
+		}
+		name := t.task.Plugin
+		if _, rest, ok := strings.Cut(name, "."); ok {
+			name = rest
+		}
+		if name == "" {
+			name = "…"
+		}
+		label := fmt.Sprintf("%d %s", i+1, render.Safe(name))
+		if m.running && t.gen == m.generation {
+			label += "*"
+		}
+		if i == m.active {
+			parts[i] = m.st.selected.Render(label)
+		} else {
+			parts[i] = m.st.muted.Render(label)
+		}
+	}
+	return ansi.Truncate(strings.Join(parts, " "), width, "…")
+}
+
+// tabAt returns the tab whose label covers column x of the tab bar.
+func (m model) tabAt(x int) int {
+	for i, t := range m.tabs {
+		if i == m.active {
+			t = m.res
+		}
+		name := t.task.Plugin
+		if _, rest, ok := strings.Cut(name, "."); ok {
+			name = rest
+		}
+		if name == "" {
+			name = "…"
+		}
+		w := ansi.StringWidth(fmt.Sprintf("%d %s", i+1, render.Safe(name)))
+		if m.running && t.gen == m.generation {
+			w++
+		}
+		if x < w {
+			return i
+		}
+		x -= w + 1
+	}
+	return -1
+}
+
 // openTask shows a persisted task's evidence without running it again.
 func (m *model) openTask(t evidence.Task) tea.Cmd {
 	m.picker.open = false
 	m.showCommand = false
 	m.caps.selectName(t.Plugin)
+	m.openTab()
 	m.res.reset(t)
 	m.layout()
 	m.say(levelInfo, fmt.Sprintf("%s · %s · %d rows", t.Plugin, t.State, t.Rows))
@@ -404,13 +555,17 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.prompt.pos = len(m.prompt.history)
 		return m, nil
 	case started:
-		if x.generation != m.generation || !m.running {
+		tab := m.tabFor(x.generation)
+		if x.generation != m.generation || !m.running || tab == nil {
 			return m, m.waitEvent()
 		}
-		m.res.task = x.task
+		tab.task = x.task
+		if tab != &m.res {
+			return m, m.waitEvent()
+		}
 		return m, tea.Batch(m.query(), m.waitEvent())
 	case progressMsg:
-		if m.running && x.task == m.res.task.ID {
+		if m.running && x.task == m.runningTask() {
 			m.progress = x.rows
 		}
 		return m, nil
@@ -420,30 +575,63 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 		m.running, m.canceling = false, false
 		m.cancel = nil
-		m.res.task = x.result.Task
+		tab := m.tabFor(x.generation)
+		if tab != nil {
+			tab.task = x.result.Task
+		}
 		elapsed := time.Since(m.runStarted).Round(time.Millisecond)
 		switch {
 		case errors.Is(x.err, context.Canceled):
-			m.say(levelWarn, fmt.Sprintf("Canceled after %s · %d rows retained", elapsed, m.res.task.Rows))
+			m.say(levelWarn, fmt.Sprintf("Canceled after %s · %d rows retained", elapsed, x.result.Task.Rows))
 		case x.err != nil:
 			m.say(levelError, x.err.Error())
 		default:
-			m.say(levelSuccess, fmt.Sprintf("%s · %d rows · %s · cached %t", m.res.task.State, m.res.task.Rows, elapsed, x.result.Reused))
+			m.say(levelSuccess, fmt.Sprintf("%s %s · %d rows · %s · cached %t", x.result.Task.Plugin, x.result.Task.State, x.result.Task.Rows, elapsed, x.result.Reused))
+		}
+		if tab != &m.res {
+			return m, nil
 		}
 		return m, m.query()
 	case tick:
-		if m.running && m.res.task.ID != "" {
-			return m, tea.Batch(pulse(), m.query(), m.countRows())
+		if m.running && m.runningTask() != "" {
+			cmds := []tea.Cmd{pulse(), m.countRows()}
+			if m.res.gen == m.generation && !m.res.tree.on {
+				cmds = append(cmds, m.query())
+			}
+			return m, tea.Batch(cmds...)
 		}
 		return m, pulse()
-	case pageMsg:
-		if !m.res.accepts(x) {
+	case treeMsg:
+		if !m.res.tree.on || x.task != m.res.task.ID {
 			return m, nil
 		}
 		if x.err != nil {
 			m.say(levelError, x.err.Error())
 			return m, nil
 		}
+		m.res.tree.task = x.task
+		m.res.tree.truncated = x.truncated
+		m.res.tree.build(x.rows)
+		m.res.applyTree()
+		m.refreshDetail()
+		switch {
+		case x.truncated:
+			m.say(levelWarn, fmt.Sprintf("Tree shows the first %d rows; filter or use pages for the rest", treeLimit))
+		case !m.res.tree.linked:
+			m.say(levelWarn, "These rows have no parent links; the tree is flat")
+		default:
+			m.say(levelInfo, "Tree view · →/← expand/collapse · +/- all · T pages")
+		}
+		return m, nil
+	case pageMsg:
+		if m.res.tree.on || !m.res.accepts(x) {
+			return m, nil
+		}
+		if x.err != nil {
+			m.say(levelError, x.err.Error())
+			return m, nil
+		}
+		m.res.last = x.last
 		m.res.setRows(x.rows)
 		m.refreshDetail()
 		return m, nil
@@ -545,7 +733,7 @@ func (m model) View() tea.View {
 		case m.picker.open:
 			center = m.picker.View(m.st, middle-4, height-4)
 		default:
-			center = m.res.View(m.st, m.focus == focusResults, m.activity())
+			center = m.res.View(m.st, m.focus == focusResults, m.activity(), m.tabBar(middle-4))
 		}
 		body = row(
 			m.st.panel(m.caps.View(m.st, left-4), left, height, m.focus == focusNav && !m.form.open),

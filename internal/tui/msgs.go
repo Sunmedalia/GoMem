@@ -26,6 +26,7 @@ type pageMsg struct {
 	desc   bool
 	sort   string
 	rows   []evidence.Row
+	last   int64
 	err    error
 }
 type commandMsg struct {
