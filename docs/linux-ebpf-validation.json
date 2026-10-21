@@ -1,0 +1,95 @@
+{
+  "schema": "gomem.linux-ebpf-validation/v1",
+  "date": "2026-10-21",
+  "release": "development-preview",
+  "accepted": false,
+  "baseline": {
+    "name": "Volatility 3",
+    "version": "2.28.2",
+    "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+    "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+  },
+  "oracle": {
+    "cases": 96,
+    "native_paging_cases": 144,
+    "sha256": "319a284b81660a905c3e7e6907685064112716fdbfa72b8990a9413410ea6683",
+    "scope": "Unmodified EBPF generator and real ISF-backed IDR/radix/XArray/program/aux objects over byte-backed layers; no plugin or field-method mocks",
+    "layouts": [
+      "radix",
+      "xarray",
+      "legacy",
+      "direct",
+      "empty",
+      "base",
+      "multi",
+      "legacy-deep"
+    ],
+    "metadata": [
+      "modern",
+      "aux-type",
+      "missing-fields",
+      "empty-name",
+      "unicode-name",
+      "null-aux"
+    ],
+    "compared_fields": [
+      "Address",
+      "Name",
+      "Tag",
+      "Type"
+    ],
+    "comparison": "All Selected program rows match reference; all native IDs independently checked including legacy IDs beyond pinned limit"
+  },
+  "evidence": [
+    "Every index-read and program field capture independently reread",
+    "SQLite row seals verified after read-back",
+    "Completed tasks reused with identical JSONL",
+    "Failed task retry has new task ID and identical evidence; no success cache reuse"
+  ],
+  "negative_control": {
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "kernel": "Debian 3.2 x64",
+    "reference": "VolatilityException: Cannot find the eBPF prog idr. Unsupported kernel",
+    "native": "failed; zero rows; prog_idr symbol absent",
+    "positive_acceptance": false,
+    "final_task": "a0caaef3af03c351f5055673b8411168"
+  },
+  "checks": [
+    "make check",
+    "make matrix",
+    "python3 tools/build_inode_mode_oracle.py --check",
+    "python3 tools/build_ebpf_oracle.py --check",
+    "go test ./internal/plugins -run '^$' -fuzz FuzzLinuxEBPFIDR -fuzztime 10s"
+  ],
+  "limitations": [
+    "No positive real eBPF corpus",
+    "Legacy Selected marker documents pinned IDs 0..15 bug; native keeps all IDs",
+    "Native explicit failures differ from silent baseline skips",
+    "ARM64 virtual translation unavailable",
+    "Full version, parameter, corruption and export acceptance pending",
+    "195 upstream plugins inventoried; zero certified complete"
+  ],
+  "fuzz": {
+    "seconds": 10,
+    "executions": 304109,
+    "new_interesting": 47,
+    "failure": false
+  },
+  "physical_image_smoke": {
+    "test": "TestOfficialVMCoreInfo",
+    "seconds": 3.41,
+    "debian": {
+      "entries": 47,
+      "note_captures": 2
+    },
+    "kali": {
+      "entries": 111,
+      "note_captures": 4
+    },
+    "comparison": "Offset/Key/Value and order match saved reference; raw lines and captures reread; cache reused",
+    "kali_image_sha256": "cf04d76ab9177d7ee355cc96020d29ae194c065c692304ff25e594ab510c639d",
+    "scope": "Physical VMCOREINFO only, not eBPF or ARM64 virtual translation"
+  }
+}

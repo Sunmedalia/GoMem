@@ -676,15 +676,22 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Intel Linux kernels declaring prog_idr and typed bpf_prog metadata. Walk embedded radix/XArray roots with optional idr_base or legacy 256-slot IDR layers. Preserve ascending IDs, program addresses, enum types, lowercase tag bytes and aux names. Every index read and available metadata field retains raw bytes, bounds and read errors; native traversal is bounded and cancellable.",
+      "native": "linux.ebpf",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-ebpf-96-byte-backed-object-cases",
+        "synthetic-linux-ebpf-x64-x86-pae-144-paging-cases",
+        "official-linux-sample-1-unsupported-kernel"
+      ],
+      "comparison": "96_pinned_real_object_cases_selected_four_columns_match_144_native_paging_cases_Debian_unsupported_negative_only",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "No positive real eBPF corpus: Debian 3.2 lacks prog_idr and both engines explicitly reject it. Kali ARM64 virtual translation remains unavailable; modern/real x86/PAE and full version/parameter acceptance pending",
+        "Legacy pinned IDR.idr_max selects only IDs 0..15; native preserves all IDs below cur and marks Selected for the pinned subset. Tagged entries remain diagnostics, not programs. The fixed name conversion truncates at NUL or the first Unicode replacement character; original bytes and decoded text remain available",
+        "Unavailable optional metadata remains typed missing; actual index/metadata read errors, unknown enum values, invalid layouts, cycles and exhausted bounds fail tasks with partial evidence. Failed tasks are not cached. These explicit failures differ from silent baseline omissions; full damaged-image and renderer acceptance pending"
+      ],
+      "validation_record": "docs/linux-ebpf.md"
     },
     {
       "id": "linux.elfs.Elfs",

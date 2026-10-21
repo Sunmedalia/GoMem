@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"io"
+	"reflect"
 	"strings"
 	"testing"
 
@@ -267,5 +268,29 @@ func TestTreeIndexOverflow(t *testing.T) {
 	_, err := Walk(context.Background(), r, 0x100, Limits{16, 16}, func(Entry) error { t.Fatal("overflow emitted an entry"); return nil })
 	if err == nil || !strings.Contains(err.Error(), "index overflow") {
 		t.Fatal(err)
+	}
+}
+
+func TestWalkRootWithoutAddressSpaceAndWrapperEquivalence(t *testing.T) {
+	for _, xa := range []bool{false, true} {
+		r, _, put := fixture(8, xa, "shift")
+		tag := uint64(1)
+		root := "radix_tree_root"
+		if xa {
+			tag = 2
+			root = "xarray"
+		}
+		put(0x108, 0x1200|tag)
+		put(0x1210, 0x1800)
+		var wrapped, independent []Entry
+		want, err := Walk(context.Background(), r, 0x100, Limits{8, 8}, func(e Entry) error { wrapped = append(wrapped, e); return nil })
+		if err != nil {
+			t.Fatal(err)
+		}
+		delete(r.Symbols.(*symbols.ISF).Types, "address_space")
+		got, err := WalkRoot(context.Background(), r, 0x100, root, Limits{8, 8}, func(e Entry) error { independent = append(independent, e); return nil })
+		if err != nil || !reflect.DeepEqual(got, want) || !reflect.DeepEqual(wrapped, independent) {
+			t.Fatal(err, got, want, wrapped, independent)
+		}
 	}
 }

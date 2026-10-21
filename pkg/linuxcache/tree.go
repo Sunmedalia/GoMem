@@ -32,10 +32,6 @@ func Walk(ctx context.Context, r *object.Reader, mapping uint64, limits Limits, 
 	if err := ctx.Err(); err != nil {
 		return stats, err
 	}
-	width := uint64(r.Symbols.PointerSize())
-	if width != 4 && width != 8 {
-		return stats, fmt.Errorf("unsupported pointer width")
-	}
 	field, err := r.Field("address_space", "i_pages")
 	if errors.Is(err, object.ErrFieldAbsent) {
 		field, err = r.Field("address_space", "page_tree")
@@ -50,7 +46,24 @@ func Walk(ctx context.Context, r *object.Reader, mapping uint64, limits Limits, 
 	if err != nil {
 		return stats, err
 	}
-	rootType := field.Type.Name
+	return WalkRoot(ctx, r, root, field.Type.Name, limits, emit)
+}
+
+// WalkRoot walks a symbol-described radix/XArray root independently of an
+// address_space. IDR embeds the same roots for non-page objects. Kind "page"
+// denotes an untagged aligned pointer; callers interpret its object type.
+func WalkRoot(ctx context.Context, r *object.Reader, root uint64, rootType string, limits Limits, emit func(Entry) error) (Stats, error) {
+	var stats Stats
+	if limits.Nodes == 0 || limits.Nodes > 1000000 || limits.Entries == 0 || limits.Entries > 1000000 {
+		return stats, fmt.Errorf("tree limits must be 1..1000000")
+	}
+	if err := ctx.Err(); err != nil {
+		return stats, err
+	}
+	width := uint64(r.Symbols.PointerSize())
+	if width != 4 && width != 8 {
+		return stats, fmt.Errorf("unsupported pointer width")
+	}
 	_, xaErr := r.Field(rootType, "xa_head")
 	xa := xaErr == nil
 	if xaErr != nil && !errors.Is(xaErr, object.ErrFieldAbsent) {
