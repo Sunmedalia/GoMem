@@ -1,0 +1,12 @@
+{
+  "native_record_type": {"field": "RecordType", "values": ["finding"], "excluded_values": ["summary", "diagnostic"]},
+  "fields": {
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "Process": {"native": "Process", "reference": "Process", "kind": "string"},
+    "Base": {"native": "Base", "reference": "Base", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "FILE_OBJECT": {"native": "FILE_OBJECT", "reference": "FILE_OBJECT", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "DeletePending": {"native": "DeletePending", "reference": "DeletePending", "kind": "uint64", "missing_reasons": ["not_applicable"]},
+    "DeleteOnClose": {"native": "DeleteOnClose", "reference": "DeleteOnClose", "kind": "uint64", "missing_reasons": ["not_applicable"]},
+    "Path": {"native": "Path", "reference": "Path", "kind": "string", "missing_reasons": ["not_available"]}
+  }
+}

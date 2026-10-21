@@ -1,0 +1,2570 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "processes": [
+    {
+      "member": false,
+      "slot": 0,
+      "target": 0,
+      "pending": null,
+      "expected": []
+    },
+    {
+      "member": false,
+      "slot": 0,
+      "target": 0,
+      "pending": 0,
+      "expected": []
+    },
+    {
+      "member": false,
+      "slot": 0,
+      "target": 0,
+      "pending": 1,
+      "expected": []
+    },
+    {
+      "member": false,
+      "slot": 0,
+      "target": 0,
+      "pending": 2,
+      "expected": []
+    },
+    {
+      "member": false,
+      "slot": 0,
+      "target": 0,
+      "pending": 255,
+      "expected": []
+    },
+    {
+      "member": false,
+      "slot": 0,
+      "target": 16384,
+      "pending": null,
+      "expected": []
+    },
+    {
+      "member": false,
+      "slot": 0,
+      "target": 16384,
+      "pending": 0,
+      "expected": []
+    },
+    {
+      "member": false,
+      "slot": 0,
+      "target": 16384,
+      "pending": 1,
+      "expected": []
+    },
+    {
+      "member": false,
+      "slot": 0,
+      "target": 16384,
+      "pending": 2,
+      "expected": []
+    },
+    {
+      "member": false,
+      "slot": 0,
+      "target": 16384,
+      "pending": 255,
+      "expected": []
+    },
+    {
+      "member": false,
+      "slot": 1152,
+      "target": 0,
+      "pending": null,
+      "expected": []
+    },
+    {
+      "member": false,
+      "slot": 1152,
+      "target": 0,
+      "pending": 0,
+      "expected": []
+    },
+    {
+      "member": false,
+      "slot": 1152,
+      "target": 0,
+      "pending": 1,
+      "expected": []
+    },
+    {
+      "member": false,
+      "slot": 1152,
+      "target": 0,
+      "pending": 2,
+      "expected": []
+    },
+    {
+      "member": false,
+      "slot": 1152,
+      "target": 0,
+      "pending": 255,
+      "expected": []
+    },
+    {
+      "member": false,
+      "slot": 1152,
+      "target": 16384,
+      "pending": null,
+      "expected": []
+    },
+    {
+      "member": false,
+      "slot": 1152,
+      "target": 16384,
+      "pending": 0,
+      "expected": []
+    },
+    {
+      "member": false,
+      "slot": 1152,
+      "target": 16384,
+      "pending": 1,
+      "expected": []
+    },
+    {
+      "member": false,
+      "slot": 1152,
+      "target": 16384,
+      "pending": 2,
+      "expected": []
+    },
+    {
+      "member": false,
+      "slot": 1152,
+      "target": 16384,
+      "pending": 255,
+      "expected": []
+    },
+    {
+      "member": true,
+      "slot": 0,
+      "target": 0,
+      "pending": null,
+      "expected": [
+        [
+          0,
+          null,
+          null,
+          4096
+        ]
+      ]
+    },
+    {
+      "member": true,
+      "slot": 0,
+      "target": 0,
+      "pending": 0,
+      "expected": [
+        [
+          0,
+          null,
+          null,
+          4096
+        ]
+      ]
+    },
+    {
+      "member": true,
+      "slot": 0,
+      "target": 0,
+      "pending": 1,
+      "expected": [
+        [
+          0,
+          null,
+          null,
+          4096
+        ]
+      ]
+    },
+    {
+      "member": true,
+      "slot": 0,
+      "target": 0,
+      "pending": 2,
+      "expected": [
+        [
+          0,
+          null,
+          null,
+          4096
+        ]
+      ]
+    },
+    {
+      "member": true,
+      "slot": 0,
+      "target": 0,
+      "pending": 255,
+      "expected": [
+        [
+          0,
+          null,
+          null,
+          4096
+        ]
+      ]
+    },
+    {
+      "member": true,
+      "slot": 0,
+      "target": 16384,
+      "pending": null,
+      "expected": [
+        [
+          0,
+          null,
+          null,
+          4096
+        ]
+      ]
+    },
+    {
+      "member": true,
+      "slot": 0,
+      "target": 16384,
+      "pending": 0,
+      "expected": [
+        [
+          0,
+          null,
+          null,
+          4096
+        ]
+      ]
+    },
+    {
+      "member": true,
+      "slot": 0,
+      "target": 16384,
+      "pending": 1,
+      "expected": [
+        [
+          0,
+          null,
+          null,
+          4096
+        ]
+      ]
+    },
+    {
+      "member": true,
+      "slot": 0,
+      "target": 16384,
+      "pending": 2,
+      "expected": [
+        [
+          0,
+          null,
+          null,
+          4096
+        ]
+      ]
+    },
+    {
+      "member": true,
+      "slot": 0,
+      "target": 16384,
+      "pending": 255,
+      "expected": [
+        [
+          0,
+          null,
+          null,
+          4096
+        ]
+      ]
+    },
+    {
+      "member": true,
+      "slot": 1152,
+      "target": 0,
+      "pending": null,
+      "expected": [
+        [
+          0,
+          null,
+          null,
+          4096
+        ]
+      ]
+    },
+    {
+      "member": true,
+      "slot": 1152,
+      "target": 0,
+      "pending": 0,
+      "expected": [
+        [
+          0,
+          0,
+          null,
+          4096
+        ]
+      ]
+    },
+    {
+      "member": true,
+      "slot": 1152,
+      "target": 0,
+      "pending": 1,
+      "expected": [
+        [
+          0,
+          1,
+          null,
+          4096
+        ]
+      ]
+    },
+    {
+      "member": true,
+      "slot": 1152,
+      "target": 0,
+      "pending": 2,
+      "expected": [
+        [
+          0,
+          null,
+          null,
+          4096
+        ]
+      ]
+    },
+    {
+      "member": true,
+      "slot": 1152,
+      "target": 0,
+      "pending": 255,
+      "expected": [
+        [
+          0,
+          null,
+          null,
+          4096
+        ]
+      ]
+    },
+    {
+      "member": true,
+      "slot": 1152,
+      "target": 16384,
+      "pending": null,
+      "expected": [
+        [
+          0,
+          null,
+          null,
+          4096
+        ]
+      ]
+    },
+    {
+      "member": true,
+      "slot": 1152,
+      "target": 16384,
+      "pending": 0,
+      "expected": []
+    },
+    {
+      "member": true,
+      "slot": 1152,
+      "target": 16384,
+      "pending": 1,
+      "expected": [
+        [
+          16384,
+          1,
+          null,
+          4096
+        ]
+      ]
+    },
+    {
+      "member": true,
+      "slot": 1152,
+      "target": 16384,
+      "pending": 2,
+      "expected": []
+    },
+    {
+      "member": true,
+      "slot": 1152,
+      "target": 16384,
+      "pending": 255,
+      "expected": []
+    }
+  ],
+  "vads": [
+    {
+      "path": "a.exe",
+      "pending": null,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.exe",
+      "pending": null,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.exe",
+      "pending": null,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "a.exe",
+      "pending": null,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    },
+    {
+      "path": "a.exe",
+      "pending": 0,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.exe",
+      "pending": 0,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.exe",
+      "pending": 0,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "a.exe",
+      "pending": 0,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    },
+    {
+      "path": "a.exe",
+      "pending": 1,
+      "close": null,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.exe",
+      "pending": 1,
+      "close": 0,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.exe",
+      "pending": 1,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ],
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.exe",
+      "pending": 1,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ],
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.exe",
+      "pending": 2,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.exe",
+      "pending": 2,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.exe",
+      "pending": 2,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "a.exe",
+      "pending": 2,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    },
+    {
+      "path": "a.exe",
+      "pending": 255,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.exe",
+      "pending": 255,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.exe",
+      "pending": 255,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "a.exe",
+      "pending": 255,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    },
+    {
+      "path": "a.EXE",
+      "pending": null,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.EXE",
+      "pending": null,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.EXE",
+      "pending": null,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "a.EXE",
+      "pending": null,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    },
+    {
+      "path": "a.EXE",
+      "pending": 0,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.EXE",
+      "pending": 0,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.EXE",
+      "pending": 0,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "a.EXE",
+      "pending": 0,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    },
+    {
+      "path": "a.EXE",
+      "pending": 1,
+      "close": null,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.EXE",
+      "pending": 1,
+      "close": 0,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.EXE",
+      "pending": 1,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ],
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.EXE",
+      "pending": 1,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ],
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.EXE",
+      "pending": 2,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.EXE",
+      "pending": 2,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.EXE",
+      "pending": 2,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "a.EXE",
+      "pending": 2,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    },
+    {
+      "path": "a.EXE",
+      "pending": 255,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.EXE",
+      "pending": 255,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.EXE",
+      "pending": 255,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "a.EXE",
+      "pending": 255,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    },
+    {
+      "path": "a.dll",
+      "pending": null,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.dll",
+      "pending": null,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.dll",
+      "pending": null,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "a.dll",
+      "pending": null,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    },
+    {
+      "path": "a.dll",
+      "pending": 0,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.dll",
+      "pending": 0,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.dll",
+      "pending": 0,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "a.dll",
+      "pending": 0,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    },
+    {
+      "path": "a.dll",
+      "pending": 1,
+      "close": null,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.dll",
+      "pending": 1,
+      "close": 0,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.dll",
+      "pending": 1,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ],
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.dll",
+      "pending": 1,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ],
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.dll",
+      "pending": 2,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.dll",
+      "pending": 2,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.dll",
+      "pending": 2,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "a.dll",
+      "pending": 2,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    },
+    {
+      "path": "a.dll",
+      "pending": 255,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.dll",
+      "pending": 255,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.dll",
+      "pending": 255,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "a.dll",
+      "pending": 255,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    },
+    {
+      "path": "A.DLL",
+      "pending": null,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "A.DLL",
+      "pending": null,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "A.DLL",
+      "pending": null,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "A.DLL",
+      "pending": null,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    },
+    {
+      "path": "A.DLL",
+      "pending": 0,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "A.DLL",
+      "pending": 0,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "A.DLL",
+      "pending": 0,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "A.DLL",
+      "pending": 0,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    },
+    {
+      "path": "A.DLL",
+      "pending": 1,
+      "close": null,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "A.DLL",
+      "pending": 1,
+      "close": 0,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "A.DLL",
+      "pending": 1,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ],
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "A.DLL",
+      "pending": 1,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ],
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "A.DLL",
+      "pending": 2,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "A.DLL",
+      "pending": 2,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "A.DLL",
+      "pending": 2,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "A.DLL",
+      "pending": 2,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    },
+    {
+      "path": "A.DLL",
+      "pending": 255,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "A.DLL",
+      "pending": 255,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "A.DLL",
+      "pending": 255,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "A.DLL",
+      "pending": 255,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": null,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": null,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": null,
+      "close": 1,
+      "expected": []
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": null,
+      "close": 2,
+      "expected": []
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": 0,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": 0,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": 0,
+      "close": 1,
+      "expected": []
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": 0,
+      "close": 2,
+      "expected": []
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": 1,
+      "close": null,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": 1,
+      "close": 0,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": 1,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": 1,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": 2,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": 2,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": 2,
+      "close": 1,
+      "expected": []
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": 2,
+      "close": 2,
+      "expected": []
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": 255,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": 255,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": 255,
+      "close": 1,
+      "expected": []
+    },
+    {
+      "path": "a.exe.tmp",
+      "pending": 255,
+      "close": 2,
+      "expected": []
+    },
+    {
+      "path": "a.exe ",
+      "pending": null,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.exe ",
+      "pending": null,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.exe ",
+      "pending": null,
+      "close": 1,
+      "expected": []
+    },
+    {
+      "path": "a.exe ",
+      "pending": null,
+      "close": 2,
+      "expected": []
+    },
+    {
+      "path": "a.exe ",
+      "pending": 0,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.exe ",
+      "pending": 0,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.exe ",
+      "pending": 0,
+      "close": 1,
+      "expected": []
+    },
+    {
+      "path": "a.exe ",
+      "pending": 0,
+      "close": 2,
+      "expected": []
+    },
+    {
+      "path": "a.exe ",
+      "pending": 1,
+      "close": null,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.exe ",
+      "pending": 1,
+      "close": 0,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.exe ",
+      "pending": 1,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.exe ",
+      "pending": 1,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.exe ",
+      "pending": 2,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.exe ",
+      "pending": 2,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.exe ",
+      "pending": 2,
+      "close": 1,
+      "expected": []
+    },
+    {
+      "path": "a.exe ",
+      "pending": 2,
+      "close": 2,
+      "expected": []
+    },
+    {
+      "path": "a.exe ",
+      "pending": 255,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.exe ",
+      "pending": 255,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.exe ",
+      "pending": 255,
+      "close": 1,
+      "expected": []
+    },
+    {
+      "path": "a.exe ",
+      "pending": 255,
+      "close": 2,
+      "expected": []
+    },
+    {
+      "path": "a.txt",
+      "pending": null,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.txt",
+      "pending": null,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.txt",
+      "pending": null,
+      "close": 1,
+      "expected": []
+    },
+    {
+      "path": "a.txt",
+      "pending": null,
+      "close": 2,
+      "expected": []
+    },
+    {
+      "path": "a.txt",
+      "pending": 0,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.txt",
+      "pending": 0,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.txt",
+      "pending": 0,
+      "close": 1,
+      "expected": []
+    },
+    {
+      "path": "a.txt",
+      "pending": 0,
+      "close": 2,
+      "expected": []
+    },
+    {
+      "path": "a.txt",
+      "pending": 1,
+      "close": null,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.txt",
+      "pending": 1,
+      "close": 0,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.txt",
+      "pending": 1,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.txt",
+      "pending": 1,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "a.txt",
+      "pending": 2,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.txt",
+      "pending": 2,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.txt",
+      "pending": 2,
+      "close": 1,
+      "expected": []
+    },
+    {
+      "path": "a.txt",
+      "pending": 2,
+      "close": 2,
+      "expected": []
+    },
+    {
+      "path": "a.txt",
+      "pending": 255,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "a.txt",
+      "pending": 255,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "a.txt",
+      "pending": 255,
+      "close": 1,
+      "expected": []
+    },
+    {
+      "path": "a.txt",
+      "pending": 255,
+      "close": 2,
+      "expected": []
+    },
+    {
+      "path": "",
+      "pending": null,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "",
+      "pending": null,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "",
+      "pending": null,
+      "close": 1,
+      "expected": []
+    },
+    {
+      "path": "",
+      "pending": null,
+      "close": 2,
+      "expected": []
+    },
+    {
+      "path": "",
+      "pending": 0,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "",
+      "pending": 0,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "",
+      "pending": 0,
+      "close": 1,
+      "expected": []
+    },
+    {
+      "path": "",
+      "pending": 0,
+      "close": 2,
+      "expected": []
+    },
+    {
+      "path": "",
+      "pending": 1,
+      "close": null,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "",
+      "pending": 1,
+      "close": 0,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "",
+      "pending": 1,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "",
+      "pending": 1,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "",
+      "pending": 2,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "",
+      "pending": 2,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "",
+      "pending": 2,
+      "close": 1,
+      "expected": []
+    },
+    {
+      "path": "",
+      "pending": 2,
+      "close": 2,
+      "expected": []
+    },
+    {
+      "path": "",
+      "pending": 255,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "",
+      "pending": 255,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "",
+      "pending": 255,
+      "close": 1,
+      "expected": []
+    },
+    {
+      "path": "",
+      "pending": 255,
+      "close": 2,
+      "expected": []
+    },
+    {
+      "path": "Σ.dll",
+      "pending": null,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "Σ.dll",
+      "pending": null,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "Σ.dll",
+      "pending": null,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "Σ.dll",
+      "pending": null,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    },
+    {
+      "path": "Σ.dll",
+      "pending": 0,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "Σ.dll",
+      "pending": 0,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "Σ.dll",
+      "pending": 0,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "Σ.dll",
+      "pending": 0,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    },
+    {
+      "path": "Σ.dll",
+      "pending": 1,
+      "close": null,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "Σ.dll",
+      "pending": 1,
+      "close": 0,
+      "expected": [
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "Σ.dll",
+      "pending": 1,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ],
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "Σ.dll",
+      "pending": 1,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ],
+        [
+          16384,
+          1,
+          null
+        ]
+      ]
+    },
+    {
+      "path": "Σ.dll",
+      "pending": 2,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "Σ.dll",
+      "pending": 2,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "Σ.dll",
+      "pending": 2,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "Σ.dll",
+      "pending": 2,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    },
+    {
+      "path": "Σ.dll",
+      "pending": 255,
+      "close": null,
+      "expected": []
+    },
+    {
+      "path": "Σ.dll",
+      "pending": 255,
+      "close": 0,
+      "expected": []
+    },
+    {
+      "path": "Σ.dll",
+      "pending": 255,
+      "close": 1,
+      "expected": [
+        [
+          16384,
+          null,
+          1
+        ]
+      ]
+    },
+    {
+      "path": "Σ.dll",
+      "pending": 255,
+      "close": 2,
+      "expected": [
+        [
+          16384,
+          null,
+          2
+        ]
+      ]
+    }
+  ],
+  "active": [
+    {
+      "valid": false,
+      "threads": 0,
+      "pid": 4,
+      "parent": 4,
+      "exited": 0,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 0,
+      "pid": 4,
+      "parent": 4,
+      "exited": 0,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 0,
+      "pid": 4,
+      "parent": 4,
+      "exited": 1,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 0,
+      "pid": 4,
+      "parent": 4,
+      "exited": 1,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 0,
+      "pid": 4,
+      "parent": 100,
+      "exited": 0,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 0,
+      "pid": 4,
+      "parent": 100,
+      "exited": 0,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 0,
+      "pid": 4,
+      "parent": 100,
+      "exited": 1,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 0,
+      "pid": 4,
+      "parent": 100,
+      "exited": 1,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 0,
+      "pid": 104,
+      "parent": 4,
+      "exited": 0,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 0,
+      "pid": 104,
+      "parent": 4,
+      "exited": 0,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 0,
+      "pid": 104,
+      "parent": 4,
+      "exited": 1,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 0,
+      "pid": 104,
+      "parent": 4,
+      "exited": 1,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 0,
+      "pid": 104,
+      "parent": 100,
+      "exited": 0,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 0,
+      "pid": 104,
+      "parent": 100,
+      "exited": 0,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 0,
+      "pid": 104,
+      "parent": 100,
+      "exited": 1,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 0,
+      "pid": 104,
+      "parent": 100,
+      "exited": 1,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 2,
+      "pid": 4,
+      "parent": 4,
+      "exited": 0,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 2,
+      "pid": 4,
+      "parent": 4,
+      "exited": 0,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 2,
+      "pid": 4,
+      "parent": 4,
+      "exited": 1,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 2,
+      "pid": 4,
+      "parent": 4,
+      "exited": 1,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 2,
+      "pid": 4,
+      "parent": 100,
+      "exited": 0,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 2,
+      "pid": 4,
+      "parent": 100,
+      "exited": 0,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 2,
+      "pid": 4,
+      "parent": 100,
+      "exited": 1,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 2,
+      "pid": 4,
+      "parent": 100,
+      "exited": 1,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 2,
+      "pid": 104,
+      "parent": 4,
+      "exited": 0,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 2,
+      "pid": 104,
+      "parent": 4,
+      "exited": 0,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 2,
+      "pid": 104,
+      "parent": 4,
+      "exited": 1,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 2,
+      "pid": 104,
+      "parent": 4,
+      "exited": 1,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 2,
+      "pid": 104,
+      "parent": 100,
+      "exited": 0,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 2,
+      "pid": 104,
+      "parent": 100,
+      "exited": 0,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 2,
+      "pid": 104,
+      "parent": 100,
+      "exited": 1,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": false,
+      "threads": 2,
+      "pid": 104,
+      "parent": 100,
+      "exited": 1,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 0,
+      "pid": 4,
+      "parent": 4,
+      "exited": 0,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 0,
+      "pid": 4,
+      "parent": 4,
+      "exited": 0,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 0,
+      "pid": 4,
+      "parent": 4,
+      "exited": 1,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 0,
+      "pid": 4,
+      "parent": 4,
+      "exited": 1,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 0,
+      "pid": 4,
+      "parent": 100,
+      "exited": 0,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 0,
+      "pid": 4,
+      "parent": 100,
+      "exited": 0,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 0,
+      "pid": 4,
+      "parent": 100,
+      "exited": 1,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 0,
+      "pid": 4,
+      "parent": 100,
+      "exited": 1,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 0,
+      "pid": 104,
+      "parent": 4,
+      "exited": 0,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 0,
+      "pid": 104,
+      "parent": 4,
+      "exited": 0,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 0,
+      "pid": 104,
+      "parent": 4,
+      "exited": 1,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 0,
+      "pid": 104,
+      "parent": 4,
+      "exited": 1,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 0,
+      "pid": 104,
+      "parent": 100,
+      "exited": 0,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 0,
+      "pid": 104,
+      "parent": 100,
+      "exited": 0,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 0,
+      "pid": 104,
+      "parent": 100,
+      "exited": 1,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 0,
+      "pid": 104,
+      "parent": 100,
+      "exited": 1,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 2,
+      "pid": 4,
+      "parent": 4,
+      "exited": 0,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 2,
+      "pid": 4,
+      "parent": 4,
+      "exited": 0,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 2,
+      "pid": 4,
+      "parent": 4,
+      "exited": 1,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 2,
+      "pid": 4,
+      "parent": 4,
+      "exited": 1,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 2,
+      "pid": 4,
+      "parent": 100,
+      "exited": 0,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 2,
+      "pid": 4,
+      "parent": 100,
+      "exited": 0,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 2,
+      "pid": 4,
+      "parent": 100,
+      "exited": 1,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 2,
+      "pid": 4,
+      "parent": 100,
+      "exited": 1,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 2,
+      "pid": 104,
+      "parent": 4,
+      "exited": 0,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 2,
+      "pid": 104,
+      "parent": 4,
+      "exited": 0,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 2,
+      "pid": 104,
+      "parent": 4,
+      "exited": 1,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 2,
+      "pid": 104,
+      "parent": 4,
+      "exited": 1,
+      "handles": true,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 2,
+      "pid": 104,
+      "parent": 100,
+      "exited": 0,
+      "handles": false,
+      "expected": true
+    },
+    {
+      "valid": true,
+      "threads": 2,
+      "pid": 104,
+      "parent": 100,
+      "exited": 0,
+      "handles": true,
+      "expected": true
+    },
+    {
+      "valid": true,
+      "threads": 2,
+      "pid": 104,
+      "parent": 100,
+      "exited": 1,
+      "handles": false,
+      "expected": false
+    },
+    {
+      "valid": true,
+      "threads": 2,
+      "pid": 104,
+      "parent": 100,
+      "exited": 1,
+      "handles": true,
+      "expected": false
+    }
+  ]
+}

@@ -7636,15 +7636,23 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active userland process predicate: pinned EPROCESS validity, ActiveThreads > 0, PID and parent not 4, and raw ExitTime zero. The pinned predicate compares two fresh UnreadableValue objects by identity, so an unreadable or absent handle count does not reject an otherwise active process. Native coverage records HandleCount layout availability and retains real read failures as diagnostics. Named VADs form a start-keyed map with last value replacement and first insertion order. Short VADs have no file name. Direct ControlArea or Subsection.ControlArea, pointer and 32/64-bit EX_FAST_REF layouts are supported. FileName Length must be positive; its decoded string may be empty and remains a named mapping. Process checks exist only with ImageFilePointer; the pinned test uses the pointer field storage offset, then reads the target even when it is null. A failed target read yields file object zero, with the cause retained separately. Process DeletePending values outside 0 and 1 become absent. Nonprivate named VADs emit DeleteOnClose for case-insensitive exe/dll suffixes, followed independently by DeletePending exactly one. The same VAD may emit both findings. Zero flag columns render as not applicable; raw values and original process, VAD, control and field coordinates are retained. Structural, symbol, cancellation, output and native bound errors fail explicitly. Read failures caught by the pinned plugin produce diagnostic rows, not clean no-hit evidence. max-nodes and max-vads are native traversal bounds. windows.processghosting.ProcessGhosting is a deprecated alias.",
+      "native": "windows.processghosting",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-process-vad-deletion-state",
+        "pinned-40-process-180-vad-64-active-oracles",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_zero_findings_match_seven_columns_113_active_processes_18125_vads_3482_read_diagnostics_retained",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "One selected Windows 10 19041 x64 image has 120 active-list entries, 113 eligible processes, 18125 VADs and 8214 named mappings; both engines emit zero findings. Native output retains 3478 path and 4 control-area read diagnostics, so the result does not establish complete clean coverage",
+        "The fixed-source helper and active-filter oracles cover positive deletion flags, invalid values, null targets, unreadable fields, case-insensitive suffixes, overlapping findings and the actual absent-value comparison behavior",
+        "Synthetic full readers cover process and VAD positives, private mappings, null and mapped-zero pointers, duplicate starts, direct/subsection control areas, pointer/fastref variants, x86 fastref masking, embedded NUL, odd UTF16, bounds, broken symbols, faults, cancellation and output errors",
+        "Real malicious ghosted processes, native x86 and older Windows images, complete false-positive and damaged-image differential acceptance remain pending"
+      ],
+      "validation_record": "docs/windows-processghosting.md"
     },
     {
       "id": "windows.malware.psxview.PsXView",
@@ -9117,7 +9125,7 @@
       "corpora": [],
       "comparison": "not_run",
       "gaps": [
-        "Native implementation and validation pending"
+        "Deprecated alias of windows.malware.processghosting.ProcessGhosting; native command is windows.processghosting"
       ]
     },
     {
