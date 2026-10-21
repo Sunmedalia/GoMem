@@ -10,6 +10,8 @@ Go 原生、只读的内存取证引擎与交互式 TUI。当前版本 **0.1.0-d
 
 `linux.kmsg` 已支持四类内核日志缓冲区，保留读取证据、描述符状态及有界失败。Debian 样本的 1,445 条日志通过五字段对照；真实现代内核日志与完整验收仍待补齐。[内核日志验证](docs/linux-kmsg.md)
 
+`linux.check_ftrace` 已支持 ftrace 操作链、首桶过滤条目和回调模块关联。48 组固定对象用例通过字段对照；现有 Debian 镜像不支持此能力，真实阳性差分仍待补齐。[ftrace 验证](docs/linux-ftrace.md)
+
 `linux.fbdev` 已支持 framebuffer 元数据及 PNG/原始字节提取。26 组固定对象用例通过像素与字段对照；Kali ARM64 通过原生采集和导出检查，仍缺少真实 Intel 阳性差分。[Framebuffer 验证](docs/linux-fbdev.md)
 
 `linux.perf_events` 已支持进程/线程的性能事件与关联 eBPF 程序枚举，保留任务身份和原始读取证据。44 个固定对象案例通过六字段对照；现有 Debian 镜像只有零事件对照，真实阳性语料仍待补齐。[性能事件验证](docs/linux-perf-events.md)

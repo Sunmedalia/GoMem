@@ -3688,15 +3688,24 @@
           "default": false
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Intel Linux with typed ftrace_ops_list pointer, ftrace_list_end sentinel, old filter_hash or pointer/embedded func_hash, ftrace_hash buckets and hlist entry layouts. Gather Lsmod/SysFs/Scanner/kernel module ranges, resolve callback owner and exact symbols, preserve hooked aliases and optional fixed flags. Pinned selection walks only the first filter bucket.",
+      "native": "linux.check_ftrace",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-ftrace-48-byte-backed-object-cases",
+        "synthetic-linux-ftrace-x64-x86-pae-72-paging-cases-two-flag-modes",
+        "official-linux-sample-1-unsupported-kernel"
+      ],
+      "comparison": "48_actual_object_cases_seven_fields_match_72_native_paging_cases_both_flag_modes_Debian_unsupported_only",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "No real supported/positive ftrace corpus: Debian 3.2 symbols have no ftrace_ops_list; native fails explicitly and the fixed plugin logs unsupported then returns no rows. This is not a clean negative hook result or a successful differential",
+        "Pinned first-bucket selection deliberately ignores later buckets; empty first bucket does not prove the whole filter hash is empty. Bounded null/cycle/read/layout failures retain raw partial records and fail instead of silent pointer-readability termination",
+        "Callback lookup uses selected matching module ELF symbols. Pinned module_lookup_by_address instead dereferences the final range object for non-kernel callbacks; native owner policy is retained as evidence and differs intentionally. Kernel-only actual object oracles do not establish all module-helper parity",
+        "Native source gatherers and exact kernel/module alias resolution reuse existing verified mechanisms, with explicit source failures. Full concurrent-writer, damaged-list, symbol-owner and module-source completeness acceptance pending",
+        "ARM64 is outside the fixed baseline Intel architecture requirement and is not enabled by this plugin. More kernel versions, real x86/PAE, all parameters/renderers and full capability acceptance remain pending"
+      ],
+      "validation_record": "docs/linux-ftrace.md"
     },
     {
       "id": "linux.tracing.perf_events.PerfEvents",

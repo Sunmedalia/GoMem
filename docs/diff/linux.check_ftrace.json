@@ -1,0 +1,11 @@
+{
+  "native_record_type":{"field":"RecordType","value":"ftrace_hook","excluded_values":["ftrace_read","ftrace_ops","ftrace_summary","diagnostic","module_observation","source_observation","sysfs_candidate","source_selection","scan_candidate"]},
+  "fields":{
+    "ftrace_ops address":{"native":"ftrace_ops address","reference":"ftrace_ops address","kind":"address","mask":"0x0000ffffffffffff"},
+    "Callback":{"native":"Callback","reference":"Callback","kind":"string","missing_reasons":["not_available"]},
+    "Callback address":{"native":"Callback address","reference":"Callback address","kind":"address","mask":"0x0000ffffffffffff"},
+    "Hooked symbols":{"native":"Hooked symbols","reference":"Hooked symbols","kind":"string","missing_reasons":["not_available"]},
+    "Module":{"native":"Module","reference":"Module","kind":"string","missing_reasons":["not_available"]},
+    "Module address":{"native":"Module address","reference":"Module address","kind":"address","mask":"0x0000ffffffffffff","missing_reasons":["not_available"]}
+  }
+}
