@@ -371,6 +371,33 @@ func (e *Engine) Run(ctx context.Context, name string, in map[string]string, opt
 	}
 	return e.run(ctx, name, in, opts, make(map[string]bool))
 }
+
+// DeprecatedPluginAliases maps locked upstream class names to implemented commands.
+// The requested name remains the cache and provenance identity.
+var DeprecatedPluginAliases = map[string]string{
+	"linux.check_afinfo.Check_afinfo":              "linux.check_afinfo",
+	"linux.check_creds.Check_creds":                "linux.check_creds",
+	"linux.check_idt.Check_idt":                    "linux.check_idt",
+	"linux.check_modules.Check_modules":            "linux.check_modules",
+	"linux.check_syscall.Check_syscall":            "linux.check_syscall",
+	"linux.hidden_modules.Hidden_modules":          "linux.hidden_modules",
+	"linux.keyboard_notifiers.Keyboard_notifiers":  "linux.keyboard_notifiers",
+	"linux.modxview.Modxview":                      "linux.modxview",
+	"linux.tty_check.tty_check":                    "linux.tty_check",
+	"windows.amcache.Amcache":                      "windows.amcache",
+	"windows.cachedump.Cachedump":                  "windows.cachedump",
+	"windows.drivermodule.DriverModule":            "windows.drivermodule",
+	"windows.hashdump.Hashdump":                    "windows.hashdump",
+	"windows.hollowprocesses.HollowProcesses":      "windows.hollowprocesses",
+	"windows.ldrmodules.LdrModules":                "windows.ldrmodules",
+	"windows.lsadump.Lsadump":                      "windows.lsadump",
+	"windows.processghosting.ProcessGhosting":      "windows.processghosting",
+	"windows.psxview.PsXView":                      "windows.psxview",
+	"windows.scheduled_tasks.ScheduledTasks":       "windows.scheduledtasks",
+	"windows.suspicious_threads.SuspiciousThreads": "windows.suspicious_threads",
+	"windows.svcdiff.SvcDiff":                      "windows.svcdiff",
+}
+
 func (e *Engine) unchanged() error {
 	f, ok := e.Source.(*memory.FileSource)
 	if !ok {
@@ -394,11 +421,18 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 	}
 	stack[name] = true
 	defer delete(stack, name)
+	requested := name
+	if alias, ok := DeprecatedPluginAliases[name]; ok {
+		name = alias
+	}
 	p, err := e.Registry.Get(name)
 	if err != nil {
 		return result, err
 	}
 	spec := p.Spec()
+	if requested != name {
+		spec.Name = requested
+	}
 	params, err := plugin.Parameters(spec, in)
 	if err != nil {
 		return result, err
@@ -411,7 +445,7 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 			return result, fmt.Errorf("dependency %s: %w", dep, err)
 		}
 	}
-	provenance := evidence.Provenance{ImageSHA256: e.Hash, Engine: version.Version, Plugin: name, Parameters: make(map[string]string), Layer: e.Env.Physical.Name()}
+	provenance := evidence.Provenance{ImageSHA256: e.Hash, Engine: version.Version, Plugin: requested, Parameters: make(map[string]string), Layer: e.Env.Physical.Name()}
 	provenance.EngineBuild = e.Build
 	for k, v := range params {
 		provenance.Parameters[k] = v
@@ -508,7 +542,14 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 		row.Provenance.Engine = provenance.Engine
 		row.Provenance.EngineBuild = provenance.EngineBuild
 		row.Provenance.SymbolsSHA256 = provenance.SymbolsSHA256
-		row.Provenance.Plugin = name
+		row.Provenance.Plugin = requested
+		if requested != name {
+			if row.Cells == nil {
+				row.Cells = map[string]evidence.Value{}
+			}
+			row.Cells["RequestedPlugin"] = evidence.Text(requested)
+			row.Cells["ImplementedPlugin"] = evidence.Text(name)
+		}
 		row.Provenance.Parameters = provenance.Parameters
 		if row.Provenance.Layer == "" {
 			row.Provenance.Layer = provenance.Layer

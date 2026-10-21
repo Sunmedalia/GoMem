@@ -57,7 +57,12 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 	var params []string
 	var fresh bool
 	analyze := &cobra.Command{Use: "analyze PLUGIN", Short: "Stream a native plugin and persist evidence", Args: cobra.ExactArgs(1), RunE: func(cmd *cobra.Command, args []string) error {
-		p, err := registry.Get(args[0])
+		name := args[0]
+		if target, ok := engine.DeprecatedPluginAliases[name]; ok {
+			name = target
+			fmt.Fprintf(stderr, "deprecated plugin %s delegates to %s\n", args[0], target)
+		}
+		p, err := registry.Get(name)
 		if err != nil {
 			return err
 		}
@@ -92,11 +97,20 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 	root.AddCommand(analyze)
 	root.AddCommand(&cobra.Command{Use: "plugins [NAME]", Short: "List implemented plugins or inspect a parameter schema", Args: cobra.MaximumNArgs(1), RunE: func(cmd *cobra.Command, args []string) error {
 		if len(args) == 1 {
-			p, err := registry.Get(args[0])
+			name := args[0]
+			if target, ok := engine.DeprecatedPluginAliases[name]; ok {
+				name = target
+			}
+			p, err := registry.Get(name)
 			if err != nil {
 				return err
 			}
-			return jsonOut(out, p.Spec())
+			spec := p.Spec()
+			if name != args[0] {
+				spec.Name = args[0]
+				spec.Description = "Deprecated upstream name; delegates to " + name + ". " + spec.Description
+			}
+			return jsonOut(out, spec)
 		}
 		if format == "json" || format == "jsonl" {
 			return jsonOut(out, registry.List())

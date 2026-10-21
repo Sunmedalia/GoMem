@@ -449,14 +449,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "linux.check_afinfo",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Deprecated alias of linux.malware.check_afinfo.Check_afinfo; native command is linux.check_afinfo; independent alias acceptance remains pending"
-      ]
+        "Deprecated class name linux.malware.check_afinfo.Check_afinfo delegates to linux.check_afinfo. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "linux.check_creds.Check_creds",
@@ -488,14 +491,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "linux.check_creds",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Deprecated alias of linux.malware.check_creds.Check_creds; native command is linux.check_creds"
-      ]
+        "Deprecated class name linux.malware.check_creds.Check_creds delegates to linux.check_creds. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "linux.check_idt.Check_idt",
@@ -551,14 +557,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "linux.check_idt",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Deprecated alias of linux.malware.check_idt.Check_idt; native command is linux.check_idt; independent alias acceptance remains pending"
-      ]
+        "Deprecated class name linux.malware.check_idt.Check_idt delegates to linux.check_idt. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "linux.check_modules.Check_modules",
@@ -608,14 +617,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "linux.check_modules",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Deprecated alias of linux.malware.check_modules.Check_modules; native command is linux.check_modules"
-      ]
+        "Deprecated class name linux.malware.check_modules.Check_modules delegates to linux.check_modules. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "linux.check_syscall.Check_syscall",
@@ -635,14 +647,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "linux.check_syscall",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Deprecated alias of linux.malware.check_syscall.Check_syscall; native command is linux.check_syscall; independent alias acceptance remains pending"
-      ]
+        "Deprecated class name linux.malware.check_syscall.Check_syscall delegates to linux.check_syscall. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "linux.ebpf.EBPF",
@@ -880,14 +895,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "linux.hidden_modules",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-hidden-modules-alias"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Deprecated alias of linux.malware.hidden_modules.Hidden_modules; native command is linux.hidden_modules; independent alias acceptance remains pending"
-      ]
+        "Deprecated class name linux.malware.hidden_modules.Hidden_modules delegates to linux.hidden_modules. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "linux.iomem.IOMem",
@@ -1144,14 +1162,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "linux.keyboard_notifiers",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Deprecated alias of linux.malware.keyboard_notifiers.Keyboard_notifiers; native command is linux.keyboard_notifiers"
-      ]
+        "Deprecated class name linux.malware.keyboard_notifiers.Keyboard_notifiers delegates to linux.keyboard_notifiers. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "linux.kmsg.Kmsg",
@@ -2464,14 +2485,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "linux.modxview",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Deprecated class name linux.malware.modxview.Modxview delegates to linux.modxview. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "linux.mountinfo.MountInfo",
@@ -3756,14 +3780,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "linux.tty_check",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Deprecated alias of linux.malware.tty_check.Tty_Check; native command is linux.tty_check"
-      ]
+        "Deprecated class name linux.malware.tty_check.Tty_Check delegates to linux.tty_check. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "linux.vmaregexscan.VmaRegExScan",
@@ -5300,14 +5327,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "windows.amcache",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Deprecated class name windows.registry.amcache.Amcache delegates to windows.amcache. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "windows.bigpools.BigPools",
@@ -5413,14 +5443,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "windows.cachedump",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Deprecated alias of windows.registry.cachedump.Cachedump; native command is windows.cachedump"
-      ]
+        "Deprecated class name windows.registry.cachedump.Cachedump delegates to windows.cachedump. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "windows.callbacks.Callbacks",
@@ -6312,14 +6345,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "windows.drivermodule",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Deprecated alias of windows.malware.drivermodule.DriverModule; native command is windows.drivermodule"
-      ]
+        "Deprecated class name windows.malware.drivermodule.DriverModule delegates to windows.drivermodule. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "windows.driverscan.DriverScan",
@@ -6868,14 +6904,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "windows.hashdump",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Deprecated alias of windows.registry.hashdump.Hashdump; native command is windows.hashdump"
-      ]
+        "Deprecated class name windows.registry.hashdump.Hashdump delegates to windows.hashdump. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "windows.hollowprocesses.HollowProcesses",
@@ -6928,14 +6967,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "windows.hollowprocesses",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Deprecated alias of windows.malware.hollowprocesses.HollowProcesses; native command is windows.hollowprocesses"
-      ]
+        "Deprecated class name windows.malware.hollowprocesses.HollowProcesses delegates to windows.hollowprocesses. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "windows.iat.IAT",
@@ -7221,14 +7263,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "windows.ldrmodules",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Deprecated alias of windows.malware.ldrmodules.LdrModules; native command is windows.ldrmodules"
-      ]
+        "Deprecated class name windows.malware.ldrmodules.LdrModules delegates to windows.ldrmodules. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "windows.lsadump.Lsadump",
@@ -7272,14 +7317,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "windows.lsadump",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Deprecated alias of windows.registry.lsadump.Lsadump; native command is windows.lsadump"
-      ]
+        "Deprecated class name windows.registry.lsadump.Lsadump delegates to windows.lsadump. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "windows.malfind.Malfind",
@@ -9332,14 +9380,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "windows.processghosting",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Deprecated alias of windows.malware.processghosting.ProcessGhosting; native command is windows.processghosting"
-      ]
+        "Deprecated class name windows.malware.processghosting.ProcessGhosting delegates to windows.processghosting. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "windows.pslist.PsList",
@@ -9657,14 +9708,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "windows.psxview",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Deprecated alias of windows.malware.psxview.PsXView; native command is windows.psxview"
-      ]
+        "Deprecated class name windows.malware.psxview.PsXView delegates to windows.psxview. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "windows.registry.amcache.Amcache",
@@ -10307,14 +10361,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "windows.scheduledtasks",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Deprecated alias of windows.registry.scheduled_tasks.ScheduledTasks; native command is windows.scheduledtasks"
-      ]
+        "Deprecated class name windows.registry.scheduled_tasks.ScheduledTasks delegates to windows.scheduledtasks. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "windows.sessions.Sessions",
@@ -10786,14 +10843,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "windows.suspicious_threads",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Deprecated alias of windows.malware.suspicious_threads.SuspiciousThreads; native command is windows.suspicious_threads"
-      ]
+        "Deprecated class name windows.malware.suspicious_threads.SuspiciousThreads delegates to windows.suspicious_threads. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "windows.svcdiff.SvcDiff",
@@ -10837,14 +10897,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "windows.svcdiff",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-deprecated-alias-delegation"
+      ],
+      "comparison": "deprecated_name_delegates_to_native_command",
       "gaps": [
-        "Deprecated alias of windows.malware.svcdiff.SvcDiff; native command is windows.svcdiff"
-      ]
+        "Deprecated class name windows.malware.svcdiff.SvcDiff delegates to windows.svcdiff. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "windows.svclist.SvcList",
