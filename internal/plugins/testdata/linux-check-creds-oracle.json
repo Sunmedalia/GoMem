@@ -1,0 +1,182 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "cases": [
+    {
+      "name": "empty",
+      "tasks": [],
+      "rows": []
+    },
+    {
+      "name": "distinct",
+      "tasks": [
+        {
+          "pid": 100,
+          "cred": "0x1c800",
+          "readable": true
+        },
+        {
+          "pid": 101,
+          "cred": "0x1c820",
+          "readable": true
+        }
+      ],
+      "rows": []
+    },
+    {
+      "name": "shared",
+      "tasks": [
+        {
+          "pid": 100,
+          "cred": "0x1c800",
+          "readable": true
+        },
+        {
+          "pid": 101,
+          "cred": "0x1c800",
+          "readable": true
+        }
+      ],
+      "rows": [
+        {
+          "CredVAddr": "0x1c800",
+          "PIDs": "100, 101"
+        }
+      ]
+    },
+    {
+      "name": "same-pid",
+      "tasks": [
+        {
+          "pid": 100,
+          "cred": "0x1c800",
+          "readable": true
+        },
+        {
+          "pid": 100,
+          "cred": "0x1c800",
+          "readable": true
+        }
+      ],
+      "rows": [
+        {
+          "CredVAddr": "0x1c800",
+          "PIDs": "100, 100"
+        }
+      ]
+    },
+    {
+      "name": "reverse-pids",
+      "tasks": [
+        {
+          "pid": 101,
+          "cred": "0x1c800",
+          "readable": true
+        },
+        {
+          "pid": 100,
+          "cred": "0x1c800",
+          "readable": true
+        }
+      ],
+      "rows": [
+        {
+          "CredVAddr": "0x1c800",
+          "PIDs": "101, 100"
+        }
+      ]
+    },
+    {
+      "name": "null",
+      "tasks": [
+        {
+          "pid": 100,
+          "cred": "0x0",
+          "readable": true
+        },
+        {
+          "pid": 101,
+          "cred": "0x1c800",
+          "readable": true
+        }
+      ],
+      "rows": []
+    },
+    {
+      "name": "unreadable",
+      "tasks": [
+        {
+          "pid": 100,
+          "cred": "0x1c800",
+          "readable": false
+        },
+        {
+          "pid": 101,
+          "cred": "0x1c800",
+          "readable": true
+        }
+      ],
+      "rows": []
+    },
+    {
+      "name": "late-shared",
+      "tasks": [
+        {
+          "pid": 10,
+          "cred": "0x200",
+          "readable": true
+        },
+        {
+          "pid": 20,
+          "cred": "0x100",
+          "readable": true
+        },
+        {
+          "pid": 30,
+          "cred": "0x100",
+          "readable": true
+        },
+        {
+          "pid": 40,
+          "cred": "0x200",
+          "readable": true
+        }
+      ],
+      "rows": [
+        {
+          "CredVAddr": "0x200",
+          "PIDs": "10, 40"
+        },
+        {
+          "CredVAddr": "0x100",
+          "PIDs": "20, 30"
+        }
+      ]
+    },
+    {
+      "name": "partial-group",
+      "tasks": [
+        {
+          "pid": 10,
+          "cred": "0x100",
+          "readable": true
+        },
+        {
+          "pid": 20,
+          "cred": "0x100",
+          "readable": false
+        },
+        {
+          "pid": 30,
+          "cred": "0x100",
+          "readable": true
+        }
+      ],
+      "rows": [
+        {
+          "CredVAddr": "0x100",
+          "PIDs": "10, 30"
+        }
+      ]
+    }
+  ]
+}

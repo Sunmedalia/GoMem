@@ -111,6 +111,7 @@ bin/gomem analyze windows.pslist \
 | `linux.psaux` | 进程自身页表中的参数区、原始字节和参数列表；无用户 mm 时明确显示来源；PID 集合筛选 |
 | `linux.process_spoofing` | 对照可执行文件、argv[0] 和 comm，保留原始字节与未完成比较；[说明](docs/linux-process-spoofing.md) |
 | `linux.capabilities` | 读取 cred/real_cred 权限位图，保留内核掩码、原始字节和未知位；[说明与基线兼容差异](docs/linux-capabilities.md) |
+| `linux.check_creds` | 按凭据对象地址检查活动任务共享，保留成员身份与读取诊断；[说明](docs/linux-check-creds.md) |
 | `linux.envars` | 进程页表中的环境变量块；保留原始字节，缺 `=` 时停止该任务，未映射或超限明确失败；[说明](docs/linux-envars.md) |
 | `linux.lsmod` | 匹配 ISF、DTB；旧布局和 `module_layout`；6.4+ `module_memory` 字段尚未补齐 |
 | `linux.maps` | VMA 链表或 Maple Tree、权限、inode、设备及带作用域的路径；PID/地址集合筛选；可提取所选区域 |

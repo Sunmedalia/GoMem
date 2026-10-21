@@ -1,0 +1,80 @@
+{
+  "scope": "Development preview: unmodified pinned reference negative control, not positive sharing or full release acceptance.",
+  "reference_manifest": {
+    "baseline": {
+      "name": "Volatility 3",
+      "version": "2.28.2",
+      "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+      "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+    },
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "plugin": "linux.malware.check_creds.Check_creds",
+    "parameters": [],
+    "output_sha256": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
+    "config_sha256": "5903a7e7afcbf11dbe94a05e93e115d06196a7f1d4dba8433bb7eecb37285484",
+    "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+  },
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "CredVAddr",
+      "PIDs"
+    ],
+    "native_rows": 0,
+    "reference_rows": 0,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "72a5ac3e04771d7bbd224990e4be00325c7f510a995cb9038f94a7cd46023f56",
+      "reference": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
+      "mapping": "3cb57de00d01315d7d4d1677414284c2c40e2fb0ecc410d2eb94996014a7a1cc"
+    },
+    "native_input_rows": 134,
+    "native_non_entity_records": {
+      "process": 133,
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "values": [
+        "shared"
+      ],
+      "excluded_values": [
+        "process",
+        "diagnostic",
+        "summary"
+      ]
+    }
+  },
+  "coverage": {
+    "processes": 133,
+    "checked": 133,
+    "credential_objects": 133,
+    "shared_groups": 0,
+    "diagnostics": 0
+  },
+  "checks": {
+    "pinned_generator_cases": 9,
+    "make_check": "passed",
+    "sqlite_row_verification": "passed",
+    "cache_reuse": "passed",
+    "fresh_cached_jsonl_identical": true,
+    "bundle_verified": true,
+    "bundle_sha256": "092a8ae59b57fccea6a77379274f569ae6adee885d3dabec7c4119eb174f55e5"
+  },
+  "public_serialization_fix_regression": {
+    "linux_process_spoofing": "passed full and filtered corpus",
+    "linux_capabilities": "passed full and filtered explicit-layout-adapter corpus",
+    "windows_native_triage": "passed both fresh and cached 34-finding runs"
+  },
+  "pending": [
+    "Real positive credential sharing",
+    "Modern kernels",
+    "Actual x86/PAE images",
+    "ARM64",
+    "Complete task validity and damaged-list behavior"
+  ]
+}

@@ -478,7 +478,7 @@
       "corpora": [],
       "comparison": "not_run",
       "gaps": [
-        "Native implementation and validation pending"
+        "Deprecated alias of linux.malware.check_creds.Check_creds; native command is linux.check_creds"
       ]
     },
     {
@@ -1551,15 +1551,24 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active task-list entries excluding init_task and additional user threads. Read task.cred, not real_cred, and require the entire cred extent to be readable. Group by exact virtual cred object address, retaining task.pid order, duplicate PIDs and first-seen group order; emit selected shared groups only when at least two tasks remain. Native process observations retain raw credential pointer/object bytes, task coordinates and object/start-time process identities. Unreadable or null pointers become explicit diagnostics and fail the native task rather than disappearing; unreadable credentials are excluded from groups as in the baseline. max-nodes and a 65536-byte cred sanity bound are native. Sharing itself is not a malware verdict.",
+      "native": "linux.check_creds",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-check-creds-x64-x86-pae",
+        "pinned-9-check-creds-generator-cases",
+        "official-linux-sample-1"
+      ],
+      "comparison": "selected_unmodified_reference_zero_shared_groups_match_133_readable_distinct_credentials",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "One Debian 3.2 x64 image is a negative control: 133 tasks/credential objects are readable and distinct; both native and the unmodified fixed reference produce zero shared groups",
+        "Nine fixed generator cases plus synthetic native objects validate positive sharing, distinct objects, PID order/duplicates, first-seen group order, null/unreadable skipping and a later valid member; skipped native records are diagnostics and do not establish clean coverage",
+        "Synthetic tests include raw captures, unique process identities with duplicate PIDs, malformed/missing layouts, partial credential reads, x86/PAE, task/PID/parameter bounds, cancellation, output failures, SQLite verification and cache reuse",
+        "Real positive shared credentials, modern kernels, native x86/PAE images, ARM64 and the full task validity/damaged-list matrix remain pending",
+        "Grouping keeps at most max-nodes task descriptors in memory; raw objects stream into the case rather than being kept for every group"
+      ],
+      "validation_record": "docs/linux-check-creds.md"
     },
     {
       "id": "linux.malware.check_idt.Check_idt",

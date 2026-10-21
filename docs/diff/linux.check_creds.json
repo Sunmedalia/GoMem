@@ -1,0 +1,25 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "values": [
+      "shared"
+    ],
+    "excluded_values": [
+      "process",
+      "diagnostic",
+      "summary"
+    ]
+  },
+  "fields": {
+    "CredVAddr": {
+      "native": "CredVAddr",
+      "reference": "CredVAddr",
+      "kind": "address"
+    },
+    "PIDs": {
+      "native": "PIDs",
+      "reference": "PIDs",
+      "kind": "string"
+    }
+  }
+}
