@@ -8018,15 +8018,24 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Physical scan for the bytes 55 AA. The record starts 0x1FE bytes before the signature and is 0x200 bytes. Bootcode, both MD5 values and the full-mode hex dump use a zero-padded read. A start before physical address 0 is zero-filled. Bootcode is the first 0x1B8 bytes. All-zero bootcode is discarded before partition fields are read. Disk signature is the four bytes at offset 440, rendered aa-bb-cc-dd. Four 16-byte entries begin at 446. Bootable is true only when the flag is 0x80. Type names come from the pinned mbr.json PartitionTypes table; any other byte is Not Defined PartitionType. CHS sector is the second byte modulo 64, cylinder is (second-sector)*4 plus the third byte, and the CHS column is the head. full defaults to false because the requirement default is written into the config, so config.get(\"full\", True) follows the short columns. Short partition columns are not applicable. Without capstone, Disasm is the bootcode as space-separated lowercase hex wrapped in one extra pair of quotes. A partition Disasm is an empty string. full=true adds the raw flag, raw type, LBA, CHS and bootcode hex. A partition bootcode cell is the literal N/A produced by the LayerData renderer. Depth 0 is the MBR and depth 1 is each partition. An unmapped disk signature or partition entry fails the task. Only PagedInvalidAddressException would skip a hit, and the physical crash layer does not raise it. The summary row is not an MBR.",
+      "native": "windows.mbrscan",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_8465_mbrs_and_33860_partitions_match_short_and_full_columns",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has 8494 signatures, 29 all-zero bootcodes, 8465 MBR rows and 33860 partition rows. Both the default columns and full=true match",
+        "325 partition entries on that image are bootable",
+        "Real 32-bit images remain pending. Pointer size selects intel or intel64, which only changes capstone's mode",
+        "Capstone is absent from the pinned reference environment, so Disasm is the quoted hex fallback. Native does not disassemble with capstone either",
+        "An unmapped disk signature or partition entry fails the task. This image had no such field. A bootcode hole is zero-filled and covered by a synthetic fixture",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-mbrscan.md"
     },
     {
       "id": "windows.memmap.Memmap",

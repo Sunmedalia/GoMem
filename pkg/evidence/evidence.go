@@ -31,6 +31,7 @@ func Missing(reason string, e error) Value {
 	}
 	return v
 }
+func Bool(b bool) Value { return Value{Kind: "bool", Data: b} }
 func (v Value) MarshalJSON() ([]byte, error) {
 	type wire struct {
 		Kind   string `json:"kind"`
@@ -40,6 +41,16 @@ func (v Value) MarshalJSON() ([]byte, error) {
 	}
 	if text, ok := v.Data.(string); ok && v.Kind == "string" && text == "" && v.Reason == "" && v.Error == "" {
 		return []byte(`{"kind":"string","value":""}`), nil
+	}
+	if v.Kind == "bool" && v.Reason == "" && v.Error == "" {
+		b, ok := v.Data.(bool)
+		if !ok {
+			return nil, fmt.Errorf("bool evidence value is %T", v.Data)
+		}
+		if b {
+			return []byte(`{"kind":"bool","value":true}`), nil
+		}
+		return []byte(`{"kind":"bool","value":false}`), nil
 	}
 	return json.Marshal(wire{Kind: v.Kind, Data: v.Data, Reason: v.Reason, Error: v.Error})
 }

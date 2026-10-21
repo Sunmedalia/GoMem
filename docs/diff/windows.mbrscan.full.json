@@ -1,0 +1,30 @@
+{
+  "tree_key": "Offset",
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "Potential MBR at Physical Offset", "kind": "address"},
+    "Disk Signature": {"native": "DiskSignature", "reference": "Disk Signature", "kind": "string"},
+    "Bootcode MD5": {"native": "BootcodeMD5", "reference": "Bootcode MD5", "kind": "string"},
+    "Full MBR MD5": {"native": "FullMBRMD5", "reference": "Full MBR MD5", "kind": "string"},
+    "PartitionIndex": {"native": "PartitionIndex", "reference": "PartitionIndex", "kind": "uint64", "missing_reasons": ["not_applicable"]},
+    "Bootable": {"native": "Bootable", "reference": "Bootable", "kind": "bool", "missing_reasons": ["not_applicable"]},
+    "BootFlag": {"native": "BootFlag", "reference": "BootFlag", "kind": "uint64", "missing_reasons": ["not_applicable"]},
+    "PartitionType": {"native": "PartitionType", "reference": "PartitionType", "kind": "string", "missing_reasons": ["not_applicable"]},
+    "PartitionTypeRaw": {"native": "PartitionTypeRaw", "reference": "PartitionTypeRaw", "kind": "uint64", "missing_reasons": ["not_applicable"]},
+    "StartingLBA": {"native": "StartingLBA", "reference": "StartingLBA", "kind": "uint64", "missing_reasons": ["not_applicable"]},
+    "StartingCylinder": {"native": "StartingCylinder", "reference": "StartingCylinder", "kind": "uint64", "missing_reasons": ["not_applicable"]},
+    "StartingCHS": {"native": "StartingCHS", "reference": "StartingCHS", "kind": "uint64", "missing_reasons": ["not_applicable"]},
+    "StartingSector": {"native": "StartingSector", "reference": "StartingSector", "kind": "uint64", "missing_reasons": ["not_applicable"]},
+    "EndingCylinder": {"native": "EndingCylinder", "reference": "EndingCylinder", "kind": "uint64", "missing_reasons": ["not_applicable"]},
+    "EndingCHS": {"native": "EndingCHS", "reference": "EndingCHS", "kind": "uint64", "missing_reasons": ["not_applicable"]},
+    "EndingSector": {"native": "EndingSector", "reference": "EndingSector", "kind": "uint64", "missing_reasons": ["not_applicable"]},
+    "SectorInSize": {"native": "SectorInSize", "reference": "SectorInSize", "kind": "uint64", "missing_reasons": ["not_applicable"]},
+    "Disasm": {"native": "Disasm", "reference": "Disasm", "kind": "string"},
+    "Bootcode": {"native": "Bootcode", "reference": "Bootcode", "kind": "string"},
+    "Depth": {"native": "Depth", "kind": "tree_depth"}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["mbr", "partition"],
+    "excluded_values": ["summary"]
+  }
+}

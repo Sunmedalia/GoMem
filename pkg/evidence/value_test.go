@@ -33,3 +33,18 @@ func TestEmptyStringEvidenceIsPreserved(t *testing.T) {
 		t.Fatal(err, string(encoded))
 	}
 }
+
+func TestBoolEvidencePreservesFalse(t *testing.T) {
+	encoded, err := json.Marshal(Bool(false))
+	if err != nil || string(encoded) != `{"kind":"bool","value":false}` {
+		t.Fatal(err, string(encoded))
+	}
+	encoded, err = json.Marshal(Bool(true))
+	if err != nil || string(encoded) != `{"kind":"bool","value":true}` {
+		t.Fatal(err, string(encoded))
+	}
+	var decoded Value
+	if err = json.Unmarshal([]byte(`{"kind":"bool","value":false}`), &decoded); err != nil || decoded.Kind != "bool" || decoded.Data != false {
+		t.Fatal(err, decoded)
+	}
+}
