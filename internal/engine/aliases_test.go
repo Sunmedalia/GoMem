@@ -29,7 +29,7 @@ func TestDeprecatedHiddenModuleAlias(t *testing.T) {
 		t.Fatal(first, err)
 	}
 	second, err := e.Run(ctx, "linux.hidden_modules.Hidden_modules", nil, engine.RunOptions{Emit: func(row evidence.Row) error { return decode(row, &aliased, &aliasRows) }})
-	if err != nil || second.Reused || second.Task.Rows != 3 || second.Task.Provenance.Plugin != "linux.hidden_modules.Hidden_modules" {
+	if err != nil || second.Reused || second.Task.Rows != 3 || second.Task.Plugin != "linux.hidden_modules.Hidden_modules" || second.Task.Provenance.Plugin != "linux.hidden_modules.Hidden_modules" {
 		t.Fatal(second, err)
 	}
 	for i, row := range aliasRows {
@@ -40,8 +40,19 @@ func TestDeprecatedHiddenModuleAlias(t *testing.T) {
 			t.Fatal(row, directRows[i])
 		}
 	}
-	replay, err := e.Run(ctx, "linux.hidden_modules.Hidden_modules", nil, engine.RunOptions{})
-	if err != nil || !replay.Reused || replay.Task.ID != second.Task.ID {
+	var replayBytes bytes.Buffer
+	replay, err := e.Run(ctx, "linux.hidden_modules.Hidden_modules", nil, engine.RunOptions{Emit: func(row evidence.Row) error { return json.NewEncoder(&replayBytes).Encode(row) }})
+	if err != nil || !replay.Reused || replay.Task.ID != second.Task.ID || replay.Task.Plugin != second.Task.Plugin || !bytes.Equal(aliased.Bytes(), replayBytes.Bytes()) {
 		t.Fatal(replay, err)
 	}
+	tasks, err := e.Store.Tasks(ctx)
+	if err != nil || len(tasks) != 2 {
+		t.Fatal(tasks, err)
+	}
+	for _, task := range tasks {
+		if task.Plugin != task.Provenance.Plugin {
+			t.Fatal("task/provenance plugin identity differs", task)
+		}
+	}
+
 }

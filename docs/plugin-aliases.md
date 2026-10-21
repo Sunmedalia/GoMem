@@ -37,5 +37,6 @@ The wired names are:
 `TestDeprecatedHiddenModuleAlias` runs the hidden-module synthetic fixture
 through both names. The deprecated run has the same module names and record
 types, a separate cache entry, sealed alias provenance, and a successful
-replay. Calling every alias against every real corpus remains open, so none of
+replay with byte-identical JSONL. The stored task list uses the same requested
+name as each task's provenance. Calling every alias against every real corpus remains open, so none of
 these entries is accepted.

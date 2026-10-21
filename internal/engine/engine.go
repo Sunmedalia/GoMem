@@ -497,7 +497,7 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 			return result, nil
 		}
 	}
-	task, err := e.Store.Begin(ctx, key, name, provenance)
+	task, err := e.Store.Begin(ctx, key, requested, provenance)
 	if err != nil {
 		return result, err
 	}
