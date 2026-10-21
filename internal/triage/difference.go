@@ -45,6 +45,17 @@ func emitFinding(ctx context.Context, rule Rule, row evidence.Row, entity string
 			cells["Confidence"] = evidence.Text("limited_by_null_or_unreadable_file_object")
 			cells["Assessment"] = evidence.Text("The image file object is null or unreadable; acquisition smear and missing pages can explain this signal")
 		}
+	} else if rule.Kind == "native-check" && row.Provenance.Plugin == "windows.pebmasquerade" {
+		cells["SourcePlugin"] = evidence.Text(row.Provenance.Plugin)
+		cells["NativeRule"] = evidence.Text("peb_string_length_mismatch")
+		cells["Severity"] = evidence.Text("info")
+		cells["Confidence"] = evidence.Text("length_indicator_only")
+		cells["Assessment"] = evidence.Text("PEB string length metadata differs from decoded text; this indicator alone does not establish process masquerading")
+		for _, key := range []string{"PID", "ProcessIdentity", "ProcessOffset", "ProcessLayer", "PEB", "Parameters", "EPROCESS_ImageFileName", "EPROCESS_SeAudit_ImageFileName", "PEB_ImageFilePath", "PEB_CommandLine", "ImagePathLengthMismatch", "CommandLineLengthMismatch", "ImagePathEvidence", "CommandLineEvidence", "AuditEvidence", "Error"} {
+			if value, ok := row.Cells[key]; ok {
+				cells[key] = value
+			}
+		}
 	} else if rule.Kind == "native-check" && row.Provenance.Plugin == "windows.psxview" {
 		cells["SourcePlugin"] = evidence.Text("windows.psxview")
 		cells["NativeRule"] = evidence.Text("absent_active_view")

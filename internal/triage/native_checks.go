@@ -21,6 +21,7 @@ type nativeCheckEvaluator struct {
 	image       string
 	viewCounts  [4]uint64
 	ghostImages uint64
+	pebCounts   [5]uint64
 }
 
 func (n *nativeCheckEvaluator) inputPlugin() (string, map[string]bool, error) {
@@ -34,6 +35,8 @@ func (n *nativeCheckEvaluator) inputPlugin() (string, map[string]bool, error) {
 		return "windows.hollowprocesses", map[string]bool{"image_base_mismatch": true, "executable_vad_missing": true, "executable_protection": true, "dll_protection": true}, nil
 	case "psxview":
 		return "windows.psxview", nil, nil
+	case "pebmasquerade":
+		return "windows.pebmasquerade", nil, nil
 	case "processghosting":
 		return "windows.processghosting", nil, nil
 	default:
@@ -69,6 +72,12 @@ func (n *nativeCheckEvaluator) consume(ctx context.Context, rows []evidence.Row,
 		}
 		switch kind.String() {
 		case "process":
+			if name == "windows.pebmasquerade" {
+				if err := n.consumePebMasquerade(ctx, row, emit); err != nil {
+					return err
+				}
+				continue
+			}
 			if name != "windows.psxview" {
 				return fmt.Errorf("unexpected process record in %s", name)
 			}
@@ -95,12 +104,18 @@ func (n *nativeCheckEvaluator) consume(ctx context.Context, rows []evidence.Row,
 				n.coverage[key] = text
 			}
 		case "diagnostic":
+			if name == "windows.pebmasquerade" {
+				return fmt.Errorf("PEB diagnostics must belong to process records")
+			}
 			value, ok := row.Cells["Error"]
 			if !ok || value.Error == "" && (value.Kind != "string" || value.String() == "") {
 				return fmt.Errorf("native diagnostic has no readable cause")
 			}
 			n.diagnostics++
 		case "finding":
+			if name == "windows.pebmasquerade" {
+				return fmt.Errorf("PEB input must contain process observations")
+			}
 			if name == "windows.processghosting" {
 				if err := n.consumeGhosting(ctx, row, emit); err != nil {
 					return err
@@ -157,6 +172,9 @@ func (n *nativeCheckEvaluator) finish() (map[string]string, error) {
 	}
 	if n.coverage == nil {
 		return nil, fmt.Errorf("%w: native input lacks a final coverage summary", ErrIncomplete)
+	}
+	if n.rule.Inputs[0] == "pebmasquerade" {
+		return n.finishPebMasquerade()
 	}
 	if n.rule.Inputs[0] == "psxview" {
 		return n.finishProcessViews()

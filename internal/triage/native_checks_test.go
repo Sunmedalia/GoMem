@@ -16,7 +16,8 @@ import (
 func nativeRules() []Rule {
 	var result []Rule
 	for _, rule := range Rules {
-		if rule.Kind == "native-check" {
+		// PEB observations have dedicated reader/count fixtures below.
+		if rule.Kind == "native-check" && rule.Inputs[0] != "pebmasquerade" {
 			result = append(result, rule)
 		}
 	}
@@ -25,6 +26,13 @@ func nativeRules() []Rule {
 
 func nativeCheckRows(t *testing.T, rule Rule, positive bool, diagnostics int) []evidence.Row {
 	t.Helper()
+	if rule.Inputs[0] == "pebmasquerade" {
+		positiveCount := 0
+		if positive {
+			positiveCount = 1
+		}
+		return pebTriageRows(0, diagnostics, positiveCount)
+	}
 	var result []evidence.Row
 	eval := nativeCheckEvaluator{rule: rule}
 	name, _, err := eval.inputPlugin()

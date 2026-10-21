@@ -7599,6 +7599,7 @@
         "One selected Windows 10 19041 x64 corpus matches all six columns for 120 processes. 97 paths and 96 command lines were checked, with zero path and two command-length mismatches. 30 field-read diagnostics remain: 17 PEB, 6 path length, 6 command length and one command buffer. Full platform and version acceptance remains pending",
         "Synthetic readers cover independent field faults, raw partial reads, mapped-zero pointers, zero parameters, Unicode astral, NUL truncation, odd UTF16, surrogates, bounds, cancellation and output errors. A 32-bit symbol layout tests string pointers but is not a complete native x86 corpus",
         "The baseline swapped column names and codepoint versus UTF16 length behavior are preserved; a length mismatch alone is not malicious process-name spoofing",
+        "Windows triage consumes paged process observations, verifies raw captures, decoded text, clear and swapped flags, object provenance and all summary counts. It emits one informational indicator per process with a mismatch. Unchecked strings and read errors leave coverage incomplete. Synthetic late-page, same-PID, whitelist, persisted hash and cache reuse cases pass; selected corpus adds two informational indicators and reproduces all 34 total findings on a cached rerun",
         "Real positive masquerading corpora, damaged-image differential coverage and full parameter acceptance remain pending"
       ],
       "validation_record": "docs/windows-pebmasquerade.md"

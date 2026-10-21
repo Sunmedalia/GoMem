@@ -35,6 +35,7 @@ var Rules = []Rule{
 	{"literal-ioc", "medium", "An exact configured literal occurs at the recorded physical offset.", "Literal strings may occur in caches, logs, inactive buffers or security software.", []string{"ioc"}, "ioc"},
 	{"suspicious-thread-start", "high", "A live thread entry maps to a VAD with no readable file path, unexpected initial protection, or another executable path; addresses are checked once per process.", "JIT, legitimate unpackers and acquisition smear may trigger this check. An unreadable path does not prove that a mapping has no file.", []string{"suspicious_threads"}, "native-check"},
 	{"hollow-process-mapping", "high", "The native PEB image base differs from the kernel section base, the executable VAD is missing, or an executable/loader DLL VAD has unexpected initial protection.", "Legitimate loaders, modified mappings, exiting processes and acquisition smear may differ. These checks alone do not establish process hollowing.", []string{"hollowprocesses"}, "native-check"},
+	{"peb-string-length", "info", "A nonempty native PEB string has Length/2 or MaximumLength/2-1 different from its decoded Unicode codepoint count.", "Embedded NUL, legitimate buffer allocation, Unicode surrogate pairs and acquisition smear can explain this length indicator. Correlate kernel names and raw bytes before assessing masquerading.", []string{"pebmasquerade"}, "native-check"},
 }
 
 func ruleForPlatform(rule Rule, platform string) Rule {
@@ -269,11 +270,12 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 		order = append(order, "psscan")
 	} else {
 		names["modscan"] = "windows.modscan"
+		names["pebmasquerade"] = "windows.pebmasquerade"
 		names["processghosting"] = "windows.processghosting"
 		names["psxview"] = "windows.psxview"
 		names["suspicious_threads"] = "windows.suspicious_threads"
 		names["hollowprocesses"] = "windows.hollowprocesses"
-		order = append(order, "modscan", "psxview", "suspicious_threads", "hollowprocesses", "processghosting")
+		order = append(order, "modscan", "psxview", "suspicious_threads", "hollowprocesses", "processghosting", "pebmasquerade")
 	}
 	for _, key := range order {
 		var parameters map[string]string
@@ -310,7 +312,7 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 	}
 	b, _ := json.Marshal(summary.Tasks)
 	hash := sha256.Sum256(b)
-	task, err := e.Store.Begin(ctx, "triage:"+hex.EncodeToString(hash[:]), "triage", evidence.Provenance{ImageSHA256: e.Hash, Engine: version.Version, EngineBuild: e.Build, Plugin: "triage", Layer: e.Env.Physical.Name(), Parameters: map[string]string{"rules": "v6"}})
+	task, err := e.Store.Begin(ctx, "triage:"+hex.EncodeToString(hash[:]), "triage", evidence.Provenance{ImageSHA256: e.Hash, Engine: version.Version, EngineBuild: e.Build, Plugin: "triage", Layer: e.Env.Physical.Name(), Parameters: map[string]string{"rules": "v7"}})
 	if err != nil {
 		return summary, err
 	}

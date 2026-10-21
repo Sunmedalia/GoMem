@@ -30,12 +30,17 @@ func TestOfficialWindowsNativeTriageCoverage(t *testing.T) {
 		if !errors.Is(err, ErrIncomplete) {
 			t.Fatal(summary, err)
 		}
-		if summary.Findings != 32 {
+		if summary.Findings != 34 {
 			t.Fatal("unexpected findings", summary.Findings)
 		}
 		seen := 0
 		for _, check := range summary.Checks {
 			switch check.Rule {
+			case "peb-string-length":
+				seen++
+				if check.State != "incomplete" || check.Findings != 2 || check.Coverage["processes"] != "120" || check.Coverage["image_path_checked"] != "97" || check.Coverage["command_line_checked"] != "96" || check.Coverage["command_line_mismatches"] != "2" || check.Coverage["diagnostics"] != "30" {
+					t.Fatal(check)
+				}
 			case "deleted-or-memfd-execution":
 				seen++
 				if check.State != "incomplete" || check.Findings != 0 || check.Coverage["active"] != "113" || check.Coverage["vads"] != "18125" || check.Coverage["mapped_files"] != "8214" || check.Coverage["diagnostics"] != "3482" {
@@ -63,7 +68,7 @@ func TestOfficialWindowsNativeTriageCoverage(t *testing.T) {
 				}
 			}
 		}
-		if seen != 5 {
+		if seen != 6 {
 			t.Fatal("native triage rules were not evaluated", summary)
 		}
 
@@ -71,8 +76,17 @@ func TestOfficialWindowsNativeTriageCoverage(t *testing.T) {
 		if queryErr != nil {
 			t.Fatal(queryErr)
 		}
-		hidden, modules := 0, 0
+		hidden, modules, peb := 0, 0, 0
 		for _, finding := range findings {
+			if finding.Cells["Rule"].String() == "peb-string-length" {
+				peb++
+				refs := finding.Cells["EvidenceIDs"].Data.([]any)
+				source, sourceErr := e.Store.Find(ctx, refs[0].(string))
+				pid, pidErr := finding.Cells["PID"].Uint()
+				if finding.Verify() != nil || sourceErr != nil || source.Verify() != nil || pidErr != nil || (pid != 5060 && pid != 6316) || finding.Cells["Severity"].String() != "info" || finding.Cells["Confidence"].String() != "length_indicator_only" || source.Provenance.Plugin != "windows.pebmasquerade" || source.Cells["ProcessIdentity"].String() != finding.Cells["Entity"].String() || source.Provenance.Offset != finding.Provenance.Offset || finding.Cells["CommandLineLengthMismatch"].Data != true || finding.Cells["CommandLineEvidence"].Kind != "structure" {
+					t.Fatal(finding, source, sourceErr)
+				}
+			}
 			if finding.Cells["Rule"].String() == "module-enumeration-difference" {
 				modules++
 				refs := finding.Cells["EvidenceIDs"].Data.([]any)
@@ -93,7 +107,7 @@ func TestOfficialWindowsNativeTriageCoverage(t *testing.T) {
 				t.Fatal(finding, source, sourceErr)
 			}
 		}
-		if hidden != 1 || modules != 1 {
+		if hidden != 1 || modules != 1 || peb != 2 {
 			t.Fatal("missing residual process evidence", hidden)
 		}
 		for _, task := range summary.Tasks {

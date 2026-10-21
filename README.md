@@ -288,7 +288,7 @@ bin/gomem triage --image memory.raw --os linux --case ./case-001 \
 
 当前连接了进程、模块枚举、精确 IOC 扫描、Windows 现代 VAD 和 Linux VMA 输入。Windows/Linux 的直接可读写执行权限检查、Linux 删除文件/memfd 执行线索已贯通原生解析、分页评估、证据引用、案件白名单和任务复用。[Windows VAD 验证](docs/windows-vad.md)、[Linux 映射验证](docs/linux-maps.md) 分别记录真实与合成场景范围；权限线索也可能来自正常程序。
 
-Windows 分诊执行 `windows.psxview`、`windows.suspicious_threads`、`windows.hollowprocesses` 和 `windows.processghosting`，每 500 行分页读取。原生发现关联到含对象地址的进程身份和原始证据；读取诊断使检查标为 `incomplete`，后续页的发现仍保留。路径不可读的发现降为信息级，原始原因、规则、线程/VAD/加载条目地址均保留。多视图缺少活动链的候选按对象身份关联，已退出对象降为信息级，来源坐标和覆盖不足均保留；Linux 中线程和空洞检查标为 `not_applicable`。[原生检查分诊验证](docs/windows-native-triage.md)
+Windows 分诊执行 `windows.psxview`、`windows.suspicious_threads`、`windows.hollowprocesses`、`windows.processghosting` 和 `windows.pebmasquerade`，每 500 行分页读取。原生发现关联到含对象地址的进程身份和原始证据；读取诊断使检查标为 `incomplete`，后续页的发现仍保留。路径不可读的发现降为信息级，原始原因、规则、线程/VAD/加载条目地址均保留。多视图缺少活动链的候选按对象身份关联，已退出对象降为信息级，来源坐标和覆盖不足均保留；PEB 长度不一致为信息级线索，附原始字节与读取覆盖；Linux 中 Windows 原生检查标为 `not_applicable`。[原生检查分诊验证](docs/windows-native-triage.md)
 
 Windows 模块差异对照现已接入 `windows.modscan`，按 loader 对象的物理坐标比较；名称或路径读取失败的差异降为信息级，来源和错误保留。[模块分诊验证](docs/windows-module-triage.md)
 
