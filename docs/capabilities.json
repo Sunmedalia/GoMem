@@ -1115,15 +1115,22 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
+      "applicability": "Resident core compressed symbol tables with typed count, tokens, absolute addresses or fixed ABSOLUTE_PERCPU signed relative offsets; full plugin also requires module/ftrace/BPF sources and architecture-specific virtual layers.",
       "native": null,
       "status": "missing",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-kallsyms-core-52-byte-backed-object-cases",
+        "official-linux-sample-1-core-symbols"
+      ],
+      "comparison": "core_library_only_24648_Debian_symbols_five_fields_match_no_registered_plugin",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Native pkg/kallsyms core decoder exists but no linux.kallsyms CLI plugin is registered; keep class missing",
+        "Module, ftrace and BPF symbol sources, full result columns, parameter semantics and persistent acquisition evidence remain pending",
+        "Fixed core extended-length stream-advance quirk preserved with offsets; native rejects unordered tables, invalid UTF-8 token bytes, read failures and bounds explicitly",
+        "Real modern relative tables, x86/PAE/ARM64 and big-endian kernels, damaged images and full capability acceptance remain pending"
+      ],
+      "validation_record": "docs/linux-kallsyms.md"
     },
     {
       "id": "linux.keyboard_notifiers.Keyboard_notifiers",

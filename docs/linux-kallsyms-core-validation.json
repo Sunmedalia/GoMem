@@ -1,0 +1,94 @@
+{
+  "schema": "gomem.linux-kallsyms-core-validation/v1",
+  "date": "2026-10-22",
+  "release": "development-preview",
+  "accepted": false,
+  "plugin_registered": false,
+  "baseline": {
+    "name": "Volatility 3",
+    "version": "2.28.2",
+    "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+    "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+  },
+  "oracle": {
+    "cases": 52,
+    "sha256": "baac8020d7ca3eb50aebc5c511a43da3fdc097faec3733d47a6ea31c8cbc9d05",
+    "methods": [
+      "KASConfig.new_from_isf",
+      "Kallsyms.get_core_symbols",
+      "Kallsyms._expand_symbol",
+      "Kallsyms._get_symbol_address_by_index",
+      "Kallsyms._get_symbol_pos",
+      "Plugin._get_symbol_size"
+    ],
+    "scope": "Unmodified methods over real byte-backed ISF objects. Layer supplies register width, address mask and offset keyword adapter; no parser method mocks",
+    "widths": [
+      4,
+      8
+    ],
+    "layouts": [
+      "absolute",
+      "relative"
+    ],
+    "fields": [
+      "Name",
+      "Type",
+      "Address",
+      "Size",
+      "Exported"
+    ],
+    "scenarios": [
+      "normal",
+      "aliases",
+      "special-types",
+      "empty-name",
+      "empty-token",
+      "init-end",
+      "absolute-percpu",
+      "empty",
+      "big-last",
+      "big-first",
+      "negative-size",
+      "zero-size",
+      "no-end"
+    ]
+  },
+  "real_core_control": {
+    "kernel": "Debian 3.2 x64",
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "parameters": [
+      "--core"
+    ],
+    "symbols": 24648,
+    "ordered_five_fields_match": true,
+    "independent_read_calls": 50183,
+    "independent_read_bytes": 477670,
+    "manifest_sha256": "a5cbf2b70b9f293dba94b1bfa268f2c63a9527d7bed11e0a4df7dc8847d12e91",
+    "reference_sha256": "e8bb468a3b6101a9496ab783adb5a49bf168965e4d9505ec56a11fe49a5a664f"
+  },
+  "fuzz": {
+    "target": "FuzzCoreTables",
+    "seconds": 10,
+    "final_executions": 403880,
+    "earlier_executions": 1924672
+  },
+  "checks": [
+    "make check",
+    "make matrix",
+    "python3 tools/build_inode_mode_oracle.py --check",
+    "python3 tools/build_kallsyms_core_oracle.py --check",
+    "go test -race ./pkg/kallsyms -count=1 including explicit optional Debian corpus",
+    "make build",
+    "bin/gomem doctor --offline"
+  ],
+  "limitations": [
+    "No linux.kallsyms CLI yet; capability remains missing",
+    "Module, ftrace and BPF symbol sources not implemented",
+    "Fixed extended-name header stream-advance quirk preserved with explicit offsets",
+    "Unordered arrays, invalid UTF-8 bytes, read errors and bounds fail explicitly rather than fixed partial silent skipping",
+    "Actual modern/relative, x86/PAE/ARM64 and big-endian corpus acceptance pending",
+    "Package API does not persist case evidence; plugin integration pending"
+  ]
+}

@@ -1,0 +1,8452 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Actual unmodified KASConfig.new_from_isf and Kallsyms.get_core_symbols over real ISF and byte-backed memory; no parser method mocks; core only",
+  "cases": [
+    {
+      "width": 4,
+      "layout": "absolute",
+      "scenario": "normal",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90372,
+          "2084"
+        ],
+        [
+          90376,
+          "4084"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "absolute",
+      "scenario": "aliases",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90373,
+          "84"
+        ],
+        [
+          90376,
+          "4084"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 64,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33792,
+          "Size": 64,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "absolute",
+      "scenario": "special-types",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90372,
+          "2084"
+        ],
+        [
+          90376,
+          "4084"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "08"
+        ],
+        [
+          92164,
+          "0e"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "75756e69717565"
+        ],
+        [
+          95240,
+          "767765616b"
+        ],
+        [
+          95246,
+          "777765616b66756e63"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "unique",
+          "Type": "u",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "weak",
+          "Type": "v",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "weakfunc",
+          "Type": "w",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "absolute",
+      "scenario": "empty-name",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90372,
+          "2084"
+        ],
+        [
+          90376,
+          "4084"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "09"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "54"
+        ],
+        [
+          95241,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "",
+          "Type": "T",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "absolute",
+      "scenario": "empty-token",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90372,
+          "2084"
+        ],
+        [
+          90376,
+          "4084"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "08"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95240,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "",
+          "Type": "",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": null
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "absolute",
+      "scenario": "init-end",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90372,
+          "2084"
+        ],
+        [
+          90377,
+          "87"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 736,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 34560,
+          "Size": 256,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "absolute",
+      "scenario": "absolute-percpu",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90372,
+          "2084"
+        ],
+        [
+          90376,
+          "4084"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "absolute",
+      "scenario": "empty",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90369,
+          "84"
+        ],
+        [
+          90372,
+          "2084"
+        ],
+        [
+          90376,
+          "4084"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "width": 4,
+      "layout": "absolute",
+      "scenario": "big-last",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90372,
+          "2084"
+        ],
+        [
+          90376,
+          "4084"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "010180010202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "dataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdata",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "absolute",
+      "scenario": "big-first",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90372,
+          "2084"
+        ],
+        [
+          90376,
+          "4084"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "8001"
+        ],
+        [
+          94338,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "",
+          "Type": "",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": null
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": false
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "absolute",
+      "scenario": "negative-size",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 33840,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 33840
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90372,
+          "2084"
+        ],
+        [
+          90376,
+          "4084"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": null,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "absolute",
+      "scenario": "zero-size",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 33856,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 33856
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90372,
+          "2084"
+        ],
+        [
+          90376,
+          "4084"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": null,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "absolute",
+      "scenario": "no-end",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 0,
+        "HasInit": true,
+        "HasEnd": false,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90372,
+          "2084"
+        ],
+        [
+          90376,
+          "4084"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 448,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "relative",
+      "scenario": "normal",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "relative",
+      "scenario": "aliases",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffffffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 64,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33792,
+          "Size": 64,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "relative",
+      "scenario": "special-types",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "08"
+        ],
+        [
+          92164,
+          "0e"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "75756e69717565"
+        ],
+        [
+          95240,
+          "767765616b"
+        ],
+        [
+          95246,
+          "777765616b66756e63"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "unique",
+          "Type": "u",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "weak",
+          "Type": "v",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "weakfunc",
+          "Type": "w",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "relative",
+      "scenario": "empty-name",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "09"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "54"
+        ],
+        [
+          95241,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "",
+          "Type": "T",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "relative",
+      "scenario": "empty-token",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "08"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95240,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "",
+          "Type": "",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": null
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "relative",
+      "scenario": "init-end",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdffffffffffcffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 736,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 34560,
+          "Size": 256,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "relative",
+      "scenario": "absolute-percpu",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "01"
+        ],
+        [
+          90373,
+          "02"
+        ],
+        [
+          90376,
+          "bfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 256,
+          "Size": 256,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 512,
+          "Size": 33344,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "relative",
+      "scenario": "empty",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "width": 4,
+      "layout": "relative",
+      "scenario": "big-last",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "010180010202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "dataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdata",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "relative",
+      "scenario": "big-first",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "8001"
+        ],
+        [
+          94338,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "",
+          "Type": "",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": null
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": false
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "relative",
+      "scenario": "negative-size",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 33840,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 33840
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": null,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "relative",
+      "scenario": "zero-size",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 33856,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 33856
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": null,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "layout": "relative",
+      "scenario": "no-end",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 0,
+        "HasInit": true,
+        "HasEnd": false,
+        "Width": 4,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 4294967295
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 448,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "absolute",
+      "scenario": "normal",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 8,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u64"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90374,
+          "ffff2084"
+        ],
+        [
+          90382,
+          "ffff4084"
+        ],
+        [
+          90390,
+          "ffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "absolute",
+      "scenario": "aliases",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 8,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u64"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90374,
+          "ffff"
+        ],
+        [
+          90377,
+          "84"
+        ],
+        [
+          90382,
+          "ffff4084"
+        ],
+        [
+          90390,
+          "ffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 64,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33792,
+          "Size": 64,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "absolute",
+      "scenario": "special-types",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 8,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u64"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90374,
+          "ffff2084"
+        ],
+        [
+          90382,
+          "ffff4084"
+        ],
+        [
+          90390,
+          "ffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "08"
+        ],
+        [
+          92164,
+          "0e"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "75756e69717565"
+        ],
+        [
+          95240,
+          "767765616b"
+        ],
+        [
+          95246,
+          "777765616b66756e63"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "unique",
+          "Type": "u",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "weak",
+          "Type": "v",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "weakfunc",
+          "Type": "w",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "absolute",
+      "scenario": "empty-name",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 8,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u64"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90374,
+          "ffff2084"
+        ],
+        [
+          90382,
+          "ffff4084"
+        ],
+        [
+          90390,
+          "ffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "09"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "54"
+        ],
+        [
+          95241,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "",
+          "Type": "T",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "absolute",
+      "scenario": "empty-token",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 8,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u64"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90374,
+          "ffff2084"
+        ],
+        [
+          90382,
+          "ffff4084"
+        ],
+        [
+          90390,
+          "ffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "08"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95240,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "",
+          "Type": "",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": null
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "absolute",
+      "scenario": "init-end",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 8,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u64"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90374,
+          "ffff2084"
+        ],
+        [
+          90382,
+          "ffff"
+        ],
+        [
+          90385,
+          "87"
+        ],
+        [
+          90390,
+          "ffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 736,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 34560,
+          "Size": 256,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "absolute",
+      "scenario": "absolute-percpu",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 8,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u64"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90374,
+          "ffff2084"
+        ],
+        [
+          90382,
+          "ffff4084"
+        ],
+        [
+          90390,
+          "ffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "absolute",
+      "scenario": "empty",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 8,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u64"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90369,
+          "84"
+        ],
+        [
+          90374,
+          "ffff2084"
+        ],
+        [
+          90382,
+          "ffff4084"
+        ],
+        [
+          90390,
+          "ffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "width": 8,
+      "layout": "absolute",
+      "scenario": "big-last",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 8,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u64"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90374,
+          "ffff2084"
+        ],
+        [
+          90382,
+          "ffff4084"
+        ],
+        [
+          90390,
+          "ffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "010180010202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "dataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdata",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "absolute",
+      "scenario": "big-first",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 8,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u64"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90374,
+          "ffff2084"
+        ],
+        [
+          90382,
+          "ffff4084"
+        ],
+        [
+          90390,
+          "ffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "8001"
+        ],
+        [
+          94338,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "",
+          "Type": "",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": null
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": false
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "absolute",
+      "scenario": "negative-size",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 33840,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 8,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u64"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 33840
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90374,
+          "ffff2084"
+        ],
+        [
+          90382,
+          "ffff4084"
+        ],
+        [
+          90390,
+          "ffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": null,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "absolute",
+      "scenario": "zero-size",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 33856,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 8,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u64"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 33856
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90374,
+          "ffff2084"
+        ],
+        [
+          90382,
+          "ffff4084"
+        ],
+        [
+          90390,
+          "ffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": null,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "absolute",
+      "scenario": "no-end",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 90368,
+        "Offsets": 0,
+        "RelativeBase": 0,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 0,
+        "HasInit": true,
+        "HasEnd": false,
+        "Width": 8,
+        "CountSize": 8,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u64"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_addresses": {
+            "address": 90368
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "84"
+        ],
+        [
+          90374,
+          "ffff2084"
+        ],
+        [
+          90382,
+          "ffff4084"
+        ],
+        [
+          90390,
+          "ffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 448,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "relative",
+      "scenario": "normal",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "relative",
+      "scenario": "aliases",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffffffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 64,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33792,
+          "Size": 64,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "relative",
+      "scenario": "special-types",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "08"
+        ],
+        [
+          92164,
+          "0e"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "75756e69717565"
+        ],
+        [
+          95240,
+          "767765616b"
+        ],
+        [
+          95246,
+          "777765616b66756e63"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "unique",
+          "Type": "u",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "weak",
+          "Type": "v",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "weakfunc",
+          "Type": "w",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "relative",
+      "scenario": "empty-name",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "09"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "54"
+        ],
+        [
+          95241,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "",
+          "Type": "T",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "relative",
+      "scenario": "empty-token",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "08"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95240,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "",
+          "Type": "",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": null
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "relative",
+      "scenario": "init-end",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdffffffffffcffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 736,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 34560,
+          "Size": 256,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "relative",
+      "scenario": "absolute-percpu",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90369,
+          "01"
+        ],
+        [
+          90373,
+          "02"
+        ],
+        [
+          90376,
+          "bfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 256,
+          "Size": 256,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 512,
+          "Size": 33344,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "relative",
+      "scenario": "empty",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "width": 8,
+      "layout": "relative",
+      "scenario": "big-last",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "010180010202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "dataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdataDdata",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "relative",
+      "scenario": "big-first",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 34816,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 34816
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "8001"
+        ],
+        [
+          94338,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentryTentry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "",
+          "Type": "",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": null
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33856,
+          "Size": 960,
+          "Exported": false
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "relative",
+      "scenario": "negative-size",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 33840,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 33840
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": null,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "relative",
+      "scenario": "zero-size",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 33856,
+        "HasInit": true,
+        "HasEnd": true,
+        "Width": 8,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_end": {
+            "address": 33856
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": null,
+          "Exported": true
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "layout": "relative",
+      "scenario": "no-end",
+      "config": {
+        "Count": 90112,
+        "Names": 94208,
+        "TokenTable": 95232,
+        "TokenIndex": 92160,
+        "Addresses": 0,
+        "Offsets": 90368,
+        "RelativeBase": 90624,
+        "InitStart": 34560,
+        "InitEnd": 34816,
+        "TextEnd": 34304,
+        "End": 0,
+        "HasInit": true,
+        "HasEnd": false,
+        "Width": 8,
+        "CountSize": 4,
+        "Endian": "little",
+        "AddressMask": 281474976710655
+      },
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "kernel_symbol": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {}
+          }
+        },
+        "enums": {},
+        "symbols": {
+          "kallsyms_num_syms": {
+            "address": 90112,
+            "type": {
+              "kind": "base",
+              "name": "u32"
+            }
+          },
+          "kallsyms_names": {
+            "address": 94208
+          },
+          "kallsyms_token_table": {
+            "address": 95232
+          },
+          "kallsyms_token_index": {
+            "address": 92160
+          },
+          "_stext": {
+            "address": 33792
+          },
+          "_etext": {
+            "address": 34304
+          },
+          "_sinittext": {
+            "address": 34560
+          },
+          "_einittext": {
+            "address": 34816
+          },
+          "kallsyms_offsets": {
+            "address": 90368
+          },
+          "kallsyms_relative_base": {
+            "address": 90624
+          }
+        }
+      },
+      "writes": [
+        [
+          90112,
+          "03"
+        ],
+        [
+          90368,
+          "ffffffffdfffffffbfffffff"
+        ],
+        [
+          90625,
+          "84"
+        ],
+        [
+          92162,
+          "07"
+        ],
+        [
+          92164,
+          "0f"
+        ],
+        [
+          94208,
+          "01"
+        ],
+        [
+          94210,
+          "01010102"
+        ],
+        [
+          95232,
+          "54656e747279"
+        ],
+        [
+          95239,
+          "74776f726b6572"
+        ],
+        [
+          95247,
+          "4464617461"
+        ]
+      ],
+      "expected": [
+        {
+          "Name": "entry",
+          "Type": "T",
+          "Address": 33792,
+          "Size": 32,
+          "Exported": true
+        },
+        {
+          "Name": "worker",
+          "Type": "t",
+          "Address": 33824,
+          "Size": 32,
+          "Exported": false
+        },
+        {
+          "Name": "data",
+          "Type": "D",
+          "Address": 33856,
+          "Size": 448,
+          "Exported": true
+        }
+      ]
+    }
+  ]
+}
