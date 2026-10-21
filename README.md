@@ -26,7 +26,7 @@ bin/gomem tui --image .cache/fixtures/linux.raw \
   --symbols .cache/fixtures/linux.json --os linux --dtb 0x1000 --case .cache/demo
 ```
 
-省略 `--image` 时 TUI 会直接打开镜像导入窗口（`--symbols`、`--os`、`--dtb`、`--case` 等其余参数照常生效，并用于导入的镜像）：
+省略 `--image` 时 TUI 会先打开本地镜像/符号库；选择镜像后按 `o` 进入分析。分析界面仍可按 `i` 打开路径、目录与最近镜像导入窗口（`--symbols`、`--os`、`--dtb`、`--case` 等其余参数照常生效）：
 
 ```bash
 bin/gomem tui --symbols .cache/fixtures/linux.json --os linux --dtb 0x1000 --case .cache/demo
@@ -143,6 +143,8 @@ bin/gomem analyze windows.pslist \
 支持 RAW、LiME v1、AVML v2 Snappy 帧、具有物理 `PT_LOAD` 的 ELF core，以及 Windows 32/64 位完整转储与 bitmap 转储。AVML 按需解码、核验帧 CRC 和长度尾部，使用有界随机读取缓存；[适用条件与验证](docs/avml.md)。其他已识别的容器会明确拒绝；通用 ELF 不代表 Xen 格式已实现。
 
 支持 x86、PAE、四级 x64 页表、4KiB 页及相应大页。Windows 支持镜像中仍驻留的 transition 页，保留权限未知状态；外部交换页、prototype 及未支持的非驻留编码返回读取错误。输入以只读方式打开，按块散列，检查修改时间与大小变化。分析期间仍应保持采集文件不可变。
+
+新增镜像识别与本地库：`gomem images inspect memory.raw` 可直接获取 Windows/Linux 内核身份候选，`gomem symbols match memory.raw --download` 自动匹配并逐项询问是否下载。`gomem tui` 无需预先指定镜像即可管理 `images/` 和 `sysmbols/` 内的本地文件，支持导入、重命名、确认删除、选择符号及进入分析。见 [本地库与符号匹配](docs/local-library.md)。
 
 符号支持 ISF JSON、gzip、xz、ZIP 中的压缩成员，例如 `symbols.zip#linux/kernel.json.xz`。解压限制为 128MiB，xz 字典上限 64MiB。Linux 在目标虚拟地址比对完整 banner；Windows 从内存中 PE debug directory 比对 PDB 名称、GUID 和 Age。[上游符号规则](https://volatility3.readthedocs.io/en/stable/symbol-tables.html)
 
@@ -279,7 +281,7 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 
 `windows.pedump --param base=ADDRESS --param pid=PID` 或 `--param kernel-module=true` 重建内存布局 PE；文件保留 slack 并调整 ImageBase 和节字段。内核高位地址保留导致的两个字节差异单独记录，不能把重建结果视为原始磁盘文件。[PE 重建验证](docs/pe-reconstruction.md)
 
-**其余情况仍需提供符号或本地索引，并显式指定未发现的地址空间参数。** 通用 DTB/内核基址识别、Linux/macOS 默认自动下载尚未实现。已知 ISF 可通过 `symbols fetch HTTPS_URL --sha256 CHECKSUM --case CASE` 获取，再由分析路径验证身份；镜像不会上传。
+**其余情况仍需提供符号或本地索引，并显式指定未发现的地址空间参数。** 通用 DTB/内核基址识别和 macOS 自动下载尚未实现；Linux 可通过 `symbols match --download` 或 TUI 精确匹配后确认下载。已知 ISF 可通过 `symbols fetch HTTPS_URL --sha256 CHECKSUM --case CASE` 获取，再由分析路径验证身份；镜像不会上传。
 
 ## 调查工作流
 

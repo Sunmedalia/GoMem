@@ -18,6 +18,7 @@ import (
 	"github.com/Sunmedalia/GoMem/internal/acceptance"
 	"github.com/Sunmedalia/GoMem/internal/engine"
 	"github.com/Sunmedalia/GoMem/internal/explore"
+	"github.com/Sunmedalia/GoMem/internal/library"
 	"github.com/Sunmedalia/GoMem/internal/plugins"
 	"github.com/Sunmedalia/GoMem/internal/render"
 	"github.com/Sunmedalia/GoMem/internal/report"
@@ -32,11 +33,13 @@ import (
 func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 	var cfg engine.Config
 	var format string
+	var libraryRoot string
 	root := &cobra.Command{Use: "gomem", Short: "Native Go memory forensics — development preview", Long: "GoMem is a native, read-only memory investigation engine. This development preview has incomplete Volatility 3 coverage; inspect capabilities and doctor before relying on a workflow.", Version: version.Version + " (Volatility " + version.Baseline + ", " + version.BaselineCommit + ")", SilenceErrors: true, SilenceUsage: true}
 	root.SetIn(in)
 	root.SetOut(out)
 	root.SetErr(stderr)
 	f := root.PersistentFlags()
+	f.StringVar(&libraryRoot, "library-dir", ".", "Library root containing images/ and sysmbols/")
 	f.StringVar(&cfg.Image, "image", "", "Read-only memory image")
 	f.StringVar(&cfg.CaseDir, "case", "", "Case directory (SQLite, symbols, exports)")
 	f.StringVar(&cfg.Symbols, "symbols", "", "Matching ISF, PDB/MSF 7.0 or ELF/Mach-O with DWARF")
@@ -140,9 +143,9 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 		if err != nil {
 			return err
 		}
-		diagnostic := map[string]any{"engine": version.Version, "release": "development-preview", "baseline": version.Baseline, "baseline_commit": version.BaselineCommit, "native_plugins": registry.List(), "upstream_plugin_classes": matrix.PluginCount, "accepted_plugins": matrix.Accepted, "release_ready": false, "extensions": map[string]bool{"yara": false, "capstone": false, "leechcore": false}, "formats": []string{"raw", "lime-v1", "avml-v2-snappy-framed", "elf-core-physical-pt_load", "windows-complete-32/64", "windows-bitmap-32/64"}, "symbol_inputs": []string{"isf-json/gzip/xz/zip", "elf-dwarf", "macho-dwarf", "pdb-msf7-codeview"}, "missing": []string{"complete image/kernel/DTB discovery (partial Linux x64 and Windows crash only)", "Linux/macOS automatic symbol acquisition and CAB PDB transport", "full PDB/CodeView and legacy MSF validation", "full DWARF/kernel-version validation", "macOS analysis", "swap resolution", "VMware/QEMU/Xen and full format/version acceptance", "remote sources", "full plugin parameter parity", "official-corpus differential acceptance", "full renderers and extraction"}}
+		diagnostic := map[string]any{"engine": version.Version, "release": "development-preview", "baseline": version.Baseline, "baseline_commit": version.BaselineCommit, "native_plugins": registry.List(), "upstream_plugin_classes": matrix.PluginCount, "accepted_plugins": matrix.Accepted, "release_ready": false, "extensions": map[string]bool{"yara": false, "capstone": false, "leechcore": false}, "formats": []string{"raw", "lime-v1", "avml-v2-snappy-framed", "elf-core-physical-pt_load", "windows-complete-32/64", "windows-bitmap-32/64"}, "symbol_inputs": []string{"isf-json/gzip/xz/zip", "elf-dwarf", "macho-dwarf", "pdb-msf7-codeview"}, "missing": []string{"complete image/kernel/DTB discovery (partial Linux x64 and Windows crash only)", "macOS automatic symbol acquisition, CAB PDB transport and fully automatic Linux address-space setup", "full PDB/CodeView and legacy MSF validation", "full DWARF/kernel-version validation", "macOS analysis", "swap resolution", "VMware/QEMU/Xen and full format/version acceptance", "remote sources", "full plugin parameter parity", "official-corpus differential acceptance", "full renderers and extraction"}}
 		diagnostic["release_ready"] = gate.Ready
-		diagnostic["symbol_lookup"] = "explicit table, local identity index or exact Windows PDB acquisition (known DTB/kernel base required)"
+		diagnostic["symbol_lookup"] = "explicit table, local identity index, interactive Linux banner matching or exact Windows PDB acquisition (known DTB/kernel base required)"
 		diagnostic["acceptance"] = gate
 		diagnostic["build_sha256"] = build
 		if cfg.Image != "" {
@@ -187,22 +190,16 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 	}}
 	doctor.Flags().BoolVar(&strict, "strict", false, "Fail when formal release acceptance is incomplete")
 	root.AddCommand(doctor)
-	root.AddCommand(&cobra.Command{Use: "tui", Short: "Open the asynchronous, paginated investigation TUI; without --image it starts in the image importer", Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
-		var eng *engine.Engine
-		if cfg.Image != "" {
-			var err error
-			if eng, err = engine.Open(cmd.Context(), cfg); err != nil {
-				return err
-			}
-			defer eng.Close()
-		}
+	root.AddCommand(&cobra.Command{Use: "tui", Short: "Open the image/symbol library and paginated investigation TUI", Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
 		ctx, cancel := context.WithCancel(cmd.Context())
-		program := tea.NewProgram(tui.New(ctx, tui.Options{Config: cfg, Engine: eng}), tea.WithInput(in), tea.WithOutput(out), tea.WithContext(ctx))
-		final, err := program.Run()
+		defer cancel()
+		workspace := tui.NewWorkspace(ctx, cfg, library.Library{Root: libraryRoot})
+		defer workspace.Close()
+		program := tea.NewProgram(workspace, tea.WithInput(in), tea.WithOutput(out), tea.WithContext(ctx))
+		_, err := program.Run()
 		cancel()
 		program.Wait()
-		// The TUI may have switched images; close whichever engine it holds.
-		return errors.Join(err, tui.Close(final))
+		return err
 	}})
 	root.AddCommand(&cobra.Command{Use: "shell", Short: "Explore memory, types and address spaces interactively", Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
 		eng, err := engine.Open(cmd.Context(), cfg)
@@ -275,7 +272,10 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 	exportCmd.Flags().StringVar(&output, "output", "", "New filename inside CASE/exports (never overwrites)")
 	exportCmd.Flags().StringVar(&task, "task", "", "Export one task ID; default all tasks")
 	root.AddCommand(exportCmd)
-	root.AddCommand(symbolCommands(&cfg, out))
+	symbolCmd := symbolCommands(&cfg, out)
+	symbolCmd.AddCommand(matchSymbols(&cfg, &libraryRoot, out))
+	root.AddCommand(symbolCmd)
+	root.AddCommand(imageCommands(out))
 	root.AddCommand(caseCommands(&cfg, out))
 	return root
 }

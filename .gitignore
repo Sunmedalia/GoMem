@@ -12,3 +12,5 @@ dist/
 *.core
 case-*/
 __pycache__/
+
+sysmbols/

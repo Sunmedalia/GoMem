@@ -57,3 +57,6 @@ HTML、JSONL 和 ZIP 导出从持久化结果分页读取，包含任务失败�
 提取文件由任务专属 sink 创建，只能在案件的随机任务/文件目录中独占新建。数据与缺页填充日志分别流式散列；失败、取消和未完成写入不会标为完整。schema v2 保留中断文件并将其大小/摘要标为未验证；旧 v1 案件自动迁移，旧版程序会拒绝 v2。证据包 v2 包含分页生成的 artifacts.jsonl 与可验证文件，未完成字节只保留元数据说明，不作为已验证文件打包。Windows VAD 与 Linux VMA 的 dump 生产者使用独立进程页表和逐页读取接入该接口，缺页与捕获字节明确区分。
 
 PE 重建是单独的有界计划与流式覆盖层，原始头部、修改偏移、原值和新值作为结果保存；PE 字节不被冒充为原始磁盘布局。覆盖层只修改已成功读取的源字节，其他页面失败仍走显式填充日志。内核 ImageBase 保留完整 canonical 地址，和上游掩码差异单独验收。
+
+
+`internal/library` 复用只读物理映射扫描 Linux banner / Windows 内核 RSDS，管理 `images/` 和 `sysmbols/`，并提供完整身份匹配、HTTPS 目录查询、下载校验和不覆盖发布。CLI `images inspect`、`symbols match` 和 TUI workspace 共用该服务。TUI workspace 可先管理文件，再创建原有分析模型；所有符号下载均需显式确认。身份线索与分析引擎的虚拟地址核验保持区分，见 [本地库](local-library.md)。
