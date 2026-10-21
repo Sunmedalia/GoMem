@@ -1,0 +1,91 @@
+{
+  "schema": "gomem.linux-bpf-lookup-validation/v1",
+  "date": "2026-10-22",
+  "release": "development-preview",
+  "accepted": false,
+  "plugin_registered": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Native BPF lookup API plus shared program allocation parser used by existing kallsyms enumeration; no whole resolver or pscallstack acceptance",
+  "oracle": {
+    "cases": 480,
+    "queries": 15600,
+    "sha256": "c53a98c6a7f2424109655d210445cff9e71382d44394640d62bbb94c701b4bad",
+    "modern": {
+      "queries": 5200,
+      "matched_five_fields": 988,
+      "matched_no_result": 4064,
+      "baseline_missing_name_errors": 148
+    },
+    "legacy": {
+      "queries": 5200,
+      "baseline_get_addr_region_AttributeErrors": 1136,
+      "matched_no_result": 4064
+    },
+    "pack": {
+      "queries": 5200,
+      "baseline_get_addr_region_AttributeErrors": 1136,
+      "matched_no_result": 4064
+    },
+    "legacy_error_classified": true,
+    "legacy_native_results_match_independent_unmodified_search_region_name_primitives": true,
+    "legacy_full_method_differential_success": false,
+    "methods": [
+      "bpf_lookup_address",
+      "_find_bpf_ksym",
+      "_bpf_tree_comp_bpf_ksym",
+      "_find_bpf_prog",
+      "_bpf_tree_comp_bpf_prog_aux",
+      "bpf_prog.get_address_region",
+      "bpf_prog.get_name",
+      "latch_tree_root.find"
+    ],
+    "widths": [
+      4,
+      8
+    ],
+    "sequence_layouts": [
+      "seq.sequence",
+      "seq.seqcount.sequence"
+    ],
+    "sequence_values": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "native_paging_cases": 720,
+    "paging_scope": "Identical lookup results against reference-validated flat-memory controls; each virtual acquisition independently checked against identity-mapped fixture bytes",
+    "raw_acquisitions_independently_reread": true,
+    "every_acquisition_failure_cancellation_and_retry": true
+  },
+  "enumeration_regression": {
+    "existing_engine_test": "TestLinuxKallsyms",
+    "shared_parser": "ReadBPFProgram",
+    "race_tests": true,
+    "raw_capture_store_seal_and_successful_cache_tests": true,
+    "real_modern_positive_control": false
+  },
+  "fuzz": {
+    "target": "FuzzBPFLookup",
+    "seconds": 10,
+    "executions": 184589
+  },
+  "checks": [
+    "make check",
+    "make matrix",
+    "python3 tools/build_inode_mode_oracle.py --check",
+    "python3 tools/build_bpf_lookup_oracle.py --check",
+    "go test -race ./pkg/kallsyms -count=1 after final changes",
+    "go test -race ./internal/plugins ./internal/engine -run ^TestLinuxKallsyms -count=1",
+    "make build",
+    "bin/gomem doctor --offline"
+  ],
+  "limitations": [
+    "Fixed legacy method raises AttributeError; native uses actual region primitive; no complete legacy full-method parity claim",
+    "Pinned latch node-index pointer-stride subtraction retained, not a claim of correct kernel container coordinates",
+    "Intel 4096-byte pages and optional 64-byte pack alignment only",
+    "Missing/unreadable data and bounds/cancellation are explicit failures rather than baseline silent no-match/unavailable-name behavior",
+    "No real modern-kernel BPF positive, dynamic acquisition, module/ftrace precedence, CLI lookup or callstack full acceptance",
+    "Package requires external acquisition capture and aggregate budget; itself does not persist evidence"
+  ]
+}

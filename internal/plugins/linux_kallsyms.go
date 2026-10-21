@@ -697,80 +697,17 @@ func (s *linuxKallsymsReader) bpfSymbol(at uint64, typ string, proof map[string]
 		return "", 0, 0, false, fmt.Errorf("null BPF program")
 	}
 
-	aux := uint64(0)
-	hasAux, err := s.has("bpf_prog", "aux")
+	info, err := kallsyms.ReadBPFProgram(s.ctx, s.e.Objects, prog)
 	if err != nil {
 		return "", 0, 0, false, err
 	}
-	if hasAux {
-		aux, err = s.uint(prog, "bpf_prog", "aux")
-		if err != nil {
-			return "", 0, 0, false, err
-		}
-	}
-	hasName, err := s.has(typ, "name")
-	if err != nil {
-		return "", 0, 0, false, err
-	}
-	proof["NameAvailable"] = evidence.Bool(hasName && aux != 0)
-	proof["ProgramObject"] = evidence.Address(prog)
-	proof["AuxObject"] = evidence.Address(aux)
-	if hasName && aux != 0 {
-		name, err = s.array(aux, typ, "name")
-		if err != nil {
-			return "", 0, 0, false, err
-		}
-	}
-	address, err = s.uint(prog, "bpf_prog", "bpf_func")
-	if err != nil {
-		return "", 0, 0, false, err
-	}
-	pack, err := s.has(typ, "use_bpf_prog_pack")
-	if err != nil {
-		return "", 0, 0, false, err
-	}
-	alignment := uint64(4096)
-	if pack {
-		if aux == 0 {
-			return "", 0, 0, false, fmt.Errorf("null BPF auxiliary pack metadata")
-		}
-		value, err := s.uint(aux, typ, "use_bpf_prog_pack")
-		if err != nil {
-			return "", 0, 0, false, err
-		}
-		if value != 0 {
-			alignment = 64
-		}
-	}
-	start := address & ^(alignment - 1)
-	pages := uint64(0)
-	if _, err := s.e.Symbols.Type("bpf_binary_header"); err == nil {
-		pages, err = s.uint(start, "bpf_binary_header", "pages")
-		if err != nil {
-			return "", 0, 0, false, err
-		}
-	} else {
-		raw, err := memory.Read(s.ctx, s.e.Kernel, start, 4)
-		if err != nil {
-			return "", 0, 0, false, err
-		}
-		order, err := s.order()
-		if err != nil {
-			return "", 0, 0, false, err
-		}
-		pages = uint64(order.Uint32(raw))
-	}
-	if pages > ^uint64(0)/4096 {
-		return "", 0, 0, false, fmt.Errorf("BPF region size overflow")
-	}
-	size = pages * 4096
-	proof["RegionStart"] = evidence.Address(start)
-	proof["RegionPages"] = evidence.Number(pages)
-	proof["Alignment"] = evidence.Number(alignment)
-	if _, err := memory.Add(start, size); err != nil {
-		return "", 0, 0, false, err
-	}
-	return name, address, size, size != 0, nil
+	proof["NameAvailable"] = evidence.Bool(info.NameAvailable)
+	proof["ProgramObject"] = evidence.Address(info.Object)
+	proof["AuxObject"] = evidence.Address(info.Aux)
+	proof["RegionStart"] = evidence.Address(info.RegionStart)
+	proof["RegionPages"] = evidence.Number(info.Pages)
+	proof["Alignment"] = evidence.Number(info.Alignment)
+	return info.Name, info.Function, info.RegionEnd - info.RegionStart, info.RegionEnd > info.RegionStart, nil
 }
 
 // Keep the fixed nm descriptions, including case-specific weak/undefined types.

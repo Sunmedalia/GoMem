@@ -26,4 +26,4 @@ go test -race ./pkg/object -count=1
 go test ./pkg/object -run '^$' -fuzz '^FuzzLatchTree$' -fuzztime 10s
 ```
 
-这仅验证可复用搜索底座，尚未完成模块/BPF 地址查找及调用栈插件。没有真实现代内核 latch tree 阳性语料、远程动态修改数据的一致性、来源专用比较函数或完整插件验收；能力矩阵不因此增加已实现插件。见[机器验证记录](linux-latch-tree-validation.json)。
+这仅验证可复用搜索底座，模块地址查找及调用栈插件尚待完成；BPF API 的后续验证见 [BPF 查找底座](linux-bpf-lookup.md)。没有真实现代内核 latch tree 阳性语料、远程动态修改数据的一致性、来源专用比较函数或完整插件验收；能力矩阵不因此增加已实现插件。见[机器验证记录](linux-latch-tree-validation.json)。
