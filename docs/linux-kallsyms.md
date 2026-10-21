@@ -89,3 +89,5 @@ go test -race ./pkg/kallsyms -run '^TestOfficialDebianCoreLookup$' -count=1 -v
 ```
 
 参考生成拒绝覆盖既有文件。尚无真实现代/相对布局、x86/PAE、大端语料验收；包本身不持久化证据。见[地址查找验证记录](linux-kallsyms-lookup-validation.json)。
+
+模块与 BPF 的后续树索引查找共用 [latch tree 底座](linux-latch-tree.md)。该底座的对象对照验证不等同于来源地址解析或调用栈验收。

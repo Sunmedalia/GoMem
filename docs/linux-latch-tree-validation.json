@@ -1,0 +1,70 @@
+{
+  "schema": "gomem.linux-latch-tree-validation/v1",
+  "date": "2026-10-22",
+  "release": "development-preview",
+  "accepted": false,
+  "plugin_registered": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Shared Reader search foundation only; no module/BPF lookup or pscallstack acceptance",
+  "oracle": {
+    "cases": 96,
+    "queries": 3840,
+    "sha256": "4b90ed33c2af6efcbb1ae8f5cc5de22ed7d2b926d0b8db82b837db4ab764882b",
+    "methods": [
+      "latch_tree_root.find",
+      "latch_tree_root._get_lt_node_from_rb_node"
+    ],
+    "widths": [
+      4,
+      8
+    ],
+    "sequence_layouts": [
+      "seq.sequence",
+      "seq.seqcount.sequence"
+    ],
+    "sequences": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "node_offsets": [
+      0,
+      16
+    ],
+    "shapes": [
+      "normal",
+      "empty",
+      "single"
+    ],
+    "comparators": [
+      "caller supplied inclusive interval",
+      "caller supplied exclusive interval"
+    ],
+    "node_and_comparison_paths_match": true,
+    "all_raw_acquisitions_independently_reread": true,
+    "unselected_tree_not_read": true
+  },
+  "fuzz": {
+    "target": "FuzzLatchTree",
+    "seconds": 10,
+    "executions": 309639
+  },
+  "checks": [
+    "make check",
+    "make matrix",
+    "python3 tools/build_inode_mode_oracle.py --check",
+    "python3 tools/build_latch_tree_oracle.py --check",
+    "go test -race ./pkg/object -count=1 after final changes",
+    "make build",
+    "bin/gomem doctor --offline"
+  ],
+  "limitations": [
+    "Pinned node[index] pointer-size container subtraction differs from actual rb_node stride; preserved with coordinates",
+    "Unreadable nodes, malformed/absent metadata, invalid pointers, cycles, bounds, cancellation and callback failures are explicit errors rather than silent no-match",
+    "Callback unavailable/None is represented as an explicit error by callers; empty trees still require valid declared layouts",
+    "No full-tree parent/color/balance validation",
+    "No real modern-kernel positive, source-specific module/BPF comparator, live acquisition or full-plugin acceptance",
+    "Synthetic big-endian test only; package does not persist evidence itself"
+  ]
+}
