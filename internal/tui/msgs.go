@@ -37,6 +37,15 @@ type tasksMsg struct {
 	err   error
 }
 type historyMsg []string
+
+// openedMsg reports an image switch. eng is the image now open: the new one,
+// the previous one reopened after err, or nil when neither could be opened.
+type openedMsg struct {
+	eng        *engine.Engine
+	err        error
+	restored   bool
+	restoreErr error
+}
 type progressMsg struct {
 	task string
 	rows int64

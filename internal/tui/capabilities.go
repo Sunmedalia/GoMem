@@ -23,12 +23,65 @@ type capabilities struct {
 	selected int
 	top      int
 	height   int
+	tab      int
 }
 
-func newCapabilities(specs []plugin.Spec) capabilities {
-	c := capabilities{specs: specs, height: 10}
+// platformTabs filter the list; linux and windows also show platform-neutral
+// capabilities, which run against any image.
+var platformTabs = []string{"linux", "windows", "other", "all"}
+
+// tabLabels are the short forms drawn in the narrow capability panel.
+var tabLabels = []string{"linux", "win", "other", "all"}
+
+func newCapabilities(specs []plugin.Spec, os string) capabilities {
+	c := capabilities{specs: specs, height: 10, tab: tabFor(os)}
 	c.rebuild()
 	return c
+}
+
+// tabFor picks the tab for an image's operating system.
+func tabFor(os string) int {
+	for i, t := range platformTabs[:2] {
+		if t == os {
+			return i
+		}
+	}
+	return len(platformTabs) - 1
+}
+
+func platformOf(s plugin.Spec) string {
+	if g := group(s); g == "linux" || g == "windows" {
+		return g
+	}
+	return "other"
+}
+
+func (c capabilities) shows(s plugin.Spec) bool {
+	switch t, p := platformTabs[c.tab], platformOf(s); t {
+	case "all":
+		return true
+	case "other":
+		return p == "other"
+	default:
+		return p == t || p == "other"
+	}
+}
+
+func (c *capabilities) setTab(i int) {
+	c.tab = (i%len(platformTabs) + len(platformTabs)) % len(platformTabs)
+	c.rebuild()
+}
+
+// clickTab selects the tab drawn at column x of the tab line.
+func (c *capabilities) clickTab(x int) bool {
+	for i, t := range tabLabels {
+		if x >= 0 && x < len(t) {
+			c.setTab(i)
+			return true
+		}
+		x -= len(t) + 1
+	}
+	return false
 }
 
 func group(s plugin.Spec) string {
@@ -47,7 +100,7 @@ func (c *capabilities) rebuild() {
 	members := map[string][]int{}
 	q := strings.ToLower(c.query)
 	for i, s := range c.specs {
-		if q != "" && !strings.Contains(strings.ToLower(s.Name), q) {
+		if !c.shows(s) || q != "" && !strings.Contains(strings.ToLower(s.Name), q) {
 			continue
 		}
 		g := group(s)
@@ -171,6 +224,15 @@ func (c *capabilities) scroll() {
 func (c capabilities) View(st styles, width int) string {
 	var b strings.Builder
 	b.WriteString(st.accent.Render("CAPABILITIES") + st.muted.Render(fmt.Sprintf("  %d", c.matches())) + "\n")
+	tabs := make([]string, len(tabLabels))
+	for i, t := range tabLabels {
+		if i == c.tab {
+			tabs[i] = st.strong.Underline(true).Render(t)
+		} else {
+			tabs[i] = st.muted.Render(t)
+		}
+	}
+	b.WriteString(strings.Join(tabs, " ") + "\n")
 	if c.query != "" {
 		b.WriteString(st.muted.Render(ansi.Truncate("search: "+c.query, width, "…")))
 	}

@@ -50,6 +50,14 @@ func fit(line string, width int) string {
 	return line
 }
 
+// fitTail is fit for paths: it keeps the end, where the file name is.
+func fitTail(line string, width int) string {
+	if w := ansi.StringWidth(line); w > width {
+		line = ansi.TruncateLeft(line, w-width+1, "…")
+	}
+	return fit(line, width)
+}
+
 // panel draws a rounded box of exactly width × height cells around content.
 // Lines are truncated rather than wrapped, so the size never depends on content.
 func (s styles) panel(content string, width, height int, active bool) []string {

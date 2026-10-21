@@ -17,7 +17,12 @@ import (
 func (m model) key(msg tea.KeyPressMsg) (model, tea.Cmd, bool) {
 	switch {
 	case key.Matches(msg, keys.ForceQuit):
+		if m.launcher.cancel != nil {
+			m.launcher.cancel()
+		}
 		return m, m.quit(), true
+	case m.launcher.open:
+		return m.launcherKey(msg)
 	case m.prompt.active():
 		next, cmd := m.promptKey(msg)
 		return next, cmd, true
@@ -62,6 +67,12 @@ func (m model) globalKey(msg tea.KeyPressMsg) (model, tea.Cmd, bool) {
 		m.detail.ScrollRight(4)
 	case key.Matches(msg, keys.Help):
 		m.showHelp = true
+	case key.Matches(msg, keys.Import):
+		if m.running || m.commandRunning {
+			m.say(levelWarn, "Wait for the running task or cancel with ctrl+x before importing")
+			return m, nil, true
+		}
+		m.showLauncher()
 	case key.Matches(msg, keys.Focus):
 		m.focus = 1 - m.focus
 	case key.Matches(msg, keys.Raw):
@@ -190,8 +201,68 @@ func (m model) navKey(msg tea.KeyPressMsg) (model, tea.Cmd, bool) {
 		m.caps.move(delta)
 		m.layout()
 		return m, nil, true
+	case key.Matches(msg, keys.TabLeft, keys.TabRight):
+		delta := -1
+		if key.Matches(msg, keys.TabRight) {
+			delta = 1
+		}
+		m.caps.setTab(m.caps.tab + delta)
+		m.layout()
+		return m, nil, true
 	}
 	return m, nil, false
+}
+
+func (m model) launcherKey(msg tea.KeyPressMsg) (model, tea.Cmd, bool) {
+	l := &m.launcher
+	_, _, _, height := m.sizes()
+	rows := launcherRows(height)
+	if l.opening {
+		if key.Matches(msg, keys.Back) && l.cancel != nil {
+			l.cancel()
+		}
+		return m, nil, true
+	}
+	switch {
+	case key.Matches(msg, keys.Back):
+		if m.engine != nil {
+			l.open = false
+			l.path.Blur()
+		}
+	case key.Matches(msg, keys.NextSection) && l.section == sectionPath && l.complete():
+	case key.Matches(msg, keys.NextSection):
+		return m, l.focusSection(l.section + 1), true
+	case key.Matches(msg, keys.PrevSection):
+		return m, l.focusSection(l.section - 1), true
+	case l.section == sectionPath:
+		if key.Matches(msg, keys.Run) {
+			return m, m.openImage(l.path.Value()), true
+		}
+		var cmd tea.Cmd
+		l.path, cmd = l.path.Update(msg)
+		l.err = ""
+		return m, cmd, true
+	case key.Matches(msg, keys.Run):
+		if path, ok := l.choose(); ok {
+			return m, m.openImage(path), true
+		}
+	case key.Matches(msg, keys.Up):
+		l.move(-1, rows)
+	case key.Matches(msg, keys.Down):
+		l.move(1, rows)
+	case key.Matches(msg, keys.Home):
+		l.move(-1<<30, rows)
+	case key.Matches(msg, keys.End):
+		l.move(1<<30, rows)
+	case l.section == sectionBrowse && key.Matches(msg, keys.Parent):
+		l.up()
+	case l.section == sectionBrowse && key.Matches(msg, keys.Hidden):
+		l.hidden = !l.hidden
+		l.chdir(l.dir)
+	case key.Matches(msg, keys.Quit):
+		return m, m.quit(), true
+	}
+	return m, nil, true
 }
 
 func (m model) resultKey(msg tea.KeyPressMsg) (model, tea.Cmd, bool) {
@@ -356,6 +427,8 @@ func (m model) pickerKey(msg tea.KeyPressMsg) (model, tea.Cmd) {
 	switch {
 	case key.Matches(msg, keys.Back, keys.Tasks):
 		m.picker.open = false
+	case key.Matches(msg, keys.AllTasks):
+		m.picker.toggleEvery()
 	case key.Matches(msg, keys.Quit):
 		return m, m.quit()
 	case key.Matches(msg, keys.Up):
@@ -401,11 +474,14 @@ func (m model) click(mouse tea.Mouse) (model, tea.Cmd, bool) {
 	if mouse.Button != tea.MouseLeft {
 		return m, nil, false
 	}
+	if m.launcher.open {
+		return m.launcherClick(mouse)
+	}
 	r, line := m.at(mouse.X, mouse.Y)
 	switch {
 	case r == regionCaps && !m.form.open:
 		m.focus = focusNav
-		if m.caps.clickLine(line - 2) {
+		if line == 1 && m.caps.clickTab(mouse.X-2) || m.caps.clickLine(line-3) {
 			m.layout()
 		}
 	case r == regionCenter && m.picker.open:
@@ -440,6 +516,15 @@ func (m model) wheel(mouse tea.Mouse) (model, tea.Cmd, bool) {
 	default:
 		return m, nil, false
 	}
+	if m.launcher.open {
+		if r, _ := m.launcherAt(mouse.X, mouse.Y); r != sectionCount {
+			m.launcher.section = r
+			_, _, _, height := m.sizes()
+			m.launcher.move(delta, launcherRows(height))
+			return m, nil, true
+		}
+		return m, nil, false
+	}
 	switch r, _ := m.at(mouse.X, mouse.Y); {
 	case r == regionCaps && !m.form.open:
 		m.caps.move(delta)
@@ -455,4 +540,55 @@ func (m model) wheel(mouse tea.Mouse) (model, tea.Cmd, bool) {
 		return m, nil, false
 	}
 	return m, nil, true
+}
+
+// launcherAt maps a cell to the importer list under it and the entry index
+// within that list's visible window; sectionCount means no list.
+func (m model) launcherAt(x, y int) (launcherSection, int) {
+	_, _, _, height := m.sizes()
+	line := y - 2 - 4 // header row and border, then title, path, message, list header
+	if line < 0 || line >= launcherRows(height) {
+		return sectionCount, 0
+	}
+	half := (m.width - 4 - 2) / 2
+	switch x -= 2; {
+	case x >= 0 && x < half:
+		return sectionBrowse, line
+	case x >= half+2:
+		return sectionRecent, line
+	}
+	return sectionCount, 0
+}
+
+// launcherClick focuses what was clicked; clicking the selected entry again
+// activates it, as enter would.
+func (m model) launcherClick(mouse tea.Mouse) (model, tea.Cmd, bool) {
+	l := &m.launcher
+	if l.opening {
+		return m, nil, true
+	}
+	if mouse.Y == 3 {
+		return m, l.focusSection(sectionPath), true
+	}
+	r, line := m.launcherAt(mouse.X, mouse.Y)
+	if r == sectionCount {
+		return m, nil, true
+	}
+	cmd := l.focusSection(r)
+	cursor, top, n := &l.cursor, l.top, len(l.entries)
+	if r == sectionRecent {
+		cursor, top, n = &l.rcursor, l.rtop, len(l.recent)
+	}
+	i := top + line
+	if i >= n {
+		return m, cmd, true
+	}
+	if *cursor != i {
+		*cursor = i
+		return m, cmd, true
+	}
+	if path, ok := l.choose(); ok {
+		return m, m.openImage(path), true
+	}
+	return m, cmd, true
 }

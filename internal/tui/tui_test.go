@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"image/color"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 	"time"
@@ -24,12 +26,16 @@ func fixtureModel(t testing.TB) model {
 	if err != nil {
 		t.Fatal(err)
 	}
-	e, err := engine.Open(context.Background(), engine.Config{Image: f.Image, CaseDir: t.TempDir(), Symbols: f.Symbols, OS: "linux", Arch: "x64", DTB: f.DTB})
+	cfg := engine.Config{Image: f.Image, CaseDir: t.TempDir(), Symbols: f.Symbols, OS: "linux", Arch: "x64", DTB: f.DTB}
+	e, err := engine.Open(context.Background(), cfg)
 	if err != nil {
 		t.Fatal(err)
 	}
 	t.Cleanup(func() { e.Close() })
-	return New(context.Background(), e).(model)
+	m := New(context.Background(), Options{Config: cfg, Engine: e}).(model)
+	// The TUI may switch images; close whichever engine it ends with.
+	t.Cleanup(func() { Close(m) })
+	return m
 }
 
 func press(t testing.TB, m model, keys ...string) (model, tea.Cmd) {
@@ -131,6 +137,7 @@ func TestLayoutPagingFilterAndStaleMessages(t *testing.T) {
 			}
 		},
 		func(m *model) { m.setTheme(false) },
+		func(m *model) { m.showLauncher() },
 	} {
 		v := m
 		view(&v)
@@ -210,7 +217,7 @@ func TestCapabilityListScrollsAndSearches(t *testing.T) {
 	m := fixtureModel(t)
 	m.width, m.height = 100, minHeight
 	m.layout()
-	last := m.caps.specs[len(m.caps.specs)-1].Name
+	last := m.caps.specs[m.caps.items[len(m.caps.items)-1].spec].Name
 	for range m.caps.specs {
 		m, _ = press(t, m, "down")
 	}
@@ -229,7 +236,7 @@ func TestCapabilityListScrollsAndSearches(t *testing.T) {
 	if m.caps.query != "" {
 		t.Fatal("esc did not clear the search")
 	}
-	g := capabilities{specs: []plugin.Spec{{Name: "linux.a"}, {Name: "windows.b"}, {Name: "linux.c"}}}
+	g := capabilities{specs: []plugin.Spec{{Name: "linux.a"}, {Name: "windows.b"}, {Name: "linux.c"}}, tab: tabFor("")}
 	g.rebuild()
 	if len(g.items) != 5 || g.items[0].spec >= 0 || g.items[2].spec != 2 || g.items[3].group != "windows" {
 		t.Fatal(g.items)
@@ -441,10 +448,10 @@ func TestMouseSelectsCapabilitiesAndRows(t *testing.T) {
 	m := fixtureModel(t)
 	m = runPslist(t, m)
 	left, _, _, _ := m.sizes()
-	// Capability items start on the third line inside the panel: y = 1 header + 1 border + 2.
+	// Capability items start on the fourth line inside the panel: y = 1 header + 1 border + 3.
 	for i, it := range m.caps.items {
 		if it.spec >= 0 && it.spec != m.caps.selected && i < m.caps.height {
-			updated, _ := m.Update(tea.MouseClickMsg{X: 3, Y: 4 + i, Button: tea.MouseLeft})
+			updated, _ := m.Update(tea.MouseClickMsg{X: 3, Y: 5 + i, Button: tea.MouseLeft})
 			m = updated.(model)
 			if m.caps.selected != it.spec || m.focus != focusNav {
 				t.Fatal("click did not select capability", i)
@@ -462,5 +469,173 @@ func TestMouseSelectsCapabilitiesAndRows(t *testing.T) {
 	m = updated.(model)
 	if m.res.grid.Cursor() != 0 {
 		t.Fatal("wheel did not move the row", m.res.grid.Cursor())
+	}
+}
+
+func TestImporterOpensSwitchesAndRestoresImages(t *testing.T) {
+	f, err := testfixture.Write(t.TempDir(), "linux")
+	if err != nil {
+		t.Fatal(err)
+	}
+	caseDir := t.TempDir()
+	cfg := engine.Config{CaseDir: caseDir, Symbols: f.Symbols, OS: "linux", Arch: "x64", DTB: f.DTB}
+	m := New(context.Background(), Options{Config: cfg}).(model)
+	defer func() { Close(m) }()
+	out := fits(t, m)
+	if !m.launcher.open || m.engine != nil || !strings.Contains(out, "IMPORT IMAGE") || !strings.Contains(out, "no image") {
+		t.Fatal("importer not shown without an image\n" + out)
+	}
+	m, _ = press(t, m, "esc")
+	if !m.launcher.open {
+		t.Fatal("esc left the importer with no image open")
+	}
+	m.launcher.path.SetValue(f.Image)
+	m, cmd := press(t, m, "enter")
+	if !m.launcher.opening || !strings.Contains(fits(t, m), "opening") {
+		t.Fatal("open did not start")
+	}
+	m = deliver(t, m, cmd)
+	if m.engine == nil || m.launcher.open || m.level != levelSuccess || platformTabs[m.caps.tab] != "linux" {
+		t.Fatal("image did not open", m.launcher.err, m.status)
+	}
+	for _, it := range m.caps.items {
+		if it.spec >= 0 && platformOf(m.caps.specs[it.spec]) == "windows" {
+			t.Fatal("windows capability listed for a linux image", m.caps.specs[it.spec].Name)
+		}
+	}
+
+	// The case remembers the image; reopening it from the recent list closes
+	// the current engine first, or the case lock would refuse the open.
+	m, _ = press(t, m, "i")
+	if !m.launcher.open || len(m.launcher.recent) != 1 || m.launcher.recent[0].Path != f.Image {
+		t.Fatal("recent images", m.launcher.recent)
+	}
+	first := m.engine
+	m, _ = press(t, m, "tab", "tab")
+	if m.launcher.section != sectionRecent {
+		t.Fatal(m.launcher.section)
+	}
+	m, cmd = press(t, m, "enter")
+	m = deliver(t, m, cmd)
+	if m.engine == nil || m.engine == first || m.launcher.open {
+		t.Fatal("recent image did not reopen", m.launcher.err)
+	}
+
+	m, _ = press(t, m, "i")
+	m.launcher.section = sectionPath
+	m.launcher.path.SetValue(filepath.Join(t.TempDir(), "missing.raw"))
+	m, cmd = press(t, m, "enter")
+	m = deliver(t, m, cmd)
+	if m.engine == nil || !m.launcher.open || !strings.Contains(m.launcher.err, "previous image is open again") {
+		t.Fatal("failed open did not restore the previous image", m.launcher.err)
+	}
+	m, _ = press(t, m, "esc")
+	if m.launcher.open || m.engine.Config.Image != f.Image {
+		t.Fatal("could not return to the restored image")
+	}
+}
+
+func TestImporterCompletionAndBrowser(t *testing.T) {
+	dir := t.TempDir()
+	for _, d := range []string{"alphabet", ".hidden"} {
+		if err := os.Mkdir(filepath.Join(dir, d), 0o700); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if err := os.WriteFile(filepath.Join(dir, "alpha.raw"), make([]byte, 2048), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	l := newLauncher("")
+	l.path.SetValue(filepath.Join(dir, "al"))
+	if !l.complete() || l.path.Value() != filepath.Join(dir, "alpha") {
+		t.Fatal(l.path.Value())
+	}
+	if l.complete() {
+		t.Fatal("ambiguous completion changed the path", l.path.Value())
+	}
+	l.path.SetValue(filepath.Join(dir, "alphab"))
+	if !l.complete() || l.path.Value() != filepath.Join(dir, "alphabet")+string(os.PathSeparator) || l.dir != filepath.Join(dir, "alphabet") {
+		t.Fatal(l.path.Value(), l.dir)
+	}
+
+	l.chdir(dir)
+	var names []string
+	for _, e := range l.entries {
+		names = append(names, e.name)
+	}
+	if strings.Join(names, ",") != "..,alphabet,alpha.raw" {
+		t.Fatal(names)
+	}
+	l.hidden = true
+	l.chdir(dir)
+	if len(l.entries) != 4 {
+		t.Fatal("hidden entries not shown", l.entries)
+	}
+	l.hidden = false
+	l.chdir(dir)
+	l.section, l.cursor = sectionBrowse, 1
+	if _, ok := l.choose(); ok || l.dir != filepath.Join(dir, "alphabet") {
+		t.Fatal("did not enter directory", l.dir)
+	}
+	l.up()
+	if l.dir != dir || l.entries[l.cursor].name != "alphabet" {
+		t.Fatal("parent did not reselect the directory", l.dir, l.cursor)
+	}
+	l.cursor = 2
+	if path, ok := l.choose(); !ok || path != filepath.Join(dir, "alpha.raw") || l.path.Value() != path {
+		t.Fatal(path, ok)
+	}
+	if !strings.Contains(ansi.Strip(l.View(newStyles(true), engine.Config{}, 100, 20, "")), "2.0 KiB") {
+		t.Fatal("file size not shown")
+	}
+}
+
+func TestPlatformTabsAndTaskScope(t *testing.T) {
+	m := fixtureModel(t)
+	if platformTabs[m.caps.tab] != "linux" {
+		t.Fatal(m.caps.tab)
+	}
+	count := func(platform string) int {
+		n := 0
+		for _, it := range m.caps.items {
+			if it.spec >= 0 && platformOf(m.caps.specs[it.spec]) == platform {
+				n++
+			}
+		}
+		return n
+	}
+	if count("linux") == 0 || count("other") == 0 || count("windows") != 0 {
+		t.Fatal("linux tab", count("linux"), count("other"), count("windows"))
+	}
+	m, _ = press(t, m, "right")
+	if count("windows") == 0 || count("linux") != 0 {
+		t.Fatal("windows tab")
+	}
+	m, _ = press(t, m, "right")
+	if count("other") == 0 || count("windows") != 0 || count("linux") != 0 {
+		t.Fatal("other tab")
+	}
+	m, _ = press(t, m, "right", "/", "p", "s", "l", "i", "s", "t", "enter")
+	if platformTabs[m.caps.tab] != "all" || count("linux") == 0 || count("windows") == 0 {
+		t.Fatal("search across all platforms")
+	}
+	m, _ = press(t, m, "left", "left", "left")
+	if platformTabs[m.caps.tab] != "linux" || count("windows") != 0 || !strings.Contains(m.caps.spec().Name, "pslist") {
+		t.Fatal("tab and search do not combine", m.caps.spec().Name)
+	}
+	// The tab line is the second line inside the panel; "win" starts after "linux ".
+	updated, _ := m.Update(tea.MouseClickMsg{X: 2 + len("linux "), Y: 3, Button: tea.MouseLeft})
+	m = updated.(model)
+	if platformTabs[m.caps.tab] != "windows" {
+		t.Fatal("tab click", m.caps.tab)
+	}
+
+	m.picker.show([]evidence.Task{{ID: "mine", Provenance: evidence.Provenance{ImageSHA256: m.engine.Hash}}, {ID: "other", Provenance: evidence.Provenance{ImageSHA256: "other"}}}, m.engine.Hash)
+	if len(m.picker.tasks) != 1 || m.picker.tasks[0].ID != "mine" {
+		t.Fatal(m.picker.tasks)
+	}
+	m, _ = press(t, m, "a")
+	if len(m.picker.tasks) != 2 || !strings.Contains(fits(t, m), "all images") {
+		t.Fatal("a did not show every image's tasks")
 	}
 }

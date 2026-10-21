@@ -9,6 +9,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"path/filepath"
+	"strings"
 	"time"
 
 	"charm.land/bubbles/v2/help"
@@ -19,6 +21,7 @@ import (
 
 	"github.com/Sunmedalia/GoMem/internal/engine"
 	"github.com/Sunmedalia/GoMem/internal/explore"
+	"github.com/Sunmedalia/GoMem/internal/plugins"
 	"github.com/Sunmedalia/GoMem/internal/render"
 	"github.com/Sunmedalia/GoMem/internal/version"
 	"github.com/Sunmedalia/GoMem/pkg/evidence"
@@ -43,9 +46,24 @@ const (
 	levelError
 )
 
+// Options configures the TUI. Engine may be nil, in which case it starts in
+// the image importer.
+type Options struct {
+	// Config is the base for images opened from the importer; only Image is
+	// replaced, so symbols, DTB, case and network settings carry over.
+	Config engine.Config
+	Engine *engine.Engine
+	// Open opens an image; nil means engine.Open. A caller can wrap it to
+	// resolve or download symbols before the image is opened.
+	Open func(context.Context, engine.Config) (*engine.Engine, error)
+}
+
 type model struct {
 	ctx            context.Context
 	engine         *engine.Engine
+	base           engine.Config
+	opener         func(context.Context, engine.Config) (*engine.Engine, error)
+	launcher       launcher
 	explorer       *explore.Session
 	st             styles
 	caps           capabilities
@@ -77,15 +95,114 @@ type model struct {
 	commandRunning bool
 }
 
-func New(ctx context.Context, e *engine.Engine) tea.Model {
-	m := model{ctx: ctx, engine: e, explorer: explore.New(e), caps: newCapabilities(e.Registry.List()), prompt: newPrompt(), help: help.New(), spin: spinner.New(spinner.WithSpinner(spinner.Dot)), width: 120, height: 30, events: make(chan tea.Msg, 4)}
-	m.say(levelInfo, "Select a capability and press enter. Results are persisted and paged. ? for help.")
+func New(ctx context.Context, o Options) tea.Model {
+	if o.Open == nil {
+		o.Open = engine.Open
+	}
+	m := model{ctx: ctx, base: o.Config, opener: o.Open, prompt: newPrompt(), help: help.New(), spin: spinner.New(spinner.WithSpinner(spinner.Dot)), width: 120, height: 30, events: make(chan tea.Msg, 4)}
 	m.detail = viewport.New()
+	m.launcher = newLauncher(o.Config.Image)
+	if o.Engine != nil {
+		m.setEngine(o.Engine)
+	} else {
+		m.caps = newCapabilities(registry().List(), o.Config.OS)
+		m.showLauncher()
+	}
 	m.setTheme(true)
 	return m
 }
+
+// registry lists capabilities before any image is open.
+func registry() *plugin.Registry {
+	r := plugin.NewRegistry()
+	if err := plugins.Register(r); err != nil {
+		panic(err)
+	}
+	return r
+}
+
+// Close releases the engine a finished TUI holds; the TUI may have switched
+// images, so this is not necessarily the engine it started with.
+func Close(final tea.Model) error {
+	if m, ok := final.(model); ok && m.engine != nil {
+		return m.engine.Close()
+	}
+	return nil
+}
+
 func (m model) Init() tea.Cmd {
 	return tea.Batch(m.waitEvent(), pulse(), m.loadHistory(), tea.RequestBackgroundColor)
+}
+
+// setEngine makes eng the investigated image and resets everything derived
+// from the previous one.
+func (m *model) setEngine(eng *engine.Engine) {
+	m.engine = eng
+	m.explorer = explore.New(eng)
+	m.caps = newCapabilities(eng.Registry.List(), eng.Env.OS)
+	m.res = results{}
+	m.picker = taskPicker{}
+	m.form = paramForm{}
+	m.showCommand, m.expanded = false, false
+	m.prompt.history = nil
+	m.launcher.open = false
+	m.focus = focusNav
+	m.detailAt = ""
+	m.say(levelInfo, "Select a capability and press enter. Results are persisted and paged. i imports another image · ? for help.")
+	m.layout()
+}
+
+// showLauncher opens the importer with a fresh directory listing and the
+// case's image history.
+func (m *model) showLauncher() {
+	m.launcher.open = true
+	m.launcher.err = ""
+	m.launcher.chdir(m.launcher.dir)
+	m.launcher.setRecent(recentImages(m.ctx, m.engine, m.base.CaseDir))
+	m.launcher.section = sectionPath
+	m.launcher.path.Focus()
+}
+
+// openImage closes the current image, opens path in its place and, if that
+// fails, reopens the previous image so the case stays usable.
+func (m *model) openImage(path string) tea.Cmd {
+	path = strings.TrimSpace(expandHome(path))
+	if path == "" {
+		m.launcher.err = "Enter the path of a memory image"
+		return nil
+	}
+	if m.running || m.commandRunning {
+		m.launcher.err = "Wait for the running task or cancel it with ctrl+x first"
+		return nil
+	}
+	cfg := m.base
+	cfg.Image = path
+	ctx, cancel := context.WithCancel(m.ctx)
+	m.launcher.opening, m.launcher.cancel = true, cancel
+	m.launcher.target, m.launcher.started, m.launcher.err = path, time.Now(), ""
+	prev, open, life := m.engine, m.opener, m.ctx
+	run := func() tea.Msg {
+		defer cancel()
+		var prevCfg engine.Config
+		if prev != nil {
+			prevCfg = prev.Config
+			// The case lock must be released before the case is opened again.
+			if err := prev.Close(); err != nil {
+				return openedMsg{err: err}
+			}
+		}
+		eng, err := open(ctx, cfg)
+		if err == nil {
+			return openedMsg{eng: eng}
+		}
+		msg := openedMsg{err: err}
+		if prev != nil {
+			msg.eng, msg.restoreErr = open(life, prevCfg)
+			msg.restored = msg.restoreErr == nil
+		}
+		return msg
+	}
+	return tea.Batch(run, m.spin.Tick)
 }
 
 func (m *model) say(l level, text string) { m.status, m.level = text, l }
@@ -99,6 +216,9 @@ func (m *model) setTheme(dark bool) {
 }
 
 func (m model) loadHistory() tea.Cmd {
+	if m.engine == nil {
+		return nil
+	}
 	return func() tea.Msg {
 		cmds, _ := m.engine.Store.Commands(m.ctx, historyLimit)
 		return historyMsg(cmds)
@@ -133,7 +253,7 @@ func (m model) sizes() (left, middle, right, height int) {
 
 // resultSpec is the shown task's plugin, or the selected capability before any run.
 func (m model) resultSpec() plugin.Spec {
-	if m.res.task.ID != "" {
+	if m.engine != nil && m.res.task.ID != "" {
 		if p, err := m.engine.Registry.Get(m.res.task.Plugin); err == nil {
 			return p.Spec()
 		}
@@ -145,7 +265,7 @@ func (m model) resultSpec() plugin.Spec {
 // skips work when its inputs did not change, so this is cheap to call per key.
 func (m *model) layout() {
 	_, middle, right, height := m.sizes()
-	m.caps.setHeight(height - 4)
+	m.caps.setHeight(height - 5)
 	m.res.setSpec(m.resultSpec())
 	m.res.layout(middle-4, height-4)
 	if m.expanded {
@@ -251,8 +371,29 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.BackgroundColorMsg:
 		m.setTheme(x.IsDark())
 		return m, nil
+	case openedMsg:
+		m.launcher.opening, m.launcher.cancel = false, nil
+		if x.eng == nil {
+			m.engine = nil
+			m.showLauncher()
+		} else {
+			m.setEngine(x.eng)
+		}
+		if x.err != nil {
+			m.showLauncher()
+			m.launcher.err = "Cannot open " + m.launcher.target + ": " + x.err.Error()
+			switch {
+			case x.restored:
+				m.launcher.err += " · the previous image is open again"
+			case x.restoreErr != nil:
+				m.launcher.err += " · reopening the previous image failed: " + x.restoreErr.Error()
+			}
+			return m, nil
+		}
+		m.say(levelSuccess, fmt.Sprintf("Opened %s · %s · %s", filepath.Base(x.eng.Config.Image), x.eng.Format, x.eng.Env.OS))
+		return m, m.loadHistory()
 	case spinner.TickMsg:
-		if !m.running && !m.commandRunning {
+		if !m.running && !m.commandRunning && !m.launcher.opening {
 			return m, nil
 		}
 		var cmd tea.Cmd
@@ -323,7 +464,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.say(levelError, x.err.Error())
 			return m, nil
 		}
-		m.picker.show(x.tasks)
+		m.picker.show(x.tasks, m.engine.Hash)
 		return m, nil
 	case tea.KeyPressMsg:
 		if next, cmd, ok := m.key(x); ok {
@@ -381,11 +522,17 @@ func (m model) View() tea.View {
 		v.AltScreen = true
 		return v
 	}
-	header := m.st.strong.Render(" GoMem ") + m.st.muted.Render(version.Version+"  /  "+m.engine.Format+"  /  "+m.engine.Hash[:16]+"…  /  development preview")
+	image := "no image"
+	if m.engine != nil {
+		image = render.Safe(filepath.Base(m.engine.Config.Image)) + "  /  " + m.engine.Format + "  /  " + m.engine.Env.OS + "  /  " + m.engine.Hash[:16] + "…"
+	}
+	header := m.st.strong.Render(" GoMem ") + m.st.muted.Render(version.Version+"  /  "+image+"  /  development preview")
 	header = ansi.Truncate(header, m.width, "…")
 	left, middle, right, height := m.sizes()
 	var body string
 	switch {
+	case m.launcher.open:
+		body = row(m.st.panel(m.launcher.View(m.st, m.base, m.width-4, height, m.spin.View()), m.width, height, true))
 	case m.showHelp:
 		body = row(m.st.panel(m.st.accent.Render("KEYS")+"\n"+m.help.FullHelpView(keys.FullHelp()), m.width, height, true))
 	case m.expanded:
@@ -410,7 +557,10 @@ func (m model) View() tea.View {
 		footer = m.prompt.input.View()
 	}
 	hints := keys.navHelp()
-	if m.focus == focusResults {
+	switch {
+	case m.launcher.open:
+		hints = keys.launcherHelp(m.engine != nil)
+	case m.focus == focusResults:
 		hints = keys.resultHelp()
 	}
 	// ShortHelpView can overrun its width when the ellipsis does not fit.

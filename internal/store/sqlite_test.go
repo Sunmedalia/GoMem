@@ -214,3 +214,25 @@ func TestSortedQueryAndCommandHistory(t *testing.T) {
 		t.Fatal(got, err)
 	}
 }
+
+func TestImagesNewestFirst(t *testing.T) {
+	ctx := context.Background()
+	s, err := Open(t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer s.Close()
+	if err = s.RecordImage(ctx, "aa", "/old.raw", "raw", 10); err != nil {
+		t.Fatal(err)
+	}
+	if err = s.RecordImage(ctx, "bb", "/new.lime", "lime-v1", 20); err != nil {
+		t.Fatal(err)
+	}
+	if err = s.RecordImage(ctx, "aa", "/moved.raw", "raw", 10); err != nil {
+		t.Fatal(err)
+	}
+	got, err := s.Images(ctx)
+	if err != nil || len(got) != 2 || got[0].SHA256 != "bb" || got[0].Size != 20 || got[1].Path != "/moved.raw" || got[1].Format != "raw" {
+		t.Fatal(got, err)
+	}
+}

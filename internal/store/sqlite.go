@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -376,6 +377,32 @@ func (s *Store) Investigation(ctx context.Context) (map[string]any, error) {
 		out[table] = records
 	}
 	return out, nil
+}
+
+// ImageRecord is an image this case has opened.
+type ImageRecord struct {
+	SHA256, Path, Format, FirstSeen string
+	Size                            uint64
+}
+
+// Images lists the images this case has opened, most recently first seen first.
+func (s *Store) Images(ctx context.Context) ([]ImageRecord, error) {
+	r, e := s.db.QueryContext(ctx, "SELECT sha256,path,size,format,first_seen FROM images ORDER BY first_seen DESC")
+	if e != nil {
+		return nil, e
+	}
+	defer r.Close()
+	var out []ImageRecord
+	for r.Next() {
+		var rec ImageRecord
+		var size string
+		if e := r.Scan(&rec.SHA256, &rec.Path, &size, &rec.Format, &rec.FirstSeen); e != nil {
+			return nil, e
+		}
+		rec.Size, _ = strconv.ParseUint(size, 10, 64)
+		out = append(out, rec)
+	}
+	return out, r.Err()
 }
 
 func (s *Store) RecordImage(ctx context.Context, hash, path, format string, size uint64) error {
