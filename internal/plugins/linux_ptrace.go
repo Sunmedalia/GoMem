@@ -3,14 +3,12 @@ package plugins
 import (
 	"context"
 	"fmt"
-	"io"
 	"strconv"
 	"strings"
 
 	"github.com/Sunmedalia/GoMem/pkg/evidence"
 	"github.com/Sunmedalia/GoMem/pkg/memory"
 	"github.com/Sunmedalia/GoMem/pkg/plugin"
-	"github.com/Sunmedalia/GoMem/pkg/symbols"
 )
 
 var linuxPtraceBits = []struct {
@@ -60,42 +58,6 @@ func linuxPtracePlugins() []builtin {
 	return []builtin{{plugin.Spec{Name: "linux.ptrace", Upstream: "linux.ptrace.Ptrace", Platform: "linux", NeedsKernel: true,
 		Description: "Enumerate ptrace tracers and tracees including threads, with raw flags and object identities",
 		Parameters:  []plugin.Parameter{{Name: "max-nodes", Kind: "uint", Default: "131072", Description: "Per-list traversal bound, 1..1000000"}, {Name: "max-tasks", Kind: "uint", Default: "1000000", Description: "Total task/thread bound, 1..1000000"}, {Name: "max-relations", Kind: "uint", Default: "1000000", Description: "Total traced-list entry bound, 1..1000000"}}, Columns: columns}, linuxPtrace}}
-}
-
-func linuxPtraceRawField(ctx context.Context, e plugin.Environment, base uint64, typ, field string) ([]byte, evidence.Value, error) {
-	var f symbols.Field
-	var err error
-	if field == "" {
-		f.Type = symbols.TypeRef{Kind: "struct", Name: typ}
-	} else {
-		f, err = e.Objects.Field(typ, field)
-	}
-	if err != nil {
-		return nil, evidence.Missing("field_layout_unavailable", err), err
-	}
-	address, err := memory.Add(base, f.Offset)
-	if err != nil {
-		return nil, evidence.Missing("field_address_invalid", err), err
-	}
-	size, err := e.Objects.Size(f.Type)
-	if err != nil || size == 0 || size > 4096 {
-		err = fmt.Errorf("invalid %s.%s field extent %d: %v", typ, field, size, err)
-		return nil, evidence.Missing("field_extent_invalid", err), err
-	}
-	raw := make([]byte, int(size))
-	got, err := e.Kernel.ReadAt(ctx, raw, address)
-	if got < 0 || got > len(raw) {
-		err = fmt.Errorf("invalid field capture length %d", got)
-		return nil, evidence.Missing("capture_invalid", err), err
-	}
-	if err == nil && got != len(raw) {
-		err = io.ErrUnexpectedEOF
-	}
-	fields := map[string]evidence.Value{"Address": evidence.Address(address), "Raw": evidence.Bytes(raw[:got]), "RequestedBytes": evidence.Number(size), "CapturedBytes": evidence.Number(uint64(got)), "ReadComplete": evidence.Bool(err == nil)}
-	if err != nil {
-		fields["Error"] = evidence.Missing("field_unreadable", err)
-	}
-	return raw[:got], evidence.Value{Kind: "structure", Data: fields}, err
 }
 
 func linuxPtrace(ctx context.Context, e plugin.Environment, p map[string]string, out plugin.Emit) error {
@@ -192,7 +154,7 @@ func linuxPtrace(ctx context.Context, e plugin.Environment, p map[string]string,
 			fields[label] = evidence.Missing(label, cause)
 		}
 		read := func(address uint64, typ, member, label string) (uint64, error) {
-			_, capture, err := linuxPtraceRawField(ctx, e, address, typ, member)
+			_, capture, err := linuxCaptureField(ctx, e, address, typ, member)
 			fields[label] = capture
 			if err != nil {
 				return 0, err
@@ -246,7 +208,7 @@ func linuxPtrace(ctx context.Context, e plugin.Environment, p map[string]string,
 			stamp = created.String()
 		}
 		r.Cells["TaskIdentity"] = evidence.Text(evidence.ThreadID(e.ImageHash, e.Kernel.Name(), task, tid, stamp))
-		comm, capture, nameErr := linuxPtraceRawField(ctx, e, task, "task_struct", "comm")
+		comm, capture, nameErr := linuxCaptureField(ctx, e, task, "task_struct", "comm")
 		fields["comm"] = capture
 		r.Cells["Process"] = evidence.Text(spoofDecoded(comm))
 		if nameErr != nil {
@@ -282,7 +244,7 @@ func linuxPtrace(ctx context.Context, e plugin.Environment, p map[string]string,
 			r.Cells["RecordType"] = evidence.Text("diagnostic")
 			return finish()
 		}
-		_, capture, listErr := linuxPtraceRawField(ctx, e, task, "task_struct", "ptraced")
+		_, capture, listErr := linuxCaptureField(ctx, e, task, "task_struct", "ptraced")
 		fields["ptraced"] = capture
 		next, nextErr := read(task, "task_struct", "ptraced.next", "ptraced.next")
 		isTracer := false
@@ -292,7 +254,7 @@ func linuxPtrace(ctx context.Context, e plugin.Environment, p map[string]string,
 			} else if next != listHead {
 				// is_ptracing tests readability of the list_head pointer target, not
 				// membership of the target task in the active task list.
-				_, capture, nextErr = linuxPtraceRawField(ctx, e, next, "list_head", "")
+				_, capture, nextErr = linuxCaptureField(ctx, e, next, "list_head", "")
 				fields["next_target"] = capture
 				isTracer = nextErr == nil
 			}
@@ -351,7 +313,7 @@ func linuxPtrace(ctx context.Context, e plugin.Environment, p map[string]string,
 				return fmt.Errorf("tracee entries exceed max-relations %d", maxRelations)
 			}
 			entries++
-			_, capture, cause := linuxPtraceRawField(ctx, e, address, "task_struct", "pid")
+			_, capture, cause := linuxCaptureField(ctx, e, address, "task_struct", "pid")
 			details := map[string]evidence.Value{"Offset": evidence.Address(address), "PIDField": capture}
 			failed := func(err error) error {
 				fields["FailedTracee"] = evidence.Value{Kind: "structure", Data: details}
@@ -364,7 +326,7 @@ func linuxPtrace(ctx context.Context, e plugin.Environment, p map[string]string,
 			if cause != nil {
 				return failed(cause)
 			}
-			_, capture, cause = linuxPtraceRawField(ctx, e, address, "task_struct", "ptrace_entry")
+			_, capture, cause = linuxCaptureField(ctx, e, address, "task_struct", "ptrace_entry")
 			details["EntryField"] = capture
 			if cause != nil {
 				return failed(cause)

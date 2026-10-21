@@ -1,0 +1,253 @@
+{
+  "scope": "Development preview: three Debian x64 selected-field process/thread hierarchy differentials; complete capability acceptance remains pending.",
+  "profiles": [
+    {
+      "profile": "pstree",
+      "unmodified_reference_manifest": {
+        "baseline": {
+          "name": "Volatility 3",
+          "version": "2.28.2",
+          "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+          "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+          "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+          "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+        },
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "plugin": "linux.pstree.PsTree",
+        "parameters": [],
+        "output_sha256": "347bdfca6cd49f4a3c359266de75d11f561b36d1d9422410a105a8176db5f50f",
+        "config_sha256": "f3c23e467781c23b4ee4f5c097958145a7e5beb43af5f47f47f06b38a5585e81",
+        "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+      },
+      "comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "OFFSET (V)",
+          "PID",
+          "TID",
+          "PPID",
+          "COMM",
+          "Depth"
+        ],
+        "native_rows": 133,
+        "reference_rows": 133,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "3af5d5b694c6be98a8b62c4bc725b291016a19a0b3feb0a171ae13d50a8e17f1",
+          "reference": "347bdfca6cd49f4a3c359266de75d11f561b36d1d9422410a105a8176db5f50f",
+          "mapping": "8a3861584c117310320e83819ba226f8644224ee9acc07bfb7d66391d4cb00a6"
+        },
+        "native_input_rows": 400,
+        "native_non_entity_records": {
+          "observation": 133,
+          "selection": 133,
+          "summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "process",
+          "excluded_values": [
+            "observation",
+            "selection",
+            "diagnostic",
+            "summary"
+          ]
+        }
+      },
+      "coverage": {
+        "candidates": "133",
+        "diagnostics": "0",
+        "distinct_tids": "133",
+        "duplicates": "0",
+        "excluded_tids": "0",
+        "tree_rows": "133",
+        "zero_level_tids": "0"
+      },
+      "checks": {
+        "enumeration_order_matches": true,
+        "raw_captures_reread": 665,
+        "sqlite_row_verification": true,
+        "cache_reuse": true,
+        "fresh_cached_jsonl_identical": true,
+        "bundle_verified": true,
+        "bundle_sha256": "8b8b9be8bb6d9d5814f4dcd13fbece73a233bfc5190e8e773a050b763048c084"
+      }
+    },
+    {
+      "profile": "pstree-threads",
+      "unmodified_reference_manifest": {
+        "baseline": {
+          "name": "Volatility 3",
+          "version": "2.28.2",
+          "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+          "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+          "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+          "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+        },
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "plugin": "linux.pstree.PsTree",
+        "parameters": [
+          "--threads",
+          "--decorate-comm"
+        ],
+        "output_sha256": "dfda8cb288dd404a5d0eb9c1b0ef310f32d257b30cbf952ba20c6d6af2527f00",
+        "config_sha256": "53f787fa38d8d9a624165b1c22c83186e4ced8ef31c91fe6ef5b4a57f6c0c8e5",
+        "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+      },
+      "comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "OFFSET (V)",
+          "PID",
+          "TID",
+          "PPID",
+          "COMM",
+          "Depth"
+        ],
+        "native_rows": 316,
+        "reference_rows": 316,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "6e2d973d53c46c83e822e8a6f6956d8633b1a29257ceaa44f6d687c8cc972ea3",
+          "reference": "dfda8cb288dd404a5d0eb9c1b0ef310f32d257b30cbf952ba20c6d6af2527f00",
+          "mapping": "8a3861584c117310320e83819ba226f8644224ee9acc07bfb7d66391d4cb00a6"
+        },
+        "native_input_rows": 949,
+        "native_non_entity_records": {
+          "observation": 316,
+          "selection": 316,
+          "summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "process",
+          "excluded_values": [
+            "observation",
+            "selection",
+            "diagnostic",
+            "summary"
+          ]
+        }
+      },
+      "coverage": {
+        "candidates": "316",
+        "diagnostics": "0",
+        "distinct_tids": "316",
+        "duplicates": "0",
+        "excluded_tids": "0",
+        "tree_rows": "316",
+        "zero_level_tids": "0"
+      },
+      "checks": {
+        "enumeration_order_matches": true,
+        "raw_captures_reread": 2262,
+        "sqlite_row_verification": true,
+        "cache_reuse": true,
+        "fresh_cached_jsonl_identical": true,
+        "bundle_verified": true,
+        "bundle_sha256": "7efe403fc1bf2e1e3566cf05a37bbda43a780c0b36c6b77a998298c57104066a"
+      }
+    },
+    {
+      "profile": "pstree-filtered",
+      "unmodified_reference_manifest": {
+        "baseline": {
+          "name": "Volatility 3",
+          "version": "2.28.2",
+          "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+          "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+          "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+          "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+        },
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "plugin": "linux.pstree.PsTree",
+        "parameters": [
+          "--pid",
+          "3924",
+          "--threads",
+          "--decorate-comm"
+        ],
+        "output_sha256": "11e2f9ae986773dcd83da50564374a30b68a838d09b1b79a68d9d7f2ecbfff8f",
+        "config_sha256": "cde35ccccf7c974304233a50421c85c15e7c4329cddb3f4039ad86ed5d647fff",
+        "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+      },
+      "comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "OFFSET (V)",
+          "PID",
+          "TID",
+          "PPID",
+          "COMM",
+          "Depth"
+        ],
+        "native_rows": 3,
+        "reference_rows": 3,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "49d0f2a6120df86ffb1bf830f58969a7a0399d5e911ecd69d3e0a233bf3609b0",
+          "reference": "11e2f9ae986773dcd83da50564374a30b68a838d09b1b79a68d9d7f2ecbfff8f",
+          "mapping": "8a3861584c117310320e83819ba226f8644224ee9acc07bfb7d66391d4cb00a6"
+        },
+        "native_input_rows": 10,
+        "native_non_entity_records": {
+          "observation": 3,
+          "selection": 3,
+          "summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "process",
+          "excluded_values": [
+            "observation",
+            "selection",
+            "diagnostic",
+            "summary"
+          ]
+        }
+      },
+      "coverage": {
+        "candidates": "3",
+        "diagnostics": "0",
+        "distinct_tids": "3",
+        "duplicates": "0",
+        "excluded_tids": "0",
+        "tree_rows": "3",
+        "zero_level_tids": "0"
+      },
+      "checks": {
+        "enumeration_order_matches": true,
+        "raw_captures_reread": 22,
+        "sqlite_row_verification": true,
+        "cache_reuse": true,
+        "fresh_cached_jsonl_identical": true,
+        "bundle_verified": true,
+        "bundle_sha256": "596f51a3f996d29c9da6d9394661b109299abace724c7fc154bdf8844cb7ae2f"
+      }
+    }
+  ],
+  "checks": {
+    "make_check": "passed",
+    "fixed_hierarchy_cases": 19,
+    "synthetic_paging": [
+      "x64",
+      "x86",
+      "pae"
+    ],
+    "hierarchy_fuzz_executions": 193721,
+    "hierarchy_fuzz_seconds_requested": 10,
+    "shared_capture_ptrace_corpus_regression": "passed"
+  },
+  "pending": [
+    "Modern real kernels and signal-based thread-list acquisitions",
+    "Actual x86/PAE images",
+    "ARM64",
+    "Complete task validity/damaged-list/version/parameter acceptance"
+  ]
+}

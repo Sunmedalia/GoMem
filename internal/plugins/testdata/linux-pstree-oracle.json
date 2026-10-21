@@ -1,0 +1,689 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "cases": [
+    {
+      "name": "empty",
+      "nodes": [],
+      "rows": []
+    },
+    {
+      "name": "init",
+      "nodes": [
+        {
+          "tid": 1,
+          "ppid": 0,
+          "tgid": 1,
+          "address": 4352
+        }
+      ],
+      "rows": [
+        {
+          "offset": 4352,
+          "pid": 1,
+          "tid": 1,
+          "ppid": 0,
+          "comm": "task-1",
+          "generator_depth": 0,
+          "depth": 0,
+          "parent_row": null
+        }
+      ]
+    },
+    {
+      "name": "kthreadd",
+      "nodes": [
+        {
+          "tid": 2,
+          "ppid": 0,
+          "tgid": 2,
+          "address": 4608
+        }
+      ],
+      "rows": [
+        {
+          "offset": 4608,
+          "pid": 2,
+          "tid": 2,
+          "ppid": 0,
+          "comm": "task-2",
+          "generator_depth": 0,
+          "depth": 0,
+          "parent_row": null
+        }
+      ]
+    },
+    {
+      "name": "normal",
+      "nodes": [
+        {
+          "tid": 1,
+          "ppid": 0,
+          "tgid": 1,
+          "address": 4352
+        },
+        {
+          "tid": 2,
+          "ppid": 0,
+          "tgid": 2,
+          "address": 4608
+        },
+        {
+          "tid": 100,
+          "ppid": 1,
+          "tgid": 100,
+          "address": 29696
+        },
+        {
+          "tid": 101,
+          "ppid": 100,
+          "tgid": 101,
+          "address": 29952
+        }
+      ],
+      "rows": [
+        {
+          "offset": 4352,
+          "pid": 1,
+          "tid": 1,
+          "ppid": 0,
+          "comm": "task-1",
+          "generator_depth": 0,
+          "depth": 0,
+          "parent_row": null
+        },
+        {
+          "offset": 29696,
+          "pid": 100,
+          "tid": 100,
+          "ppid": 1,
+          "comm": "task-100",
+          "generator_depth": 1,
+          "depth": 1,
+          "parent_row": 0
+        },
+        {
+          "offset": 29952,
+          "pid": 101,
+          "tid": 101,
+          "ppid": 100,
+          "comm": "task-101",
+          "generator_depth": 2,
+          "depth": 2,
+          "parent_row": 1
+        },
+        {
+          "offset": 4608,
+          "pid": 2,
+          "tid": 2,
+          "ppid": 0,
+          "comm": "task-2",
+          "generator_depth": 0,
+          "depth": 0,
+          "parent_row": null
+        }
+      ]
+    },
+    {
+      "name": "reversed",
+      "nodes": [
+        {
+          "tid": 101,
+          "ppid": 100,
+          "tgid": 101,
+          "address": 29952
+        },
+        {
+          "tid": 100,
+          "ppid": 1,
+          "tgid": 100,
+          "address": 29696
+        },
+        {
+          "tid": 1,
+          "ppid": 0,
+          "tgid": 1,
+          "address": 4352
+        }
+      ],
+      "rows": [
+        {
+          "offset": 4352,
+          "pid": 1,
+          "tid": 1,
+          "ppid": 0,
+          "comm": "task-1",
+          "generator_depth": 0,
+          "depth": 0,
+          "parent_row": null
+        },
+        {
+          "offset": 29696,
+          "pid": 100,
+          "tid": 100,
+          "ppid": 1,
+          "comm": "task-100",
+          "generator_depth": 1,
+          "depth": 1,
+          "parent_row": 0
+        },
+        {
+          "offset": 29952,
+          "pid": 101,
+          "tid": 101,
+          "ppid": 100,
+          "comm": "task-101",
+          "generator_depth": 2,
+          "depth": 2,
+          "parent_row": 1
+        }
+      ]
+    },
+    {
+      "name": "sorted-children",
+      "nodes": [
+        {
+          "tid": 1,
+          "ppid": 0,
+          "tgid": 1,
+          "address": 4352
+        },
+        {
+          "tid": 30,
+          "ppid": 1,
+          "tgid": 30,
+          "address": 11776
+        },
+        {
+          "tid": 10,
+          "ppid": 1,
+          "tgid": 10,
+          "address": 6656
+        },
+        {
+          "tid": 20,
+          "ppid": 1,
+          "tgid": 20,
+          "address": 9216
+        }
+      ],
+      "rows": [
+        {
+          "offset": 4352,
+          "pid": 1,
+          "tid": 1,
+          "ppid": 0,
+          "comm": "task-1",
+          "generator_depth": 0,
+          "depth": 0,
+          "parent_row": null
+        },
+        {
+          "offset": 6656,
+          "pid": 10,
+          "tid": 10,
+          "ppid": 1,
+          "comm": "task-10",
+          "generator_depth": 1,
+          "depth": 1,
+          "parent_row": 0
+        },
+        {
+          "offset": 9216,
+          "pid": 20,
+          "tid": 20,
+          "ppid": 1,
+          "comm": "task-20",
+          "generator_depth": 1,
+          "depth": 1,
+          "parent_row": 0
+        },
+        {
+          "offset": 11776,
+          "pid": 30,
+          "tid": 30,
+          "ppid": 1,
+          "comm": "task-30",
+          "generator_depth": 1,
+          "depth": 1,
+          "parent_row": 0
+        }
+      ]
+    },
+    {
+      "name": "missing-parent",
+      "nodes": [
+        {
+          "tid": 100,
+          "ppid": 999,
+          "tgid": 100,
+          "address": 29696
+        },
+        {
+          "tid": 101,
+          "ppid": 100,
+          "tgid": 101,
+          "address": 29952
+        }
+      ],
+      "rows": [
+        {
+          "offset": 29696,
+          "pid": 100,
+          "tid": 100,
+          "ppid": 999,
+          "comm": "task-100",
+          "generator_depth": 0,
+          "depth": 0,
+          "parent_row": null
+        },
+        {
+          "offset": 29952,
+          "pid": 101,
+          "tid": 101,
+          "ppid": 100,
+          "comm": "task-101",
+          "generator_depth": 1,
+          "depth": 1,
+          "parent_row": 0
+        }
+      ]
+    },
+    {
+      "name": "smeared-zero-parent",
+      "nodes": [
+        {
+          "tid": 100,
+          "ppid": 0,
+          "tgid": 100,
+          "address": 29696
+        },
+        {
+          "tid": 101,
+          "ppid": 100,
+          "tgid": 101,
+          "address": 29952
+        }
+      ],
+      "rows": [
+        {
+          "offset": 29952,
+          "pid": 101,
+          "tid": 101,
+          "ppid": 100,
+          "comm": "task-101",
+          "generator_depth": 0,
+          "depth": 0,
+          "parent_row": null
+        }
+      ]
+    },
+    {
+      "name": "threads",
+      "nodes": [
+        {
+          "tid": 1,
+          "ppid": 0,
+          "tgid": 1,
+          "address": 4352
+        },
+        {
+          "tid": 100,
+          "ppid": 1,
+          "tgid": 100,
+          "address": 29696
+        },
+        {
+          "tid": 201,
+          "ppid": 1,
+          "tgid": 100,
+          "address": 55552
+        },
+        {
+          "tid": 200,
+          "ppid": 1,
+          "tgid": 100,
+          "address": 55296
+        }
+      ],
+      "rows": [
+        {
+          "offset": 4352,
+          "pid": 1,
+          "tid": 1,
+          "ppid": 0,
+          "comm": "task-1",
+          "generator_depth": 0,
+          "depth": 0,
+          "parent_row": null
+        },
+        {
+          "offset": 29696,
+          "pid": 100,
+          "tid": 100,
+          "ppid": 1,
+          "comm": "task-100",
+          "generator_depth": 1,
+          "depth": 1,
+          "parent_row": 0
+        },
+        {
+          "offset": 55296,
+          "pid": 100,
+          "tid": 200,
+          "ppid": 1,
+          "comm": "task-200",
+          "generator_depth": 2,
+          "depth": 2,
+          "parent_row": 1
+        },
+        {
+          "offset": 55552,
+          "pid": 100,
+          "tid": 201,
+          "ppid": 1,
+          "comm": "task-201",
+          "generator_depth": 2,
+          "depth": 2,
+          "parent_row": 1
+        }
+      ]
+    },
+    {
+      "name": "missing-leader",
+      "nodes": [
+        {
+          "tid": 200,
+          "ppid": 99,
+          "tgid": 100,
+          "address": 55296
+        }
+      ],
+      "rows": [
+        {
+          "offset": 55296,
+          "pid": 100,
+          "tid": 200,
+          "ppid": 99,
+          "comm": "task-200",
+          "generator_depth": 0,
+          "depth": 0,
+          "parent_row": null
+        }
+      ]
+    },
+    {
+      "name": "swapper",
+      "nodes": [
+        {
+          "tid": 0,
+          "ppid": 0,
+          "tgid": 0,
+          "address": 4096
+        },
+        {
+          "tid": 1,
+          "ppid": 0,
+          "tgid": 1,
+          "address": 4352
+        },
+        {
+          "tid": 2,
+          "ppid": 0,
+          "tgid": 2,
+          "address": 4608
+        }
+      ],
+      "rows": [
+        {
+          "offset": 4352,
+          "pid": 1,
+          "tid": 1,
+          "ppid": 0,
+          "comm": "task-1",
+          "generator_depth": 0,
+          "depth": 0,
+          "parent_row": null
+        },
+        {
+          "offset": 4608,
+          "pid": 2,
+          "tid": 2,
+          "ppid": 0,
+          "comm": "task-2",
+          "generator_depth": 0,
+          "depth": 0,
+          "parent_row": null
+        }
+      ]
+    },
+    {
+      "name": "self-cycle",
+      "nodes": [
+        {
+          "tid": 100,
+          "ppid": 100,
+          "tgid": 100,
+          "address": 29696
+        }
+      ],
+      "rows": [
+        {
+          "offset": 29696,
+          "pid": 100,
+          "tid": 100,
+          "ppid": 100,
+          "comm": "task-100",
+          "generator_depth": 0,
+          "depth": 0,
+          "parent_row": null
+        }
+      ]
+    },
+    {
+      "name": "cycle",
+      "nodes": [
+        {
+          "tid": 100,
+          "ppid": 101,
+          "tgid": 100,
+          "address": 29696
+        },
+        {
+          "tid": 101,
+          "ppid": 100,
+          "tgid": 101,
+          "address": 29952
+        }
+      ],
+      "rows": []
+    },
+    {
+      "name": "cycle-child",
+      "nodes": [
+        {
+          "tid": 100,
+          "ppid": 101,
+          "tgid": 100,
+          "address": 29696
+        },
+        {
+          "tid": 101,
+          "ppid": 100,
+          "tgid": 101,
+          "address": 29952
+        },
+        {
+          "tid": 102,
+          "ppid": 100,
+          "tgid": 102,
+          "address": 30208
+        }
+      ],
+      "rows": []
+    },
+    {
+      "name": "cycle-init",
+      "nodes": [
+        {
+          "tid": 1,
+          "ppid": 1,
+          "tgid": 1,
+          "address": 4352
+        },
+        {
+          "tid": 100,
+          "ppid": 1,
+          "tgid": 100,
+          "address": 29696
+        }
+      ],
+      "rows": [
+        {
+          "offset": 4352,
+          "pid": 1,
+          "tid": 1,
+          "ppid": 1,
+          "comm": "task-1",
+          "generator_depth": 0,
+          "depth": 0,
+          "parent_row": null
+        },
+        {
+          "offset": 29696,
+          "pid": 100,
+          "tid": 100,
+          "ppid": 1,
+          "comm": "task-100",
+          "generator_depth": 0,
+          "depth": 0,
+          "parent_row": null
+        }
+      ]
+    },
+    {
+      "name": "duplicate-tid",
+      "nodes": [
+        {
+          "tid": 100,
+          "ppid": 999,
+          "tgid": 100,
+          "address": 29696
+        },
+        {
+          "tid": 100,
+          "ppid": 1,
+          "tgid": 100,
+          "address": 36864
+        },
+        {
+          "tid": 1,
+          "ppid": 0,
+          "tgid": 1,
+          "address": 4352
+        }
+      ],
+      "rows": [
+        {
+          "offset": 4352,
+          "pid": 1,
+          "tid": 1,
+          "ppid": 0,
+          "comm": "task-1",
+          "generator_depth": 0,
+          "depth": 0,
+          "parent_row": null
+        },
+        {
+          "offset": 36864,
+          "pid": 100,
+          "tid": 100,
+          "ppid": 1,
+          "comm": "task-100",
+          "generator_depth": 1,
+          "depth": 1,
+          "parent_row": 0
+        }
+      ]
+    },
+    {
+      "name": "same-offset",
+      "nodes": [
+        {
+          "tid": 1,
+          "ppid": 0,
+          "tgid": 1,
+          "address": 4096
+        },
+        {
+          "tid": 100,
+          "ppid": 1,
+          "tgid": 100,
+          "address": 4096
+        }
+      ],
+      "rows": [
+        {
+          "offset": 4096,
+          "pid": 1,
+          "tid": 1,
+          "ppid": 0,
+          "comm": "task-1",
+          "generator_depth": 0,
+          "depth": 0,
+          "parent_row": null
+        },
+        {
+          "offset": 4096,
+          "pid": 100,
+          "tid": 100,
+          "ppid": 1,
+          "comm": "task-100",
+          "generator_depth": 0,
+          "depth": 0,
+          "parent_row": null
+        }
+      ]
+    },
+    {
+      "name": "filtered-child",
+      "nodes": [
+        {
+          "tid": 101,
+          "ppid": 100,
+          "tgid": 101,
+          "address": 29952
+        }
+      ],
+      "rows": [
+        {
+          "offset": 29952,
+          "pid": 101,
+          "tid": 101,
+          "ppid": 100,
+          "comm": "task-101",
+          "generator_depth": 0,
+          "depth": 0,
+          "parent_row": null
+        }
+      ]
+    },
+    {
+      "name": "thread-self",
+      "nodes": [
+        {
+          "tid": 100,
+          "ppid": 99,
+          "tgid": 200,
+          "address": 29696
+        },
+        {
+          "tid": 200,
+          "ppid": 99,
+          "tgid": 100,
+          "address": 55296
+        }
+      ],
+      "rows": []
+    }
+  ]
+}

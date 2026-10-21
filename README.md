@@ -112,6 +112,7 @@ bin/gomem analyze windows.pslist \
 | `linux.process_spoofing` | 对照可执行文件、argv[0] 和 comm，保留原始字节与未完成比较；[说明](docs/linux-process-spoofing.md) |
 | `linux.capabilities` | 读取 cred/real_cred 权限位图，保留内核掩码、原始字节和未知位；[说明与基线兼容差异](docs/linux-capabilities.md) |
 | `linux.check_creds` | 按凭据对象地址检查活动任务共享，保留成员身份与读取诊断；[说明](docs/linux-check-creds.md) |
+| `linux.pstree` | 按进程和线程构建父子树，保留候选对象、筛选与原始证据；[说明](docs/linux-pstree.md) |
 | `linux.ptrace` | 检查进程/线程 ptrace 关系，保留标志、对象身份和原始字段；[说明](docs/linux-ptrace.md) |
 | `linux.iomem` | 枚举内核 I/O 内存资源树，保留范围、父子关系与原始字段；[说明](docs/linux-iomem.md) |
 | `linux.boottime` | 按时间命名空间枚举启动时间，保留原始时钟、纳秒值与时间线字段；[说明](docs/linux-boottime.md) |

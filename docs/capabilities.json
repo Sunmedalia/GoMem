@@ -3155,15 +3155,25 @@
           "default": false
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Build the pinned TID-keyed Linux task hierarchy, with optional task-list PID filtering before construction and optional threads/decorate-comm. Last duplicate TID replaces the object while first insertion position is retained. Leaders use real_parent.tgid; user threads use tgid for hierarchy edges but keep real_parent.tgid as displayed PPID. Only PID 1/2 may anchor at parent zero; missing nonzero parents become roots. Retain fixed parent/object loop stops, sorted child TIDs and renderer parent/depth behavior, including GeneratorDepth separate from actual TreeGrid depth. Stream every candidate observation before graph work, retain raw field captures and object-based identities, emit selection records for overwritten/unreachable objects, then emit sealed process-tree rows. Native forward list/ownership checks and max-nodes/max-tasks/max-work/field capture bounds apply. Read faults preserve evidence and fail tasks.",
+      "native": "linux.pstree",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-pstree-x64-x86-pae",
+        "pinned-19-linux-hierarchy-oracles",
+        "official-linux-sample-1"
+      ],
+      "comparison": "133_default_316_threads_decorated_and_3_filtered_rows_match_fields_order_depth_full_ancestor_paths",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "One Debian 3.2 x64 image matches 133 default rows, 316 decorated process/thread rows and three PID-3924 filtered group rows in all five fields, enumeration order, depth and full ancestor paths; 665/2262/22 raw captures are independently reread",
+        "19 pinned mocked hierarchy cases cover sort order, duplicates, missing parents/leaders, zero-parent smear rules, cycles, swapper, threads and shared offsets. Native tests additionally cover real paging, legacy/signal thread layout, decorations/name decoding, parent faults, owner/list faults, limits, cancellation after a persisted observation, SQLite verification and cache replay",
+        "Native forward task/thread walks check back-links and object uniqueness rather than reproducing every fixed bidirectional validity/skip case. Actual modern/signal-layout and x86/PAE images, ARM64 and complete damaged-list behavior remain pending",
+        "Native uses bounded iterative hierarchy expansion, not Python recursion; resource bounds do not establish parity at upstream recursion or extreme output limits",
+        "All overwritten/unreachable candidates remain observations and selections. A PPID-only hierarchy is a displayed relationship, not proof of unique historical parent identity; raw parent coordinates and object-based TaskIdentity remain available",
+        "Fixed renderer stores low48 x64 offsets; the differential explicitly masks offsets while full native addresses remain lossless. Full capability/parameter/version acceptance remains pending"
+      ],
+      "validation_record": "docs/linux-pstree.md"
     },
     {
       "id": "linux.ptrace.Ptrace",
