@@ -2098,15 +2098,25 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active tasks excluding init_task and user threads, optional task.pid list. Compare task.mm.exe_file path basename, first NUL/replacement-terminated argv string and task.comm. Parent PID is real_parent.tgid when the entire parent object is readable, otherwise zero with a native read diagnostic. Null/unreadable mm or exe_file leaves that name unavailable. Arguments use the process page table and contiguous bytes before a mapping hole, capped at fixed MAX_ARG_STRLEN 131072; a partial prefix can still be compared while raw ReadComplete=false and errors remain. UTF8 decoding stops at NUL or U+FFFD, then applies PurePosixPath.name semantics without shell splitting. One trailing deleted suffix is removed from executable basename; Exe_Deleted reports that suffix. At least two nonempty sources are required, command comparison needs exe and command, and comm uses the first 15 Unicode codepoints of exe. Missing names render the baseline literal N/A; explicit Compared fields disambiguate unperformed checks. Regular filesystem paths retain qstr captures, mount/root scope, smear markers and inode validity; deleted regular paths include the pinned leading space. Dynamic simple_dname is deleted regardless of nlink, and symbol aliases/unsupported callbacks/invalid inodes use explicit labels. max-nodes and path bounds are native. Fields/errors and exact object-based identities remain in sealed records. Summary counts observations and coverage, not malicious findings.",
+      "native": "linux.process_spoofing",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-process-spoofing-x64-x86-pae",
+        "pinned-1801-process-spoofing-oracles",
+        "official-linux-sample-1"
+      ],
+      "comparison": "selected_133_rows_and_5_pid_filtered_rows_match_all_eight_columns_2_read_diagnostics_retained",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "One Debian 3.2 x64 image matches all 133 rows and eight columns, with 92 command and 94 comm comparisons, 9 command mismatches, 2 comm mismatches and 2 unreadable argument ranges. These observations are not verified malicious spoofing",
+        "A separate five-PID reference matches all fields, with 4 command and 5 comm comparisons, 4 command mismatches, 2 comm mismatches and one read diagnostic. SQLite read-back verification and cache reuse pass for both runs",
+        "Fixed-source helper oracles cover empty/absent names, 15-codepoint and Unicode behavior, path components, deleted suffixes, string termination and six dynamic-label outputs. Synthetic native readers cover real independent page tables, partial/capped ranges, raw qstr bytes, faults, path loops, x86/PAE, cancellation, output failures and persisted evidence",
+        "Task traversal remains the stricter native forward walk rather than all pinned bidirectional validity/skip behaviors. Damaged-list acceptance is pending",
+        "Only existing native namespace label readers are reused; all pinned namespace error displays, dynamic pointer subtypes and corrupt path differentials are not yet accepted",
+        "Real positive malicious scenarios, modern kernels, native x86/PAE images, ARM64, complete false-positive and parameter acceptance remain pending"
+      ],
+      "validation_record": "docs/linux-process-spoofing.md"
     },
     {
       "id": "linux.malware.tty_check.Tty_Check",

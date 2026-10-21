@@ -1,0 +1,53 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "values": [
+      "process"
+    ],
+    "excluded_values": [
+      "summary"
+    ]
+  },
+  "fields": {
+    "PID": {
+      "native": "PID",
+      "reference": "PID",
+      "kind": "uint64"
+    },
+    "PPID": {
+      "native": "PPID",
+      "reference": "PPID",
+      "kind": "uint64"
+    },
+    "Exe_Path": {
+      "native": "Exe_Path",
+      "reference": "Exe_Path",
+      "kind": "string"
+    },
+    "Cmdline_Basename": {
+      "native": "Cmdline_Basename",
+      "reference": "Cmdline_Basename",
+      "kind": "string"
+    },
+    "Comm": {
+      "native": "Comm",
+      "reference": "Comm",
+      "kind": "string"
+    },
+    "Cmdline_Spoofed": {
+      "native": "Cmdline_Spoofed",
+      "reference": "Cmdline_Spoofed",
+      "kind": "bool"
+    },
+    "Comm_Spoofed": {
+      "native": "Comm_Spoofed",
+      "reference": "Comm_Spoofed",
+      "kind": "bool"
+    },
+    "Exe_Deleted": {
+      "native": "Exe_Deleted",
+      "reference": "Exe_Deleted",
+      "kind": "bool"
+    }
+  }
+}
