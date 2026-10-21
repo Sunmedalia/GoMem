@@ -7650,6 +7650,7 @@
         "One selected Windows 10 19041 x64 image has 120 active-list entries, 113 eligible processes, 18125 VADs and 8214 named mappings; both engines emit zero findings. Native output retains 3478 path and 4 control-area read diagnostics, so the result does not establish complete clean coverage",
         "The fixed-source helper and active-filter oracles cover positive deletion flags, invalid values, null targets, unreadable fields, case-insensitive suffixes, overlapping findings and the actual absent-value comparison behavior",
         "Synthetic full readers cover process and VAD positives, private mappings, null and mapped-zero pointers, duplicate starts, direct/subsection control areas, pointer/fastref variants, x86 fastref masking, embedded NUL, odd UTF16, bounds, broken symbols, faults, cancellation and output errors",
+        "Windows deleted-state triage now consumes paged native findings, preserving subrules and original evidence. Null or unreadable process image files are informational; VAD deletion alone does not establish execution. Synthetic tests cover normal/positive, 1001 diagnostics before later pages, malformed provenance/flags/counts, whitelist, SQLite evidence verification and task reuse. The selected real check is incomplete with zero findings and 3482 read diagnostics",
         "Real malicious ghosted processes, native x86 and older Windows images, complete false-positive and damaged-image differential acceptance remain pending"
       ],
       "validation_record": "docs/windows-processghosting.md"

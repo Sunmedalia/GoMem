@@ -2,7 +2,7 @@
 
 Windows 的模块对照另见[模块分诊](windows-module-triage.md)。
 
-Windows 的 `triage` 自动执行 `windows.psxview`、`windows.suspicious_threads` 和 `windows.hollowprocesses`，然后从案件 SQLite 每次读取 500 行进行评估。三者分别产生 `hidden-process`、`suspicious-thread-start`、`hollow-process-mapping` 规则。Linux 保留原生任务扫描与活动链的隐藏进程对照；另两项是 `not_applicable`，不运行 Windows 插件。
+Windows 的 `triage` 自动执行 `windows.psxview`、`windows.suspicious_threads`、`windows.hollowprocesses` 和 `windows.processghosting`，然后从案件 SQLite 每次读取 500 行进行评估。分别产生 `hidden-process`、`suspicious-thread-start`、`hollow-process-mapping` 和 Windows 版 `deleted-or-memfd-execution` 规则。Linux 保留原生任务扫描与活动链的隐藏进程对照及 executable VMA 的删除/memfd 检查；线程和空洞检查是 `not_applicable`，不运行 Windows 插件。
 
 ```sh
 bin/gomem triage --image memory.dmp --case ./case-001 --offline
@@ -26,12 +26,15 @@ bin/gomem triage --image memory.dmp --case ./case-001 --offline
 
 - 进程多视图：113/114/112/103 个来源偏移、1 条信息级差异（已退出的 `MpCmdRun.exe` PID 408），检查状态 `completed`。发现引用已封存的原始对象和四源坐标。
 - 可疑线程检查：1749 个线程、0 条发现、gather 和文件路径错误均为 0，检查状态 `completed`。
+- 文件删除状态检查：113 个通过过滤的进程、18125 个 VAD、8214 个具名映射、0 条发现；3482 条路径/控制区读取诊断使检查为 `incomplete`。
 - 进程空洞检查：99 个进程进入检查、0 条发现、330 条原生读取/覆盖诊断，检查状态 `incomplete`。
 - 原有 RWX 检查产生 30 条映射线索，加上已退出进程和模块候选差异，合计 32 条；这些不是上述原生检查的真实恶意阳性验证。第二次执行的已完成输入任务全部复用，检查状态和发现数量一致。
 
 这份镜像是正常对照。新检查的真实恶意阳性和完整版本、误报验收仍待补齐，能力矩阵保持 partial、accepted=false。
 
-构造测试覆盖三个规则的阳性与正常输出，以及 1001 条诊断后位于后续页的阳性。多视图另覆盖 501 个正常对象后的两个同 PID 不同身份候选、已退出降级、缺少 csrss/类型表和句柄/池覆盖不足。完整案件流程验证 SQLite 分页、原始证据回溯、符号摘要、白名单、源任务复用、原始行不被删除及覆盖不足状态。篡改、缺失汇总、错误计数、混合镜像、错误插件、来源地址不一致、取消和输出失败都有负例。原生内存读取的完整流程测试分别记录在[多视图](windows-psxview.md)、[可疑线程](windows-suspicious-threads.md)和[进程空洞](windows-hollowprocesses.md)。
+删除状态检查另校验三个原生子规则、标志原值和文件/VAD/控制区坐标。FILE_OBJECT 为零的进程线索降为信息级并保留读取原因；删除标志本身不证明执行。详情见 [ProcessGhosting](windows-processghosting.md)。
+
+构造测试覆盖四个原生输入规则的阳性与正常输出，以及 1001 条诊断后位于后续页的阳性。多视图另覆盖 501 个正常对象后的两个同 PID 不同身份候选、已退出降级、缺少 csrss/类型表和句柄/池覆盖不足。完整案件流程验证 SQLite 分页、原始证据回溯、符号摘要、白名单、源任务复用、原始行不被删除及覆盖不足状态。篡改、缺失汇总、错误计数、混合镜像、错误插件、来源地址不一致、取消和输出失败都有负例。原生内存读取的完整流程测试分别记录在[多视图](windows-psxview.md)、[可疑线程](windows-suspicious-threads.md)和[进程空洞](windows-hollowprocesses.md)。
 
 ```sh
 go test ./internal/triage -count=1

@@ -311,6 +311,9 @@ func TestProcessGhostingControlsAndApplicability(t *testing.T) {
 			if len(findings) != want {
 				t.Fatal("findings", len(findings), "want", want, rows)
 			}
+			if scenario == "image-read-failure" && findings[0].Cells["Error"].Error == "" {
+				t.Fatal("finding lost the original read error", findings[0])
+			}
 			coverage := rows[len(rows)-1].Cells["Coverage"].Data.(map[string]any)
 			if (coverage["diagnostics"] != "0") != diagnostics {
 				t.Fatal(coverage)

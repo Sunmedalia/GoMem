@@ -30,7 +30,22 @@ func emitFinding(ctx context.Context, rule Rule, row evidence.Row, entity string
 			cells["Assessment"] = evidence.Text("Pool candidate absent from the loaded-module list with unreadable metadata; a false pool match, stale allocation or acquisition smear may explain it")
 		}
 	}
-	if rule.Kind == "native-check" && row.Provenance.Plugin == "windows.psxview" {
+	if rule.Kind == "native-check" && row.Provenance.Plugin == "windows.processghosting" {
+		cells["SourcePlugin"] = evidence.Text(row.Provenance.Plugin)
+		cells["NativeRule"] = row.Cells["Rule"]
+		cells["Assessment"] = evidence.Text("Deletion-related process or mapping state; inspect the original file object and VAD before assessing ghosting or execution")
+		for _, key := range []string{"PID", "Process", "ProcessIdentity", "ProcessOffset", "Base", "FILE_OBJECT", "DeletePending", "DeleteOnClose", "DeletePendingRaw", "DeleteOnCloseRaw", "Path", "VADOffset", "ControlArea", "ImageFileRaw", "ImageFilePointerOffset", "Error"} {
+			if value, ok := row.Cells[key]; ok {
+				cells[key] = value
+			}
+		}
+		file, _ := row.Cells["FILE_OBJECT"].Uint()
+		if row.Cells["Rule"].String() == "image_file_state" && file == 0 {
+			cells["Severity"] = evidence.Text("info")
+			cells["Confidence"] = evidence.Text("limited_by_null_or_unreadable_file_object")
+			cells["Assessment"] = evidence.Text("The image file object is null or unreadable; acquisition smear and missing pages can explain this signal")
+		}
+	} else if rule.Kind == "native-check" && row.Provenance.Plugin == "windows.psxview" {
 		cells["SourcePlugin"] = evidence.Text("windows.psxview")
 		cells["NativeRule"] = evidence.Text("absent_active_view")
 		for _, key := range []string{"Identity", "ObjectOffset", "ObjectLayer", "Offset", "OffsetSpace", "TranslationError", "Sources", "pslist", "psscan", "thrdscan", "csrss", "ExitTime", "ExitTimeRaw", "Created", "CreatedRaw"} {

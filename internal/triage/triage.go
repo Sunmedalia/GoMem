@@ -38,6 +38,12 @@ var Rules = []Rule{
 }
 
 func ruleForPlatform(rule Rule, platform string) Rule {
+	if platform == "windows" && rule.ID == "deleted-or-memfd-execution" {
+		rule.Kind = "native-check"
+		rule.Inputs = []string{"processghosting"}
+		rule.Basis = "An active user process has a null/unreadable image file object, an image file marked DeletePending, or a named nonprivate VAD has deletion-related file/control flags. VAD deletion alone does not establish execution."
+		rule.FalsePositive = "Legitimate file replacement, deleted mappings, acquisition smear and unreadable file objects can trigger these signals. Correlate the raw image, VAD and file object before assessing process ghosting."
+	}
 	if platform == "windows" && rule.ID == "module-enumeration-difference" {
 		rule.Kind = "module-difference"
 		rule.Basis = "A pool-scanned loader object is absent from the loaded-module list by object coordinates; the case workflow compares physical backing, never names or executable base addresses."
@@ -263,10 +269,11 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 		order = append(order, "psscan")
 	} else {
 		names["modscan"] = "windows.modscan"
+		names["processghosting"] = "windows.processghosting"
 		names["psxview"] = "windows.psxview"
 		names["suspicious_threads"] = "windows.suspicious_threads"
 		names["hollowprocesses"] = "windows.hollowprocesses"
-		order = append(order, "modscan", "psxview", "suspicious_threads", "hollowprocesses")
+		order = append(order, "modscan", "psxview", "suspicious_threads", "hollowprocesses", "processghosting")
 	}
 	for _, key := range order {
 		var parameters map[string]string
@@ -303,7 +310,7 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 	}
 	b, _ := json.Marshal(summary.Tasks)
 	hash := sha256.Sum256(b)
-	task, err := e.Store.Begin(ctx, "triage:"+hex.EncodeToString(hash[:]), "triage", evidence.Provenance{ImageSHA256: e.Hash, Engine: version.Version, EngineBuild: e.Build, Plugin: "triage", Layer: e.Env.Physical.Name(), Parameters: map[string]string{"rules": "v5"}})
+	task, err := e.Store.Begin(ctx, "triage:"+hex.EncodeToString(hash[:]), "triage", evidence.Provenance{ImageSHA256: e.Hash, Engine: version.Version, EngineBuild: e.Build, Plugin: "triage", Layer: e.Env.Physical.Name(), Parameters: map[string]string{"rules": "v6"}})
 	if err != nil {
 		return summary, err
 	}

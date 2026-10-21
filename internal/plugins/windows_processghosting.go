@@ -294,6 +294,7 @@ func windowsProcessGhosting(ctx context.Context, e plugin.Environment, p map[str
 		for _, entry := range mapped {
 			paths[entry.region.start] = entry.path
 		}
+		var imageCause error
 		emit := func(f ghostFinding, region *ghostMappedFile, pendingRaw, closeRaw *uint64, imageRaw *uint64) error {
 			findings++
 			r := newRow("finding")
@@ -323,6 +324,9 @@ func windowsProcessGhosting(ctx context.Context, e plugin.Environment, p map[str
 				r.Cells["VADOffset"] = evidence.Address(region.region.address)
 				r.Cells["ControlArea"] = evidence.Address(region.control)
 			} else {
+				if imageCause != nil {
+					r.Cells["Error"] = evidence.Missing("image_file_unreadable", imageCause)
+				}
 				slot, err := memory.Add(process, imageField.Offset)
 				if err != nil {
 					return err
@@ -354,6 +358,7 @@ func windowsProcessGhosting(ctx context.Context, e plugin.Environment, p map[str
 						return err
 					}
 					file = 0
+					imageCause = err
 					if err = issue("image_file_unreadable", err); err != nil {
 						return err
 					}

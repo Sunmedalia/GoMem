@@ -20,6 +20,7 @@ type nativeCheckEvaluator struct {
 	pathErrors  uint64
 	image       string
 	viewCounts  [4]uint64
+	ghostImages uint64
 }
 
 func (n *nativeCheckEvaluator) inputPlugin() (string, map[string]bool, error) {
@@ -33,6 +34,8 @@ func (n *nativeCheckEvaluator) inputPlugin() (string, map[string]bool, error) {
 		return "windows.hollowprocesses", map[string]bool{"image_base_mismatch": true, "executable_vad_missing": true, "executable_protection": true, "dll_protection": true}, nil
 	case "psxview":
 		return "windows.psxview", nil, nil
+	case "processghosting":
+		return "windows.processghosting", nil, nil
 	default:
 		return "", nil, fmt.Errorf("unknown native triage input %s", n.rule.Inputs[0])
 	}
@@ -98,6 +101,12 @@ func (n *nativeCheckEvaluator) consume(ctx context.Context, rows []evidence.Row,
 			}
 			n.diagnostics++
 		case "finding":
+			if name == "windows.processghosting" {
+				if err := n.consumeGhosting(ctx, row, emit); err != nil {
+					return err
+				}
+				continue
+			}
 			identity, err := required(row, "ProcessIdentity")
 			if err != nil || identity.Kind != "string" {
 				return fmt.Errorf("native finding has no process identity")
@@ -151,6 +160,9 @@ func (n *nativeCheckEvaluator) finish() (map[string]string, error) {
 	}
 	if n.rule.Inputs[0] == "psxview" {
 		return n.finishProcessViews()
+	}
+	if n.rule.Inputs[0] == "processghosting" {
+		return n.finishGhosting()
 	}
 	keys := []string{"processes", "findings"}
 	if n.rule.Inputs[0] == "suspicious_threads" {

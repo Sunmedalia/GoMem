@@ -10,7 +10,7 @@ bin/gomem analyze windows.processghosting --image memory.dmp --case ./case-001 -
 
 具名 VAD 按起点建立字典，重复起点最后值覆盖，检查顺序保留第一次插入位置。支持直接 ControlArea 和 Subsection.ControlArea，以及普通文件指针、32/64 位 EX_FAST_REF。只有 FileName.Length 大于零的 VAD 进入字典；短 VAD 没有文件名。文件名遵循基线 UTF-16 替换及首个 NUL 截断；Length 大于零但解码为空字符串仍是有效字典项。Length 为零时不会读取 Buffer。
 
-进程检查仅在存在 ImageFilePointer 字段时启用。保留固定源码的实际语义：先判断的是字段所在地址，不是指针值；字段地址非零时，即使目标为零也尝试读取 DeletePending。目标读失败会产生 FILE_OBJECT=0 的线索，并另存读取诊断。目标零地址可读时按实际字节判断。文件对象为零或 DeletePending 等于 1 时产生进程线索，基址为 SectionBaseAddress；其他非 0/1 的 DeletePending 当作采集不一致并在比较列中显示为不适用，原值保留。
+进程检查仅在存在 ImageFilePointer 字段时启用。保留固定源码的实际语义：先判断的是字段所在地址，不是指针值；字段地址非零时，即使目标为零也尝试读取 DeletePending。目标读失败会产生 FILE_OBJECT=0 的线索，finding 的 Error 及独立 diagnostic 都保留读取原因。目标零地址可读时按实际字节判断。文件对象为零或 DeletePending 等于 1 时产生进程线索，基址为 SectionBaseAddress；其他非 0/1 的 DeletePending 当作采集不一致并在比较列中显示为不适用，原值保留。
 
 对非 private 的具名 VAD，先检查控制区 DeleteOnClose，值非零且路径以 `.exe` 或 `.dll` 结尾时输出；后缀比较忽略大小写，不忽略尾随空格。然后独立检查文件对象 DeletePending 是否恰好等于 1。同一个 VAD 可输出两条不同线索；进程检查也可与映射检查重复命中，不能去重成单一结论。比较列中的零值按基线显示为不适用，原生额外列保留原值。
 
@@ -18,11 +18,17 @@ bin/gomem analyze windows.processghosting --image memory.dmp --case ./case-001 -
 
 损坏活动链/VAD 树、必需布局错误、遍历上限、取消和输出失败明确终止任务。`max-nodes` 默认 131072，限制进程及每个 VAD 树；`max-vads` 默认 1000000，限制全任务累计 VAD。这些是原生参数。插件没有上游 PID 过滤参数。diagnostic、summary 不计为发现；即使任务完成且 finding 为零，也需审阅过滤和读取覆盖。
 
+Windows `triage` 将该输入接入 `deleted-or-memfd-execution` 的 Windows 分支。该分支的依据明确为删除相关状态，不将 VAD 删除标志直接称为执行证据。三个原生子规则和原始行引用均保留；同一个进程的多条线索仍分别保存。FILE_OBJECT 为零的进程线索降为 info，带 `Confidence=limited_by_null_or_unreadable_file_object`。白名单按规则和进程对象身份抑制线索，不删除原始任务与行。
+
+评估器每页读取 500 行，校验镜像/插件身份、进程 provenance 坐标、适用的 VAD/ControlArea/字段地址、删除标志及其原值、路径后缀、最终发现/诊断计数及适用条件。缺少汇总、未知规则、被篡改或不一致的证据会失败；读取诊断使检查 incomplete，后续页的发现继续保留。已完成源任务可复用，再次评估使用当前白名单。Linux 保持原生 executable VMA 的 deleted/memfd 检查。
+
 ## 验证及缺口
 
 固定 Windows 10 19041 x64 镜像 SHA-256 为 `ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460`。120 个活动链条目中 113 个通过过滤，遍历 18125 个 VAD、8214 个具名映射。双方均为零发现，七个比较列一致；这是正常对照，不能证明阳性路径真实恶意验收。原生保留 3482 条诊断：3478 个文件路径、4 个控制区读取失败；没有把这些错误伪装成完整的空结果。HandleCount 字段不存在，ImageFilePointer 存在。
 
-284 个固定源码参考用例包含 40 个进程检查、180 个 VAD 检查、64 个活动过滤组合，覆盖阳性/正常、无字段、空指针、缺页、无效删除值、路径后缀和不可读值对象的比较行为。完整合成内存读取测试覆盖重叠三类线索、正常/系统/已退出/私有映射、空及可读零地址、重复起点覆盖、直接和 subsection 控制区、指针与 fastref、x86 掩码、空/内嵌 NUL/奇数 UTF-16、布局错误、读取失败、取消、输出失败、循环和上限。
+284 个固定源码参考用例包含 40 个进程检查、180 个 VAD 检查、64 个活动过滤组合，覆盖阳性/正常、无字段、空指针、缺页、无效删除值、路径后缀和不可读值对象的比较行为。分页分诊构造测试验证三个子规则的正常/阳性、1001 条诊断后的发现、空/不可读映像文件降级、错误字段/计数/坐标/来源、SQLite 封存证据回读、白名单及任务复用。真实完整分诊的检查因 3482 条读取诊断标为 incomplete，重跑缓存后的总 32 条既有线索保持一致。
+
+完整合成内存读取测试覆盖重叠三类线索、正常/系统/已退出/私有映射、空及可读零地址、重复起点覆盖、直接和 subsection 控制区、指针与 fastref、x86 掩码、空/内嵌 NUL/奇数 UTF-16、布局错误、读取失败、取消、输出失败、循环和上限。
 
 ```sh
 .cache/reference-venv/bin/python tools/build_processghosting_oracle.py --check

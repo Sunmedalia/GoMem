@@ -36,6 +36,11 @@ func TestOfficialWindowsNativeTriageCoverage(t *testing.T) {
 		seen := 0
 		for _, check := range summary.Checks {
 			switch check.Rule {
+			case "deleted-or-memfd-execution":
+				seen++
+				if check.State != "incomplete" || check.Findings != 0 || check.Coverage["active"] != "113" || check.Coverage["vads"] != "18125" || check.Coverage["mapped_files"] != "8214" || check.Coverage["diagnostics"] != "3482" {
+					t.Fatal(check)
+				}
 			case "module-enumeration-difference":
 				seen++
 				if check.State != "completed" || check.Findings != 1 || check.Coverage["active_modules"] != "176" || check.Coverage["scanned_modules"] != "177" || check.Coverage["matched"] != "176" || check.Coverage["active_unresolved"] != "0" || check.Coverage["scanned_unresolved"] != "0" {
@@ -58,7 +63,7 @@ func TestOfficialWindowsNativeTriageCoverage(t *testing.T) {
 				}
 			}
 		}
-		if seen != 4 {
+		if seen != 5 {
 			t.Fatal("native triage rules were not evaluated", summary)
 		}
 
