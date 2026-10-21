@@ -333,6 +333,7 @@ func (b *codeView) ref(id uint32, depth int) (ref TypeRef, err error) {
 					return fmt.Errorf("duplicate member %s.%s", named.name, name)
 				}
 				t.Fields[name] = Field{Offset: m.offset, Type: typ, Anonymous: m.name == "" || m.anonymous}
+				t.FieldOrder = append(t.FieldOrder, name)
 				return nil
 			}); err != nil {
 				return ref, fmt.Errorf("%s: %w", named.name, err)

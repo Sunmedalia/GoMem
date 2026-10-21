@@ -449,7 +449,7 @@
       "corpora": [],
       "comparison": "not_run",
       "gaps": [
-        "Native implementation and validation pending"
+        "Deprecated alias of linux.malware.check_afinfo.Check_afinfo; native command is linux.check_afinfo; independent alias acceptance remains pending"
       ]
     },
     {
@@ -1563,15 +1563,24 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Symbol-described Intel Linux. Select legacy protocol globals when tcp_seq_afinfo has seq_fops, otherwise modern seq_operations globals. Inspect file/sequence operation members in symbol declaration order, ignoring RH kabi-hide members and ordinary zero pointers. Report nonzero handlers without exact kernel symbols. Legacy seq_show independently follows seq_ops absence, uses relative symbols and checks zero. Typed embedded/pointer operation containers, lossless addresses and exact-symbol provenance are retained. max-members bounds considered members; failed reads retain partial evidence and fail tasks.",
+      "native": "linux.check_afinfo",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-afinfo-x64-x86-pae-11-profiles",
+        "pinned-12-afinfo-generator-cases",
+        "official-linux-sample-1"
+      ],
+      "comparison": "zero_flagged_handlers_match_unmodified_reference_180_member_decisions_and_order_match_delegated_probe_192_raw_captures_reread",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "One Debian 3.2 x64 image is a negative control: all 180 members across 12 operation containers match the delegated observation probe, including 132 zeros and 48 exact-symbol alias lists; no flagged handler is not a whole-image clean verdict",
+        "33 synthetic paging cases validate old/new layouts, seq_show precedence, zero and relative lookup, kernel slides, embedded fops, global pointers, absent optional globals, raw rereads, persisted row verification and cache reuse; 12 fixed generator cases preserve partial output before fops-only failure",
+        "Native independent globals continue after readable-source errors while the fixed generator may stop at the first exception. Native 4096-byte field/container capture and max-members bounds do not claim complete damaged-read equivalence",
+        "ISF JSON key order and DWARF/CodeView member order are preserved. Programmatically added members without declared order append lexicographically. Exact membership is not a range check or malware verdict",
+        "Real positive hooks, modern kernels, x86/PAE real images, ARM64, full malformed-layout/alias/parameter acceptance and deprecated-entry acceptance remain pending"
+      ],
+      "validation_record": "docs/linux-afinfo.md"
     },
     {
       "id": "linux.malware.check_creds.Check_creds",
@@ -12574,6 +12583,21 @@
       ],
       "comparison": "selected_layouts_only",
       "validation_record": "docs/native-symbols.md"
+    },
+    {
+      "id": "symbols.member-order",
+      "category": "acceptance",
+      "status": "partial",
+      "accepted": false,
+      "applicability": "ISF fields object insertion order, native DWARF and CodeView member order; stable standard ISF serialization and deterministic fallback for programmatically added fields.",
+      "corpora": [
+        "ordered-isf-roundtrip-and-duplicates",
+        "synthetic-dwarf-c-elf-macho",
+        "synthetic-pdb-x86-x64",
+        "official-linux-sample-1"
+      ],
+      "comparison": "selected_type_order_and_AFINFO_180_member_order_match_not_full_symbol_acceptance",
+      "validation_record": "docs/linux-afinfo.md"
     },
     {
       "id": "symbols.local-index",

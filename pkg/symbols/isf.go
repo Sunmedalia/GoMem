@@ -71,6 +71,7 @@ type Type struct {
 	Kind          string           `json:"kind"`
 	Size          uint64           `json:"size"`
 	Fields        map[string]Field `json:"fields,omitempty"`
+	FieldOrder    []string         `json:"-"`
 	Endian        string           `json:"endian,omitempty"`
 	Signed        bool             `json:"signed,omitempty"`
 	SignedUnknown bool             `json:"-"`
@@ -78,15 +79,30 @@ type Type struct {
 
 func (t Type) MarshalJSON() ([]byte, error) {
 	if t.Kind == "struct" || t.Kind == "union" || t.Kind == "class" {
-		fields := t.Fields
-		if fields == nil {
-			fields = map[string]Field{}
+		var fields bytes.Buffer
+		fields.WriteByte('{')
+		for i, name := range t.MemberNames() {
+			if i > 0 {
+				fields.WriteByte(',')
+			}
+			key, err := json.Marshal(name)
+			if err != nil {
+				return nil, err
+			}
+			value, err := json.Marshal(t.Fields[name])
+			if err != nil {
+				return nil, err
+			}
+			fields.Write(key)
+			fields.WriteByte(':')
+			fields.Write(value)
 		}
+		fields.WriteByte('}')
 		return json.Marshal(struct {
-			Kind   string           `json:"kind"`
-			Size   uint64           `json:"size"`
-			Fields map[string]Field `json:"fields"`
-		}{t.Kind, t.Size, fields})
+			Kind   string          `json:"kind"`
+			Size   uint64          `json:"size"`
+			Fields json.RawMessage `json:"fields"`
+		}{t.Kind, t.Size, fields.Bytes()})
 	}
 	return json.Marshal(struct {
 		Kind   string `json:"kind"`
@@ -94,6 +110,84 @@ func (t Type) MarshalJSON() ([]byte, error) {
 		Endian string `json:"endian"`
 		Signed bool   `json:"signed"`
 	}{t.Kind, t.Size, t.Endian, t.Signed})
+}
+
+// MemberNames retains declaration order from ISF/DWARF/PDB. Programmatically
+// added fields without an order are appended lexicographically. Removed fields
+// and duplicate order entries are ignored so callers can safely edit layouts.
+func (t Type) MemberNames() []string {
+	names := make([]string, 0, len(t.Fields))
+	seen := map[string]bool{}
+	for _, name := range t.FieldOrder {
+		if _, ok := t.Fields[name]; ok && !seen[name] {
+			names = append(names, name)
+			seen[name] = true
+		}
+	}
+	var extra []string
+	for name := range t.Fields {
+		if !seen[name] {
+			extra = append(extra, name)
+		}
+	}
+	sort.Strings(extra)
+	return append(names, extra...)
+}
+
+type orderedTypeFields struct {
+	values map[string]Field
+	names  []string
+}
+
+func (f *orderedTypeFields) UnmarshalJSON(data []byte) error {
+	if bytes.Equal(bytes.TrimSpace(data), []byte("null")) {
+		*f = orderedTypeFields{}
+		return nil
+	}
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	token, err := decoder.Token()
+	if err != nil {
+		return err
+	}
+	if token != json.Delim('{') {
+		return fmt.Errorf("type fields must be an object")
+	}
+	f.values = map[string]Field{}
+	f.names = nil
+	for decoder.More() {
+		key, err := decoder.Token()
+		if err != nil {
+			return err
+		}
+		name, ok := key.(string)
+		if !ok {
+			return fmt.Errorf("invalid field name")
+		}
+		var value Field
+		if err := decoder.Decode(&value); err != nil {
+			return err
+		}
+		if _, exists := f.values[name]; !exists {
+			f.names = append(f.names, name)
+		}
+		f.values[name] = value
+	}
+	_, err = decoder.Token()
+	return err
+}
+func (t *Type) UnmarshalJSON(data []byte) error {
+	var decoded struct {
+		Kind   string            `json:"kind"`
+		Size   uint64            `json:"size"`
+		Fields orderedTypeFields `json:"fields"`
+		Endian string            `json:"endian"`
+		Signed bool              `json:"signed"`
+	}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+	*t = Type{Kind: decoded.Kind, Size: decoded.Size, Fields: decoded.Fields.values, FieldOrder: decoded.Fields.names, Endian: decoded.Endian, Signed: decoded.Signed}
+	return nil
 }
 
 type Symbol struct {

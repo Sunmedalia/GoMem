@@ -666,6 +666,7 @@ func (b *dwarfBuilder) ref(off dwarf.Offset, depth int) (ref TypeRef, err error)
 				return ref, fmt.Errorf("duplicate member %s.%s", name, fieldName)
 			}
 			t.Fields[fieldName] = field
+			t.FieldOrder = append(t.FieldOrder, fieldName)
 		}
 		err = b.userType(name, t)
 	default:

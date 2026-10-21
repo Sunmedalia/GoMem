@@ -1,0 +1,516 @@
+{
+  "scope": "Development preview: one Debian x64 negative-control differential plus delegated full member observations; complete capability acceptance remains pending.",
+  "plugin": "linux.check_afinfo",
+  "task_id": "3221658e2b99725caaccd2560080a669",
+  "unmodified_reference_manifest": {
+    "baseline": {
+      "name": "Volatility 3",
+      "version": "2.28.2",
+      "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+      "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+    },
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "plugin": "linux.malware.check_afinfo.Check_afinfo",
+    "parameters": [],
+    "output_sha256": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
+    "config_sha256": "6ea13670c191ab0414a2017a5f6f3a4ccc77f08b333661bc048f7429226205f1",
+    "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+  },
+  "delegated_observation_manifest": {
+    "scope": "instrumented _check_members observations; original checker delegated; direct seq_show path is not probed; separate unmodified table differential required",
+    "baseline": {
+      "name": "Volatility 3",
+      "version": "2.28.2",
+      "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+      "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+    },
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "output_sha256": "91fec21e0de2818fa547c3011862b47067122c8bca901f0525f7b9664c844612",
+    "plugin_output_sha256": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
+    "config_sha256": "6ea13670c191ab0414a2017a5f6f3a4ccc77f08b333661bc048f7429226205f1",
+    "probe_sha256": "d096b7cae49e9b261b5ae026ec98ae335bd75831d4b5ed5d2aa25cb6bb59840e",
+    "member_calls": 12,
+    "observed_members": 180,
+    "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+  },
+  "delegated_plugin_table_identical_to_unmodified": true,
+  "handler_comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "Symbol Name",
+      "Member",
+      "Handler Address"
+    ],
+    "native_rows": 0,
+    "reference_rows": 0,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "71a0ea56e989fbd678c22726fab14e0307d77e5c0107dfb66cd2ce2acfcdd76b",
+      "reference": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
+      "mapping": "78413c51ae9886f1e4a8b41760bf1b46a8a26b9e2572c7cd01c6bdcd9973d2ca"
+    },
+    "native_input_rows": 199,
+    "native_non_entity_records": {
+      "symbol_observation": 6,
+      "container_observation": 12,
+      "member_observation": 180,
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "value": "handler",
+      "excluded_values": [
+        "member_observation",
+        "symbol_observation",
+        "container_observation",
+        "diagnostic",
+        "summary"
+      ]
+    }
+  },
+  "member_comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "Symbol Name",
+      "Member",
+      "Handler Address",
+      "OperationAddress",
+      "Status"
+    ],
+    "native_rows": 180,
+    "reference_rows": 180,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "71a0ea56e989fbd678c22726fab14e0307d77e5c0107dfb66cd2ce2acfcdd76b",
+      "reference": "91fec21e0de2818fa547c3011862b47067122c8bca901f0525f7b9664c844612",
+      "mapping": "4a5b34471c63358f8ba3a4bd458feccc626ba1da7f884dc9607cd964e5820311"
+    },
+    "native_input_rows": 199,
+    "native_non_entity_records": {
+      "symbol_observation": 6,
+      "container_observation": 12,
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "values": [
+        "member_observation",
+        "handler"
+      ],
+      "excluded_values": [
+        "symbol_observation",
+        "container_observation",
+        "diagnostic",
+        "summary"
+      ]
+    }
+  },
+  "ordered_members_and_all_48_nonzero_exact_alias_lists_verified_by_go_corpus_test": true,
+  "native_summary": {
+    "checked_nonzero_or_seq_show": "48",
+    "diagnostics": "0",
+    "flagged_handlers": "0",
+    "globals_absent": "0",
+    "globals_present": "6",
+    "ignored_rh_members": "0",
+    "layout": "pre_4_18",
+    "member_order": "symbol_declaration_order",
+    "member_visits": "180",
+    "read_layout_errors": "0",
+    "scope": "exact symbol membership is not a verdict of maliciousness",
+    "unimplemented_zero": "132"
+  },
+  "complete_raw_captures_independently_reread": 192,
+  "cache": {
+    "reused": true,
+    "jsonl_byte_identical": true,
+    "sha256": "71a0ea56e989fbd678c22726fab14e0307d77e5c0107dfb66cd2ce2acfcdd76b"
+  },
+  "bundle": {
+    "verified": true,
+    "tasks": 1,
+    "members": 2,
+    "sha256": "e657c4171ff450add9509129a3c37ddcf09436c3718c9d41cf8f70098637a30d"
+  },
+  "synthetic_profiles": [
+    {
+      "architecture": "x64",
+      "profile": "legacy",
+      "records": 27,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 18,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x64",
+      "profile": "modern",
+      "records": 19,
+      "flagged_handlers": 2,
+      "complete_raw_captures_independently_reread": 8,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x64",
+      "profile": "seq-show",
+      "records": 19,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 10,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x64",
+      "profile": "seq-show-zero",
+      "records": 19,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 10,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x64",
+      "profile": "seq-show-and-ops",
+      "records": 27,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 18,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x64",
+      "profile": "embedded-fops",
+      "records": 27,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 18,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x64",
+      "profile": "global-pointer",
+      "records": 19,
+      "flagged_handlers": 2,
+      "complete_raw_captures_independently_reread": 9,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x64",
+      "profile": "all-absent",
+      "records": 11,
+      "flagged_handlers": 0,
+      "complete_raw_captures_independently_reread": 0,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x64",
+      "profile": "legacy-slide",
+      "records": 27,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 18,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x64",
+      "profile": "seq-show-slide",
+      "records": 19,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 10,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x64",
+      "profile": "seq-show-relative-known",
+      "records": 19,
+      "flagged_handlers": 2,
+      "complete_raw_captures_independently_reread": 10,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x86",
+      "profile": "legacy",
+      "records": 27,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 18,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x86",
+      "profile": "modern",
+      "records": 19,
+      "flagged_handlers": 2,
+      "complete_raw_captures_independently_reread": 8,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x86",
+      "profile": "seq-show",
+      "records": 19,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 10,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x86",
+      "profile": "seq-show-zero",
+      "records": 19,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 10,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x86",
+      "profile": "seq-show-and-ops",
+      "records": 27,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 18,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x86",
+      "profile": "embedded-fops",
+      "records": 27,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 18,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x86",
+      "profile": "global-pointer",
+      "records": 19,
+      "flagged_handlers": 2,
+      "complete_raw_captures_independently_reread": 9,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x86",
+      "profile": "all-absent",
+      "records": 11,
+      "flagged_handlers": 0,
+      "complete_raw_captures_independently_reread": 0,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x86",
+      "profile": "legacy-slide",
+      "records": 27,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 18,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x86",
+      "profile": "seq-show-slide",
+      "records": 19,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 10,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "x86",
+      "profile": "seq-show-relative-known",
+      "records": 19,
+      "flagged_handlers": 2,
+      "complete_raw_captures_independently_reread": 10,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "pae",
+      "profile": "legacy",
+      "records": 27,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 18,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "pae",
+      "profile": "modern",
+      "records": 19,
+      "flagged_handlers": 2,
+      "complete_raw_captures_independently_reread": 8,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "pae",
+      "profile": "seq-show",
+      "records": 19,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 10,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "pae",
+      "profile": "seq-show-zero",
+      "records": 19,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 10,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "pae",
+      "profile": "seq-show-and-ops",
+      "records": 27,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 18,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "pae",
+      "profile": "embedded-fops",
+      "records": 27,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 18,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "pae",
+      "profile": "global-pointer",
+      "records": 19,
+      "flagged_handlers": 2,
+      "complete_raw_captures_independently_reread": 9,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "pae",
+      "profile": "all-absent",
+      "records": 11,
+      "flagged_handlers": 0,
+      "complete_raw_captures_independently_reread": 0,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "pae",
+      "profile": "legacy-slide",
+      "records": 27,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 18,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "pae",
+      "profile": "seq-show-slide",
+      "records": 19,
+      "flagged_handlers": 4,
+      "complete_raw_captures_independently_reread": 10,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    },
+    {
+      "architecture": "pae",
+      "profile": "seq-show-relative-known",
+      "records": 19,
+      "flagged_handlers": 2,
+      "complete_raw_captures_independently_reread": 10,
+      "selected_three_fields_and_order_match_pinned_generator": true,
+      "sealed_rows_verified": true,
+      "cache_reused": true
+    }
+  ],
+  "pinned_generator_cases": 12,
+  "isf_member_order": {
+    "sources": [
+      "ISF JSON key order",
+      "DWARF child member order",
+      "CodeView field list order"
+    ],
+    "roundtrip_and_mutation_tests": true,
+    "compiled_dwarf_fixtures": 5,
+    "compiled_pdb_architectures": [
+      "x64",
+      "x86"
+    ],
+    "fuzz": {
+      "target": "FuzzISF",
+      "executions": 862196,
+      "passed": true
+    }
+  },
+  "checks": {
+    "make_check": true,
+    "pinned_afinfo_oracle": true,
+    "pinned_kthreads_oracle": true,
+    "pinned_modxview_oracle": true,
+    "pinned_inode_mode_oracle": true,
+    "corpus_regressions": [
+      "AFINFO: 180 members / 192 captures",
+      "IP: 2 links / 4 addresses",
+      "Modxview: 79 modules / default and plain",
+      "Kthreads: old kernel rejected / failed task retained",
+      "VMCOREINFO: Debian 47 / Kali ARM64 111 entries"
+    ]
+  },
+  "limitations": [
+    "No real positive network hook or modern-kernel differential",
+    "ARM64 virtual analysis requires a translator and actual kernel symbols",
+    "Observation probe delegates _check_members only; direct seq_show is covered by synthetic fixed-source cases",
+    "Independent native globals may continue where the fixed generator stops after an exception",
+    "Bounded native captures and malformed/read/error/deprecated-alias/full-parameter equivalence remain pending",
+    "No whole-image clean verdict and no complete capability acceptance"
+  ]
+}

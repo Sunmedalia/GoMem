@@ -35,6 +35,19 @@ func TestPDBCompiledObjects(t *testing.T) {
 			if err != nil || parsed.Digest() != table.Digest() {
 				t.Fatal(err)
 			}
+			ordered, err := table.Type("_EPROCESS")
+			if err != nil {
+				t.Fatal(err)
+			}
+			declarationNames := ordered.MemberNames()
+			if len(declarationNames) < 4 || strings.Join(declarationNames[:4], ",") != "ActiveProcessLinks,UniqueProcessId,InheritedFromUniqueProcessId,ImageFileName" {
+				t.Fatal("CodeView declaration order lost", declarationNames)
+			}
+			restored, err := parsed.Type("_EPROCESS")
+			if err != nil || strings.Join(restored.MemberNames(), ",") != strings.Join(declarationNames, ",") {
+				t.Fatal("ISF round-trip changed CodeView member order", err)
+			}
+
 			pdb, err := table.PDBIdentity()
 			if err != nil || pdb.Database != "native-"+arch+".pdb" || pdb.Age != 1 {
 				t.Fatal(pdb, err)

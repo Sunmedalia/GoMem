@@ -1,0 +1,44 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "values": [
+      "member_observation",
+      "handler"
+    ],
+    "excluded_values": [
+      "symbol_observation",
+      "container_observation",
+      "diagnostic",
+      "summary"
+    ]
+  },
+  "fields": {
+    "Symbol Name": {
+      "native": "Symbol Name",
+      "reference": "Symbol Name",
+      "kind": "string"
+    },
+    "Member": {
+      "native": "Member",
+      "reference": "Member",
+      "kind": "string"
+    },
+    "Handler Address": {
+      "native": "Handler Address",
+      "reference": "Handler Address",
+      "kind": "address",
+      "mask": "0xffffffffffff"
+    },
+    "OperationAddress": {
+      "native": "OperationAddress",
+      "reference": "OperationAddress",
+      "kind": "address",
+      "mask": "0xffffffffffff"
+    },
+    "Status": {
+      "native": "Status",
+      "reference": "Status",
+      "kind": "string"
+    }
+  }
+}

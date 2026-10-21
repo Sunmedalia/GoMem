@@ -1,0 +1,251 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "cases": [
+    {
+      "name": "legacy",
+      "handlers": [
+        {
+          "global_name": "tcp4_seq_afinfo",
+          "member": "write",
+          "address": 34049
+        },
+        {
+          "global_name": "tcp4_seq_afinfo",
+          "member": "stop",
+          "address": 34304
+        },
+        {
+          "global_name": "udp4_seq_afinfo",
+          "member": "write",
+          "address": 34049
+        },
+        {
+          "global_name": "udp4_seq_afinfo",
+          "member": "stop",
+          "address": 34304
+        }
+      ],
+      "error": false
+    },
+    {
+      "name": "modern",
+      "handlers": [
+        {
+          "global_name": "raw_seq_ops",
+          "member": "stop",
+          "address": 34304
+        },
+        {
+          "global_name": "udp_seq_ops",
+          "member": "stop",
+          "address": 34304
+        }
+      ],
+      "error": false
+    },
+    {
+      "name": "seq-show",
+      "handlers": [
+        {
+          "global_name": "tcp4_seq_afinfo",
+          "member": "write",
+          "address": 34049
+        },
+        {
+          "global_name": "tcp4_seq_afinfo",
+          "member": "show",
+          "address": 34304
+        },
+        {
+          "global_name": "udp4_seq_afinfo",
+          "member": "write",
+          "address": 34049
+        },
+        {
+          "global_name": "udp4_seq_afinfo",
+          "member": "show",
+          "address": 34304
+        }
+      ],
+      "error": false
+    },
+    {
+      "name": "seq-show-zero",
+      "handlers": [
+        {
+          "global_name": "tcp4_seq_afinfo",
+          "member": "write",
+          "address": 34049
+        },
+        {
+          "global_name": "tcp4_seq_afinfo",
+          "member": "show",
+          "address": 0
+        },
+        {
+          "global_name": "udp4_seq_afinfo",
+          "member": "write",
+          "address": 34049
+        },
+        {
+          "global_name": "udp4_seq_afinfo",
+          "member": "show",
+          "address": 0
+        }
+      ],
+      "error": false
+    },
+    {
+      "name": "seq-show-and-ops",
+      "handlers": [
+        {
+          "global_name": "tcp4_seq_afinfo",
+          "member": "write",
+          "address": 34049
+        },
+        {
+          "global_name": "tcp4_seq_afinfo",
+          "member": "stop",
+          "address": 34304
+        },
+        {
+          "global_name": "udp4_seq_afinfo",
+          "member": "write",
+          "address": 34049
+        },
+        {
+          "global_name": "udp4_seq_afinfo",
+          "member": "stop",
+          "address": 34304
+        }
+      ],
+      "error": false
+    },
+    {
+      "name": "embedded-fops",
+      "handlers": [
+        {
+          "global_name": "tcp4_seq_afinfo",
+          "member": "write",
+          "address": 34049
+        },
+        {
+          "global_name": "tcp4_seq_afinfo",
+          "member": "stop",
+          "address": 34304
+        },
+        {
+          "global_name": "udp4_seq_afinfo",
+          "member": "write",
+          "address": 34049
+        },
+        {
+          "global_name": "udp4_seq_afinfo",
+          "member": "stop",
+          "address": 34304
+        }
+      ],
+      "error": false
+    },
+    {
+      "name": "global-pointer",
+      "handlers": [
+        {
+          "global_name": "raw_seq_ops",
+          "member": "stop",
+          "address": 34304
+        },
+        {
+          "global_name": "udp_seq_ops",
+          "member": "stop",
+          "address": 34304
+        }
+      ],
+      "error": false
+    },
+    {
+      "name": "all-absent",
+      "handlers": [],
+      "error": false
+    },
+    {
+      "name": "legacy-slide",
+      "handlers": [
+        {
+          "global_name": "tcp4_seq_afinfo",
+          "member": "write",
+          "address": 34049
+        },
+        {
+          "global_name": "tcp4_seq_afinfo",
+          "member": "stop",
+          "address": 34304
+        },
+        {
+          "global_name": "udp4_seq_afinfo",
+          "member": "write",
+          "address": 34049
+        },
+        {
+          "global_name": "udp4_seq_afinfo",
+          "member": "stop",
+          "address": 34304
+        }
+      ],
+      "error": false
+    },
+    {
+      "name": "seq-show-slide",
+      "handlers": [
+        {
+          "global_name": "tcp4_seq_afinfo",
+          "member": "write",
+          "address": 34049
+        },
+        {
+          "global_name": "tcp4_seq_afinfo",
+          "member": "show",
+          "address": 34048
+        },
+        {
+          "global_name": "udp4_seq_afinfo",
+          "member": "write",
+          "address": 34049
+        },
+        {
+          "global_name": "udp4_seq_afinfo",
+          "member": "show",
+          "address": 34048
+        }
+      ],
+      "error": false
+    },
+    {
+      "name": "seq-show-relative-known",
+      "handlers": [
+        {
+          "global_name": "tcp4_seq_afinfo",
+          "member": "write",
+          "address": 34049
+        },
+        {
+          "global_name": "udp4_seq_afinfo",
+          "member": "write",
+          "address": 34049
+        }
+      ],
+      "error": false
+    },
+    {
+      "name": "fops-only",
+      "handlers": [
+        {
+          "global_name": "tcp4_seq_afinfo",
+          "member": "write",
+          "address": 34049
+        }
+      ],
+      "error": true
+    }
+  ]
+}

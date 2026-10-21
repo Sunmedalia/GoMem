@@ -43,6 +43,19 @@ func TestDWARFRealObjectLayouts(t *testing.T) {
 			if err != nil || back.Digest() != table.Digest() {
 				t.Fatal("conversion not reproducible", err)
 			}
+			ordered, err := table.Type("task_struct")
+			if err != nil {
+				t.Fatal(err)
+			}
+			declarationNames := ordered.MemberNames()
+			if len(declarationNames) < 4 || strings.Join(declarationNames[:4], ",") != "next,alias,callback,pid" {
+				t.Fatal("DWARF declaration order lost", declarationNames)
+			}
+			restored, err := back.Type("task_struct")
+			if err != nil || strings.Join(restored.MemberNames(), ",") != strings.Join(declarationNames, ",") {
+				t.Fatal("ISF round-trip changed DWARF member order", err)
+			}
+
 			banner, err := table.Banner()
 			if err != nil || !bytes.HasPrefix(banner, []byte("Linux version 6.1.0-gomem-dwarf")) {
 				t.Fatal(string(banner), err)
