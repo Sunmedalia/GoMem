@@ -1,0 +1,110 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "socket",
+    "excluded_values": [
+      "socket_candidate",
+      "socket_read",
+      "socket_scan_read",
+      "socket_scan_summary",
+      "socket_layout_error"
+    ]
+  },
+  "fields": {
+    "Offset": {
+      "native": "Offset",
+      "reference": "Sock Offset",
+      "kind": "address"
+    },
+    "Family": {
+      "native": "Family",
+      "reference": "Family",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available",
+        "not_bound",
+        "unknown_bluetooth_state"
+      ]
+    },
+    "Type": {
+      "native": "Type",
+      "reference": "Type",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available",
+        "not_bound",
+        "unknown_bluetooth_state"
+      ]
+    },
+    "Proto": {
+      "native": "Proto",
+      "reference": "Proto",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available",
+        "not_bound",
+        "unknown_bluetooth_state"
+      ]
+    },
+    "Source": {
+      "native": "Source",
+      "reference": "Source Addr",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available",
+        "not_bound",
+        "unknown_bluetooth_state"
+      ]
+    },
+    "SourcePort": {
+      "native": "SourcePort",
+      "reference": "Source Port",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available",
+        "not_bound",
+        "unknown_bluetooth_state"
+      ]
+    },
+    "Destination": {
+      "native": "Destination",
+      "reference": "Destination Addr",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available",
+        "not_bound",
+        "unknown_bluetooth_state"
+      ]
+    },
+    "DestinationPort": {
+      "native": "DestinationPort",
+      "reference": "Destination Port",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available",
+        "not_bound",
+        "unknown_bluetooth_state"
+      ]
+    },
+    "State": {
+      "native": "State",
+      "reference": "State",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available",
+        "not_bound",
+        "unknown_bluetooth_state"
+      ]
+    },
+    "Filter": {
+      "native": "Filter",
+      "reference": "Filter",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available",
+        "not_bound",
+        "unknown_bluetooth_state"
+      ]
+    }
+  }
+}

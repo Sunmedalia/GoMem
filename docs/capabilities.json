@@ -3540,15 +3540,25 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Intel Linux physical memory with exact file/sock/socket_alloc layouts and file-operation/destructor symbols. Unaligned pointer-byte scan, physical roots with explicit kernel native pointer targets; optional baseline-ipv6 preserves the pinned physical address-read behavior.",
+      "native": "linux.sockscan",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-linux-sockscan-56-paged-object-cases",
+        "synthetic-x86-pae-x64-native-pointers",
+        "official-linux-sample-1",
+        "official-linux-sample-1-pinned-Linux-Python312-reference"
+      ],
+      "comparison": "56_pinned_cases_84_native_paging_cases_ten_fields_match_with_documented_native_IPv6_profile_Debian_baseline_404_ordered_rows_match_native_478_rows_with_74_independently_verified_IPv6_additions",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Full modern/version/architecture and malformed layout corpus matrix remains unaccepted; real positive corpus is one legacy x64 acquisition",
+        "Candidate pointer, field and baseline IPv6 read errors remain explicit and fail the task; selected real runs are partial failed attempts and never cached",
+        "Pinned file-only None deduplication, shared-needle precedence, exact-address subtype casts and empty-endpoint filtering remain intentional baseline semantics",
+        "Default IPv6 pointer-derived addresses use the native layer; baseline-ipv6 is an explicit comparison mode rather than silently discarding readable native addresses",
+        "A signature and structural fields do not prove a live socket; unknown families/types and rejected candidates retain their classification and raw provenance; physical object bytes are assumed contiguous"
+      ],
+      "validation_record": "docs/linux-sockscan.md"
     },
     {
       "id": "linux.sockstat.Sockstat",

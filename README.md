@@ -124,6 +124,7 @@ bin/gomem analyze windows.pslist \
 | `windows.vadinfo` | 现代 VAD 区间、动态权限表、提交页数、私有标志和文件路径；支持 PID 集合、包含地址筛选及区域提取 |
 | `linux.pslist` | 活动任务与凭据、root 时钟创建时间、可选线程及名称装饰；保留原始计数和身份 |
 | `linux.psscan` | 一次物理扫描寻找调度类指针任务候选，保留退出状态、启发式与覆盖信息 |
+| `linux.sockscan` | 物理指针扫描 socket 候选；区分物理对象与内核指针层，保留重复、未知类型和读取失败；默认修正 IPv6 指针层，提供显式对照选项；[说明与验证](docs/linux-sockscan.md) |
 | `linux.sockstat` | 文件描述符关联的 socket、网络字节序端点、UNIX 原始名称、任务/socket 命名空间和过滤器元数据 |
 | `linux.files` | 挂载命名空间及超级块缓存目录枚举；保留路径作用域、硬链接别名、负条目计数和精确 inode 元数据；[说明](docs/linux-files.md) |
 | `linux.recoverfs` | 将缓存目录、正规文件和快符号链接写入可复现的压缩包；未缓存区间和超限文件明确失败，不假装已完整恢复；[说明](docs/linux-recoverfs.md) |

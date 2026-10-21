@@ -68,6 +68,7 @@ jobs:
       - run: python3 tools/build_module_lookup_oracle.py --check
       - run: python3 tools/build_ftrace_lookup_oracle.py --check
       - run: python3 tools/build_bpf_lookup_oracle.py --check
+      - run: python3 tools/build_sockscan_oracle.py --check
       - run: python3 tools/build_object_view_oracle.py --check
       - run: python3 tools/build_latch_tree_oracle.py --check
       - run: python3 tools/build_kallsyms_lookup_oracle.py --check
@@ -88,6 +89,7 @@ jobs:
       - run: go test ./pkg/kallsyms -run '^$' -fuzz FuzzModuleLookup -fuzztime 5s
       - run: go test ./pkg/kallsyms -run '^$' -fuzz FuzzFtraceLookup -fuzztime 5s
       - run: go test ./pkg/kallsyms -run '^$' -fuzz FuzzBPFLookup -fuzztime 5s
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxSockscan -fuzztime 5s
       - run: go test ./pkg/object -run '^$' -fuzz FuzzViewDataAndNativeLayers -fuzztime 5s
       - run: go test ./pkg/object -run '^$' -fuzz FuzzLatchTree -fuzztime 5s
       - run: go test ./pkg/kallsyms -run '^$' -fuzz FuzzCoreLookup -fuzztime 5s

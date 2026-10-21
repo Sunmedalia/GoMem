@@ -65,6 +65,7 @@ func Register(r *plugin.Registry) error {
 	specs = append(specs, linuxModxviewPlugins()...)
 	specs = append(specs, linuxKthreadsPlugins()...)
 	specs = append(specs, linuxPsCallStackPlugins()...)
+	specs = append(specs, linuxSockscanPlugins()...)
 	specs = append(specs, linuxAFInfoPlugins()...)
 	specs = append(specs, linuxIDTPlugins()...)
 	specs = append(specs, linuxSyscallPlugins()...)
