@@ -1144,7 +1144,7 @@
       "corpora": [],
       "comparison": "not_run",
       "gaps": [
-        "Native implementation and validation pending"
+        "Deprecated alias of linux.malware.keyboard_notifiers.Keyboard_notifiers; native command is linux.keyboard_notifiers"
       ]
     },
     {
@@ -1906,15 +1906,23 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Symbol-described Intel Linux with keyboard_notifier_list, atomic_notifier_head and notifier_block. Walk head through notifier_block.next, including address zero, stopping on a repeated pointer after the inclusive 4096 entry. Attribute notifier_call with module ranges and exact symbols.",
+      "native": "linux.keyboard_notifiers",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-keyboard-x64-x86-pae",
+        "pinned-keyboard-walk",
+        "official-linux-sample-1-empty-head"
+      ],
+      "comparison": "empty_reference_table_native_null_page_read_fails_task",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Debian 3.2 x64 has a null head. The fixed plugin returns zero rows and succeeds; native records the unreadable zero pointer and fails the task. This is not a hooked-chain differential",
+        "Synthetic profiles cover kernel, module, unknown, qualified, cyclic, missing-symbol and unreadable-head chains on x64/x86/PAE. The pinned walk visits 4097 nodes at the inclusive bound",
+        "Selected-module symbol ownership differs from the fixed helper's final loop variable, as with other module lookups",
+        "Modern kernels, real hooks, 32-bit images, ARM64 and complete acceptance remain pending"
+      ],
+      "validation_record": "docs/linux-keyboard-notifiers.md"
     },
     {
       "id": "linux.malware.malfind.Malfind",

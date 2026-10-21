@@ -1,0 +1,127 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "cases": [
+    {
+      "name": "empty",
+      "rows": [
+        {
+          "address": 0,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        }
+      ],
+      "error": null
+    },
+    {
+      "name": "kernel",
+      "rows": [
+        {
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "address": 0,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        }
+      ],
+      "error": null
+    },
+    {
+      "name": "module",
+      "rows": [
+        {
+          "address": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "address": 0,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        }
+      ],
+      "error": null
+    },
+    {
+      "name": "unknown",
+      "rows": [
+        {
+          "address": 91136,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "address": 0,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        }
+      ],
+      "error": null
+    },
+    {
+      "name": "qualified",
+      "rows": [
+        {
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "entry",
+          "selected_owner_symbol": "entry"
+        },
+        {
+          "address": 0,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        }
+      ],
+      "error": null
+    },
+    {
+      "name": "repeat",
+      "rows": [
+        {
+          "address": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        }
+      ],
+      "error": null
+    },
+    {
+      "name": "unreadable-head",
+      "rows": [],
+      "error": null
+    },
+    {
+      "name": "missing-symbol",
+      "rows": [],
+      "error": "TypeError"
+    }
+  ],
+  "bound": {
+    "visited": 4097,
+    "last": 4097
+  }
+}

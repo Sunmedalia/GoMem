@@ -1,0 +1,40 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "notifier",
+    "excluded_values": [
+      "list_observation",
+      "module_observation",
+      "sysfs_candidate",
+      "source_selection",
+      "scan_candidate",
+      "source_observation",
+      "diagnostic",
+      "summary"
+    ]
+  },
+  "fields": {
+    "Address": {
+      "native": "Address",
+      "reference": "Address",
+      "kind": "address",
+      "mask": "0xffffffffffff"
+    },
+    "Module": {
+      "native": "Module",
+      "reference": "Module",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "Symbol": {
+      "native": "Symbol",
+      "reference": "Symbol",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available"
+      ]
+    }
+  }
+}
