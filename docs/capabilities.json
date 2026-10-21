@@ -635,7 +635,7 @@
       "corpora": [],
       "comparison": "not_run",
       "gaps": [
-        "Native implementation and validation pending"
+        "Deprecated alias of linux.malware.check_syscall.Check_syscall; native command is linux.check_syscall; independent alias acceptance remains pending"
       ]
     },
     {
@@ -1777,17 +1777,24 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
+      "applicability": "Symbol-described Intel Linux. Size sys_call_table, and ia32_sys_call_table when present, by the minimum positive count of __syscall_meta__ symbols and the distance to the next higher unslid symbol. Native disassembly is unavailable, so this matches the fixed plugin only when capstone is absent. Read every inferred pointer, keep raw bytes, and name the lexicographic first exact symbol after the same bang split. Optional ia32 absence is recorded. Unreadable entries and unsized tables retain diagnostics and fail the task.",
       "native": "linux.check_syscall",
       "status": "partial",
       "accepted": false,
       "corpora": [
-        "synthetic-linux-x64"
+        "synthetic-linux-syscall-x64-x86-pae-8-profiles",
+        "pinned-16-size-cases-16-no-capstone-generators",
+        "official-linux-sample-1-no-capstone"
       ],
-      "comparison": "not_run",
+      "comparison": "661_entries_match_five_fields_and_order_under_low48_661_pointer_captures_reread",
       "gaps": [
-        "Official-corpus differential acceptance pending"
-      ]
+        "The Debian 3.2 x64 reference was produced without capstone, so both sides use metadata/next-symbol sizing: 312 entries in the 64-bit table and 349 in ia32. All 661 handler symbols match and none are UNKNOWN. This is not a capstone-sized differential",
+        "24 synthetic cases cover x64/x86/PAE, metadata versus next-symbol minimums, absent ia32, kernel slide, qualified names, and a symbol at address zero. Sixteen fixed size cases include truncated distances. Each complete pointer capture is reread",
+        "Native continues after an unreadable pointer but fails the task; the fixed generator logs and skips that entry while still succeeding. Missing sys_call_table or a zero inferred size fails explicitly",
+        "Exact aliases are sorted and the first name is rendered. Interior addresses stay UNKNOWN. max-entries bounds each table at 1..1000000",
+        "Capstone CMP sizing, real hooked tables, modern and 32-bit images, ARM64, and full acceptance remain pending"
+      ],
+      "validation_record": "docs/linux-syscall.md"
     },
     {
       "id": "linux.malware.hidden_modules.Hidden_modules",
