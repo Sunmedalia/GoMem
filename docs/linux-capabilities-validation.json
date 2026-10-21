@@ -1,0 +1,199 @@
+{
+  "scope": "Development preview. Explicit legacy layout adapter helper/field comparison, NOT unmodified Volatility plugin parity or release acceptance.",
+  "baseline": {
+    "name": "Volatility 3",
+    "version": "2.28.2",
+    "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+    "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+  },
+  "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+  "symbols": "linux.zip#linux/Debian_3.2.57-3+deb7u2_3.2.0-4-amd64_x64.json.xz",
+  "unmodified_reference": {
+    "state": "failed",
+    "exception": "volatility3.framework.exceptions.VolatilityException: Unsupported kernel capabilities implementation",
+    "cause": "Legacy ISF names cap[2] structure kernel_cap_t; fixed extension for that name requires val.",
+    "config_sha256": "ea9a5a5af8d3ce9371853188317eb1a61fc081ac31586f3b556126bd81506a8f",
+    "traceback_log_sha256": "4c15d44a71c93360dad7dd75273cbb4f0145c98cab8092315518e7bb023b13ab",
+    "command": "python tools/reference.py --source PINNED_SOURCE --image linux-sample-1.bin --symbols CORPUS --plugin linux.capabilities.Capabilities --output NEW.json",
+    "successful_output": false
+  },
+  "adapter": {
+    "tool": "tools/reference_capabilities_layout_adapter.py",
+    "scope": "Only dispatch kernel_cap_t.get_capabilities by val vs legacy cap layout; use pinned methods, do not change source/image/ISF.",
+    "full_manifest": {
+      "scope": "explicit legacy capability layout adapter; NOT unmodified plugin parity",
+      "baseline": {
+        "name": "Volatility 3",
+        "version": "2.28.2",
+        "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+        "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+      },
+      "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "output_sha256": "b0428fa5682c621c586c0f8dc15ac4562b31474b9b609f91d8951f5c0400dd86",
+      "config_sha256": "ea9a5a5af8d3ce9371853188317eb1a61fc081ac31586f3b556126bd81506a8f",
+      "adapter_sha256": "26ba0146e0074fe21024ca0330b786a3ba0ac551d293eb0e992caa46c12f9d5d",
+      "adaptations": 540,
+      "parameters": [],
+      "rows": 133,
+      "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+    },
+    "filtered_manifest": {
+      "scope": "explicit legacy capability layout adapter; NOT unmodified plugin parity",
+      "baseline": {
+        "name": "Volatility 3",
+        "version": "2.28.2",
+        "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+        "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+      },
+      "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "output_sha256": "f2c529b7a99be9ceaeeb746a80ab63390db11cd6d33dbd87f8695c252c3a5849",
+      "config_sha256": "cf890ccc2f2fd4ffd826dae9e46c51bf0c1bf3097131a40995ee128a27b29aa6",
+      "adapter_sha256": "26ba0146e0074fe21024ca0330b786a3ba0ac551d293eb0e992caa46c12f9d5d",
+      "adaptations": 20,
+      "parameters": [
+        "--pids",
+        "1",
+        "2388",
+        "2575",
+        "3754",
+        "8503"
+      ],
+      "rows": 5,
+      "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+    }
+  },
+  "native": {
+    "full_selected_fields": {
+      "scope": "selected fields only; full capability acceptance remains pending",
+      "fields": [
+        "Name",
+        "Tid",
+        "Pid",
+        "PPid",
+        "EUID",
+        "cap_inheritable",
+        "cap_permitted",
+        "cap_effective",
+        "cap_bounding",
+        "cap_ambient"
+      ],
+      "native_rows": 133,
+      "reference_rows": 133,
+      "matched": true,
+      "missing": [],
+      "extra": [],
+      "sha256": {
+        "native": "c3ab6b834172c8c6a4887023b85b066bb30453e6c747bf8845d22069bccaf52e",
+        "reference": "b0428fa5682c621c586c0f8dc15ac4562b31474b9b609f91d8951f5c0400dd86",
+        "mapping": "ea7d20a8fac68d35cf175ba539172ab14a951feb64f429a68b02e874044d5e5a"
+      },
+      "native_input_rows": 134,
+      "native_non_entity_records": {
+        "summary": 1
+      },
+      "entity_selection": {
+        "field": "RecordType",
+        "values": [
+          "process"
+        ],
+        "excluded_values": [
+          "summary"
+        ]
+      }
+    },
+    "filtered_selected_fields": {
+      "scope": "selected fields only; full capability acceptance remains pending",
+      "fields": [
+        "Name",
+        "Tid",
+        "Pid",
+        "PPid",
+        "EUID",
+        "cap_inheritable",
+        "cap_permitted",
+        "cap_effective",
+        "cap_bounding",
+        "cap_ambient"
+      ],
+      "native_rows": 5,
+      "reference_rows": 5,
+      "matched": true,
+      "missing": [],
+      "extra": [],
+      "sha256": {
+        "native": "db1f2bdc9550365fff564c2263cf0130859428f103bc6c55d0d896c6857e7df2",
+        "reference": "f2c529b7a99be9ceaeeb746a80ab63390db11cd6d33dbd87f8695c252c3a5849",
+        "mapping": "ea7d20a8fac68d35cf175ba539172ab14a951feb64f429a68b02e874044d5e5a"
+      },
+      "native_input_rows": 6,
+      "native_non_entity_records": {
+        "summary": 1
+      },
+      "entity_selection": {
+        "field": "RecordType",
+        "values": [
+          "process"
+        ],
+        "excluded_values": [
+          "summary"
+        ]
+      }
+    },
+    "coverage": {
+      "processes": 133,
+      "sets_read": 532,
+      "ambient_not_available": 133,
+      "diagnostics": 0,
+      "cap_last_cap": 35
+    },
+    "effective_sets": {
+      "all": 85,
+      "empty": 44,
+      "named": 4
+    },
+    "filtered_pids": [
+      1,
+      2388,
+      2575,
+      3754,
+      8503
+    ],
+    "raw_bitmaps_rechecked_against_image": true,
+    "sqlite_row_verification": true,
+    "completed_task_reuse": true,
+    "fresh_and_cached_jsonl_identical": true,
+    "bundle": {
+      "sha256": "503181c0183a1a9c4f62745b09fe87294199880b9ff090acfcbb9329de176ca3",
+      "tasks": 1,
+      "members": 2,
+      "verified": true
+    }
+  },
+  "checks": {
+    "make_check": "passed",
+    "pinned_helper_oracles": 1680,
+    "oracle_reader_byte_orders": [
+      "little",
+      "big"
+    ],
+    "synthetic_paging": [
+      "x64",
+      "x86",
+      "pae"
+    ],
+    "matrix": "195 upstream classes, none certified complete"
+  },
+  "pending": [
+    "Successful unmodified plugin comparison",
+    "Modern and actual x86/PAE corpus",
+    "ARM64",
+    "Full task validity and damaged-list behavior",
+    "All credential corruption and parameter conditions"
+  ]
+}

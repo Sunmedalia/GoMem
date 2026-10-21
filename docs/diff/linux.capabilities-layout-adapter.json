@@ -1,0 +1,67 @@
+{
+  "scope": "Explicitly adapted legacy typedef helper comparison; NOT unmodified plugin parity",
+  "native_record_type": {
+    "field": "RecordType",
+    "values": [
+      "process"
+    ],
+    "excluded_values": [
+      "summary"
+    ]
+  },
+  "fields": {
+    "Name": {
+      "native": "Name",
+      "reference": "Name",
+      "kind": "string"
+    },
+    "Tid": {
+      "native": "Tid",
+      "reference": "Tid",
+      "kind": "uint64"
+    },
+    "Pid": {
+      "native": "Pid",
+      "reference": "Pid",
+      "kind": "uint64"
+    },
+    "PPid": {
+      "native": "PPid",
+      "reference": "PPid",
+      "kind": "uint64"
+    },
+    "EUID": {
+      "native": "EUID",
+      "reference": "EUID",
+      "kind": "uint64"
+    },
+    "cap_inheritable": {
+      "native": "cap_inheritable",
+      "reference": "cap_inheritable",
+      "kind": "string"
+    },
+    "cap_permitted": {
+      "native": "cap_permitted",
+      "reference": "cap_permitted",
+      "kind": "string"
+    },
+    "cap_effective": {
+      "native": "cap_effective",
+      "reference": "cap_effective",
+      "kind": "string"
+    },
+    "cap_bounding": {
+      "native": "cap_bounding",
+      "reference": "cap_bounding",
+      "kind": "string"
+    },
+    "cap_ambient": {
+      "native": "cap_ambient",
+      "reference": "cap_ambient",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available"
+      ]
+    }
+  }
+}
