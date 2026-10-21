@@ -70,6 +70,8 @@ bin/gomem analyze windows.pslist \
 | `windows.verinfo` | 列出内核模块和进程加载顺序 DLL 的 PE 产品版本；内核基址按 48 位截断后读取，缺页的下一链表项结束当前链表；[说明](docs/windows-verinfo.md) |
 | `windows.ldrmodules` | 对照 MZ 开头的 VAD 与 PEB 三条加载链表；页表建不起来则任务失败，文件名错误留在 `PathError`；[说明](docs/windows-ldrmodules.md) |
 | `windows.svcscan` | 在 `services.exe` 中扫描 `serH` 服务记录；后续记录的偏移是上一条 `PrevEntry` 的地址，不可用字段不按值去重；[说明](docs/windows-svcscan.md) |
+| `windows.svclist` | 在 `services.exe` 主映像 VAD 中搜索 `Sc27` 并遍历服务链；[说明](docs/windows-services.md) |
+| `windows.svcdiff` | 比较扫描与链表中的服务名，保留仅在扫描中出现的服务及其原始证据；[说明](docs/windows-services.md) |
 | `windows.hivelist` | 从 `CmpHiveListHead` 枚举注册表 hive；保留签名、三个路径字段和链表断裂；`dump` 重建稳定 hive，缺页记入空洞日志并令任务失败 |
 | `windows.hivescan` | 在 64 位 Windows 8.1 及以后扫描 `PoolBigPageTable` 的在用 `CM10` 分配；旧式池头扫描会明确失败；[说明](docs/windows-hivescan.md) |
 | `windows.filescan` | 扫描池头中的文件对象，输出规范虚拟地址和文件名；Windows 10 扫内核层，更早的系统扫物理内存；[说明](docs/windows-filescan.md) |
@@ -183,7 +185,9 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 
 `windows.ldrmodules` 找出进程里以 `MZ` 开头的 VAD，并记录基址是否在加载、初始化和内存三条 PEB 链表中。WoW64 链表使用固定基线 `wow64.json` 的 32 位偏移。Windows 10 19041 样本检查了 120 个进程，103 个有此类 VAD，共 3193 行，与固定基线一致。2660 个在加载链表，2580 个在初始化链表，2660 个在内存链表，3 个路径不可用。PID 4 的 `\Windows\SysWOW64\ntdll.dll` 不在三条链表里。真实 32 位镜像、`pid` 筛选和时间线还没有验收。[加载模块验证](docs/windows-ldrmodules.md)
 
-`windows.svcscan` 在 `services.exe` 里搜索 `serH`，并沿 `PrevEntry` 读取 Windows 10 19041 x64 服务记录。链上第一条偏移是记录本体，后面每条是上一条 `PrevEntry` 字段的地址。只有 PID、路径都读到且服务名在注册表映射里时，重复元组才会截断当前链。Windows 10 19041 样本有 1 个 `services.exe`、142 个服务头、350 个注册表服务和 1578 行，与固定基线一致。1196 个按需启动，426 个正在运行，1373 个 PID 为空。其他版本、32 位、`svclist`、`svcdiff` 和时间线还没有实现。[服务扫描验证](docs/windows-svcscan.md)
+`windows.svcscan` 在 `services.exe` 里搜索 `serH`，并沿 `PrevEntry` 读取 Windows 10 19041 x64 服务记录。链上第一条偏移是记录本体，后面每条是上一条 `PrevEntry` 字段的地址。只有 PID、路径都读到且服务名在注册表映射里时，重复元组才会截断当前链。Windows 10 19041 样本有 1 个 `services.exe`、142 个服务头、350 个注册表服务和 1578 行，与固定基线一致。1196 个按需启动，426 个正在运行，1373 个 PID 为空。其他版本、32 位和时间线还没有实现。[服务扫描验证](docs/windows-svcscan.md)
+
+`windows.svclist` 从 `services.exe` 的主映像 VAD 中搜索 `Sc27`，沿服务链表输出记录。Windows 10 19041 样本的 646 行、11 个字段与固定基线一致，其中 189 个服务正在运行。`windows.svcdiff` 按服务名比较这份列表与 `svcscan`，同名时保留最后一次扫描的记录；该样本两边都是 646 个服务名，差异为 0。真实隐藏服务尚待语料验证，阳性逻辑由合成测试覆盖。缺少进程层、主映像 VAD 或可比较名称时，差异检查明确失败。[服务对照验证](docs/windows-services.md)
 
 `windows.hivelist` 正向遍历内核 hive 链表，签名不符或链表断裂时改为反向补齐，并保留已经读到的 hive。名称按 `FileFullPath`、`FileUserName`、`HiveRootPath` 取第一个非空值，三个字段都保留。Windows 10 19041 样本的 24 个偏移和名称与固定基线一致；该样本的 `FileFullPath` 成员均为空，选中名称来自另外两个字段。`dump=true` 写出 base block 和稳定存储；读不到的页是带日志的零字节，任务失败，不会把空洞说成原始数据。[注册表 hive 验证](docs/windows-hivelist.md)
 

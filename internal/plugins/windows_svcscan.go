@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"context"
 	"encoding/binary"
+	"encoding/json"
 	"fmt"
+	"sort"
 	"strings"
 	"unicode/utf16"
 
@@ -15,20 +17,30 @@ import (
 )
 
 func windowsSvcScanPlugins() []builtin {
-	return []builtin{{plugin.Spec{
-		Name: "windows.svcscan", Upstream: "windows.svcscan.SvcScan", Platform: "windows", NeedsKernel: true,
-		Description: "Scan services.exe for Windows 10 19041 x64 service records",
-		Parameters: []plugin.Parameter{
-			{Name: "max-nodes", Kind: "uint", Default: "131072", Description: "Active-process and VAD bound; not an upstream parameter"},
-		},
-		Columns: []evidence.Column{
-			{Name: "Offset", Kind: "address"}, {Name: "Order", Kind: "uint64"}, {Name: "PID", Kind: "uint64"},
-			{Name: "Start", Kind: "string"}, {Name: "State", Kind: "string"}, {Name: "Type", Kind: "string"},
-			{Name: "Name", Kind: "string"}, {Name: "Display", Kind: "string"}, {Name: "Binary", Kind: "string"},
-			{Name: "BinaryRegistry", Kind: "string"}, {Name: "Dll", Kind: "string"},
-			{Name: "RecordType", Kind: "string"},
-		},
-	}, windowsSvcScan}}
+	columns := []evidence.Column{
+		{Name: "Offset", Kind: "address"}, {Name: "Order", Kind: "uint64"}, {Name: "PID", Kind: "uint64"},
+		{Name: "Start", Kind: "string"}, {Name: "State", Kind: "string"}, {Name: "Type", Kind: "string"},
+		{Name: "Name", Kind: "string"}, {Name: "Display", Kind: "string"}, {Name: "Binary", Kind: "string"},
+		{Name: "BinaryRegistry", Kind: "string"}, {Name: "Dll", Kind: "string"},
+		{Name: "RecordType", Kind: "string"}, {Name: "Coverage", Kind: "structure"},
+	}
+	var plugins []builtin
+	for _, item := range []struct{ name, upstream, description, mode string }{
+		{"windows.svcscan", "windows.svcscan.SvcScan", "Scan services.exe for Windows 10 19041 x64 service records", "scan"},
+		{"windows.svclist", "windows.svclist.SvcList", "Walk services from Sc27 headers in the services.exe image VAD", "list"},
+		{"windows.svcdiff", "windows.malware.svcdiff.SvcDiff", "Find scanned service names absent from the services.exe list", "diff"},
+	} {
+		mode := item.mode
+		plugins = append(plugins, builtin{plugin.Spec{
+			Name: item.name, Upstream: item.upstream, Platform: "windows", NeedsKernel: true,
+			Description: item.description,
+			Parameters:  []plugin.Parameter{{Name: "max-nodes", Kind: "uint", Default: "131072", Description: "Active-process and VAD bound; not an upstream parameter"}},
+			Columns:     columns,
+		}, func(ctx context.Context, e plugin.Environment, p map[string]string, out plugin.Emit) error {
+			return windowsServices(ctx, e, p, mode, out)
+		}})
+	}
+	return plugins
 }
 
 const (
@@ -84,15 +96,18 @@ type svcBinary struct {
 }
 
 type svcStats struct {
-	processes, skipped, headers, records, limited uint64
+	processes, skipped, headers, records, limited, missingExe uint64
 }
 
-func windowsSvcScan(ctx context.Context, e plugin.Environment, p map[string]string, out plugin.Emit) error {
+func windowsServices(ctx context.Context, e plugin.Environment, p map[string]string, mode string, out plugin.Emit) error {
 	if e.Kernel == nil || e.Objects == nil || e.Symbols == nil {
-		return fmt.Errorf("windows.svcscan requires a kernel layer and symbols")
+		return fmt.Errorf("windows services require a kernel layer and symbols")
 	}
 	if e.Symbols.PointerSize() != 8 {
-		return fmt.Errorf("windows.svcscan currently supports only the Windows 10 19041 x64 service layout")
+		return fmt.Errorf("windows services currently support only the Windows 10 19041 x64 service layout")
+	}
+	if mode != "scan" && !serviceListSupported(e) {
+		return fmt.Errorf("windows.%s requires Windows 10 15063+ x64", "svc"+mode)
 	}
 	max, _, err := limits(p)
 	if err != nil {
@@ -102,9 +117,116 @@ func windowsSvcScan(ctx context.Context, e plugin.Environment, p map[string]stri
 	if err != nil {
 		return err
 	}
-	seen := map[string]bool{}
 	var stats svcStats
-	err = visitWindowsProcesses(ctx, e, max, nil, func(process, pid uint64, name string, created evidence.Value) error {
+	var scanNames, listNames, listedRecords, hidden uint64
+	if mode == "diff" {
+		records := map[string]evidence.Row{}
+		scanEmit := func(row evidence.Row) error { return rememberScannedService(records, row) }
+		if err = enumerateWindowsServices(ctx, e, max, "scan", binaries, &stats, scanEmit); err != nil {
+			return err
+		}
+		listed := map[string]bool{}
+		var listStats svcStats
+		if err = enumerateWindowsServices(ctx, e, max, "list", binaries, &listStats, func(row evidence.Row) error {
+			if row.Cells["Name"].Kind != "string" {
+				return fmt.Errorf("cannot compare an unreadable listed service name at %s", row.Provenance.Offset)
+			}
+			listed[row.Cells["Name"].String()] = true
+			return nil
+		}); err != nil {
+			return err
+		}
+		if stats.skipped != 0 || listStats.skipped != 0 || listStats.missingExe != 0 {
+			return fmt.Errorf("service comparison incomplete: scan layers skipped %d, list layers skipped %d, executable VADs missing %d", stats.skipped, listStats.skipped, listStats.missingExe)
+		}
+		scanNames, listNames, listedRecords = uint64(len(records)), uint64(len(listed)), listStats.records
+		if err = emitServiceDifference(ctx, records, listed, func(row evidence.Row) error { hidden++; return out(row) }); err != nil {
+			return err
+		}
+	} else if err = enumerateWindowsServices(ctx, e, max, mode, binaries, &stats, out); err != nil {
+		return err
+	}
+	return out(evidence.Row{Cells: map[string]evidence.Value{
+		"Offset": evidence.Missing("not_applicable", nil), "Order": evidence.Missing("not_applicable", nil),
+		"PID": evidence.Missing("not_applicable", nil), "Start": evidence.Missing("not_applicable", nil),
+		"State": evidence.Missing("not_applicable", nil), "Type": evidence.Missing("not_applicable", nil),
+		"Name": evidence.Missing("not_applicable", nil), "Display": evidence.Missing("not_applicable", nil),
+		"Binary": evidence.Missing("not_applicable", nil), "BinaryRegistry": evidence.Missing("not_applicable", nil),
+		"Dll": evidence.Missing("not_applicable", nil), "RecordType": evidence.Text("summary"),
+		"Coverage": poolCoverage(map[string]string{
+			"services_exe": formatCount(stats.processes), "layers_skipped": formatCount(stats.skipped),
+			"headers": formatCount(stats.headers), "records": formatCount(stats.records),
+			"registry_services": formatCount(uint64(len(binaries))), "chain_limit": formatCount(stats.limited), "exe_vad_missing": formatCount(stats.missingExe),
+			"scan_names": formatCount(scanNames), "list_names": formatCount(listNames), "list_records": formatCount(listedRecords), "hidden": formatCount(hidden),
+		}),
+	}, Provenance: evidence.Provenance{Layer: e.Kernel.Name()}})
+}
+
+func serviceListSupported(e plugin.Environment) bool {
+	var meta struct {
+		PE struct{ Major, Minor, Revision *int } `json:"pe"`
+	}
+	if json.Unmarshal(e.Symbols.Metadata()["windows"], &meta) == nil && meta.PE.Major != nil && meta.PE.Minor != nil && meta.PE.Revision != nil {
+		return *meta.PE.Major > 10 || *meta.PE.Major == 10 && (*meta.PE.Minor > 0 || *meta.PE.Revision >= 15063)
+	}
+	if _, err := e.Symbols.Lookup("ObHeaderCookie"); err != nil {
+		return false
+	}
+	if typ, err := e.Symbols.Type("_HANDLE_TABLE"); err != nil {
+		return false
+	} else if _, found := typ.Fields["HandleCount"]; found {
+		return false
+	}
+	if typ, err := e.Symbols.Type("_EPROCESS"); err != nil {
+		return false
+	} else if _, found := typ.Fields["KeepAliveCounter"]; found {
+		return false
+	}
+	return true
+}
+
+func serviceExecutableRegion(regions []windowsVADPath) (windowsVADPath, bool) {
+	for _, region := range regions {
+		if region.file.Kind == "string" && strings.HasSuffix(strings.ToLower(region.file.String()), `\services.exe`) {
+			return region, true
+		}
+	}
+	return windowsVADPath{}, false
+}
+
+func rememberScannedService(records map[string]evidence.Row, row evidence.Row) error {
+	if row.Cells["Name"].Kind != "string" {
+		return fmt.Errorf("cannot compare an unreadable scanned service name at %s", row.Provenance.Offset)
+	}
+	records[row.Cells["Name"].String()] = row
+	return nil
+}
+
+func emitServiceDifference(ctx context.Context, records map[string]evidence.Row, listed map[string]bool, out plugin.Emit) error {
+	names := make([]string, 0, len(records))
+	for name := range records {
+		if !listed[name] {
+			names = append(names, name)
+		}
+	}
+	sort.Strings(names)
+	for _, name := range names {
+		if err := ctx.Err(); err != nil {
+			return err
+		}
+		if err := out(records[name]); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func enumerateWindowsServices(ctx context.Context, e plugin.Environment, max int, mode string, binaries map[string]svcBinary, stats *svcStats, out plugin.Emit) error {
+	var seen map[string]bool
+	if mode == "scan" {
+		seen = map[string]bool{}
+	}
+	err := visitWindowsProcesses(ctx, e, max, nil, func(process, pid uint64, name string, created evidence.Value) error {
 		if name != "services.exe" {
 			return nil
 		}
@@ -121,7 +243,17 @@ func windowsSvcScan(ctx context.Context, e plugin.Environment, p map[string]stri
 		}
 		regions, regionErr := windowsVADRegions(ctx, e, process, max)
 		if regionErr != nil {
-			return fmt.Errorf("windows.svcscan: services.exe PID %d VAD: %w", pid, regionErr)
+			return fmt.Errorf("windows services: services.exe PID %d VAD: %w", pid, regionErr)
+		}
+		tag := []byte("serH")
+		if mode == "list" {
+			region, found := serviceExecutableRegion(regions)
+			if !found {
+				stats.missingExe++
+				return nil
+			}
+			regions = []windowsVADPath{region}
+			tag = []byte("Sc27")
 		}
 		for _, region := range regions {
 			if region.end < region.start {
@@ -131,35 +263,20 @@ func windowsSvcScan(ctx context.Context, e plugin.Environment, p map[string]stri
 			if size == 0 {
 				continue
 			}
-			err = scanServiceTag(ctx, layer, region.start, size, func(offset uint64) error {
+			scanErr := scanServicePattern(ctx, layer, region.start, size, tag, func(offset uint64) error {
 				if offset%8 != 0 {
 					return nil
 				}
 				stats.headers++
-				return walkServiceHeader(ctx, layer, offset, binaries, seen, &stats, out)
+				return walkServiceHeader(ctx, layer, offset, binaries, seen, stats, out)
 			})
-			if err != nil {
-				return err
+			if scanErr != nil {
+				return scanErr
 			}
 		}
 		return nil
 	})
-	if err != nil {
-		return err
-	}
-	return out(evidence.Row{Cells: map[string]evidence.Value{
-		"Offset": evidence.Missing("not_applicable", nil), "Order": evidence.Missing("not_applicable", nil),
-		"PID": evidence.Missing("not_applicable", nil), "Start": evidence.Missing("not_applicable", nil),
-		"State": evidence.Missing("not_applicable", nil), "Type": evidence.Missing("not_applicable", nil),
-		"Name": evidence.Missing("not_applicable", nil), "Display": evidence.Missing("not_applicable", nil),
-		"Binary": evidence.Missing("not_applicable", nil), "BinaryRegistry": evidence.Missing("not_applicable", nil),
-		"Dll": evidence.Missing("not_applicable", nil), "RecordType": evidence.Text("summary"),
-		"Coverage": poolCoverage(map[string]string{
-			"services_exe": formatCount(stats.processes), "layers_skipped": formatCount(stats.skipped),
-			"headers": formatCount(stats.headers), "records": formatCount(stats.records),
-			"registry_services": formatCount(uint64(len(binaries))), "chain_limit": formatCount(stats.limited),
-		}),
-	}, Provenance: evidence.Provenance{Layer: e.Kernel.Name()}})
+	return err
 }
 
 func serviceTypeName(value uint32) string {
@@ -181,9 +298,16 @@ func walkServiceHeader(ctx context.Context, layer memory.MemoryLayer, header uin
 }
 
 func walkServiceRecord(ctx context.Context, layer memory.MemoryLayer, record, display uint64, binaries map[string]svcBinary, seen map[string]bool, stats *svcStats, out plugin.Emit) error {
-	// A corrupt PrevEntry cycle of rows that cannot compare equal would not
-	// stop in the pinned plugin either. The cap is only a backstop.
+	// Detect corrupt chains independently of the reference tuple deduplication.
+	visited := map[uint64]bool{}
 	for steps := 0; steps < 100000; steps++ {
+		if err := ctx.Err(); err != nil {
+			return err
+		}
+		if visited[record] {
+			return fmt.Errorf("service PrevEntry cycle at %#x", record)
+		}
+		visited[record] = true
 		row, valid, stable, err := readServiceRecord(ctx, layer, record, display, binaries)
 		if err != nil || !valid {
 			return err
@@ -193,7 +317,7 @@ func walkServiceRecord(ctx context.Context, layer memory.MemoryLayer, record, di
 		// a numeric PID, a string binary and a mapped service can be seen again
 		// and stop this chain. Other repeats stay, which is why one offset can
 		// appear more than once.
-		if stable {
+		if stable && seen != nil {
 			key := svcIdentity(row)
 			if seen[key] {
 				return nil
@@ -213,7 +337,7 @@ func walkServiceRecord(ctx context.Context, layer memory.MemoryLayer, record, di
 		record = next
 	}
 	stats.limited++
-	return nil
+	return fmt.Errorf("service chain exceeds 100000 records at %#x", record)
 }
 
 func readServiceRecord(ctx context.Context, layer memory.MemoryLayer, record, display uint64, binaries map[string]svcBinary) (evidence.Row, bool, bool, error) {
@@ -389,9 +513,8 @@ func readSvcUTF16(ctx context.Context, layer memory.MemoryLayer, address uint64)
 	return text, true, nil
 }
 
-func scanServiceTag(ctx context.Context, layer memory.MemoryLayer, start, size uint64, emit func(uint64) error) error {
+func scanServicePattern(ctx context.Context, layer memory.MemoryLayer, start, size uint64, needle []byte, emit func(uint64) error) error {
 	const page = 4096
-	needle := []byte("serH")
 	var carry []byte
 	for off := uint64(0); off < size; {
 		if err := ctx.Err(); err != nil {
@@ -404,6 +527,9 @@ func scanServiceTag(ctx context.Context, layer memory.MemoryLayer, start, size u
 		buf := make([]byte, n)
 		got, err := layer.ReadAt(ctx, buf, start+off)
 		if err != nil || got != int(n) {
+			if ctx.Err() != nil {
+				return ctx.Err()
+			}
 			carry = nil
 			off += n
 			continue

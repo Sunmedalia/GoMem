@@ -12,12 +12,17 @@ import (
 	"github.com/Sunmedalia/GoMem/pkg/evidence"
 )
 
-func TestOfficialWindowsSvcScan(t *testing.T) {
+func TestOfficialWindowsSvcScan(t *testing.T) { testWindowsServiceCorpus(t, "svcscan", 1578) }
+func TestOfficialWindowsSvcList(t *testing.T) { testWindowsServiceCorpus(t, "svclist", 646) }
+func TestOfficialWindowsSvcDiff(t *testing.T) { testWindowsServiceCorpus(t, "svcdiff", 0) }
+
+func testWindowsServiceCorpus(t *testing.T, name string, expected int) {
+	t.Helper()
 	dir := os.Getenv("GOMEM_CORPUS_DIR")
 	if dir == "" {
 		t.Skip("optional selected Windows 10 service-scan differential; not full capability acceptance")
 	}
-	reference := filepath.Join(dir, "reference-windows-svcscan.json")
+	reference := filepath.Join(dir, "reference-windows-"+name+".json")
 	ctx := context.Background()
 	e, err := engine.Open(ctx, engine.Config{Image: filepath.Join(dir, "win-10_19041-2025_03.dmp"), Symbols: filepath.Join(dir, "symbols_win-10_19041-2025_03.zip#167FE94B5641C005AC3036212A01F8DC-1.json"), CaseDir: t.TempDir(), Offline: true})
 	if err != nil {
@@ -28,7 +33,7 @@ func TestOfficialWindowsSvcScan(t *testing.T) {
 		t.Fatal("official image drift", e.Hash)
 	}
 	var rows []evidence.Row
-	result, err := e.Run(ctx, "windows.svcscan", nil, engine.RunOptions{Emit: func(row evidence.Row) error {
+	result, err := e.Run(ctx, "windows."+name, nil, engine.RunOptions{Emit: func(row evidence.Row) error {
 		if err := row.Verify(); err != nil {
 			return err
 		}
@@ -63,7 +68,7 @@ func TestOfficialWindowsSvcScan(t *testing.T) {
 		t.Fatal(err)
 	}
 	reportPath := filepath.Join(t.TempDir(), "diff.json")
-	cmd := exec.Command("python3", filepath.Join("..", "..", "tools", "diff_results.py"), "--native", native, "--reference", reference, "--mapping", filepath.Join("..", "..", "docs", "diff", "windows.svcscan.json"), "--output", reportPath)
+	cmd := exec.Command("python3", filepath.Join("..", "..", "tools", "diff_results.py"), "--native", native, "--reference", reference, "--mapping", filepath.Join("..", "..", "docs", "diff", "windows."+name+".json"), "--output", reportPath)
 	output, cmdErr := cmd.CombinedOutput()
 	raw, err := os.ReadFile(reportPath)
 	if err != nil {
@@ -79,7 +84,7 @@ func TestOfficialWindowsSvcScan(t *testing.T) {
 	if err = json.Unmarshal(raw, &report); err != nil {
 		t.Fatal(err, string(raw))
 	}
-	if !report.Matched || report.NativeRows != report.ReferenceRows || services != report.ReferenceRows {
+	if !report.Matched || report.NativeRows != report.ReferenceRows || services != report.ReferenceRows || services != expected {
 		sample := func(items []json.RawMessage) string {
 			if len(items) == 0 {
 				return ""
@@ -90,6 +95,23 @@ func TestOfficialWindowsSvcScan(t *testing.T) {
 			return string(items[0])
 		}
 		t.Fatalf("services %d coverage %v matched %v native %d reference %d missing %d extra %d\nmissing %s\nextra %s\n%s", services, coverage, report.Matched, report.NativeRows, report.ReferenceRows, len(report.Missing), len(report.Extra), sample(report.Missing), sample(report.Extra), output)
+	}
+	expectedCoverage := map[string]string{"services_exe": "1", "layers_skipped": "0", "registry_services": "350", "exe_vad_missing": "0", "chain_limit": "0"}
+	if name == "svcdiff" {
+		expectedCoverage["records"] = "1578"
+		expectedCoverage["scan_names"] = "646"
+		expectedCoverage["list_names"] = "646"
+		expectedCoverage["list_records"] = "646"
+		expectedCoverage["hidden"] = "0"
+	} else if name == "svclist" {
+		expectedCoverage["records"] = "646"
+	} else {
+		expectedCoverage["records"] = "1578"
+	}
+	for key, want := range expectedCoverage {
+		if coverage[key] != want {
+			t.Fatalf("%s coverage %s: got %v want %s", name, key, coverage[key], want)
+		}
 	}
 	t.Logf("coverage %v", coverage)
 }

@@ -1,0 +1,20 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["service"],
+    "excluded_values": ["summary"]
+  },
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "Offset", "kind": "address"},
+    "Order": {"native": "Order", "reference": "Order", "kind": "uint64"},
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64", "missing_reasons": ["not_applicable", "unreadable"]},
+    "Start": {"native": "Start", "reference": "Start", "kind": "string"},
+    "State": {"native": "State", "reference": "State", "kind": "string"},
+    "Type": {"native": "Type", "reference": "Type", "kind": "string"},
+    "Name": {"native": "Name", "reference": "Name", "kind": "string", "missing_reasons": ["unreadable"]},
+    "Display": {"native": "Display", "reference": "Display", "kind": "string", "missing_reasons": ["unreadable"]},
+    "Binary": {"native": "Binary", "reference": "Binary", "kind": "string", "missing_reasons": ["not_applicable", "unreadable"]},
+    "BinaryRegistry": {"native": "BinaryRegistry", "reference": "Binary (Registry)", "kind": "string", "missing_reasons": ["unreadable", "unparsable"]},
+    "Dll": {"native": "Dll", "reference": "Dll", "kind": "string", "missing_reasons": ["unreadable", "unparsable"]}
+  }
+}
