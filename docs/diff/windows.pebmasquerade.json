@@ -1,0 +1,52 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "values": [
+      "process"
+    ],
+    "excluded_values": [
+      "summary"
+    ]
+  },
+  "fields": {
+    "PID": {
+      "native": "PID",
+      "reference": "PID",
+      "kind": "uint64"
+    },
+    "EPROCESS_ImageFileName": {
+      "native": "EPROCESS_ImageFileName",
+      "reference": "EPROCESS_ImageFileName",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "EPROCESS_SeAudit_ImageFileName": {
+      "native": "EPROCESS_SeAudit_ImageFileName",
+      "reference": "EPROCESS_SeAudit_ImageFileName",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "PEB_ImageFilePath": {
+      "native": "PEB_ImageFilePath",
+      "reference": "PEB_ImageFilePath",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "PEB_ImageFilePath_Spoofed": {
+      "native": "PEB_ImageFilePath_Spoofed",
+      "reference": "PEB_ImageFilePath_Spoofed",
+      "kind": "bool"
+    },
+    "PEB_CommandLine_Spoofed": {
+      "native": "PEB_CommandLine_Spoofed",
+      "reference": "PEB_CommandLine_Spoofed",
+      "kind": "bool"
+    }
+  }
+}

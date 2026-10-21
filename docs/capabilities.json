@@ -7585,15 +7585,23 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Every active-list process, with optional PID list. Reads EPROCESS.ImageFileName, kernel audit name, and native PEB ImagePathName/CommandLine independently. Nonempty decoded strings are checked using Length//2 and MaximumLength//2-1 against Python Unicode codepoint length. The pinned two Spoofed output columns are swapped: ImageFilePath_Spoofed reports the command check and CommandLine_Spoofed reports the path check. Native output preserves these columns and provides unambiguous ImagePathLengthMismatch and CommandLineLengthMismatch cells, missing when not checked. Raw bytes, descriptor/buffer addresses, lengths, process layer, object identity and field read errors are retained. Empty strings are not_available and not checked. A bad MaximumLength leaves readable text intact. Null ProcessParameters is skipped; mapped zero PEB and audit pointers are not pre-rejected. A fresh per-process PEB avoids the pinned generator stale-local behavior after a failed first get_peb call. Native max-nodes bounds traversal. Structural list/PID, bound, cancellation and output errors fail the task; per-field failures remain on the process row and are counted in summary. All process rows are observations, not findings or proof of masquerading.",
+      "native": "windows.pebmasquerade",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-peb-string-readers",
+        "pinned-288-peb-generator-oracles",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_120_rows_match_all_six_columns_97_path_96_command_checks_2_length_mismatches_30_read_diagnostics",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "One selected Windows 10 19041 x64 corpus matches all six columns for 120 processes. 97 paths and 96 command lines were checked, with zero path and two command-length mismatches. 30 field-read diagnostics remain: 17 PEB, 6 path length, 6 command length and one command buffer. Full platform and version acceptance remains pending",
+        "Synthetic readers cover independent field faults, raw partial reads, mapped-zero pointers, zero parameters, Unicode astral, NUL truncation, odd UTF16, surrogates, bounds, cancellation and output errors. A 32-bit symbol layout tests string pointers but is not a complete native x86 corpus",
+        "The baseline swapped column names and codepoint versus UTF16 length behavior are preserved; a length mismatch alone is not malicious process-name spoofing",
+        "Real positive masquerading corpora, damaged-image differential coverage and full parameter acceptance remain pending"
+      ],
+      "validation_record": "docs/windows-pebmasquerade.md"
     },
     {
       "id": "windows.malware.processghosting.ProcessGhosting",
