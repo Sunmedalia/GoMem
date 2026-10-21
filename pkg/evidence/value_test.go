@@ -1,7 +1,9 @@
 package evidence
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
 	"testing"
 )
 
@@ -47,4 +49,48 @@ func TestBoolEvidencePreservesFalse(t *testing.T) {
 	if err = json.Unmarshal([]byte(`{"kind":"bool","value":false}`), &decoded); err != nil || decoded.Kind != "bool" || decoded.Data != false {
 		t.Fatal(err, decoded)
 	}
+}
+
+// Nested Values become generic maps after persistence. Their field ordering,
+// false/empty values, raw bytes and full-width integer metadata must survive.
+func TestNestedTypedStructureEvidenceRoundTrip(t *testing.T) {
+	r := Row{Cells: map[string]Value{"Details": {Kind: "structure", Data: map[string]any{
+		"Address": Address(0xffff800012345678), "False": Bool(false), "Empty": Text(""),
+		"Bytes": Bytes([]byte{0, 1, 255}), "ReadError": Missing("page", fmt.Errorf("missing page")),
+		"Integer": uint64(18446744073709551615),
+		"Nested":  map[string]Value{"Raw": Bytes(nil), "MaximumLength": Number(65535)},
+	}}}}
+	r.Seal()
+	raw, err := json.Marshal(r)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var decoded Row
+	// UseNumber is the lossless consumer contract for untyped numeric metadata.
+	decoder := json.NewDecoder(bytes.NewReader(raw))
+	decoder.UseNumber()
+	if err = decoder.Decode(&decoded); err != nil {
+		t.Fatal(err)
+	}
+	if err = decoded.Verify(); err != nil {
+		t.Fatal(string(raw), err)
+	}
+	round, err := json.Marshal(decoded)
+	if err != nil || !bytes.Equal(raw, round) {
+		t.Fatal(string(raw), string(round), err)
+	}
+	// Typed numbers/addresses also round-trip through an ordinary JSON reader.
+	delete(r.Cells["Details"].Data.(map[string]any), "Integer")
+	r.Seal()
+	raw, err = json.Marshal(r)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err = json.Unmarshal(raw, &decoded); err != nil {
+		t.Fatal(err)
+	}
+	if err = decoded.Verify(); err != nil {
+		t.Fatal(string(raw), err)
+	}
+
 }

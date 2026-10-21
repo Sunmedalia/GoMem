@@ -2,6 +2,7 @@
 package evidence
 
 import (
+	"bytes"
 	"context"
 	"crypto/sha256"
 	"encoding/hex"
@@ -52,7 +53,22 @@ func (v Value) MarshalJSON() ([]byte, error) {
 		}
 		return []byte(`{"kind":"bool","value":false}`), nil
 	}
-	return json.Marshal(wire{Kind: v.Kind, Data: v.Data, Reason: v.Reason, Error: v.Error})
+	data := v.Data
+	if v.Kind == "structure" {
+		// Normalize nested typed Values to JSON objects before hashing. After
+		// persistence these objects are generic maps with sorted keys; their
+		// wire representation must be identical before and after that read.
+		raw, err := json.Marshal(data)
+		if err != nil {
+			return nil, err
+		}
+		decoder := json.NewDecoder(bytes.NewReader(raw))
+		decoder.UseNumber() // Never round large integer metadata through float64.
+		if err := decoder.Decode(&data); err != nil {
+			return nil, err
+		}
+	}
+	return json.Marshal(wire{Kind: v.Kind, Data: data, Reason: v.Reason, Error: v.Error})
 }
 
 func (v Value) String() string {
