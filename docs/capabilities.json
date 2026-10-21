@@ -551,7 +551,7 @@
       "corpora": [],
       "comparison": "not_run",
       "gaps": [
-        "Native implementation and validation pending"
+        "Deprecated alias of linux.malware.check_idt.Check_idt; native command is linux.check_idt; independent alias acceptance remains pending"
       ]
     },
     {
@@ -1683,15 +1683,25 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Symbol-described Intel Linux. Select the first existing gate_struct/desc_struct/gate_struct32 on 32-bit symbols or gate_struct64/gate_struct/idt_desc on 64-bit symbols. Read indices 0..19 and 128 of idt_table using the declared descriptor stride; packed a/b take precedence over offset_low/middle/optional high. Split addresses use the layer mask; zero entries remain rows. Reuse Lsmod/SysFs/Scanner/kernel range discovery, first matching module and exact symbols. Preserve entry-start probes, member bytes, source observations, overlap/owner choices and coverage. Native bounds and read/layout failures retain results and fail tasks.",
+      "native": "linux.check_idt",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-idt-x64-x86-pae-5-profiles",
+        "pinned-16-type-priorities-10-idt-generators",
+        "official-linux-sample-1"
+      ],
+      "comparison": "21_entries_match_all_four_fields_and_order_1899_raw_captures_reread",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "One Debian 3.2 x64 image resolves all 21 selected entries to kernel exact symbols with no read failures or overlaps; 570 native records retain module discovery and all complete captures are independently reread",
+        "15 synthetic paging/layout cases cover packed/split32/split64/mixed precedence, zero/unknown/interior/end-exclusive handlers, module ownership and entry-start holes. Type selection, malformed extents/fields, partial bytes, missing sources/bounds, module symbol failures, limits, cancellation/output errors, persisted rows and cache state are tested",
+        "The fixed module lookup helper resolves non-kernel symbols against the final range object instead of the selected match. Native uses the selected object and records both; fixed generator and selected-owner helper outputs remain separate in the oracle",
+        "Native invalid/missing descriptor types, unreadable entries and incomplete source reads fail explicitly; the baseline can log-and-return, silently skip, or stop at an exception. Independent entries continue, preserving partial bytes rather than implying clean coverage",
+        "Only indices 0..19 and 128 are selected, matching the baseline; a table with 256 entries is not a claim that all were inspected. Raw member captures do not assert that unused padding or handler target code is readable",
+        "Real altered IDTs, modern/x86/PAE real images, ARM64 virtual analysis, full malformed-layout/alias/parameter and capability acceptance remain pending"
+      ],
+      "validation_record": "docs/linux-idt.md"
     },
     {
       "id": "linux.malware.check_modules.Check_modules",

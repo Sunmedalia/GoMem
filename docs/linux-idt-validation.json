@@ -1,0 +1,322 @@
+{
+  "scope": "Development preview: one Debian x64 control differential and synthetic descriptor/ownership profiles; full capability acceptance remains pending.",
+  "plugin": "linux.check_idt",
+  "task_id": "cced006404bd10d7cfab06ca876fb2df",
+  "unmodified_reference_manifest": {
+    "baseline": {
+      "name": "Volatility 3",
+      "version": "2.28.2",
+      "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+      "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+    },
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "plugin": "linux.malware.check_idt.Check_idt",
+    "parameters": [],
+    "output_sha256": "18af7f1e4d367efd2d9d7c98add84d98b18ae4b397baa02599472cadac05a7f1",
+    "config_sha256": "33c8b3147b9614976d1a1547c9eb8ce24b9112628d2a818336306d4fc2207874",
+    "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+  },
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "Index",
+      "Address",
+      "Module",
+      "Symbol"
+    ],
+    "native_rows": 21,
+    "reference_rows": 21,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "be868a63aa6114cadab603830281a9c842053fd0ae864784e8dde6a13209044b",
+      "reference": "18af7f1e4d367efd2d9d7c98add84d98b18ae4b397baa02599472cadac05a7f1",
+      "mapping": "ba58f64db24b4e1b47ad5790af4126e21e4bb13c844ba74f1d9df32c09160404"
+    },
+    "native_input_rows": 570,
+    "native_non_entity_records": {
+      "source_observation": 3,
+      "module_observation": 238,
+      "sysfs_candidate": 103,
+      "source_selection": 103,
+      "scan_candidate": 101,
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "value": "idt_entry",
+      "excluded_values": [
+        "entry_observation",
+        "module_observation",
+        "sysfs_candidate",
+        "source_selection",
+        "scan_candidate",
+        "source_observation",
+        "diagnostic",
+        "summary"
+      ]
+    }
+  },
+  "four_fields_and_order_verified_by_go_corpus_test": true,
+  "native_rows": 570,
+  "native_summary": {
+    "checked_entries": "21",
+    "declared_entries": "256",
+    "descriptor_size": "16",
+    "missing_exact_symbols": "0",
+    "overlapping_matches": "0",
+    "read_layout_errors": "0",
+    "scope": "selected interrupt entries and ownership are not a malware verdict",
+    "selected_indices": "0..19,128",
+    "source_diagnostics": "0",
+    "table": "0xffffffff8172e000",
+    "unattributed_entries": "0",
+    "unreadable_entries": "0",
+    "zero_entries": "0"
+  },
+  "complete_raw_captures_independently_reread": 1899,
+  "cache": {
+    "reused": true,
+    "jsonl_byte_identical": true,
+    "sha256": "be868a63aa6114cadab603830281a9c842053fd0ae864784e8dde6a13209044b"
+  },
+  "bundle": {
+    "verified": true,
+    "tasks": 1,
+    "members": 2,
+    "sha256": "6c4eb759e7c16a6089b27c2cb66ca48b3eebd649d1a674bea7d8e8742dfef2d3"
+  },
+  "synthetic_profiles": [
+    {
+      "architecture": "x64",
+      "profile": "packed",
+      "records": 40,
+      "entries": 21,
+      "complete_raw_captures_independently_reread": 131,
+      "pinned_index_address_module_and_order_match": true,
+      "selected_owner_symbols_match_fixed_symbol_helper": true,
+      "pinned_generator_symbol_parity": false,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "failed_task_not_reused": false
+    },
+    {
+      "architecture": "x64",
+      "profile": "split-low",
+      "records": 40,
+      "entries": 21,
+      "complete_raw_captures_independently_reread": 131,
+      "pinned_index_address_module_and_order_match": true,
+      "selected_owner_symbols_match_fixed_symbol_helper": true,
+      "pinned_generator_symbol_parity": false,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "failed_task_not_reused": false
+    },
+    {
+      "architecture": "x64",
+      "profile": "split-high",
+      "records": 40,
+      "entries": 21,
+      "complete_raw_captures_independently_reread": 152,
+      "pinned_index_address_module_and_order_match": true,
+      "selected_owner_symbols_match_fixed_symbol_helper": true,
+      "pinned_generator_symbol_parity": false,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "failed_task_not_reused": false
+    },
+    {
+      "architecture": "x64",
+      "profile": "mixed",
+      "records": 40,
+      "entries": 21,
+      "complete_raw_captures_independently_reread": 131,
+      "pinned_index_address_module_and_order_match": true,
+      "selected_owner_symbols_match_fixed_symbol_helper": true,
+      "pinned_generator_symbol_parity": false,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "failed_task_not_reused": false
+    },
+    {
+      "architecture": "x64",
+      "profile": "probe-hole",
+      "records": 40,
+      "entries": 20,
+      "complete_raw_captures_independently_reread": 148,
+      "pinned_index_address_module_and_order_match": true,
+      "selected_owner_symbols_match_fixed_symbol_helper": true,
+      "pinned_generator_symbol_parity": false,
+      "sealed_rows_verified": true,
+      "cache_reused": false,
+      "failed_task_not_reused": true
+    },
+    {
+      "architecture": "x86",
+      "profile": "packed",
+      "records": 40,
+      "entries": 21,
+      "complete_raw_captures_independently_reread": 131,
+      "pinned_index_address_module_and_order_match": true,
+      "selected_owner_symbols_match_fixed_symbol_helper": true,
+      "pinned_generator_symbol_parity": false,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "failed_task_not_reused": false
+    },
+    {
+      "architecture": "x86",
+      "profile": "split-low",
+      "records": 40,
+      "entries": 21,
+      "complete_raw_captures_independently_reread": 131,
+      "pinned_index_address_module_and_order_match": true,
+      "selected_owner_symbols_match_fixed_symbol_helper": true,
+      "pinned_generator_symbol_parity": false,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "failed_task_not_reused": false
+    },
+    {
+      "architecture": "x86",
+      "profile": "split-high",
+      "records": 40,
+      "entries": 21,
+      "complete_raw_captures_independently_reread": 152,
+      "pinned_index_address_module_and_order_match": true,
+      "selected_owner_symbols_match_fixed_symbol_helper": true,
+      "pinned_generator_symbol_parity": false,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "failed_task_not_reused": false
+    },
+    {
+      "architecture": "x86",
+      "profile": "mixed",
+      "records": 40,
+      "entries": 21,
+      "complete_raw_captures_independently_reread": 131,
+      "pinned_index_address_module_and_order_match": true,
+      "selected_owner_symbols_match_fixed_symbol_helper": true,
+      "pinned_generator_symbol_parity": false,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "failed_task_not_reused": false
+    },
+    {
+      "architecture": "x86",
+      "profile": "probe-hole",
+      "records": 40,
+      "entries": 20,
+      "complete_raw_captures_independently_reread": 148,
+      "pinned_index_address_module_and_order_match": true,
+      "selected_owner_symbols_match_fixed_symbol_helper": true,
+      "pinned_generator_symbol_parity": false,
+      "sealed_rows_verified": true,
+      "cache_reused": false,
+      "failed_task_not_reused": true
+    },
+    {
+      "architecture": "pae",
+      "profile": "packed",
+      "records": 40,
+      "entries": 21,
+      "complete_raw_captures_independently_reread": 131,
+      "pinned_index_address_module_and_order_match": true,
+      "selected_owner_symbols_match_fixed_symbol_helper": true,
+      "pinned_generator_symbol_parity": false,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "failed_task_not_reused": false
+    },
+    {
+      "architecture": "pae",
+      "profile": "split-low",
+      "records": 40,
+      "entries": 21,
+      "complete_raw_captures_independently_reread": 131,
+      "pinned_index_address_module_and_order_match": true,
+      "selected_owner_symbols_match_fixed_symbol_helper": true,
+      "pinned_generator_symbol_parity": false,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "failed_task_not_reused": false
+    },
+    {
+      "architecture": "pae",
+      "profile": "split-high",
+      "records": 40,
+      "entries": 21,
+      "complete_raw_captures_independently_reread": 152,
+      "pinned_index_address_module_and_order_match": true,
+      "selected_owner_symbols_match_fixed_symbol_helper": true,
+      "pinned_generator_symbol_parity": false,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "failed_task_not_reused": false
+    },
+    {
+      "architecture": "pae",
+      "profile": "mixed",
+      "records": 40,
+      "entries": 21,
+      "complete_raw_captures_independently_reread": 131,
+      "pinned_index_address_module_and_order_match": true,
+      "selected_owner_symbols_match_fixed_symbol_helper": true,
+      "pinned_generator_symbol_parity": false,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "failed_task_not_reused": false
+    },
+    {
+      "architecture": "pae",
+      "profile": "probe-hole",
+      "records": 40,
+      "entries": 20,
+      "complete_raw_captures_independently_reread": 148,
+      "pinned_index_address_module_and_order_match": true,
+      "selected_owner_symbols_match_fixed_symbol_helper": true,
+      "pinned_generator_symbol_parity": false,
+      "sealed_rows_verified": true,
+      "cache_reused": false,
+      "failed_task_not_reused": true
+    }
+  ],
+  "synthetic_complete_raw_captures_independently_reread": 2079,
+  "fixed_source_oracle": {
+    "type_priority_cases": 16,
+    "generator_profiles": 10,
+    "sha256": "85ff18191751a794a0859e5302b683cc113b56a903bbe3d9766398d9cd5ab91f",
+    "non_kernel_symbols_compare_selected_owner_helper_not_buggy_generator": true
+  },
+  "fuzz": {
+    "target": "FuzzLinuxIDTDescriptor",
+    "executions": 539015,
+    "passed": true
+  },
+  "checks": {
+    "make_check": true,
+    "pinned_idt_oracle": true,
+    "capability_matrix": true,
+    "corpus_regressions": [
+      "IDT: 21 entries / 1899 captures",
+      "AFINFO: 180 members / 192 captures",
+      "Modxview: 79 modules / default and plain",
+      "IP: 2 links / 4 addresses",
+      "Kthreads: old-kernel explicit rejection",
+      "VMCOREINFO: Debian 47 / Kali ARM64 111 entries"
+    ]
+  },
+  "limitations": [
+    "Only 0..19 and 128 are inspected; this does not inspect all 256 entries",
+    "No real altered IDT, modern/32-bit kernel or full damage/parameter acceptance",
+    "Pinned module helper uses final range object for non-kernel symbols; native uses actual selected owner and preserves both coordinates",
+    "Unavailable types/reads/sources fail explicitly and may continue across independent entries instead of matching silent skips or initial-exception termination",
+    "ARM64 virtual translator and actual matching Kali symbols remain unavailable",
+    "No maliciousness verdict or complete capability acceptance"
+  ]
+}

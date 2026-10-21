@@ -1,0 +1,1641 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "selections": [
+    {
+      "width": 4,
+      "present": [],
+      "selected": null
+    },
+    {
+      "width": 4,
+      "present": [
+        "gate_struct"
+      ],
+      "selected": "gate_struct"
+    },
+    {
+      "width": 4,
+      "present": [
+        "desc_struct"
+      ],
+      "selected": "desc_struct"
+    },
+    {
+      "width": 4,
+      "present": [
+        "gate_struct",
+        "desc_struct"
+      ],
+      "selected": "gate_struct"
+    },
+    {
+      "width": 4,
+      "present": [
+        "gate_struct32"
+      ],
+      "selected": "gate_struct32"
+    },
+    {
+      "width": 4,
+      "present": [
+        "gate_struct",
+        "gate_struct32"
+      ],
+      "selected": "gate_struct"
+    },
+    {
+      "width": 4,
+      "present": [
+        "desc_struct",
+        "gate_struct32"
+      ],
+      "selected": "desc_struct"
+    },
+    {
+      "width": 4,
+      "present": [
+        "gate_struct",
+        "desc_struct",
+        "gate_struct32"
+      ],
+      "selected": "gate_struct"
+    },
+    {
+      "width": 8,
+      "present": [],
+      "selected": null
+    },
+    {
+      "width": 8,
+      "present": [
+        "gate_struct64"
+      ],
+      "selected": "gate_struct64"
+    },
+    {
+      "width": 8,
+      "present": [
+        "gate_struct"
+      ],
+      "selected": "gate_struct"
+    },
+    {
+      "width": 8,
+      "present": [
+        "gate_struct64",
+        "gate_struct"
+      ],
+      "selected": "gate_struct64"
+    },
+    {
+      "width": 8,
+      "present": [
+        "idt_desc"
+      ],
+      "selected": "idt_desc"
+    },
+    {
+      "width": 8,
+      "present": [
+        "gate_struct64",
+        "idt_desc"
+      ],
+      "selected": "gate_struct64"
+    },
+    {
+      "width": 8,
+      "present": [
+        "gate_struct",
+        "idt_desc"
+      ],
+      "selected": "gate_struct"
+    },
+    {
+      "width": 8,
+      "present": [
+        "gate_struct64",
+        "gate_struct",
+        "idt_desc"
+      ],
+      "selected": "gate_struct64"
+    }
+  ],
+  "generators": [
+    {
+      "width": 4,
+      "name": "packed",
+      "rows": [
+        {
+          "index": 0,
+          "address": 0,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 1,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 2,
+          "address": 34049,
+          "module": "__kernel__",
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 3,
+          "address": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "index": 4,
+          "address": 73984,
+          "module": "sys-only",
+          "symbol": null,
+          "selected_owner_symbol": "sys_entry"
+        },
+        {
+          "index": 5,
+          "address": 91136,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 6,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 7,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 8,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 9,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 10,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 11,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 12,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 13,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 14,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 15,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 16,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 17,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 18,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 19,
+          "address": 69632,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 128,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "name": "split-low",
+      "rows": [
+        {
+          "index": 0,
+          "address": 0,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 1,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 2,
+          "address": 34049,
+          "module": "__kernel__",
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 3,
+          "address": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "index": 4,
+          "address": 73984,
+          "module": "sys-only",
+          "symbol": null,
+          "selected_owner_symbol": "sys_entry"
+        },
+        {
+          "index": 5,
+          "address": 91136,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 6,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 7,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 8,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 9,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 10,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 11,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 12,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 13,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 14,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 15,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 16,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 17,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 18,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 19,
+          "address": 69632,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 128,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "name": "split-high",
+      "rows": [
+        {
+          "index": 0,
+          "address": 0,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 1,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 2,
+          "address": 34049,
+          "module": "__kernel__",
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 3,
+          "address": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "index": 4,
+          "address": 73984,
+          "module": "sys-only",
+          "symbol": null,
+          "selected_owner_symbol": "sys_entry"
+        },
+        {
+          "index": 5,
+          "address": 91136,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 6,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 7,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 8,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 9,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 10,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 11,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 12,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 13,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 14,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 15,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 16,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 17,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 18,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 19,
+          "address": 69632,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 128,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "name": "mixed",
+      "rows": [
+        {
+          "index": 0,
+          "address": 0,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 1,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 2,
+          "address": 34049,
+          "module": "__kernel__",
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 3,
+          "address": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "index": 4,
+          "address": 73984,
+          "module": "sys-only",
+          "symbol": null,
+          "selected_owner_symbol": "sys_entry"
+        },
+        {
+          "index": 5,
+          "address": 91136,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 6,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 7,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 8,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 9,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 10,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 11,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 12,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 13,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 14,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 15,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 16,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 17,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 18,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 19,
+          "address": 69632,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 128,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "name": "probe-hole",
+      "rows": [
+        {
+          "index": 0,
+          "address": 0,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 1,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 2,
+          "address": 34049,
+          "module": "__kernel__",
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 3,
+          "address": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "index": 4,
+          "address": 73984,
+          "module": "sys-only",
+          "symbol": null,
+          "selected_owner_symbol": "sys_entry"
+        },
+        {
+          "index": 5,
+          "address": 91136,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 6,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 8,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 9,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 10,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 11,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 12,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 13,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 14,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 15,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 16,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 17,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 18,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 19,
+          "address": 69632,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 128,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "name": "packed",
+      "rows": [
+        {
+          "index": 0,
+          "address": 0,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 1,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 2,
+          "address": 34049,
+          "module": "__kernel__",
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 3,
+          "address": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "index": 4,
+          "address": 73984,
+          "module": "sys-only",
+          "symbol": null,
+          "selected_owner_symbol": "sys_entry"
+        },
+        {
+          "index": 5,
+          "address": 91136,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 6,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 7,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 8,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 9,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 10,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 11,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 12,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 13,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 14,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 15,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 16,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 17,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 18,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 19,
+          "address": 69632,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 128,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "name": "split-low",
+      "rows": [
+        {
+          "index": 0,
+          "address": 0,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 1,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 2,
+          "address": 34049,
+          "module": "__kernel__",
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 3,
+          "address": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "index": 4,
+          "address": 73984,
+          "module": "sys-only",
+          "symbol": null,
+          "selected_owner_symbol": "sys_entry"
+        },
+        {
+          "index": 5,
+          "address": 91136,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 6,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 7,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 8,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 9,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 10,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 11,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 12,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 13,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 14,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 15,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 16,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 17,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 18,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 19,
+          "address": 69632,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 128,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "name": "split-high",
+      "rows": [
+        {
+          "index": 0,
+          "address": 0,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 1,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 2,
+          "address": 34049,
+          "module": "__kernel__",
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 3,
+          "address": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "index": 4,
+          "address": 73984,
+          "module": "sys-only",
+          "symbol": null,
+          "selected_owner_symbol": "sys_entry"
+        },
+        {
+          "index": 5,
+          "address": 91136,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 6,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 7,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 8,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 9,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 10,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 11,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 12,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 13,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 14,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 15,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 16,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 17,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 18,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 19,
+          "address": 69632,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 128,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "name": "mixed",
+      "rows": [
+        {
+          "index": 0,
+          "address": 0,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 1,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 2,
+          "address": 34049,
+          "module": "__kernel__",
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 3,
+          "address": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "index": 4,
+          "address": 73984,
+          "module": "sys-only",
+          "symbol": null,
+          "selected_owner_symbol": "sys_entry"
+        },
+        {
+          "index": 5,
+          "address": 91136,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 6,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 7,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 8,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 9,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 10,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 11,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 12,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 13,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 14,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 15,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 16,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 17,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 18,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 19,
+          "address": 69632,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 128,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "name": "probe-hole",
+      "rows": [
+        {
+          "index": 0,
+          "address": 0,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 1,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 2,
+          "address": 34049,
+          "module": "__kernel__",
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 3,
+          "address": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "index": 4,
+          "address": 73984,
+          "module": "sys-only",
+          "symbol": null,
+          "selected_owner_symbol": "sys_entry"
+        },
+        {
+          "index": 5,
+          "address": 91136,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 6,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 8,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 9,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 10,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 11,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 12,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 13,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 14,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 15,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 16,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 17,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 18,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "index": 19,
+          "address": 69632,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        },
+        {
+          "index": 128,
+          "address": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        }
+      ]
+    }
+  ]
+}
