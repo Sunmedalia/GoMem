@@ -16,4 +16,4 @@ go test -race ./pkg/kallsyms -count=1
 go test ./pkg/kallsyms -run '^$' -fuzz '^FuzzFullResolver$' -fuzztime 10s
 ```
 
-尚未接入 CLI 地址查询或 `linux.pscallstack`，没有真实现代内核多来源阳性、动态采集一致性或完整性能验收。合成与分页验证不增加已完成验收的插件数；项目仍为开发预览。详见[机器验证记录](linux-resolver-validation.json)。
+已接入 [`linux.pscallstack`](linux-pscallstack.md)，尚未提供独立 CLI 地址查询；没有真实现代内核多来源阳性、动态采集一致性或完整性能验收。合成与分页验证不增加已完成验收的插件数；项目仍为开发预览。详见[机器验证记录](linux-resolver-validation.json)。

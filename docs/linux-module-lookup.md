@@ -33,4 +33,4 @@ go test -race ./pkg/kallsyms -count=1
 go test ./pkg/kallsyms -run '^$' -fuzz '^FuzzModuleLookup$' -fuzztime 10s
 ```
 
-尚无真实现代内核模块树阳性或完整性能验收；已接入[统一解析器 API](linux-resolver.md)的来源优先级和驻留缓存；CLI 地址查询和 `linux.pscallstack` 尚未接入。本 API 不增加完成验收的插件数量。见[机器验证记录](linux-module-lookup-validation.json)。
+尚无真实现代内核模块树阳性或完整性能验收；已接入[统一解析器 API](linux-resolver.md)的来源优先级和驻留缓存；独立 CLI 地址查询尚未提供；调用栈接入见 [`linux.pscallstack`](linux-pscallstack.md)。本 API 不增加完成验收的插件数量。见[机器验证记录](linux-module-lookup-validation.json)。

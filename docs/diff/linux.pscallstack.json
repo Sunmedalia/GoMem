@@ -1,0 +1,64 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "stack_entry",
+    "excluded_values": [
+      "stack_read",
+      "task_stack_summary",
+      "stack_summary",
+      "stack_error",
+      "diagnostic"
+    ]
+  },
+  "fields": {
+    "TID": {
+      "native": "TID",
+      "reference": "TID",
+      "kind": "uint64"
+    },
+    "Comm": {
+      "native": "Comm",
+      "reference": "Comm",
+      "kind": "string"
+    },
+    "Position": {
+      "native": "Position",
+      "reference": "Position",
+      "kind": "uint64"
+    },
+    "Address": {
+      "native": "Address",
+      "reference": "Address",
+      "kind": "address"
+    },
+    "Value": {
+      "native": "Value",
+      "reference": "Value",
+      "kind": "address"
+    },
+    "Name": {
+      "native": "Name",
+      "reference": "Name",
+      "kind": "string",
+      "missing_reasons": [
+        "unresolved"
+      ]
+    },
+    "Type": {
+      "native": "Type",
+      "reference": "Type",
+      "kind": "string",
+      "missing_reasons": [
+        "unresolved"
+      ]
+    },
+    "Module": {
+      "native": "Module",
+      "reference": "Module",
+      "kind": "string",
+      "missing_reasons": [
+        "unresolved"
+      ]
+    }
+  }
+}

@@ -42,7 +42,7 @@
   ],
   "limitations": [
     "Legacy BPF missing-method error intentionally corrected using separately compared unmodified region/name primitives",
-    "No CLI, sealed case persistence, callstack integration or real modern multisource positive acceptance",
+    "Standalone resolver API: callstack plugin integration is separately validated in docs/linux-pscallstack-validation.json; no independent CLI or real modern multisource positive acceptance",
     "Immutable acquisition and symbols only; instance is not concurrent-safe",
     "Capture, aggregate byte budget, original cached acquisition retention and lossless address serialization belong to caller",
     "Inherited pinned module range/Elf32 quirks remain; no ABI-correct owner inference claim"

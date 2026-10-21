@@ -75,7 +75,7 @@
   "limitations": [
     "Pinned boundary expression and Elf32 overlapping value/size may yield reversed or misleading ranges; evidence retained; not ABI-correct owner inference",
     "No real modern module tree positive or concurrent-memory consistency/performance acceptance",
-    "Standalone API; unified resolver separately validated in docs/linux-resolver-validation.json; CLI address lookup and callstack integration remain pending",
+    "Standalone API; unified resolver separately validated in docs/linux-resolver-validation.json; CLI address lookup remains pending; callstack integration separately validated in docs/linux-pscallstack-validation.json",
     "Strict explicit metadata/read/bounds/cancellation errors can differ from baseline padding/skipping/unavailable fields",
     "Byte budget, persistence and lossless address serialization remain caller responsibilities; no sealed-store or cache acceptance claimed for this API"
   ]

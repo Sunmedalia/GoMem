@@ -1,0 +1,63 @@
+{
+  "schema": "gomem.linux-pscallstack-validation/v1",
+  "date": "2026-10-22",
+  "release": "development-preview",
+  "accepted": false,
+  "plugin": "linux.pscallstack",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "oracle": {
+    "cases": 44,
+    "profiles": 176,
+    "native_paging_cases": 66,
+    "native_analysis_profiles": 264,
+    "sha256": "40277bb906a7e4d1beee6b9ca41cad1e3e3420590d9ba34ca8076c2fcb29bf5a",
+    "actual_unmodified_generator_and_per_task_transcripts": true,
+    "no_method_mocks": true,
+    "raw_captures_independently_reread": true,
+    "sealed_store_and_byte_identical_successful_cache": true,
+    "failed_analyses_not_reused": true,
+    "every_acquisition_failure_cancellation_retry_and_output_boundary": true,
+    "process_stack_physically_distinct_from_kernel_mapping": true
+  },
+  "fuzz": {
+    "target": "FuzzLinuxPsCallStack",
+    "seconds": 10,
+    "executions": 21059
+  },
+  "real_corpus": {
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "symbols": "linux.zip#linux/Debian_3.2.57-3+deb7u2_3.2.0-4-amd64_x64.json.xz",
+    "pid": 1,
+    "default_rows": 37,
+    "unresolved_rows": 383,
+    "default_reference_sha256": "a9a6ff6aead1d29bfe8d152ec9ab2efe7561b54588b9130535cdc825f5060262",
+    "unresolved_reference_sha256": "b2d0abeaba157a2add51515e672bc52581e7fc92c73b79e7d0406449e3828532",
+    "eight_fields_ordered_equal": true,
+    "independent_capture_store_seals_cache": true,
+    "virtual_captures_per_mode": 3771,
+    "kernel_thread_control": {
+      "pid": 2,
+      "rows": 6,
+      "reference_sha256": "89b6416a1a0323e3ae8727b7360288077a9eac2d4d76a618437567496ea85ae4",
+      "eight_fields_ordered_equal": true,
+      "independent_capture_store_seals_cache": true
+    }
+  },
+  "checks": [
+    "make check",
+    "make matrix",
+    "python3 tools/build_inode_mode_oracle.py --check",
+    "python3 tools/build_pscallstack_oracle.py --check",
+    "make build",
+    "bin/gomem doctor --offline",
+    "TestOfficialLinuxPsCallStack default and unresolved"
+  ],
+  "limitations": [
+    "Fixed four-page word scan, not frame unwinding or proof of a call chain",
+    "Continue independent tasks after errors; compare actual per-task transcripts separately from aborting generator",
+    "Explicit stack holes/no address space/metadata errors differ from baseline silence or validity skips",
+    "Full damaged-list/task-validity semantics, modern multisource stack positives and broader real Intel versions remain pending",
+    "Legacy BPF missing-method correction and inherited module boundary/Elf32 quirks are explicitly documented",
+    "Virtual acquisitions captured; page-table bytes remain in original image rather than emitted separately"
+  ]
+}

@@ -3163,15 +3163,24 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Symbol-described Intel Linux. Filter leaders by task.pid, include legacy thread_group or signal thread_head threads, use kernel space for PF_KTHREAD and translated mm.pgd for other tasks. Scan pointer words from thread.sp to canonicalized task.stack plus four 4096-byte pages; zeros count positions but are never emitted. Resolve core, module, BPF, ftrace in priority order. Optional unresolved retains nonzero unknown words. Preserve raw virtual acquisitions, task identity, module/tree/source metadata and completion summaries; shared byte/word/task and retained symbol bounds apply.",
+      "native": "linux.pscallstack",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-pscallstack-44-actual-paged-object-cases",
+        "synthetic-pscallstack-66-x64-x86-pae-paging-cases",
+        "official-linux-sample-1-pid-1"
+      ],
+      "comparison": "44_pinned_cases_66_native_paging_cases_eight_fields_and_continued_per_task_errors_37_default_383_unresolved_Debian_PID1_entries_match",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Stack word scan only, as in fixed baseline; not frame unwinding or proof of a call chain. Fixed four-page size ignores CONFIG_KASAN",
+        "Native continues independent tasks after task faults and preserves explicit errors. Fixed generator can abort or silently end on stack holes or unavailable address spaces; actual unmodified per-task transcripts separately verify continuation",
+        "Strict forward list/backlink and required metadata/counter errors differ from baseline bidirectional validity skipping; full damaged-list/task-validity parity remains pending",
+        "Legacy BPF missing get_addr_region method is corrected by separately validated get_address_region primitive; inherited module range/Elf32 quirks retained",
+        "Real modern module/BPF/ftrace stack positives, native x86/PAE images, broader versions, all parameters/renderers and complete plugin acceptance pending"
+      ],
+      "validation_record": "docs/linux-pscallstack.md"
     },
     {
       "id": "linux.pslist.PsList",
