@@ -6,6 +6,8 @@ Go 原生、只读的内存取证引擎与交互式 TUI。当前版本 **0.1.0-d
 
 固定基线为 [Volatility 3 v2.28.2](https://github.com/volatilityfoundation/volatility3/releases/tag/v2.28.2)，提交 `881e970121c16f0932fb9d16fbd5fb258cbcbf75`。已经盘点 **195 个官方插件类**（包含旧名称入口），完整验收通过 **0 项**。原生进程、模块和 banner 能力已有指定字段对照，仍缺少参数、场景及全部字段验收。[能力矩阵](docs/capabilities.json)、[验证记录](docs/validation.json)、[剩余工作](docs/roadmap.md) 是发布依据。
 
+`linux.pidhashtable` 已支持旧式 PID 哈希及命名空间 IDR，提供排序任务、名称装饰和逐次读取证据。Debian 样本的 316 条任务通过五字段双模式对照；现代内核真实语料和完整验收仍待补齐。[PID 索引验证](docs/linux-pidhashtable.md)
+
 运行时不调用 Python、Volatility 或外部进程。Python 仅用于开发期生成清单、下载公开测试资料、运行固定对照工具和核验导出。
 
 ## 构建与快速体验

@@ -2927,15 +2927,22 @@
           "default": false
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Intel Linux with typed legacy pid_hash/upid/pid task links or embedded namespace IDR radix/XArray. Sorted PID/TID task output, optional decorate-comm, bounded traversal and complete raw acquisition trace.",
+      "native": "linux.pidhashtable",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "official-linux-sample-1",
+        "pinned-pidhashtable-96-byte-backed-object-cases",
+        "synthetic-linux-pidhashtable-x64-x86-pae-144-paging-cases"
+      ],
+      "comparison": "316_real_tasks_match_five_fields_plain_and_decorated_96_pinned_cases_match_144_native_paging_cases",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Real positive corpus covers legacy Debian 3.2 x64 only; modern namespace IDR, real x86/PAE, version/parameter and full capability acceptance remain pending",
+        "Native explicit read/layout/cycle/limit failures retain partial evidence and fail tasks instead of upstream silent omissions. Empty or invalid TID candidates remain diagnostic records. Full damaged-image parity and renderer/export acceptance pending",
+        "Legacy namespace coordinates and task link field offsets preserve pinned behavior; no independent proof of namespace completeness or hidden-process detection. Task identity includes available creation counter; missing counters remain explicit. Intel-only as declared by baseline"
+      ],
+      "validation_record": "docs/linux-pidhashtable.md"
     },
     {
       "id": "linux.proc.Maps",

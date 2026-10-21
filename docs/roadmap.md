@@ -81,3 +81,5 @@
 2026-10-21：windows.svcscan 扫描 services.exe 里的 serH 服务记录。选定 Windows 10 19041 样本的 1578 行与固定基线一致，142 个服务头，350 个注册表服务。746 个偏移互不相同，426 个服务正在运行。其他 Windows 版本、32 位和时间线还没有实现。[详情](windows-svcscan.md)
 
 2026-10-21：windows.svclist 在 services.exe 的主映像 VAD 搜索 Sc27 并遍历服务链表，选定 Windows 10 19041 样本的 646 行与固定基线一致。windows.svcdiff 对比扫描和链表的服务名，双方都是 646 个名称，差异为 0。真实隐藏服务阳性及其他布局仍待语料验收；合成测试覆盖同名最后记录、大小写和输出失败。[详情](windows-services.md)
+
+2026-10-21：`linux.pidhashtable` 新增原生旧式 PID 哈希与命名空间 IDR 枚举。Debian 3.2 x64 的 316 条任务在普通/装饰名称两种模式下通过五字段对照；96 个固定基线对象案例通过 144 个原生分页案例验证，读取原始字节、落盘证据及缓存回放均有校验。现代内核真实语料、真实 x86/PAE 和完整验收仍待补齐。[详情](linux-pidhashtable.md)

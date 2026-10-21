@@ -1,0 +1,127 @@
+{
+  "schema": "gomem.linux-pidhashtable-validation/v1",
+  "date": "2026-10-21",
+  "release": "development-preview",
+  "accepted": false,
+  "baseline": {
+    "name": "Volatility 3",
+    "version": "2.28.2",
+    "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+    "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+  },
+  "oracle": {
+    "cases": 96,
+    "native_paging_cases": 144,
+    "modes": [
+      "plain",
+      "decorated"
+    ],
+    "sha256": "19f6432ef4d28a79512728a3602e4a7ec90f6470aef9da18e1d193dd7a863f03",
+    "scope": "Unmodified pinned PIDHashTable and PsList methods over real ISF byte-backed objects; native paging, captures, seals and cache checked"
+  },
+  "real_corpus": {
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "kernel": "Debian 3.2 x64",
+    "plain": {
+      "scope": "selected fields only; full capability acceptance remains pending",
+      "fields": [
+        "Offset",
+        "PID",
+        "TID",
+        "PPID",
+        "Comm"
+      ],
+      "native_rows": 316,
+      "reference_rows": 316,
+      "matched": true,
+      "missing": [],
+      "extra": [],
+      "sha256": {
+        "native": "99da2802fac4594c7226e703124252c83788cc9020882c027c433f481816dd86",
+        "reference": "6eb3a718a6d77d6bc0f416f061e98cbeaeb5996e9814e337de6f010c3176b073",
+        "mapping": "f56b6e080b38408bd38e2e7fe342b1f09a5a3b6b6ff56b7a943e33657c74de6b"
+      },
+      "native_input_rows": 6815,
+      "native_non_entity_records": {
+        "index_read": 6492,
+        "task_candidate": 6,
+        "index_summary": 1
+      },
+      "entity_selection": {
+        "field": "RecordType",
+        "value": "task",
+        "excluded_values": [
+          "index_read",
+          "task_candidate",
+          "index_summary"
+        ]
+      }
+    },
+    "decorated": {
+      "scope": "selected fields only; full capability acceptance remains pending",
+      "fields": [
+        "Offset",
+        "PID",
+        "TID",
+        "PPID",
+        "Comm"
+      ],
+      "native_rows": 316,
+      "reference_rows": 316,
+      "matched": true,
+      "missing": [],
+      "extra": [],
+      "sha256": {
+        "native": "841271684523747ec50a1499bbe7f79ab344a04f9058401646b36f275223bf71",
+        "reference": "295e5915841001c9924a2675eb279394956023db5699e5cd00d98b469814b40b",
+        "mapping": "f56b6e080b38408bd38e2e7fe342b1f09a5a3b6b6ff56b7a943e33657c74de6b"
+      },
+      "native_input_rows": 7131,
+      "native_non_entity_records": {
+        "index_read": 6808,
+        "task_candidate": 6,
+        "index_summary": 1
+      },
+      "entity_selection": {
+        "field": "RecordType",
+        "value": "task",
+        "excluded_values": [
+          "index_read",
+          "task_candidate",
+          "index_summary"
+        ]
+      }
+    }
+  },
+  "fuzz": {
+    "target": "FuzzLinuxPIDHash",
+    "seconds": 10,
+    "executions": 280515
+  },
+  "limitations": [
+    "Only one real legacy x64 kernel",
+    "Modern IDR and x86/PAE positive real corpus pending",
+    "Complete namespace/version/parameter, damage and export acceptance pending"
+  ],
+  "evidence": [
+    "96 pinned cases in plain/decorated modes across 144 native paging cases",
+    "Real Debian plain/decorated ordered task fields match",
+    "All 6492/6808 real capture bytes independently reread",
+    "All persisted SQLite row seals verified with pagination",
+    "Completed cache replay is byte-identical JSONL",
+    "Malformed symbols, missing memory, cycles, limits, cancellation and output failures checked; failed tasks are not cached"
+  ],
+  "checks": [
+    "make check",
+    "make matrix",
+    "python3 tools/build_inode_mode_oracle.py --check",
+    "python3 tools/build_pidhashtable_oracle.py --check",
+    "go test -race ./internal/engine ./internal/plugins -run PIDHash -count=1",
+    "go test -race ./internal/plugins -run TestLinuxPIDHash -count=1",
+    "go test ./internal/plugins -run ^$ -fuzz FuzzLinuxPIDHash -fuzztime 10s",
+    "TestOfficialLinuxPIDHashDifferentialEvidenceAndCache (plain/decorated; optional corpus explicitly enabled)",
+    "make build"
+  ]
+}

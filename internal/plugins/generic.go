@@ -114,6 +114,7 @@ func Register(r *plugin.Registry) error {
 	specs = append(specs, linuxELFPlugins()...)
 	specs = append(specs, linuxLibraryListPlugins()...)
 	specs = append(specs, linuxEBPFPlugins()...)
+	specs = append(specs, linuxPIDHashPlugins()...)
 	specs = append(specs, linuxScanPlugins()...)
 	specs = append(specs, linuxLsofPlugins()...)
 	specs = append(specs, linuxSocketPlugins()...)
