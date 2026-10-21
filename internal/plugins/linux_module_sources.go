@@ -172,6 +172,9 @@ type linuxModuleSources struct {
 	maxScan                                                          uint64
 	nodes, positions, unreadable, selfMatches, rejected, diagnostics uint64
 	results                                                          map[string][]linuxModuleInfo
+	comparisonOnly                                                   bool
+	ksetModules                                                      map[string]uint64
+	ksetOrder                                                        []string
 }
 
 func (s *linuxModuleSources) out(r evidence.Row) error {
@@ -222,6 +225,20 @@ func (s *linuxModuleSources) info(address uint64, source string) (*linuxModuleIn
 		n.capture(address, "module", "list")
 	}
 	name, nameErr := n.text(address, "module", "name")
+	if s.comparisonOnly && source == "Lsmod" {
+		if nameErr != nil {
+			r.Cells["Name"] = evidence.Missing("module_name_unreadable", nameErr)
+		} else {
+			r.Cells["Name"] = evidence.Text(name)
+		}
+		if err := s.out(r); err != nil {
+			return nil, err
+		}
+		if nameErr != nil {
+			return nil, nil
+		}
+		return &linuxModuleInfo{offset: address, name: name, source: source}, nil
+	}
 	base, baseErr := n.layout(address, "base")
 	size, sizeErr := n.layout(address, "core")
 	if nameErr == nil {
@@ -430,8 +447,15 @@ func (s *linuxModuleSources) sysfs() error {
 			return err
 		}
 	}
+	s.ksetModules = map[string]uint64{}
+	s.ksetOrder = append([]string(nil), order...)
 	for _, name := range order {
 		c := candidates[selected[name]]
+		s.ksetModules[name] = c.module
+		if s.comparisonOnly {
+			s.results["SysFs"] = append(s.results["SysFs"], linuxModuleInfo{offset: c.module, source: "SysFs"})
+			continue
+		}
 		info, err := s.info(c.module, "SysFs")
 		if err != nil {
 			return err
@@ -649,19 +673,37 @@ func (s *linuxModuleSources) scanner() error {
 }
 
 func linuxGatherModuleSources(ctx context.Context, e plugin.Environment, p map[string]string, emit plugin.Emit) (*linuxModuleSources, error) {
+	return linuxGatherModuleSourcesFor(ctx, e, p, emit, true)
+}
+
+func linuxGatherModuleLists(ctx context.Context, e plugin.Environment, p map[string]string, emit plugin.Emit) (*linuxModuleSources, error) {
+	return linuxGatherModuleSourcesFor(ctx, e, p, emit, false)
+}
+
+func linuxGatherModuleSourcesFor(ctx context.Context, e plugin.Environment, p map[string]string, emit plugin.Emit, scan bool) (*linuxModuleSources, error) {
 	max, _, err := limits(p)
 	if err != nil {
 		return nil, err
 	}
-	span, err := strconv.ParseUint(p["max-scan-bytes"], 0, 64)
-	if err != nil || span < 1 || span > 8<<30 {
-		return nil, fmt.Errorf("max-scan-bytes must be 1..8589934592")
+	var span uint64
+	if scan {
+		span, err = strconv.ParseUint(p["max-scan-bytes"], 0, 64)
+		if err != nil || span < 1 || span > 8<<30 {
+			return nil, fmt.Errorf("max-scan-bytes must be 1..8589934592")
+		}
 	}
-	s := &linuxModuleSources{ctx: ctx, e: e, emit: emit, maxNodes: max, maxScan: span, results: map[string][]linuxModuleInfo{"Lsmod": {}, "SysFs": {}, "Scanner": {}}}
-	for _, g := range []struct {
+	s := &linuxModuleSources{comparisonOnly: !scan, ctx: ctx, e: e, emit: emit, maxNodes: max, maxScan: span, results: map[string][]linuxModuleInfo{"Lsmod": {}, "SysFs": {}, "Scanner": {}}}
+	gatherers := []struct {
 		name string
 		run  func() error
-	}{{"Lsmod", s.lsmod}, {"SysFs", s.sysfs}, {"Scanner", s.scanner}} {
+	}{{"Lsmod", s.lsmod}, {"SysFs", s.sysfs}}
+	if scan {
+		gatherers = append(gatherers, struct {
+			name string
+			run  func() error
+		}{"Scanner", s.scanner})
+	}
+	for _, g := range gatherers {
 		if err := g.run(); err != nil {
 			if ctx.Err() != nil {
 				return s, ctx.Err()

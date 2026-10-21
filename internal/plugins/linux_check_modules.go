@@ -26,7 +26,6 @@ func linuxCheckModulesPlugins() []builtin {
 		Parameters: []plugin.Parameter{
 			{Name: "plain-taints", Kind: "bool", Default: "false", Description: "Display pinned plain taint characters instead of descriptions"},
 			{Name: "max-nodes", Kind: "uint", Default: "131072", Description: "Shared list visit bound, 1..1000000"},
-			{Name: "max-scan-bytes", Kind: "uint", Default: "268435456", Description: "Retained for the shared module gatherer; this comparison does not scan allocations"},
 		},
 		Columns: columns,
 	}, linuxCheckModules}}
@@ -40,35 +39,32 @@ func linuxCheckModules(ctx context.Context, e plugin.Environment, p map[string]s
 	if err != nil {
 		return err
 	}
-	s, err := linuxGatherModuleSources(ctx, e, p, out)
+	s, err := linuxGatherModuleLists(ctx, e, p, out)
 	if err != nil {
 		return err
 	}
-	// The pinned comparison reads only the active list and module_kset. The
-	// shared gatherer also scans; its failures remain visible and fail the task.
 	active := map[string]bool{}
 	for _, module := range s.results["Lsmod"] {
 		active[module.name] = true
 	}
-	selected := map[string]linuxModuleInfo{}
-	order := []string{}
-	for _, module := range s.results["SysFs"] {
-		if _, ok := selected[module.name]; ok {
-			continue
-		}
-		selected[module.name] = module
-		order = append(order, module.name)
-	}
+
 	var hidden int
-	for _, name := range order {
+	for _, name := range s.ksetOrder {
 		if active[name] {
 			continue
 		}
-		module := selected[name]
-		row, err := linuxCheckModuleRow(s, module, plain)
+		module, err := s.info(s.ksetModules[name], "SysFs")
 		if err != nil {
 			return err
 		}
+		if module == nil {
+			continue
+		}
+		row, err := linuxCheckModuleRow(s, *module, plain)
+		if err != nil {
+			return err
+		}
+		row.Cells["KObjectName"] = evidence.Text(name)
 		if err = s.out(row); err != nil {
 			return err
 		}
@@ -144,7 +140,7 @@ func linuxCheckModuleRow(s *linuxModuleSources, module linuxModuleInfo, plain bo
 	} else {
 		row.Cells["Load Arguments"] = evidence.Text(arguments)
 	}
-	row.Cells["File Output"] = evidence.Missing("not_available", nil)
+	row.Cells["File Output"] = evidence.Missing("not_requested", nil)
 	row.Cells["Status"] = evidence.Text("kset_only")
 	return row, nil
 }

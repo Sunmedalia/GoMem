@@ -1,8 +1,10 @@
 package engine_test
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -28,18 +30,34 @@ func TestOfficialLinuxCheckModules(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	encoder := json.NewEncoder(file)
-	hidden := 0
+	defer file.Close()
+	var original, replay bytes.Buffer
+	encoder := json.NewEncoder(io.MultiWriter(file, &original))
+	hidden, summaries := 0, 0
 	result, err := e.Run(ctx, "linux.check_modules", nil, engine.RunOptions{Emit: func(r evidence.Row) error {
 		if err := encoder.Encode(r); err != nil {
 			return err
+		}
+		if r.Cells["Source"].String() == "Scanner" {
+			t.Fatal("unexpected allocation scan", r)
+		}
+		if r.Cells["RecordType"].String() == "summary" {
+			summaries++
+			raw, err := json.Marshal(r.Cells["Coverage"].Data)
+			if err != nil {
+				t.Fatal(err)
+			}
+			var coverage map[string]string
+			if err = json.Unmarshal(raw, &coverage); err != nil || coverage["lsmod"] != "79" || coverage["sysfs"] != "79" || coverage["read_layout_errors"] != "0" {
+				t.Fatal(coverage, err)
+			}
 		}
 		if r.Cells["RecordType"].String() == "kset_only" {
 			hidden++
 		}
 		return nil
 	}})
-	if err != nil || result.Task.State != "completed" || hidden != 0 || result.Task.Rows < 2 {
+	if err != nil || result.Task.State != "completed" || hidden != 0 || result.Task.Rows < 2 || summaries != 1 {
 		t.Fatal(result, err, hidden)
 	}
 	if err = file.Close(); err != nil {
@@ -49,8 +67,8 @@ func TestOfficialLinuxCheckModules(t *testing.T) {
 	if err != nil {
 		t.Fatal(string(output), err)
 	}
-	cached, err := e.Run(ctx, "linux.check_modules", nil, engine.RunOptions{})
-	if err != nil || !cached.Reused || cached.Task.ID != result.Task.ID {
+	cached, err := e.Run(ctx, "linux.check_modules", nil, engine.RunOptions{Emit: func(r evidence.Row) error { return json.NewEncoder(&replay).Encode(r) }})
+	if err != nil || !cached.Reused || cached.Task.ID != result.Task.ID || !bytes.Equal(original.Bytes(), replay.Bytes()) {
 		t.Fatal(cached, err)
 	}
 	t.Logf("0 kset-only modules match; %d native rows retained; cache reused", result.Task.Rows)
