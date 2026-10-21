@@ -1,0 +1,628 @@
+{
+  "scope": "Development preview: synthetic positive coverage and Debian 3.2 applicability rejection only. No modern real-image or full capability acceptance.",
+  "baseline": {
+    "name": "Volatility 3",
+    "version": "2.28.2",
+    "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+    "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+  },
+  "pinned_oracle": {
+    "path": "internal/plugins/testdata/linux-kthreads-oracle.json",
+    "sha256": "172248d9ecc0b5cc254b6f0fafebdab1406711077d97c4fde13c8ec49d2310b5",
+    "lookup_cases": 9,
+    "generator_profiles": 16,
+    "symbol_windows": 5,
+    "comparison_policy": "Retain actual unmodified generator/lookup symbols, and independently invoke the unmodified exact-symbol helper on the selected module. Native uses the selected owner; the fixed lookup uses the final loop object for non-kernel symbols."
+  },
+  "synthetic_profiles": [
+    {
+      "architecture": "x64",
+      "profile": "worker-private",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 98,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x64",
+      "profile": "set-child-tid",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 98,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x64",
+      "profile": "kallsyms-pointer",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 100,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x64",
+      "profile": "kallsyms-embedded",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 98,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x64",
+      "profile": "signal-threads",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 98,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x64",
+      "profile": "full-name",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 104,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x64",
+      "profile": "bad-full-name",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 103,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x64",
+      "profile": "empty-full-name",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 104,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x64",
+      "profile": "user-task",
+      "records": 22,
+      "selected": 2,
+      "complete_raw_captures_independently_reread": 84,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x64",
+      "profile": "null-private",
+      "records": 22,
+      "selected": 2,
+      "complete_raw_captures_independently_reread": 87,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x64",
+      "profile": "null-handler",
+      "records": 22,
+      "selected": 2,
+      "complete_raw_captures_independently_reread": 89,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x64",
+      "profile": "unknown-module",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 91,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x64",
+      "profile": "interior-symbol",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 98,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x86",
+      "profile": "worker-private",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 98,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x86",
+      "profile": "set-child-tid",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 98,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x86",
+      "profile": "kallsyms-pointer",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 100,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x86",
+      "profile": "kallsyms-embedded",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 98,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x86",
+      "profile": "signal-threads",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 98,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x86",
+      "profile": "full-name",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 104,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x86",
+      "profile": "bad-full-name",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 103,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x86",
+      "profile": "empty-full-name",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 104,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x86",
+      "profile": "user-task",
+      "records": 22,
+      "selected": 2,
+      "complete_raw_captures_independently_reread": 84,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x86",
+      "profile": "null-private",
+      "records": 22,
+      "selected": 2,
+      "complete_raw_captures_independently_reread": 87,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x86",
+      "profile": "null-handler",
+      "records": 22,
+      "selected": 2,
+      "complete_raw_captures_independently_reread": 89,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x86",
+      "profile": "unknown-module",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 91,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "x86",
+      "profile": "interior-symbol",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 98,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "pae",
+      "profile": "worker-private",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 98,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "pae",
+      "profile": "set-child-tid",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 98,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "pae",
+      "profile": "kallsyms-pointer",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 100,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "pae",
+      "profile": "kallsyms-embedded",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 98,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "pae",
+      "profile": "signal-threads",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 98,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "pae",
+      "profile": "full-name",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 104,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "pae",
+      "profile": "bad-full-name",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 103,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "pae",
+      "profile": "empty-full-name",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 104,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "pae",
+      "profile": "user-task",
+      "records": 22,
+      "selected": 2,
+      "complete_raw_captures_independently_reread": 84,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "pae",
+      "profile": "null-private",
+      "records": 22,
+      "selected": 2,
+      "complete_raw_captures_independently_reread": 87,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "pae",
+      "profile": "null-handler",
+      "records": 22,
+      "selected": 2,
+      "complete_raw_captures_independently_reread": 89,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "pae",
+      "profile": "unknown-module",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 91,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    },
+    {
+      "architecture": "pae",
+      "profile": "interior-symbol",
+      "records": 22,
+      "selected": 3,
+      "complete_raw_captures_independently_reread": 98,
+      "sealed_rows_verified": true,
+      "cache_reused": true,
+      "reference_comparison": {
+        "tid_name_handler_module": true,
+        "selected_owner_symbol_helper": true,
+        "pinned_generator_symbol_owner_parity": false
+      }
+    }
+  ],
+  "synthetic_bundle": {
+    "verification": {
+      "tasks": 1,
+      "members": 2,
+      "verified": true
+    },
+    "sha256": "b3edededd208a495c1e9c6394739fc6fd9818f9a13b6bebb0c6578cf11daf795",
+    "fresh_cache_exported_evidence_records_byte_identical": true,
+    "excluded_metadata": "report manifest creation timestamp"
+  },
+  "real_applicability": {
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "reference_error": "Unsupported kthread implementation. This plugin only works with kernels >= 5.8",
+    "reference_verbose_log_sha256": "b4a3d0f0170096aec620eb8ce0be73f57bdef56bea8248847247df3a24334d30",
+    "reference_config_sha256": "bf8e321a71d3b809ea2afdc177715975270c9809a64e6f75c75fff4c05f9fb1f",
+    "native_cli_task_id": "635e5e7d34b4e212dc98afdba7bef57d",
+    "native_state": "failed",
+    "native_entity_rows": 0,
+    "native_cli_log_sha256": "c8ff0fe2d10a30f2fbce0a2c05bf33c59cf3716c47a80322ad13be3dca21eb8b",
+    "failed_tasks_not_reused": true,
+    "positive_differential": false
+  },
+  "regressions": {
+    "debian_modxview": {
+      "modules_per_profile": 79,
+      "taint_profiles": 2,
+      "complete_captures_per_profile": 1973
+    },
+    "debian_ip": {
+      "links": 2,
+      "addresses": 4
+    },
+    "vmcoreinfo": {
+      "debian_entries": 47,
+      "kali_entries": 111
+    }
+  },
+  "fuzz": {
+    "target": "FuzzLinuxModuleELFSymbols",
+    "executions": 154873,
+    "passed": true
+  },
+  "checks": [
+    "make check",
+    "make build",
+    "python3 tools/build_kthreads_oracle.py --check",
+    "python3 tools/build_modxview_oracle.py --check",
+    "python3 tools/build_inode_mode_oracle.py --check",
+    "python3 tools/baseline_matrix.py --source .cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75 --check",
+    "GOMEM_CORPUS_DIR=\"$PWD/.cache/corpus\" GOMEM_KALI_IMAGE=\"$PWD/images/kali.raw\" go test ./internal/engine -run 'TestOfficialLinuxKthreadsUnsupported|TestOfficialLinuxModxview|TestOfficialLinuxIP|TestOfficialVMCoreInfo|TestLinuxKthreads' -count=1 -v",
+    "git diff --check"
+  ],
+  "pending": [
+    "Linux >=5.8 real-image differential",
+    "Pinned final-loop symbol ownership differs intentionally from native selected-owner lookup",
+    "Complete baseline task validity, bidirectional recovery and duplicate-thread semantics",
+    "Pinned padded symbol-name reads versus native strict capture",
+    "Pointer target subtype readability extents versus native one-byte probes",
+    "ARM64 virtual translation and actual Kali kernel symbols",
+    "Full damaged-image/version/parameter/capability acceptance"
+  ]
+}

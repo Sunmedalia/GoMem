@@ -1,0 +1,591 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "lookups": [
+    {
+      "name": "start",
+      "ranges": [
+        [
+          1,
+          "one",
+          100,
+          200
+        ]
+      ],
+      "target": 100,
+      "module": "one",
+      "symbol": "entry",
+      "selected_owner_symbol": "entry"
+    },
+    {
+      "name": "last-byte",
+      "ranges": [
+        [
+          1,
+          "one",
+          100,
+          200
+        ]
+      ],
+      "target": 199,
+      "module": "one",
+      "symbol": null,
+      "selected_owner_symbol": null
+    },
+    {
+      "name": "end-exclusive",
+      "ranges": [
+        [
+          1,
+          "one",
+          100,
+          200
+        ]
+      ],
+      "target": 200,
+      "module": null,
+      "symbol": null,
+      "selected_owner_symbol": null
+    },
+    {
+      "name": "outside",
+      "ranges": [
+        [
+          1,
+          "one",
+          100,
+          200
+        ]
+      ],
+      "target": 99,
+      "module": null,
+      "symbol": null,
+      "selected_owner_symbol": null
+    },
+    {
+      "name": "overlap-first",
+      "ranges": [
+        [
+          1,
+          "one",
+          100,
+          200
+        ],
+        [
+          2,
+          "two",
+          150,
+          250
+        ]
+      ],
+      "target": 160,
+      "module": "one",
+      "symbol": "other",
+      "selected_owner_symbol": "overlap"
+    },
+    {
+      "name": "overlap-reverse",
+      "ranges": [
+        [
+          2,
+          "two",
+          150,
+          250
+        ],
+        [
+          1,
+          "one",
+          100,
+          200
+        ]
+      ],
+      "target": 160,
+      "module": "two",
+      "symbol": "overlap",
+      "selected_owner_symbol": "other"
+    },
+    {
+      "name": "kernel",
+      "ranges": [
+        [
+          3,
+          "__kernel__",
+          300,
+          400
+        ]
+      ],
+      "target": 320,
+      "module": "__kernel__",
+      "symbol": "a_entry",
+      "selected_owner_symbol": "a_entry"
+    },
+    {
+      "name": "kernel-no-exact",
+      "ranges": [
+        [
+          3,
+          "__kernel__",
+          300,
+          400
+        ]
+      ],
+      "target": 321,
+      "module": "__kernel__",
+      "symbol": null,
+      "selected_owner_symbol": null
+    },
+    {
+      "name": "qualified",
+      "ranges": [
+        [
+          4,
+          "qualified",
+          500,
+          600
+        ]
+      ],
+      "target": 520,
+      "module": "qualified",
+      "symbol": "entry",
+      "selected_owner_symbol": "entry"
+    }
+  ],
+  "generators": [
+    {
+      "name": "worker-private",
+      "rows": [
+        {
+          "tid": 100,
+          "name": "kernel-worker",
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "tid": 102,
+          "name": "module-worker",
+          "handler": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "tid": 101,
+          "name": "sys-worker",
+          "handler": 73984,
+          "module": "sys-only",
+          "symbol": null,
+          "selected_owner_symbol": "sys_entry"
+        }
+      ],
+      "unsupported": false
+    },
+    {
+      "name": "set-child-tid",
+      "rows": [
+        {
+          "tid": 100,
+          "name": "kernel-worker",
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "tid": 102,
+          "name": "module-worker",
+          "handler": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "tid": 101,
+          "name": "sys-worker",
+          "handler": 73984,
+          "module": "sys-only",
+          "symbol": null,
+          "selected_owner_symbol": "sys_entry"
+        }
+      ],
+      "unsupported": false
+    },
+    {
+      "name": "kallsyms-pointer",
+      "rows": [
+        {
+          "tid": 100,
+          "name": "kernel-worker",
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "tid": 102,
+          "name": "module-worker",
+          "handler": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "tid": 101,
+          "name": "sys-worker",
+          "handler": 73984,
+          "module": "sys-only",
+          "symbol": null,
+          "selected_owner_symbol": "sys_entry"
+        }
+      ],
+      "unsupported": false
+    },
+    {
+      "name": "kallsyms-embedded",
+      "rows": [
+        {
+          "tid": 100,
+          "name": "kernel-worker",
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "tid": 102,
+          "name": "module-worker",
+          "handler": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "tid": 101,
+          "name": "sys-worker",
+          "handler": 73984,
+          "module": "sys-only",
+          "symbol": null,
+          "selected_owner_symbol": "sys_entry"
+        }
+      ],
+      "unsupported": false
+    },
+    {
+      "name": "signal-threads",
+      "rows": [
+        {
+          "tid": 100,
+          "name": "kernel-worker",
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "tid": 102,
+          "name": "module-worker",
+          "handler": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "tid": 101,
+          "name": "sys-worker",
+          "handler": 73984,
+          "module": "sys-only",
+          "symbol": null,
+          "selected_owner_symbol": "sys_entry"
+        }
+      ],
+      "unsupported": false
+    },
+    {
+      "name": "full-name",
+      "rows": [
+        {
+          "tid": 100,
+          "name": "full-kernel",
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "tid": 102,
+          "name": "full-module",
+          "handler": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "tid": 101,
+          "name": "full-sys",
+          "handler": 73984,
+          "module": "sys-only",
+          "symbol": null,
+          "selected_owner_symbol": "sys_entry"
+        }
+      ],
+      "unsupported": false
+    },
+    {
+      "name": "bad-full-name",
+      "rows": [
+        {
+          "tid": 100,
+          "name": "full-kernel",
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "tid": 102,
+          "name": "full-module",
+          "handler": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "tid": 101,
+          "name": "sys-worker",
+          "handler": 73984,
+          "module": "sys-only",
+          "symbol": null,
+          "selected_owner_symbol": "sys_entry"
+        }
+      ],
+      "unsupported": false
+    },
+    {
+      "name": "empty-full-name",
+      "rows": [
+        {
+          "tid": 100,
+          "name": "full-kernel",
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "tid": 102,
+          "name": "full-module",
+          "handler": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "tid": 101,
+          "name": "",
+          "handler": 73984,
+          "module": "sys-only",
+          "symbol": null,
+          "selected_owner_symbol": "sys_entry"
+        }
+      ],
+      "unsupported": false
+    },
+    {
+      "name": "user-task",
+      "rows": [
+        {
+          "tid": 100,
+          "name": "kernel-worker",
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "tid": 102,
+          "name": "module-worker",
+          "handler": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        }
+      ],
+      "unsupported": false
+    },
+    {
+      "name": "null-private",
+      "rows": [
+        {
+          "tid": 100,
+          "name": "kernel-worker",
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "tid": 102,
+          "name": "module-worker",
+          "handler": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        }
+      ],
+      "unsupported": false
+    },
+    {
+      "name": "null-handler",
+      "rows": [
+        {
+          "tid": 100,
+          "name": "kernel-worker",
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "tid": 102,
+          "name": "module-worker",
+          "handler": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        }
+      ],
+      "unsupported": false
+    },
+    {
+      "name": "unknown-module",
+      "rows": [
+        {
+          "tid": 100,
+          "name": "kernel-worker",
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "tid": 102,
+          "name": "module-worker",
+          "handler": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "tid": 101,
+          "name": "sys-worker",
+          "handler": 91136,
+          "module": null,
+          "symbol": null,
+          "selected_owner_symbol": null
+        }
+      ],
+      "unsupported": false
+    },
+    {
+      "name": "interior-symbol",
+      "rows": [
+        {
+          "tid": 100,
+          "name": "kernel-worker",
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "tid": 102,
+          "name": "module-worker",
+          "handler": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        },
+        {
+          "tid": 101,
+          "name": "sys-worker",
+          "handler": 73985,
+          "module": "sys-only",
+          "symbol": null,
+          "selected_owner_symbol": null
+        }
+      ],
+      "unsupported": false
+    },
+    {
+      "name": "bad-private",
+      "rows": [
+        {
+          "tid": 100,
+          "name": "kernel-worker",
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "tid": 102,
+          "name": "module-worker",
+          "handler": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        }
+      ],
+      "unsupported": false
+    },
+    {
+      "name": "bad-handler",
+      "rows": [
+        {
+          "tid": 100,
+          "name": "kernel-worker",
+          "handler": 34048,
+          "module": "__kernel__",
+          "symbol": "a_entry",
+          "selected_owner_symbol": "a_entry"
+        },
+        {
+          "tid": 102,
+          "name": "module-worker",
+          "handler": 65792,
+          "module": "active",
+          "symbol": null,
+          "selected_owner_symbol": "module_entry"
+        }
+      ],
+      "unsupported": false
+    },
+    {
+      "name": "unsupported",
+      "rows": [],
+      "unsupported": true
+    }
+  ],
+  "symbol_windows": [
+    {
+      "count": 0,
+      "visited": 0
+    },
+    {
+      "count": 1,
+      "visited": 1
+    },
+    {
+      "count": 4096,
+      "visited": 4096
+    },
+    {
+      "count": 4097,
+      "visited": 4097
+    },
+    {
+      "count": 4098,
+      "visited": 4097
+    }
+  ]
+}

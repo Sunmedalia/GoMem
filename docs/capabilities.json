@@ -1238,15 +1238,26 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Symbol-described Intel Linux with kthread.threadfn (5.8+). Enumerate task-list leaders and their legacy thread_group or signal_struct.thread_head threads, select PF_KTHREAD, use worker_private or set_child_tid, require one-byte private and handler target probes, and prefer readable 255-byte kthread.full_name over comm. Gather Lsmod/SysFs/Scanner/kernel ranges, flatten by first masked base, select first overlapping range and resolve exact kernel or ELF32/64 module symbols. Preserve all source/task observations, raw pointer/name/symbol captures, overlap choices and selected symbol owner. Native max-nodes/max-tasks/max-scan-bytes and pinned inclusive 4097-entry ELF symbol window apply; unavailable required reads retain evidence and fail tasks.",
+      "native": "linux.kthreads",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-kthreads-x64-x86-pae-13-profiles",
+        "pinned-9-range-lookups-16-generator-profiles-5-symbol-windows",
+        "official-linux-sample-1-unsupported-kernel"
+      ],
+      "comparison": "synthetic_TID_name_handler_module_match_pinned_generator_selected_owner_symbols_match_pinned_symbol_helper_real_Debian_rejected_not_positive_acceptance",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "39 synthetic cases cover two private-pointer layouts, embedded/pointer kallsyms, legacy and signal thread lists, full-name success/empty/fallback, user tasks, null pointers, unknown modules and interior addresses; raw captures are independently reread, rows sealed and cache reused",
+        "The pinned module_lookup_by_address chooses matches[0] but loads module.offset from the final loop iteration for non-kernel symbols. Native deliberately resolves the selected matching object. Oracles retain both pinned output and the unmodified symbol helper result for the selected owner; this is an explained behavior difference, not complete parity",
+        "Kernel aliases use lexicographic first exact-address name; module symbols use first exact ELF entry within indexes 0..4096. No nearest-symbol or interior-function assertion; qualifier splitting preserves the fixed helper's first component after !",
+        "Native pointer target probes read one byte while the fixed Pointer.is_readable uses its declared subtype extent; complete pointer-readability equivalence remains pending. Native requires complete 512-byte symbol-name reads instead of the baseline's padded reads. Unreadable private/handler targets retain task observations and fail analysis while the reference skips them. Full-name byte faults retain comm fallback and captured read errors",
+        "Strict forward backlink/tail checks and native task inspection do not reproduce all fixed task.is_valid, bidirectional recovery and duplicate-thread cases. Missing module sources fail the task and source booleans do not establish complete negative evidence",
+        "Debian 3.2 lacks kthread.threadfn; unmodified baseline and native reject it as unsupported. No Linux >=5.8 real image differential is established. Kali still requires an ARM64 virtual translator and actual kernel symbols",
+        "Full modern-kernel corpus, damaged-image, parameter/version and capability acceptance remain pending"
+      ],
+      "validation_record": "docs/linux-kthreads.md"
     },
     {
       "id": "linux.library_list.LibraryList",
@@ -2067,7 +2078,7 @@
         "Native forward backlink/tail checks do not reproduce all fixed bidirectional recovery cases. Scanner page-prefix buffering preserves readable pointers before a hole, while individually unreadable allocation positions are summarized without a full per-position dump",
         "Native keeps full canonical addresses; the differential explicitly masks x64 object addresses to match the reference low48 renderer. Missing sources make the task fail; false In-source flags describe actual yields and do not establish complete negative evidence",
         "Whole module/field captures are bounded at 4096 bytes and arithmetic layout/range overflow fails explicitly. Dynamic taint arrays are bounded at 256 entries; Unicode surrogates are diagnosed rather than silently replaced. Modern/ARM64 real images, manipulated real modules and complete damaged-source/version acceptance remain pending",
-        "Shared module sources and flattening are groundwork for kthreads and other checks; kthreads itself and kernel/module function-symbol resolution are not claimed implemented"
+        "Shared module sources and flattening support the separate linux.kthreads preview; complete kernel-thread/function-symbol acceptance is not covered by Modxview"
       ],
       "validation_record": "docs/linux-modxview.md"
     },
