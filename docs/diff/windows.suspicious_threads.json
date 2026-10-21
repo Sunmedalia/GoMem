@@ -1,0 +1,12 @@
+{
+  "native_record_type": {"field": "RecordType", "values": ["finding"], "excluded_values": ["summary", "diagnostic"]},
+  "fields": {
+    "Process": {"native": "Process", "reference": "Process", "kind": "string"},
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "TID": {"native": "TID", "reference": "TID", "kind": "uint64"},
+    "Context": {"native": "Context", "reference": "Context", "kind": "string"},
+    "Address": {"native": "Address", "reference": "Address", "kind": "address"},
+    "VADPath": {"native": "VADPath", "reference": "VAD Path", "kind": "string"},
+    "Note": {"native": "Note", "reference": "Note", "kind": "string"}
+  }
+}
