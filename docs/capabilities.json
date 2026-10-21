@@ -608,7 +608,7 @@
       "corpora": [],
       "comparison": "not_run",
       "gaps": [
-        "Native implementation and validation pending"
+        "Deprecated alias of linux.malware.check_modules.Check_modules; native command is linux.check_modules"
       ]
     },
     {
@@ -1750,15 +1750,21 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Symbol-described Intel Linux. Compare selected module_kset names with the active modules list. Emit kset-only names with code size, taints and load arguments. An empty difference is a completed comparison. Unreadable required fields stay diagnostics and fail the task. Module ELF extraction remains unavailable.",
+      "native": "linux.check_modules",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "official-linux-sample-1"
+      ],
+      "comparison": "0_kset_only_rows_match_79_active_and_79_sysfs_names",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Debian 3.2 x64 is a negative control: 79 active names and 79 selected sysfs names produce zero rows on both sides",
+        "No real kset-only module, modern kernel, 32-bit image or ARM64 differential exists",
+        "Load-argument decoding is implemented for scalar getters but this image did not exercise a positive parameter differential",
+        "Module ELF dump stays unavailable; the reference File Output null compares with not_available"
+      ],
+      "validation_record": "docs/linux-check-modules.md"
     },
     {
       "id": "linux.malware.check_syscall.Check_syscall",
