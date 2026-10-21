@@ -1,0 +1,50 @@
+{
+  "schema": "gomem.linux-resolver-validation/v1",
+  "date": "2026-10-22",
+  "release": "development-preview",
+  "accepted": false,
+  "plugin_registered": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Ordered native resident address API; no CLI or callstack acceptance",
+  "oracle": {
+    "cases": 96,
+    "queries": 6624,
+    "sha256": "cacd5c6f21d58d71f1d3d6eceb690a15b22babf25bf44666559960e7dd45ef4f",
+    "baseline_outcomes": {
+      "no_result": 2602,
+      "core": 2168,
+      "ftrace": 212,
+      "bpf": 180,
+      "module": 378,
+      "VolatilityException": 392,
+      "SymbolError": 276,
+      "AttributeError": 416
+    },
+    "legacy_bpf_primitive_matches": 416,
+    "native_paging_cases": 144,
+    "ordered_and_reversed_queries_on_same_instance": true,
+    "every_acquisition_failure_cancellation_retry": true,
+    "raw_acquisitions_independently_reread": true,
+    "warm_module_snapshots_and_retained_capacity_bounds": true
+  },
+  "fuzz": {
+    "target": "FuzzFullResolver",
+    "seconds": 10,
+    "executions": 32426
+  },
+  "checks": [
+    "make check",
+    "make matrix",
+    "python3 tools/build_inode_mode_oracle.py --check",
+    "python3 tools/build_resolver_oracle.py --check",
+    "make build",
+    "bin/gomem doctor --offline"
+  ],
+  "limitations": [
+    "Legacy BPF missing-method error intentionally corrected using separately compared unmodified region/name primitives",
+    "No CLI, sealed case persistence, callstack integration or real modern multisource positive acceptance",
+    "Immutable acquisition and symbols only; instance is not concurrent-safe",
+    "Capture, aggregate byte budget, original cached acquisition retention and lossless address serialization belong to caller",
+    "Inherited pinned module range/Elf32 quirks remain; no ABI-correct owner inference claim"
+  ]
+}

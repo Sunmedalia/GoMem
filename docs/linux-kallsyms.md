@@ -92,9 +92,9 @@ go test -race ./pkg/kallsyms -run '^TestOfficialDebianCoreLookup$' -count=1 -v
 
 模块与 BPF 的后续树索引查找共用 [latch tree 底座](linux-latch-tree.md)。该底座的对象对照验证不等同于来源地址解析或调用栈验收。
 
-BPF 地址查找和枚举共用程序区域解析器，具体差异、固定 legacy 异常及 API 验证见 [BPF 查找底座](linux-bpf-lookup.md)。该地址 API 尚未接入完整的来源优先级或调用栈命令。
+BPF 地址查找和枚举共用程序区域解析器，具体差异、固定 legacy 异常及 API 验证见 [BPF 查找底座](linux-bpf-lookup.md)。来源优先级现由[统一解析器 API](linux-resolver.md)提供；调用栈命令尚未接入。
 
-驻留 ftrace 地址区间查找 API 的顺序、指针规范化及对照验证见 [ftrace 查找底座](linux-ftrace-lookup.md)；完整来源解析器及调用栈接入仍待完成。
+驻留 ftrace 地址区间查找 API 的顺序、指针规范化及对照验证见 [ftrace 查找底座](linux-ftrace-lookup.md)；完整来源解析器 API 见[统一解析器](linux-resolver.md)，调用栈接入仍待完成。
 
 补充的 4 组 `get_ftrace_symbols` 实际对象对照覆盖高位跳板的指针/整数字段，6 组 Intel 分页验证八字段、原始采集、SQLite 封存和逐字节缓存回放；详见 [ftrace 查找验证记录](linux-ftrace-lookup-validation.json)。这修正了旧枚举路径将高位指针原样显示的问题。
 

@@ -86,6 +86,8 @@ type ModuleMatch struct {
 // ModuleLookup retains selection evidence even on no match or error. Match is
 // always nil on failure. Acquisition capture and byte limits belong to Layer.
 type ModuleLookup struct {
+	ListReused               bool
+	TablesReused             uint64
 	TreeModule               *uint64
 	Match                    *ModuleMatch
 	GlobalMin, GlobalMax     uint64
@@ -104,12 +106,23 @@ type moduleTable struct {
 	span                     ModuleRange
 }
 
+type moduleCache struct {
+	tables    map[uint64]*moduleTable
+	symbols   uint64
+	list      []ModuleRange
+	listReady bool
+}
+
 // LookupModule follows the locked global gate, optional latch tree, then module
 // list fallback. An explicit module still passes both global and ELF-range
 // gates. It selects the first containing nonempty ELF symbol, never nearest.
 // The locked Elf32 eight-byte value/size and boundary-expression quirks are
 // retained, with separate ABI values in the result and explicit range evidence.
-func LookupModule(ctx context.Context, r *object.Reader, c ModuleConfig, address uint64, module *uint64) (out ModuleLookup, err error) {
+func LookupModule(ctx context.Context, r *object.Reader, c ModuleConfig, address uint64, module *uint64) (ModuleLookup, error) {
+	return lookupModule(ctx, r, c, address, module, &moduleCache{})
+}
+
+func lookupModule(ctx context.Context, r *object.Reader, c ModuleConfig, address uint64, module *uint64, cache *moduleCache) (out ModuleLookup, err error) {
 	defer func() {
 		if err != nil {
 			out.Match = nil
@@ -142,17 +155,33 @@ func LookupModule(ctx context.Context, r *object.Reader, c ModuleConfig, address
 	if address < out.GlobalMin || address > out.GlobalMax {
 		return out, ctx.Err()
 	}
-	tables := map[uint64]*moduleTable{}
+	if cache.tables == nil {
+		cache.tables = map[uint64]*moduleTable{}
+	}
+	usedTables := map[uint64]bool{}
 	load := func(at uint64) (*moduleTable, error) {
-		if t, ok := tables[at]; ok {
-			return t, nil
+		t, reused := cache.tables[at]
+		if !reused {
+			if len(cache.tables) >= c.MaxNodes {
+				return nil, fmt.Errorf("module cache object bound exhausted")
+			}
+			used := cache.symbols
+			var cause error
+			t, cause = readModuleTable(ctx, r, c, at, &used)
+			out.SymbolsRead += used - cache.symbols
+			if cause != nil {
+				return nil, cause
+			}
+			cache.symbols = used
+			cache.tables[at] = t
 		}
-		t, cause := readModuleTable(ctx, r, c, at, &out.SymbolsRead)
-		if cause != nil {
-			return nil, cause
+		if !usedTables[at] {
+			if reused {
+				out.TablesReused++
+			}
+			out.Ranges = append(out.Ranges, t.span)
+			usedTables[at] = true
 		}
-		tables[at] = t
-		out.Ranges = append(out.Ranges, t.span)
 		return t, nil
 	}
 	selected := module
@@ -246,30 +275,41 @@ func LookupModule(ctx context.Context, r *object.Reader, c ModuleConfig, address
 		if !c.HasList {
 			return out, fmt.Errorf("module list unavailable after tree miss")
 		}
-		field, cause := r.Field("module", "list")
-		if cause != nil {
-			return out, cause
-		}
-		if field.Type.Kind != "struct" || field.Type.Name != "list_head" {
-			return out, fmt.Errorf("module list is not embedded list_head")
-		}
-		// The baseline materializes the complete list/range cache before selection.
-		err = r.WalkList(ctx, c.List, field.Offset, c.MaxNodes, func(at uint64) error {
-			if out.Search.Visited+out.ListVisited >= uint64(c.MaxNodes) {
-				return fmt.Errorf("module lookup global node bound exhausted")
+		if cache.listReady {
+			out.Ranges = append(out.Ranges, cache.list...)
+			out.ListReused = true
+			for _, span := range cache.list {
+				out.TablesReused++
+				usedTables[span.Object] = true
 			}
-			out.ListVisited++
-			t, cause := load(at)
+		} else {
+			field, cause := r.Field("module", "list")
 			if cause != nil {
-				return cause
+				return out, cause
 			}
-			if !t.span.Available {
-				return fmt.Errorf("listed module has no ELF bounds")
+			if field.Type.Kind != "struct" || field.Type.Name != "list_head" {
+				return out, fmt.Errorf("module list is not embedded list_head")
 			}
-			return nil
-		})
-		if err != nil {
-			return
+			// The baseline materializes the complete list/range cache before selection.
+			err = r.WalkList(ctx, c.List, field.Offset, c.MaxNodes, func(at uint64) error {
+				if out.Search.Visited+out.ListVisited >= uint64(c.MaxNodes) {
+					return fmt.Errorf("module lookup global node bound exhausted")
+				}
+				out.ListVisited++
+				t, cause := load(at)
+				if cause != nil {
+					return cause
+				}
+				if !t.span.Available {
+					return fmt.Errorf("listed module has no ELF bounds")
+				}
+				return nil
+			})
+			if err != nil {
+				return
+			}
+			cache.list = append([]ModuleRange(nil), out.Ranges...)
+			cache.listReady = true
 		}
 		for _, span := range out.Ranges {
 			if span.Start <= address && address < span.End {

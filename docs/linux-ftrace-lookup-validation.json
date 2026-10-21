@@ -47,7 +47,7 @@
   ],
   "limitations": [
     "No real modern-kernel ftrace positive or dynamically changing acquisition validation",
-    "Standalone API; module lookup independently validated in docs/linux-module-lookup-validation.json; whole-source precedence, CLI address lookup and pscallstack remain pending",
+    "Standalone API; module lookup independently validated in docs/linux-module-lookup-validation.json; whole-source precedence separately validated in docs/linux-resolver-validation.json; CLI address lookup and pscallstack remain pending",
     "Malformed data and resource bounds return explicit errors; not every baseline silent-failure path is duplicated",
     "Acquisition capture, aggregate byte budget and persistence are caller responsibilities"
   ],

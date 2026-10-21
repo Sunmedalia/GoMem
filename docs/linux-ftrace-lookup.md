@@ -26,6 +26,6 @@ go test ./pkg/kallsyms -run '^$' -fuzz '^FuzzFtraceLookup$' -fuzztime 10s
 
 另外直接执行基线 `get_ftrace_symbols`，以 4 组高位指针/整数字段对象验证现有枚举：6 组 Intel 分页比较八字段，独立核对原始采集并验证 SQLite 封存和逐字节缓存回放。原始指针的高位仍保存在采集字节中，展示地址遵循声明类型。
 
-地址查找本身是独立 Go API，尚未接入完整来源优先级、CLI 地址查询或 `linux.pscallstack`。
+地址查找本身是独立 Go API，已接入[统一解析器 API](linux-resolver.md)的来源优先级；CLI 地址查询和 `linux.pscallstack` 尚未接入。
 没有真实现代内核 ftrace 阳性、动态镜像一致性或完整插件验收；矩阵仍为部分实现。
 合成对照和分页控制不能计为正式版本验收。见[机器验证记录](linux-ftrace-lookup-validation.json)。
