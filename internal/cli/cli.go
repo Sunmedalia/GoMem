@@ -187,18 +187,22 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 	}}
 	doctor.Flags().BoolVar(&strict, "strict", false, "Fail when formal release acceptance is incomplete")
 	root.AddCommand(doctor)
-	root.AddCommand(&cobra.Command{Use: "tui", Short: "Open the asynchronous, paginated investigation TUI", Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
-		eng, err := engine.Open(cmd.Context(), cfg)
-		if err != nil {
-			return err
+	root.AddCommand(&cobra.Command{Use: "tui", Short: "Open the asynchronous, paginated investigation TUI; without --image it starts in the image importer", Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
+		var eng *engine.Engine
+		if cfg.Image != "" {
+			var err error
+			if eng, err = engine.Open(cmd.Context(), cfg); err != nil {
+				return err
+			}
+			defer eng.Close()
 		}
-		defer eng.Close()
 		ctx, cancel := context.WithCancel(cmd.Context())
-		program := tea.NewProgram(tui.New(ctx, eng), tea.WithInput(in), tea.WithOutput(out), tea.WithContext(ctx))
-		_, err = program.Run()
+		program := tea.NewProgram(tui.New(ctx, tui.Options{Config: cfg, Engine: eng}), tea.WithInput(in), tea.WithOutput(out), tea.WithContext(ctx))
+		final, err := program.Run()
 		cancel()
 		program.Wait()
-		return err
+		// The TUI may have switched images; close whichever engine it holds.
+		return errors.Join(err, tui.Close(final))
 	}})
 	root.AddCommand(&cobra.Command{Use: "shell", Short: "Explore memory, types and address spaces interactively", Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
 		eng, err := engine.Open(cmd.Context(), cfg)

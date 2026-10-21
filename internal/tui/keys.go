@@ -9,6 +9,8 @@ type keyMap struct {
 	Bookmark, Hex, CopyID, CopyAddr, Cancel, Quit, Back  key.Binding
 	ScrollUp, ScrollDown, ScrollLeft, ScrollRight        key.Binding
 	ForceQuit, NextField, PrevField, Submit, Toggle      key.Binding
+	Import, AllTasks, TabLeft, TabRight, Parent, Hidden  key.Binding
+	NextSection, PrevSection                             key.Binding
 }
 
 var keys = keyMap{
@@ -49,18 +51,34 @@ var keys = keyMap{
 	PrevField:   key.NewBinding(key.WithKeys("shift+tab", "up")),
 	Submit:      key.NewBinding(key.WithKeys("ctrl+s")),
 	Toggle:      key.NewBinding(key.WithKeys("space")),
+	Import:      key.NewBinding(key.WithKeys("i"), key.WithHelp("i", "import image")),
+	AllTasks:    key.NewBinding(key.WithKeys("a"), key.WithHelp("a", "all images")),
+	TabLeft:     key.NewBinding(key.WithKeys("left"), key.WithHelp("←/→", "platform")),
+	TabRight:    key.NewBinding(key.WithKeys("right")),
+	Parent:      key.NewBinding(key.WithKeys("backspace", "left"), key.WithHelp("⌫", "parent dir")),
+	Hidden:      key.NewBinding(key.WithKeys("."), key.WithHelp(".", "hidden files")),
+	NextSection: key.NewBinding(key.WithKeys("tab"), key.WithHelp("tab", "complete / next section")),
+	PrevSection: key.NewBinding(key.WithKeys("shift+tab")),
 }
 
 // navHelp and resultHelp are the footer hints for each focus.
 func (k keyMap) navHelp() []key.Binding {
-	return []key.Binding{k.Run, k.Edit, k.Filter, k.Focus, k.Command, k.Tasks, k.Help, k.Quit}
+	return []key.Binding{k.Run, k.Edit, k.TabLeft, k.Filter, k.Focus, k.Command, k.Tasks, k.Import, k.Help, k.Quit}
+}
+func (k keyMap) launcherHelp(back bool) []key.Binding {
+	enter := key.NewBinding(key.WithKeys("enter"), key.WithHelp("enter", "open"))
+	out := []key.Binding{enter, k.NextSection, k.Up, k.Parent, k.Hidden}
+	if back {
+		out = append(out, key.NewBinding(key.WithKeys("esc"), key.WithHelp("esc", "back")))
+	}
+	return append(out, key.NewBinding(key.WithKeys("ctrl+c"), key.WithHelp("ctrl+c", "quit")))
 }
 func (k keyMap) resultHelp() []key.Binding {
 	return []key.Binding{k.Filter, k.Sort, k.Reverse, k.ColLeft, k.ColRight, k.Next, k.Prev, k.Expand, k.Raw, k.Help}
 }
 func (k keyMap) FullHelp() [][]key.Binding {
 	return [][]key.Binding{
-		{k.Up, k.Down, k.Run, k.Edit, k.Focus, k.Filter, k.Command, k.Tasks},
+		{k.Up, k.Down, k.Run, k.Edit, k.TabLeft, k.Focus, k.Filter, k.Command, k.Tasks, k.AllTasks, k.Import},
 		{k.Next, k.Prev, k.Home, k.End, k.HalfUp, k.Reverse, k.Sort, k.ColLeft, k.ColRight},
 		{k.Expand, k.Raw, k.Bookmark, k.Hex, k.CopyID, k.CopyAddr, k.ScrollUp, k.Cancel, k.Back, k.Quit},
 	}

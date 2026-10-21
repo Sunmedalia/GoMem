@@ -10,16 +10,37 @@ import (
 	"github.com/Sunmedalia/GoMem/pkg/evidence"
 )
 
-// taskPicker lists persisted tasks so their evidence can be reopened without rerunning.
+// taskPicker lists persisted tasks so their evidence can be reopened without
+// rerunning. A case can hold several images; by default only the open
+// image's tasks are listed.
 type taskPicker struct {
 	open   bool
+	all    []evidence.Task
 	tasks  []evidence.Task
+	image  string
+	every  bool
 	cursor int
 	top    int
 }
 
-func (t *taskPicker) show(tasks []evidence.Task) {
-	t.open, t.tasks, t.cursor, t.top = true, tasks, 0, 0
+func (t *taskPicker) show(tasks []evidence.Task, image string) {
+	t.open, t.all, t.image, t.every = true, tasks, image, false
+	t.filter()
+}
+
+// toggleEvery switches between this image's tasks and every task in the case.
+func (t *taskPicker) toggleEvery() {
+	t.every = !t.every
+	t.filter()
+}
+
+func (t *taskPicker) filter() {
+	t.tasks, t.cursor, t.top = t.tasks[:0], 0, 0
+	for _, task := range t.all {
+		if t.every || task.Provenance.ImageSHA256 == t.image {
+			t.tasks = append(t.tasks, task)
+		}
+	}
 }
 
 func (t *taskPicker) move(delta, height int) {
@@ -51,9 +72,13 @@ func (t taskPicker) selected() (evidence.Task, bool) {
 
 func (t taskPicker) View(st styles, width, height int) string {
 	var b strings.Builder
-	b.WriteString(st.accent.Render("TASKS") + st.muted.Render(fmt.Sprintf("  %d · enter open · esc close", len(t.tasks))) + "\n\n")
+	scope := "this image · a all images"
+	if t.every {
+		scope = "all images · a this image"
+	}
+	b.WriteString(st.accent.Render("TASKS") + st.muted.Render(fmt.Sprintf("  %d of %d · %s · enter open · esc close", len(t.tasks), len(t.all), scope)) + "\n\n")
 	if len(t.tasks) == 0 {
-		b.WriteString(st.muted.Render("No persisted tasks in this case."))
+		b.WriteString(st.muted.Render("No persisted tasks for this scope."))
 	}
 	for i := t.top; i < min(len(t.tasks), t.top+height); i++ {
 		task := t.tasks[i]
