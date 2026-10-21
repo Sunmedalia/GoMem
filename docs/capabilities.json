@@ -11456,15 +11456,22 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Intel system VA regions. _MI_SYSTEM_VA_TYPE and _MMPTE are required before the branch; large page size is (4096*4096)//_MMPTE.size and a zero size fails the task. MiVisibleState is a pointer to _MI_VISIBLE_STATE. When SystemVaRegions exists it wins over SystemVaType. Each index i uses _MI_SYSTEM_VA_TYPE.lookup(i), not a stored type byte. Duplicate values keep the alphabetically first name, which matches the pinned ISF when constants are unique and name-sorted. BaseAddress must be a pointer and is masked to 48 bits on 64-bit or 32 bits on 32-bit; native Start restores the canonical high bits. NumberOfBytes is the raw integer. The upstream column is named End offset but the value is the byte count, not an end address; the native column is Size. A missing or unreadable field fails the task. Without SystemVaRegions, SystemVaType or MiSystemVaType uses the pinned state machine: a run's accumulated size is attributed to the next different name and the final run's extra pages are dropped. MiSystemVaType count is (0x100000000-masked MmSystemRangeStart)//large page. A start at or above 0x100000000 yields an empty result because the pinned count is negative. char is signed. A value outside the enumeration fails the task. The summary row is not a region.",
+      "native": "windows.virtmap",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_13_rows_match_region_start_and_byte_count",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It uses SystemVaRegions, examines 13 slots, and emits 13 rows. The computed large page is 2097152 and is not used on this path. MiVaPagedPool starts at 0xfcf68050b648",
+        "32-bit images and the SystemVaType and MiSystemVaType paths have no corpus differential. The synthetic fixture covers the pinned size-attribution bug, a signed 0xFF lookup, and the 32-bit style array count",
+        "Reference starts omit the canonical high bits. The comparison masks both sides to the low 48 bits. Native Size is the upstream End offset byte count",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-virtmap.md"
     },
     {
       "id": "windows.windows.Windows",

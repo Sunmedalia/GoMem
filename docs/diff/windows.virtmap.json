@@ -1,0 +1,12 @@
+{
+  "fields": {
+    "Region": {"native": "Region", "reference": "Region", "kind": "string"},
+    "Start offset": {"native": "Start", "reference": "Start offset", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "End offset": {"native": "Size", "reference": "End offset", "kind": "uint64"}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["region"],
+    "excluded_values": ["summary"]
+  }
+}

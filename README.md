@@ -62,6 +62,7 @@ bin/gomem analyze windows.pslist \
 | `windows.driverirp` | 列出池扫描驱动的 IRP 处理函数、所在模块和符号；低地址和读失败的槽位跳过；驱动名错误留在 `DriverNameError`；[说明](docs/windows-driverirp.md) |
 | `windows.drivermodule` | 列出起始地址不在已加载内核模块里的驱动；对象头名称为六个内置例外之一时做标记；三个名称都没有则跳过；[说明](docs/windows-drivermodule.md) |
 | `windows.timers` | 列出内核定时器和 DPC 例程所在的模块、符号；读不到的 DPC 跳过，类型或到期时间读失败则任务失败；[说明](docs/windows-timers.md) |
+| `windows.virtmap` | 列出内核系统虚拟地址区；`SystemVaRegions` 用下标取枚举名，`Size` 是字节数而不是结束地址；类型数组沿用基线里记错对象的长度；[说明](docs/windows-virtmap.md) |
 | `windows.hivelist` | 从 `CmpHiveListHead` 枚举注册表 hive；保留签名、三个路径字段和链表断裂；`dump` 重建稳定 hive，缺页记入空洞日志并令任务失败 |
 | `windows.hivescan` | 在 64 位 Windows 8.1 及以后扫描 `PoolBigPageTable` 的在用 `CM10` 分配；旧式池头扫描会明确失败；[说明](docs/windows-hivescan.md) |
 | `windows.filescan` | 扫描池头中的文件对象，输出规范虚拟地址和文件名；Windows 10 扫内核层，更早的系统扫物理内存；[说明](docs/windows-filescan.md) |
@@ -160,6 +161,8 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `windows.drivermodule` 对应 `windows.malware.drivermodule.DriverModule`。上游的 `windows.drivermodule.DriverModule` 只是弃用别名。它复用驱动池扫描，起始地址为 0 的驱动保留，落在任一已加载模块里的驱动不输出。三个名称都不可用时跳过。只有对象头名称正好是 `ACPI_HAL`、`PnpManager`、`RAW`、`WMIxWDM`、`Win32k` 或 `Fs_Rec` 时，已知例外为真。Windows 10 19041 样本有 142 个通过起始检查的驱动，141 个落在模块里，只输出 `RAW`。它的起始地址是 0，服务键不可用，备选名是 `\FileSystem\RAW`，已知例外为真。另外五个内置名称都在模块里，没有输出。真实 32 位镜像和时间线还没有验收。[隐藏驱动验证](docs/windows-drivermodule.md)
 
 `windows.timers` 从每个处理器的 KPCR 定时器表走 `Flink`。Windows 10 19041 样本有 1 个处理器、512 条链表、317 个定时器对象。类型不是 8 或 9 的没有出现。273 个 DPC 读不到或例程为 0，被跳过。剩下 44 行与固定基线的低 48 位偏移、到期时间、周期、信号、例程、模块和符号一致。9 个已信号，35 个是 `-`。23 个例程在模块内但没有符号，没有落在模块外的例程。`KiWaitNever` 和 `KiWaitAlways` 存在，DPC 指针按固定算法解码。真实 32 位镜像、Windows 7 和旧的 `KiTimerTableListHead` 路径还没有验收。[定时器验证](docs/windows-timers.md)
+
+`windows.virtmap` 列出内核系统虚拟地址区。有 `MiVisibleState.SystemVaRegions` 时，名称来自下标对应的 `_MI_SYSTEM_VA_TYPE`，不是槽内字节。`BaseAddress` 按指针掩码，`NumberOfBytes` 原样保留。固定基线把字节数放在名为 `End offset` 的列里。Windows 10 19041 样本的 13 行低 48 位起始地址和字节数与固定基线一致，路径是 `SystemVaRegions`，大页尺寸算出 2097152 但没有使用。`MiVaPagedPool` 起始于 `0xfcf68050b648`。没有 `SystemVaRegions` 时沿用基线的类型数组状态机：连续区段的长度记到下一个名称，末段多出的页被丢掉。真实 32 位镜像和那两条旧路径还没有语料差分。[系统地址区验证](docs/windows-virtmap.md)
 
 `windows.hivelist` 正向遍历内核 hive 链表，签名不符或链表断裂时改为反向补齐，并保留已经读到的 hive。名称按 `FileFullPath`、`FileUserName`、`HiveRootPath` 取第一个非空值，三个字段都保留。Windows 10 19041 样本的 24 个偏移和名称与固定基线一致；该样本的 `FileFullPath` 成员均为空，选中名称来自另外两个字段。`dump=true` 写出 base block 和稳定存储；读不到的页是带日志的零字节，任务失败，不会把空洞说成原始数据。[注册表 hive 验证](docs/windows-hivelist.md)
 

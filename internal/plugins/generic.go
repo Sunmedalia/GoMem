@@ -73,6 +73,7 @@ func Register(r *plugin.Registry) error {
 	specs = append(specs, windowsDriverIRPPlugins()...)
 	specs = append(specs, windowsDriverModulePlugins()...)
 	specs = append(specs, windowsTimerPlugins()...)
+	specs = append(specs, windowsVirtMapPlugins()...)
 	specs = append(specs, windowsSymlinkScanPlugins()...)
 	specs = append(specs, windowsModScanPlugins()...)
 	specs = append(specs, linuxELFPlugins()...)

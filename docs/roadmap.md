@@ -63,3 +63,5 @@
 2026-10-21：windows.driverirp 列出驱动 IRP 处理函数。选定 Windows 10 19041 样本的 3972 行与固定基线一致，142 个驱动，7 个低地址槽位，3 个模块外地址，2005 个空符号。真实 32 位镜像和时间线还没有验收。[详情](windows-driverirp.md)
 2026-10-21：windows.drivermodule 列出起始地址不在已加载模块里的驱动。选定 Windows 10 19041 样本的 1 行与固定基线一致，142 个驱动里 141 个落在模块中，输出的是起始地址为 0 的 RAW。真实 32 位镜像和时间线还没有验收。[详情](windows-drivermodule.md)
 2026-10-21：windows.timers 列出内核定时器。选定 Windows 10 19041 样本的 44 行与固定基线一致，512 条链表里检查了 317 个对象，273 个 DPC 被跳过，23 个符号不可用。真实 32 位镜像和时间线还没有验收。[详情](windows-timers.md)
+
+2026-10-21：windows.virtmap 列出内核系统虚拟地址区。选定 Windows 10 19041 样本的 13 行与固定基线一致，名称来自 `SystemVaRegions` 下标。`Size` 是字节数，不是结束地址。真实 32 位镜像和类型数组路径还没有验收。[详情](windows-virtmap.md)
