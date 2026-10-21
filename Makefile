@@ -18,6 +18,7 @@ baseline:
 matrix:
 	python3 tools/baseline_matrix.py --source $(BASELINE) --check
 fuzz:
+	$(GO) test ./pkg/kallsyms -run '^$$' -fuzz FuzzCoreLookup -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxKallsymsSources -fuzztime 10s
 	$(GO) test ./pkg/kallsyms -run '^$$' -fuzz FuzzCoreTables -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxTracepointAcquisition -fuzztime 10s

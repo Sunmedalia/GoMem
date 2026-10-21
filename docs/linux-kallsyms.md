@@ -68,3 +68,24 @@ go test ./internal/engine -run '^TestOfficialLinuxKallsymsSourcesPartialControl'
 ```
 
 [全源验证记录](linux-kallsyms-validation.json)、[八字段对照配置](diff/linux.kallsyms.json)。真实现代内核、x86/PAE、ftrace/BPF 阳性、并发损坏镜像、全部参数/渲染方式及完整验收仍待补齐。
+
+## 核心地址查找底座
+
+`Core.Lookup(ctx, address)` 仅解析核心 text/init 区段内的地址，返回首个同址别名、函数内部地址对应的名称、类型、地址、大小及导出标记。名称从每 256 条一个的 resident marker 定位，不使用 ISF 名称代替镜像内容。它与 `Stream` 共享名称游标，不能并发调用。模块、BPF、ftrace 的地址查找和 `linux.pscallstack` 尚未实现；现有全源枚举不代表这些查找语义已经对齐。
+
+固定基线 `_get_symbol_offset` 在跳过扩展长度名称时从共享游标读取长度高字节，并按 `compressed_length+1` 前进；查询顺序和默认 128 条 LRU 淘汰会影响结果。原生实现保留此行为。180 组真实 ISF/字节对象对照覆盖正向、逆向、枚举后查找、别名、特殊/空名称、扩展长度、init/大小边界、260 条 marker 跨段和缓存淘汰；记录基线异常，不伪造成功。空索引仍在区段内时，基线可能读出残留条目零，GoMem 明确报错。缺失元数据、marker 越界或宽度错误、溢出、预算、读取及取消也明确失败；仍指向可读字节的错误 marker 可能产生基线同样的错误名称，不宣称全部损坏均可检测。压缩 token 索引采用有界批量读取，读取失败后的游标不宣称与基线逐字节读取等价。
+
+Debian 3.2 x64 的 779 次实际 `core_lookup_address` 查询覆盖采样符号、内部地址、前一字节、区段边界及 canonical 高位地址，五字段和空结果逐项匹配；68,487 次读取、276,924 字节独立重读一致。参考生成器校验固定源码及既有 `--core` 参考的镜像、配置、结果摘要，恢复相同页表与符号掩码，不 mock 查找方法。可选测试另校验固定输出摘要：
+
+```sh
+python3 tools/build_kallsyms_lookup_oracle.py --check
+python3 tools/build_kallsyms_lookup_corpus.py \
+  --reference .cache/kallsyms-core-validation/reference \
+  --image .cache/corpus/linux-sample-1.bin \
+  --output .cache/kallsyms-lookup-validation/reference.json
+GOMEM_CORPUS_DIR="$PWD/.cache/corpus" \
+GOMEM_KALLSYMS_LOOKUP_REFERENCE="$PWD/.cache/kallsyms-lookup-validation/reference.json" \
+go test -race ./pkg/kallsyms -run '^TestOfficialDebianCoreLookup$' -count=1 -v
+```
+
+参考生成拒绝覆盖既有文件。尚无真实现代/相对布局、x86/PAE、大端语料验收；包本身不持久化证据。见[地址查找验证记录](linux-kallsyms-lookup-validation.json)。

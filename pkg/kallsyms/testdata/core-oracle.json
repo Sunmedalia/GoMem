@@ -8,6 +8,10 @@
       "scenario": "normal",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -67,6 +71,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -174,6 +181,10 @@
       "scenario": "aliases",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -233,6 +244,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -340,6 +354,10 @@
       "scenario": "special-types",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -399,6 +417,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -506,6 +527,10 @@
       "scenario": "empty-name",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -565,6 +590,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -672,6 +700,10 @@
       "scenario": "empty-token",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -731,6 +763,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -834,6 +869,10 @@
       "scenario": "init-end",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -893,6 +932,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -1000,6 +1042,10 @@
       "scenario": "absolute-percpu",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -1059,6 +1105,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -1166,6 +1215,10 @@
       "scenario": "empty",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -1225,6 +1278,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -1306,6 +1362,10 @@
       "scenario": "big-last",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -1365,6 +1425,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -1472,6 +1535,10 @@
       "scenario": "big-first",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -1531,6 +1598,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -1638,6 +1708,10 @@
       "scenario": "negative-size",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -1697,6 +1771,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -1804,6 +1881,10 @@
       "scenario": "zero-size",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -1863,6 +1944,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -1970,6 +2054,10 @@
       "scenario": "no-end",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -2029,6 +2117,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -2133,6 +2224,10 @@
       "scenario": "normal",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -2192,6 +2287,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -2294,6 +2392,10 @@
       "scenario": "aliases",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -2353,6 +2455,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -2455,6 +2560,10 @@
       "scenario": "special-types",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -2514,6 +2623,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -2616,6 +2728,10 @@
       "scenario": "empty-name",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -2675,6 +2791,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -2777,6 +2896,10 @@
       "scenario": "empty-token",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -2836,6 +2959,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -2934,6 +3060,10 @@
       "scenario": "init-end",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -2993,6 +3123,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -3095,6 +3228,10 @@
       "scenario": "absolute-percpu",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -3154,6 +3291,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -3264,6 +3404,10 @@
       "scenario": "empty",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -3323,6 +3467,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -3399,6 +3546,10 @@
       "scenario": "big-last",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -3458,6 +3609,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -3560,6 +3714,10 @@
       "scenario": "big-first",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -3619,6 +3777,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -3721,6 +3882,10 @@
       "scenario": "negative-size",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -3780,6 +3945,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -3882,6 +4050,10 @@
       "scenario": "zero-size",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -3941,6 +4113,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -4043,6 +4218,10 @@
       "scenario": "no-end",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -4102,6 +4281,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -4201,6 +4383,10 @@
       "scenario": "normal",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 8,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -4260,6 +4446,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -4371,6 +4560,10 @@
       "scenario": "aliases",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 8,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -4430,6 +4623,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -4545,6 +4741,10 @@
       "scenario": "special-types",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 8,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -4604,6 +4804,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -4715,6 +4918,10 @@
       "scenario": "empty-name",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 8,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -4774,6 +4981,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -4885,6 +5095,10 @@
       "scenario": "empty-token",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 8,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -4944,6 +5158,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -5051,6 +5268,10 @@
       "scenario": "init-end",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 8,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -5110,6 +5331,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -5225,6 +5449,10 @@
       "scenario": "absolute-percpu",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 8,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -5284,6 +5512,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -5395,6 +5626,10 @@
       "scenario": "empty",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 8,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -5454,6 +5689,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -5539,6 +5777,10 @@
       "scenario": "big-last",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 8,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -5598,6 +5840,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -5709,6 +5954,10 @@
       "scenario": "big-first",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 8,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -5768,6 +6017,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -5879,6 +6131,10 @@
       "scenario": "negative-size",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 8,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -5938,6 +6194,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -6049,6 +6308,10 @@
       "scenario": "zero-size",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 8,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -6108,6 +6371,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -6219,6 +6485,10 @@
       "scenario": "no-end",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 8,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -6278,6 +6548,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -6386,6 +6659,10 @@
       "scenario": "normal",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -6445,6 +6722,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -6547,6 +6827,10 @@
       "scenario": "aliases",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -6606,6 +6890,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -6708,6 +6995,10 @@
       "scenario": "special-types",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -6767,6 +7058,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -6869,6 +7163,10 @@
       "scenario": "empty-name",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -6928,6 +7226,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -7030,6 +7331,10 @@
       "scenario": "empty-token",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -7089,6 +7394,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -7187,6 +7495,10 @@
       "scenario": "init-end",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -7246,6 +7558,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -7348,6 +7663,10 @@
       "scenario": "absolute-percpu",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -7407,6 +7726,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -7517,6 +7839,10 @@
       "scenario": "empty",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -7576,6 +7902,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -7652,6 +7981,10 @@
       "scenario": "big-last",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -7711,6 +8044,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -7813,6 +8149,10 @@
       "scenario": "big-first",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -7872,6 +8212,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -7974,6 +8317,10 @@
       "scenario": "negative-size",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -8033,6 +8380,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -8135,6 +8485,10 @@
       "scenario": "zero-size",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -8194,6 +8548,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232
@@ -8296,6 +8653,10 @@
       "scenario": "no-end",
       "config": {
         "Count": 90112,
+        "Markers": 92672,
+        "MarkerSize": 4,
+        "TextStart": 33792,
+        "HasText": true,
         "Names": 94208,
         "TokenTable": 95232,
         "TokenIndex": 92160,
@@ -8355,6 +8716,9 @@
           },
           "kallsyms_names": {
             "address": 94208
+          },
+          "kallsyms_markers": {
+            "address": 92672
           },
           "kallsyms_token_table": {
             "address": 95232

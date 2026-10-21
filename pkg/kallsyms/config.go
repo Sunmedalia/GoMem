@@ -45,7 +45,7 @@ func FromSymbols(table symbols.SymbolTable, slide, mask uint64) (Config, error) 
 		// Fixed ISF lookup masks addresses before adding kernel relocation.
 		// Keep acquisition pointers canonical, but use the fixed coordinates
 		// for interval boundaries compared to normalized symbol values.
-		if name == "_sinittext" || name == "_einittext" || name == "_etext" || name == "_end" {
+		if name == "_stext" || name == "_sinittext" || name == "_einittext" || name == "_etext" || name == "_end" {
 			address &= mask
 		}
 		value, err := memory.Add(address, slide)
@@ -57,7 +57,7 @@ func FromSymbols(table symbols.SymbolTable, slide, mask uint64) (Config, error) 
 		required bool
 	}{
 		{"kallsyms_num_syms", &c.Count, true}, {"kallsyms_names", &c.Names, true}, {"kallsyms_token_table", &c.TokenTable, true}, {"kallsyms_token_index", &c.TokenIndex, true},
-		{"kallsyms_addresses", &c.Addresses, false}, {"kallsyms_offsets", &c.Offsets, false}, {"kallsyms_relative_base", &c.RelativeBase, false},
+		{"kallsyms_markers", &c.Markers, false}, {"_stext", &c.TextStart, false}, {"kallsyms_addresses", &c.Addresses, false}, {"kallsyms_offsets", &c.Offsets, false}, {"kallsyms_relative_base", &c.RelativeBase, false},
 		{"_sinittext", &c.InitStart, false}, {"_einittext", &c.InitEnd, false}, {"_etext", &c.TextEnd, true}, {"_end", &c.End, false},
 	} {
 		value, exists, err := resolve(field.name, field.required)
@@ -69,6 +69,7 @@ func FromSymbols(table symbols.SymbolTable, slide, mask uint64) (Config, error) 
 			c.HasEnd = exists
 		}
 	}
+	c.HasText = names["_stext"]
 	c.HasInit = names["_sinittext"] && names["_einittext"] && c.InitStart != 0 && c.InitEnd != 0
 	// Boundaries use the fixed masked-then-relocated ISF coordinates. Read
 	// locations remain valid canonical coordinates in the native layer.
@@ -88,5 +89,6 @@ func FromSymbols(table symbols.SymbolTable, slide, mask uint64) (Config, error) 
 		return c, fmt.Errorf("invalid kallsyms count width %d", size)
 	}
 	c.CountSize = int(size)
+	c.MarkerSize = int(size)
 	return c, nil
 }

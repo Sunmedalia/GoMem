@@ -14,7 +14,7 @@
   },
   "oracle": {
     "cases": 52,
-    "sha256": "baac8020d7ca3eb50aebc5c511a43da3fdc097faec3733d47a6ea31c8cbc9d05",
+    "sha256": "f2595dca020a874829d7d9f8e05ddfc702d73c3634e5e59b990915ac96102e2c",
     "methods": [
       "KASConfig.new_from_isf",
       "Kallsyms.get_core_symbols",

@@ -113,3 +113,70 @@ func TestOfficialDebianCoreSymbols(t *testing.T) {
 	}
 	t.Logf("matched %d core symbols; independently reread %d acquisitions (%d bytes)", count, layer.reads, layer.bytes)
 }
+
+func TestOfficialDebianCoreLookup(t *testing.T) {
+	dir, path := os.Getenv("GOMEM_CORPUS_DIR"), os.Getenv("GOMEM_KALLSYMS_LOOKUP_REFERENCE")
+	if dir == "" || path == "" {
+		t.Skip("requires optional corpus and actual core lookup reference")
+	}
+	raw, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	digest := sha256.Sum256(raw)
+	if hex.EncodeToString(digest[:]) != "29af9b467ca82a4b52ff938043f2bde2c430601bdd03886d0d4805450dc2a614" {
+		t.Fatal("lookup reference digest")
+	}
+	var reference struct {
+		Commit  string
+		Image   string `json:"image_sha256"`
+		Queries []struct {
+			Query  uint64
+			Result *coreRow
+		}
+	}
+	if err := json.Unmarshal(raw, &reference); err != nil {
+		t.Fatal(err)
+	}
+	if reference.Commit != "881e970121c16f0932fb9d16fbd5fb258cbcbf75" || reference.Image != "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc" || len(reference.Queries) != 779 {
+		t.Fatal("lookup reference provenance/count")
+	}
+	e, err := engine.Open(context.Background(), engine.Config{Image: filepath.Join(dir, "linux-sample-1.bin"), Symbols: filepath.Join(dir, "linux.zip#linux/Debian_3.2.57-3+deb7u2_3.2.0-4-amd64_x64.json.xz"), CaseDir: t.TempDir(), Offline: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer e.Close()
+	if e.Hash != reference.Image {
+		t.Fatal("image digest")
+	}
+	cfg, err := kallsyms.FromSymbols(e.Env.Symbols, e.Env.KernelSlide, 0x0000ffffffffffff)
+	if err != nil {
+		t.Fatal(err)
+	}
+	layer := &checkedLayer{MemoryLayer: e.Env.Kernel, t: t}
+	core, err := kallsyms.Open(context.Background(), layer, cfg, kallsyms.Limits{Symbols: 1000000, Bytes: 512 << 20, TokenBytes: 4096, NameBytes: 65536})
+	if err != nil {
+		t.Fatal(err)
+	}
+	for i, want := range reference.Queries {
+		got, err := core.Lookup(context.Background(), want.Query)
+		if err != nil {
+			t.Fatalf("query %d: %v", i, err)
+		}
+		var row *coreRow
+		if got != nil {
+			row = &coreRow{Name: got.Name, Type: got.Type, Address: got.Address, Exported: got.Exported}
+			if got.SizeAvailable {
+				size := got.Size
+				row.Size = &size
+			}
+		}
+		if !reflect.DeepEqual(row, want.Result) {
+			t.Fatalf("query %d %#x: got %+v want %+v", i, want.Query, row, want.Result)
+		}
+	}
+	if core.Stats().ReadCalls != layer.reads || core.Stats().AcquiredBytes != layer.bytes {
+		t.Fatal(core.Stats(), layer.reads, layer.bytes)
+	}
+	t.Logf("matched %d lookup queries; independently reread %d acquisitions (%d bytes)", len(reference.Queries), layer.reads, layer.bytes)
+}

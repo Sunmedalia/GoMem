@@ -4,6 +4,7 @@
 package kallsyms
 
 import (
+	"container/list"
 	"context"
 	"encoding/binary"
 	"fmt"
@@ -18,10 +19,13 @@ import (
 // decoded symbol values, not to these acquisition coordinates.
 type Config struct {
 	Count, Names, TokenTable, TokenIndex uint64
+	Markers, TextStart                   uint64
+	HasText                              bool
 	Addresses, Offsets, RelativeBase     uint64
 	InitStart, InitEnd, TextEnd, End     uint64
 	HasInit, HasEnd                      bool
 	Width, CountSize                     int
+	MarkerSize                           int
 	Endian                               string
 	AddressMask                          uint64
 }
@@ -44,16 +48,21 @@ type Symbol struct {
 
 type Stats struct{ Symbols, ReadCalls, AcquiredBytes, Tokens uint64 }
 
+// Core holds bounded resident indices and mutable decoder caches. An instance
+// must not be used concurrently, including Lookup, Stream, Expand and Stats.
 type Core struct {
-	layer     memory.MemoryLayer
-	config    Config
-	limits    Limits
-	order     binary.ByteOrder
-	addresses []uint64
-	index     [256]uint16
-	tokens    map[byte]string
-	relative  uint64
-	stats     Stats
+	layer       memory.MemoryLayer
+	config      Config
+	limits      Limits
+	order       binary.ByteOrder
+	addresses   []uint64
+	index       [256]uint16
+	tokens      map[byte]string
+	relative    uint64
+	stats       Stats
+	namesCursor uint64
+	nameOffsets map[uint64]*list.Element
+	nameLRU     *list.List
 }
 
 // Open acquires the bounded address index and token offsets. Full table
@@ -72,7 +81,7 @@ func Open(ctx context.Context, layer memory.MemoryLayer, config Config, limits L
 	if limits.Symbols == 0 || limits.Symbols > 10000000 || limits.Bytes == 0 || limits.Bytes > 1<<30 || limits.TokenBytes < 1 || limits.TokenBytes > 65536 || limits.NameBytes < 1 || limits.NameBytes > 1<<20 {
 		return nil, fmt.Errorf("invalid kallsyms resource limits")
 	}
-	c := &Core{layer: layer, config: config, limits: limits, tokens: map[byte]string{}}
+	c := &Core{layer: layer, config: config, limits: limits, tokens: map[byte]string{}, nameOffsets: map[uint64]*list.Element{}, nameLRU: list.New()}
 	switch config.Endian {
 	case "little":
 		c.order = binary.LittleEndian
@@ -243,10 +252,12 @@ func (c *Core) Expand(ctx context.Context, offset uint64) (name, typ string, len
 	if err != nil {
 		return "", "", 0, 0, err
 	}
+	c.namesCursor = offset
 	length, err = c.uint(ctx, at, 1)
 	if err != nil {
 		return "", "", 0, 0, err
 	}
+	c.namesCursor++
 	header = 1
 	if length&0x80 != 0 {
 		next, cause := memory.Add(at, 1)
@@ -257,6 +268,7 @@ func (c *Core) Expand(ctx context.Context, offset uint64) (name, typ string, len
 		if cause != nil {
 			return "", "", 0, 0, cause
 		}
+		c.namesCursor++
 		length = upper<<7 | length&0x7f
 		header = 2
 	}
@@ -268,6 +280,7 @@ func (c *Core) Expand(ctx context.Context, offset uint64) (name, typ string, len
 	if err != nil {
 		return "", "", length, header, err
 	}
+	c.namesCursor += length
 	var expanded strings.Builder
 	for _, id := range ids {
 		text, cause := c.token(ctx, id)

@@ -63,6 +63,7 @@ jobs:
       - run: python3 tools/build_perf_events_oracle.py --check
       - run: python3 tools/build_fbdev_oracle.py --check
       - run: python3 tools/build_kallsyms_sources_oracle.py --check
+      - run: python3 tools/build_kallsyms_lookup_oracle.py --check
       - run: python3 tools/build_kallsyms_core_oracle.py --check
       - run: python3 tools/build_tracepoints_oracle.py --check
       - run: python3 tools/build_ftrace_oracle.py --check
@@ -75,6 +76,7 @@ jobs:
       - run: python3 tools/build_linux_pstree_oracle.py --check
       - run: python3 tools/baseline_matrix.py --source .cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75 --check
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxKallsymsSources -fuzztime 5s
+      - run: go test ./pkg/kallsyms -run '^$' -fuzz FuzzCoreLookup -fuzztime 5s
       - run: go test ./pkg/kallsyms -run '^$' -fuzz FuzzCoreTables -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxTracepointAcquisition -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxFtraceAcquisition -fuzztime 5s

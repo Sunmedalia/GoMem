@@ -65,6 +65,7 @@ def fixture(width, layout, scenario):
             "type": {"kind": "base", "name": "u32" if count_size == 4 else "u64"},
         },
         "kallsyms_names": {"address": 0x17000},
+        "kallsyms_markers": {"address": 0x16A00},
         "kallsyms_token_table": {"address": 0x17400},
         "kallsyms_token_index": {"address": 0x16800},
         "_stext": {"address": 0x8400},
@@ -182,6 +183,10 @@ def generate(source):
                         )
                     cfg = dict(
                         Count=config.num_syms_address,
+                        Markers=config.markers_address,
+                        MarkerSize=config.markers_type_size,
+                        TextStart=config._stext,
+                        HasText=config._stext is not None,
                         Names=config.names_address,
                         TokenTable=config.token_table_address,
                         TokenIndex=config.token_index_address,
