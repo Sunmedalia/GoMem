@@ -95,8 +95,11 @@ func TestOfficialCorpus(t *testing.T) {
 					counts[key]--
 					return nil
 				}})
-				if err != nil {
-					t.Fatal(err)
+				// Expanded lsmod parameter reads expose six array decode failures
+				// hidden as None elements by the pinned renderer on this corpus.
+				wantFailure := tc.os == "linux" && kind == "modules"
+				if (err != nil) != wantFailure || wantFailure && res.Task.State != "failed" {
+					t.Fatal(res, err)
 				}
 				if res.Task.Rows != int64(expected) {
 					t.Fatalf("native count %d != %d", res.Task.Rows, expected)

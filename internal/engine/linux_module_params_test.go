@@ -15,7 +15,7 @@ import (
 	"github.com/Sunmedalia/GoMem/pkg/symbols"
 )
 
-func moduleParamsEngine(t *testing.T, arch, layout string, broken bool) *engine.Engine {
+func moduleParamsEngine(t *testing.T, arch, layout string, broken bool, listed ...bool) *engine.Engine {
 	t.Helper()
 	f := modxFixture(t, arch, "legacy", "")
 	table, err := symbols.Load(f.Symbols)
@@ -91,6 +91,12 @@ func moduleParamsEngine(t *testing.T, arch, layout string, broken bool) *engine.
 	put32(0x1b200, 7)
 	if broken {
 		pointer(0x14010, 0x300000)
+	}
+	if len(listed) > 0 && listed[0] {
+		pointer(0x1d000, 0xc400)
+		pointer(0x1d000+uint64(table.PointerSize()), 0xc400)
+		pointer(0xc400, 0x1d000)
+		pointer(0xc400+uint64(table.PointerSize()), 0x1d000)
 	}
 	encoded, err := table.Encode()
 	if err != nil {

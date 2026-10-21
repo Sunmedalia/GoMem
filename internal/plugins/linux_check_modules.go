@@ -59,7 +59,7 @@ func linuxCheckModules(ctx context.Context, e plugin.Environment, p map[string]s
 		if module == nil {
 			continue
 		}
-		row, err := linuxCheckModuleRow(s, *module, plain)
+		row, err := linuxModuleDisplayRow(s, *module, plain)
 		if err != nil {
 			return err
 		}
@@ -83,27 +83,46 @@ func linuxCheckModules(ctx context.Context, e plugin.Environment, p map[string]s
 	return s.failures.err("Linux module list comparison")
 }
 
-func linuxCheckModuleRow(s *linuxModuleSources, module linuxModuleInfo, plain bool) (evidence.Row, error) {
+func linuxModuleDisplayRow(s *linuxModuleSources, module linuxModuleInfo, plain bool) (evidence.Row, error) {
 	fields := map[string]evidence.Value{}
 	n := s.reader(fields)
 	row := linuxModuleRow(s.e, module.offset, "kset_only", "SysFs")
 	row.Cells["FieldEvidence"] = evidence.Value{Kind: "structure", Data: fields}
-	row.Cells["Name"] = evidence.Text(module.name)
-	row.Cells["Module Name"] = evidence.Text(module.name)
 	row.Cells["Offset"] = evidence.Address(module.offset)
-	row.Cells["Base"] = evidence.Address(module.base)
-	row.Cells["Size"] = evidence.Number(module.size)
-	end, err := memory.Add(module.base, module.size)
-	if err == nil {
-		row.Cells["End"] = evidence.Address(end)
+	name, nameErr := n.text(module.offset, "module", "name")
+	if nameErr != nil {
+		row.Cells["Name"] = evidence.Missing("module_name_unreadable", nameErr)
 	} else {
-		s.failures.add(err)
-		row.Cells["End"] = evidence.Missing("module_range_overflow", err)
+		row.Cells["Name"] = evidence.Text(name)
+	}
+	row.Cells["Module Name"] = row.Cells["Name"]
+	n.capture(module.offset, "module", "list")
+	base, baseErr := n.layout(module.offset, "base")
+	size, sizeErr := n.layout(module.offset, "core")
+	row.Cells["Base"] = evidence.Address(base)
+	row.Cells["Size"] = evidence.Number(size)
+	if baseErr != nil {
+		s.failures.add(baseErr)
+		row.Cells["Base"] = evidence.Missing("module_base_unavailable", baseErr)
+	}
+	if sizeErr != nil {
+		s.failures.add(sizeErr)
+		row.Cells["Size"] = evidence.Missing("module_size_unavailable", sizeErr)
+	}
+	end, endErr := memory.Add(base, size)
+	if baseErr != nil || sizeErr != nil {
+		row.Cells["End"] = evidence.Missing("module_range_unavailable", nil)
+	} else if endErr != nil {
+		s.failures.add(endErr)
+		row.Cells["End"] = evidence.Missing("module_range_overflow", endErr)
+	} else {
+		row.Cells["End"] = evidence.Address(end)
 	}
 	initSize, initErr := n.layout(module.offset, "init")
-	core, coreErr := n.layout(module.offset, "core")
+	core, coreErr := size, sizeErr
+	s.failures.add(initErr)
 	if initErr != nil || coreErr != nil {
-		err = initErr
+		err := initErr
 		if err == nil {
 			err = coreErr
 		}

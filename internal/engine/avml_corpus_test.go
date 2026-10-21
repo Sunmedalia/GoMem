@@ -28,7 +28,7 @@ func TestOfficialLinuxReencodedAVML(t *testing.T) {
 		params map[string]string
 		count  int64
 		failed bool
-	}{{"linux.pslist", nil, 133, false}, {"linux.lsmod", nil, 79, false}, {"linux.maps", map[string]string{"include-past-eof": "false"}, 13990, false}, {"linux.psaux", nil, 133, true}} {
+	}{{"linux.pslist", nil, 133, false}, {"linux.lsmod", nil, 79, true}, {"linux.maps", map[string]string{"include-past-eof": "false"}, 13990, false}, {"linux.psaux", nil, 133, true}} {
 		result, err := e.Run(ctx, tc.name, tc.params, engine.RunOptions{})
 		if (err != nil) != tc.failed || result.Task.Rows != tc.count {
 			t.Fatal(tc.name, result, err)

@@ -1360,19 +1360,25 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
+      "applicability": "Walk the active module list using symbol-described Intel Linux module structures. Preserve Name/Base/Size and expose shared pinned Module Name, Code Size (init plus core), parsed taints, typed load parameters and File Output. Support legacy, module_layout and module_memory extents. Retain raw list/name/extent/taint/parameter captures. plain-taints is a native display option; max-nodes is a native traversal bound. Required read/layout failures preserve available rows and fail the task; failed tasks are never replayed as completed results.",
       "native": "linux.lsmod",
       "status": "partial",
       "accepted": false,
       "corpora": [
-        "synthetic-linux-x64",
-        "official-linux-sample-1"
+        "synthetic-linux-lsmod-x64-x86-pae-get-ops",
+        "official-linux-sample-1",
+        "official-linux-sample-1-reencoded-avml"
       ],
-      "comparison": "selected_fields_match",
+      "comparison": "79_ordered_identities_code_sizes_taints_match_73_exact_displays_38_positive_parameter_displays_6_explained_parameter_failures",
       "gaps": [
-        "Official-corpus differential acceptance pending"
+        "Debian 3.2 x64 has 79 module rows, 73 exact six-column displays (38 with nonempty arguments), and 6 parameter displays unavailable with explicit errors. Full selected-field differential is false, not accepted",
+        "The pinned array helper interprets raw array elements as kernel_param objects and hides invalid getter addresses as None. Native retains these failures and partial parameters, failing the task; this is an intentional diagnostic difference",
+        "1348 complete captures from the 73 successful displays were independently reread. Incomplete module displays are not claimed as fully verified captures",
+        "Synthetic six ABI/getter combinations verify typed parameters, raw captures and byte-identical successful SQLite replay. Failed real tasks rerun rather than reuse results",
+        "Module ELF reconstruction and dump are not implemented. File Output is not_requested and no dump flag is advertised",
+        "Real modern/x86/PAE images, complete traversal/corruption semantics, ARM64 translation and full baseline acceptance remain pending"
       ],
-      "validation_record": "docs/validation.json"
+      "validation_record": "docs/linux-lsmod.md"
     },
     {
       "id": "linux.lsof.Lsof",

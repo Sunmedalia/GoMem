@@ -86,7 +86,7 @@ func Write(dir, platform string) (Fixture, error) {
 		put(0x1b800, uint64(wallSeconds))
 		put(0x1b808, 876543211)
 		t.Types["module_layout"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"base": field(0, ptr), "size": field(8, base("u64"))}}
-		t.Types["module"] = symbols.Type{Kind: "struct", Size: 96, Fields: map[string]symbols.Field{"list": field(0, strct("list_head")), "name": field(16, arr(32)), "core_layout": field(48, strct("module_layout"))}}
+		t.Types["module"] = symbols.Type{Kind: "struct", Size: 96, Fields: map[string]symbols.Field{"list": field(0, strct("list_head")), "name": field(16, arr(32)), "core_layout": field(48, strct("module_layout")), "init_layout": field(64, strct("module_layout")), "taints": field(80, base("u64"))}}
 		list(0x9000, 0xa000, 0xb000)
 		for i, a := range []uint64{0xa000, 0xb000} {
 			pid := uint64(100 + i)

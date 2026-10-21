@@ -1,0 +1,264 @@
+{
+  "schema": "gomem.linux-lsmod-validation/v1",
+  "date": "2026-10-21",
+  "release": "development-preview",
+  "baseline": {
+    "name": "Volatility 3",
+    "version": "2.28.2",
+    "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+    "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+  },
+  "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+  "symbols": ".cache/corpus/linux.zip#linux/Debian_3.2.57-3+deb7u2_3.2.0-4-amd64_x64.json.xz",
+  "dtb": "0x1605000",
+  "artifact_directory": ".cache/lsmod-display-validation",
+  "reference_manifest": {
+    "baseline": {
+      "name": "Volatility 3",
+      "version": "2.28.2",
+      "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+      "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+    },
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "plugin": "linux.lsmod",
+    "parameters": [],
+    "output_sha256": "2aad3e582dcf6a6aeee39664d84c632007393338c007e3fd7d37aafabefc9504",
+    "config_sha256": "03d5f2b6bdcb3fece51b32b6d281aa2e5eef0e2b7da40db641b6710481e5b647",
+    "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+  },
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "Offset",
+      "Module Name",
+      "Code Size",
+      "Taints",
+      "Load Arguments",
+      "File Output"
+    ],
+    "native_rows": 79,
+    "reference_rows": 79,
+    "matched": false,
+    "missing": [
+      {
+        "Code Size": "22364",
+        "File Output": {
+          "missing": "reference-null"
+        },
+        "Load Arguments": "init_mode=, dma=None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None, irq=None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None, io_hi=None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None, io=None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None",
+        "Module Name": "parport_pc",
+        "Offset": "281473369367200",
+        "Taints": "",
+        "parent": null
+      },
+      {
+        "Code Size": "23250",
+        "File Output": {
+          "missing": "reference-null"
+        },
+        "Load Arguments": "lineio=None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None, spdif=None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None, joystick_port=None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None, enable=None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None, id=None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None, index=None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None",
+        "Module Name": "snd_ens1371",
+        "Offset": "281473368999616",
+        "Taints": "",
+        "parent": null
+      },
+      {
+        "Code Size": "23060",
+        "File Output": {
+          "missing": "reference-null"
+        },
+        "Load Arguments": "amidi_map=None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None, midi_map=None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None",
+        "Module Name": "snd_rawmidi",
+        "Offset": "281473368686800",
+        "Taints": "",
+        "parent": null
+      },
+      {
+        "Code Size": "45126",
+        "File Output": {
+          "missing": "reference-null"
+        },
+        "Load Arguments": "seq_default_timer_resolution=0, seq_default_timer_subdevice=0, seq_default_timer_device=3, seq_default_timer_card=-1, seq_default_timer_sclass=0, seq_default_timer_class=1, seq_client_load=None,None,None,None,None,None,None,None,None,None,None,None,None,None,None",
+        "Module Name": "snd_seq",
+        "Offset": "281473368650336",
+        "Taints": "",
+        "parent": null
+      },
+      {
+        "Code Size": "52889",
+        "File Output": {
+          "missing": "reference-null"
+        },
+        "Load Arguments": "cards_limit=1, major=116, slots=None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None",
+        "Module Name": "snd",
+        "Offset": "281473368175120",
+        "Taints": "",
+        "parent": null
+      },
+      {
+        "Code Size": "36418",
+        "File Output": {
+          "missing": "reference-null"
+        },
+        "Load Arguments": "quirks=None,None,None,None, ignoreled=0, mousepoll=0",
+        "Module Name": "usbhid",
+        "Offset": "281473367372448",
+        "Taints": "",
+        "parent": null
+      }
+    ],
+    "extra": [
+      {
+        "Code Size": "22364",
+        "File Output": {
+          "missing": "reference-null"
+        },
+        "Load Arguments": {
+          "error": "module load parameters: 4 failures; first error: kernel_param.ops is null",
+          "missing": "module_arguments_unreadable"
+        },
+        "Module Name": "parport_pc",
+        "Offset": "281473369367200",
+        "Taints": "",
+        "parent": null
+      },
+      {
+        "Code Size": "23250",
+        "File Output": {
+          "missing": "reference-null"
+        },
+        "Load Arguments": {
+          "error": "module load parameters: 6 failures; first error: kernel_param.ops is null",
+          "missing": "module_arguments_unreadable"
+        },
+        "Module Name": "snd_ens1371",
+        "Offset": "281473368999616",
+        "Taints": "",
+        "parent": null
+      },
+      {
+        "Code Size": "23060",
+        "File Output": {
+          "missing": "reference-null"
+        },
+        "Load Arguments": {
+          "error": "module load parameters: 2 failures; first error: kernel:x64:dtb=0x1605000: read 0x100000009 (8 bytes): unmapped memory: nonpresent page-table entry 0x0 at 0x1605000 (prototype/swap or unsupported software encoding)",
+          "missing": "module_arguments_unreadable"
+        },
+        "Module Name": "snd_rawmidi",
+        "Offset": "281473368686800",
+        "Taints": "",
+        "parent": null
+      },
+      {
+        "Code Size": "45126",
+        "File Output": {
+          "missing": "reference-null"
+        },
+        "Load Arguments": {
+          "error": "module load parameters: 1 failures; first error: address overflow: 0xffffffffffffffff + 0x8",
+          "missing": "module_arguments_unreadable"
+        },
+        "Module Name": "snd_seq",
+        "Offset": "281473368650336",
+        "Taints": "",
+        "parent": null
+      },
+      {
+        "Code Size": "52889",
+        "File Output": {
+          "missing": "reference-null"
+        },
+        "Load Arguments": {
+          "error": "module load parameters: 1 failures; first error: kernel_param.ops is null",
+          "missing": "module_arguments_unreadable"
+        },
+        "Module Name": "snd",
+        "Offset": "281473368175120",
+        "Taints": "",
+        "parent": null
+      },
+      {
+        "Code Size": "36418",
+        "File Output": {
+          "missing": "reference-null"
+        },
+        "Load Arguments": {
+          "error": "module load parameters: 1 failures; first error: kernel_param.ops is null",
+          "missing": "module_arguments_unreadable"
+        },
+        "Module Name": "usbhid",
+        "Offset": "281473367372448",
+        "Taints": "",
+        "parent": null
+      }
+    ],
+    "sha256": {
+      "native": "fd5380a8f1d0515232787f90b19fedfeef6a10b0b23d2fbb8493cb3f7a26dcef",
+      "reference": "2aad3e582dcf6a6aeee39664d84c632007393338c007e3fd7d37aafabefc9504",
+      "mapping": "f782fb795a672ae13ea35113a3b664c1f0a7c79b23210630772cd6d8fdb64dfa"
+    }
+  },
+  "ordered_verification": {
+    "test": "TestOfficialLinuxLsmodDisplay",
+    "identities_code_sizes_taints": 79,
+    "complete_displays": 73,
+    "nonempty_parameter_displays": 38,
+    "incomplete_argument_displays": 6,
+    "complete_raw_captures_independently_reread": 1348,
+    "capture_scope": "73 complete displays only",
+    "task_state": "failed",
+    "failed_task_rerun": true,
+    "cache_reused": false
+  },
+  "diagnostic_differences": {
+    "modules": [
+      "parport_pc",
+      "snd_ens1371",
+      "snd_rawmidi",
+      "snd_seq",
+      "snd",
+      "usbhid"
+    ],
+    "cause": "Pinned array helper reinterprets raw array elements as kernel_param objects and turns invalid getter targets into None; native retains read errors and partial arguments and fails the task. No positive array acceptance."
+  },
+  "synthetic": {
+    "test": "TestLinuxLsmodDisplayEvidenceAndCache",
+    "architectures": [
+      "x64",
+      "x86",
+      "pae"
+    ],
+    "getter_layouts": [
+      "get",
+      "ops"
+    ],
+    "successful_layouts": 6,
+    "successful_cache_jsonl_identical": true,
+    "failed_tasks_not_replayed": true,
+    "output_error_and_cancellation": true
+  },
+  "limits": [
+    "Module ELF reconstruction/dump not implemented",
+    "Real modern and x86/PAE acquisitions pending",
+    "Kali ARM64 virtual translation unavailable",
+    "Full selected-field differential false; complete capability acceptance pending"
+  ],
+  "checks": {
+    "make_check": "passed: go vet, all race tests, 28 Python tests, 428 argument fixtures",
+    "inode_mode_oracle": 32768,
+    "module_parameter_oracle": 224,
+    "targeted_real_race": "passed",
+    "kali_physical_smoke": {
+      "plugin": "generic.info",
+      "task": "1e88b9e4e25b12a3e8e52590d195ee34",
+      "rows": 130,
+      "state": "completed",
+      "scope": "physical segments only; ARM64 virtual translation unavailable"
+    }
+  }
+}

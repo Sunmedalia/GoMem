@@ -1,6 +1,38 @@
 {
   "fields": {
-    "Offset": {"native": "Offset", "reference": "Offset", "kind": "address", "mask": "0x0000ffffffffffff"},
-    "Name": {"native": "Name", "reference": "Module Name", "kind": "string"}
+    "Offset": {
+      "native": "Offset",
+      "reference": "Offset",
+      "kind": "address",
+      "mask": "0xffffffffffff"
+    },
+    "Module Name": {
+      "native": "Module Name",
+      "reference": "Module Name",
+      "kind": "string"
+    },
+    "Code Size": {
+      "native": "Code Size",
+      "reference": "Code Size",
+      "kind": "address"
+    },
+    "Taints": {
+      "native": "Taints",
+      "reference": "Taints",
+      "kind": "string"
+    },
+    "Load Arguments": {
+      "native": "Load Arguments",
+      "reference": "Load Arguments",
+      "kind": "string"
+    },
+    "File Output": {
+      "native": "File Output",
+      "reference": "File Output",
+      "kind": "string",
+      "missing_reasons": [
+        "not_requested"
+      ]
+    }
   }
 }
