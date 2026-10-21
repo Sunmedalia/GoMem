@@ -230,6 +230,10 @@ func enumerateWindowsServices(ctx context.Context, e plugin.Environment, layout 
 			regions = []windowsVADPath{region}
 			tag = []byte("Sc27")
 		}
+		resident, err := serviceResidentRanges(ctx, layer)
+		if err != nil {
+			return fmt.Errorf("service mapped ranges for PID %d: %w", pid, err)
+		}
 		for _, region := range regions {
 			if region.end < region.start {
 				continue
@@ -238,7 +242,7 @@ func enumerateWindowsServices(ctx context.Context, e plugin.Environment, layout 
 			if size == 0 {
 				continue
 			}
-			scanErr := scanServicePattern(ctx, layer, region.start, size, tag, func(offset uint64) error {
+			scanErr := scanResidentServicePattern(ctx, layer, resident, region.start, size, tag, func(offset uint64) error {
 				return reader.scanHit(ctx, offset, direct, binaries, seen, stats, out)
 			})
 			if scanErr != nil {
@@ -513,7 +517,103 @@ func readSvcUTF16(ctx context.Context, layer memory.MemoryLayer, address uint64)
 	return text, true, nil
 }
 
+// Enumerate and normalize one resident index per process. Adjacent virtual
+// runs join even when their physical backing differs, so split tags survive.
+func serviceResidentRanges(ctx context.Context, layer memory.MemoryLayer) ([]memory.Range, error) {
+	ranges, err := layerRanges(ctx, layer)
+	if err != nil {
+		return nil, err
+	}
+	ranges = append([]memory.Range(nil), ranges...)
+	sort.Slice(ranges, func(i, j int) bool { return ranges[i].Start < ranges[j].Start })
+	var out []memory.Range
+	for _, span := range ranges {
+		if err := ctx.Err(); err != nil {
+			return nil, err
+		}
+		if span.Length == 0 {
+			continue
+		}
+		end, err := memory.Add(span.Start, span.Length)
+		if err != nil {
+			return nil, err
+		}
+		if len(out) > 0 {
+			prev := &out[len(out)-1]
+			prevEnd := prev.Start + prev.Length
+			if span.Start < prevEnd {
+				return nil, fmt.Errorf("overlapping service resident ranges")
+			}
+			if span.Start == prevEnd {
+				prev.Length = end - prev.Start
+				continue
+			}
+		}
+		out = append(out, memory.Range{Start: span.Start, Length: span.Length})
+	}
+	return out, ctx.Err()
+}
+
+// Intersect each VAD with the resident index while retaining its preorder and
+// the original scanner's read blocks. A partially backed block stays skipped;
+// it cannot invent tags by joining bytes across a hole.
+func scanResidentServicePattern(ctx context.Context, layer memory.MemoryLayer, resident []memory.Range, start, size uint64, needle []byte, emit func(uint64) error) error {
+	if err := ctx.Err(); err != nil {
+		return err
+	}
+	if size == 0 {
+		return nil
+	}
+	end, err := memory.Add(start, size-1)
+	if err != nil {
+		return err
+	}
+	first := sort.Search(len(resident), func(i int) bool { return resident[i].Start+resident[i].Length > start })
+	for _, span := range resident[first:] {
+		if err := ctx.Err(); err != nil {
+			return err
+		}
+		if span.Start > end {
+			break
+		}
+		low := max(start, span.Start)
+		spanEnd := span.Start + span.Length
+		// Align to the same read blocks as the full VAD scan, including an
+		// unaligned VAD start and its final short block.
+		if offset := (low - start) % 4096; offset != 0 {
+			low, err = memory.Add(low, 4096-offset)
+			if err != nil {
+				return err
+			}
+		}
+		if low >= spanEnd || low > end {
+			continue
+		}
+		var length uint64
+		if spanEnd > end {
+			length = end - low + 1
+		} else {
+			length = (spanEnd - low) / 4096 * 4096
+		}
+		if length == 0 {
+			continue
+		}
+		if err := scanServicePattern(ctx, layer, low, length, needle, emit); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func scanServicePattern(ctx context.Context, layer memory.MemoryLayer, start, size uint64, needle []byte, emit func(uint64) error) error {
+	if len(needle) == 0 || len(needle) > 4096 || emit == nil {
+		return fmt.Errorf("service scan requires a 1..4096 byte pattern and an emitter")
+	}
+	if size > 0 {
+		if _, err := memory.Add(start, size-1); err != nil {
+			return err
+		}
+	}
 	const page = 4096
 	var carry []byte
 	for off := uint64(0); off < size; {

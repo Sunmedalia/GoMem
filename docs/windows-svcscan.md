@@ -44,3 +44,11 @@ GOMEM_CORPUS_DIR="$PWD/.cache/corpus" go test ./internal/plugins ./internal/engi
 .cache/reference-venv/bin/python tools/build_service_oracle.py --check
 go test ./internal/plugins -run 'TestServiceLayoutOracle|TestServiceVersionOracle|TestServiceLegacy' -count=1
 ```
+
+## 稀疏 VAD 扫描
+
+每个 `services.exe` 先从现有 Intel 页表枚举器取得驻留可读区间并建立一次索引，再按原 VAD 前序扫描交集。相邻虚拟区间先合并，不会因物理 backing 不同而丢掉跨边界标签。扫描仍使用相对 VAD 起点的 4096 字节读取块和最后一个短块；部分缺失的块仍丢弃，空洞之间不拼接字节。页表区间枚举失败明确返回错误，不把失败当成没有服务。
+
+250 组固定随机种子的稀疏映射将新索引扫描与原逐块算法比较，覆盖未对齐起点、短尾块、相邻容器区间、跨页标签和缺页。额外测试在 2^48 字节的 VAD 中只映射 8192 字节，确认只发出两次页面读取；同时检查区间溢出、重叠、取消和输出失败。
+
+同机、同一选定 19041 x64 镜像的开发回归中，原 `svcscan` 232.09 秒、`svcdiff` 235.71 秒；索引后分别为 1.24 秒与 0.90 秒，`svclist` 为 0.92 秒。三条测试合计 3.681 秒，1578/646/0 行及全部服务列保持一致。这是本机已有系统文件缓存下的观测，包含案件和镜像打开等测试开销；不作为跨硬件、冷启动或其他系统版本的正式性能验收。
