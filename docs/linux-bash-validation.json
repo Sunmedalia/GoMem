@@ -1,7 +1,7 @@
 {
   "scope": "Development preview: one Debian 3.2 x64 bash history differential. Not complete acceptance.",
   "plugin": "linux.bash",
-  "task_id": "adb36a94fb50cb1c37c396b77bc9ab08",
+  "task_id": "ac640b37d9bd374c1ada809d515a85b4",
   "task_state": "completed",
   "reference_manifest": {
     "baseline": {
@@ -33,12 +33,13 @@
     "missing": [],
     "extra": [],
     "sha256": {
-      "native": "f767625e81fe5c2879d0fbf92cc377d63247c149a5ce91fef93d2a071c7fecb0",
+      "native": "c228914a1614e4e1c52f6b95dce3fe79020400ccd329ea94d73d266968bb2c2e",
       "reference": "ca2b388b772a550daa02ce2de63a20053515d58ab6e8f13675e5f24eedb9fced",
-      "mapping": "71402cda7d5c29d048996b8dff6de14a8afee8afc5e7f2f1fc270e408816f27f"
+      "mapping": "29653c38df8be0c364028e22e2f2cce1a6af3d54a0c0a1675872ac3fc4f0732b"
     },
-    "native_input_rows": 28,
+    "native_input_rows": 31,
     "native_non_entity_records": {
+      "coverage": 3,
       "summary": 1
     },
     "entity_selection": {
@@ -46,23 +47,78 @@
       "value": "history",
       "excluded_values": [
         "diagnostic",
-        "summary"
+        "summary",
+        "coverage"
       ]
     }
   },
-  "native_rows": 28,
+  "native_rows": 31,
   "native_summary": {
-    "shells": "3",
     "entries": "27",
-    "read_layout_errors": "0"
+    "read_layout_errors": "0",
+    "scope": "heap hist_entry candidates; invalid entries are not history",
+    "shells": "3"
   },
   "cache": {
     "reused": true,
-    "jsonl_sha256": "f767625e81fe5c2879d0fbf92cc377d63247c149a5ce91fef93d2a071c7fecb0"
+    "jsonl_sha256": "c228914a1614e4e1c52f6b95dce3fe79020400ccd329ea94d73d266968bb2c2e"
   },
   "limitations": [
-    "Pinned hist_entry layout only",
+    "Pinned hist_entry layout only; synthetic x86/PAE/x64 layout checks are not additional real-image acceptance",
     "No 32-bit or alternate bash build differential",
+    "Unicode decimal timestamp digits are not parsed",
+    "Swap and absent heap pages cannot be recovered; omissions fail the task with explicit coverage",
     "Timeline output pending"
-  ]
+  ],
+  "heap_coverage": [
+    {
+      "PID": "3976",
+      "heap_bytes": "958464",
+      "mapped_bytes": "958464",
+      "scope": "whole VMAs overlapping [start_brk, brk]; resident mappings only; no swap recovery",
+      "unmapped_bytes": "0"
+    },
+    {
+      "PID": "8503",
+      "heap_bytes": "2281472",
+      "mapped_bytes": "2281472",
+      "scope": "whole VMAs overlapping [start_brk, brk]; resident mappings only; no swap recovery",
+      "unmapped_bytes": "0"
+    },
+    {
+      "PID": "8600",
+      "heap_bytes": "266240",
+      "mapped_bytes": "266240",
+      "scope": "whole VMAs overlapping [start_brk, brk]; resident mappings only; no swap recovery",
+      "unmapped_bytes": "0"
+    }
+  ],
+  "ordered_comparison": {
+    "matched": true,
+    "rows": 27,
+    "fields": [
+      "PID",
+      "Process",
+      "CommandTime",
+      "Command"
+    ],
+    "normalization": "UTC timestamp seconds; exact sequence including ties",
+    "test": "TestOfficialLinuxBash"
+  },
+  "capture_verification": {
+    "fields": [
+      "EntryPointers",
+      "Line",
+      "Timestamp"
+    ],
+    "captures_per_run": 81,
+    "verification": "Independent process page-table reconstruction and raw byte reread in TestOfficialLinuxBash; fresh and cached rows",
+    "wire_jsonl_identical": true
+  },
+  "engine_build_sha256": "abaa8128b0518eb76d81997f609c18e7a79eb32000a8893748ddecdd0b9bd0db",
+  "checks": {
+    "make check": "passed (vet, all race tests, 28 Python tests, 428 argument cases)",
+    "python3 tools/build_inode_mode_oracle.py --check": "passed (32768 modes)",
+    "make matrix": "passed; 195 inventoried, 0 accepted"
+  }
 }

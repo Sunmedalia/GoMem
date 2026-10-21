@@ -471,11 +471,11 @@ def generate(source):
 
 
         if identifier == "linux.bash.Bash":
-            plugins[-1].update(applicability="Intel Linux tasks named bash, sh, or dash. Scan readable ranges of VMAs overlapping the heap for pinned hist_entry records. Require a nonempty command and a decimal #timestamp. Sort by Unix second, then entry address. Invalid candidates are not rows. Read failures on a selected shell stay diagnostics and fail the task.",
+            plugins[-1].update(applicability="Intel Linux tasks named bash, sh, or dash. Scan readable ranges of VMAs overlapping the heap for pinned hist_entry records. Require a nonempty command and a decimal #timestamp. Restore pointer-hit address order before stable numeric timestamp sorting. Invalid candidates are not rows. Per-shell coverage records expose missing heap pages; incomplete coverage or candidate reads stay diagnostics and fail the task.",
                               corpora=["official-linux-sample-1"],
                               comparison="27_history_rows_match_pid_process_time_command_and_order",
                               validation_record="docs/linux-bash.md",
-                              gaps=["One Debian 3.2 x64 image has three shells and 27 valid entries. All four displayed fields and order match", "The hist_entry layout is the pinned bash64/bash32 profile, not a layout recovered from the target bash binary", "32-bit images, other bash builds, modern kernels, ARM64, and timeline output remain pending"])
+                              gaps=["One Debian 3.2 x64 image has three shells and 27 valid entries. Four displayed fields and exact order match; 81 raw captures are independently reread in process space, including cached output", "Synthetic x86/PAE/x64 tests cover heap VMA decoys, holes, pointer widths, batching, malformed entries, partial reads, cancellation and output errors; they do not establish real-image acceptance", "The hist_entry layout is the pinned bash64/bash32 profile, not a layout recovered from the target bash binary", "Unicode decimal timestamp digits, swap recovery, real 32-bit images, other bash builds, modern kernels, ARM64, and timeline output remain pending"])
         if identifier == "linux.check_modules.Check_modules":
             plugins[-1]["gaps"] = ["Deprecated alias of linux.malware.check_modules.Check_modules; native command is linux.check_modules"]
         if identifier == "linux.malware.check_modules.Check_modules":

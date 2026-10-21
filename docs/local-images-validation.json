@@ -243,5 +243,27 @@
     ],
     "filesystem_validation": "docs/linux-files-validation.json",
     "original_images_reverified": true
+  },
+  "repeat_bash_correction_2026_10_21": {
+    "engine_build_sha256": "abaa8128b0518eb76d81997f609c18e7a79eb32000a8893748ddecdd0b9bd0db",
+    "tests": [
+      {
+        "file": "kali.raw",
+        "plugin": "generic.info",
+        "rows": 130,
+        "state": "completed"
+      },
+      {
+        "file": "linux-sample-1.bin.gz (verified decompressed corpus)",
+        "plugin": "linux.bash",
+        "rows": 31,
+        "history_rows": 27,
+        "state": "completed",
+        "selected_fields_and_order_match": true,
+        "captures_reread_in_process_space": 81,
+        "cache_jsonl_identical": true
+      }
+    ],
+    "scope": "Physical Kali smoke and one Debian Bash differential only; ARM64 virtual translation remains unavailable."
   }
 }
