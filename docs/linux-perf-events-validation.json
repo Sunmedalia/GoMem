@@ -1,0 +1,101 @@
+{
+  "schema": "gomem.linux-perf-events-validation/v1",
+  "date": "2026-10-21",
+  "release": "development-preview",
+  "accepted": false,
+  "baseline": {
+    "name": "Volatility 3",
+    "version": "2.28.2",
+    "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+    "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+  },
+  "oracle": {
+    "cases": 44,
+    "native_paging_cases": 66,
+    "sha256": "9729e941f75a5f835d64c5c9e07d4c2c30fa217a623540aac1dfeab52f386c1f",
+    "scope": "Unmodified PerfEvents generator/listing plus actual PsList/task/list ISF-backed byte objects; no method mocks",
+    "compared_fields": [
+      "PID",
+      "Process",
+      "Event",
+      "Short Program Name",
+      "Full Name",
+      "Address"
+    ],
+    "invalid_task_cases": "Selected fields match baseline filtering while native requires explicit failed uncached retry"
+  },
+  "real_control": {
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "kernel": "Debian 3.2 x64",
+    "positive_detection_acceptance": false,
+    "tasks": 316,
+    "events": 0,
+    "reads": 5928,
+    "acquired_bytes": 2017448,
+    "stored_rows_verified": 6245,
+    "raw_captures_independently_reread": true,
+    "identical_cache_replay": true,
+    "report": {
+      "scope": "selected fields only; full capability acceptance remains pending",
+      "fields": [
+        "PID",
+        "Process",
+        "Event",
+        "Short Program Name",
+        "Full Name",
+        "Address"
+      ],
+      "native_rows": 0,
+      "reference_rows": 0,
+      "matched": true,
+      "missing": [],
+      "extra": [],
+      "sha256": {
+        "native": "4d9db2dffffe118b1957259b475ce0f8e8815eba34db2739a8a184a1d624a5be",
+        "reference": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
+        "mapping": "100d45870e2e8b05cf0864f163d03c2b3198b1c3fe8349467eb4d803977f3519"
+      },
+      "native_input_rows": 6245,
+      "native_non_entity_records": {
+        "event_read": 5928,
+        "task_observation": 316,
+        "event_summary": 1
+      },
+      "entity_selection": {
+        "field": "RecordType",
+        "value": "perf_event",
+        "excluded_values": [
+          "event_read",
+          "task_observation",
+          "event_observation",
+          "event_summary"
+        ]
+      }
+    }
+  },
+  "fuzz": {
+    "target": "FuzzLinuxPerfEvents",
+    "seconds": 10,
+    "executions": 28918
+  },
+  "checks": [
+    "make check",
+    "make matrix",
+    "python3 tools/build_inode_mode_oracle.py --check",
+    "python3 tools/build_perf_events_oracle.py --check",
+    "go test -race ./internal/engine ./internal/plugins -run TestLinuxPerfEvents -count=1",
+    "go test ./internal/plugins -run ^$ -fuzz FuzzLinuxPerfEvents -fuzztime 10s",
+    "TestOfficialLinuxPerfEventsEmptyControlEvidenceAndCache with explicit corpus/reference environment",
+    "go vet ./internal/engine ./internal/plugins",
+    "make build"
+  ],
+  "limitations": [
+    "No real positive perf/eBPF event corpus",
+    "Real modern/x86/PAE and full kernel-version acceptance pending",
+    "Explicit native failures differ from silent baseline filtering/skips",
+    "Bidirectional damaged-list recovery and complete task/thread-ownership parity pending",
+    "Complete parameter, renderer/export and full capability acceptance pending"
+  ]
+}

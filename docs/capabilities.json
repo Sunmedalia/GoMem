@@ -3717,15 +3717,23 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Intel Linux with typed task/thread lists and perf_event.owner_entry. Include threads via thread_group or signal/thread_head; retain PMU event name, short/full BPF program name and program address. Respect fixed 64/512-byte name reads and optional ksym metadata.",
+      "native": "linux.perf_events",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-perf-events-44-byte-backed-object-cases",
+        "synthetic-linux-perf-events-x64-x86-pae-66-paging-cases",
+        "official-linux-sample-1-empty-event-control"
+      ],
+      "comparison": "44_pinned_real_object_cases_six_fields_match_66_native_paging_cases_Debian_316_tasks_zero_events_negative_only",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "No real positive perf/eBPF event corpus; Debian 3.2 has zero linked events in 316 tasks. Modern/real x86/PAE, kernel-version and full capability acceptance remain pending",
+        "Native task/read/list/layout/ownership and resource failures retain diagnostic records and fail analysis instead of silent fixed skips. Task validity covers full extent, signed PID/TGID, optional signal/nsproxy/real_parent, active_mm and mm; bidirectional damaged-list recovery and complete parent/thread ownership parity remain pending",
+        "Full program names use the fixed 512-byte read even when a declared array is shorter; absent ksym is typed missing. Actual mandatory program/aux/name errors are explicit; arbitrary pointer-based ksym layouts and complete damaged-input/renderer acceptance pending",
+        "Program rows identify task objects with TID and available creation counter; PMU, event, program and aux pointers are retained. This inventory does not itself prove maliciousness or establish bytecode recovery. Full exports and parameter/version acceptance remain pending"
+      ],
+      "validation_record": "docs/linux-perf-events.md"
     },
     {
       "id": "linux.tracing.tracepoints.CheckTracepoints",
