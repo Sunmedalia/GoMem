@@ -2288,15 +2288,20 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Symbol-described Intel Linux. Walk tty_drivers, follow tty_driver.ttys pointers, skip nulls, count unmapped slots, and resolve tty_ldisc.ops.receive_buf through pointer fields. Bound each driver with max-devices.",
+      "native": "linux.tty_check",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "official-linux-sample-1"
+      ],
+      "comparison": "7_devices_match_name_address_module_symbol_and_order_1836_raw_captures_reread",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Debian 3.2 x64 has tty1..tty7, all n_tty_receive_buf in the kernel. Five drivers, 344 null slots and 8192 unmapped slots are coverage, not a hooked sample",
+        "A declared device count above max-devices is truncated and recorded; it does not fail the task. Present-device name or handler read failures do fail it",
+        "Synthetic damaged driver lists, modern kernels, 32-bit images, ARM64 and complete acceptance remain pending"
+      ],
+      "validation_record": "docs/linux-tty.md"
     },
     {
       "id": "linux.module_extract.ModuleExtract",
@@ -3718,7 +3723,7 @@
       "corpora": [],
       "comparison": "not_run",
       "gaps": [
-        "Native implementation and validation pending"
+        "Deprecated alias of linux.malware.tty_check.Tty_Check; native command is linux.tty_check"
       ]
     },
     {

@@ -1,0 +1,90 @@
+{
+  "scope": "Development preview: one Debian 3.2 x64 tty differential. Not complete acceptance.",
+  "plugin": "linux.tty_check",
+  "task_id": "d34e214055da67ce4809137adad33e10",
+  "task_state": "completed",
+  "reference_manifest": {
+    "baseline": {
+      "name": "Volatility 3",
+      "version": "2.28.2",
+      "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+      "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+    },
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "plugin": "linux.malware.tty_check.Tty_Check",
+    "parameters": [],
+    "output_sha256": "ae90f7c33ebdf5b255b016b7fdb0c5ffe665f520c58c72b9d330f85ea13b9297",
+    "config_sha256": "33c8b3147b9614976d1a1547c9eb8ce24b9112628d2a818336306d4fc2207874",
+    "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+  },
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "Name",
+      "Address",
+      "Module",
+      "Symbol"
+    ],
+    "native_rows": 7,
+    "reference_rows": 7,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "03036e9c3dafe646c3a51e7303aa173e131800f55fea61bf1685cc2970df29d8",
+      "reference": "ae90f7c33ebdf5b255b016b7fdb0c5ffe665f520c58c72b9d330f85ea13b9297",
+      "mapping": "1392087c2e2ca68435f05fec9f09bc8db248759a11efec1babf506375a35c8a8"
+    },
+    "native_input_rows": 556,
+    "native_non_entity_records": {
+      "source_observation": 3,
+      "module_observation": 238,
+      "sysfs_candidate": 103,
+      "source_selection": 103,
+      "scan_candidate": 101,
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "value": "tty",
+      "excluded_values": [
+        "device_observation",
+        "module_observation",
+        "sysfs_candidate",
+        "source_selection",
+        "scan_candidate",
+        "source_observation",
+        "diagnostic",
+        "summary"
+      ]
+    }
+  },
+  "native_rows": 556,
+  "native_summary": {
+    "devices": "7",
+    "drivers": "5",
+    "null_devices": "344",
+    "read_layout_errors": "0",
+    "scope": "tty receive_buf ownership is not a malware verdict",
+    "skipped_devices": "0",
+    "unattributed": "0"
+  },
+  "complete_raw_captures_independently_reread": 1836,
+  "cache": {
+    "reused": true,
+    "jsonl_byte_identical": true,
+    "sha256": "03036e9c3dafe646c3a51e7303aa173e131800f55fea61bf1685cc2970df29d8"
+  },
+  "bundle": {
+    "verified": true,
+    "sha256": "021df4b80e52785b99f9590d89e9ad8544697195a9e3eb0e3b557c1b3728215b"
+  },
+  "limitations": [
+    "No hooked tty sample",
+    "Unmapped device slots are counted rather than emitted individually",
+    "Synthetic damaged driver lists remain pending",
+    "ARM64 and modern kernels pending"
+  ]
+}
