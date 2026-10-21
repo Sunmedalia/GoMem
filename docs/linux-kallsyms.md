@@ -48,7 +48,7 @@ bin/gomem analyze linux.kallsyms --image memory.raw --symbols kernel.json.xz \
 
 固定 elf.json 的 Elf32_Sym.st_size 声明为八字节，会覆盖 st_info 等后续字段。官方 Size 列保留此固定行为，`RawELFSize` 另存 ABI 的四字节原值；不将它描述为正确的 ELF32 大小。固定 PREL32 导出名称 helper 将 int 传给只接受 Pointer 的函数，实际抛出 `pointer_to_string takes a Pointer`。原生按声明的有符号相对偏移解析，并对溢出/下溢明确失败；这类用例只验证与相同绝对表内容的原生布局等价，不计为与异常基线成功对齐。
 
-ftrace 支持 `ftrace_mod_maps` 的模块/函数链，以及可用的 `ftrace_ops_trampoline_list`。映射函数地址使用虚拟层掩码，跳板值保持基线未掩码语义。BPF 支持现代 `bpf_ksym` 和旧式 `bpf_prog_aux`，程序名称与 pack 标志跟随 `prog.aux`，而非假定它等于链上的 aux 对象。旧式大小取 JIT 页头的 pages × 4096，普通头按 4096 对齐，启用 pack 时按 64 对齐；现代大小来自 end-start。零/负大小不可用，原始区间依据另外保留。可用类型/符号不存在时按固定内核版本门槛跳过来源；损坏布局和读取错误明确使任务失败。
+ftrace 支持 `ftrace_mod_maps` 的模块/函数链，以及可用的 `ftrace_ops_trampoline_list`。映射函数地址使用虚拟层掩码，跳板指针遵循层地址掩码；整数字段保持原始值（基线没有额外的显式掩码）。BPF 支持现代 `bpf_ksym` 和旧式 `bpf_prog_aux`，程序名称与 pack 标志跟随 `prog.aux`，而非假定它等于链上的 aux 对象。旧式大小取 JIT 页头的 pages × 4096，普通头按 4096 对齐，启用 pack 时按 64 对齐；现代大小来自 end-start。零/负大小不可用，原始区间依据另外保留。可用类型/符号不存在时按固定内核版本门槛跳过来源；损坏布局和读取错误明确使任务失败。
 
 `symbol_read` 保存全部实际读取及原始字节、地址、请求/采集长度、完整标记和错误；`symbol_source` 保存来源状态或失败，`symbols_summary` 保存计数/预算。实体 `symbol` 带对象/索引/表坐标等依据，核心行带压缩偏移和大小区间。名称跨入缺页时保留实际前缀和原始失败；受影响实体的 `Error` 为 `symbol_name_acquisition_incomplete`，其 `NameReadIssues` 保存坐标、长度和原因。任务失败后不能作为成功缓存复用。真实镜像中的实体字段一致不抹除缺页，也不证明来源完整。
 
@@ -95,3 +95,5 @@ go test -race ./pkg/kallsyms -run '^TestOfficialDebianCoreLookup$' -count=1 -v
 BPF 地址查找和枚举共用程序区域解析器，具体差异、固定 legacy 异常及 API 验证见 [BPF 查找底座](linux-bpf-lookup.md)。该地址 API 尚未接入完整的来源优先级或调用栈命令。
 
 驻留 ftrace 地址区间查找 API 的顺序、指针规范化及对照验证见 [ftrace 查找底座](linux-ftrace-lookup.md)；完整来源解析器及调用栈接入仍待完成。
+
+补充的 4 组 `get_ftrace_symbols` 实际对象对照覆盖高位跳板的指针/整数字段，6 组 Intel 分页验证八字段、原始采集、SQLite 封存和逐字节缓存回放；详见 [ftrace 查找验证记录](linux-ftrace-lookup-validation.json)。这修正了旧枚举路径将高位指针原样显示的问题。

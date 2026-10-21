@@ -101,5 +101,6 @@
     "Strict bounded/list/layout/read failures differ from fixed silent skipping or padding; partial corpus task fails despite entity equality",
     "No real modern, x86/PAE, ftrace/BPF positive or concurrent/damaged image full acceptance",
     "Intel only as required by fixed class; remaining renderers/parameters and complete class acceptance pending"
-  ]
+  ],
+  "ftrace_high_address_regression_record": "docs/linux-ftrace-lookup-validation.json"
 }

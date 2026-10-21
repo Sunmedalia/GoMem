@@ -224,6 +224,18 @@ def generate(source):
                 )
                 ctx.module("kernel", "memory", 0)
                 kas = Kallsyms(ctx, "memory", "kernel")
+                enumeration = None
+                if scenario in ("high-trampoline", "high-trampoline-scalar"):
+                    enumeration = [
+                        dict(Name=symbol.name, Type=symbol.type,
+                             Address=symbol.address,
+                             Size=Plugin._get_symbol_size(None, symbol),
+                             Exported=symbol.exported,
+                             Module=symbol.module_name,
+                             Subsystem=symbol.subsystem,
+                             Description=symbol.type_description)
+                        for symbol in kas.get_ftrace_symbols()
+                    ]
                 expected = []
                 for query in queries:
                     value, error = None, None
@@ -265,6 +277,7 @@ def generate(source):
                     isf=isf,
                     writes=writes,
                     expected=expected,
+                    enumeration=enumeration,
                 )
             )
     return (

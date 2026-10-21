@@ -221,3 +221,72 @@ func TestLinuxKallsymsFailuresAreExplicitAndNotCached(t *testing.T) {
 		})
 	}
 }
+
+func TestLinuxKallsymsFtraceHighAddressEnumeration(t *testing.T) {
+	raw, err := os.ReadFile("../../pkg/kallsyms/testdata/ftrace-lookup-oracle.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var v struct {
+		Commit string
+		Cases  []struct {
+			kallsymsCase
+			Enumeration []kallsymsRow
+		}
+	}
+	if err = json.Unmarshal(raw, &v); err != nil || v.Commit != "881e970121c16f0932fb9d16fbd5fb258cbcbf75" {
+		t.Fatal(err, v.Commit)
+	}
+	cases := 0
+	for _, c := range v.Cases {
+		if c.Enumeration == nil {
+			continue
+		}
+		cases++
+		arches := []string{"x64"}
+		if c.Width == 4 {
+			arches = []string{"x86", "pae"}
+		}
+		for _, arch := range arches {
+			t.Run(fmt.Sprintf("%s/%s", arch, c.Scenario), func(t *testing.T) {
+				e := kallsymsEngine(t, c.kallsymsCase, arch)
+				params := map[string]string{"ftrace": "true"}
+				got := []kallsymsRow{}
+				reads := 0
+				var fresh, cached bytes.Buffer
+				result, err := e.Run(context.Background(), "linux.kallsyms", params, engine.RunOptions{Emit: func(row evidence.Row) error {
+					if row.Verify() != nil {
+						t.Fatal("output seal")
+					}
+					switch row.Cells["RecordType"].String() {
+					case "symbol":
+						got = append(got, kallsymsSelected(row))
+					case "symbol_read":
+						reads++
+						verifyModuleParameterWireCaptures(t, e, row.Cells["FieldEvidence"])
+					}
+					return json.NewEncoder(&fresh).Encode(row)
+				}})
+				if err != nil || result.Task.State != "completed" || reads == 0 || !reflect.DeepEqual(got, c.Enumeration) {
+					t.Fatalf("state=%s error=%v got=%+v expected=%+v", result.Task.State, err, got, c.Enumeration)
+				}
+				rows, err := e.Store.Query(context.Background(), evidence.Query{TaskID: result.Task.ID, Limit: 1000})
+				if err != nil || len(rows) != int(result.Task.Rows) {
+					t.Fatal(len(rows), result.Task.Rows, err)
+				}
+				for _, row := range rows {
+					if row.Verify() != nil {
+						t.Fatal("stored seal")
+					}
+				}
+				again, err := e.Run(context.Background(), "linux.kallsyms", params, engine.RunOptions{Emit: func(row evidence.Row) error { return json.NewEncoder(&cached).Encode(row) }})
+				if err != nil || !again.Reused || !bytes.Equal(fresh.Bytes(), cached.Bytes()) {
+					t.Fatal("cache replay", again, err)
+				}
+			})
+		}
+	}
+	if cases != 4 {
+		t.Fatal("ftrace enumeration oracle count", cases)
+	}
+}

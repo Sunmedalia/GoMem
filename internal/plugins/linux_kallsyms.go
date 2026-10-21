@@ -631,8 +631,17 @@ func (s *linuxKallsymsReader) ftrace() error {
 				if err != nil {
 					return err
 				}
+				field, err := s.e.Objects.Field("ftrace_ops", "trampoline")
+				if err != nil {
+					return err
+				}
+				// The fixed method does not apply an explicit mask, but its
+				// Pointer object normalizes to the layer's address width.
+				// Integer fields retain their captured high bits.
+				if field.Type.Kind == "pointer" {
+					address &= s.mask
+				}
 				v := false
-				// Pinned trampoline values are unmasked.
 				return s.symbol(at, address, size, size != 0, "ftrace_trampoline", "t", "__builtin__ftrace", "ftrace", &v, nil)
 			})
 			failures.add(err)

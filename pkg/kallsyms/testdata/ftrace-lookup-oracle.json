@@ -929,7 +929,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -1850,7 +1851,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -2771,7 +2773,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -3724,7 +3727,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -4661,7 +4665,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -5614,7 +5619,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -6567,7 +6573,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -7432,7 +7439,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -8289,7 +8297,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -9214,7 +9223,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -10147,7 +10157,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -11076,6 +11087,28 @@
           "Result": null,
           "Error": null
         }
+      ],
+      "enumeration": [
+        {
+          "Name": "ftrace_entry",
+          "Type": "T",
+          "Address": 34304,
+          "Size": 48,
+          "Exported": true,
+          "Module": "active",
+          "Subsystem": "ftrace",
+          "Description": "Symbol is in the text (code) section"
+        },
+        {
+          "Name": "ftrace_trampoline",
+          "Type": "t",
+          "Address": 34560,
+          "Size": 64,
+          "Exported": false,
+          "Module": "__builtin__ftrace",
+          "Subsystem": "ftrace",
+          "Description": "Symbol is in the text (code) section"
+        }
       ]
     },
     {
@@ -12001,6 +12034,28 @@
           "Query": 34816,
           "Result": null,
           "Error": null
+        }
+      ],
+      "enumeration": [
+        {
+          "Name": "ftrace_entry",
+          "Type": "T",
+          "Address": 34304,
+          "Size": 48,
+          "Exported": true,
+          "Module": "active",
+          "Subsystem": "ftrace",
+          "Description": "Symbol is in the text (code) section"
+        },
+        {
+          "Name": "ftrace_trampoline",
+          "Type": "t",
+          "Address": 34560,
+          "Size": 64,
+          "Exported": false,
+          "Module": "__builtin__ftrace",
+          "Subsystem": "ftrace",
+          "Description": "Symbol is in the text (code) section"
         }
       ]
     },
@@ -12943,7 +12998,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -13908,7 +13964,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -14851,7 +14908,8 @@
             "Message": ""
           }
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -15755,7 +15813,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -16614,7 +16673,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -17463,7 +17523,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -18338,7 +18399,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -19236,7 +19298,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -20172,7 +20235,8 @@
             "Message": "Unknown symbol: ftrace_mod_maps"
           }
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 4,
@@ -21125,7 +21189,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -22084,7 +22149,8 @@
           },
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -23027,7 +23093,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -23970,7 +24037,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -24953,7 +25021,8 @@
           },
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -25920,7 +25989,8 @@
           },
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -26903,7 +26973,8 @@
           },
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -27886,7 +27957,8 @@
           },
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -28765,7 +28837,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -29636,7 +29709,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -30591,7 +30665,8 @@
           },
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -31554,7 +31629,8 @@
           },
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -32513,6 +32589,28 @@
           },
           "Error": null
         }
+      ],
+      "enumeration": [
+        {
+          "Name": "ftrace_entry",
+          "Type": "T",
+          "Address": 34304,
+          "Size": 48,
+          "Exported": true,
+          "Module": "active",
+          "Subsystem": "ftrace",
+          "Description": "Symbol is in the text (code) section"
+        },
+        {
+          "Name": "ftrace_trampoline",
+          "Type": "t",
+          "Address": 34560,
+          "Size": 64,
+          "Exported": false,
+          "Module": "__builtin__ftrace",
+          "Subsystem": "ftrace",
+          "Description": "Symbol is in the text (code) section"
+        }
       ]
     },
     {
@@ -33436,6 +33534,28 @@
           "Query": 18446462598732875520,
           "Result": null,
           "Error": null
+        }
+      ],
+      "enumeration": [
+        {
+          "Name": "ftrace_entry",
+          "Type": "T",
+          "Address": 34304,
+          "Size": 48,
+          "Exported": true,
+          "Module": "active",
+          "Subsystem": "ftrace",
+          "Description": "Symbol is in the text (code) section"
+        },
+        {
+          "Name": "ftrace_trampoline",
+          "Type": "t",
+          "Address": 18446462598732875520,
+          "Size": 64,
+          "Exported": false,
+          "Module": "__builtin__ftrace",
+          "Subsystem": "ftrace",
+          "Description": "Symbol is in the text (code) section"
         }
       ]
     },
@@ -34400,7 +34520,8 @@
           },
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -35387,7 +35508,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -36350,7 +36472,8 @@
             "Message": ""
           }
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -37279,7 +37402,8 @@
           },
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -38160,7 +38284,8 @@
           },
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -39031,7 +39156,8 @@
           },
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -39928,7 +40054,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -40848,7 +40975,8 @@
           "Result": null,
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -41804,7 +41932,8 @@
             "Message": "Unknown symbol: ftrace_mod_maps"
           }
         }
-      ]
+      ],
+      "enumeration": null
     },
     {
       "width": 8,
@@ -42787,7 +42916,8 @@
           },
           "Error": null
         }
-      ]
+      ],
+      "enumeration": null
     }
   ]
 }

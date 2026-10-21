@@ -1122,6 +1122,7 @@
       "corpora": [
         "pinned-kallsyms-core-52-byte-backed-object-cases",
         "pinned-kallsyms-sources-120-byte-backed-object-cases",
+        "pinned-ftrace-high-address-enumeration-4-byte-backed-object-cases",
         "synthetic-kallsyms-180-x64-x86-pae-paging-cases",
         "official-linux-sample-1-partial-acquisition"
       ],

@@ -9,7 +9,7 @@
   "oracle": {
     "cases": 46,
     "queries": 1242,
-    "sha256": "a7b261ccfba33bbb60e877bf08645e3b13a185027789dc8722716d218bbc6214",
+    "sha256": "8432a60a6d6a9748ab162d5ed4bbc261000f31c89ac36ed5794a88888228a49c",
     "configuration_rejection_queries": 54,
     "native_queries": 1188,
     "matched_seven_fields": 305,
@@ -50,5 +50,16 @@
     "Standalone API; module lookup, whole-source precedence, CLI address lookup and pscallstack remain pending",
     "Malformed data and resource bounds return explicit errors; not every baseline silent-failure path is duplicated",
     "Acquisition capture, aggregate byte budget and persistence are caller responsibilities"
-  ]
+  ],
+  "enumeration_regression": {
+    "method": "Kallsyms.get_ftrace_symbols",
+    "cases": 4,
+    "native_paging_cases": 6,
+    "fields_compared": 8,
+    "before_fix": "x64 pointer field incorrectly emitted captured 0xffff000000008700 rather than reference 0x8700",
+    "after_fix": "Declared pointer fields use layer mask; integer fields retain high bits",
+    "raw_acquisitions_independently_reread": true,
+    "sqlite_seals_and_byte_identical_cache_replay": true,
+    "real_modern_positive_control": false
+  }
 }
