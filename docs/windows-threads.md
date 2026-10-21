@@ -9,7 +9,7 @@ bin/gomem analyze windows.threads --image memory.dmp --case ./case-001 --offline
 
 插件沿活动进程的 `ThreadListHead` 枚举 `_ETHREAD.ThreadListEntry`，保留完整对象地址、CID PID/TID、两个启动地址、时间与原始时间值。进程身份与 pslist 使用同一计算方法：镜像、地址空间、进程对象、PID 和可用创建时间。线程身份另设命名空间并包含线程对象、TID 和原始创建时间。CID 与所属进程链表不一致时，保留实体、设置 `OwnerPIDMatches=false`，不关联到该进程的文件路径。
 
-启动路径目前仅支持现代 `_RTL_AVL_TREE` / `_RTL_BALANCED_NODE` VAD 布局。每个进程建立一次有界区间索引，校验父节点、循环、深度、VPN 范围和重叠；文件名沿 Subsection、ControlArea、FAST_REF 和 FILE_OBJECT 读取。结构损坏标记 `vad_index_incomplete`，文件缺页保留读取错误；不能转成“没有文件”。System 线程的用户 VAD 路径明确标为不适用。`max-nodes` 限制进程和每个 VAD 树，`max-threads` 限制总遍历与输出；超限、损坏线程链表和取消保留部分结果，并令任务失败。
+启动路径使用[共用 VAD 读取器](windows-vadwalk.md#旧版入口与对象级对照)，原生支持直接指针、BalancedRoot、MM_AVL_NODE、RTL 和 Core 结构。旧版结构只有合成参考，真实镜像仍只验收选定 19041 x64 字段。每个进程建立一次有界区间索引，校验父节点、循环、深度、VPN 范围和重叠；文件名沿 Subsection、ControlArea、FAST_REF 和 FILE_OBJECT 读取。结构损坏标记 `vad_index_incomplete`，文件缺页保留读取错误；不能转成“没有文件”。System 线程的用户 VAD 路径明确标为不适用。`max-nodes` 限制进程和每个 VAD 树，`max-threads` 限制总遍历与输出；超限、损坏线程链表和取消保留部分结果，并令任务失败。
 
 Windows 专用页表策略支持驻留 transition 编码（Transition=1、Prototype=0）。x64 软件页表项按固定基线的 45 位 PFN 范围处理高位标志；通用硬件项和 Linux 不采用该规则。转换结果带 `Transition=true` 和 `PermissionsKnown=false`，不把软件保护位当作 RW/NX 权限。原型页、外部 pagefile 和缺失物理页仍返回错误。此实现并未验收高物理地址 Windows 系统或全部软件页表编码。规则对照来源为锁定提交的 [Intel Windows 层](https://github.com/volatilityfoundation/volatility3/blob/881e970121c16f0932fb9d16fbd5fb258cbcbf75/volatility3/framework/layers/intel.py)。
 
@@ -21,4 +21,4 @@ Windows 专用页表策略支持驻留 transition 编码（Transition=1、Protot
 
 可复现验证：先按 [验证说明](validation.md) 生成固定上游 `windows.threads` JSON，再运行 `tools/diff_results.py` 的八字段映射。`GOMEM_CORPUS_DIR` 设为语料的绝对路径，运行 `go test ./internal/engine -run TestOfficialWindowsThreads -v`，同时检查八字段、无读取错误以及 91/1661 个退出时间类别。常规测试还覆盖 PID 集合、精确时间、进程关联、线程/VAD 循环、父节点错误、文件缺页和输出上限；页表测试覆盖 x86/PAE/x64 的驻留/缺失 transition、原型和交换编码。
 
-其余 Windows 版本、旧 VAD 布局、完整参数、损坏链表恢复、线程池扫描、提取和其他官方输出仍待实现或验收。GoMem 保留异常 CID 及归属信息，不复制上游的静默 PID 合法性过滤；该行为也需进一步差分确认。
+其余 Windows 版本和旧 VAD 的联合镜像验收、完整参数、损坏链表恢复、线程池扫描、提取和其他官方输出仍待实现或验收。GoMem 保留异常 CID 及归属信息，不复制上游的静默 PID 合法性过滤；该行为也需进一步差分确认。

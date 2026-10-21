@@ -1,0 +1,4405 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "cases": [
+    {
+      "name": "xp-32",
+      "isf": {
+        "metadata": {
+          "format": "4.1.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u16": {
+            "kind": "int",
+            "size": 2,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_PARENT": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "Parent": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_MM_AVL_NODE": {
+            "kind": "struct",
+            "size": 12,
+            "fields": {
+              "LeftChild": {
+                "offset": 4,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MM_AVL_NODE"
+                  }
+                }
+              },
+              "RightChild": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MM_AVL_NODE"
+                  }
+                }
+              },
+              "u1": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_PARENT"
+                }
+              }
+            }
+          },
+          "_MMVAD_SHORT": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 12,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 16,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "Parent": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMVAD"
+                  }
+                }
+              },
+              "LeftChild": {
+                "offset": 4,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMVAD"
+                  }
+                }
+              },
+              "RightChild": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMVAD"
+                  }
+                }
+              }
+            }
+          },
+          "_MMVAD": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 12,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 16,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "Parent": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMVAD"
+                  }
+                }
+              },
+              "LeftChild": {
+                "offset": 4,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMVAD"
+                  }
+                }
+              },
+              "RightChild": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMVAD"
+                  }
+                }
+              },
+              "ControlArea": {
+                "offset": 80,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_CONTROL_AREA"
+                  }
+                }
+              }
+            }
+          },
+          "_UNICODE_STRING": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Length": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "MaximumLength": {
+                "offset": 2,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "Buffer": {
+                "offset": 4,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u16"
+                  }
+                }
+              }
+            }
+          },
+          "_FILE_OBJECT": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "FileName": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_UNICODE_STRING"
+                }
+              }
+            }
+          },
+          "_EX_FAST_REF": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "Value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Object": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_CONTROL_AREA": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "FilePointer": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_FILE_OBJECT"
+                  }
+                }
+              }
+            }
+          },
+          "_SUBSECTION": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "ControlArea": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_CONTROL_AREA"
+                  }
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 256,
+            "fields": {
+              "VadRoot": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMVAD"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "enums": {},
+        "symbols": {}
+      },
+      "size": 8192,
+      "segments": [
+        {
+          "offset": 256,
+          "hex": "00000000000000000004"
+        },
+        {
+          "offset": 768,
+          "hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616453"
+        },
+        {
+          "offset": 1024,
+          "hex": "000000000006000000080000000100000f01"
+        },
+        {
+          "offset": 1280,
+          "hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005661646c"
+        },
+        {
+          "offset": 1536,
+          "hex": "00040000000000000000000020000000210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010"
+        },
+        {
+          "offset": 1792,
+          "hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616446"
+        },
+        {
+          "offset": 2048,
+          "hex": "000400000000000000000000000300000003"
+        },
+        {
+          "offset": 4096,
+          "hex": "0012"
+        },
+        {
+          "offset": 4352,
+          "hex": "0010"
+        },
+        {
+          "offset": 4608,
+          "hex": "58005a000014"
+        },
+        {
+          "offset": 5120,
+          "hex": "5c004400650076006900630065005c0048006100720064006400690073006b0056006f006c0075006d00650032005c00570069006e0064006f00770073005c00730065007200760069006300650073002e006500780065"
+        }
+      ],
+      "expected": [
+        {
+          "address": 1024,
+          "start": 1048576,
+          "end": 1114111,
+          "parent": 0,
+          "left": 1536,
+          "right": 2048,
+          "tag": "VadS",
+          "file": null
+        },
+        {
+          "address": 1536,
+          "start": 131072,
+          "end": 139263,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "Vadl",
+          "file": "\\Device\\HarddiskVolume2\\Windows\\services.exe"
+        },
+        {
+          "address": 2048,
+          "start": 3145728,
+          "end": 3149823,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "VadF",
+          "file": null
+        }
+      ]
+    },
+    {
+      "name": "balanced-32",
+      "isf": {
+        "metadata": {
+          "format": "4.1.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u16": {
+            "kind": "int",
+            "size": 2,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_PARENT": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "Parent": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_MMADDRESS_NODE": {
+            "kind": "struct",
+            "size": 12,
+            "fields": {
+              "LeftChild": {
+                "offset": 4,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMADDRESS_NODE"
+                  }
+                }
+              },
+              "RightChild": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMADDRESS_NODE"
+                  }
+                }
+              },
+              "u1": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_PARENT"
+                }
+              }
+            }
+          },
+          "_MMVAD_SHORT": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 12,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 16,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "LeftChild": {
+                "offset": 4,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMADDRESS_NODE"
+                  }
+                }
+              },
+              "RightChild": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMADDRESS_NODE"
+                  }
+                }
+              },
+              "u1": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_PARENT"
+                }
+              }
+            }
+          },
+          "_MMVAD": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 12,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 16,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "LeftChild": {
+                "offset": 4,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMADDRESS_NODE"
+                  }
+                }
+              },
+              "RightChild": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMADDRESS_NODE"
+                  }
+                }
+              },
+              "u1": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_PARENT"
+                }
+              },
+              "Subsection": {
+                "offset": 80,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_SUBSECTION"
+                  }
+                }
+              }
+            }
+          },
+          "_MM_AVL_TABLE": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "BalancedRoot": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_MMADDRESS_NODE"
+                }
+              }
+            }
+          },
+          "_UNICODE_STRING": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Length": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "MaximumLength": {
+                "offset": 2,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "Buffer": {
+                "offset": 4,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u16"
+                  }
+                }
+              }
+            }
+          },
+          "_FILE_OBJECT": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "FileName": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_UNICODE_STRING"
+                }
+              }
+            }
+          },
+          "_EX_FAST_REF": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "Value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Object": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_CONTROL_AREA": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "FilePointer": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_EX_FAST_REF"
+                }
+              }
+            }
+          },
+          "_SUBSECTION": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "ControlArea": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_CONTROL_AREA"
+                  }
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 256,
+            "fields": {
+              "VadRoot": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "_MM_AVL_TABLE"
+                }
+              }
+            }
+          }
+        },
+        "enums": {},
+        "symbols": {}
+      },
+      "size": 8192,
+      "segments": [
+        {
+          "offset": 256,
+          "hex": "000000000000000000000000000000000004"
+        },
+        {
+          "offset": 768,
+          "hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616453"
+        },
+        {
+          "offset": 1024,
+          "hex": "090100000006000000080000000100000f01"
+        },
+        {
+          "offset": 1280,
+          "hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005661646c"
+        },
+        {
+          "offset": 1536,
+          "hex": "01040000000000000000000020000000210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011"
+        },
+        {
+          "offset": 1792,
+          "hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616446"
+        },
+        {
+          "offset": 2048,
+          "hex": "010400000000000000000000000300000003"
+        },
+        {
+          "offset": 4096,
+          "hex": "0312"
+        },
+        {
+          "offset": 4352,
+          "hex": "0010"
+        },
+        {
+          "offset": 4608,
+          "hex": "58005a000014"
+        },
+        {
+          "offset": 5120,
+          "hex": "5c004400650076006900630065005c0048006100720064006400690073006b0056006f006c0075006d00650032005c00570069006e0064006f00770073005c00730065007200760069006300650073002e006500780065"
+        }
+      ],
+      "expected": [
+        {
+          "address": 1024,
+          "start": 1048576,
+          "end": 1114111,
+          "parent": 264,
+          "left": 1536,
+          "right": 2048,
+          "tag": "VadS",
+          "file": null
+        },
+        {
+          "address": 1536,
+          "start": 131072,
+          "end": 139263,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "Vadl",
+          "file": "\\Device\\HarddiskVolume2\\Windows\\services.exe"
+        },
+        {
+          "address": 2048,
+          "start": 3145728,
+          "end": 3149823,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "VadF",
+          "file": null
+        }
+      ]
+    },
+    {
+      "name": "avl-32",
+      "isf": {
+        "metadata": {
+          "format": "4.1.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u16": {
+            "kind": "int",
+            "size": 2,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_PARENT": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "Parent": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_MM_AVL_NODE": {
+            "kind": "struct",
+            "size": 12,
+            "fields": {
+              "LeftChild": {
+                "offset": 4,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MM_AVL_NODE"
+                  }
+                }
+              },
+              "RightChild": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MM_AVL_NODE"
+                  }
+                }
+              },
+              "u1": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_PARENT"
+                }
+              }
+            }
+          },
+          "_MMVAD_SHORT": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 12,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 16,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "VadNode": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_MM_AVL_NODE"
+                }
+              }
+            }
+          },
+          "_MMVAD": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 12,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 16,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "VadNode": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_MM_AVL_NODE"
+                }
+              },
+              "Subsection": {
+                "offset": 80,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_SUBSECTION"
+                  }
+                }
+              }
+            }
+          },
+          "_RTL_AVL_TREE": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "Root": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MM_AVL_NODE"
+                  }
+                }
+              }
+            }
+          },
+          "_UNICODE_STRING": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Length": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "MaximumLength": {
+                "offset": 2,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "Buffer": {
+                "offset": 4,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u16"
+                  }
+                }
+              }
+            }
+          },
+          "_FILE_OBJECT": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "FileName": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_UNICODE_STRING"
+                }
+              }
+            }
+          },
+          "_EX_FAST_REF": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "Value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Object": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_CONTROL_AREA": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "FilePointer": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_EX_FAST_REF"
+                }
+              }
+            }
+          },
+          "_SUBSECTION": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "ControlArea": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_CONTROL_AREA"
+                  }
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 256,
+            "fields": {
+              "VadRoot": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "_RTL_AVL_TREE"
+                }
+              }
+            }
+          }
+        },
+        "enums": {},
+        "symbols": {}
+      },
+      "size": 8192,
+      "segments": [
+        {
+          "offset": 256,
+          "hex": "00000000000000000004"
+        },
+        {
+          "offset": 768,
+          "hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616453"
+        },
+        {
+          "offset": 1024,
+          "hex": "010000000006000000080000000100000f01"
+        },
+        {
+          "offset": 1280,
+          "hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005661646c"
+        },
+        {
+          "offset": 1536,
+          "hex": "01040000000000000000000020000000210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011"
+        },
+        {
+          "offset": 1792,
+          "hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616446"
+        },
+        {
+          "offset": 2048,
+          "hex": "010400000000000000000000000300000003"
+        },
+        {
+          "offset": 4096,
+          "hex": "0312"
+        },
+        {
+          "offset": 4352,
+          "hex": "0010"
+        },
+        {
+          "offset": 4608,
+          "hex": "58005a000014"
+        },
+        {
+          "offset": 5120,
+          "hex": "5c004400650076006900630065005c0048006100720064006400690073006b0056006f006c0075006d00650032005c00570069006e0064006f00770073005c00730065007200760069006300650073002e006500780065"
+        }
+      ],
+      "expected": [
+        {
+          "address": 1024,
+          "start": 1048576,
+          "end": 1114111,
+          "parent": 0,
+          "left": 1536,
+          "right": 2048,
+          "tag": "VadS",
+          "file": null
+        },
+        {
+          "address": 1536,
+          "start": 131072,
+          "end": 139263,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "Vadl",
+          "file": "\\Device\\HarddiskVolume2\\Windows\\services.exe"
+        },
+        {
+          "address": 2048,
+          "start": 3145728,
+          "end": 3149823,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "VadF",
+          "file": null
+        }
+      ]
+    },
+    {
+      "name": "rtl-32",
+      "isf": {
+        "metadata": {
+          "format": "4.1.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u16": {
+            "kind": "int",
+            "size": 2,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_RTL_BALANCED_NODE": {
+            "kind": "struct",
+            "size": 12,
+            "fields": {
+              "Left": {
+                "offset": 4,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_RTL_BALANCED_NODE"
+                  }
+                }
+              },
+              "Right": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_RTL_BALANCED_NODE"
+                  }
+                }
+              },
+              "ParentValue": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_MMVAD_SHORT": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 12,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 16,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "StartingVpnHigh": {
+                "offset": 20,
+                "type": {
+                  "kind": "base",
+                  "name": "u8"
+                }
+              },
+              "EndingVpnHigh": {
+                "offset": 21,
+                "type": {
+                  "kind": "base",
+                  "name": "u8"
+                }
+              },
+              "VadNode": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_RTL_BALANCED_NODE"
+                }
+              }
+            }
+          },
+          "_MMVAD": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 12,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 16,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "StartingVpnHigh": {
+                "offset": 20,
+                "type": {
+                  "kind": "base",
+                  "name": "u8"
+                }
+              },
+              "EndingVpnHigh": {
+                "offset": 21,
+                "type": {
+                  "kind": "base",
+                  "name": "u8"
+                }
+              },
+              "VadNode": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_RTL_BALANCED_NODE"
+                }
+              },
+              "Subsection": {
+                "offset": 80,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_SUBSECTION"
+                  }
+                }
+              }
+            }
+          },
+          "_RTL_AVL_TREE": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "Root": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_RTL_BALANCED_NODE"
+                  }
+                }
+              }
+            }
+          },
+          "_UNICODE_STRING": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Length": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "MaximumLength": {
+                "offset": 2,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "Buffer": {
+                "offset": 4,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u16"
+                  }
+                }
+              }
+            }
+          },
+          "_FILE_OBJECT": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "FileName": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_UNICODE_STRING"
+                }
+              }
+            }
+          },
+          "_EX_FAST_REF": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "Value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Object": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_CONTROL_AREA": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "FilePointer": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_EX_FAST_REF"
+                }
+              }
+            }
+          },
+          "_SUBSECTION": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "ControlArea": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_CONTROL_AREA"
+                  }
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 256,
+            "fields": {
+              "VadRoot": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "_RTL_AVL_TREE"
+                }
+              }
+            }
+          }
+        },
+        "enums": {},
+        "symbols": {}
+      },
+      "size": 8192,
+      "segments": [
+        {
+          "offset": 256,
+          "hex": "00000000000000000004"
+        },
+        {
+          "offset": 768,
+          "hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616453"
+        },
+        {
+          "offset": 1024,
+          "hex": "010000000006000000080000000100000f01"
+        },
+        {
+          "offset": 1280,
+          "hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005661646c"
+        },
+        {
+          "offset": 1536,
+          "hex": "01040000000000000000000020000000210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011"
+        },
+        {
+          "offset": 1792,
+          "hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616446"
+        },
+        {
+          "offset": 2048,
+          "hex": "010400000000000000000000000300000003"
+        },
+        {
+          "offset": 4096,
+          "hex": "0312"
+        },
+        {
+          "offset": 4352,
+          "hex": "0010"
+        },
+        {
+          "offset": 4608,
+          "hex": "58005a000014"
+        },
+        {
+          "offset": 5120,
+          "hex": "5c004400650076006900630065005c0048006100720064006400690073006b0056006f006c0075006d00650032005c00570069006e0064006f00770073005c00730065007200760069006300650073002e006500780065"
+        }
+      ],
+      "expected": [
+        {
+          "address": 1024,
+          "start": 1048576,
+          "end": 1114111,
+          "parent": 0,
+          "left": 1536,
+          "right": 2048,
+          "tag": "VadS",
+          "file": null
+        },
+        {
+          "address": 1536,
+          "start": 131072,
+          "end": 139263,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "Vadl",
+          "file": "\\Device\\HarddiskVolume2\\Windows\\services.exe"
+        },
+        {
+          "address": 2048,
+          "start": 3145728,
+          "end": 3149823,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "VadF",
+          "file": null
+        }
+      ]
+    },
+    {
+      "name": "core-32",
+      "isf": {
+        "metadata": {
+          "format": "4.1.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u16": {
+            "kind": "int",
+            "size": 2,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_MM_AVL_NODE": {
+            "kind": "struct",
+            "size": 12,
+            "fields": {
+              "Left": {
+                "offset": 4,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MM_AVL_NODE"
+                  }
+                }
+              },
+              "Right": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MM_AVL_NODE"
+                  }
+                }
+              },
+              "ParentValue": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_MMVAD_SHORT": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 12,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 16,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "StartingVpnHigh": {
+                "offset": 20,
+                "type": {
+                  "kind": "base",
+                  "name": "u8"
+                }
+              },
+              "EndingVpnHigh": {
+                "offset": 21,
+                "type": {
+                  "kind": "base",
+                  "name": "u8"
+                }
+              },
+              "VadNode": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_MM_AVL_NODE"
+                }
+              }
+            }
+          },
+          "_MMVAD": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "Core": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_MMVAD_SHORT"
+                }
+              },
+              "Subsection": {
+                "offset": 80,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_SUBSECTION"
+                  }
+                }
+              }
+            }
+          },
+          "_RTL_AVL_TREE": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "Root": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MM_AVL_NODE"
+                  }
+                }
+              }
+            }
+          },
+          "_UNICODE_STRING": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Length": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "MaximumLength": {
+                "offset": 2,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "Buffer": {
+                "offset": 4,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u16"
+                  }
+                }
+              }
+            }
+          },
+          "_FILE_OBJECT": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "FileName": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_UNICODE_STRING"
+                }
+              }
+            }
+          },
+          "_EX_FAST_REF": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "Value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Object": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_CONTROL_AREA": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "FilePointer": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_EX_FAST_REF"
+                }
+              }
+            }
+          },
+          "_SUBSECTION": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "ControlArea": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_CONTROL_AREA"
+                  }
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 256,
+            "fields": {
+              "VadRoot": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "_RTL_AVL_TREE"
+                }
+              }
+            }
+          }
+        },
+        "enums": {},
+        "symbols": {}
+      },
+      "size": 8192,
+      "segments": [
+        {
+          "offset": 256,
+          "hex": "00000000000000000004"
+        },
+        {
+          "offset": 768,
+          "hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616453"
+        },
+        {
+          "offset": 1024,
+          "hex": "010000000006000000080000000100000f01"
+        },
+        {
+          "offset": 1280,
+          "hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005661646c"
+        },
+        {
+          "offset": 1536,
+          "hex": "01040000000000000000000020000000210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011"
+        },
+        {
+          "offset": 1792,
+          "hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616446"
+        },
+        {
+          "offset": 2048,
+          "hex": "010400000000000000000000000300000003"
+        },
+        {
+          "offset": 4096,
+          "hex": "0312"
+        },
+        {
+          "offset": 4352,
+          "hex": "0010"
+        },
+        {
+          "offset": 4608,
+          "hex": "58005a000014"
+        },
+        {
+          "offset": 5120,
+          "hex": "5c004400650076006900630065005c0048006100720064006400690073006b0056006f006c0075006d00650032005c00570069006e0064006f00770073005c00730065007200760069006300650073002e006500780065"
+        }
+      ],
+      "expected": [
+        {
+          "address": 1024,
+          "start": 1048576,
+          "end": 1114111,
+          "parent": 0,
+          "left": 1536,
+          "right": 2048,
+          "tag": "VadS",
+          "file": null
+        },
+        {
+          "address": 1536,
+          "start": 131072,
+          "end": 139263,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "Vadl",
+          "file": "\\Device\\HarddiskVolume2\\Windows\\services.exe"
+        },
+        {
+          "address": 2048,
+          "start": 3145728,
+          "end": 3149823,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "VadF",
+          "file": null
+        }
+      ]
+    },
+    {
+      "name": "xp-64",
+      "isf": {
+        "metadata": {
+          "format": "4.1.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u16": {
+            "kind": "int",
+            "size": 2,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_PARENT": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Parent": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_MM_AVL_NODE": {
+            "kind": "struct",
+            "size": 24,
+            "fields": {
+              "LeftChild": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MM_AVL_NODE"
+                  }
+                }
+              },
+              "RightChild": {
+                "offset": 16,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MM_AVL_NODE"
+                  }
+                }
+              },
+              "u1": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_PARENT"
+                }
+              }
+            }
+          },
+          "_MMVAD_SHORT": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 24,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 28,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "Parent": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMVAD"
+                  }
+                }
+              },
+              "LeftChild": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMVAD"
+                  }
+                }
+              },
+              "RightChild": {
+                "offset": 16,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMVAD"
+                  }
+                }
+              }
+            }
+          },
+          "_MMVAD": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 24,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 28,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "Parent": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMVAD"
+                  }
+                }
+              },
+              "LeftChild": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMVAD"
+                  }
+                }
+              },
+              "RightChild": {
+                "offset": 16,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMVAD"
+                  }
+                }
+              },
+              "ControlArea": {
+                "offset": 80,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_CONTROL_AREA"
+                  }
+                }
+              }
+            }
+          },
+          "_UNICODE_STRING": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Length": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "MaximumLength": {
+                "offset": 2,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "Buffer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u16"
+                  }
+                }
+              }
+            }
+          },
+          "_FILE_OBJECT": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "FileName": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_UNICODE_STRING"
+                }
+              }
+            }
+          },
+          "_EX_FAST_REF": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Object": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_CONTROL_AREA": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "FilePointer": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_FILE_OBJECT"
+                  }
+                }
+              }
+            }
+          },
+          "_SUBSECTION": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "ControlArea": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_CONTROL_AREA"
+                  }
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 256,
+            "fields": {
+              "VadRoot": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMVAD"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "enums": {},
+        "symbols": {}
+      },
+      "size": 8192,
+      "segments": [
+        {
+          "offset": 256,
+          "hex": "00000000000000000004"
+        },
+        {
+          "offset": 768,
+          "hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616453"
+        },
+        {
+          "offset": 1024,
+          "hex": "000000000000000000060000000000000008000000000000000100000f01"
+        },
+        {
+          "offset": 1280,
+          "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005661646c"
+        },
+        {
+          "offset": 1536,
+          "hex": "00040000000000000000000000000000000000000000000020000000210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010"
+        },
+        {
+          "offset": 1792,
+          "hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616446"
+        },
+        {
+          "offset": 2048,
+          "hex": "000400000000000000000000000000000000000000000000000300000003"
+        },
+        {
+          "offset": 4096,
+          "hex": "0012"
+        },
+        {
+          "offset": 4352,
+          "hex": "0010"
+        },
+        {
+          "offset": 4608,
+          "hex": "58005a00000000000014"
+        },
+        {
+          "offset": 5120,
+          "hex": "5c004400650076006900630065005c0048006100720064006400690073006b0056006f006c0075006d00650032005c00570069006e0064006f00770073005c00730065007200760069006300650073002e006500780065"
+        }
+      ],
+      "expected": [
+        {
+          "address": 1024,
+          "start": 1048576,
+          "end": 1114111,
+          "parent": 0,
+          "left": 1536,
+          "right": 2048,
+          "tag": "VadS",
+          "file": null
+        },
+        {
+          "address": 1536,
+          "start": 131072,
+          "end": 139263,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "Vadl",
+          "file": "\\Device\\HarddiskVolume2\\Windows\\services.exe"
+        },
+        {
+          "address": 2048,
+          "start": 3145728,
+          "end": 3149823,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "VadF",
+          "file": null
+        }
+      ]
+    },
+    {
+      "name": "balanced-64",
+      "isf": {
+        "metadata": {
+          "format": "4.1.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u16": {
+            "kind": "int",
+            "size": 2,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_PARENT": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Parent": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_MMADDRESS_NODE": {
+            "kind": "struct",
+            "size": 24,
+            "fields": {
+              "LeftChild": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMADDRESS_NODE"
+                  }
+                }
+              },
+              "RightChild": {
+                "offset": 16,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMADDRESS_NODE"
+                  }
+                }
+              },
+              "u1": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_PARENT"
+                }
+              }
+            }
+          },
+          "_MMVAD_SHORT": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 24,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 28,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "LeftChild": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMADDRESS_NODE"
+                  }
+                }
+              },
+              "RightChild": {
+                "offset": 16,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMADDRESS_NODE"
+                  }
+                }
+              },
+              "u1": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_PARENT"
+                }
+              }
+            }
+          },
+          "_MMVAD": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 24,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 28,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "LeftChild": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMADDRESS_NODE"
+                  }
+                }
+              },
+              "RightChild": {
+                "offset": 16,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MMADDRESS_NODE"
+                  }
+                }
+              },
+              "u1": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_PARENT"
+                }
+              },
+              "Subsection": {
+                "offset": 80,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_SUBSECTION"
+                  }
+                }
+              }
+            }
+          },
+          "_MM_AVL_TABLE": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "BalancedRoot": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_MMADDRESS_NODE"
+                }
+              }
+            }
+          },
+          "_UNICODE_STRING": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Length": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "MaximumLength": {
+                "offset": 2,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "Buffer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u16"
+                  }
+                }
+              }
+            }
+          },
+          "_FILE_OBJECT": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "FileName": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_UNICODE_STRING"
+                }
+              }
+            }
+          },
+          "_EX_FAST_REF": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Object": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_CONTROL_AREA": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "FilePointer": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_EX_FAST_REF"
+                }
+              }
+            }
+          },
+          "_SUBSECTION": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "ControlArea": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_CONTROL_AREA"
+                  }
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 256,
+            "fields": {
+              "VadRoot": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "_MM_AVL_TABLE"
+                }
+              }
+            }
+          }
+        },
+        "enums": {},
+        "symbols": {}
+      },
+      "size": 8192,
+      "segments": [
+        {
+          "offset": 256,
+          "hex": "0000000000000000000000000000000000000000000000000004"
+        },
+        {
+          "offset": 768,
+          "hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616453"
+        },
+        {
+          "offset": 1024,
+          "hex": "090100000000000000060000000000000008000000000000000100000f01"
+        },
+        {
+          "offset": 1280,
+          "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005661646c"
+        },
+        {
+          "offset": 1536,
+          "hex": "01040000000000000000000000000000000000000000000020000000210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011"
+        },
+        {
+          "offset": 1792,
+          "hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616446"
+        },
+        {
+          "offset": 2048,
+          "hex": "010400000000000000000000000000000000000000000000000300000003"
+        },
+        {
+          "offset": 4096,
+          "hex": "0312"
+        },
+        {
+          "offset": 4352,
+          "hex": "0010"
+        },
+        {
+          "offset": 4608,
+          "hex": "58005a00000000000014"
+        },
+        {
+          "offset": 5120,
+          "hex": "5c004400650076006900630065005c0048006100720064006400690073006b0056006f006c0075006d00650032005c00570069006e0064006f00770073005c00730065007200760069006300650073002e006500780065"
+        }
+      ],
+      "expected": [
+        {
+          "address": 1024,
+          "start": 1048576,
+          "end": 1114111,
+          "parent": 264,
+          "left": 1536,
+          "right": 2048,
+          "tag": "VadS",
+          "file": null
+        },
+        {
+          "address": 1536,
+          "start": 131072,
+          "end": 139263,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "Vadl",
+          "file": "\\Device\\HarddiskVolume2\\Windows\\services.exe"
+        },
+        {
+          "address": 2048,
+          "start": 3145728,
+          "end": 3149823,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "VadF",
+          "file": null
+        }
+      ]
+    },
+    {
+      "name": "avl-64",
+      "isf": {
+        "metadata": {
+          "format": "4.1.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u16": {
+            "kind": "int",
+            "size": 2,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_PARENT": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Parent": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_MM_AVL_NODE": {
+            "kind": "struct",
+            "size": 24,
+            "fields": {
+              "LeftChild": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MM_AVL_NODE"
+                  }
+                }
+              },
+              "RightChild": {
+                "offset": 16,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MM_AVL_NODE"
+                  }
+                }
+              },
+              "u1": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_PARENT"
+                }
+              }
+            }
+          },
+          "_MMVAD_SHORT": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 24,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 28,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "VadNode": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_MM_AVL_NODE"
+                }
+              }
+            }
+          },
+          "_MMVAD": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 24,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 28,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "VadNode": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_MM_AVL_NODE"
+                }
+              },
+              "Subsection": {
+                "offset": 80,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_SUBSECTION"
+                  }
+                }
+              }
+            }
+          },
+          "_RTL_AVL_TREE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Root": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MM_AVL_NODE"
+                  }
+                }
+              }
+            }
+          },
+          "_UNICODE_STRING": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Length": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "MaximumLength": {
+                "offset": 2,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "Buffer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u16"
+                  }
+                }
+              }
+            }
+          },
+          "_FILE_OBJECT": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "FileName": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_UNICODE_STRING"
+                }
+              }
+            }
+          },
+          "_EX_FAST_REF": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Object": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_CONTROL_AREA": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "FilePointer": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_EX_FAST_REF"
+                }
+              }
+            }
+          },
+          "_SUBSECTION": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "ControlArea": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_CONTROL_AREA"
+                  }
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 256,
+            "fields": {
+              "VadRoot": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "_RTL_AVL_TREE"
+                }
+              }
+            }
+          }
+        },
+        "enums": {},
+        "symbols": {}
+      },
+      "size": 8192,
+      "segments": [
+        {
+          "offset": 256,
+          "hex": "00000000000000000004"
+        },
+        {
+          "offset": 768,
+          "hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616453"
+        },
+        {
+          "offset": 1024,
+          "hex": "010000000000000000060000000000000008000000000000000100000f01"
+        },
+        {
+          "offset": 1280,
+          "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005661646c"
+        },
+        {
+          "offset": 1536,
+          "hex": "01040000000000000000000000000000000000000000000020000000210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011"
+        },
+        {
+          "offset": 1792,
+          "hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616446"
+        },
+        {
+          "offset": 2048,
+          "hex": "010400000000000000000000000000000000000000000000000300000003"
+        },
+        {
+          "offset": 4096,
+          "hex": "0312"
+        },
+        {
+          "offset": 4352,
+          "hex": "0010"
+        },
+        {
+          "offset": 4608,
+          "hex": "58005a00000000000014"
+        },
+        {
+          "offset": 5120,
+          "hex": "5c004400650076006900630065005c0048006100720064006400690073006b0056006f006c0075006d00650032005c00570069006e0064006f00770073005c00730065007200760069006300650073002e006500780065"
+        }
+      ],
+      "expected": [
+        {
+          "address": 1024,
+          "start": 1048576,
+          "end": 1114111,
+          "parent": 0,
+          "left": 1536,
+          "right": 2048,
+          "tag": "VadS",
+          "file": null
+        },
+        {
+          "address": 1536,
+          "start": 131072,
+          "end": 139263,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "Vadl",
+          "file": "\\Device\\HarddiskVolume2\\Windows\\services.exe"
+        },
+        {
+          "address": 2048,
+          "start": 3145728,
+          "end": 3149823,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "VadF",
+          "file": null
+        }
+      ]
+    },
+    {
+      "name": "rtl-64",
+      "isf": {
+        "metadata": {
+          "format": "4.1.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u16": {
+            "kind": "int",
+            "size": 2,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_RTL_BALANCED_NODE": {
+            "kind": "struct",
+            "size": 24,
+            "fields": {
+              "Left": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_RTL_BALANCED_NODE"
+                  }
+                }
+              },
+              "Right": {
+                "offset": 16,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_RTL_BALANCED_NODE"
+                  }
+                }
+              },
+              "ParentValue": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_MMVAD_SHORT": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 24,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 28,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "StartingVpnHigh": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "u8"
+                }
+              },
+              "EndingVpnHigh": {
+                "offset": 33,
+                "type": {
+                  "kind": "base",
+                  "name": "u8"
+                }
+              },
+              "VadNode": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_RTL_BALANCED_NODE"
+                }
+              }
+            }
+          },
+          "_MMVAD": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 24,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 28,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "StartingVpnHigh": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "u8"
+                }
+              },
+              "EndingVpnHigh": {
+                "offset": 33,
+                "type": {
+                  "kind": "base",
+                  "name": "u8"
+                }
+              },
+              "VadNode": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_RTL_BALANCED_NODE"
+                }
+              },
+              "Subsection": {
+                "offset": 80,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_SUBSECTION"
+                  }
+                }
+              }
+            }
+          },
+          "_RTL_AVL_TREE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Root": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_RTL_BALANCED_NODE"
+                  }
+                }
+              }
+            }
+          },
+          "_UNICODE_STRING": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Length": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "MaximumLength": {
+                "offset": 2,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "Buffer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u16"
+                  }
+                }
+              }
+            }
+          },
+          "_FILE_OBJECT": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "FileName": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_UNICODE_STRING"
+                }
+              }
+            }
+          },
+          "_EX_FAST_REF": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Object": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_CONTROL_AREA": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "FilePointer": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_EX_FAST_REF"
+                }
+              }
+            }
+          },
+          "_SUBSECTION": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "ControlArea": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_CONTROL_AREA"
+                  }
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 256,
+            "fields": {
+              "VadRoot": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "_RTL_AVL_TREE"
+                }
+              }
+            }
+          }
+        },
+        "enums": {},
+        "symbols": {}
+      },
+      "size": 8192,
+      "segments": [
+        {
+          "offset": 256,
+          "hex": "00000000000000000004"
+        },
+        {
+          "offset": 768,
+          "hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616453"
+        },
+        {
+          "offset": 1024,
+          "hex": "010000000000000000060000000000000008000000000000000100000f01"
+        },
+        {
+          "offset": 1280,
+          "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005661646c"
+        },
+        {
+          "offset": 1536,
+          "hex": "01040000000000000000000000000000000000000000000020000000210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011"
+        },
+        {
+          "offset": 1792,
+          "hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616446"
+        },
+        {
+          "offset": 2048,
+          "hex": "010400000000000000000000000000000000000000000000000300000003"
+        },
+        {
+          "offset": 4096,
+          "hex": "0312"
+        },
+        {
+          "offset": 4352,
+          "hex": "0010"
+        },
+        {
+          "offset": 4608,
+          "hex": "58005a00000000000014"
+        },
+        {
+          "offset": 5120,
+          "hex": "5c004400650076006900630065005c0048006100720064006400690073006b0056006f006c0075006d00650032005c00570069006e0064006f00770073005c00730065007200760069006300650073002e006500780065"
+        }
+      ],
+      "expected": [
+        {
+          "address": 1024,
+          "start": 1048576,
+          "end": 1114111,
+          "parent": 0,
+          "left": 1536,
+          "right": 2048,
+          "tag": "VadS",
+          "file": null
+        },
+        {
+          "address": 1536,
+          "start": 131072,
+          "end": 139263,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "Vadl",
+          "file": "\\Device\\HarddiskVolume2\\Windows\\services.exe"
+        },
+        {
+          "address": 2048,
+          "start": 3145728,
+          "end": 3149823,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "VadF",
+          "file": null
+        }
+      ]
+    },
+    {
+      "name": "rtl-64-high",
+      "isf": {
+        "metadata": {
+          "format": "4.1.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u16": {
+            "kind": "int",
+            "size": 2,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_RTL_BALANCED_NODE": {
+            "kind": "struct",
+            "size": 24,
+            "fields": {
+              "Left": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_RTL_BALANCED_NODE"
+                  }
+                }
+              },
+              "Right": {
+                "offset": 16,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_RTL_BALANCED_NODE"
+                  }
+                }
+              },
+              "ParentValue": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_MMVAD_SHORT": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 24,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 28,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "StartingVpnHigh": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "u8"
+                }
+              },
+              "EndingVpnHigh": {
+                "offset": 33,
+                "type": {
+                  "kind": "base",
+                  "name": "u8"
+                }
+              },
+              "VadNode": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_RTL_BALANCED_NODE"
+                }
+              }
+            }
+          },
+          "_MMVAD": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 24,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 28,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "StartingVpnHigh": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "u8"
+                }
+              },
+              "EndingVpnHigh": {
+                "offset": 33,
+                "type": {
+                  "kind": "base",
+                  "name": "u8"
+                }
+              },
+              "VadNode": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_RTL_BALANCED_NODE"
+                }
+              },
+              "Subsection": {
+                "offset": 80,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_SUBSECTION"
+                  }
+                }
+              }
+            }
+          },
+          "_RTL_AVL_TREE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Root": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_RTL_BALANCED_NODE"
+                  }
+                }
+              }
+            }
+          },
+          "_UNICODE_STRING": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Length": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "MaximumLength": {
+                "offset": 2,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "Buffer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u16"
+                  }
+                }
+              }
+            }
+          },
+          "_FILE_OBJECT": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "FileName": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_UNICODE_STRING"
+                }
+              }
+            }
+          },
+          "_EX_FAST_REF": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Object": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_CONTROL_AREA": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "FilePointer": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_EX_FAST_REF"
+                }
+              }
+            }
+          },
+          "_SUBSECTION": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "ControlArea": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_CONTROL_AREA"
+                  }
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 256,
+            "fields": {
+              "VadRoot": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "_RTL_AVL_TREE"
+                }
+              }
+            }
+          }
+        },
+        "enums": {},
+        "symbols": {}
+      },
+      "size": 8192,
+      "segments": [
+        {
+          "offset": 256,
+          "hex": "00000000000000000004"
+        },
+        {
+          "offset": 768,
+          "hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616453"
+        },
+        {
+          "offset": 1024,
+          "hex": "010000000000000000060000000000000008000000000000000100000f0100000101"
+        },
+        {
+          "offset": 1280,
+          "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005661646c"
+        },
+        {
+          "offset": 1536,
+          "hex": "01040000000000000000000000000000000000000000000020000000210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011"
+        },
+        {
+          "offset": 1792,
+          "hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616446"
+        },
+        {
+          "offset": 2048,
+          "hex": "010400000000000000000000000000000000000000000000000300000003"
+        },
+        {
+          "offset": 4096,
+          "hex": "0312"
+        },
+        {
+          "offset": 4352,
+          "hex": "0010"
+        },
+        {
+          "offset": 4608,
+          "hex": "58005a00000000000014"
+        },
+        {
+          "offset": 5120,
+          "hex": "5c004400650076006900630065005c0048006100720064006400690073006b0056006f006c0075006d00650032005c00570069006e0064006f00770073005c00730065007200760069006300650073002e006500780065"
+        }
+      ],
+      "expected": [
+        {
+          "address": 1024,
+          "start": 17592187092992,
+          "end": 17592187158527,
+          "parent": 0,
+          "left": 1536,
+          "right": 2048,
+          "tag": "VadS",
+          "file": null
+        },
+        {
+          "address": 1536,
+          "start": 131072,
+          "end": 139263,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "Vadl",
+          "file": "\\Device\\HarddiskVolume2\\Windows\\services.exe"
+        },
+        {
+          "address": 2048,
+          "start": 3145728,
+          "end": 3149823,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "VadF",
+          "file": null
+        }
+      ]
+    },
+    {
+      "name": "core-64",
+      "isf": {
+        "metadata": {
+          "format": "4.1.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u16": {
+            "kind": "int",
+            "size": 2,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_MM_AVL_NODE": {
+            "kind": "struct",
+            "size": 24,
+            "fields": {
+              "Left": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MM_AVL_NODE"
+                  }
+                }
+              },
+              "Right": {
+                "offset": 16,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MM_AVL_NODE"
+                  }
+                }
+              },
+              "ParentValue": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_MMVAD_SHORT": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 24,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 28,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "StartingVpnHigh": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "u8"
+                }
+              },
+              "EndingVpnHigh": {
+                "offset": 33,
+                "type": {
+                  "kind": "base",
+                  "name": "u8"
+                }
+              },
+              "VadNode": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_MM_AVL_NODE"
+                }
+              }
+            }
+          },
+          "_MMVAD": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "Core": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_MMVAD_SHORT"
+                }
+              },
+              "Subsection": {
+                "offset": 80,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_SUBSECTION"
+                  }
+                }
+              }
+            }
+          },
+          "_RTL_AVL_TREE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Root": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MM_AVL_NODE"
+                  }
+                }
+              }
+            }
+          },
+          "_UNICODE_STRING": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Length": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "MaximumLength": {
+                "offset": 2,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "Buffer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u16"
+                  }
+                }
+              }
+            }
+          },
+          "_FILE_OBJECT": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "FileName": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_UNICODE_STRING"
+                }
+              }
+            }
+          },
+          "_EX_FAST_REF": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Object": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_CONTROL_AREA": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "FilePointer": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_EX_FAST_REF"
+                }
+              }
+            }
+          },
+          "_SUBSECTION": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "ControlArea": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_CONTROL_AREA"
+                  }
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 256,
+            "fields": {
+              "VadRoot": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "_RTL_AVL_TREE"
+                }
+              }
+            }
+          }
+        },
+        "enums": {},
+        "symbols": {}
+      },
+      "size": 8192,
+      "segments": [
+        {
+          "offset": 256,
+          "hex": "00000000000000000004"
+        },
+        {
+          "offset": 768,
+          "hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616453"
+        },
+        {
+          "offset": 1024,
+          "hex": "010000000000000000060000000000000008000000000000000100000f01"
+        },
+        {
+          "offset": 1280,
+          "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005661646c"
+        },
+        {
+          "offset": 1536,
+          "hex": "01040000000000000000000000000000000000000000000020000000210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011"
+        },
+        {
+          "offset": 1792,
+          "hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616446"
+        },
+        {
+          "offset": 2048,
+          "hex": "010400000000000000000000000000000000000000000000000300000003"
+        },
+        {
+          "offset": 4096,
+          "hex": "0312"
+        },
+        {
+          "offset": 4352,
+          "hex": "0010"
+        },
+        {
+          "offset": 4608,
+          "hex": "58005a00000000000014"
+        },
+        {
+          "offset": 5120,
+          "hex": "5c004400650076006900630065005c0048006100720064006400690073006b0056006f006c0075006d00650032005c00570069006e0064006f00770073005c00730065007200760069006300650073002e006500780065"
+        }
+      ],
+      "expected": [
+        {
+          "address": 1024,
+          "start": 1048576,
+          "end": 1114111,
+          "parent": 0,
+          "left": 1536,
+          "right": 2048,
+          "tag": "VadS",
+          "file": null
+        },
+        {
+          "address": 1536,
+          "start": 131072,
+          "end": 139263,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "Vadl",
+          "file": "\\Device\\HarddiskVolume2\\Windows\\services.exe"
+        },
+        {
+          "address": 2048,
+          "start": 3145728,
+          "end": 3149823,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "VadF",
+          "file": null
+        }
+      ]
+    },
+    {
+      "name": "core-64-rollover",
+      "isf": {
+        "metadata": {
+          "format": "4.1.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u16": {
+            "kind": "int",
+            "size": 2,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_MM_AVL_NODE": {
+            "kind": "struct",
+            "size": 24,
+            "fields": {
+              "Left": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MM_AVL_NODE"
+                  }
+                }
+              },
+              "Right": {
+                "offset": 16,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MM_AVL_NODE"
+                  }
+                }
+              },
+              "ParentValue": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_MMVAD_SHORT": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "StartingVpn": {
+                "offset": 24,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "EndingVpn": {
+                "offset": 28,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "StartingVpnHigh": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "u8"
+                }
+              },
+              "EndingVpnHigh": {
+                "offset": 33,
+                "type": {
+                  "kind": "base",
+                  "name": "u8"
+                }
+              },
+              "VadNode": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_MM_AVL_NODE"
+                }
+              }
+            }
+          },
+          "_MMVAD": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "Core": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_MMVAD_SHORT"
+                }
+              },
+              "Subsection": {
+                "offset": 80,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_SUBSECTION"
+                  }
+                }
+              }
+            }
+          },
+          "_RTL_AVL_TREE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Root": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_MM_AVL_NODE"
+                  }
+                }
+              }
+            }
+          },
+          "_UNICODE_STRING": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Length": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "MaximumLength": {
+                "offset": 2,
+                "type": {
+                  "kind": "base",
+                  "name": "u16"
+                }
+              },
+              "Buffer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u16"
+                  }
+                }
+              }
+            }
+          },
+          "_FILE_OBJECT": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "FileName": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_UNICODE_STRING"
+                }
+              }
+            }
+          },
+          "_EX_FAST_REF": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Object": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_CONTROL_AREA": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "FilePointer": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "_EX_FAST_REF"
+                }
+              }
+            }
+          },
+          "_SUBSECTION": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "ControlArea": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "_CONTROL_AREA"
+                  }
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 256,
+            "fields": {
+              "VadRoot": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "_RTL_AVL_TREE"
+                }
+              }
+            }
+          }
+        },
+        "enums": {},
+        "symbols": {}
+      },
+      "size": 8192,
+      "segments": [
+        {
+          "offset": 256,
+          "hex": "00000000000000000004"
+        },
+        {
+          "offset": 768,
+          "hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616453"
+        },
+        {
+          "offset": 1024,
+          "hex": "010000000000000000060000000000000008000000000000feffffffffffffff0001"
+        },
+        {
+          "offset": 1280,
+          "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005661646c"
+        },
+        {
+          "offset": 1536,
+          "hex": "01040000000000000000000000000000000000000000000020000000210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011"
+        },
+        {
+          "offset": 1792,
+          "hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000056616446"
+        },
+        {
+          "offset": 2048,
+          "hex": "010400000000000000000000000000000000000000000000000300000003"
+        },
+        {
+          "offset": 4096,
+          "hex": "0312"
+        },
+        {
+          "offset": 4352,
+          "hex": "0010"
+        },
+        {
+          "offset": 4608,
+          "hex": "58005a00000000000014"
+        },
+        {
+          "offset": 5120,
+          "hex": "5c004400650076006900630065005c0048006100720064006400690073006b0056006f006c0075006d00650032005c00570069006e0064006f00770073005c00730065007200760069006300650073002e006500780065"
+        }
+      ],
+      "expected": [
+        {
+          "address": 1024,
+          "start": 17592186036224,
+          "end": 17592186044415,
+          "parent": 0,
+          "left": 1536,
+          "right": 2048,
+          "tag": "VadS",
+          "file": null
+        },
+        {
+          "address": 1536,
+          "start": 131072,
+          "end": 139263,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "Vadl",
+          "file": "\\Device\\HarddiskVolume2\\Windows\\services.exe"
+        },
+        {
+          "address": 2048,
+          "start": 3145728,
+          "end": 3149823,
+          "parent": 1024,
+          "left": 0,
+          "right": 0,
+          "tag": "VadF",
+          "file": null
+        }
+      ]
+    }
+  ]
+}

@@ -20,4 +20,4 @@ GOMEM_CORPUS_DIR="$PWD/.cache/corpus" go test ./internal/engine -run 'TestOffici
 go test ./internal/plugins -run 'TestSvcScan|TestService' -count=1
 ```
 
-参考由锁定的 `tools/reference.py` 分别运行 `windows.svclist.SvcList` 与 `windows.malware.svcdiff.SvcDiff` 生成。差分映射是 `docs/diff/windows.svclist.json` 和 `docs/diff/windows.svcdiff.json`。其他 Windows 版本的整镜像对照、旧版 VAD 入口、真实 32 位和时间线仍未完成。能力保持 partial、accepted=false。
+参考由锁定的 `tools/reference.py` 分别运行 `windows.svclist.SvcList` 与 `windows.malware.svcdiff.SvcDiff` 生成。差分映射是 `docs/diff/windows.svclist.json` 和 `docs/diff/windows.svcdiff.json`。其他 Windows 版本的整镜像对照、真实旧系统联合流程、真实 32 位和时间线仍未完成。能力保持 partial、accepted=false。

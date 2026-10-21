@@ -21,10 +21,30 @@ type windowsVADPath struct {
 	file                evidence.Value
 }
 
-// windowsVADRegions walks a modern VAD tree in the same preorder as
-// MMVAD.traverse: the node, then its left subtree, then its right subtree.
-// Unsupported layouts and incomplete trees are errors.
+// windowsVADRegions preserves preorder and rejects incomplete indexes. The
+// modern RTL fast path is kept for current images; older roots and node types
+// resolve their links and ranges from symbols.
 func windowsVADRegions(ctx context.Context, e plugin.Environment, process uint64, max int) ([]windowsVADPath, error) {
+	root, err := e.Objects.Field("_EPROCESS", "VadRoot")
+	if err != nil {
+		return nil, err
+	}
+	if root.Type.Kind == "pointer" {
+		return windowsLegacyVADRegions(ctx, e, process, max)
+	}
+	if _, err := e.Objects.Field("_EPROCESS", "VadRoot.BalancedRoot"); err == nil {
+		return windowsLegacyVADRegions(ctx, e, process, max)
+	} else if !errors.Is(err, object.ErrFieldAbsent) {
+		return nil, err
+	}
+	member, err := e.Objects.Field("_MMVAD_SHORT", "VadNode")
+	if err != nil || member.Type.Name != "_RTL_BALANCED_NODE" {
+		return windowsLegacyVADRegions(ctx, e, process, max)
+	}
+	return windowsModernVADRegions(ctx, e, process, max)
+}
+
+func windowsModernVADRegions(ctx context.Context, e plugin.Environment, process uint64, max int) ([]windowsVADPath, error) {
 	root, err := e.Objects.Uint(ctx, process, "_EPROCESS", "VadRoot.Root")
 	if err != nil {
 		return nil, fmt.Errorf("modern RTL_AVL_TREE VAD root: %w", err)
@@ -75,37 +95,10 @@ func windowsVADRegions(ctx context.Context, e plugin.Environment, process uint64
 		if parent&^uint64(3) != item.parent {
 			return nil, fmt.Errorf("VAD parent mismatch at %#x", item.node)
 		}
-		vpn := func(name string) (uint64, error) {
-			low, err := e.Objects.Uint(ctx, address, "_MMVAD_SHORT", name)
-			if err != nil {
-				return 0, err
-			}
-			if _, err := e.Objects.Field("_MMVAD_SHORT", name+"High"); err == nil {
-				high, err := e.Objects.Uint(ctx, address, "_MMVAD_SHORT", name+"High")
-				if err != nil {
-					return 0, err
-				}
-				if low > 0xffffffff || high > 0xff {
-					return 0, fmt.Errorf("invalid VAD VPN width")
-				}
-				low |= high << 32
-			} else if !errors.Is(err, object.ErrFieldAbsent) {
-				return 0, err
-			}
-			return low, nil
-		}
-		first, err := vpn("StartingVpn")
+		start, end, err := windowsVADRange(ctx, e, address, "_MMVAD_SHORT")
 		if err != nil {
 			return nil, err
 		}
-		last, err := vpn("EndingVpn")
-		if err != nil {
-			return nil, err
-		}
-		if first > last || last >= uint64(1)<<52 {
-			return nil, fmt.Errorf("invalid VAD address range")
-		}
-		start, end := first<<12, ((last+1)<<12)-1
 		bias := uint64(12)
 		if e.Symbols.PointerSize() == 4 {
 			bias = 4
@@ -147,21 +140,34 @@ func windowsVADPaths(ctx context.Context, e plugin.Environment, process uint64, 
 	return regions, nil
 }
 func windowsVADFile(ctx context.Context, e plugin.Environment, address uint64) evidence.Value {
-	subsection, err := e.Objects.Uint(ctx, address, "_MMVAD", "Subsection")
-	if err != nil {
-		return evidence.Missing("unreadable_or_unavailable", err)
+	var control uint64
+	var err error
+	if _, fieldErr := e.Objects.Field("_MMVAD", "ControlArea"); fieldErr == nil {
+		control, err = e.Objects.Uint(ctx, address, "_MMVAD", "ControlArea")
+	} else if errors.Is(fieldErr, object.ErrFieldAbsent) {
+		var subsection uint64
+		subsection, err = e.Objects.Uint(ctx, address, "_MMVAD", "Subsection")
+		if err == nil && subsection != 0 {
+			control, err = e.Objects.Uint(ctx, subsection, "_SUBSECTION", "ControlArea")
+		}
+	} else {
+		err = fieldErr
 	}
-	if subsection == 0 {
-		return evidence.Missing("not_file_backed", nil)
-	}
-	control, err := e.Objects.Uint(ctx, subsection, "_SUBSECTION", "ControlArea")
 	if err != nil {
 		return evidence.Missing("unreadable_or_unavailable", err)
 	}
 	if control == 0 {
 		return evidence.Missing("not_file_backed", nil)
 	}
-	file, err := e.Objects.Uint(ctx, control, "_CONTROL_AREA", "FilePointer.Value")
+	var file uint64
+	fastRef := true
+	f, err := e.Objects.Field("_CONTROL_AREA", "FilePointer")
+	if err == nil && f.Type.Kind == "pointer" {
+		fastRef = false
+		file, err = e.Objects.Uint(ctx, control, "_CONTROL_AREA", "FilePointer")
+	} else if err == nil {
+		file, err = e.Objects.Uint(ctx, control, "_CONTROL_AREA", "FilePointer.Value")
+	}
 	if err != nil {
 		return evidence.Missing("unreadable_or_unavailable", err)
 	}
@@ -169,7 +175,9 @@ func windowsVADFile(ctx context.Context, e plugin.Environment, address uint64) e
 	if e.Symbols.PointerSize() == 4 {
 		mask = 7
 	}
-	file &= ^mask
+	if fastRef {
+		file &= ^mask
+	}
 	if file == 0 {
 		return evidence.Missing("not_file_backed", nil)
 	}

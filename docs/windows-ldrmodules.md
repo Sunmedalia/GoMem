@@ -7,7 +7,7 @@ bin/gomem analyze windows.ldrmodules --image memory.dmp --case ./case-001 --offl
 bin/gomem analyze windows.ldrmodules --image memory.dmp --case ./case-001 --offline --format jsonl -p pid=384,488
 ```
 
-VAD 使用和 `windows.vadwalk` 相同的现代树。`VadS` 和 `VadF` 没有文件名。其余 `Vad` 标签走 `Subsection.ControlArea.FilePointer`，低位按 `_EX_FAST_REF` 清掉。文件名读不到时对照列是空，原因留在 `PathError`。
+VAD 使用和 `windows.vadwalk` 相同的[共用树读取器](windows-vadwalk.md#旧版入口与对象级对照)，支持直接指针、BalancedRoot 和现代树；旧版结构目前只有合成参考。`VadS` 和 `VadF` 没有文件名。其余 `Vad` 标签按布局走直接 `ControlArea.FilePointer` 或 `Subsection.ControlArea.FilePointer`；fast reference 的低位按 `_EX_FAST_REF` 清掉。文件名读不到时对照列是空，原因留在 `PathError`。
 
 每个进程先建立自己的地址空间。页表建不起来时任务失败。VAD 起点的两个字节在这个地址空间里读。读不到，或者不是 `MZ`，就跳过。三条链表都先走原生 PEB，再走 WoW64。`DllBase` 读不到的条目不进入集合。下一节点不可读就结束当前链表，不因此让任务失败。基址按原始指针比较，展示时仍保留规范地址。
 
