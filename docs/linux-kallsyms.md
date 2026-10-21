@@ -97,3 +97,5 @@ BPF 地址查找和枚举共用程序区域解析器，具体差异、固定 leg
 驻留 ftrace 地址区间查找 API 的顺序、指针规范化及对照验证见 [ftrace 查找底座](linux-ftrace-lookup.md)；完整来源解析器及调用栈接入仍待完成。
 
 补充的 4 组 `get_ftrace_symbols` 实际对象对照覆盖高位跳板的指针/整数字段，6 组 Intel 分页验证八字段、原始采集、SQLite 封存和逐字节缓存回放；详见 [ftrace 查找验证记录](linux-ftrace-lookup-validation.json)。这修正了旧枚举路径将高位指针原样显示的问题。
+
+模块地址区间查找、固定边界及 ELF32 字段差异见 [模块查找底座](linux-module-lookup.md)。这是独立 API，和模块符号枚举具有不同的边界及导出状态语义。

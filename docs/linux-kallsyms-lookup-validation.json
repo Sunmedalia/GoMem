@@ -64,7 +64,7 @@
     "bin/gomem doctor --offline"
   ],
   "limitations": [
-    "Core-only validation; BPF API validation is docs/linux-bpf-lookup-validation.json; ftrace API validation is docs/linux-ftrace-lookup-validation.json; module lookup and full source precedence remain pending",
+    "Core-only validation; BPF API validation is docs/linux-bpf-lookup-validation.json; ftrace API validation is docs/linux-ftrace-lookup-validation.json; module API validation is docs/linux-module-lookup-validation.json; full source precedence remains pending",
     "Pinned extended-length skip cursor and 128-entry LRU behavior preserved; Core is not concurrent-safe",
     "Native bulk compressed-id reads and strict limits can stop at a different cursor on acquisition failure; no fault-cursor equivalence claim",
     "Explicit missing metadata, empty-index, out-of-range marker/invalid marker width, overflow, read, budget and cancellation failures",

@@ -72,3 +72,27 @@ func readName(ctx context.Context, r *object.Reader, at uint64, count int) (stri
 	}
 	return namePrefix(raw), ctx.Err()
 }
+
+func readNonnegativeSize(ctx context.Context, r *object.Reader, at uint64, typ, field string) (uint64, error) {
+	layout, err := r.Field(typ, field)
+	if err != nil {
+		return 0, err
+	}
+	if layout.Type.Kind == "base" {
+		scalar, err := r.Symbols.Type(layout.Type.Name)
+		if err != nil {
+			return 0, err
+		}
+		if scalar.Signed {
+			value, err := r.Int(ctx, at, typ, field)
+			if err != nil {
+				return 0, err
+			}
+			if value < 0 {
+				return 0, fmt.Errorf("negative %s.%s", typ, field)
+			}
+			return uint64(value), nil
+		}
+	}
+	return r.Uint(ctx, at, typ, field)
+}

@@ -1,0 +1,82 @@
+{
+  "schema": "gomem.linux-module-lookup-validation/v1",
+  "date": "2026-10-22",
+  "release": "development-preview",
+  "accepted": false,
+  "plugin_registered": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Native module interval lookup API with explicit gate/range/tree evidence; no whole resolver or pscallstack acceptance",
+  "oracle": {
+    "cases": 240,
+    "queries": 8400,
+    "sha256": "5d425ba54e6e30c8e941c1b3ed1b35b9c9f58456ec707650a2987d544c66c15e",
+    "matched_seven_fields": 1440,
+    "matched_no_result": 6496,
+    "native_explicit_errors_for_baseline_errors": {
+      "IndexError": 232,
+      "TypeError": 116,
+      "SymbolError": 116
+    },
+    "module_layouts": [
+      "legacy",
+      "pointer",
+      "embedded",
+      "typetab"
+    ],
+    "widths": [
+      4,
+      8
+    ],
+    "sequence_layouts": [
+      "seq.sequence",
+      "seq.seqcount.sequence"
+    ],
+    "sequence_values": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "methods": [
+      "module_lookup_address",
+      "_get_module_by_address",
+      "_search_module_by_address",
+      "_mod_tree_comp",
+      "_find_address_in_module_symbols",
+      "_elfsym_to_kassymbol",
+      "module.get_module_address_boundaries",
+      "module.get_symbols",
+      "module.get_symbol_type",
+      "Modules.list_modules",
+      "latch_tree_root.find"
+    ],
+    "independently_compared_tree_module_objects": true,
+    "different_module_objects_for_both_tree_copies_and_list": true,
+    "native_paging_cases": 360,
+    "paging_scope": "Full results and errors equivalent to reference-validated flat controls; each successful virtual acquisition compared against identity-mapped bytes",
+    "raw_acquisitions_independently_reread": true,
+    "ABI_fields_independently_decoded_from_fixture_bytes": true,
+    "every_acquisition_failure_cancellation_and_retry": true,
+    "shared_tree_list_node_and_module_symbol_budget_tests": true
+  },
+  "fuzz": {
+    "target": "FuzzModuleLookup",
+    "seconds": 10,
+    "executions": 36436
+  },
+  "checks": [
+    "make check",
+    "make matrix",
+    "python3 tools/build_inode_mode_oracle.py --check",
+    "python3 tools/build_module_lookup_oracle.py --check",
+    "make build",
+    "bin/gomem doctor --offline"
+  ],
+  "limitations": [
+    "Pinned boundary expression and Elf32 overlapping value/size may yield reversed or misleading ranges; evidence retained; not ABI-correct owner inference",
+    "No real modern module tree positive or concurrent-memory consistency/performance acceptance",
+    "Standalone API; full resolver, CLI address lookup and callstack integration remain pending",
+    "Strict explicit metadata/read/bounds/cancellation errors can differ from baseline padding/skipping/unavailable fields",
+    "Byte budget, persistence and lossless address serialization remain caller responsibilities; no sealed-store or cache acceptance claimed for this API"
+  ]
+}

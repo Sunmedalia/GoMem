@@ -160,7 +160,7 @@ func LookupFtrace(ctx context.Context, r *object.Reader, c FtraceConfig, address
 					return err
 				}
 				start &= c.AddressMask
-				size, err := ftraceSize(ctx, r, at, "ftrace_mod_func", "size")
+				size, err := readNonnegativeSize(ctx, r, at, "ftrace_mod_func", "size")
 				if err != nil {
 					return err
 				}
@@ -202,7 +202,7 @@ func LookupFtrace(ctx context.Context, r *object.Reader, c FtraceConfig, address
 			if field.Type.Kind == "pointer" {
 				start &= c.AddressMask
 			}
-			size, err := ftraceSize(ctx, r, at, "ftrace_ops", "trampoline_size")
+			size, err := readNonnegativeSize(ctx, r, at, "ftrace_ops", "trampoline_size")
 			if err != nil {
 				return err
 			}
@@ -223,28 +223,4 @@ func LookupFtrace(ctx context.Context, r *object.Reader, c FtraceConfig, address
 		}
 	}
 	return nil, ctx.Err()
-}
-
-func ftraceSize(ctx context.Context, r *object.Reader, at uint64, typ, field string) (uint64, error) {
-	layout, err := r.Field(typ, field)
-	if err != nil {
-		return 0, err
-	}
-	if layout.Type.Kind == "base" {
-		scalar, err := r.Symbols.Type(layout.Type.Name)
-		if err != nil {
-			return 0, err
-		}
-		if scalar.Signed {
-			value, err := r.Int(ctx, at, typ, field)
-			if err != nil {
-				return 0, err
-			}
-			if value < 0 {
-				return 0, fmt.Errorf("negative ftrace symbol size")
-			}
-			return uint64(value), nil
-		}
-	}
-	return r.Uint(ctx, at, typ, field)
 }

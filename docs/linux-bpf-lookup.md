@@ -34,4 +34,6 @@ go test -race ./internal/plugins ./internal/engine -run '^TestLinuxKallsyms' -co
 go test ./pkg/kallsyms -run '^$' -fuzz '^FuzzBPFLookup$' -fuzztime 10s
 ```
 
-当前是 Go API 底座，尚未提供完整的 CLI 地址查询、模块/ftrace 查找优先级或 `linux.pscallstack`。真实现代内核 BPF 阳性、实时变化镜像、完整参数/渲染和类级验收仍待补齐；能力矩阵保持部分实现，不能将这些合成对照计为正式验收。见[机器验证记录](linux-bpf-lookup-validation.json)。
+当前是 Go API 底座，尚未提供完整的 CLI 地址查询、完整模块/BPF/ftrace 来源优先级或 `linux.pscallstack`。真实现代内核 BPF 阳性、实时变化镜像、完整参数/渲染和类级验收仍待补齐；能力矩阵保持部分实现，不能将这些合成对照计为正式验收。见[机器验证记录](linux-bpf-lookup-validation.json)。
+
+后续模块与 ftrace API 的独立验证见 [模块查找底座](linux-module-lookup.md)和 [ftrace 查找底座](linux-ftrace-lookup.md)。
