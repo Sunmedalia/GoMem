@@ -1,0 +1,101 @@
+{
+  "schema": "gomem.module-parameter-validation/v1",
+  "date": "2026-10-21",
+  "release": "development-preview",
+  "scope": "Pinned decoder decisions and synthetic native-memory fixtures only; no positive real-module parameter acceptance",
+  "baseline": {
+    "name": "Volatility 3",
+    "version": "2.28.2",
+    "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+    "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+  },
+  "environment": {
+    "go": "go version go1.26.2 darwin/arm64",
+    "python": "3.14.2",
+    "platform": "Darwin/arm64"
+  },
+  "oracle": {
+    "generator": "tools/build_module_params_oracle.py",
+    "fixture": "internal/plugins/testdata/linux-module-params-oracle.json",
+    "sha256": "c60ebe44d14e1dc3d91906658179816ee289b803b07947bc22f840c599b3a9a1",
+    "cases": 224,
+    "pointer_widths": [
+      4,
+      8
+    ],
+    "byte_order": [
+      "little",
+      "big"
+    ],
+    "getter_layouts": [
+      "get",
+      "ops"
+    ],
+    "dispatch": "Actual pinned Modules._get_param_handlers and Modules._get_param_val; byte-backed object/string boundary",
+    "native_test": "TestLinuxModuleParamsPinnedByteOracle"
+  },
+  "engine": {
+    "tests": [
+      "TestLinuxModuleParameterEvidenceAndCache",
+      "TestLinuxModuleParameterReadFailureRemainsPartial"
+    ],
+    "architectures": [
+      "x64",
+      "x86",
+      "pae"
+    ],
+    "getter_layouts": [
+      "get",
+      "ops"
+    ],
+    "successful_layouts": 6,
+    "raw_capture_rereads": "Independent kernel-address reads before and after case persistence",
+    "fresh_cached_jsonl_identical": true,
+    "partial_read_task_state": "failed; preserved available parameters; cache not reused"
+  },
+  "robustness": {
+    "tests": [
+      "TestLinuxModuleParamsMalformedAndPartialReads",
+      "TestLinuxModuleArgumentBoundsAndIncompleteDisplay",
+      "TestLinuxModuleParameterGraphAndStringBudgets",
+      "TestLinuxModuleParameterTableAbsenceHasReason",
+      "TestLinuxModuleParameterInclusiveBounds"
+    ],
+    "fuzz": {
+      "target": "FuzzLinuxModuleParameterGraph",
+      "requested_seconds": 5,
+      "executions": 103218,
+      "result": "passed"
+    }
+  },
+  "checks": {
+    "make check": "passed",
+    "module_parameter_oracle_check": "224 cases passed",
+    "make matrix": "passed; 195 inventoried, 0 accepted",
+    "inode_mode_oracle": "32768 modes passed",
+    "targeted_race_with_Debian_corpus": "passed"
+  },
+  "real_image_regression": {
+    "engine_build_sha256": "ddc2be9a14b653e8d47078b03df50b6eb690a296c615258b12d73a76d8aa2c74",
+    "debian_check_modules": {
+      "rows": 288,
+      "kset_only": 0,
+      "comparison_matched": true,
+      "cache_identical": true
+    },
+    "kali_physical_segments": 130
+  },
+  "intentional_differences": [
+    "Read errors and incomplete requested extents fail the task and retain partial evidence; the reference can return None, omit parameters or return a partial string",
+    "Go bounds table size, array size, recursion, visits and aggregate string bytes, with explicit failures",
+    "The reference kparam_string and recursive-array address choices are preserved; that behavior is not a claim of complete real-kernel array/string interpretation"
+  ],
+  "remaining": [
+    "Positive real-module parameter differential",
+    "Actual kernel/build storage variations for string and array parameters",
+    "Module ELF extraction and dump option",
+    "Complete Linux/macOS/platform capability acceptance"
+  ]
+}

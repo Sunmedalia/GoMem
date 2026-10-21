@@ -8,7 +8,6 @@ import (
 	"github.com/Sunmedalia/GoMem/pkg/evidence"
 	"github.com/Sunmedalia/GoMem/pkg/memory"
 	"github.com/Sunmedalia/GoMem/pkg/plugin"
-	"github.com/Sunmedalia/GoMem/pkg/symbols"
 )
 
 func linuxCheckModulesPlugins() []builtin {
@@ -136,6 +135,9 @@ func linuxCheckModuleRow(s *linuxModuleSources, module linuxModuleInfo, plain bo
 	}
 	arguments, argErr := linuxModuleArguments(n, module.offset)
 	if argErr != nil {
+		s.failures.add(argErr)
+		fields["LoadArgumentsPartial"] = evidence.Text(arguments)
+		row.Cells["Error"] = evidence.Missing("module_arguments_incomplete", argErr)
 		row.Cells["Load Arguments"] = evidence.Missing("module_arguments_unreadable", argErr)
 	} else {
 		row.Cells["Load Arguments"] = evidence.Text(arguments)
@@ -143,125 +145,4 @@ func linuxCheckModuleRow(s *linuxModuleSources, module linuxModuleInfo, plain bo
 	row.Cells["File Output"] = evidence.Missing("not_requested", nil)
 	row.Cells["Status"] = evidence.Text("kset_only")
 	return row, nil
-}
-
-func linuxModuleArguments(n *linuxModuleRead, module uint64) (string, error) {
-	present, err := n.has("module", "kp")
-	if err != nil || !present {
-		return "", err
-	}
-	count, err := n.uint(module, "module", "num_kp")
-	if err != nil {
-		return "", err
-	}
-	if count > 128 {
-		return "", fmt.Errorf("module parameter count %d exceeds 128", count)
-	}
-	if count == 0 {
-		return "", nil
-	}
-	kp, err := n.uint(module, "module", "kp")
-	if err != nil {
-		return "", err
-	}
-	param, err := n.e.Symbols.Type("kernel_param")
-	if err != nil || param.Size == 0 {
-		return "", fmt.Errorf("kernel_param stride unavailable: %v", err)
-	}
-	stride := param.Size
-	var parts []string
-	for i := uint64(0); i < count; i++ {
-		if err := n.ctx.Err(); err != nil {
-			return "", err
-		}
-		if stride > (^uint64(0)-kp)/count {
-			return "", fmt.Errorf("kernel parameter address overflow")
-		}
-		at, err := memory.Add(kp, i*stride)
-		if err != nil {
-			return "", err
-		}
-		namePtr, err := n.uint(at, "kernel_param", "name")
-		if err != nil {
-			continue
-		}
-		raw, proof, err := linuxCaptureRange(n.ctx, n.e.Kernel, namePtr, 32)
-		n.fields[fmt.Sprintf("param_name@%x", at)] = proof
-		if err != nil {
-			n.failures.add(err)
-			continue
-		}
-		name := spoofDecoded(raw)
-		value, err := linuxKernelParamValue(n, at)
-		if err != nil {
-			n.failures.add(err)
-			continue
-		}
-		parts = append(parts, name+"="+value)
-	}
-	return joinComma(parts), nil
-}
-
-func linuxKernelParamValue(n *linuxModuleRead, param uint64) (string, error) {
-	getter, err := linuxParamGetter(n, param)
-	if err != nil || getter == 0 {
-		return "", err
-	}
-	handlers := map[string]string{
-		"param_get_invbool": "int", "param_get_bool": "int", "param_get_int": "int",
-		"param_get_ulong": "long unsigned int", "param_get_ullong": "long long unsigned int",
-		"param_get_long": "long int", "param_get_uint": "unsigned int",
-		"param_get_ushort": "short unsigned int", "param_get_short": "short int", "param_get_byte": "char",
-	}
-	for name, typ := range handlers {
-		address, err := n.e.Symbol(name)
-		if err != nil || address != getter {
-			continue
-		}
-		arg, err := n.uint(param, "kernel_param", "arg")
-		if err != nil {
-			return "", err
-		}
-		ref, err := n.e.Symbols.Type(typ)
-		if err != nil {
-			return "", err
-		}
-		value, err := n.scalar(arg, symbols.TypeRef{Kind: "base", Name: typ})
-		_ = ref
-		if err != nil {
-			return "", err
-		}
-		if ref.Signed {
-			return strconv.FormatInt(int64(value), 10), nil
-		}
-		return strconv.FormatUint(value, 10), nil
-	}
-	for _, name := range []string{"param_get_string", "param_get_charp"} {
-		address, err := n.e.Symbol(name)
-		if err != nil || address != getter {
-			continue
-		}
-		return "<param>", nil
-	}
-	return "", nil
-}
-
-func linuxParamGetter(n *linuxModuleRead, param uint64) (uint64, error) {
-	if ok, err := n.has("kernel_param", "get"); err != nil {
-		return 0, err
-	} else if ok {
-		return n.uint(param, "kernel_param", "get")
-	}
-	return n.uint(param, "kernel_param", "ops.get")
-}
-
-func joinComma(parts []string) string {
-	out := ""
-	for i, part := range parts {
-		if i != 0 {
-			out += ", "
-		}
-		out += part
-	}
-	return out
 }

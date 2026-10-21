@@ -49,6 +49,7 @@ jobs:
       - run: python3 tools/build_linux_ip_oracle.py --check
       - run: python3 tools/build_vmcoreinfo_oracle.py --check
       - run: python3 tools/build_modxview_oracle.py --check
+      - run: python3 tools/build_module_params_oracle.py --check
       - run: python3 tools/build_kthreads_oracle.py --check
       - run: python3 tools/build_afinfo_oracle.py --check
       - run: python3 tools/build_idt_oracle.py --check
@@ -71,6 +72,7 @@ jobs:
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxArgumentDisplay -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxClockArithmetic -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzVMCoreInfoDescriptor -fuzztime 5s
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxModuleParameterGraph -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxModuleMemoryLayouts -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxModuleELFSymbols -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxInodeTimestamp -fuzztime 5s

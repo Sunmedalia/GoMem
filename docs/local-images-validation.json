@@ -265,5 +265,26 @@
       }
     ],
     "scope": "Physical Kali smoke and one Debian Bash differential only; ARM64 virtual translation remains unavailable."
+  },
+  "repeat_module_parameters_2026_10_21": {
+    "engine_build_sha256": "ddc2be9a14b653e8d47078b03df50b6eb690a296c615258b12d73a76d8aa2c74",
+    "tests": [
+      {
+        "file": "kali.raw",
+        "plugin": "generic.info",
+        "rows": 130,
+        "state": "completed"
+      },
+      {
+        "file": "linux-sample-1.bin.gz (verified decompressed corpus)",
+        "plugin": "linux.check_modules",
+        "rows": 288,
+        "state": "completed",
+        "selected_kset_only_rows": 0,
+        "read_errors": 0,
+        "cache_jsonl_identical": true
+      }
+    ],
+    "scope": "Physical Kali smoke and a Debian negative comparison only. No real module-parameter or ARM64 virtual-address acceptance."
   }
 }

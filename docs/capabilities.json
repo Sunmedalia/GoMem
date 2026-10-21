@@ -1767,7 +1767,7 @@
       "gaps": [
         "Debian 3.2 x64 is a negative control: 79 active names and 79 selected sysfs names produce zero rows on both sides",
         "Synthetic x64/x86/PAE cover kset-only selection, module/kobject name divergence, duplicate keys, irrelevant scanner/display layouts, corrupt sources, capture rereads and cache replay. Real kset-only, modern-kernel and 32-bit differentials remain pending",
-        "Load-argument decoding has unresolved scalar/string/array compatibility gaps and this negative image cannot validate it",
+        "Scalar, bool/invbool, string and recursive-array parameter decisions match 224 pinned byte-backed oracle cases; x64/x86/PAE engine fixtures reread captures and cache. Real module parameters and array storage variations remain pending; see docs/linux-module-parameters.md",
         "Module ELF dump stays unavailable; default File Output records not_requested and compares with the reference null"
       ],
       "validation_record": "docs/linux-check-modules.md"

@@ -116,7 +116,7 @@ bin/gomem analyze windows.pslist \
 | `linux.ptrace` | 检查进程/线程 ptrace 关系，保留标志、对象身份和原始字段；[说明](docs/linux-ptrace.md) |
 | `linux.tty_check` | 遍历 tty 驱动和设备，核对 receive_buf 的模块与精确符号；缺页槽位计数，不把空设备当失败；[说明](docs/linux-tty.md) |
 | `linux.mountinfo` | 按挂载命名空间列出 mountinfo 字段，保留已删除挂载点的显示空格；读取失败单独成行；[说明](docs/linux-mountinfo.md) |
-| `linux.check_modules` | 比较 sysfs kset 与活动模块链表，只报告 kset 独有名称；空结果是完成的比较；[说明](docs/linux-check-modules.md) |
+| `linux.check_modules` | 比较 sysfs kset 与活动模块链表，只报告 kset 独有名称；空结果是完成的比较；[说明](docs/linux-check-modules.md)、[参数验证](docs/linux-module-parameters.md) |
 | `linux.bash` | 从 bash/sh/dash 堆中恢复 hist_entry 历史，按时间排序；无效候选不计为历史；[说明](docs/linux-bash.md) |
 | `linux.keyboard_notifiers` | 遍历键盘通知链并关联模块和精确符号；空头的零地址读取失败会保留，不把空表当成功；[说明](docs/linux-keyboard-notifiers.md) |
 | `linux.check_syscall` | 在没有原生反汇编时按元数据和下一符号确定系统调用表长度，核对精确符号并保留指针字节；[说明](docs/linux-syscall.md) |

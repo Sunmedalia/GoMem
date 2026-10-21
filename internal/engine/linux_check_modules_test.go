@@ -87,7 +87,13 @@ func TestLinuxCheckModulesKobjectKeysAndSourceScope(t *testing.T) {
 						if err = json.Unmarshal(raw, &fields); err != nil {
 							t.Fatal(err)
 						}
-						for _, proof := range fields {
+						for key, proof := range fields {
+							if key == "module_parameters" {
+								if proof.Kind != "missing" || proof.Reason != "parameter_table_not_in_layout" || proof.Error != "" {
+									t.Fatal(proof)
+								}
+								continue
+							}
 							if proof.Kind != "structure" {
 								t.Fatal(proof)
 							}

@@ -1,7 +1,7 @@
 {
   "scope": "Development preview: one Debian 3.2 x64 negative check_modules differential. Not complete acceptance.",
   "plugin": "linux.check_modules",
-  "task_id": "6595848f164ad6282eb74c97fbf3105c",
+  "task_id": "5d5312ba28a1ed3b25e1de93b9aafad2",
   "task_state": "completed",
   "reference_manifest": {
     "baseline": {
@@ -35,7 +35,7 @@
     "missing": [],
     "extra": [],
     "sha256": {
-      "native": "fc8ac4b8d6ba114972d2eb560e43969c1ca23904215b5482211621d2bf1f93d8",
+      "native": "bb8fe0bdcc6a8481dbd61d8339a819d2682bb3eac77df8adc4e2902d3acaddd8",
       "reference": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
       "mapping": "4adaed83e86d89f88267129b80638b0bf811f98e5a237f341f490ba212191cff"
     },
@@ -70,16 +70,16 @@
   },
   "cache": {
     "reused": true,
-    "jsonl_sha256": "fc8ac4b8d6ba114972d2eb560e43969c1ca23904215b5482211621d2bf1f93d8",
+    "jsonl_sha256": "bb8fe0bdcc6a8481dbd61d8339a819d2682bb3eac77df8adc4e2902d3acaddd8",
     "wire_jsonl_identical": true
   },
   "limitations": [
     "Real image is a negative control only; synthetic positives do not establish real hidden-module acceptance",
-    "Scalar, string and array parameter compatibility remains incomplete",
+    "224 byte-backed handler cases and six synthetic process-layout runs do not establish decoding of real module parameters",
     "Module ELF extraction and dump parameter are unavailable",
     "Modern kernels, real 32-bit and ARM64 differentials pending"
   ],
-  "engine_build_sha256": "c9acec0c0e21d903346ac555d02c0726a0c49cfb89c7ed3821bae65a8d2158c5",
+  "engine_build_sha256": "ddc2be9a14b653e8d47078b03df50b6eb690a296c615258b12d73a76d8aa2c74",
   "source_scope": {
     "sources": [
       "Lsmod",
@@ -108,7 +108,7 @@
     "failure_test": "TestLinuxCheckModulesFailuresAndOutputStop"
   },
   "checks": {
-    "make check": "passed; final not_requested default additionally covered by targeted race tests and vet",
+    "make check": "passed (vet, all race tests, 28 Python tests and 428 argument cases)",
     "make matrix": "passed; 195 inventoried, 0 accepted",
     "inode_mode_oracle": "32768 modes passed",
     "shared_gatherer_real_image_regression": [
@@ -119,5 +119,6 @@
       "keyboard_notifiers (explicit failed task)",
       "kthreads (explicit unsupported task)"
     ]
-  }
+  },
+  "parameter_validation": "docs/linux-module-parameters-validation.json"
 }
