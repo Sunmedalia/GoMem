@@ -1,0 +1,3833 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "names": [
+    {
+      "name": "\u0000",
+      "expected": false
+    },
+    {
+      "name": "\u0001",
+      "expected": false
+    },
+    {
+      "name": "\u0002",
+      "expected": false
+    },
+    {
+      "name": "\u0003",
+      "expected": false
+    },
+    {
+      "name": "\u0004",
+      "expected": false
+    },
+    {
+      "name": "\u0005",
+      "expected": false
+    },
+    {
+      "name": "\u0006",
+      "expected": false
+    },
+    {
+      "name": "\u0007",
+      "expected": false
+    },
+    {
+      "name": "\b",
+      "expected": false
+    },
+    {
+      "name": "\t",
+      "expected": false
+    },
+    {
+      "name": "\n",
+      "expected": false
+    },
+    {
+      "name": "\u000b",
+      "expected": false
+    },
+    {
+      "name": "\f",
+      "expected": false
+    },
+    {
+      "name": "\r",
+      "expected": false
+    },
+    {
+      "name": "\u000e",
+      "expected": false
+    },
+    {
+      "name": "\u000f",
+      "expected": false
+    },
+    {
+      "name": "\u0010",
+      "expected": false
+    },
+    {
+      "name": "\u0011",
+      "expected": false
+    },
+    {
+      "name": "\u0012",
+      "expected": false
+    },
+    {
+      "name": "\u0013",
+      "expected": false
+    },
+    {
+      "name": "\u0014",
+      "expected": false
+    },
+    {
+      "name": "\u0015",
+      "expected": false
+    },
+    {
+      "name": "\u0016",
+      "expected": false
+    },
+    {
+      "name": "\u0017",
+      "expected": false
+    },
+    {
+      "name": "\u0018",
+      "expected": false
+    },
+    {
+      "name": "\u0019",
+      "expected": false
+    },
+    {
+      "name": "\u001a",
+      "expected": false
+    },
+    {
+      "name": "\u001b",
+      "expected": false
+    },
+    {
+      "name": "\u001c",
+      "expected": false
+    },
+    {
+      "name": "\u001d",
+      "expected": false
+    },
+    {
+      "name": "\u001e",
+      "expected": false
+    },
+    {
+      "name": "\u001f",
+      "expected": false
+    },
+    {
+      "name": " ",
+      "expected": true
+    },
+    {
+      "name": "!",
+      "expected": false
+    },
+    {
+      "name": "\"",
+      "expected": false
+    },
+    {
+      "name": "#",
+      "expected": false
+    },
+    {
+      "name": "$",
+      "expected": false
+    },
+    {
+      "name": "%",
+      "expected": false
+    },
+    {
+      "name": "&",
+      "expected": false
+    },
+    {
+      "name": "'",
+      "expected": false
+    },
+    {
+      "name": "(",
+      "expected": false
+    },
+    {
+      "name": ")",
+      "expected": false
+    },
+    {
+      "name": "*",
+      "expected": false
+    },
+    {
+      "name": "+",
+      "expected": false
+    },
+    {
+      "name": ",",
+      "expected": false
+    },
+    {
+      "name": "-",
+      "expected": false
+    },
+    {
+      "name": ".",
+      "expected": true
+    },
+    {
+      "name": "/",
+      "expected": false
+    },
+    {
+      "name": "0",
+      "expected": false
+    },
+    {
+      "name": "1",
+      "expected": false
+    },
+    {
+      "name": "2",
+      "expected": false
+    },
+    {
+      "name": "3",
+      "expected": false
+    },
+    {
+      "name": "4",
+      "expected": false
+    },
+    {
+      "name": "5",
+      "expected": false
+    },
+    {
+      "name": "6",
+      "expected": false
+    },
+    {
+      "name": "7",
+      "expected": false
+    },
+    {
+      "name": "8",
+      "expected": false
+    },
+    {
+      "name": "9",
+      "expected": false
+    },
+    {
+      "name": ":",
+      "expected": false
+    },
+    {
+      "name": ";",
+      "expected": false
+    },
+    {
+      "name": "<",
+      "expected": false
+    },
+    {
+      "name": "=",
+      "expected": false
+    },
+    {
+      "name": ">",
+      "expected": false
+    },
+    {
+      "name": "?",
+      "expected": false
+    },
+    {
+      "name": "@",
+      "expected": false
+    },
+    {
+      "name": "A",
+      "expected": true
+    },
+    {
+      "name": "B",
+      "expected": true
+    },
+    {
+      "name": "C",
+      "expected": true
+    },
+    {
+      "name": "D",
+      "expected": true
+    },
+    {
+      "name": "E",
+      "expected": true
+    },
+    {
+      "name": "F",
+      "expected": true
+    },
+    {
+      "name": "G",
+      "expected": true
+    },
+    {
+      "name": "H",
+      "expected": true
+    },
+    {
+      "name": "I",
+      "expected": true
+    },
+    {
+      "name": "J",
+      "expected": true
+    },
+    {
+      "name": "K",
+      "expected": true
+    },
+    {
+      "name": "L",
+      "expected": true
+    },
+    {
+      "name": "M",
+      "expected": true
+    },
+    {
+      "name": "N",
+      "expected": true
+    },
+    {
+      "name": "O",
+      "expected": true
+    },
+    {
+      "name": "P",
+      "expected": true
+    },
+    {
+      "name": "Q",
+      "expected": true
+    },
+    {
+      "name": "R",
+      "expected": true
+    },
+    {
+      "name": "S",
+      "expected": true
+    },
+    {
+      "name": "T",
+      "expected": true
+    },
+    {
+      "name": "U",
+      "expected": true
+    },
+    {
+      "name": "V",
+      "expected": true
+    },
+    {
+      "name": "W",
+      "expected": true
+    },
+    {
+      "name": "X",
+      "expected": true
+    },
+    {
+      "name": "Y",
+      "expected": true
+    },
+    {
+      "name": "Z",
+      "expected": true
+    },
+    {
+      "name": "[",
+      "expected": false
+    },
+    {
+      "name": "\\",
+      "expected": false
+    },
+    {
+      "name": "]",
+      "expected": false
+    },
+    {
+      "name": "^",
+      "expected": false
+    },
+    {
+      "name": "_",
+      "expected": false
+    },
+    {
+      "name": "`",
+      "expected": false
+    },
+    {
+      "name": "a",
+      "expected": true
+    },
+    {
+      "name": "b",
+      "expected": true
+    },
+    {
+      "name": "c",
+      "expected": true
+    },
+    {
+      "name": "d",
+      "expected": true
+    },
+    {
+      "name": "e",
+      "expected": true
+    },
+    {
+      "name": "f",
+      "expected": true
+    },
+    {
+      "name": "g",
+      "expected": true
+    },
+    {
+      "name": "h",
+      "expected": true
+    },
+    {
+      "name": "i",
+      "expected": true
+    },
+    {
+      "name": "j",
+      "expected": true
+    },
+    {
+      "name": "k",
+      "expected": true
+    },
+    {
+      "name": "l",
+      "expected": true
+    },
+    {
+      "name": "m",
+      "expected": true
+    },
+    {
+      "name": "n",
+      "expected": true
+    },
+    {
+      "name": "o",
+      "expected": true
+    },
+    {
+      "name": "p",
+      "expected": true
+    },
+    {
+      "name": "q",
+      "expected": true
+    },
+    {
+      "name": "r",
+      "expected": true
+    },
+    {
+      "name": "s",
+      "expected": true
+    },
+    {
+      "name": "t",
+      "expected": true
+    },
+    {
+      "name": "u",
+      "expected": true
+    },
+    {
+      "name": "v",
+      "expected": true
+    },
+    {
+      "name": "w",
+      "expected": true
+    },
+    {
+      "name": "x",
+      "expected": true
+    },
+    {
+      "name": "y",
+      "expected": true
+    },
+    {
+      "name": "z",
+      "expected": true
+    },
+    {
+      "name": "{",
+      "expected": false
+    },
+    {
+      "name": "|",
+      "expected": false
+    },
+    {
+      "name": "}",
+      "expected": false
+    },
+    {
+      "name": "~",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": false
+    },
+    {
+      "name": " ",
+      "expected": false
+    },
+    {
+      "name": "¡",
+      "expected": false
+    },
+    {
+      "name": "¢",
+      "expected": false
+    },
+    {
+      "name": "£",
+      "expected": false
+    },
+    {
+      "name": "¤",
+      "expected": false
+    },
+    {
+      "name": "¥",
+      "expected": false
+    },
+    {
+      "name": "¦",
+      "expected": false
+    },
+    {
+      "name": "§",
+      "expected": false
+    },
+    {
+      "name": "¨",
+      "expected": false
+    },
+    {
+      "name": "©",
+      "expected": false
+    },
+    {
+      "name": "ª",
+      "expected": false
+    },
+    {
+      "name": "«",
+      "expected": false
+    },
+    {
+      "name": "¬",
+      "expected": false
+    },
+    {
+      "name": "­",
+      "expected": false
+    },
+    {
+      "name": "®",
+      "expected": false
+    },
+    {
+      "name": "¯",
+      "expected": false
+    },
+    {
+      "name": "°",
+      "expected": false
+    },
+    {
+      "name": "±",
+      "expected": false
+    },
+    {
+      "name": "²",
+      "expected": false
+    },
+    {
+      "name": "³",
+      "expected": false
+    },
+    {
+      "name": "´",
+      "expected": false
+    },
+    {
+      "name": "µ",
+      "expected": false
+    },
+    {
+      "name": "¶",
+      "expected": false
+    },
+    {
+      "name": "·",
+      "expected": false
+    },
+    {
+      "name": "¸",
+      "expected": false
+    },
+    {
+      "name": "¹",
+      "expected": false
+    },
+    {
+      "name": "º",
+      "expected": false
+    },
+    {
+      "name": "»",
+      "expected": false
+    },
+    {
+      "name": "¼",
+      "expected": false
+    },
+    {
+      "name": "½",
+      "expected": false
+    },
+    {
+      "name": "¾",
+      "expected": false
+    },
+    {
+      "name": "¿",
+      "expected": false
+    },
+    {
+      "name": "À",
+      "expected": false
+    },
+    {
+      "name": "Á",
+      "expected": false
+    },
+    {
+      "name": "Â",
+      "expected": false
+    },
+    {
+      "name": "Ã",
+      "expected": false
+    },
+    {
+      "name": "Ä",
+      "expected": false
+    },
+    {
+      "name": "Å",
+      "expected": false
+    },
+    {
+      "name": "Æ",
+      "expected": false
+    },
+    {
+      "name": "Ç",
+      "expected": false
+    },
+    {
+      "name": "È",
+      "expected": false
+    },
+    {
+      "name": "É",
+      "expected": false
+    },
+    {
+      "name": "Ê",
+      "expected": false
+    },
+    {
+      "name": "Ë",
+      "expected": false
+    },
+    {
+      "name": "Ì",
+      "expected": false
+    },
+    {
+      "name": "Í",
+      "expected": false
+    },
+    {
+      "name": "Î",
+      "expected": false
+    },
+    {
+      "name": "Ï",
+      "expected": false
+    },
+    {
+      "name": "Ð",
+      "expected": false
+    },
+    {
+      "name": "Ñ",
+      "expected": false
+    },
+    {
+      "name": "Ò",
+      "expected": false
+    },
+    {
+      "name": "Ó",
+      "expected": false
+    },
+    {
+      "name": "Ô",
+      "expected": false
+    },
+    {
+      "name": "Õ",
+      "expected": false
+    },
+    {
+      "name": "Ö",
+      "expected": false
+    },
+    {
+      "name": "×",
+      "expected": false
+    },
+    {
+      "name": "Ø",
+      "expected": false
+    },
+    {
+      "name": "Ù",
+      "expected": false
+    },
+    {
+      "name": "Ú",
+      "expected": false
+    },
+    {
+      "name": "Û",
+      "expected": false
+    },
+    {
+      "name": "Ü",
+      "expected": false
+    },
+    {
+      "name": "Ý",
+      "expected": false
+    },
+    {
+      "name": "Þ",
+      "expected": false
+    },
+    {
+      "name": "ß",
+      "expected": false
+    },
+    {
+      "name": "à",
+      "expected": false
+    },
+    {
+      "name": "á",
+      "expected": false
+    },
+    {
+      "name": "â",
+      "expected": false
+    },
+    {
+      "name": "ã",
+      "expected": false
+    },
+    {
+      "name": "ä",
+      "expected": false
+    },
+    {
+      "name": "å",
+      "expected": false
+    },
+    {
+      "name": "æ",
+      "expected": false
+    },
+    {
+      "name": "ç",
+      "expected": false
+    },
+    {
+      "name": "è",
+      "expected": false
+    },
+    {
+      "name": "é",
+      "expected": false
+    },
+    {
+      "name": "ê",
+      "expected": false
+    },
+    {
+      "name": "ë",
+      "expected": false
+    },
+    {
+      "name": "ì",
+      "expected": false
+    },
+    {
+      "name": "í",
+      "expected": false
+    },
+    {
+      "name": "î",
+      "expected": false
+    },
+    {
+      "name": "ï",
+      "expected": false
+    },
+    {
+      "name": "ð",
+      "expected": false
+    },
+    {
+      "name": "ñ",
+      "expected": false
+    },
+    {
+      "name": "ò",
+      "expected": false
+    },
+    {
+      "name": "ó",
+      "expected": false
+    },
+    {
+      "name": "ô",
+      "expected": false
+    },
+    {
+      "name": "õ",
+      "expected": false
+    },
+    {
+      "name": "ö",
+      "expected": false
+    },
+    {
+      "name": "÷",
+      "expected": false
+    },
+    {
+      "name": "ø",
+      "expected": false
+    },
+    {
+      "name": "ù",
+      "expected": false
+    },
+    {
+      "name": "ú",
+      "expected": false
+    },
+    {
+      "name": "û",
+      "expected": false
+    },
+    {
+      "name": "ü",
+      "expected": false
+    },
+    {
+      "name": "ý",
+      "expected": false
+    },
+    {
+      "name": "þ",
+      "expected": false
+    },
+    {
+      "name": "ÿ",
+      "expected": false
+    },
+    {
+      "name": "",
+      "expected": true
+    },
+    {
+      "name": "System",
+      "expected": true
+    },
+    {
+      "name": "csrss.exe",
+      "expected": true
+    },
+    {
+      "name": "a1.exe",
+      "expected": false
+    },
+    {
+      "name": "task-host",
+      "expected": false
+    },
+    {
+      "name": "task_host",
+      "expected": false
+    },
+    {
+      "name": " white space ",
+      "expected": true
+    },
+    {
+      "name": ".exe",
+      "expected": true
+    },
+    {
+      "name": "Σ.exe",
+      "expected": false
+    },
+    {
+      "name": "进程.exe",
+      "expected": false
+    },
+    {
+      "name": "A\u0000B",
+      "expected": false
+    }
+  ],
+  "merges": [
+    {
+      "collision": false,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          4640,
+          "A.exe",
+          104,
+          true,
+          false,
+          false,
+          false,
+          ""
+        ],
+        [
+          8736,
+          "B.exe",
+          104,
+          false,
+          false,
+          true,
+          false,
+          "2021-01-01 00:00:00+00:00"
+        ],
+        [
+          12832,
+          "C.exe",
+          108,
+          false,
+          false,
+          true,
+          false,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": false,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          4640,
+          "A.exe",
+          104,
+          false,
+          true,
+          false,
+          false,
+          ""
+        ],
+        [
+          8736,
+          "B.exe",
+          104,
+          false,
+          true,
+          false,
+          false,
+          "2021-01-01 00:00:00+00:00"
+        ],
+        [
+          12832,
+          "C.exe",
+          108,
+          false,
+          true,
+          false,
+          false,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": false,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          4640,
+          "A.exe",
+          104,
+          true,
+          true,
+          false,
+          false,
+          ""
+        ],
+        [
+          8736,
+          "B.exe",
+          104,
+          true,
+          false,
+          false,
+          true,
+          "2021-01-01 00:00:00+00:00"
+        ],
+        [
+          12832,
+          "C.exe",
+          108,
+          true,
+          false,
+          false,
+          true,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": false,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          4640,
+          "A.exe",
+          104,
+          false,
+          false,
+          true,
+          false,
+          ""
+        ],
+        [
+          8736,
+          "B.exe",
+          104,
+          false,
+          false,
+          true,
+          false,
+          "2021-01-01 00:00:00+00:00"
+        ],
+        [
+          12832,
+          "C.exe",
+          108,
+          false,
+          false,
+          true,
+          false,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": false,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          4640,
+          "A.exe",
+          104,
+          true,
+          false,
+          true,
+          false,
+          ""
+        ],
+        [
+          8736,
+          "B.exe",
+          104,
+          false,
+          true,
+          false,
+          false,
+          "2021-01-01 00:00:00+00:00"
+        ],
+        [
+          12832,
+          "C.exe",
+          108,
+          false,
+          true,
+          false,
+          false,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": false,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          4640,
+          "A.exe",
+          104,
+          false,
+          true,
+          true,
+          false,
+          ""
+        ],
+        [
+          8736,
+          "B.exe",
+          104,
+          true,
+          false,
+          false,
+          true,
+          "2021-01-01 00:00:00+00:00"
+        ],
+        [
+          12832,
+          "C.exe",
+          108,
+          true,
+          false,
+          false,
+          true,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": false,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          4640,
+          "A.exe",
+          104,
+          true,
+          true,
+          true,
+          false,
+          ""
+        ],
+        [
+          8736,
+          "B.exe",
+          104,
+          false,
+          false,
+          true,
+          false,
+          "2021-01-01 00:00:00+00:00"
+        ],
+        [
+          12832,
+          "C.exe",
+          108,
+          false,
+          false,
+          true,
+          false,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": false,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          4640,
+          "A.exe",
+          104,
+          false,
+          false,
+          false,
+          true,
+          ""
+        ],
+        [
+          8736,
+          "B.exe",
+          104,
+          false,
+          true,
+          false,
+          false,
+          "2021-01-01 00:00:00+00:00"
+        ],
+        [
+          12832,
+          "C.exe",
+          108,
+          false,
+          true,
+          false,
+          false,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": false,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          4640,
+          "A.exe",
+          104,
+          true,
+          false,
+          false,
+          true,
+          ""
+        ],
+        [
+          8736,
+          "B.exe",
+          104,
+          true,
+          false,
+          false,
+          true,
+          "2021-01-01 00:00:00+00:00"
+        ],
+        [
+          12832,
+          "C.exe",
+          108,
+          true,
+          false,
+          false,
+          true,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": false,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          4640,
+          "A.exe",
+          104,
+          false,
+          true,
+          false,
+          true,
+          ""
+        ],
+        [
+          8736,
+          "B.exe",
+          104,
+          false,
+          false,
+          true,
+          false,
+          "2021-01-01 00:00:00+00:00"
+        ],
+        [
+          12832,
+          "C.exe",
+          108,
+          false,
+          false,
+          true,
+          false,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": false,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          4640,
+          "A.exe",
+          104,
+          true,
+          true,
+          false,
+          true,
+          ""
+        ],
+        [
+          8736,
+          "B.exe",
+          104,
+          false,
+          true,
+          false,
+          false,
+          "2021-01-01 00:00:00+00:00"
+        ],
+        [
+          12832,
+          "C.exe",
+          108,
+          false,
+          true,
+          false,
+          false,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": false,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          4640,
+          "A.exe",
+          104,
+          false,
+          false,
+          true,
+          true,
+          ""
+        ],
+        [
+          8736,
+          "B.exe",
+          104,
+          true,
+          false,
+          false,
+          true,
+          "2021-01-01 00:00:00+00:00"
+        ],
+        [
+          12832,
+          "C.exe",
+          108,
+          true,
+          false,
+          false,
+          true,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": false,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          4640,
+          "A.exe",
+          104,
+          true,
+          false,
+          true,
+          true,
+          ""
+        ],
+        [
+          8736,
+          "B.exe",
+          104,
+          false,
+          false,
+          true,
+          false,
+          "2021-01-01 00:00:00+00:00"
+        ],
+        [
+          12832,
+          "C.exe",
+          108,
+          false,
+          false,
+          true,
+          false,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": false,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          4640,
+          "A.exe",
+          104,
+          false,
+          true,
+          true,
+          true,
+          ""
+        ],
+        [
+          8736,
+          "B.exe",
+          104,
+          false,
+          true,
+          false,
+          false,
+          "2021-01-01 00:00:00+00:00"
+        ],
+        [
+          12832,
+          "C.exe",
+          108,
+          false,
+          true,
+          false,
+          false,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": false,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          4640,
+          "A.exe",
+          104,
+          true,
+          true,
+          true,
+          true,
+          ""
+        ],
+        [
+          8736,
+          "B.exe",
+          104,
+          true,
+          false,
+          false,
+          true,
+          "2021-01-01 00:00:00+00:00"
+        ],
+        [
+          12832,
+          "C.exe",
+          108,
+          true,
+          false,
+          false,
+          true,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": true,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          544,
+          "A.exe",
+          104,
+          true,
+          false,
+          true,
+          false,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": true,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          544,
+          "C.exe",
+          108,
+          false,
+          true,
+          false,
+          false,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": true,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          544,
+          "C.exe",
+          108,
+          true,
+          true,
+          false,
+          true,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": true,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          544,
+          "C.exe",
+          108,
+          false,
+          false,
+          true,
+          false,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": true,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          544,
+          "A.exe",
+          104,
+          true,
+          true,
+          true,
+          false,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": true,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          544,
+          "C.exe",
+          108,
+          true,
+          true,
+          true,
+          true,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": true,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          544,
+          "A.exe",
+          104,
+          true,
+          true,
+          true,
+          false,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": true,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          544,
+          "C.exe",
+          108,
+          false,
+          true,
+          false,
+          true,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": true,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          544,
+          "C.exe",
+          108,
+          true,
+          false,
+          false,
+          true,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": true,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          544,
+          "A.exe",
+          104,
+          false,
+          true,
+          true,
+          true,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": true,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          544,
+          "A.exe",
+          104,
+          true,
+          true,
+          false,
+          true,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": true,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          544,
+          "C.exe",
+          108,
+          true,
+          false,
+          true,
+          true,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": true,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          544,
+          "A.exe",
+          104,
+          true,
+          false,
+          true,
+          true,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": true,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          544,
+          "C.exe",
+          108,
+          false,
+          true,
+          true,
+          true,
+          ""
+        ]
+      ]
+    },
+    {
+      "collision": true,
+      "processes": [
+        {
+          "id": "a",
+          "offset": 4640,
+          "pid": 104,
+          "name": "A.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "b",
+          "offset": 8736,
+          "pid": 104,
+          "name": "B.exe",
+          "valid": true,
+          "exited": true
+        },
+        {
+          "id": "c",
+          "offset": 12832,
+          "pid": 108,
+          "name": "C.exe",
+          "valid": true,
+          "exited": false
+        },
+        {
+          "id": "invalid",
+          "offset": 16928,
+          "pid": 6,
+          "name": "bad.exe",
+          "valid": false,
+          "exited": false
+        },
+        {
+          "id": "name",
+          "offset": 21024,
+          "pid": 116,
+          "name": "bad1.exe",
+          "valid": true,
+          "exited": false
+        }
+      ],
+      "inputs": [
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "invalid",
+          "name"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "c",
+          "invalid",
+          "name"
+        ]
+      ],
+      "expected": [
+        [
+          544,
+          "C.exe",
+          108,
+          true,
+          true,
+          true,
+          true,
+          ""
+        ]
+      ]
+    }
+  ]
+}

@@ -133,9 +133,16 @@ type handleWalker struct {
 	pages          int
 	slots          int
 	levels         [8]int
+	visit          func(context.Context, handleItem) error
 }
 
 func newHandleWalker(ctx context.Context, e plugin.Environment) (*handleWalker, error) {
+	return newHandleWalkerMode(ctx, e, true)
+}
+
+// Raw consumers inspect object bodies without reading display names or their
+// optional headers. The ordinary handles command retains its existing checks.
+func newHandleWalkerMode(ctx context.Context, e plugin.Environment, names bool) (*handleWalker, error) {
 	pointer := e.Symbols.PointerSize()
 	if pointer != 4 && pointer != 8 {
 		return nil, fmt.Errorf("windows.handles needs a 4- or 8-byte pointer")
@@ -177,7 +184,7 @@ func newHandleWalker(ctx context.Context, e plugin.Environment) (*handleWalker, 
 	}
 	_, nameOffsetErr := e.Objects.Field("_OBJECT_HEADER", "NameInfoOffset")
 	deltas := []byte(nil)
-	if nameOffsetErr != nil {
+	if names && nameOffsetErr != nil {
 		if _, err := e.Objects.Field("_OBJECT_HEADER", "InfoMask"); err != nil {
 			return nil, fmt.Errorf("_OBJECT_HEADER.InfoMask: %w", err)
 		}
@@ -339,8 +346,15 @@ func (w *handleWalker) walk(ctx context.Context, page uint64, level, depth int, 
 		if !ok {
 			continue
 		}
-		if err := w.emitHandle(ctx, item, process, pid, name, out); err != nil {
-			return err
+		if w.visit != nil {
+			w.handles++
+			if err := w.visit(ctx, item); err != nil {
+				return err
+			}
+		} else {
+			if err := w.emitHandle(ctx, item, process, pid, name, out); err != nil {
+				return err
+			}
 		}
 	}
 	return nil

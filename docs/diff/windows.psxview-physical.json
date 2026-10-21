@@ -1,0 +1,54 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "values": [
+      "process"
+    ],
+    "excluded_values": [
+      "summary",
+      "diagnostic"
+    ]
+  },
+  "fields": {
+    "Offset": {
+      "native": "Offset",
+      "reference": "Offset(Physical)",
+      "kind": "address"
+    },
+    "Name": {
+      "native": "Name",
+      "reference": "Name",
+      "kind": "string"
+    },
+    "PID": {
+      "native": "PID",
+      "reference": "PID",
+      "kind": "uint64"
+    },
+    "pslist": {
+      "native": "pslist",
+      "reference": "pslist",
+      "kind": "bool"
+    },
+    "psscan": {
+      "native": "psscan",
+      "reference": "psscan",
+      "kind": "bool"
+    },
+    "thrdscan": {
+      "native": "thrdscan",
+      "reference": "thrdscan",
+      "kind": "bool"
+    },
+    "csrss": {
+      "native": "csrss",
+      "reference": "csrss",
+      "kind": "bool"
+    },
+    "ExitTime": {
+      "native": "ExitTime",
+      "reference": "Exit Time",
+      "kind": "string"
+    }
+  }
+}

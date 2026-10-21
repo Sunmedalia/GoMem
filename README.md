@@ -71,6 +71,7 @@ bin/gomem analyze windows.pslist \
 | `windows.ldrmodules` | 对照 MZ 开头的 VAD 与 PEB 三条加载链表；页表建不起来则任务失败，文件名错误留在 `PathError`；[说明](docs/windows-ldrmodules.md) |
 | `windows.suspicious_threads` | 检查活动线程入口所在 VAD 的文件映射、保护和 EXE 路径，保留线程及 VAD 证据；[说明](docs/windows-suspicious-threads.md) |
 | `windows.hollowprocesses` | 检查 PEB 映像基址与 EXE/DLL VAD 初始保护，保留不可读数据的诊断；[说明](docs/windows-hollowprocesses.md) |
+| `windows.psxview` | 对照活动进程、进程池、线程池所属进程及 csrss 进程句柄，保留各来源坐标；[说明](docs/windows-psxview.md) |
 | `windows.svcscan` | 在 `services.exe` 中扫描 `serH` 服务记录；后续记录的偏移是上一条 `PrevEntry` 的地址，不可用字段不按值去重；[说明](docs/windows-svcscan.md) |
 | `windows.svclist` | 在 `services.exe` 主映像 VAD 中搜索 `Sc27` 并遍历服务链；[说明](docs/windows-services.md) |
 | `windows.svcdiff` | 比较扫描与链表中的服务名，保留仅在扫描中出现的服务及其原始证据；[说明](docs/windows-services.md) |

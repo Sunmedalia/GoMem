@@ -51,6 +51,7 @@ type poolLayout struct {
 
 type poolHit struct {
 	object uint64
+	typ    string
 	layer  string
 	scan   *object.Reader
 	native memory.MemoryLayer
@@ -195,7 +196,7 @@ func scanPoolObjectsExtra(ctx context.Context, e plugin.Environment, constraints
 					continue
 				}
 			}
-			row, keep, err := emit(ctx, poolHit{object: objectAddress, layer: scanLayer.Name(), scan: scanReader, native: e.Kernel})
+			row, keep, err := emit(ctx, poolHit{object: objectAddress, typ: constraint.typeName, layer: scanLayer.Name(), scan: scanReader, native: e.Kernel})
 			if err != nil {
 				if ctx.Err() != nil {
 					return ctx.Err()
