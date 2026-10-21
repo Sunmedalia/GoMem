@@ -6731,7 +6731,7 @@
       "corpora": [],
       "comparison": "not_run",
       "gaps": [
-        "Native implementation and validation pending"
+        "Deprecated alias of windows.malware.hollowprocesses.HollowProcesses; native command is windows.hollowprocesses"
       ]
     },
     {
@@ -7329,15 +7329,24 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active Windows processes with exact EPROCESS, PEB, loader and VAD symbols. Native PEB load-order DLLs are followed by WoW64 entries. Direct WoW64 pointers, EWOW64PROCESS.Peb and WOW64_PROCESS.Wow64 wrappers are supported. DLL and VAD maps use exact base equality, last duplicate value and first-insertion order. Fewer than three distinct DLL bases or five distinct VAD starts skips the process. Checks compare the native PEB ImageBaseAddress with SectionBaseAddress, require a VAD starting exactly at SectionBaseAddress, and require executable/DLL VAD protection to equal PAGE_EXECUTE_WRITECOPY. DLLs with no matching VAD are ignored by the pinned check. Empty or unreadable VAD paths use the non-file marker; unreadable loader paths render as a hyphen in Notes and retain the original cause separately. Both EXE and DLL checks can report the same mapping. Loader lists use the pinned forward-walk termination behavior without requiring Blink. DLL base read failures, path errors, unreadable PEBs and stopped lists produce diagnostic rows. Process-space failures are explicit diagnostics. VAD, protection, section-base and traversal-bound failures fail the task. The summary counts inspected processes, short sets, checked processes, findings and diagnostics. pid is an optional comma-separated list; max-nodes is a native process/VAD/per-PEB-list bound. windows.hollowprocesses.HollowProcesses is only a deprecated alias.",
+      "native": "windows.hollowprocesses",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-hollow-process-pipeline",
+        "pinned-576-hollow-note-oracles",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_zero_findings_match_after_99_processes_checked",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "The single Windows 10 19041 x64 differential has zero findings in both engines; this is a normal control, not real positive detection acceptance",
+        "576 independent pinned check cases compare exact Notes; synthetic pipelines cover all four rules, normal controls, exact-base lookup, minimum distinct counts, duplicate maps, native/WoW64 load order, 32-bit loader fields, unreadable strings, malformed VADs, cancellation and bounds",
+        "99 of 120 processes were checked; 21 had fewer than three DLLs. Native diagnostics preserve 311 DLL path read failures, 14 unreadable PEB loader pointers and five invalid/unmapped loader-list stops",
+        "Real positive, older Windows, native x86 and WoW64 end-to-end differentials, full parameter semantics and investigative false-positive validation remain pending",
+        "Native process and VAD integrity checks are stricter than upstream silent skips; symbol/layout coverage and complete acceptance remain pending"
+      ],
+      "validation_record": "docs/windows-hollowprocesses.md"
     },
     {
       "id": "windows.malware.indirect_system_calls.IndirectSystemCalls",

@@ -1,0 +1,8 @@
+{
+  "native_record_type": {"field": "RecordType", "values": ["finding"], "excluded_values": ["summary", "diagnostic"]},
+  "fields": {
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "Process": {"native": "Process", "reference": "Process", "kind": "string"},
+    "Notes": {"native": "Notes", "reference": "Notes", "kind": "string"}
+  }
+}

@@ -82,6 +82,7 @@ func Register(r *plugin.Registry) error {
 	specs = append(specs, windowsLdrModulesPlugins()...)
 	specs = append(specs, windowsSvcScanPlugins()...)
 	specs = append(specs, windowsSuspiciousThreadPlugins()...)
+	specs = append(specs, windowsHollowProcessPlugins()...)
 	specs = append(specs, windowsSymlinkScanPlugins()...)
 	specs = append(specs, windowsModScanPlugins()...)
 	specs = append(specs, linuxELFPlugins()...)
