@@ -73,3 +73,5 @@
 2026-10-21：windows.mbrscan 扫描物理内存里的主引导记录。选定 Windows 10 19041 样本有 8494 个 `55 AA`，29 个引导代码全零被丢掉，8465 条记录和 33860 个分区项与固定基线一致。默认列和 `full=true` 都对照过，325 个分区可启动。真实 32 位镜像和 capstone 反汇编还没有验收。[详情](windows-mbrscan.md)
 
 2026-10-21：windows.truecrypt 在 truecrypt.sys 的 .data 段寻找缓存口令。选定 Windows 10 19041 样本没有该模块，固定基线和原生都输出 0 行。合成样本覆盖了口令长度、可打印范围和对齐填充。带真实口令的镜像还没有验收。[详情](windows-truecrypt.md)
+
+2026-10-21：windows.verinfo 列出内核模块和进程 DLL 的 PE 产品版本。选定 Windows 10 19041 样本的 5918 行与固定基线一致，176 个内核模块版本都不可用，1715 个 DLL 有版本。5 条加载链表在缺页的下一节点停下。`extensive=true`、真实 32 位镜像和时间线还没有验收。[详情](windows-verinfo.md)

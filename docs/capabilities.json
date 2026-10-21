@@ -11464,15 +11464,22 @@
           "default": false
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "PE product versions for kernel modules and process load-order DLLs. Kernel modules come from PsLoadedModuleList. Each module is read through the first process layer of a session that can read one byte at the pointer-masked DllBase. The kernel layer is not used. A 64-bit pointer is masked to 48 bits before that read, so a canonical kernel base is non-canonical there and the version stays unreadable. The displayed Base keeps the original pointer. Process DLLs walk the native PEB load-order list and then the WoW64 list. An unreadable DllBase skips that entry. The forward walk matches LIST_ENTRY.to_list: an unmapped next LIST_ENTRY, a zero Flink, or an object whose first byte is unmapped ends that list and does not fail the task. The sentinel Flink must still be readable. Blink is not checked. The product version is VS_FIXEDFILEINFO[0] from the resource directory, using the first VS_VERSION_INFO language entry, matching pefile 2024.8.26. Major and Minor are the high and low halves of ProductVersionMS. Product and Build are the halves of ProductVersionLS. extensive defaults to false and is not part of the corpus differential. When set, a failed module resource parse scans physical memory for UTF-16BE OriginalFilename plus NUL plus the DLL name and returns the file version tuple FV1, FV2, FV3, FV4, not the product version. A missing marker still parses at window offset 3. PID and Process are not_applicable for kernel modules. Compared version cells omit read errors. NameError and VersionError keep the cause. max-nodes defaults to 131072 and max-modules to 1000000. Neither is an upstream parameter. The summary row is not a version record.",
+      "native": "windows.verinfo",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_5918_rows_match_pid_process_base_name_and_product_version",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has 176 kernel modules, 5742 process DLL rows and 5918 version records. All 176 kernel versions are unreadable. 1715 DLL rows have a product version and 4027 do not. 328 names are unreadable. Five load-order lists stop on an unmapped next entry. No DLL base was skipped and three session layers were used",
+        "extensive=true has no corpus differential. The file-version field order and the missing-marker offset of 3 are synthetic",
+        "Real 32-bit images remain pending. WoW64 entries are only those present in this 64-bit image",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-verinfo.md"
     },
     {
       "id": "windows.virtmap.VirtMap",

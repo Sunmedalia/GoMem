@@ -1,0 +1,17 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["version"],
+    "excluded_values": ["summary"]
+  },
+  "fields": {
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64", "missing_reasons": ["not_applicable", "unreadable"]},
+    "Process": {"native": "Process", "reference": "Process", "kind": "string", "missing_reasons": ["not_applicable", "unreadable"]},
+    "Base": {"native": "Base", "reference": "Base", "kind": "address", "mask": "0x0000ffffffffffff", "missing_reasons": ["unreadable"]},
+    "Name": {"native": "Name", "reference": "Name", "kind": "string", "missing_reasons": ["unreadable"]},
+    "Major": {"native": "Major", "reference": "Major", "kind": "uint64", "missing_reasons": ["unreadable"]},
+    "Minor": {"native": "Minor", "reference": "Minor", "kind": "uint64", "missing_reasons": ["unreadable"]},
+    "Product": {"native": "Product", "reference": "Product", "kind": "uint64", "missing_reasons": ["unreadable"]},
+    "Build": {"native": "Build", "reference": "Build", "kind": "uint64", "missing_reasons": ["unreadable"]}
+  }
+}
