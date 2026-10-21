@@ -1,0 +1,4450 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Unmodified aggregate, cast, embedded member and pointer objects over separate byte-backed physical/native layers. Null targets explicitly rejected by GoMem.",
+  "cases": [
+    {
+      "width": 4,
+      "endian": "little",
+      "scenario": "normal",
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "i32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": true
+          },
+          "char": {
+            "kind": "char",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "root": {
+            "kind": "struct",
+            "size": 64,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              },
+              "embedded": {
+                "offset": 16,
+                "type": {
+                  "kind": "struct",
+                  "name": "leaf"
+                }
+              },
+              "signed": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "i32"
+                }
+              },
+              "state": {
+                "offset": 36,
+                "type": {
+                  "kind": "enum",
+                  "name": "status"
+                }
+              },
+              "name": {
+                "offset": 48,
+                "type": {
+                  "kind": "array",
+                  "count": 8,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "char"
+                  }
+                }
+              }
+            }
+          },
+          "leaf": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "file": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "f_path": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "path"
+                }
+              }
+            }
+          },
+          "path": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "dentry": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "dentry"
+                  }
+                }
+              }
+            }
+          },
+          "dentry": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "d_inode": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "inode"
+                  }
+                }
+              }
+            }
+          },
+          "inode": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "i_ino": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              }
+            }
+          },
+          "socket": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "sk": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "socket_alloc": {
+            "kind": "struct",
+            "size": 48,
+            "fields": {
+              "socket": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "socket"
+                }
+              },
+              "vfs_inode": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "inode"
+                }
+              }
+            }
+          }
+        },
+        "enums": {
+          "status": {
+            "base": "u32",
+            "size": 4,
+            "constants": {
+              "READY": 2
+            }
+          }
+        },
+        "symbols": {}
+      },
+      "physical": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000800000000000000007000000000000008000000000000000feffffff020000000000000000000000726f6f740000000000000000000000005800000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f0010000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "native": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000630000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000600100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000d2040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "operations": {
+        "file-socket": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "root": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "cast": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "embedded": {
+          "value": {
+            "address": 80,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 7
+          }
+        },
+        "embedded-peer": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "signed": {
+          "value": -2
+        },
+        "enum": {
+          "value": 2
+        },
+        "string": {
+          "value": "root"
+        },
+        "peer": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "peer-peer": {
+          "value": {
+            "address": 192,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 3
+          }
+        }
+      }
+    },
+    {
+      "width": 4,
+      "endian": "little",
+      "scenario": "null",
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "i32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": true
+          },
+          "char": {
+            "kind": "char",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "root": {
+            "kind": "struct",
+            "size": 64,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              },
+              "embedded": {
+                "offset": 16,
+                "type": {
+                  "kind": "struct",
+                  "name": "leaf"
+                }
+              },
+              "signed": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "i32"
+                }
+              },
+              "state": {
+                "offset": 36,
+                "type": {
+                  "kind": "enum",
+                  "name": "status"
+                }
+              },
+              "name": {
+                "offset": 48,
+                "type": {
+                  "kind": "array",
+                  "count": 8,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "char"
+                  }
+                }
+              }
+            }
+          },
+          "leaf": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "file": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "f_path": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "path"
+                }
+              }
+            }
+          },
+          "path": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "dentry": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "dentry"
+                  }
+                }
+              }
+            }
+          },
+          "dentry": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "d_inode": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "inode"
+                  }
+                }
+              }
+            }
+          },
+          "inode": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "i_ino": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              }
+            }
+          },
+          "socket": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "sk": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "socket_alloc": {
+            "kind": "struct",
+            "size": 48,
+            "fields": {
+              "socket": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "socket"
+                }
+              },
+              "vfs_inode": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "inode"
+                }
+              }
+            }
+          }
+        },
+        "enums": {
+          "status": {
+            "base": "u32",
+            "size": 4,
+            "constants": {
+              "READY": 2
+            }
+          }
+        },
+        "symbols": {}
+      },
+      "physical": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000007000000000000008000000000000000feffffff020000000000000000000000726f6f740000000000000000000000005800000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f0010000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "native": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000630000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000600100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000d2040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "operations": {
+        "file-socket": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "root": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "cast": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "embedded": {
+          "value": {
+            "address": 80,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 7
+          }
+        },
+        "embedded-peer": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "signed": {
+          "value": -2
+        },
+        "enum": {
+          "value": 2
+        },
+        "string": {
+          "value": "root"
+        },
+        "peer": {
+          "error": "null"
+        },
+        "peer-peer": {
+          "error": "null"
+        }
+      }
+    },
+    {
+      "width": 4,
+      "endian": "little",
+      "scenario": "unmapped-target",
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "i32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": true
+          },
+          "char": {
+            "kind": "char",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "root": {
+            "kind": "struct",
+            "size": 64,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              },
+              "embedded": {
+                "offset": 16,
+                "type": {
+                  "kind": "struct",
+                  "name": "leaf"
+                }
+              },
+              "signed": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "i32"
+                }
+              },
+              "state": {
+                "offset": 36,
+                "type": {
+                  "kind": "enum",
+                  "name": "status"
+                }
+              },
+              "name": {
+                "offset": 48,
+                "type": {
+                  "kind": "array",
+                  "count": 8,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "char"
+                  }
+                }
+              }
+            }
+          },
+          "leaf": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "file": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "f_path": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "path"
+                }
+              }
+            }
+          },
+          "path": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "dentry": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "dentry"
+                  }
+                }
+              }
+            }
+          },
+          "dentry": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "d_inode": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "inode"
+                  }
+                }
+              }
+            }
+          },
+          "inode": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "i_ino": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              }
+            }
+          },
+          "socket": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "sk": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "socket_alloc": {
+            "kind": "struct",
+            "size": 48,
+            "fields": {
+              "socket": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "socket"
+                }
+              },
+              "vfs_inode": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "inode"
+                }
+              }
+            }
+          }
+        },
+        "enums": {
+          "status": {
+            "base": "u32",
+            "size": 4,
+            "constants": {
+              "READY": 2
+            }
+          }
+        },
+        "symbols": {}
+      },
+      "physical": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000400000000000007000000000000008000000000000000feffffff020000000000000000000000726f6f740000000000000000000000005800000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f0010000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "native": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000630000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000600100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000d2040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "operations": {
+        "file-socket": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "root": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "cast": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "embedded": {
+          "value": {
+            "address": 80,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 7
+          }
+        },
+        "embedded-peer": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "signed": {
+          "value": -2
+        },
+        "enum": {
+          "value": 2
+        },
+        "string": {
+          "value": "root"
+        },
+        "peer": {
+          "error": "read"
+        },
+        "peer-peer": {
+          "error": "read"
+        }
+      }
+    },
+    {
+      "width": 4,
+      "endian": "little",
+      "scenario": "truncated-pointer",
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "i32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": true
+          },
+          "char": {
+            "kind": "char",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "root": {
+            "kind": "struct",
+            "size": 64,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              },
+              "embedded": {
+                "offset": 16,
+                "type": {
+                  "kind": "struct",
+                  "name": "leaf"
+                }
+              },
+              "signed": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "i32"
+                }
+              },
+              "state": {
+                "offset": 36,
+                "type": {
+                  "kind": "enum",
+                  "name": "status"
+                }
+              },
+              "name": {
+                "offset": 48,
+                "type": {
+                  "kind": "array",
+                  "count": 8,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "char"
+                  }
+                }
+              }
+            }
+          },
+          "leaf": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "file": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "f_path": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "path"
+                }
+              }
+            }
+          },
+          "path": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "dentry": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "dentry"
+                  }
+                }
+              }
+            }
+          },
+          "dentry": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "d_inode": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "inode"
+                  }
+                }
+              }
+            }
+          },
+          "inode": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "i_ino": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              }
+            }
+          },
+          "socket": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "sk": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "socket_alloc": {
+            "kind": "struct",
+            "size": 48,
+            "fields": {
+              "socket": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "socket"
+                }
+              },
+              "vfs_inode": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "inode"
+                }
+              }
+            }
+          }
+        },
+        "enums": {
+          "status": {
+            "base": "u32",
+            "size": 4,
+            "constants": {
+              "READY": 2
+            }
+          }
+        },
+        "symbols": {}
+      },
+      "physical": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000800000",
+      "native": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000630000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000600100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000d2040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "operations": {
+        "file-socket": {
+          "error": "read"
+        },
+        "root": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "cast": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "embedded": {
+          "error": "read"
+        },
+        "embedded-peer": {
+          "error": "read"
+        },
+        "signed": {
+          "error": "read"
+        },
+        "enum": {
+          "error": "read"
+        },
+        "string": {
+          "error": "read"
+        },
+        "peer": {
+          "error": "read"
+        },
+        "peer-peer": {
+          "error": "read"
+        }
+      }
+    },
+    {
+      "width": 4,
+      "endian": "big",
+      "scenario": "normal",
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": false
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": false
+          },
+          "i32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": true
+          },
+          "char": {
+            "kind": "char",
+            "size": 1,
+            "endian": "big",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "root": {
+            "kind": "struct",
+            "size": 64,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              },
+              "embedded": {
+                "offset": 16,
+                "type": {
+                  "kind": "struct",
+                  "name": "leaf"
+                }
+              },
+              "signed": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "i32"
+                }
+              },
+              "state": {
+                "offset": 36,
+                "type": {
+                  "kind": "enum",
+                  "name": "status"
+                }
+              },
+              "name": {
+                "offset": 48,
+                "type": {
+                  "kind": "array",
+                  "count": 8,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "char"
+                  }
+                }
+              }
+            }
+          },
+          "leaf": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "file": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "f_path": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "path"
+                }
+              }
+            }
+          },
+          "path": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "dentry": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "dentry"
+                  }
+                }
+              }
+            }
+          },
+          "dentry": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "d_inode": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "inode"
+                  }
+                }
+              }
+            }
+          },
+          "inode": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "i_ino": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              }
+            }
+          },
+          "socket": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "sk": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "socket_alloc": {
+            "kind": "struct",
+            "size": 48,
+            "fields": {
+              "socket": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "socket"
+                }
+              },
+              "vfs_inode": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "inode"
+                }
+              }
+            }
+          }
+        },
+        "enums": {
+          "status": {
+            "base": "u32",
+            "size": 4,
+            "constants": {
+              "READY": 2
+            }
+          }
+        },
+        "symbols": {}
+      },
+      "physical": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000800000000000000007000000000000008000000000fffffffe000000020000000000000000726f6f740000000000000000000000000000005800000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001f0000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "native": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000630000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000004d2000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "operations": {
+        "file-socket": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "root": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "cast": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "embedded": {
+          "value": {
+            "address": 80,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 7
+          }
+        },
+        "embedded-peer": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "signed": {
+          "value": -2
+        },
+        "enum": {
+          "value": 2
+        },
+        "string": {
+          "value": "root"
+        },
+        "peer": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "peer-peer": {
+          "value": {
+            "address": 192,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 3
+          }
+        }
+      }
+    },
+    {
+      "width": 4,
+      "endian": "big",
+      "scenario": "null",
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": false
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": false
+          },
+          "i32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": true
+          },
+          "char": {
+            "kind": "char",
+            "size": 1,
+            "endian": "big",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "root": {
+            "kind": "struct",
+            "size": 64,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              },
+              "embedded": {
+                "offset": 16,
+                "type": {
+                  "kind": "struct",
+                  "name": "leaf"
+                }
+              },
+              "signed": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "i32"
+                }
+              },
+              "state": {
+                "offset": 36,
+                "type": {
+                  "kind": "enum",
+                  "name": "status"
+                }
+              },
+              "name": {
+                "offset": 48,
+                "type": {
+                  "kind": "array",
+                  "count": 8,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "char"
+                  }
+                }
+              }
+            }
+          },
+          "leaf": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "file": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "f_path": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "path"
+                }
+              }
+            }
+          },
+          "path": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "dentry": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "dentry"
+                  }
+                }
+              }
+            }
+          },
+          "dentry": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "d_inode": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "inode"
+                  }
+                }
+              }
+            }
+          },
+          "inode": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "i_ino": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              }
+            }
+          },
+          "socket": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "sk": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "socket_alloc": {
+            "kind": "struct",
+            "size": 48,
+            "fields": {
+              "socket": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "socket"
+                }
+              },
+              "vfs_inode": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "inode"
+                }
+              }
+            }
+          }
+        },
+        "enums": {
+          "status": {
+            "base": "u32",
+            "size": 4,
+            "constants": {
+              "READY": 2
+            }
+          }
+        },
+        "symbols": {}
+      },
+      "physical": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000007000000000000008000000000fffffffe000000020000000000000000726f6f740000000000000000000000000000005800000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001f0000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "native": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000630000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000004d2000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "operations": {
+        "file-socket": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "root": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "cast": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "embedded": {
+          "value": {
+            "address": 80,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 7
+          }
+        },
+        "embedded-peer": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "signed": {
+          "value": -2
+        },
+        "enum": {
+          "value": 2
+        },
+        "string": {
+          "value": "root"
+        },
+        "peer": {
+          "error": "null"
+        },
+        "peer-peer": {
+          "error": "null"
+        }
+      }
+    },
+    {
+      "width": 4,
+      "endian": "big",
+      "scenario": "unmapped-target",
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": false
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": false
+          },
+          "i32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": true
+          },
+          "char": {
+            "kind": "char",
+            "size": 1,
+            "endian": "big",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "root": {
+            "kind": "struct",
+            "size": 64,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              },
+              "embedded": {
+                "offset": 16,
+                "type": {
+                  "kind": "struct",
+                  "name": "leaf"
+                }
+              },
+              "signed": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "i32"
+                }
+              },
+              "state": {
+                "offset": 36,
+                "type": {
+                  "kind": "enum",
+                  "name": "status"
+                }
+              },
+              "name": {
+                "offset": 48,
+                "type": {
+                  "kind": "array",
+                  "count": 8,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "char"
+                  }
+                }
+              }
+            }
+          },
+          "leaf": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "file": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "f_path": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "path"
+                }
+              }
+            }
+          },
+          "path": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "dentry": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "dentry"
+                  }
+                }
+              }
+            }
+          },
+          "dentry": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "d_inode": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "inode"
+                  }
+                }
+              }
+            }
+          },
+          "inode": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "i_ino": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              }
+            }
+          },
+          "socket": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "sk": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "socket_alloc": {
+            "kind": "struct",
+            "size": 48,
+            "fields": {
+              "socket": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "socket"
+                }
+              },
+              "vfs_inode": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "inode"
+                }
+              }
+            }
+          }
+        },
+        "enums": {
+          "status": {
+            "base": "u32",
+            "size": 4,
+            "constants": {
+              "READY": 2
+            }
+          }
+        },
+        "symbols": {}
+      },
+      "physical": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000004000000000000000007000000000000008000000000fffffffe000000020000000000000000726f6f740000000000000000000000000000005800000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001f0000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "native": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000630000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000004d2000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "operations": {
+        "file-socket": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "root": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "cast": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "embedded": {
+          "value": {
+            "address": 80,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 7
+          }
+        },
+        "embedded-peer": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "signed": {
+          "value": -2
+        },
+        "enum": {
+          "value": 2
+        },
+        "string": {
+          "value": "root"
+        },
+        "peer": {
+          "error": "read"
+        },
+        "peer-peer": {
+          "error": "read"
+        }
+      }
+    },
+    {
+      "width": 4,
+      "endian": "big",
+      "scenario": "truncated-pointer",
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": false
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": false
+          },
+          "i32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": true
+          },
+          "char": {
+            "kind": "char",
+            "size": 1,
+            "endian": "big",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "root": {
+            "kind": "struct",
+            "size": 64,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              },
+              "embedded": {
+                "offset": 16,
+                "type": {
+                  "kind": "struct",
+                  "name": "leaf"
+                }
+              },
+              "signed": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "i32"
+                }
+              },
+              "state": {
+                "offset": 36,
+                "type": {
+                  "kind": "enum",
+                  "name": "status"
+                }
+              },
+              "name": {
+                "offset": 48,
+                "type": {
+                  "kind": "array",
+                  "count": 8,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "char"
+                  }
+                }
+              }
+            }
+          },
+          "leaf": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "file": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "f_path": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "path"
+                }
+              }
+            }
+          },
+          "path": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "dentry": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "dentry"
+                  }
+                }
+              }
+            }
+          },
+          "dentry": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "d_inode": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "inode"
+                  }
+                }
+              }
+            }
+          },
+          "inode": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "i_ino": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              }
+            }
+          },
+          "socket": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "sk": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "socket_alloc": {
+            "kind": "struct",
+            "size": 48,
+            "fields": {
+              "socket": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "socket"
+                }
+              },
+              "vfs_inode": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "inode"
+                }
+              }
+            }
+          }
+        },
+        "enums": {
+          "status": {
+            "base": "u32",
+            "size": 4,
+            "constants": {
+              "READY": 2
+            }
+          }
+        },
+        "symbols": {}
+      },
+      "physical": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000",
+      "native": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000630000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000004d2000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "operations": {
+        "file-socket": {
+          "error": "read"
+        },
+        "root": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "cast": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "embedded": {
+          "error": "read"
+        },
+        "embedded-peer": {
+          "error": "read"
+        },
+        "signed": {
+          "error": "read"
+        },
+        "enum": {
+          "error": "read"
+        },
+        "string": {
+          "error": "read"
+        },
+        "peer": {
+          "error": "read"
+        },
+        "peer-peer": {
+          "error": "read"
+        }
+      }
+    },
+    {
+      "width": 8,
+      "endian": "little",
+      "scenario": "normal",
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "i32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": true
+          },
+          "char": {
+            "kind": "char",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "root": {
+            "kind": "struct",
+            "size": 64,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              },
+              "embedded": {
+                "offset": 16,
+                "type": {
+                  "kind": "struct",
+                  "name": "leaf"
+                }
+              },
+              "signed": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "i32"
+                }
+              },
+              "state": {
+                "offset": 36,
+                "type": {
+                  "kind": "enum",
+                  "name": "status"
+                }
+              },
+              "name": {
+                "offset": 48,
+                "type": {
+                  "kind": "array",
+                  "count": 8,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "char"
+                  }
+                }
+              }
+            }
+          },
+          "leaf": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "file": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "f_path": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "path"
+                }
+              }
+            }
+          },
+          "path": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "dentry": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "dentry"
+                  }
+                }
+              }
+            }
+          },
+          "dentry": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "d_inode": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "inode"
+                  }
+                }
+              }
+            }
+          },
+          "inode": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "i_ino": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              }
+            }
+          },
+          "socket": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "sk": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "socket_alloc": {
+            "kind": "struct",
+            "size": 48,
+            "fields": {
+              "socket": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "socket"
+                }
+              },
+              "vfs_inode": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "inode"
+                }
+              }
+            }
+          }
+        },
+        "enums": {
+          "status": {
+            "base": "u32",
+            "size": 4,
+            "constants": {
+              "READY": 2
+            }
+          }
+        },
+        "symbols": {}
+      },
+      "physical": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000800000000000000007000000000000008000000000000000feffffff020000000000000000000000726f6f740000000000000000000000005800000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f0010000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "native": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000630000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000600100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000d2040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "operations": {
+        "file-socket": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "root": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "cast": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "embedded": {
+          "value": {
+            "address": 80,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 7
+          }
+        },
+        "embedded-peer": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "signed": {
+          "value": -2
+        },
+        "enum": {
+          "value": 2
+        },
+        "string": {
+          "value": "root"
+        },
+        "peer": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "peer-peer": {
+          "value": {
+            "address": 192,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 3
+          }
+        }
+      }
+    },
+    {
+      "width": 8,
+      "endian": "little",
+      "scenario": "null",
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "i32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": true
+          },
+          "char": {
+            "kind": "char",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "root": {
+            "kind": "struct",
+            "size": 64,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              },
+              "embedded": {
+                "offset": 16,
+                "type": {
+                  "kind": "struct",
+                  "name": "leaf"
+                }
+              },
+              "signed": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "i32"
+                }
+              },
+              "state": {
+                "offset": 36,
+                "type": {
+                  "kind": "enum",
+                  "name": "status"
+                }
+              },
+              "name": {
+                "offset": 48,
+                "type": {
+                  "kind": "array",
+                  "count": 8,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "char"
+                  }
+                }
+              }
+            }
+          },
+          "leaf": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "file": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "f_path": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "path"
+                }
+              }
+            }
+          },
+          "path": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "dentry": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "dentry"
+                  }
+                }
+              }
+            }
+          },
+          "dentry": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "d_inode": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "inode"
+                  }
+                }
+              }
+            }
+          },
+          "inode": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "i_ino": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              }
+            }
+          },
+          "socket": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "sk": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "socket_alloc": {
+            "kind": "struct",
+            "size": 48,
+            "fields": {
+              "socket": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "socket"
+                }
+              },
+              "vfs_inode": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "inode"
+                }
+              }
+            }
+          }
+        },
+        "enums": {
+          "status": {
+            "base": "u32",
+            "size": 4,
+            "constants": {
+              "READY": 2
+            }
+          }
+        },
+        "symbols": {}
+      },
+      "physical": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000007000000000000008000000000000000feffffff020000000000000000000000726f6f740000000000000000000000005800000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f0010000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "native": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000630000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000600100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000d2040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "operations": {
+        "file-socket": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "root": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "cast": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "embedded": {
+          "value": {
+            "address": 80,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 7
+          }
+        },
+        "embedded-peer": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "signed": {
+          "value": -2
+        },
+        "enum": {
+          "value": 2
+        },
+        "string": {
+          "value": "root"
+        },
+        "peer": {
+          "error": "null"
+        },
+        "peer-peer": {
+          "error": "null"
+        }
+      }
+    },
+    {
+      "width": 8,
+      "endian": "little",
+      "scenario": "unmapped-target",
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "i32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": true
+          },
+          "char": {
+            "kind": "char",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "root": {
+            "kind": "struct",
+            "size": 64,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              },
+              "embedded": {
+                "offset": 16,
+                "type": {
+                  "kind": "struct",
+                  "name": "leaf"
+                }
+              },
+              "signed": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "i32"
+                }
+              },
+              "state": {
+                "offset": 36,
+                "type": {
+                  "kind": "enum",
+                  "name": "status"
+                }
+              },
+              "name": {
+                "offset": 48,
+                "type": {
+                  "kind": "array",
+                  "count": 8,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "char"
+                  }
+                }
+              }
+            }
+          },
+          "leaf": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "file": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "f_path": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "path"
+                }
+              }
+            }
+          },
+          "path": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "dentry": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "dentry"
+                  }
+                }
+              }
+            }
+          },
+          "dentry": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "d_inode": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "inode"
+                  }
+                }
+              }
+            }
+          },
+          "inode": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "i_ino": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              }
+            }
+          },
+          "socket": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "sk": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "socket_alloc": {
+            "kind": "struct",
+            "size": 48,
+            "fields": {
+              "socket": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "socket"
+                }
+              },
+              "vfs_inode": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "inode"
+                }
+              }
+            }
+          }
+        },
+        "enums": {
+          "status": {
+            "base": "u32",
+            "size": 4,
+            "constants": {
+              "READY": 2
+            }
+          }
+        },
+        "symbols": {}
+      },
+      "physical": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000400000000000007000000000000008000000000000000feffffff020000000000000000000000726f6f740000000000000000000000005800000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f0010000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "native": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000630000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000600100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000d2040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "operations": {
+        "file-socket": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "root": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "cast": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "embedded": {
+          "value": {
+            "address": 80,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 7
+          }
+        },
+        "embedded-peer": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "signed": {
+          "value": -2
+        },
+        "enum": {
+          "value": 2
+        },
+        "string": {
+          "value": "root"
+        },
+        "peer": {
+          "error": "read"
+        },
+        "peer-peer": {
+          "error": "read"
+        }
+      }
+    },
+    {
+      "width": 8,
+      "endian": "little",
+      "scenario": "truncated-pointer",
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "i32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": true
+          },
+          "char": {
+            "kind": "char",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "root": {
+            "kind": "struct",
+            "size": 64,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              },
+              "embedded": {
+                "offset": 16,
+                "type": {
+                  "kind": "struct",
+                  "name": "leaf"
+                }
+              },
+              "signed": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "i32"
+                }
+              },
+              "state": {
+                "offset": 36,
+                "type": {
+                  "kind": "enum",
+                  "name": "status"
+                }
+              },
+              "name": {
+                "offset": 48,
+                "type": {
+                  "kind": "array",
+                  "count": 8,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "char"
+                  }
+                }
+              }
+            }
+          },
+          "leaf": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "file": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "f_path": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "path"
+                }
+              }
+            }
+          },
+          "path": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "dentry": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "dentry"
+                  }
+                }
+              }
+            }
+          },
+          "dentry": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "d_inode": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "inode"
+                  }
+                }
+              }
+            }
+          },
+          "inode": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "i_ino": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              }
+            }
+          },
+          "socket": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "sk": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "socket_alloc": {
+            "kind": "struct",
+            "size": 48,
+            "fields": {
+              "socket": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "socket"
+                }
+              },
+              "vfs_inode": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "inode"
+                }
+              }
+            }
+          }
+        },
+        "enums": {
+          "status": {
+            "base": "u32",
+            "size": 4,
+            "constants": {
+              "READY": 2
+            }
+          }
+        },
+        "symbols": {}
+      },
+      "physical": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000080000000000000",
+      "native": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000630000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000600100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000d2040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "operations": {
+        "file-socket": {
+          "error": "read"
+        },
+        "root": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "cast": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "embedded": {
+          "error": "read"
+        },
+        "embedded-peer": {
+          "error": "read"
+        },
+        "signed": {
+          "error": "read"
+        },
+        "enum": {
+          "error": "read"
+        },
+        "string": {
+          "error": "read"
+        },
+        "peer": {
+          "error": "read"
+        },
+        "peer-peer": {
+          "error": "read"
+        }
+      }
+    },
+    {
+      "width": 8,
+      "endian": "big",
+      "scenario": "normal",
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "big",
+            "signed": false
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": false
+          },
+          "i32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": true
+          },
+          "char": {
+            "kind": "char",
+            "size": 1,
+            "endian": "big",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "root": {
+            "kind": "struct",
+            "size": 64,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              },
+              "embedded": {
+                "offset": 16,
+                "type": {
+                  "kind": "struct",
+                  "name": "leaf"
+                }
+              },
+              "signed": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "i32"
+                }
+              },
+              "state": {
+                "offset": 36,
+                "type": {
+                  "kind": "enum",
+                  "name": "status"
+                }
+              },
+              "name": {
+                "offset": 48,
+                "type": {
+                  "kind": "array",
+                  "count": 8,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "char"
+                  }
+                }
+              }
+            }
+          },
+          "leaf": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "file": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "f_path": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "path"
+                }
+              }
+            }
+          },
+          "path": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "dentry": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "dentry"
+                  }
+                }
+              }
+            }
+          },
+          "dentry": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "d_inode": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "inode"
+                  }
+                }
+              }
+            }
+          },
+          "inode": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "i_ino": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              }
+            }
+          },
+          "socket": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "sk": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "socket_alloc": {
+            "kind": "struct",
+            "size": 48,
+            "fields": {
+              "socket": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "socket"
+                }
+              },
+              "vfs_inode": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "inode"
+                }
+              }
+            }
+          }
+        },
+        "enums": {
+          "status": {
+            "base": "u32",
+            "size": 4,
+            "constants": {
+              "READY": 2
+            }
+          }
+        },
+        "symbols": {}
+      },
+      "physical": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000008000000007000000000000000000000080fffffffe000000020000000000000000726f6f74000000000000000000000000000000580000000000000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001f00000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "native": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000063000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000000000c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000004d2000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "operations": {
+        "file-socket": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "root": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "cast": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "embedded": {
+          "value": {
+            "address": 80,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 7
+          }
+        },
+        "embedded-peer": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "signed": {
+          "value": -2
+        },
+        "enum": {
+          "value": 2
+        },
+        "string": {
+          "value": "root"
+        },
+        "peer": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "peer-peer": {
+          "value": {
+            "address": 192,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 3
+          }
+        }
+      }
+    },
+    {
+      "width": 8,
+      "endian": "big",
+      "scenario": "null",
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "big",
+            "signed": false
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": false
+          },
+          "i32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": true
+          },
+          "char": {
+            "kind": "char",
+            "size": 1,
+            "endian": "big",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "root": {
+            "kind": "struct",
+            "size": 64,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              },
+              "embedded": {
+                "offset": 16,
+                "type": {
+                  "kind": "struct",
+                  "name": "leaf"
+                }
+              },
+              "signed": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "i32"
+                }
+              },
+              "state": {
+                "offset": 36,
+                "type": {
+                  "kind": "enum",
+                  "name": "status"
+                }
+              },
+              "name": {
+                "offset": 48,
+                "type": {
+                  "kind": "array",
+                  "count": 8,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "char"
+                  }
+                }
+              }
+            }
+          },
+          "leaf": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "file": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "f_path": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "path"
+                }
+              }
+            }
+          },
+          "path": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "dentry": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "dentry"
+                  }
+                }
+              }
+            }
+          },
+          "dentry": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "d_inode": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "inode"
+                  }
+                }
+              }
+            }
+          },
+          "inode": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "i_ino": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              }
+            }
+          },
+          "socket": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "sk": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "socket_alloc": {
+            "kind": "struct",
+            "size": 48,
+            "fields": {
+              "socket": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "socket"
+                }
+              },
+              "vfs_inode": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "inode"
+                }
+              }
+            }
+          }
+        },
+        "enums": {
+          "status": {
+            "base": "u32",
+            "size": 4,
+            "constants": {
+              "READY": 2
+            }
+          }
+        },
+        "symbols": {}
+      },
+      "physical": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000007000000000000000000000080fffffffe000000020000000000000000726f6f74000000000000000000000000000000580000000000000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001f00000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "native": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000063000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000000000c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000004d2000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "operations": {
+        "file-socket": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "root": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "cast": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "embedded": {
+          "value": {
+            "address": 80,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 7
+          }
+        },
+        "embedded-peer": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "signed": {
+          "value": -2
+        },
+        "enum": {
+          "value": 2
+        },
+        "string": {
+          "value": "root"
+        },
+        "peer": {
+          "error": "null"
+        },
+        "peer-peer": {
+          "error": "null"
+        }
+      }
+    },
+    {
+      "width": 8,
+      "endian": "big",
+      "scenario": "unmapped-target",
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "big",
+            "signed": false
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": false
+          },
+          "i32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": true
+          },
+          "char": {
+            "kind": "char",
+            "size": 1,
+            "endian": "big",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "root": {
+            "kind": "struct",
+            "size": 64,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              },
+              "embedded": {
+                "offset": 16,
+                "type": {
+                  "kind": "struct",
+                  "name": "leaf"
+                }
+              },
+              "signed": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "i32"
+                }
+              },
+              "state": {
+                "offset": 36,
+                "type": {
+                  "kind": "enum",
+                  "name": "status"
+                }
+              },
+              "name": {
+                "offset": 48,
+                "type": {
+                  "kind": "array",
+                  "count": 8,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "char"
+                  }
+                }
+              }
+            }
+          },
+          "leaf": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "file": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "f_path": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "path"
+                }
+              }
+            }
+          },
+          "path": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "dentry": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "dentry"
+                  }
+                }
+              }
+            }
+          },
+          "dentry": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "d_inode": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "inode"
+                  }
+                }
+              }
+            }
+          },
+          "inode": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "i_ino": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              }
+            }
+          },
+          "socket": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "sk": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "socket_alloc": {
+            "kind": "struct",
+            "size": 48,
+            "fields": {
+              "socket": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "socket"
+                }
+              },
+              "vfs_inode": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "inode"
+                }
+              }
+            }
+          }
+        },
+        "enums": {
+          "status": {
+            "base": "u32",
+            "size": 4,
+            "constants": {
+              "READY": 2
+            }
+          }
+        },
+        "symbols": {}
+      },
+      "physical": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000040000000007000000000000000000000080fffffffe000000020000000000000000726f6f74000000000000000000000000000000580000000000000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001f00000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "native": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000063000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000000000c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000004d2000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "operations": {
+        "file-socket": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "root": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "cast": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "embedded": {
+          "value": {
+            "address": 80,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 7
+          }
+        },
+        "embedded-peer": {
+          "value": {
+            "address": 128,
+            "layer": "kernel",
+            "native": "kernel",
+            "value": 2
+          }
+        },
+        "signed": {
+          "value": -2
+        },
+        "enum": {
+          "value": 2
+        },
+        "string": {
+          "value": "root"
+        },
+        "peer": {
+          "error": "read"
+        },
+        "peer-peer": {
+          "error": "read"
+        }
+      }
+    },
+    {
+      "width": 8,
+      "endian": "big",
+      "scenario": "truncated-pointer",
+      "isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "big",
+            "signed": false
+          },
+          "u32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": false
+          },
+          "i32": {
+            "kind": "int",
+            "size": 4,
+            "endian": "big",
+            "signed": true
+          },
+          "char": {
+            "kind": "char",
+            "size": 1,
+            "endian": "big",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "root": {
+            "kind": "struct",
+            "size": 64,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              },
+              "embedded": {
+                "offset": 16,
+                "type": {
+                  "kind": "struct",
+                  "name": "leaf"
+                }
+              },
+              "signed": {
+                "offset": 32,
+                "type": {
+                  "kind": "base",
+                  "name": "i32"
+                }
+              },
+              "state": {
+                "offset": 36,
+                "type": {
+                  "kind": "enum",
+                  "name": "status"
+                }
+              },
+              "name": {
+                "offset": 48,
+                "type": {
+                  "kind": "array",
+                  "count": 8,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "char"
+                  }
+                }
+              }
+            }
+          },
+          "leaf": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "value": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              },
+              "peer": {
+                "offset": 8,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "file": {
+            "kind": "struct",
+            "size": 32,
+            "fields": {
+              "f_path": {
+                "offset": 8,
+                "type": {
+                  "kind": "struct",
+                  "name": "path"
+                }
+              }
+            }
+          },
+          "path": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "dentry": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "dentry"
+                  }
+                }
+              }
+            }
+          },
+          "dentry": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "d_inode": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "inode"
+                  }
+                }
+              }
+            }
+          },
+          "inode": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "i_ino": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u32"
+                }
+              }
+            }
+          },
+          "socket": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "sk": {
+                "offset": 0,
+                "type": {
+                  "kind": "pointer",
+                  "subtype": {
+                    "kind": "struct",
+                    "name": "leaf"
+                  }
+                }
+              }
+            }
+          },
+          "socket_alloc": {
+            "kind": "struct",
+            "size": 48,
+            "fields": {
+              "socket": {
+                "offset": 0,
+                "type": {
+                  "kind": "struct",
+                  "name": "socket"
+                }
+              },
+              "vfs_inode": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "inode"
+                }
+              }
+            }
+          }
+        },
+        "enums": {
+          "status": {
+            "base": "u32",
+            "size": 4,
+            "constants": {
+              "READY": 2
+            }
+          }
+        },
+        "symbols": {}
+      },
+      "physical": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000",
+      "native": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000063000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000000000c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000004d2000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "operations": {
+        "file-socket": {
+          "error": "read"
+        },
+        "root": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "cast": {
+          "value": {
+            "address": 64,
+            "layer": "physical",
+            "native": "kernel",
+            "value": 1
+          }
+        },
+        "embedded": {
+          "error": "read"
+        },
+        "embedded-peer": {
+          "error": "read"
+        },
+        "signed": {
+          "error": "read"
+        },
+        "enum": {
+          "error": "read"
+        },
+        "string": {
+          "error": "read"
+        },
+        "peer": {
+          "error": "read"
+        },
+        "peer-peer": {
+          "error": "read"
+        }
+      }
+    }
+  ]
+}

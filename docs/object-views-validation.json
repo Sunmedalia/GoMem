@@ -1,0 +1,29 @@
+{
+  "schema": "gomem.object-view-validation/v1",
+  "date": "2026-10-22",
+  "release": "development-preview",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "oracle": {
+    "cases": 16,
+    "operations": 160,
+    "sha256": "bb0da6eee3e24feef18522e5fe98c215573e6a9837039a49586f70b299435169",
+    "unmodified_upstream_objects": true,
+    "actual_linux_container_of": true,
+    "separate_data_and_native_layers": true,
+    "same_numeric_addresses_have_distinct_bytes": true,
+    "no_object_method_mocks": true,
+    "null_policy_explicit": true
+  },
+  "fuzz": {
+    "target": "FuzzViewDataAndNativeLayers",
+    "seconds": 10,
+    "executions": 329567
+  },
+  "limitations": [
+    "Shared aggregate access infrastructure, not a socket scanner or a new accepted capability",
+    "No pointer canonicalization or address-space inference",
+    "No raw acquisition logger; caller supplies layers and records provenance",
+    "No void-pointer target inference or pointer-array traversal"
+  ]
+}
