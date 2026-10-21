@@ -1,0 +1,16 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["module"],
+    "excluded_values": ["summary"]
+  },
+  "fields": {
+    "Pid": {"native": "PID", "reference": "Pid", "kind": "uint64"},
+    "Process": {"native": "Process", "reference": "Process", "kind": "string"},
+    "Base": {"native": "Base", "reference": "Base", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "InLoad": {"native": "InLoad", "reference": "InLoad", "kind": "bool"},
+    "InInit": {"native": "InInit", "reference": "InInit", "kind": "bool"},
+    "InMem": {"native": "InMem", "reference": "InMem", "kind": "bool"},
+    "MappedPath": {"native": "MappedPath", "reference": "MappedPath", "kind": "string", "missing_reasons": ["not_file_backed", "unreadable_or_unavailable", "not_applicable"]}
+  }
+}

@@ -44,10 +44,10 @@ func wowLoaderSymbols() (*symbols.ISF, error) {
 		}
 		t := symbols.ISF{Meta: map[string]json.RawMessage{"format": json.RawMessage(`"6.2.0"`)}, Bases: map[string]symbols.Type{"pointer": {Kind: "int", Size: 4, Endian: "little"}, "u32": {Kind: "int", Size: 4, Endian: "little"}, "u16": {Kind: "int", Size: 2, Endian: "little"}}, Types: map[string]symbols.Type{
 			"_PEB":                  {Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"Ldr": field(12, ptr)}},
-			"_PEB_LDR_DATA":         {Kind: "struct", Size: 48, Fields: map[string]symbols.Field{"InLoadOrderModuleList": field(12, embedded("_LIST_ENTRY"))}},
+			"_PEB_LDR_DATA":         {Kind: "struct", Size: 48, Fields: map[string]symbols.Field{"InLoadOrderModuleList": field(12, embedded("_LIST_ENTRY")), "InMemoryOrderModuleList": field(20, embedded("_LIST_ENTRY")), "InInitializationOrderModuleList": field(28, embedded("_LIST_ENTRY"))}},
 			"_LIST_ENTRY":           {Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"Flink": field(0, ptr), "Blink": field(4, ptr)}},
 			"_UNICODE_STRING":       {Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"Length": field(0, u16), "MaximumLength": field(2, u16), "Buffer": field(4, ptr)}},
-			"_LDR_DATA_TABLE_ENTRY": {Kind: "struct", Size: 160, Fields: map[string]symbols.Field{"InLoadOrderLinks": field(0, embedded("_LIST_ENTRY")), "DllBase": field(24, ptr), "SizeOfImage": field(32, u32), "FullDllName": field(36, embedded("_UNICODE_STRING")), "BaseDllName": field(44, embedded("_UNICODE_STRING"))}},
+			"_LDR_DATA_TABLE_ENTRY": {Kind: "struct", Size: 160, Fields: map[string]symbols.Field{"InLoadOrderLinks": field(0, embedded("_LIST_ENTRY")), "InMemoryOrderLinks": field(8, embedded("_LIST_ENTRY")), "InInitializationOrderLinks": field(16, embedded("_LIST_ENTRY")), "DllBase": field(24, ptr), "SizeOfImage": field(32, u32), "FullDllName": field(36, embedded("_UNICODE_STRING")), "BaseDllName": field(44, embedded("_UNICODE_STRING"))}},
 		}}
 		b, err := t.Encode()
 		if err == nil {

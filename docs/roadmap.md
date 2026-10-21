@@ -75,3 +75,5 @@
 2026-10-21：windows.truecrypt 在 truecrypt.sys 的 .data 段寻找缓存口令。选定 Windows 10 19041 样本没有该模块，固定基线和原生都输出 0 行。合成样本覆盖了口令长度、可打印范围和对齐填充。带真实口令的镜像还没有验收。[详情](windows-truecrypt.md)
 
 2026-10-21：windows.verinfo 列出内核模块和进程 DLL 的 PE 产品版本。选定 Windows 10 19041 样本的 5918 行与固定基线一致，176 个内核模块版本都不可用，1715 个 DLL 有版本。5 条加载链表在缺页的下一节点停下。`extensive=true`、真实 32 位镜像和时间线还没有验收。[详情](windows-verinfo.md)
+
+2026-10-21：windows.ldrmodules 对照 MZ 开头的 VAD 和 PEB 三条链表。选定 Windows 10 19041 样本的 3193 行与固定基线一致，120 个进程里 103 个有此类 VAD。2660 个在加载链表，2580 个在初始化链表，2660 个在内存链表。真实 32 位镜像、pid 筛选和时间线还没有验收。[详情](windows-ldrmodules.md)

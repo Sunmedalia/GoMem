@@ -7024,7 +7024,7 @@
       "corpora": [],
       "comparison": "not_run",
       "gaps": [
-        "Native implementation and validation pending"
+        "Deprecated alias of windows.malware.ldrmodules.LdrModules; native command is windows.ldrmodules"
       ]
     },
     {
@@ -7452,15 +7452,23 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "MZ-backed VADs compared with the three PEB loader lists. VADs use the same modern tree as windows.vadwalk. VadS and VadF have no file name. Other Vad tags read Subsection.ControlArea.FilePointer with the EX_FAST_REF low bits cleared. A failed file-name read stays unavailable and the cause is kept on PathError; the compared path has no error. Each process layer must be created or the task fails. The first two bytes at the VAD start are read in that process layer. An unreadable header or a value other than MZ is skipped. Load, initialization and memory lists are walked for the native PEB and then the WoW64 PEB. An unreadable DllBase is omitted from that set. An unmapped next LIST_ENTRY ends that list and does not fail the task. Membership uses the raw pointer value. The displayed Base stays canonical, and the comparison masks it to 48 bits. pid is an optional comma-separated list and an empty value keeps every active process. max-nodes defaults to 131072 and bounds the process list, each VAD tree and each loader list. It is not an upstream parameter. The summary row is not a module. windows.ldrmodules.LdrModules is only the deprecated upstream alias.",
+      "native": "windows.ldrmodules",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_3193_rows_match_pid_process_base_list_membership_and_mapped_path",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It examines 120 processes, 103 of which have at least one MZ VAD, and emits 3193 rows. 2660 are in the load list, 2580 in the initialization list and 2660 in the memory list. Three mapped paths are unavailable",
+        "PID 4 System has \\Windows\\SysWOW64\\ntdll.dll mapped outside all three lists",
+        "The pid filter has no corpus differential. Real 32-bit images remain pending. WoW64 entries are only those present in this 64-bit image",
+        "A VAD tree with an unrecognized pool tag or a parent mismatch fails the task. The pinned traverse can skip a bad node. This image's trees were already accepted by windows.vadwalk",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-ldrmodules.md"
     },
     {
       "id": "windows.malware.malfind.Malfind",

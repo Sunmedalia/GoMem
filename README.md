@@ -68,6 +68,7 @@ bin/gomem analyze windows.pslist \
 | `windows.mbrscan` | 在物理内存中扫描 `55 AA` 并解析主引导记录和四个分区项；全零引导代码丢弃，分区字段缺页则任务失败；[说明](docs/windows-mbrscan.md) |
 | `windows.truecrypt` | 在 `truecrypt.sys` 的 `.data` 段寻找缓存口令；没有该模块时不输出口令；长度不是 4 的倍数则任务失败；[说明](docs/windows-truecrypt.md) |
 | `windows.verinfo` | 列出内核模块和进程加载顺序 DLL 的 PE 产品版本；内核基址按 48 位截断后读取，缺页的下一链表项结束当前链表；[说明](docs/windows-verinfo.md) |
+| `windows.ldrmodules` | 对照 MZ 开头的 VAD 与 PEB 三条加载链表；页表建不起来则任务失败，文件名错误留在 `PathError`；[说明](docs/windows-ldrmodules.md) |
 | `windows.hivelist` | 从 `CmpHiveListHead` 枚举注册表 hive；保留签名、三个路径字段和链表断裂；`dump` 重建稳定 hive，缺页记入空洞日志并令任务失败 |
 | `windows.hivescan` | 在 64 位 Windows 8.1 及以后扫描 `PoolBigPageTable` 的在用 `CM10` 分配；旧式池头扫描会明确失败；[说明](docs/windows-hivescan.md) |
 | `windows.filescan` | 扫描池头中的文件对象，输出规范虚拟地址和文件名；Windows 10 扫内核层，更早的系统扫物理内存；[说明](docs/windows-filescan.md) |
@@ -178,6 +179,8 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `windows.truecrypt` 只检查已加载模块里第一个名为 `truecrypt.sys` 的驱动，大小写不敏感。它把 `.data` 按有符号 32 位长度扫描，口令字节必须落在 `0x20` 到 `0x7E`，长度后面跳过一个字节，再要求三个对齐字节为 0。Windows 10 19041 样本没有这个模块，固定基线发出警告后不输出行，原生结果同样是 0 条口令。合成样本覆盖了长度、字符范围、对齐填充和缺少 `.data` 段。真实口令镜像还没有验收。[TrueCrypt 验证](docs/windows-truecrypt.md)
 
 `windows.verinfo` 列出内核模块和进程 DLL 的产品版本。内核模块只在每个会话的第一个进程地址空间里读，指针先按低 48 位截断，所以规范内核地址的版本不可用，展示用的基址仍保留原值。进程 DLL 走加载顺序链表，下一节点不可读就结束该链表。产品版本来自 `VS_FIXEDFILEINFO[0]`。Windows 10 19041 样本有 176 个内核模块和 5742 个 DLL，共 5918 行，与固定基线一致。其中 1715 个 DLL 有版本，328 个名称不可用，5 条链表在缺页处停下。`extensive=true` 会改报文件版本，还没有语料差分。真实 32 位镜像和时间线还没有验收。[版本信息验证](docs/windows-verinfo.md)
+
+`windows.ldrmodules` 找出进程里以 `MZ` 开头的 VAD，并记录基址是否在加载、初始化和内存三条 PEB 链表中。WoW64 链表使用固定基线 `wow64.json` 的 32 位偏移。Windows 10 19041 样本检查了 120 个进程，103 个有此类 VAD，共 3193 行，与固定基线一致。2660 个在加载链表，2580 个在初始化链表，2660 个在内存链表，3 个路径不可用。PID 4 的 `\Windows\SysWOW64\ntdll.dll` 不在三条链表里。真实 32 位镜像、`pid` 筛选和时间线还没有验收。[加载模块验证](docs/windows-ldrmodules.md)
 
 `windows.hivelist` 正向遍历内核 hive 链表，签名不符或链表断裂时改为反向补齐，并保留已经读到的 hive。名称按 `FileFullPath`、`FileUserName`、`HiveRootPath` 取第一个非空值，三个字段都保留。Windows 10 19041 样本的 24 个偏移和名称与固定基线一致；该样本的 `FileFullPath` 成员均为空，选中名称来自另外两个字段。`dump=true` 写出 base block 和稳定存储；读不到的页是带日志的零字节，任务失败，不会把空洞说成原始数据。[注册表 hive 验证](docs/windows-hivelist.md)
 
