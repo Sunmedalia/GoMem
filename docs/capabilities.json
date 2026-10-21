@@ -886,7 +886,7 @@
       "corpora": [],
       "comparison": "not_run",
       "gaps": [
-        "Native implementation and validation pending"
+        "Deprecated alias of linux.malware.hidden_modules.Hidden_modules; native command is linux.hidden_modules; independent alias acceptance remains pending"
       ]
     },
     {
@@ -1861,15 +1861,21 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Symbol-described Intel Linux whose ISF producer is dwarf2json >= 0.8.0. Collect active module object addresses, then scan module_addr_min/max or mod_tree.addr_min/max. Alignment is the pointer size unless any active address is not divisible by it, in which case the step is one byte. Known addresses are skipped before the self-pointer prefilter. Unreadable prefilter positions and invalid module objects are not rows. Valid modules absent from the active list use the shared display and optional bounded ELF extraction. A final scan summary is native evidence and is not a module.",
+      "native": "linux.hidden_modules",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-hidden-modules-x64-x86-pae",
+        "official-linux-sample-1-negative"
+      ],
+      "comparison": "real_negative_control_has_zero_hidden_modules_synthetic_hidden_objects_match",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Debian 3.2 x64 is a negative control: the pinned plugin returns no rows. Native scans 587805 positions from 0xffffffffa0000000 through 0xffffffffa047c0e5 at step 8, excludes all 79 active modules, skips 79919 unreadable prefilter positions and 22 invalid self-pointers, and emits only a summary. This is not a positive hidden-module differential",
+        "Invalid self-pointer candidates are skipped without failing the task, matching is_valid false. Native whole-module capture is bounded at 4096 bytes",
+        "Actual x86/PAE acquisitions, modern kernels, positive hidden modules, ARM64 translation and full smeared-image acceptance remain pending"
+      ],
+      "validation_record": "docs/linux-hidden-modules.md"
     },
     {
       "id": "linux.malware.keyboard_notifiers.Keyboard_notifiers",

@@ -173,6 +173,7 @@ type linuxModuleSources struct {
 	nodes, positions, unreadable, selfMatches, rejected, diagnostics uint64
 	results                                                          map[string][]linuxModuleInfo
 	comparisonOnly                                                   bool
+	quietBounds                                                      bool
 	ksetModules                                                      map[string]uint64
 	ksetOrder                                                        []string
 }
@@ -516,8 +517,10 @@ func (s *linuxModuleSources) boundaries() (uint64, uint64, error) {
 	if err != nil {
 		r.Cells["Error"] = evidence.Missing("allocation_bounds_unavailable", err)
 	}
-	if emitErr := s.out(r); emitErr != nil {
-		return 0, 0, emitErr
+	if !s.quietBounds {
+		if emitErr := s.out(r); emitErr != nil {
+			return 0, 0, emitErr
+		}
 	}
 	if err != nil {
 		return 0, 0, err

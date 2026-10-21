@@ -33,6 +33,7 @@ func Register(r *plugin.Registry) error {
 	specs = append(specs, processPlugins()...)
 	specs = append(specs, modulePlugins()...)
 	specs = append(specs, linuxModuleExtractPlugins()...)
+	specs = append(specs, linuxHiddenModulePlugins()...)
 	specs = append(specs, threadPlugins()...)
 	specs = append(specs, vadPlugins()...)
 	specs = append(specs, linuxMapPlugins()...)
