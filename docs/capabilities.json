@@ -1778,13 +1778,15 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "linux.check_syscall",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
+      "corpora": [
+        "synthetic-linux-x64"
+      ],
       "comparison": "not_run",
       "gaps": [
-        "Native implementation and validation pending"
+        "Official-corpus differential acceptance pending"
       ]
     },
     {

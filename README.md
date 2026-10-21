@@ -114,6 +114,7 @@ bin/gomem analyze windows.pslist \
 | `linux.check_creds` | 按凭据对象地址检查活动任务共享，保留成员身份与读取诊断；[说明](docs/linux-check-creds.md) |
 | `linux.pstree` | 按进程和线程构建父子树，保留候选对象、筛选与原始证据；[说明](docs/linux-pstree.md) |
 | `linux.ptrace` | 检查进程/线程 ptrace 关系，保留标志、对象身份和原始字段；[说明](docs/linux-ptrace.md) |
+| `linux.check_syscall` | 在没有原生反汇编时按元数据和下一符号确定系统调用表长度，核对精确符号并保留指针字节；[说明](docs/linux-syscall.md) |
 | `linux.check_idt` | 检查 0..19 和 128 号中断入口，关联模块与精确符号并保留描述符原始字段；[说明](docs/linux-idt.md) |
 | `linux.check_afinfo` | 按符号声明顺序检查网络操作指针的精确内核符号，保留零指针与每项决策；[说明](docs/linux-afinfo.md) |
 | `linux.kthreads` | 枚举 Linux 5.8+ 内核线程入口，关联模块与精确符号并保留读取证据；[说明](docs/linux-kthreads.md) |

@@ -1,0 +1,116 @@
+{
+  "scope": "Development preview: Debian 3.2 x64 differential against the no-capstone reference path; complete capability acceptance remains pending.",
+  "plugin": "linux.check_syscall",
+  "task_id": "0d56eb0db78c2b0d5c3ff84f7eda55cb",
+  "unmodified_reference_manifest": {
+    "baseline": {
+      "name": "Volatility 3",
+      "version": "2.28.2",
+      "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+      "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+    },
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "plugin": "linux.malware.check_syscall.Check_syscall",
+    "parameters": [],
+    "output_sha256": "40f63a35a5228b1c6295295466efea51d241163ab3ed6e7237084b73655985ba",
+    "config_sha256": "6ea13670c191ab0414a2017a5f6f3a4ccc77f08b333661bc048f7429226205f1",
+    "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+  },
+  "reference_capstone": false,
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "Table Address",
+      "Table Name",
+      "Index",
+      "Handler Address",
+      "Handler Symbol"
+    ],
+    "native_rows": 661,
+    "reference_rows": 661,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "c76538b06d867e8026e49479291eb97de5e126f33567f1ea937414867c817279",
+      "reference": "40f63a35a5228b1c6295295466efea51d241163ab3ed6e7237084b73655985ba",
+      "mapping": "a15ba719e25a430bd933ee91ca067384e4785a634c88463da846b362235404bc"
+    },
+    "native_input_rows": 664,
+    "native_non_entity_records": {
+      "table_observation": 2,
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "value": "syscall",
+      "excluded_values": [
+        "table_observation",
+        "diagnostic",
+        "summary"
+      ]
+    }
+  },
+  "native_rows": 664,
+  "native_summary": {
+    "diagnostics": "0",
+    "entry_visits": "661",
+    "native_disassembly": "unavailable",
+    "optional_ia32_absent": "0",
+    "read_layout_errors": "0",
+    "scope": "metadata/next-symbol sizing is heuristic and exact membership is not a malware verdict",
+    "tables_present": "2",
+    "unknown_exact_symbols": "0"
+  },
+  "complete_pointer_captures_independently_reread": 661,
+  "cache": {
+    "reused": true,
+    "jsonl_byte_identical": true,
+    "sha256": "c76538b06d867e8026e49479291eb97de5e126f33567f1ea937414867c817279"
+  },
+  "bundle": {
+    "verified": true,
+    "tasks": 1,
+    "members": 2,
+    "sha256": "529b8c62d313fddfb84bb4c8e2a28507a928d8214dd8972ba4710b55eef215a6"
+  },
+  "synthetic": {
+    "architectures": [
+      "x64",
+      "x86",
+      "pae"
+    ],
+    "profiles": 8,
+    "cases": 24,
+    "pinned_size_cases": 16,
+    "pinned_generator_profiles": 16,
+    "fields": [
+      "Table Address",
+      "Table Name",
+      "Index",
+      "Handler Address",
+      "Handler Symbol"
+    ]
+  },
+  "fuzz": {
+    "target": "FuzzLinuxSyscallTableSize",
+    "executions": 623880,
+    "passed": true
+  },
+  "checks": {
+    "make_check": true,
+    "pinned_syscall_oracle": true,
+    "capability_matrix": true,
+    "corpus": "661 entries, low48, 661 captures",
+    "fuzz_executions": 623880
+  },
+  "limitations": [
+    "No native Capstone path; Debian parity is the metadata/next-symbol fallback only",
+    "Unreadable entries fail the task instead of being skipped successfully",
+    "No real hooked syscall table, modern kernel, 32-bit image, or ARM64 virtual analysis",
+    "Exact-symbol ties use lexicographic order",
+    "No malware verdict and no complete capability acceptance"
+  ]
+}

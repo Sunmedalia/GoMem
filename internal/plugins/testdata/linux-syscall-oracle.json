@@ -1,0 +1,1354 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "capstone": false,
+  "sizes": [
+    {
+      "width": 4,
+      "metadata": 0,
+      "following": 0,
+      "symbols": [
+        {
+          "name": "table",
+          "address": 98304
+        },
+        {
+          "name": "alias_table",
+          "address": 98304
+        }
+      ],
+      "selected": 0,
+      "error": true
+    },
+    {
+      "width": 4,
+      "metadata": 0,
+      "following": 1,
+      "symbols": [
+        {
+          "name": "table",
+          "address": 98304
+        },
+        {
+          "name": "alias_table",
+          "address": 98304
+        },
+        {
+          "name": "next_symbol",
+          "address": 98308
+        },
+        {
+          "name": "alias_next",
+          "address": 98308
+        }
+      ],
+      "selected": 1,
+      "error": false
+    },
+    {
+      "width": 4,
+      "metadata": 0,
+      "following": 4,
+      "symbols": [
+        {
+          "name": "table",
+          "address": 98304
+        },
+        {
+          "name": "alias_table",
+          "address": 98304
+        },
+        {
+          "name": "next_symbol",
+          "address": 98320
+        },
+        {
+          "name": "alias_next",
+          "address": 98320
+        }
+      ],
+      "selected": 4,
+      "error": false
+    },
+    {
+      "width": 4,
+      "metadata": 2,
+      "following": 0,
+      "symbols": [
+        {
+          "name": "__syscall_meta__0",
+          "address": 28672
+        },
+        {
+          "name": "__syscall_meta__1",
+          "address": 28673
+        },
+        {
+          "name": "table",
+          "address": 98304
+        },
+        {
+          "name": "alias_table",
+          "address": 98304
+        }
+      ],
+      "selected": 2,
+      "error": false
+    },
+    {
+      "width": 4,
+      "metadata": 2,
+      "following": 4,
+      "symbols": [
+        {
+          "name": "__syscall_meta__0",
+          "address": 28672
+        },
+        {
+          "name": "__syscall_meta__1",
+          "address": 28673
+        },
+        {
+          "name": "table",
+          "address": 98304
+        },
+        {
+          "name": "alias_table",
+          "address": 98304
+        },
+        {
+          "name": "next_symbol",
+          "address": 98320
+        },
+        {
+          "name": "alias_next",
+          "address": 98320
+        }
+      ],
+      "selected": 2,
+      "error": false
+    },
+    {
+      "width": 4,
+      "metadata": 6,
+      "following": 4,
+      "symbols": [
+        {
+          "name": "__syscall_meta__0",
+          "address": 28672
+        },
+        {
+          "name": "__syscall_meta__1",
+          "address": 28673
+        },
+        {
+          "name": "__syscall_meta__2",
+          "address": 28674
+        },
+        {
+          "name": "__syscall_meta__3",
+          "address": 28675
+        },
+        {
+          "name": "__syscall_meta__4",
+          "address": 28676
+        },
+        {
+          "name": "__syscall_meta__5",
+          "address": 28677
+        },
+        {
+          "name": "table",
+          "address": 98304
+        },
+        {
+          "name": "alias_table",
+          "address": 98304
+        },
+        {
+          "name": "next_symbol",
+          "address": 98320
+        },
+        {
+          "name": "alias_next",
+          "address": 98320
+        }
+      ],
+      "selected": 4,
+      "error": false
+    },
+    {
+      "width": 4,
+      "metadata": 6,
+      "following": 0,
+      "symbols": [
+        {
+          "name": "__syscall_meta__0",
+          "address": 28672
+        },
+        {
+          "name": "__syscall_meta__1",
+          "address": 28673
+        },
+        {
+          "name": "__syscall_meta__2",
+          "address": 28674
+        },
+        {
+          "name": "__syscall_meta__3",
+          "address": 28675
+        },
+        {
+          "name": "__syscall_meta__4",
+          "address": 28676
+        },
+        {
+          "name": "__syscall_meta__5",
+          "address": 28677
+        },
+        {
+          "name": "table",
+          "address": 98304
+        },
+        {
+          "name": "alias_table",
+          "address": 98304
+        }
+      ],
+      "selected": 6,
+      "error": false
+    },
+    {
+      "width": 4,
+      "metadata": 0,
+      "following": 3,
+      "symbols": [
+        {
+          "name": "table",
+          "address": 98304
+        },
+        {
+          "name": "alias_table",
+          "address": 98304
+        },
+        {
+          "name": "next_symbol",
+          "address": 98317
+        },
+        {
+          "name": "alias_next",
+          "address": 98317
+        }
+      ],
+      "selected": 3,
+      "error": false
+    },
+    {
+      "width": 8,
+      "metadata": 0,
+      "following": 0,
+      "symbols": [
+        {
+          "name": "table",
+          "address": 98304
+        },
+        {
+          "name": "alias_table",
+          "address": 98304
+        }
+      ],
+      "selected": 0,
+      "error": true
+    },
+    {
+      "width": 8,
+      "metadata": 0,
+      "following": 1,
+      "symbols": [
+        {
+          "name": "table",
+          "address": 98304
+        },
+        {
+          "name": "alias_table",
+          "address": 98304
+        },
+        {
+          "name": "next_symbol",
+          "address": 98312
+        },
+        {
+          "name": "alias_next",
+          "address": 98312
+        }
+      ],
+      "selected": 1,
+      "error": false
+    },
+    {
+      "width": 8,
+      "metadata": 0,
+      "following": 4,
+      "symbols": [
+        {
+          "name": "table",
+          "address": 98304
+        },
+        {
+          "name": "alias_table",
+          "address": 98304
+        },
+        {
+          "name": "next_symbol",
+          "address": 98336
+        },
+        {
+          "name": "alias_next",
+          "address": 98336
+        }
+      ],
+      "selected": 4,
+      "error": false
+    },
+    {
+      "width": 8,
+      "metadata": 2,
+      "following": 0,
+      "symbols": [
+        {
+          "name": "__syscall_meta__0",
+          "address": 28672
+        },
+        {
+          "name": "__syscall_meta__1",
+          "address": 28673
+        },
+        {
+          "name": "table",
+          "address": 98304
+        },
+        {
+          "name": "alias_table",
+          "address": 98304
+        }
+      ],
+      "selected": 2,
+      "error": false
+    },
+    {
+      "width": 8,
+      "metadata": 2,
+      "following": 4,
+      "symbols": [
+        {
+          "name": "__syscall_meta__0",
+          "address": 28672
+        },
+        {
+          "name": "__syscall_meta__1",
+          "address": 28673
+        },
+        {
+          "name": "table",
+          "address": 98304
+        },
+        {
+          "name": "alias_table",
+          "address": 98304
+        },
+        {
+          "name": "next_symbol",
+          "address": 98336
+        },
+        {
+          "name": "alias_next",
+          "address": 98336
+        }
+      ],
+      "selected": 2,
+      "error": false
+    },
+    {
+      "width": 8,
+      "metadata": 6,
+      "following": 4,
+      "symbols": [
+        {
+          "name": "__syscall_meta__0",
+          "address": 28672
+        },
+        {
+          "name": "__syscall_meta__1",
+          "address": 28673
+        },
+        {
+          "name": "__syscall_meta__2",
+          "address": 28674
+        },
+        {
+          "name": "__syscall_meta__3",
+          "address": 28675
+        },
+        {
+          "name": "__syscall_meta__4",
+          "address": 28676
+        },
+        {
+          "name": "__syscall_meta__5",
+          "address": 28677
+        },
+        {
+          "name": "table",
+          "address": 98304
+        },
+        {
+          "name": "alias_table",
+          "address": 98304
+        },
+        {
+          "name": "next_symbol",
+          "address": 98336
+        },
+        {
+          "name": "alias_next",
+          "address": 98336
+        }
+      ],
+      "selected": 4,
+      "error": false
+    },
+    {
+      "width": 8,
+      "metadata": 6,
+      "following": 0,
+      "symbols": [
+        {
+          "name": "__syscall_meta__0",
+          "address": 28672
+        },
+        {
+          "name": "__syscall_meta__1",
+          "address": 28673
+        },
+        {
+          "name": "__syscall_meta__2",
+          "address": 28674
+        },
+        {
+          "name": "__syscall_meta__3",
+          "address": 28675
+        },
+        {
+          "name": "__syscall_meta__4",
+          "address": 28676
+        },
+        {
+          "name": "__syscall_meta__5",
+          "address": 28677
+        },
+        {
+          "name": "table",
+          "address": 98304
+        },
+        {
+          "name": "alias_table",
+          "address": 98304
+        }
+      ],
+      "selected": 6,
+      "error": false
+    },
+    {
+      "width": 8,
+      "metadata": 0,
+      "following": 3,
+      "symbols": [
+        {
+          "name": "table",
+          "address": 98304
+        },
+        {
+          "name": "alias_table",
+          "address": 98304
+        },
+        {
+          "name": "next_symbol",
+          "address": 98329
+        },
+        {
+          "name": "alias_next",
+          "address": 98329
+        }
+      ],
+      "selected": 3,
+      "error": false
+    }
+  ],
+  "generators": [
+    {
+      "width": 4,
+      "name": "control",
+      "rows": [
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 2,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 3,
+          "address": 34304,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 2,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "name": "no-meta",
+      "rows": [
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 2,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 3,
+          "address": 34304,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 2,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "name": "meta-short",
+      "rows": [
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "name": "no-next",
+      "rows": [
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 2,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 3,
+          "address": 34304,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 4,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 5,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 2,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 3,
+          "address": 34304,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 4,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 5,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "name": "primary-only",
+      "rows": [
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 2,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 3,
+          "address": 34304,
+          "symbol": "UNKNOWN"
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "name": "slide",
+      "rows": [
+        {
+          "table_address": 94208,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 94208,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 94208,
+          "table_name": "32bit",
+          "index": 2,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 94208,
+          "table_name": "32bit",
+          "index": 3,
+          "address": 34304,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 94720,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 94720,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 94720,
+          "table_name": "32bit",
+          "index": 2,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "name": "qualified",
+      "rows": [
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "entry"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 2,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 3,
+          "address": 34304,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "entry"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 2,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        }
+      ]
+    },
+    {
+      "width": 4,
+      "name": "zero-known",
+      "rows": [
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 2,
+          "address": 0,
+          "symbol": "zero_handler"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "32bit",
+          "index": 3,
+          "address": 34304,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 0,
+          "symbol": "zero_handler"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 2,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "name": "control",
+      "rows": [
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 1,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 2,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 3,
+          "address": 34304,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 2,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "name": "no-meta",
+      "rows": [
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 1,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 2,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 3,
+          "address": 34304,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 2,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "name": "meta-short",
+      "rows": [
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 1,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "name": "no-next",
+      "rows": [
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 1,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 2,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 3,
+          "address": 34304,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 4,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 5,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 2,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 3,
+          "address": 34304,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 4,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 5,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "name": "primary-only",
+      "rows": [
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 1,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 2,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 3,
+          "address": 34304,
+          "symbol": "UNKNOWN"
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "name": "slide",
+      "rows": [
+        {
+          "table_address": 94208,
+          "table_name": "64bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 94208,
+          "table_name": "64bit",
+          "index": 1,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 94208,
+          "table_name": "64bit",
+          "index": 2,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 94208,
+          "table_name": "64bit",
+          "index": 3,
+          "address": 34304,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 94720,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 94720,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 94720,
+          "table_name": "32bit",
+          "index": 2,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "name": "qualified",
+      "rows": [
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "entry"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 1,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 2,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 3,
+          "address": 34304,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "entry"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 0,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 2,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        }
+      ]
+    },
+    {
+      "width": 8,
+      "name": "zero-known",
+      "rows": [
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 1,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 2,
+          "address": 0,
+          "symbol": "zero_handler"
+        },
+        {
+          "table_address": 98304,
+          "table_name": "64bit",
+          "index": 3,
+          "address": 34304,
+          "symbol": "UNKNOWN"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 0,
+          "address": 34048,
+          "symbol": "alias_handler"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 1,
+          "address": 0,
+          "symbol": "zero_handler"
+        },
+        {
+          "table_address": 98816,
+          "table_name": "32bit",
+          "index": 2,
+          "address": 34049,
+          "symbol": "UNKNOWN"
+        }
+      ]
+    }
+  ]
+}

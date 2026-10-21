@@ -1,0 +1,40 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "syscall",
+    "excluded_values": [
+      "table_observation",
+      "diagnostic",
+      "summary"
+    ]
+  },
+  "fields": {
+    "Table Address": {
+      "native": "Table Address",
+      "reference": "Table Address",
+      "kind": "address",
+      "mask": "0xffffffffffff"
+    },
+    "Table Name": {
+      "native": "Table Name",
+      "reference": "Table Name",
+      "kind": "string"
+    },
+    "Index": {
+      "native": "Index",
+      "reference": "Index",
+      "kind": "uint64"
+    },
+    "Handler Address": {
+      "native": "Handler Address",
+      "reference": "Handler Address",
+      "kind": "address",
+      "mask": "0xffffffffffff"
+    },
+    "Handler Symbol": {
+      "native": "Handler Symbol",
+      "reference": "Handler Symbol",
+      "kind": "string"
+    }
+  }
+}

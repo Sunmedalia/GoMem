@@ -52,6 +52,7 @@ jobs:
       - run: python3 tools/build_kthreads_oracle.py --check
       - run: python3 tools/build_afinfo_oracle.py --check
       - run: python3 tools/build_idt_oracle.py --check
+      - run: python3 tools/build_syscall_oracle.py --check
       - run: python3 tools/build_ptrace_oracle.py --check
       - run: python3 tools/build_linux_pstree_oracle.py --check
       - run: python3 tools/baseline_matrix.py --source .cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75 --check
