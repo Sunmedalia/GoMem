@@ -1,0 +1,93 @@
+{
+  "schema": "gomem.linux-kmsg-validation/v1",
+  "date": "2026-10-21",
+  "release": "development-preview",
+  "accepted": false,
+  "baseline": {
+    "name": "Volatility 3",
+    "version": "2.28.2",
+    "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+    "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+  },
+  "oracle": {
+    "cases": 64,
+    "ID_controls": 4,
+    "native_paging_cases": 102,
+    "sha256": "7eaa6c789f174c46e80c201074794c1c7059ce614290f25f57b064376eddc5ec",
+    "scope": "Unmodified ABCKmsg dispatch and four ISF-backed byte ring readers; ID wrap and bounded equal-head/tail prefix controls",
+    "compared_fields": [
+      "facility",
+      "level",
+      "timestamp",
+      "caller",
+      "line"
+    ]
+  },
+  "real_corpus": {
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "kernel": "Debian 3.2 x64 text ring",
+    "report": {
+      "scope": "selected fields only; full capability acceptance remains pending",
+      "fields": [
+        "facility",
+        "level",
+        "timestamp",
+        "caller",
+        "line"
+      ],
+      "native_rows": 1445,
+      "reference_rows": 1445,
+      "matched": true,
+      "missing": [],
+      "extra": [],
+      "sha256": {
+        "native": "a66e7ae205a1650d69b16f556458aecbc059a59dce39611876c2d6c47c6627a1",
+        "reference": "c73e3f56bc6750ef9d399c7a219988134840790b5052834807b37594cceb2d5d",
+        "mapping": "953fa1c3325a4df0f4844feb6d614f1209838f699a0b983723f731b99d1d8667"
+      },
+      "native_input_rows": 1450,
+      "native_non_entity_records": {
+        "ring_read": 4,
+        "ring_summary": 1
+      },
+      "entity_selection": {
+        "field": "RecordType",
+        "value": "log",
+        "excluded_values": [
+          "ring_read",
+          "descriptor",
+          "ring_summary"
+        ]
+      }
+    },
+    "ordered_fields_match": true,
+    "reads_independently_verified": 4,
+    "stored_row_seals_verified": 1450,
+    "identical_cache_replay": true
+  },
+  "fuzz": {
+    "target": "FuzzLinuxKmsgRings",
+    "seconds": 10,
+    "executions": 468434
+  },
+  "checks": [
+    "make check",
+    "make matrix",
+    "python3 tools/build_inode_mode_oracle.py --check",
+    "python3 tools/build_kmsg_oracle.py --check",
+    "go test -race ./internal/engine ./internal/plugins -run TestLinuxKmsg -count=1",
+    "go test ./internal/plugins -run ^$ -fuzz FuzzLinuxKmsgRings -fuzztime 10s",
+    "TestOfficialLinuxKmsgDifferentialEvidenceAndCache with explicit corpus and reference environment",
+    "go vet ./internal/plugins ./internal/engine",
+    "make build"
+  ],
+  "limitations": [
+    "Only one real legacy x64 text-ring corpus",
+    "Modern/structured and real x86/PAE kernel logs unvalidated",
+    "Native explicit failures differ from pinned silent skips",
+    "Modern descriptor low IDs are diagnostic only; concurrent-writer consistency not established",
+    "Full version, damaged-image, renderer/export and capability acceptance pending"
+  ]
+}

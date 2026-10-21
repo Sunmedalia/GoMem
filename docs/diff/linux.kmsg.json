@@ -1,0 +1,10 @@
+{
+  "native_record_type": {"field": "RecordType", "value": "log", "excluded_values": ["ring_read", "descriptor", "ring_summary"]},
+  "fields": {
+    "facility": {"native": "facility", "reference": "facility", "kind": "string"},
+    "level": {"native": "level", "reference": "level", "kind": "string"},
+    "timestamp": {"native": "timestamp", "reference": "timestamp", "kind": "string"},
+    "caller": {"native": "caller", "reference": "caller", "kind": "string", "missing_reasons": ["not_applicable", "field_not_available"]},
+    "line": {"native": "line", "reference": "line", "kind": "string"}
+  }
+}

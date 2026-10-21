@@ -1198,15 +1198,23 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Intel Linux typed text, log, printk_log or printk_ringbuffer layouts selected in pinned order. Preserve five log fields, caller, Unicode line boundaries, dictionaries, ring/ID wrap and raw reads; bound records, output and acquired bytes.",
+      "native": "linux.kmsg",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "official-linux-sample-1",
+        "pinned-kmsg-64-byte-backed-ring-cases-and-four-ID-controls",
+        "synthetic-linux-kmsg-x64-x86-pae-102-paging-cases"
+      ],
+      "comparison": "1445_real_legacy_logs_match_five_fields_64_pinned_cases_and_four_ID_controls_match_102_native_paging_cases",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Real positive corpus is Debian 3.2 x64 text ring only; real structured/modern rings, x86/PAE, version and full capability acceptance remain pending",
+        "Native damaged extents, unavailable reads, cycles and exhausted budgets fail explicitly with partial evidence instead of silent baseline skips. Equal modern head/tail is bounded and failed; pinned iteration can span the whole ID space. Full damaged-image, renderer and export equivalence pending",
+        "Modern low descriptor-ID mismatches remain visible diagnostics and do not filter logs, matching pinned selection. Text rings preserve pinned truncation-before-rotation and non-modular log_end slicing; log Offset refers to captured buffer origin. Complete acquisition recovery and concurrent-writer consistency are not established",
+        "dwarf2json producer versions <=0.4.1 are explicitly rejected; absent/non-numeric versions and other producers follow pinned permissive gate. ASCII/Unicode priority parsing, level bitfields and line splitting have selected object tests; complete Unicode/version acceptance pending"
+      ],
+      "validation_record": "docs/linux-kmsg.md"
     },
     {
       "id": "linux.kthreads.Kthreads",
