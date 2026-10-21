@@ -6,7 +6,7 @@
 bin/gomem analyze windows.info --image memory.dmp --case ./case-001 --offline --format jsonl
 ```
 
-`Kernel Base`、`DTB`、`KdDebuggerDataBlock` 和 `KdVersionBlock` 用 Python `hex` 的形式输出。64 位先保留低 48 位，32 位保留低 32 位。`Symbols` 在符号位置含 `#` 时写成 `jar:file:` 加绝对 zip 路径，再加 `!` 和成员名。`Is64Bit` 看指针宽度。只有 `pae` 架构的 `IsPAE` 是 `True`。
+`Kernel Base`、`DTB`、`KdDebuggerDataBlock` 和 `KdVersionBlock` 用 Python `hex` 的形式输出。64 位先保留低 48 位，32 位保留低 32 位。`Symbols` 在符号位置含 `#` 时写成 `jar:file:` 加绝对 zip 路径，再加 `!` 和成员名。归档路径按文件 URI 规则使用 `/` 并转义空格等字符；Windows 盘符带前导 `/`，相对路径先转换为绝对路径。`Is64Bit` 看指针宽度。只有 `pae` 架构的 `IsPAE` 是 `True`。
 
 崩溃转储输出三行层信息，名称用固定基线的类名：64 位是 `WindowsIntel32e`、`WindowsCrashDump64Layer` 和 `FileLayer`。32 位崩溃层是 `WindowsCrashDump32Layer`。不是崩溃转储时只输出 Intel 层。真实非崩溃镜像还没有对照。
 

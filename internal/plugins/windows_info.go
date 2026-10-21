@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
+	"net/url"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -380,7 +381,14 @@ func volatilitySymbolURL(location string) string {
 	if err != nil {
 		abs = file
 	}
-	return "jar:file:" + abs + "!" + member
+	// file: URLs use slash-separated paths, including on Windows. A drive
+	// letter needs a leading slash; preserve UNC's existing // prefix.
+	abs = filepath.ToSlash(abs)
+	if filepath.VolumeName(abs) != "" && !strings.HasPrefix(abs, "/") {
+		abs = "/" + abs
+	}
+	path := (&url.URL{Path: abs}).EscapedPath()
+	return "jar:file:" + path + "!" + member
 }
 
 func pythonBool(value bool) string {

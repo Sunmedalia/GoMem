@@ -1,6 +1,9 @@
 package plugins
 
 import (
+	"net/url"
+	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 )
@@ -18,12 +21,41 @@ func TestWindowsInfoFormatting(t *testing.T) {
 	if got := ksystemTimeText(ticks); got != "2025-03-06 17:59:20+00:00" {
 		t.Fatal(got)
 	}
-	got := volatilitySymbolURL("/Volumes/l/GoMem/.cache/corpus/symbols_win-10_19041-2025_03.zip#167FE94B5641C005AC3036212A01F8DC-1.json")
-	want := "jar:file:/Volumes/l/GoMem/.cache/corpus/symbols_win-10_19041-2025_03.zip!167FE94B5641C005AC3036212A01F8DC-1.json"
-	if got != want {
-		t.Fatal(got)
-	}
 	if pythonBool(true) != "True" || pythonBool(false) != "False" {
 		t.Fatal("bool")
+	}
+}
+
+func TestVolatilitySymbolURLLocalArchive(t *testing.T) {
+	for _, archive := range []string{filepath.Join(t.TempDir(), "symbols one.zip"), "symbols one.zip"} {
+		member := "windows/kernel.json"
+		got := volatilitySymbolURL(archive + "#" + member)
+		if strings.Contains(got, `\`) || strings.Contains(got, " ") {
+			t.Fatalf("archive URL contains platform separators or unescaped spaces: %q", got)
+		}
+		outer, entry, ok := strings.Cut(got, "!")
+		if !ok || entry != member || !strings.HasPrefix(outer, "jar:") {
+			t.Fatal(got)
+		}
+		parsed, err := url.Parse(strings.TrimPrefix(outer, "jar:"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		absolute, err := filepath.Abs(archive)
+		if err != nil {
+			t.Fatal(err)
+		}
+		wantPath := filepath.ToSlash(absolute)
+		if filepath.VolumeName(absolute) != "" && !strings.HasPrefix(wantPath, "/") {
+			wantPath = "/" + wantPath
+		}
+		if parsed.Scheme != "file" || parsed.Path != wantPath || parsed.Host != "" {
+			t.Fatalf("archive URL does not resolve to local path: %q parsed=%+v want=%q", got, parsed, wantPath)
+		}
+	}
+	for _, location := range []string{"kernel.json", "jar:file:/symbols/a.zip!kernel.json"} {
+		if got := volatilitySymbolURL(location); got != location {
+			t.Fatal(got, location)
+		}
 	}
 }
