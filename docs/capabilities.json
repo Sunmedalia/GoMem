@@ -1375,7 +1375,7 @@
         "The pinned array helper interprets raw array elements as kernel_param objects and hides invalid getter addresses as None. Native retains these failures and partial parameters, failing the task; this is an intentional diagnostic difference",
         "1348 complete captures from the 73 successful displays were independently reread. Incomplete module displays are not claimed as fully verified captures",
         "Synthetic six ABI/getter combinations verify typed parameters, raw captures and byte-identical successful SQLite replay. Failed real tasks rerun rather than reuse results",
-        "Module ELF reconstruction and dump are not implemented. File Output is not_requested and no dump flag is advertised",
+        "dump=true reconstructs Intel module ELF files with strict symbol metadata, bounded page reads and explicit padding provenance. One Debian sample has 79 files byte-identical to the pinned extractor; see docs/linux-module-elf.md. Full damaged/modern-kernel extraction acceptance remains pending",
         "Real modern/x86/PAE images, complete traversal/corruption semantics, ARM64 translation and full baseline acceptance remain pending"
       ],
       "validation_record": "docs/linux-lsmod.md"
@@ -1762,7 +1762,7 @@
           "optional": true
         }
       ],
-      "applicability": "Symbol-described Intel Linux. Compare selected module_kset kobject dictionary keys against active module.name values. Preserve the last object for duplicate kobject keys. Read only these two sources; allocation scanner globals and active-module display layouts are not prerequisites. Emit selected objects with code size, taints and load arguments. An empty difference is a completed comparison. Unreadable required fields stay diagnostics and fail the task. Module ELF extraction remains unavailable.",
+      "applicability": "Symbol-described Intel Linux. Compare selected module_kset kobject dictionary keys against active module.name values. Preserve the last object for duplicate kobject keys. Read only these two sources; allocation scanner globals and active-module display layouts are not prerequisites. Emit selected objects with code size, taints and load arguments. An empty difference is a completed comparison. Unreadable required fields stay diagnostics and fail the task. dump=true reconstructs selected modules through the shared bounded ELF exporter, retaining original symbol bytes and explicit padding provenance.",
       "native": "linux.check_modules",
       "status": "partial",
       "accepted": false,
@@ -1773,8 +1773,8 @@
       "gaps": [
         "Debian 3.2 x64 is a negative control: 79 active names and 79 selected sysfs names produce zero rows on both sides",
         "Synthetic x64/x86/PAE cover kset-only selection, module/kobject name divergence, duplicate keys, irrelevant scanner/display layouts, corrupt sources, capture rereads and cache replay. Real kset-only, modern-kernel and 32-bit differentials remain pending",
-        "Scalar, bool/invbool, string and recursive-array parameter decisions match 224 pinned byte-backed oracle cases; x64/x86/PAE engine fixtures reread captures and cache. Real module parameters and array storage variations remain pending; see docs/linux-module-parameters.md",
-        "Module ELF dump stays unavailable; default File Output records not_requested and compares with the reference null"
+        "Scalar, bool/invbool, string and recursive-array parameter decisions match 224 pinned byte-backed oracle cases; x64/x86/PAE engine fixtures reread captures and cache. Active Debian modules have 38 positive argument displays, but six array displays retain read failures. Positive hidden-module parameter variants and full array storage semantics remain pending; see docs/linux-module-parameters.md",
+        "dump=true uses the shared bounded Intel ELF reconstruction. Active Debian modules yield 79 byte-identical reference files with explicit gap logs; hidden-module export remains synthetic because the real kset-only comparison is empty. Default File Output records not_requested. See docs/linux-module-elf.md"
       ],
       "validation_record": "docs/linux-check-modules.md"
     },

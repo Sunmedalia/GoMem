@@ -143,3 +143,26 @@ func TestNestedTypedStructureEvidenceRoundTrip(t *testing.T) {
 	}
 
 }
+
+func TestArtifactValueRoundTripPreservesSeal(t *testing.T) {
+	row := Row{Cells: map[string]Value{"File": {Kind: "artifact", Data: Artifact{ID: "file-id", TaskID: "task-id", Name: "module.elf", Path: "artifacts/module.elf", State: "completed_with_gaps", Size: "18446744073709551615", MissingBytes: "4096", Provenance: Provenance{Offset: "0xffff800000000000", Parameters: map[string]string{"dump": "true"}}}}}}
+	row.Seal()
+	raw, err := json.Marshal(row)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for i := 0; i < 3; i++ {
+		var decoded Row
+		if err = json.Unmarshal(raw, &decoded); err != nil {
+			t.Fatal(err)
+		}
+		if err = decoded.Verify(); err != nil {
+			t.Fatal(err)
+		}
+		round, err := json.Marshal(decoded)
+		if err != nil || !bytes.Equal(raw, round) {
+			t.Fatal(string(raw), string(round), err)
+		}
+		raw = round
+	}
+}

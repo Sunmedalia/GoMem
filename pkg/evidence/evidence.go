@@ -83,7 +83,7 @@ func (v Value) MarshalJSON() ([]byte, error) {
 		return []byte(`{"kind":"bool","value":false}`), nil
 	}
 	data := v.Data
-	if v.Kind == "structure" {
+	if v.Kind == "structure" || v.Kind == "artifact" {
 		// Normalize nested typed Values to JSON objects before hashing. After
 		// persistence these objects are generic maps with sorted keys; their
 		// wire representation must be identical before and after that read.

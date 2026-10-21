@@ -14,7 +14,7 @@ func linuxCheckModulesPlugins() []builtin {
 	columns := []evidence.Column{
 		{Name: "Offset", Kind: "address"}, {Name: "Module Name", Kind: "string"},
 		{Name: "Code Size", Kind: "address"}, {Name: "Taints", Kind: "string"},
-		{Name: "Load Arguments", Kind: "string"}, {Name: "File Output", Kind: "string"},
+		{Name: "Load Arguments", Kind: "string"}, {Name: "File Output", Kind: "artifact"}, {Name: "DumpEvidence", Kind: "structure"},
 	}
 	for _, column := range linuxModxviewPlugins()[0].spec.Columns {
 		columns = append(columns, column)
@@ -22,10 +22,10 @@ func linuxCheckModulesPlugins() []builtin {
 	return []builtin{{plugin.Spec{
 		Name: "linux.check_modules", Upstream: "linux.malware.check_modules.Check_modules", Platform: "linux", NeedsKernel: true,
 		Description: "Report sysfs modules whose names are absent from the active module list",
-		Parameters: []plugin.Parameter{
+		Parameters: append([]plugin.Parameter{
 			{Name: "plain-taints", Kind: "bool", Default: "false", Description: "Display pinned plain taint characters instead of descriptions"},
 			{Name: "max-nodes", Kind: "uint", Default: "131072", Description: "Shared list visit bound, 1..1000000"},
-		},
+		}, linuxModuleDumpParameters()...),
 		Columns: columns,
 	}, linuxCheckModules}}
 }
@@ -35,6 +35,10 @@ func linuxCheckModules(ctx context.Context, e plugin.Environment, p map[string]s
 		return fmt.Errorf("linux.check_modules requires kernel memory and symbols")
 	}
 	plain, err := strconv.ParseBool(p["plain-taints"])
+	if err != nil {
+		return err
+	}
+	dump, maxBytes, err := linuxModuleDumpOptions(p)
 	if err != nil {
 		return err
 	}
@@ -62,6 +66,9 @@ func linuxCheckModules(ctx context.Context, e plugin.Environment, p map[string]s
 		row, err := linuxModuleDisplayRow(s, *module, plain)
 		if err != nil {
 			return err
+		}
+		if dump {
+			linuxDumpModule(s, &row, module.offset, maxBytes)
 		}
 		row.Cells["KObjectName"] = evidence.Text(name)
 		if err = s.out(row); err != nil {
@@ -162,6 +169,7 @@ func linuxModuleDisplayRow(s *linuxModuleSources, module linuxModuleInfo, plain 
 		row.Cells["Load Arguments"] = evidence.Text(arguments)
 	}
 	row.Cells["File Output"] = evidence.Missing("not_requested", nil)
+	row.Cells["DumpEvidence"] = evidence.Missing("not_requested", nil)
 	row.Cells["Status"] = evidence.Text("kset_only")
 	return row, nil
 }

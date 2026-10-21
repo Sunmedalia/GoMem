@@ -25,7 +25,8 @@ func modulePlugins() []builtin {
 		s := plugin.Spec{Name: name, Upstream: up, Platform: os, NeedsKernel: true, Description: "Enumerate loaded kernel modules from the kernel list", Parameters: []plugin.Parameter{{Name: "max-nodes", Kind: "uint", Default: "65536", Description: "Traversal safety limit"}}, Columns: []evidence.Column{{Name: "Offset", Kind: "address"}, {Name: "Name", Kind: "string"}, {Name: "Base", Kind: "address"}, {Name: "Size", Kind: "uint64"}}}
 		if os == "linux" {
 			s.Parameters = append(s.Parameters, plugin.Parameter{Name: "plain-taints", Kind: "bool", Default: "false", Description: "Display pinned plain taint characters instead of descriptions"})
-			s.Columns = append(s.Columns, []evidence.Column{{Name: "Module Name", Kind: "string"}, {Name: "Code Size", Kind: "address"}, {Name: "Taints", Kind: "string"}, {Name: "Load Arguments", Kind: "string"}, {Name: "File Output", Kind: "string"}, {Name: "FieldEvidence", Kind: "structure"}, {Name: "Error", Kind: "missing"}}...)
+			s.Parameters = append(s.Parameters, linuxModuleDumpParameters()...)
+			s.Columns = append(s.Columns, []evidence.Column{{Name: "DumpEvidence", Kind: "structure"}, {Name: "Module Name", Kind: "string"}, {Name: "Code Size", Kind: "address"}, {Name: "Taints", Kind: "string"}, {Name: "Load Arguments", Kind: "string"}, {Name: "File Output", Kind: "artifact"}, {Name: "FieldEvidence", Kind: "structure"}, {Name: "Error", Kind: "missing"}}...)
 		}
 		if os == "windows" {
 			s.Parameters = append(s.Parameters, plugin.Parameter{Name: "base", Kind: "string", Description: "Optional exact module base; zero disables filtering"}, plugin.Parameter{Name: "name", Kind: "string", Description: "Case-sensitive substring of the base module name"}, plugin.Parameter{Name: "dump", Kind: "bool", Default: "false", Description: "Reconstruct listed PE modules, using typed session layers when needed"}, plugin.Parameter{Name: "max-session-layers", Kind: "uint", Default: "256", Description: "Maximum unique session roots cached for extraction (1..4096)"})
@@ -52,11 +53,18 @@ func linuxModules(ctx context.Context, e plugin.Environment, p map[string]string
 	if err != nil {
 		return err
 	}
+	dump, maxBytes, err := linuxModuleDumpOptions(p)
+	if err != nil {
+		return err
+	}
 	s := &linuxModuleSources{ctx: ctx, e: e, emit: out}
 	err = e.Objects.WalkList(ctx, head, f.Offset, max, func(a uint64) error {
 		row, err := linuxModuleDisplayRow(s, linuxModuleInfo{offset: a}, plain)
 		if err != nil {
 			return err
+		}
+		if dump {
+			linuxDumpModule(s, &row, a, maxBytes)
 		}
 		row.Cells["RecordType"] = evidence.Text("module")
 		row.Cells["Source"] = evidence.Text("Lsmod")

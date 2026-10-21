@@ -1,6 +1,7 @@
 // Package elfimage plans bounded extraction of mapped ELF load segments.
-// The output is a concatenation of page-rounded memory ranges, not a recovered
-// on-disk ELF. Headers are captured without padding and are never rewritten.
+// Mapped extraction concatenates page-rounded memory ranges without rewriting
+// headers. RebuildModule separately implements the pinned kernel-module ELF
+// reconstruction format, with explicit symbol and section-header rewriting.
 package elfimage
 
 import (

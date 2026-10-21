@@ -50,6 +50,7 @@ jobs:
       - run: python3 tools/build_vmcoreinfo_oracle.py --check
       - run: python3 tools/build_modxview_oracle.py --check
       - run: python3 tools/build_module_params_oracle.py --check
+      - run: python3 tools/build_module_elf_oracle.py --check
       - run: python3 tools/build_kthreads_oracle.py --check
       - run: python3 tools/build_afinfo_oracle.py --check
       - run: python3 tools/build_idt_oracle.py --check
@@ -66,6 +67,7 @@ jobs:
       - run: go test ./pkg/object -run '^$' -fuzz FuzzLinuxIntrusiveTrees -fuzztime 5s
       - run: go test ./pkg/linuxcache -run '^$' -fuzz FuzzPageCacheTree -fuzztime 5s
       - run: go test ./pkg/elfimage -run '^$' -fuzz FuzzELFHeaders -fuzztime 5s
+      - run: go test ./pkg/elfimage -run '^$' -fuzz FuzzModuleELFRebuild -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxVMAMetadata -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsCommandLineUTF16 -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsVADTraversal -fuzztime 5s

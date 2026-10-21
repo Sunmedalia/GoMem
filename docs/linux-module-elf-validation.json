@@ -1,0 +1,1148 @@
+{
+  "schema": "gomem.module-elf-validation/v1",
+  "date": "2026-10-21",
+  "release": "development-preview",
+  "baseline": {
+    "name": "Volatility 3",
+    "version": "2.28.2",
+    "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+    "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+  },
+  "reference_manifest": {
+    "baseline": {
+      "name": "Volatility 3",
+      "version": "2.28.2",
+      "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+      "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+    },
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "plugin": "linux.lsmod",
+    "parameters": [
+      "--dump"
+    ],
+    "output_sha256": "ceb7bf3884b10cb6f782cd945b49c0c93bc344c38d4ad4456be9a61fd807ade7",
+    "config_sha256": "e843fd86aceab1255b266e3189f73e09cec32fda78c5ca6662906500f2c0a825",
+    "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]",
+    "extracted_files": [
+      {
+        "name": "kernel_module.ac.0xffffa022f170.elf",
+        "size": "79501",
+        "sha256": "62999526a9d413c916fbb2570ac0e2646a3818eede64f1a5cd255c1f567c038c"
+      },
+      {
+        "name": "kernel_module.ac97_bus.0xffffa01a4080.elf",
+        "size": "25917",
+        "sha256": "82f6af4f7988f003acbbee1e986bb661370af31817fdd5ca8e64d20fba7d84d6"
+      },
+      {
+        "name": "kernel_module.aes_generic.0xffffa0311120.elf",
+        "size": "99970",
+        "sha256": "6aa5e312797fe4dae62d3c1bbde6812437b2edbd73c81ce9e52bf92a235565c8"
+      },
+      {
+        "name": "kernel_module.aes_x86_64.0xffffa0317120.elf",
+        "size": "83715",
+        "sha256": "ec2fadad57163f46e5a1ed0c013cca618a63376e2b12be62a9a1b30df6edcdf2"
+      },
+      {
+        "name": "kernel_module.aesni_intel.0xffffa0331100.elf",
+        "size": "68330",
+        "sha256": "75f4fa26aa63aad6e9f994ded4e20f39277ee694510fec1ae554b727c59423c1"
+      },
+      {
+        "name": "kernel_module.ata_generic.0xffffa003a5a0.elf",
+        "size": "223686",
+        "sha256": "f9138b2bba58b475753efd581fbc6653742e67e57c4ef3a72c8f08583cea9150"
+      },
+      {
+        "name": "kernel_module.ata_piix.0xffffa0097080.elf",
+        "size": "96963",
+        "sha256": "0e08b9938320a0cca9140571f54a9e8aaf42459fdcf584e0b1829f1ea63922d1"
+      },
+      {
+        "name": "kernel_module.auth_rpcgss.0xffffa03cd240.elf",
+        "size": "55097",
+        "sha256": "54109dbaa578d4a0ae6cdeefe7b6deb489ba5763dbacb95fd6b4f1f58aa45c12"
+      },
+      {
+        "name": "kernel_module.binfmt_misc.0xffffa0323110.elf",
+        "size": "80533",
+        "sha256": "1904d88fa1419b0e55fe436ad551dc7675822f237076863cf71a4f6728e2b204"
+      },
+      {
+        "name": "kernel_module.bluetooth.0xffffa036d9e0.elf",
+        "size": "149766",
+        "sha256": "821d7d879cb14f8906d4250e3204aa4ba99f99776237c466c0c5bf2018ef15a2"
+      },
+      {
+        "name": "kernel_module.bnep.0xffffa03ad1e0.elf",
+        "size": "31039",
+        "sha256": "7705d33ef8e412aee5be4548ecac0c181fcc71ec900d501e1936fac9b5e0b759"
+      },
+      {
+        "name": "kernel_module.btusb.0xffffa03488c0.elf",
+        "size": "31049",
+        "sha256": "4bb2199cfc1056dd2af08fee5a77f430107f749323a478c4300921e64d84d74f"
+      },
+      {
+        "name": "kernel_module.button.0xffffa01be1a0.elf",
+        "size": "26560",
+        "sha256": "a0b6ec1879dc70451a3b956230661a2d8820c95e462cf9ee63545eec7f524f3c"
+      },
+      {
+        "name": "kernel_module.cdrom.0xffffa0112370.elf",
+        "size": "105360",
+        "sha256": "84dc09e4f95c8bda72f4ce6f61989efe6909dcf86f2043865550a610dcf0f3c9"
+      },
+      {
+        "name": "kernel_module.container.0xffffa02b9170.elf",
+        "size": "79446",
+        "sha256": "f2d3630fe1b2a5139f465f563489bfa1a450c5d14d5a55e9e6d5d6d1cb23f8b2"
+      },
+      {
+        "name": "kernel_module.coretemp.0xffffa03371c0.elf",
+        "size": "81035",
+        "sha256": "7de5cc002bf2ab71cf17ca97995e1b5f6179f28115914bc4e46e58f95c6283f3"
+      },
+      {
+        "name": "kernel_module.crc16.0xffffa0087000.elf",
+        "size": "431027",
+        "sha256": "dd73680fec677803267cf6719d5bf0c7c23481a67021be9982d4bef31c686856"
+      },
+      {
+        "name": "kernel_module.crc32c_intel.0xffffa024f170.elf",
+        "size": "79533",
+        "sha256": "7cd3dba50d894366b22505a7db850e360b0a5140110b4e4dd05fd0b7de98934a"
+      },
+      {
+        "name": "kernel_module.crc_t10dif.0xffffa0068000.elf",
+        "size": "21432",
+        "sha256": "7aa95bb74d3e69c3b1110a81a4cac2fdbaee0d712d61ad420c89eb73772eaa8c"
+      },
+      {
+        "name": "kernel_module.cryptd.0xffffa0303080.elf",
+        "size": "28156",
+        "sha256": "0cc4f0668d8e677b42c0cdf0d9d65a8038be1460ad366d0a319669696da82a89"
+      },
+      {
+        "name": "kernel_module.drm.0xffffa01eaf80.elf",
+        "size": "214984",
+        "sha256": "dfa6413386f02fc2c68d2bb006bbbcd491f7d73a394e16f9c71837f01ccf4247"
+      },
+      {
+        "name": "kernel_module.e1000.0xffffa00de8b0.elf",
+        "size": "160268",
+        "sha256": "4e3a5443985e58fb7857e82420ca6c4b4598eed6095518ff195167ae2b55b4c2"
+      },
+      {
+        "name": "kernel_module.ehci_hcd.0xffffa00eb130.elf",
+        "size": "54663",
+        "sha256": "7cf4967170314929e67cc6005852c7ded4ca2a0bdc83cf665351f8c86ff65513"
+      },
+      {
+        "name": "kernel_module.evdev.0xffffa02cf0a0.elf",
+        "size": "30962",
+        "sha256": "aa72af56161d59f1027ea867bf99897e7c6dc9a5986edcb453fa4d19adfdf50d"
+      },
+      {
+        "name": "kernel_module.ext4.0xffffa0195c00.elf",
+        "size": "403077",
+        "sha256": "cd1f87788f4df6cc6affe7bf0d4b766c9459741a8861e48cd7234f729247dafe"
+      },
+      {
+        "name": "kernel_module.floppy.0xffffa00fba20.elf",
+        "size": "115190",
+        "sha256": "5b9326169dc234ea17276fdfb12c356c04311d505fee8f66edff096aeea3aaa7"
+      },
+      {
+        "name": "kernel_module.fscache.0xffffa03a7370.elf",
+        "size": "50671",
+        "sha256": "0f0232e74b4af0ad0e4dde43505845da8796ba6115cbce6cfe4de0e3c2a3122a"
+      },
+      {
+        "name": "kernel_module.gameport.0xffffa00f0180.elf",
+        "size": "252601",
+        "sha256": "5ddd0e002450354b2c04f82ead7b24cc82fea28d7ce86728a857ff514ec43cae"
+      },
+      {
+        "name": "kernel_module.ghash_clmulni_intel.0xffffa033c2f0.elf",
+        "size": "81281",
+        "sha256": "4a4a48b9306edf8afab89cce2fc58967a255b17eefd91f67a59d9a1dec8b2114"
+      },
+      {
+        "name": "kernel_module.hid.0xffffa0126cb0.elf",
+        "size": "95624",
+        "sha256": "5c29b1ea22905da19e2b8289fe24f898dc1f44de5082fb0ead57039aa3193192"
+      },
+      {
+        "name": "kernel_module.i2c_core.0xffffa01ab310.elf",
+        "size": "95006",
+        "sha256": "2281d2216bec78777dfecf20a801dea191f3a7a9004b3f800339985e499e1fb9"
+      },
+      {
+        "name": "kernel_module.i2c_piix4.0xffffa01b9b00.elf",
+        "size": "103984",
+        "sha256": "eee5d77ec5c3f29880c20b20d9aca59a8653923cc4d7b5d8cf3c8ff7d059ddb5"
+      },
+      {
+        "name": "kernel_module.jbd2.0xffffa0146b20.elf",
+        "size": "84493",
+        "sha256": "b78f995fbc020f8b1bebc0ef6df833b6ff916fabdd432d8c3b10458d6d76f300"
+      },
+      {
+        "name": "kernel_module.libata.0xffffa00594a0.elf",
+        "size": "182021",
+        "sha256": "7722059c673f4b9780088646f405261d3189f7904a92ff57a2a198220095ac92"
+      },
+      {
+        "name": "kernel_module.lockd.0xffffa03c28f0.elf",
+        "size": "91766",
+        "sha256": "163e342bfc02a3ef2aa1abb8e788e7f8b922f43e3bbc48b17208b6b700e97890"
+      },
+      {
+        "name": "kernel_module.loop.0xffffa034f260.elf",
+        "size": "90878",
+        "sha256": "a35fe81389d49bf6384992914570a43054d8dc85620fd75fb633dc35c64ee4be"
+      },
+      {
+        "name": "kernel_module.mbcache.0xffffa006d070.elf",
+        "size": "542761",
+        "sha256": "43bf838873880e0b796a3561ee8d7b525f2227ff78233c3f4bdc9b3dbe228651"
+      },
+      {
+        "name": "kernel_module.mptbase.0xffffa0035040.elf",
+        "size": "328678",
+        "sha256": "4cf9100ff9d02e5a497b29b74b76eb9806924c373fa64edc2280c3fa67003b31"
+      },
+      {
+        "name": "kernel_module.mptscsih.0xffffa00821f0.elf",
+        "size": "85766",
+        "sha256": "37cf661219df2650edcb8dd4a867154cd8c152b57bb287686f3db61541cc447b"
+      },
+      {
+        "name": "kernel_module.mptspi.0xffffa008e390.elf",
+        "size": "86281",
+        "sha256": "206787b0fb2498beee32c4dd1df692bed890ca2a09048d7efb695362e8f93746"
+      },
+      {
+        "name": "kernel_module.nfs.0xffffa0411580.elf",
+        "size": "373714",
+        "sha256": "f2341a1d3724b5adff1c4628ef3582457cdced6682f730cf7ddae501841887cf"
+      },
+      {
+        "name": "kernel_module.nfs_acl.0xffffa02c9000.elf",
+        "size": "74854",
+        "sha256": "e2acba87be63136d1576af5df08757064e20bb6d6bd60520459a21935aa76d47"
+      },
+      {
+        "name": "kernel_module.nfsd.0xffffa045f1d0.elf",
+        "size": "254524",
+        "sha256": "ff7cff05d25551dd6851a49c8bd927f88fa5f64918fd984bfd23b7bf06c56788"
+      },
+      {
+        "name": "kernel_module.parport.0xffffa02fd3b0.elf",
+        "size": "127483",
+        "sha256": "2b0e8027a3fed1d9d8355cfa23ef2c91b41dac977bb9d07ae24ae438b0405b75"
+      },
+      {
+        "name": "kernel_module.parport_pc.0xffffa031e2a0.elf",
+        "size": "40468",
+        "sha256": "2c03ec0cb9218359ec9916c980a79303d2f67592c4dcfa8d60b1511f2f08772d"
+      },
+      {
+        "name": "kernel_module.pcspkr.0xffffa02dd0a0.elf",
+        "size": "79405",
+        "sha256": "840b8255e7a0eb467856312f3294f05ff0413ee4bd04814002a6d77ee1b26732"
+      },
+      {
+        "name": "kernel_module.power_supply.0xffffa0202590.elf",
+        "size": "100759",
+        "sha256": "82e8f5efa131e186137f0bd8711da75e0cc0d587cde08e4223be8eade78ca6d6"
+      },
+      {
+        "name": "kernel_module.processor.0xffffa022a9f0.elf",
+        "size": "42765",
+        "sha256": "4ffaae937848a44371077537876eb078326f9a182243ede3ef8c2ff82c6e284b"
+      },
+      {
+        "name": "kernel_module.psmouse.0xffffa02f2e50.elf",
+        "size": "99349",
+        "sha256": "a8abfcb919fbb6df9917f6fee08a5697064bce2796f3489f0fed9081e2c068ff"
+      },
+      {
+        "name": "kernel_module.rfcomm.0xffffa0426260.elf",
+        "size": "51900",
+        "sha256": "b6514a3316c31455e337db70fb1da794a72da07d18035d51c5e657f5b399c5a2"
+      },
+      {
+        "name": "kernel_module.rfkill.0xffffa0342340.elf",
+        "size": "32865",
+        "sha256": "6d7be95d020c72f8590c322e3ece353ced54400c64b660355ae7ff2dbe1d3700"
+      },
+      {
+        "name": "kernel_module.scsi_mod.0xffffa00230f0.elf",
+        "size": "198956",
+        "sha256": "959101c55ecb845a83a81957ea22601239fa9be804e3e9bc71e94d8de3843d4d"
+      },
+      {
+        "name": "kernel_module.scsi_transport_spi.0xffffa007b5b0.elf",
+        "size": "71210",
+        "sha256": "921da6a122ab68c8f71c17c2dc6d8fa70f66a7b7d2165ba0e622e1664b5dab47"
+      },
+      {
+        "name": "kernel_module.sd_mod.0xffffa0108430.elf",
+        "size": "105246",
+        "sha256": "1cad0fb716960b3bd779d65f9ee02eb0e7dddbb30f926dad79b07f1da9481575"
+      },
+      {
+        "name": "kernel_module.serio_raw.0xffffa02d8100.elf",
+        "size": "80494",
+        "sha256": "753e6e56b561f3e503f21238b7dab458473773c203784e965b34a599c616b9ba"
+      },
+      {
+        "name": "kernel_module.sg.0xffffa00c8080.elf",
+        "size": "96501",
+        "sha256": "b6d2aa000b447568752048ab6f7fa6c40a4a57c0780c0e1578a1a050c741021a"
+      },
+      {
+        "name": "kernel_module.shpchp.0xffffa01b4230.elf",
+        "size": "44832",
+        "sha256": "b4496a212c761f0eb43d7357df07fc258c19f9923f0088a5139d68745b9353ec"
+      },
+      {
+        "name": "kernel_module.snd.0xffffa01fb210.elf",
+        "size": "206088",
+        "sha256": "dab5408854fe3249d867f89bee712b3581082149c5e6701f4a8a155b94e19ee3"
+      },
+      {
+        "name": "kernel_module.snd_ac97_codec.0xffffa02b1690.elf",
+        "size": "133007",
+        "sha256": "bc920f821259109bf3ac072e6f8744e5d9f461aaf42c324af35d34a24faa9cbe"
+      },
+      {
+        "name": "kernel_module.snd_ens1371.0xffffa02c46c0.elf",
+        "size": "37115",
+        "sha256": "9c732c32e59de2ca890e0a352e177043c578757d86aa6fd7016a3bf782345859"
+      },
+      {
+        "name": "kernel_module.snd_page_alloc.0xffffa025f030.elf",
+        "size": "129033",
+        "sha256": "03b746081bd64ab404d503ac1e9e85518d39114fe720a14a70c2a562798289b6"
+      },
+      {
+        "name": "kernel_module.snd_pcm.0xffffa028c4f0.elf",
+        "size": "90354",
+        "sha256": "eff683102cd12eacc72d6839e0da96ed5e6481f800852db8aca49e33cfbc1ccc"
+      },
+      {
+        "name": "kernel_module.snd_rawmidi.0xffffa02780d0.elf",
+        "size": "167909",
+        "sha256": "c702b31c50237fc74d9e1cf9ee5f09231f8e2befcb01699a9e88f88570bf934e"
+      },
+      {
+        "name": "kernel_module.snd_seq.0xffffa026f260.elf",
+        "size": "67095",
+        "sha256": "53c634ea48c837020d1cc774e3675b4f98ab431290422f67e492640bd4926d79"
+      },
+      {
+        "name": "kernel_module.snd_seq_device.0xffffa0264050.elf",
+        "size": "80564",
+        "sha256": "83466ec0f01048b76c0ebe6752b3b3e8df1516b1249b059f5adc7198138c62fc"
+      },
+      {
+        "name": "kernel_module.snd_seq_midi.0xffffa0298040.elf",
+        "size": "80144",
+        "sha256": "5b312ea1cffd71ab939afaa56127bd366df29723ae7df428665feb93a9c4fa30"
+      },
+      {
+        "name": "kernel_module.snd_seq_midi_event.0xffffa0293010.elf",
+        "size": "79980",
+        "sha256": "9b0a5ae481c22ebc04cb8c0cbffd368c2988f74a923758b94b19616bd86a34d6"
+      },
+      {
+        "name": "kernel_module.snd_timer.0xffffa025a080.elf",
+        "size": "36694",
+        "sha256": "30acf17af8791654523dbe3b356b68be5e0777f7ab740cce39cd09d5835155a0"
+      },
+      {
+        "name": "kernel_module.soundcore.0xffffa012c000.elf",
+        "size": "530423",
+        "sha256": "91462c6e39c50e9fc2db5e31c18e70fb785169fe637823fd5827454f66dc575c"
+      },
+      {
+        "name": "kernel_module.sr_mod.0xffffa0074150.elf",
+        "size": "94651",
+        "sha256": "2e3b4a88812902f2a6aa1bf8bee69cdb872e82d0d317bf1ab0f97e9f73aca736"
+      },
+      {
+        "name": "kernel_module.sunrpc.0xffffa03942a0.elf",
+        "size": "212708",
+        "sha256": "3995bbc8435fc34ff46e76348ddf28e53e8e6382c759ff9ee8c383980ef4b5b5"
+      },
+      {
+        "name": "kernel_module.thermal_sys.0xffffa021e590.elf",
+        "size": "31591",
+        "sha256": "d76d76582e11a2b3570d5197984e0cd36dfce71b88d184e450fc59ec12fcb566"
+      },
+      {
+        "name": "kernel_module.ttm.0xffffa0212520.elf",
+        "size": "75793",
+        "sha256": "2adfe42dad9cd5a70b44d5ceaf5c44ba8c2c9fdd7fd1c72d687a2784b72dd406"
+      },
+      {
+        "name": "kernel_module.uhci_hcd.0xffffa00c00f0.elf",
+        "size": "42300",
+        "sha256": "750e3fe9fa76997dd97ad50a20d02b08613e564e0521a30fd2f4e83b16309538"
+      },
+      {
+        "name": "kernel_module.usb_common.0xffffa0063000.elf",
+        "size": "21525",
+        "sha256": "f9feef27062fe0daa866f1d7e34ab9605342a44c1d24ae7b7a06bd2516793465"
+      },
+      {
+        "name": "kernel_module.usbcore.0xffffa00b40c0.elf",
+        "size": "161543",
+        "sha256": "8f983364b62dc84128320d63ae789366be5af8142def71bed60cdbeb27191669"
+      },
+      {
+        "name": "kernel_module.usbhid.0xffffa01372a0.elf",
+        "size": "104715",
+        "sha256": "2fe01d0c4b644fbae5f3992e1bbdf96e0fe87019a5ab2e78f5a5f1e5dfa4145c"
+      },
+      {
+        "name": "kernel_module.vmw_balloon.0xffffa02e2000.elf",
+        "size": "79694",
+        "sha256": "e42e20e5e481fa20e49304d3e05aa5c9f5474fb5828199fbbb7c5c2f31c5dc1c"
+      },
+      {
+        "name": "kernel_module.vmwgfx.0xffffa0247a10.elf",
+        "size": "125429",
+        "sha256": "91254cdc574a67535c94fcdfe6517e127814150addaddb0e47136110b47339c3"
+      }
+    ]
+  },
+  "artifacts_directory": ".cache/module-elf-validation",
+  "native_jsonl_sha256": "f50f0e36bd1caa81f92afac41788bfbb16129da639fed9b364a7bed20120f2c3",
+  "native_task": {
+    "id": "9c2f1a5a3458bacab83f92570088ccac",
+    "state": "failed",
+    "rows": 79,
+    "failure_reason": "Six pre-existing parameter-array display failures, independent of complete ELF output parity"
+  },
+  "comparison": {
+    "files": 79,
+    "byte_identical": 79,
+    "all_names_sizes_sha256_match": true,
+    "complete_image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "all_files_have_gaps": true,
+    "gap_ranges": 243,
+    "missing_bytes": 933903,
+    "gap_sources_and_output_zeros_independently_verified": true,
+    "original_symbol_tables_independently_reread": 79,
+    "test": "TestOfficialLinuxModuleELFExports"
+  },
+  "files": [
+    {
+      "name": "kernel_module.rfcomm.0xffffa0426260.elf",
+      "size": "51900",
+      "sha256": "b6514a3316c31455e337db70fb1da794a72da07d18035d51c5e657f5b399c5a2",
+      "state": "completed_with_gaps",
+      "missing_bytes": "8192",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.bnep.0xffffa03ad1e0.elf",
+      "size": "31039",
+      "sha256": "7705d33ef8e412aee5be4548ecac0c181fcc71ec900d501e1936fac9b5e0b759",
+      "state": "completed_with_gaps",
+      "missing_bytes": "8192",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.binfmt_misc.0xffffa0323110.elf",
+      "size": "80533",
+      "sha256": "1904d88fa1419b0e55fe436ad551dc7675822f237076863cf71a4f6728e2b204",
+      "state": "completed_with_gaps",
+      "missing_bytes": "12288",
+      "gap_count": "3"
+    },
+    {
+      "name": "kernel_module.nfsd.0xffffa045f1d0.elf",
+      "size": "254524",
+      "sha256": "ff7cff05d25551dd6851a49c8bd927f88fa5f64918fd984bfd23b7bf06c56788",
+      "state": "completed_with_gaps",
+      "missing_bytes": "8192",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.nfs.0xffffa0411580.elf",
+      "size": "373714",
+      "sha256": "f2341a1d3724b5adff1c4628ef3582457cdced6682f730cf7ddae501841887cf",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.nfs_acl.0xffffa02c9000.elf",
+      "size": "74854",
+      "sha256": "e2acba87be63136d1576af5df08757064e20bb6d6bd60520459a21935aa76d47",
+      "state": "completed_with_gaps",
+      "missing_bytes": "24576",
+      "gap_count": "6"
+    },
+    {
+      "name": "kernel_module.auth_rpcgss.0xffffa03cd240.elf",
+      "size": "55097",
+      "sha256": "54109dbaa578d4a0ae6cdeefe7b6deb489ba5763dbacb95fd6b4f1f58aa45c12",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.fscache.0xffffa03a7370.elf",
+      "size": "50671",
+      "sha256": "0f0232e74b4af0ad0e4dde43505845da8796ba6115cbce6cfe4de0e3c2a3122a",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.lockd.0xffffa03c28f0.elf",
+      "size": "91766",
+      "sha256": "163e342bfc02a3ef2aa1abb8e788e7f8b922f43e3bbc48b17208b6b700e97890",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4097",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.sunrpc.0xffffa03942a0.elf",
+      "size": "212708",
+      "sha256": "3995bbc8435fc34ff46e76348ddf28e53e8e6382c759ff9ee8c383980ef4b5b5",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.loop.0xffffa034f260.elf",
+      "size": "90878",
+      "sha256": "a35fe81389d49bf6384992914570a43054d8dc85620fd75fb633dc35c64ee4be",
+      "state": "completed_with_gaps",
+      "missing_bytes": "20480",
+      "gap_count": "5"
+    },
+    {
+      "name": "kernel_module.btusb.0xffffa03488c0.elf",
+      "size": "31049",
+      "sha256": "4bb2199cfc1056dd2af08fee5a77f430107f749323a478c4300921e64d84d74f",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.bluetooth.0xffffa036d9e0.elf",
+      "size": "149766",
+      "sha256": "821d7d879cb14f8906d4250e3204aa4ba99f99776237c466c0c5bf2018ef15a2",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.rfkill.0xffffa0342340.elf",
+      "size": "32865",
+      "sha256": "6d7be95d020c72f8590c322e3ece353ced54400c64b660355ae7ff2dbe1d3700",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.coretemp.0xffffa03371c0.elf",
+      "size": "81035",
+      "sha256": "7de5cc002bf2ab71cf17ca97995e1b5f6179f28115914bc4e46e58f95c6283f3",
+      "state": "completed_with_gaps",
+      "missing_bytes": "16384",
+      "gap_count": "4"
+    },
+    {
+      "name": "kernel_module.crc32c_intel.0xffffa024f170.elf",
+      "size": "79533",
+      "sha256": "7cd3dba50d894366b22505a7db850e360b0a5140110b4e4dd05fd0b7de98934a",
+      "state": "completed_with_gaps",
+      "missing_bytes": "28672",
+      "gap_count": "7"
+    },
+    {
+      "name": "kernel_module.ghash_clmulni_intel.0xffffa033c2f0.elf",
+      "size": "81281",
+      "sha256": "4a4a48b9306edf8afab89cce2fc58967a255b17eefd91f67a59d9a1dec8b2114",
+      "state": "completed_with_gaps",
+      "missing_bytes": "16384",
+      "gap_count": "4"
+    },
+    {
+      "name": "kernel_module.aesni_intel.0xffffa0331100.elf",
+      "size": "68330",
+      "sha256": "75f4fa26aa63aad6e9f994ded4e20f39277ee694510fec1ae554b727c59423c1",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.aes_x86_64.0xffffa0317120.elf",
+      "size": "83715",
+      "sha256": "ec2fadad57163f46e5a1ed0c013cca618a63376e2b12be62a9a1b30df6edcdf2",
+      "state": "completed_with_gaps",
+      "missing_bytes": "20480",
+      "gap_count": "5"
+    },
+    {
+      "name": "kernel_module.parport_pc.0xffffa031e2a0.elf",
+      "size": "40468",
+      "sha256": "2c03ec0cb9218359ec9916c980a79303d2f67592c4dcfa8d60b1511f2f08772d",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.parport.0xffffa02fd3b0.elf",
+      "size": "127483",
+      "sha256": "2b0e8027a3fed1d9d8355cfa23ef2c91b41dac977bb9d07ae24ae438b0405b75",
+      "state": "completed_with_gaps",
+      "missing_bytes": "32768",
+      "gap_count": "8"
+    },
+    {
+      "name": "kernel_module.aes_generic.0xffffa0311120.elf",
+      "size": "99970",
+      "sha256": "6aa5e312797fe4dae62d3c1bbde6812437b2edbd73c81ce9e52bf92a235565c8",
+      "state": "completed_with_gaps",
+      "missing_bytes": "16384",
+      "gap_count": "4"
+    },
+    {
+      "name": "kernel_module.cryptd.0xffffa0303080.elf",
+      "size": "28156",
+      "sha256": "0cc4f0668d8e677b42c0cdf0d9d65a8038be1460ad366d0a319669696da82a89",
+      "state": "completed_with_gaps",
+      "missing_bytes": "8192",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.psmouse.0xffffa02f2e50.elf",
+      "size": "99349",
+      "sha256": "a8abfcb919fbb6df9917f6fee08a5697064bce2796f3489f0fed9081e2c068ff",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.vmw_balloon.0xffffa02e2000.elf",
+      "size": "79694",
+      "sha256": "e42e20e5e481fa20e49304d3e05aa5c9f5474fb5828199fbbb7c5c2f31c5dc1c",
+      "state": "completed_with_gaps",
+      "missing_bytes": "8192",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.pcspkr.0xffffa02dd0a0.elf",
+      "size": "79405",
+      "sha256": "840b8255e7a0eb467856312f3294f05ff0413ee4bd04814002a6d77ee1b26732",
+      "state": "completed_with_gaps",
+      "missing_bytes": "12288",
+      "gap_count": "3"
+    },
+    {
+      "name": "kernel_module.serio_raw.0xffffa02d8100.elf",
+      "size": "80494",
+      "sha256": "753e6e56b561f3e503f21238b7dab458473773c203784e965b34a599c616b9ba",
+      "state": "completed_with_gaps",
+      "missing_bytes": "16384",
+      "gap_count": "4"
+    },
+    {
+      "name": "kernel_module.evdev.0xffffa02cf0a0.elf",
+      "size": "30962",
+      "sha256": "aa72af56161d59f1027ea867bf99897e7c6dc9a5986edcb453fa4d19adfdf50d",
+      "state": "completed_with_gaps",
+      "missing_bytes": "8192",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.container.0xffffa02b9170.elf",
+      "size": "79446",
+      "sha256": "f2d3630fe1b2a5139f465f563489bfa1a450c5d14d5a55e9e6d5d6d1cb23f8b2",
+      "state": "completed_with_gaps",
+      "missing_bytes": "28672",
+      "gap_count": "7"
+    },
+    {
+      "name": "kernel_module.snd_ens1371.0xffffa02c46c0.elf",
+      "size": "37115",
+      "sha256": "9c732c32e59de2ca890e0a352e177043c578757d86aa6fd7016a3bf782345859",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.snd_ac97_codec.0xffffa02b1690.elf",
+      "size": "133007",
+      "sha256": "bc920f821259109bf3ac072e6f8744e5d9f461aaf42c324af35d34a24faa9cbe",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.snd_seq_midi.0xffffa0298040.elf",
+      "size": "80144",
+      "sha256": "5b312ea1cffd71ab939afaa56127bd366df29723ae7df428665feb93a9c4fa30",
+      "state": "completed_with_gaps",
+      "missing_bytes": "8192",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.snd_seq_midi_event.0xffffa0293010.elf",
+      "size": "79980",
+      "sha256": "9b0a5ae481c22ebc04cb8c0cbffd368c2988f74a923758b94b19616bd86a34d6",
+      "state": "completed_with_gaps",
+      "missing_bytes": "12288",
+      "gap_count": "3"
+    },
+    {
+      "name": "kernel_module.snd_rawmidi.0xffffa02780d0.elf",
+      "size": "167909",
+      "sha256": "c702b31c50237fc74d9e1cf9ee5f09231f8e2befcb01699a9e88f88570bf934e",
+      "state": "completed_with_gaps",
+      "missing_bytes": "32768",
+      "gap_count": "8"
+    },
+    {
+      "name": "kernel_module.snd_pcm.0xffffa028c4f0.elf",
+      "size": "90354",
+      "sha256": "eff683102cd12eacc72d6839e0da96ed5e6481f800852db8aca49e33cfbc1ccc",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.snd_page_alloc.0xffffa025f030.elf",
+      "size": "129033",
+      "sha256": "03b746081bd64ab404d503ac1e9e85518d39114fe720a14a70c2a562798289b6",
+      "state": "completed_with_gaps",
+      "missing_bytes": "20480",
+      "gap_count": "5"
+    },
+    {
+      "name": "kernel_module.snd_seq.0xffffa026f260.elf",
+      "size": "67095",
+      "sha256": "53c634ea48c837020d1cc774e3675b4f98ab431290422f67e492640bd4926d79",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.snd_seq_device.0xffffa0264050.elf",
+      "size": "80564",
+      "sha256": "83466ec0f01048b76c0ebe6752b3b3e8df1516b1249b059f5adc7198138c62fc",
+      "state": "completed_with_gaps",
+      "missing_bytes": "12288",
+      "gap_count": "3"
+    },
+    {
+      "name": "kernel_module.snd_timer.0xffffa025a080.elf",
+      "size": "36694",
+      "sha256": "30acf17af8791654523dbe3b356b68be5e0777f7ab740cce39cd09d5835155a0",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.ac.0xffffa022f170.elf",
+      "size": "79501",
+      "sha256": "62999526a9d413c916fbb2570ac0e2646a3818eede64f1a5cd255c1f567c038c",
+      "state": "completed_with_gaps",
+      "missing_bytes": "12288",
+      "gap_count": "3"
+    },
+    {
+      "name": "kernel_module.vmwgfx.0xffffa0247a10.elf",
+      "size": "125429",
+      "sha256": "91254cdc574a67535c94fcdfe6517e127814150addaddb0e47136110b47339c3",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.processor.0xffffa022a9f0.elf",
+      "size": "42765",
+      "sha256": "4ffaae937848a44371077537876eb078326f9a182243ede3ef8c2ff82c6e284b",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4097",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.thermal_sys.0xffffa021e590.elf",
+      "size": "31591",
+      "sha256": "d76d76582e11a2b3570d5197984e0cd36dfce71b88d184e450fc59ec12fcb566",
+      "state": "completed_with_gaps",
+      "missing_bytes": "8192",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.power_supply.0xffffa0202590.elf",
+      "size": "100759",
+      "sha256": "82e8f5efa131e186137f0bd8711da75e0cc0d587cde08e4223be8eade78ca6d6",
+      "state": "completed_with_gaps",
+      "missing_bytes": "24576",
+      "gap_count": "6"
+    },
+    {
+      "name": "kernel_module.snd.0xffffa01fb210.elf",
+      "size": "206088",
+      "sha256": "dab5408854fe3249d867f89bee712b3581082149c5e6701f4a8a155b94e19ee3",
+      "state": "completed_with_gaps",
+      "missing_bytes": "49152",
+      "gap_count": "12"
+    },
+    {
+      "name": "kernel_module.ttm.0xffffa0212520.elf",
+      "size": "75793",
+      "sha256": "2adfe42dad9cd5a70b44d5ceaf5c44ba8c2c9fdd7fd1c72d687a2784b72dd406",
+      "state": "completed_with_gaps",
+      "missing_bytes": "8192",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.drm.0xffffa01eaf80.elf",
+      "size": "214984",
+      "sha256": "dfa6413386f02fc2c68d2bb006bbbcd491f7d73a394e16f9c71837f01ccf4247",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.button.0xffffa01be1a0.elf",
+      "size": "26560",
+      "sha256": "a0b6ec1879dc70451a3b956230661a2d8820c95e462cf9ee63545eec7f524f3c",
+      "state": "completed_with_gaps",
+      "missing_bytes": "8192",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.i2c_piix4.0xffffa01b9b00.elf",
+      "size": "103984",
+      "sha256": "eee5d77ec5c3f29880c20b20d9aca59a8653923cc4d7b5d8cf3c8ff7d059ddb5",
+      "state": "completed_with_gaps",
+      "missing_bytes": "20480",
+      "gap_count": "5"
+    },
+    {
+      "name": "kernel_module.i2c_core.0xffffa01ab310.elf",
+      "size": "95006",
+      "sha256": "2281d2216bec78777dfecf20a801dea191f3a7a9004b3f800339985e499e1fb9",
+      "state": "completed_with_gaps",
+      "missing_bytes": "12288",
+      "gap_count": "3"
+    },
+    {
+      "name": "kernel_module.shpchp.0xffffa01b4230.elf",
+      "size": "44832",
+      "sha256": "b4496a212c761f0eb43d7357df07fc258c19f9923f0088a5139d68745b9353ec",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.soundcore.0xffffa012c000.elf",
+      "size": "530423",
+      "sha256": "91462c6e39c50e9fc2db5e31c18e70fb785169fe637823fd5827454f66dc575c",
+      "state": "completed_with_gaps",
+      "missing_bytes": "24576",
+      "gap_count": "6"
+    },
+    {
+      "name": "kernel_module.ac97_bus.0xffffa01a4080.elf",
+      "size": "25917",
+      "sha256": "82f6af4f7988f003acbbee1e986bb661370af31817fdd5ca8e64d20fba7d84d6",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.gameport.0xffffa00f0180.elf",
+      "size": "252601",
+      "sha256": "5ddd0e002450354b2c04f82ead7b24cc82fea28d7ce86728a857ff514ec43cae",
+      "state": "completed_with_gaps",
+      "missing_bytes": "20480",
+      "gap_count": "5"
+    },
+    {
+      "name": "kernel_module.ext4.0xffffa0195c00.elf",
+      "size": "403077",
+      "sha256": "cd1f87788f4df6cc6affe7bf0d4b766c9459741a8861e48cd7234f729247dafe",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4097",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.crc16.0xffffa0087000.elf",
+      "size": "431027",
+      "sha256": "dd73680fec677803267cf6719d5bf0c7c23481a67021be9982d4bef31c686856",
+      "state": "completed_with_gaps",
+      "missing_bytes": "40960",
+      "gap_count": "10"
+    },
+    {
+      "name": "kernel_module.jbd2.0xffffa0146b20.elf",
+      "size": "84493",
+      "sha256": "b78f995fbc020f8b1bebc0ef6df833b6ff916fabdd432d8c3b10458d6d76f300",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.mbcache.0xffffa006d070.elf",
+      "size": "542761",
+      "sha256": "43bf838873880e0b796a3561ee8d7b525f2227ff78233c3f4bdc9b3dbe228651",
+      "state": "completed_with_gaps",
+      "missing_bytes": "57344",
+      "gap_count": "14"
+    },
+    {
+      "name": "kernel_module.usbhid.0xffffa01372a0.elf",
+      "size": "104715",
+      "sha256": "2fe01d0c4b644fbae5f3992e1bbdf96e0fe87019a5ab2e78f5a5f1e5dfa4145c",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.hid.0xffffa0126cb0.elf",
+      "size": "95624",
+      "sha256": "5c29b1ea22905da19e2b8289fe24f898dc1f44de5082fb0ead57039aa3193192",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4097",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.sg.0xffffa00c8080.elf",
+      "size": "96501",
+      "sha256": "b6d2aa000b447568752048ab6f7fa6c40a4a57c0780c0e1578a1a050c741021a",
+      "state": "completed_with_gaps",
+      "missing_bytes": "8193",
+      "gap_count": "3"
+    },
+    {
+      "name": "kernel_module.sr_mod.0xffffa0074150.elf",
+      "size": "94651",
+      "sha256": "2e3b4a88812902f2a6aa1bf8bee69cdb872e82d0d317bf1ab0f97e9f73aca736",
+      "state": "completed_with_gaps",
+      "missing_bytes": "12288",
+      "gap_count": "3"
+    },
+    {
+      "name": "kernel_module.cdrom.0xffffa0112370.elf",
+      "size": "105360",
+      "sha256": "84dc09e4f95c8bda72f4ce6f61989efe6909dcf86f2043865550a610dcf0f3c9",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4097",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.sd_mod.0xffffa0108430.elf",
+      "size": "105246",
+      "sha256": "1cad0fb716960b3bd779d65f9ee02eb0e7dddbb30f926dad79b07f1da9481575",
+      "state": "completed_with_gaps",
+      "missing_bytes": "8193",
+      "gap_count": "3"
+    },
+    {
+      "name": "kernel_module.ata_generic.0xffffa003a5a0.elf",
+      "size": "223686",
+      "sha256": "f9138b2bba58b475753efd581fbc6653742e67e57c4ef3a72c8f08583cea9150",
+      "state": "completed_with_gaps",
+      "missing_bytes": "16384",
+      "gap_count": "4"
+    },
+    {
+      "name": "kernel_module.crc_t10dif.0xffffa0068000.elf",
+      "size": "21432",
+      "sha256": "7aa95bb74d3e69c3b1110a81a4cac2fdbaee0d712d61ad420c89eb73772eaa8c",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.floppy.0xffffa00fba20.elf",
+      "size": "115190",
+      "sha256": "5b9326169dc234ea17276fdfb12c356c04311d505fee8f66edff096aeea3aaa7",
+      "state": "completed_with_gaps",
+      "missing_bytes": "12289",
+      "gap_count": "4"
+    },
+    {
+      "name": "kernel_module.uhci_hcd.0xffffa00c00f0.elf",
+      "size": "42300",
+      "sha256": "750e3fe9fa76997dd97ad50a20d02b08613e564e0521a30fd2f4e83b16309538",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4097",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.ehci_hcd.0xffffa00eb130.elf",
+      "size": "54663",
+      "sha256": "7cf4967170314929e67cc6005852c7ded4ca2a0bdc83cf665351f8c86ff65513",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4097",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.e1000.0xffffa00de8b0.elf",
+      "size": "160268",
+      "sha256": "4e3a5443985e58fb7857e82420ca6c4b4598eed6095518ff195167ae2b55b4c2",
+      "state": "completed_with_gaps",
+      "missing_bytes": "8193",
+      "gap_count": "3"
+    },
+    {
+      "name": "kernel_module.usbcore.0xffffa00b40c0.elf",
+      "size": "161543",
+      "sha256": "8f983364b62dc84128320d63ae789366be5af8142def71bed60cdbeb27191669",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4097",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.usb_common.0xffffa0063000.elf",
+      "size": "21525",
+      "sha256": "f9feef27062fe0daa866f1d7e34ab9605342a44c1d24ae7b7a06bd2516793465",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.ata_piix.0xffffa0097080.elf",
+      "size": "96963",
+      "sha256": "0e08b9938320a0cca9140571f54a9e8aaf42459fdcf584e0b1829f1ea63922d1",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4096",
+      "gap_count": "1"
+    },
+    {
+      "name": "kernel_module.mptspi.0xffffa008e390.elf",
+      "size": "86281",
+      "sha256": "206787b0fb2498beee32c4dd1df692bed890ca2a09048d7efb695362e8f93746",
+      "state": "completed_with_gaps",
+      "missing_bytes": "8192",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.scsi_transport_spi.0xffffa007b5b0.elf",
+      "size": "71210",
+      "sha256": "921da6a122ab68c8f71c17c2dc6d8fa70f66a7b7d2165ba0e622e1664b5dab47",
+      "state": "completed_with_gaps",
+      "missing_bytes": "8193",
+      "gap_count": "3"
+    },
+    {
+      "name": "kernel_module.mptscsih.0xffffa00821f0.elf",
+      "size": "85766",
+      "sha256": "37cf661219df2650edcb8dd4a867154cd8c152b57bb287686f3db61541cc447b",
+      "state": "completed_with_gaps",
+      "missing_bytes": "16384",
+      "gap_count": "4"
+    },
+    {
+      "name": "kernel_module.mptbase.0xffffa0035040.elf",
+      "size": "328678",
+      "sha256": "4cf9100ff9d02e5a497b29b74b76eb9806924c373fa64edc2280c3fa67003b31",
+      "state": "completed_with_gaps",
+      "missing_bytes": "28672",
+      "gap_count": "7"
+    },
+    {
+      "name": "kernel_module.libata.0xffffa00594a0.elf",
+      "size": "182021",
+      "sha256": "7722059c673f4b9780088646f405261d3189f7904a92ff57a2a198220095ac92",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4097",
+      "gap_count": "2"
+    },
+    {
+      "name": "kernel_module.scsi_mod.0xffffa00230f0.elf",
+      "size": "198956",
+      "sha256": "959101c55ecb845a83a81957ea22601239fa9be804e3e9bc71e94d8de3843d4d",
+      "state": "completed_with_gaps",
+      "missing_bytes": "4097",
+      "gap_count": "2"
+    }
+  ],
+  "oracle": {
+    "cases": 18,
+    "generator": "tools/build_module_elf_oracle.py",
+    "fixture": "pkg/elfimage/testdata/module-elf-oracle.json",
+    "sha256": "8c6cc05d8c71d44ab21758ec4fb6900e4df1e5b783e29a794db0a7698816b450",
+    "scope": "Actual locked ModuleExtract and parse_sections with mocked object/layer boundaries, compared by independent native encoder"
+  },
+  "synthetic": {
+    "architectures": [
+      "x64",
+      "x86",
+      "pae"
+    ],
+    "kallsyms_profiles": [
+      "legacy",
+      "inline",
+      "pointer"
+    ],
+    "positive_profiles": 9,
+    "additional_section_profiles": 9,
+    "active_and_kset_only_exports": true,
+    "successful_cache_jsonl_identical": true,
+    "artifact_row_seals_survive_json_persistence": true,
+    "faults": [
+      "missing .symtab",
+      "unreadable metadata",
+      "padded data",
+      "byte budget",
+      "partial symbol table (16-byte prefix retained)",
+      "symbol count bound",
+      "section count bound",
+      "unreadable module name"
+    ],
+    "failed_tasks_rerun": true
+  },
+  "checks": {
+    "make_check": "passed: vet, all race tests, 28 Python tests, 428 argument fixtures",
+    "real_corpus_race": "passed",
+    "matrix": "195 inventoried; 0 accepted",
+    "module_elf_oracle": 18,
+    "inode_mode_oracle": 32768,
+    "module_parameter_oracle": 224,
+    "fuzz": {
+      "target": "FuzzModuleELFRebuild",
+      "seconds": 5,
+      "executions": 1369736
+    }
+  },
+  "kali_physical_smoke": {
+    "task": "7f43305eb12f964d2333b540388dc5f4",
+    "plugin": "generic.info",
+    "rows": 130,
+    "state": "completed",
+    "scope": "physical segments only; no ARM64 virtual-analysis claim"
+  },
+  "limitations": [
+    "Real modern kernels and actual 32-bit acquisitions pending",
+    "Real kset-only export remains unvalidated",
+    "Pinned ELF section-index/link heuristics retained; original on-disk/fully normalized ELF not claimed",
+    "Full metadata corruption/read-smear/version semantics and ARM64 virtual translation pending",
+    "Native bounds and strict metadata reads differ from the baseline; complete capability acceptance remains pending"
+  ],
+  "bundle": {
+    "verified": true,
+    "sha256": "dbbb8440b79d1e6a60449754dff183ee35dcca28cd02a538bfb35dc71275ea99"
+  }
+}

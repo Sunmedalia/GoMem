@@ -51,7 +51,8 @@ has the same expected failed task; it is not an independent acquisition.
   checks real order, per-field comparisons, positive parameters and raw captures.
 - Full selected-field mapping: [linux.lsmod.json](diff/linux.lsmod.json).
 
-ELF reconstruction/dump is still unavailable; `File Output` is `not_requested`
-and no dump option is advertised. Real modern kernels and x86/PAE acquisitions,
+`--param dump=true` now exports reconstructed module ELF files through the
+case artifact store; see [module ELF validation](linux-module-elf.md). Without
+that option, `File Output` remains `not_requested`. Real modern kernels and x86/PAE acquisitions,
 ARM64 virtual translation, all damaged-list behaviors and full baseline
 acceptance remain open. This feature remains partial; no capability is accepted.
