@@ -1,0 +1,142 @@
+{
+  "schema": "gomem.linux-tracepoints-validation/v1",
+  "date": "2026-10-22",
+  "release": "development-preview",
+  "accepted": false,
+  "baseline": {
+    "name": "Volatility 3",
+    "version": "2.28.2",
+    "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+    "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+  },
+  "oracle": {
+    "cases": 60,
+    "native_paging_cases": 90,
+    "sha256": "a51bd115798d40ff491f788e23834271f380687284878910e64888acaccc4485",
+    "scope": "Unmodified array/probe/parser methods, actual ISF byte-backed objects, kernel symbol lookup, exact fixed AST result expression; explicit known kernel range; no module gatherer acceptance",
+    "layouts": [
+      "absolute",
+      "prel32"
+    ],
+    "scenarios": [
+      "normal",
+      "empty-array",
+      "no-probes",
+      "no-prio",
+      "short-stride",
+      "no-data",
+      "empty-name",
+      "invalid-name",
+      "unicode",
+      "split-utf8",
+      "unterminated",
+      "unknown-owner",
+      "no-symbol",
+      "negative-prel",
+      "trailing-bytes"
+    ],
+    "fields": [
+      "tracepoint",
+      "tracepoint address",
+      "Probe",
+      "Probe address",
+      "Probe priority",
+      "Module",
+      "Module address",
+      "RawPriority"
+    ],
+    "raw_captures_independently_reread": true,
+    "emitted_rows_immutable": true,
+    "stored_rows_verified": true,
+    "identical_cache_replay": true,
+    "native_module_pipeline": "Real empty module gatherers for kernel-only oracle; independent full positive module attribution test with module object distinct from base"
+  },
+  "real_empty_probe_control": {
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "kernel": "Debian 3.2 x64",
+    "native_task_state": "completed",
+    "tracepoints": 202,
+    "probes": 0,
+    "raw_reads": 5128,
+    "evidence_rows": 5879,
+    "independent_raw_reads_including_scan_holes": true,
+    "stored_seals_verified": true,
+    "identical_cache_replay": true,
+    "reference_manifest_sha256": "d912202947703b2c2e4a7d8fa17be194afe0c2923cbdd3de94bc37cd97302da2",
+    "diff": {
+      "scope": "selected fields only; full capability acceptance remains pending",
+      "fields": [
+        "tracepoint",
+        "tracepoint address",
+        "Probe",
+        "Probe address",
+        "Probe priority",
+        "Module",
+        "Module address"
+      ],
+      "native_rows": 0,
+      "reference_rows": 0,
+      "matched": true,
+      "missing": [],
+      "extra": [],
+      "sha256": {
+        "native": "c48bec14bb08c0350006f226007159b0c72f5316dc2808f187b1b40e8e298f46",
+        "reference": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
+        "mapping": "3875ccaac196507aee6769eddb68d7cf1bc94c6ff7814450a14bf2346e2c51f1"
+      },
+      "native_input_rows": 5879,
+      "native_non_entity_records": {
+        "tracepoint_read": 5128,
+        "source_observation": 3,
+        "module_observation": 238,
+        "sysfs_candidate": 103,
+        "source_selection": 103,
+        "scan_candidate": 101,
+        "tracepoint_observation": 202,
+        "tracepoints_summary": 1
+      },
+      "entity_selection": {
+        "field": "RecordType",
+        "value": "tracepoint_probe",
+        "excluded_values": [
+          "tracepoint_read",
+          "probe_observation",
+          "tracepoint_observation",
+          "tracepoints_summary",
+          "diagnostic",
+          "module_observation",
+          "source_observation",
+          "sysfs_candidate",
+          "source_selection",
+          "scan_candidate"
+        ]
+      }
+    },
+    "positive_acceptance": false
+  },
+  "fuzz": {
+    "target": "FuzzLinuxTracepointAcquisition",
+    "seconds": 10,
+    "executions": 73188
+  },
+  "checks": [
+    "make check",
+    "make matrix",
+    "python3 tools/build_inode_mode_oracle.py --check",
+    "python3 tools/build_tracepoints_oracle.py --check",
+    "Optional TestOfficialLinuxTracepointsEmptyControlEvidenceAndCache with explicit corpus/reference environment",
+    "make build",
+    "bin/gomem doctor --offline"
+  ],
+  "limitations": [
+    "No real positive probe corpus or modern-kernel acceptance",
+    "Selected module ELF owner intentionally differs from fixed helper final-range-object lookup",
+    "Absolute-array official address is slot; actual object separately retained",
+    "Explicit native failures differ from silent baseline skips",
+    "Real x86/PAE, concurrent/damaged images, all parameters/renderers and full acceptance pending",
+    "Intel only as required by fixed class"
+  ],
+  "ci_change": "Race suite has explicit 30m package timeout; preceding Linux CI exceeded default 10m without a reported assertion or race failure"
+}

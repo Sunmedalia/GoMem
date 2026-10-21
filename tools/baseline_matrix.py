@@ -79,7 +79,7 @@ def generate(source):
         return any(b.endswith("PluginInterface") or b.endswith("PluginRenameClass") or
                    b in classes and is_plugin(b, seen) for b in c["bases"])
 
-    partial = {"linux.tracing.ftrace.CheckFtrace": "linux.check_ftrace", "linux.graphics.fbdev.Fbdev": "linux.fbdev", "banners.Banners": "banners", "windows.pslist.PsList": "windows.pslist",
+    partial = {"linux.tracing.tracepoints.CheckTracepoints": "linux.check_tracepoints", "linux.tracing.ftrace.CheckFtrace": "linux.check_ftrace", "linux.graphics.fbdev.Fbdev": "linux.fbdev", "banners.Banners": "banners", "windows.pslist.PsList": "windows.pslist",
                "linux.pslist.PsList": "linux.pslist", "windows.modules.Modules": "windows.modules",
                "linux.lsmod.Lsmod": "linux.lsmod", "linux.module_extract.ModuleExtract": "linux.module_extract", "windows.threads.Threads": "windows.threads",
                "windows.vadinfo.VadInfo": "windows.vadinfo", "linux.proc.Maps": "linux.maps",
@@ -540,6 +540,11 @@ def generate(source):
                                     "Full modern-kernel corpus, damaged-image, parameter/version and capability acceptance remain pending"])
         if identifier == "linux.hidden_modules.Hidden_modules":
             plugins[-1].update(native="linux.hidden_modules", status="partial", corpora=["synthetic-linux-hidden-modules-alias"], comparison="deprecated_name_delegates_to_native_command", validation_record="docs/plugin-aliases.md", gaps=["Deprecated class name linux.malware.hidden_modules.Hidden_modules delegates to linux.hidden_modules. Rows retain RequestedPlugin and ImplementedPlugin. Independent alias-name acceptance remains pending"])
+        if identifier == "linux.tracing.tracepoints.CheckTracepoints":
+            plugins[-1].update(applicability="Intel Linux with typed __start___tracepoints_ptrs/__stop___tracepoints_ptrs, absolute pointers or signed int PREL32, tracepoint and tracepoint_func layouts. Native module sources and exact callback attribution.",
+                              corpora=["pinned-tracepoints-60-byte-backed-object-cases", "synthetic-linux-tracepoints-x64-x86-pae-90-paging-cases", "official-linux-sample-1-empty-probes"],
+                              comparison="60_actual_object_cases_seven_fields_and_raw_priority_match_90_native_paging_cases_Debian_202_tracepoints_zero_probes", validation_record="docs/linux-tracepoints.md",
+                              gaps=["Real Debian supported empty-probe control only; no real positive probe corpus or modern-kernel acceptance", "Absolute-array official address is slot, PREL32 official address is decoded object; native retains both Slot and TracepointObject. Zero priority displayed unavailable while raw zero retained", "Native selected module ELF owner differs intentionally from fixed helper final-range-object lookup; explicit owner evidence retained. Kernel object oracle does not establish gatherer equivalence", "Native read/layout/budget/source failures explicit; full damaged/concurrent memory, parameters, renderers and real x86/PAE coverage pending", "Intel architecture requirement only; ARM64 outside fixed class scope. Full acceptance remains pending"])
         if identifier == "linux.tracing.ftrace.CheckFtrace":
             plugins[-1].update(applicability="Intel Linux with typed ftrace_ops_list pointer, ftrace_list_end sentinel, old filter_hash or pointer/embedded func_hash, ftrace_hash buckets and hlist entry layouts. Gather Lsmod/SysFs/Scanner/kernel module ranges, resolve callback owner and exact symbols, preserve hooked aliases and optional fixed flags. Pinned selection walks only the first filter bucket.",
                               corpora=["pinned-ftrace-48-byte-backed-object-cases", "synthetic-linux-ftrace-x64-x86-pae-72-paging-cases-two-flag-modes", "official-linux-sample-1-unsupported-kernel"],

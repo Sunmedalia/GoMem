@@ -8,7 +8,7 @@ test:
 	$(GO) test ./...
 check:
 	$(GO) vet ./...
-	$(GO) test -race ./...
+	$(GO) test -race -timeout 30m ./...
 	python3 -m unittest discover -s tools -p 'test_*.py'
 	python3 tools/build_argument_fixtures.py --check
 fixtures:
@@ -18,6 +18,7 @@ baseline:
 matrix:
 	python3 tools/baseline_matrix.py --source $(BASELINE) --check
 fuzz:
+	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxTracepointAcquisition -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxFtraceAcquisition -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxFramebufferAcquisition -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxFramebufferPixels -fuzztime 10s

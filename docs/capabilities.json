@@ -3794,15 +3794,24 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Intel Linux with typed __start___tracepoints_ptrs/__stop___tracepoints_ptrs, absolute pointers or signed int PREL32, tracepoint and tracepoint_func layouts. Native module sources and exact callback attribution.",
+      "native": "linux.check_tracepoints",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-tracepoints-60-byte-backed-object-cases",
+        "synthetic-linux-tracepoints-x64-x86-pae-90-paging-cases",
+        "official-linux-sample-1-empty-probes"
+      ],
+      "comparison": "60_actual_object_cases_seven_fields_and_raw_priority_match_90_native_paging_cases_Debian_202_tracepoints_zero_probes",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Real Debian supported empty-probe control only; no real positive probe corpus or modern-kernel acceptance",
+        "Absolute-array official address is slot, PREL32 official address is decoded object; native retains both Slot and TracepointObject. Zero priority displayed unavailable while raw zero retained",
+        "Native selected module ELF owner differs intentionally from fixed helper final-range-object lookup; explicit owner evidence retained. Kernel object oracle does not establish gatherer equivalence",
+        "Native read/layout/budget/source failures explicit; full damaged/concurrent memory, parameters, renderers and real x86/PAE coverage pending",
+        "Intel architecture requirement only; ARM64 outside fixed class scope. Full acceptance remains pending"
+      ],
+      "validation_record": "docs/linux-tracepoints.md"
     },
     {
       "id": "linux.tty_check.tty_check",

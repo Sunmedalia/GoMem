@@ -1,0 +1,79 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "tracepoint_probe",
+    "excluded_values": [
+      "tracepoint_read",
+      "probe_observation",
+      "tracepoint_observation",
+      "tracepoints_summary",
+      "diagnostic",
+      "module_observation",
+      "source_observation",
+      "sysfs_candidate",
+      "source_selection",
+      "scan_candidate"
+    ]
+  },
+  "fields": {
+    "tracepoint": {
+      "native": "tracepoint",
+      "reference": "tracepoint",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "tracepoint address": {
+      "native": "tracepoint address",
+      "reference": "tracepoint address",
+      "kind": "address",
+      "missing_reasons": [
+        "not_available"
+      ],
+      "mask": "0x0000ffffffffffff"
+    },
+    "Probe": {
+      "native": "Probe",
+      "reference": "Probe",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "Probe address": {
+      "native": "Probe address",
+      "reference": "Probe address",
+      "kind": "address",
+      "missing_reasons": [
+        "not_available"
+      ],
+      "mask": "0x0000ffffffffffff"
+    },
+    "Probe priority": {
+      "native": "Probe priority",
+      "reference": "Probe priority",
+      "kind": "int64",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "Module": {
+      "native": "Module",
+      "reference": "Module",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "Module address": {
+      "native": "Module address",
+      "reference": "Module address",
+      "kind": "address",
+      "missing_reasons": [
+        "not_available"
+      ],
+      "mask": "0x0000ffffffffffff"
+    }
+  }
+}

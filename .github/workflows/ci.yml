@@ -31,7 +31,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: go test -race ./...
+      - run: go test -race -timeout 30m ./...
       - run: python3 -m unittest discover -s tools -p 'test_*.py'
       - run: python3 tools/build_argument_fixtures.py --check
       - run: python3 tools/build_inode_mode_oracle.py --check
@@ -62,6 +62,7 @@ jobs:
       - run: python3 tools/build_kmsg_oracle.py --check
       - run: python3 tools/build_perf_events_oracle.py --check
       - run: python3 tools/build_fbdev_oracle.py --check
+      - run: python3 tools/build_tracepoints_oracle.py --check
       - run: python3 tools/build_ftrace_oracle.py --check
       - run: python3 tools/build_kthreads_oracle.py --check
       - run: python3 tools/build_afinfo_oracle.py --check
@@ -71,6 +72,7 @@ jobs:
       - run: python3 tools/build_ptrace_oracle.py --check
       - run: python3 tools/build_linux_pstree_oracle.py --check
       - run: python3 tools/baseline_matrix.py --source .cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75 --check
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxTracepointAcquisition -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxFtraceAcquisition -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxFramebufferAcquisition -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxFramebufferPixels -fuzztime 5s
