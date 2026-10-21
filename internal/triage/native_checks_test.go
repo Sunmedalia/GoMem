@@ -124,12 +124,19 @@ func TestNativeTriageCasePagingWhitelistAndResume(t *testing.T) {
 			t.Fatal(err)
 		}
 	}
+	if err = e.Registry.Register(triageFixturePlugin{name: "windows.psxview", rows: processViewRows(0, 501)}); err != nil {
+		t.Fatal(err)
+	}
 	summary, err := Run(ctx, e, nil)
-	if !errors.Is(err, ErrIncomplete) || summary.Findings != 2 {
+	if !errors.Is(err, ErrIncomplete) || summary.Findings != 4 {
 		t.Fatal(summary, err)
 	}
 	for _, check := range summary.Checks {
 		switch check.Rule {
+		case "hidden-process":
+			if check.State != "completed" || check.Findings != 2 || check.Coverage["psscan"] != "503" {
+				t.Fatal(check)
+			}
 		case "suspicious-thread-start":
 			if check.State != "completed" || check.Findings != 1 || check.Coverage["findings"] != "1" {
 				t.Fatal(check)
@@ -141,7 +148,7 @@ func TestNativeTriageCasePagingWhitelistAndResume(t *testing.T) {
 		}
 	}
 	findings, err := e.Store.Query(ctx, evidence.Query{TaskID: summary.FindingTask, Limit: 100})
-	if err != nil || len(findings) != 2 {
+	if err != nil || len(findings) != 4 {
 		t.Fatal(findings, err)
 	}
 	for _, finding := range findings {
@@ -150,8 +157,15 @@ func TestNativeTriageCasePagingWhitelistAndResume(t *testing.T) {
 		}
 		refs := finding.Cells["EvidenceIDs"].Data.([]any)
 		source, err := e.Store.Find(ctx, refs[0].(string))
-		if err != nil || source.Verify() != nil || source.Provenance.ImageSHA256 != e.Hash || source.Provenance.SymbolsSHA256 != e.Env.Symbols.Digest() || source.Provenance.Offset != finding.Provenance.Offset || source.Cells["ProcessIdentity"].String() != finding.Cells["Entity"].String() {
+		if err != nil || source.Verify() != nil || source.Provenance.ImageSHA256 != e.Hash || source.Provenance.SymbolsSHA256 != e.Env.Symbols.Digest() || source.Provenance.Offset != finding.Provenance.Offset {
 			t.Fatal(source, err)
+		}
+		identity := "ProcessIdentity"
+		if source.Provenance.Plugin == "windows.psxview" {
+			identity = "Identity"
+		}
+		if source.Cells[identity].String() != finding.Cells["Entity"].String() {
+			t.Fatal(source, finding)
 		}
 		if err = e.Store.Allow(ctx, finding.Cells["Rule"].String(), finding.Cells["Entity"].String(), "authorized test control"); err != nil {
 			t.Fatal(err)
@@ -167,6 +181,12 @@ func TestNativeTriageCasePagingWhitelistAndResume(t *testing.T) {
 		}
 	}
 	for _, task := range summary.Tasks {
+		if task.Task.Plugin == "windows.psxview" {
+			raw, err := e.Store.Query(ctx, evidence.Query{TaskID: task.Task.ID, Offset: 500, Limit: 500})
+			if err != nil || len(raw) != 4 || raw[1].Cells["pslist"].Data != false || raw[2].Cells["ExitTime"].String() == "" {
+				t.Fatal("whitelist changed process views", len(raw), err)
+			}
+		}
 		if task.Task.Plugin == "windows.hollowprocesses" {
 			raw, err := e.Store.Query(ctx, evidence.Query{TaskID: task.Task.ID, Offset: 1000, Limit: 500})
 			if err != nil || len(raw) != 3 || raw[1].Cells["RecordType"].String() != "finding" {

@@ -37,6 +37,16 @@ var Rules = []Rule{
 	{"hollow-process-mapping", "high", "The native PEB image base differs from the kernel section base, the executable VAD is missing, or an executable/loader DLL VAD has unexpected initial protection.", "Legitimate loaders, modified mappings, exiting processes and acquisition smear may differ. These checks alone do not establish process hollowing.", []string{"hollowprocesses"}, "native-check"},
 }
 
+func ruleForPlatform(rule Rule, platform string) Rule {
+	if platform == "windows" && rule.ID == "hidden-process" {
+		rule.Kind = "native-check"
+		rule.Inputs = []string{"psxview"}
+		rule.Basis = "A valid process object is collected by a pool, thread-owner or csrss handle view but absent from the active process list at the same numeric object offset; PID alone is not compared."
+		rule.FalsePositive = "Exited processes, stale allocations, per-view filters and partial acquisitions can differ. A view mismatch alone does not prove process hiding."
+	}
+	return rule
+}
+
 type Check struct {
 	Rule     string            `json:"rule"`
 	State    string            `json:"state"`
@@ -238,9 +248,10 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 		names["psscan"] = "linux.psscan"
 		order = append(order, "psscan")
 	} else {
+		names["psxview"] = "windows.psxview"
 		names["suspicious_threads"] = "windows.suspicious_threads"
 		names["hollowprocesses"] = "windows.hollowprocesses"
-		order = append(order, "suspicious_threads", "hollowprocesses")
+		order = append(order, "psxview", "suspicious_threads", "hollowprocesses")
 	}
 	for _, key := range order {
 		var parameters map[string]string
@@ -277,7 +288,7 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 	}
 	b, _ := json.Marshal(summary.Tasks)
 	hash := sha256.Sum256(b)
-	task, err := e.Store.Begin(ctx, "triage:"+hex.EncodeToString(hash[:]), "triage", evidence.Provenance{ImageSHA256: e.Hash, Engine: version.Version, EngineBuild: e.Build, Plugin: "triage", Layer: e.Env.Physical.Name(), Parameters: map[string]string{"rules": "v3"}})
+	task, err := e.Store.Begin(ctx, "triage:"+hex.EncodeToString(hash[:]), "triage", evidence.Provenance{ImageSHA256: e.Hash, Engine: version.Version, EngineBuild: e.Build, Plugin: "triage", Layer: e.Env.Physical.Name(), Parameters: map[string]string{"rules": "v4"}})
 	if err != nil {
 		return summary, err
 	}
@@ -285,6 +296,7 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 	// Rules execute a page at a time. Difference rules keep only object keys in
 	// the evaluator when invoked independently; unsupported inputs remain explicit.
 	for _, rule := range Rules {
+		rule = ruleForPlatform(rule, os)
 		check := Check{Rule: rule.ID, State: "unavailable"}
 		if rule.Kind == "native-check" && os != "windows" {
 			check.State, check.Reason = "not_applicable", "Windows-only native check"

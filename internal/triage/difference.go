@@ -16,7 +16,20 @@ func emitFinding(ctx context.Context, rule Rule, row evidence.Row, entity string
 		return fmt.Errorf("rule input lacks sealed evidence provenance")
 	}
 	cells := map[string]evidence.Value{"Rule": evidence.Text(rule.ID), "Severity": evidence.Text(rule.Severity), "Basis": evidence.Text(rule.Basis), "FalsePositive": evidence.Text(rule.FalsePositive), "Entity": evidence.Text(entity), "EvidenceIDs": {Kind: "references", Data: refs}}
-	if rule.Kind == "native-check" {
+	if rule.Kind == "native-check" && row.Provenance.Plugin == "windows.psxview" {
+		cells["SourcePlugin"] = evidence.Text("windows.psxview")
+		cells["NativeRule"] = evidence.Text("absent_active_view")
+		for _, key := range []string{"Identity", "ObjectOffset", "ObjectLayer", "Offset", "OffsetSpace", "TranslationError", "Sources", "pslist", "psscan", "thrdscan", "csrss", "ExitTime", "ExitTimeRaw", "Created", "CreatedRaw"} {
+			if value, ok := row.Cells[key]; ok {
+				cells[key] = value
+			}
+		}
+		cells["Assessment"] = evidence.Text("Process object collected outside the active process list; investigate view coverage and the original object before assessing hiding")
+		if row.Cells["ExitTime"].String() != "" {
+			cells["Severity"] = evidence.Text("info")
+			cells["Assessment"] = evidence.Text("Exited process object absent from the active list; residual allocations can explain this view mismatch")
+		}
+	} else if rule.Kind == "native-check" {
 		cells["SourcePlugin"] = evidence.Text(row.Provenance.Plugin)
 		cells["NativeRule"] = row.Cells["Rule"]
 		cells["Assessment"] = row.Cells["Notes"]

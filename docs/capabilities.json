@@ -7731,6 +7731,7 @@
         "One Windows 10 19041 x64 image matches all eight columns for both physical-offsets settings; its views contain 113, 114, 112 and 103 process offsets",
         "The one process absent from the active list is an exited MpCmdRun.exe candidate, not a verified malicious hidden process; three active-list objects also have exit times",
         "Pinned helper/generator oracles cover name characters, dictionary collisions, source precedence and same-PID objects. Synthetic pipelines cover all four real readers, raw PID-zero thread owner inclusion, duplicate handles, name filtering, no csrss, raw name-header independence, required symbols, physical fallback, faults, cancellation and bounds",
+        "Windows hidden-process triage consumes paged raw views and checks flags, source coordinates, object provenance and summary counts. Exited candidates are informational. Synthetic positive/control, 501 controls plus late candidates, 1001 diagnostics, same-PID distinct identities, coverage failures, whitelist and cache tests pass; the selected real image retains one informational residual process finding, not a malicious positive",
         "Real native x86, legacy physical pool scans, corrupt-image/view coverage and positive hidden-process differential scenarios remain pending",
         "Read/validity skips follow the pinned filter and are explicitly counted where the view collects them. An absent view flag alone is not evidence of process hiding. Full version/parameter/false-positive acceptance remains pending"
       ],

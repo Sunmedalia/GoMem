@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/Sunmedalia/GoMem/internal/engine"
+	"github.com/Sunmedalia/GoMem/pkg/evidence"
 )
 
 func TestOfficialWindowsNativeTriageCoverage(t *testing.T) {
@@ -29,9 +30,17 @@ func TestOfficialWindowsNativeTriageCoverage(t *testing.T) {
 		if !errors.Is(err, ErrIncomplete) {
 			t.Fatal(summary, err)
 		}
+		if summary.Findings != 31 {
+			t.Fatal("unexpected findings", summary.Findings)
+		}
 		seen := 0
 		for _, check := range summary.Checks {
 			switch check.Rule {
+			case "hidden-process":
+				seen++
+				if check.State != "completed" || check.Findings != 1 || check.Coverage["pslist"] != "113" || check.Coverage["psscan"] != "114" || check.Coverage["thrdscan"] != "112" || check.Coverage["csrss"] != "103" {
+					t.Fatal(check)
+				}
 			case "suspicious-thread-start":
 				seen++
 				if check.State != "completed" || check.Findings != 0 || check.Coverage["threads"] != "1749" {
@@ -44,8 +53,29 @@ func TestOfficialWindowsNativeTriageCoverage(t *testing.T) {
 				}
 			}
 		}
-		if seen != 2 {
+		if seen != 3 {
 			t.Fatal("native triage rules were not evaluated", summary)
+		}
+
+		findings, queryErr := e.Store.Query(ctx, evidence.Query{TaskID: summary.FindingTask, Limit: 100})
+		if queryErr != nil {
+			t.Fatal(queryErr)
+		}
+		hidden := 0
+		for _, finding := range findings {
+			if finding.Cells["Rule"].String() != "hidden-process" {
+				continue
+			}
+			hidden++
+			refs := finding.Cells["EvidenceIDs"].Data.([]any)
+			source, sourceErr := e.Store.Find(ctx, refs[0].(string))
+			pid, pidErr := finding.Cells["PID"].Uint()
+			if finding.Verify() != nil || sourceErr != nil || source.Verify() != nil || pidErr != nil || pid != 408 || finding.Cells["Severity"].String() != "info" || finding.Cells["Name"].String() != "MpCmdRun.exe" || source.Provenance.Plugin != "windows.psxview" || source.Cells["pslist"].Data != false || source.Cells["ExitTime"].String() == "" || source.Cells["Identity"].String() != finding.Cells["Entity"].String() || source.Provenance.Offset != finding.Provenance.Offset {
+				t.Fatal(finding, source, sourceErr)
+			}
+		}
+		if hidden != 1 {
+			t.Fatal("missing residual process evidence", hidden)
 		}
 		for _, task := range summary.Tasks {
 			if task.Task.State != "completed" || attempt > 0 && !task.Reused {

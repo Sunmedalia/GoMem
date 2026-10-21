@@ -286,9 +286,9 @@ bin/gomem triage --image memory.raw --os linux --case ./case-001 \
 
 当前连接了进程、模块枚举、精确 IOC 扫描、Windows 现代 VAD 和 Linux VMA 输入。Windows/Linux 的直接可读写执行权限检查、Linux 删除文件/memfd 执行线索已贯通原生解析、分页评估、证据引用、案件白名单和任务复用。[Windows VAD 验证](docs/windows-vad.md)、[Linux 映射验证](docs/linux-maps.md) 分别记录真实与合成场景范围；权限线索也可能来自正常程序。
 
-Windows 分诊还执行 `windows.suspicious_threads` 和 `windows.hollowprocesses`，每 500 行分页读取。原生发现关联到含对象地址的进程身份和原始证据；读取诊断使检查标为 `incomplete`，后续页的发现仍保留。路径不可读的发现降为信息级，原始原因、规则、线程/VAD/加载条目地址均保留。Linux 中这两项标为 `not_applicable`。[原生检查分诊验证](docs/windows-native-triage.md)
+Windows 分诊执行 `windows.psxview`、`windows.suspicious_threads` 和 `windows.hollowprocesses`，每 500 行分页读取。原生发现关联到含对象地址的进程身份和原始证据；读取诊断使检查标为 `incomplete`，后续页的发现仍保留。路径不可读的发现降为信息级，原始原因、规则、线程/VAD/加载条目地址均保留。多视图缺少活动链的候选按对象身份关联，已退出对象降为信息级，来源坐标和覆盖不足均保留；Linux 中线程和空洞检查标为 `not_applicable`。[原生检查分诊验证](docs/windows-native-triage.md)
 
-八类规则具有独立评估器及阳性/正常输入测试；隐藏进程、扫描模块差异、持久化关联仍缺少完整输入。**因此当前完整分诊会报告 unavailable 或 incomplete，返回非零状态，并把分诊任务记录为失败。** 已运行规则的发现仍会保存，包含规则依据、严重程度、误报提示、原始证据引用和来源。
+八类规则具有独立评估器及阳性/正常输入测试；Windows/Linux 隐藏进程已有原生输入；扫描模块差异、持久化关联仍缺少完整输入，隐藏进程的真实恶意阳性和版本覆盖也待验收。**因此当前完整分诊会报告 unavailable 或 incomplete，返回非零状态，并把分诊任务记录为失败。** 已运行规则的发现仍会保存，包含规则依据、严重程度、误报提示、原始证据引用和来源。
 
 进程身份结合镜像、地址空间、对象地址、PID 和可用启动时间，不能仅按 PID 关联。白名单只抑制明确实体，不删除原始证据：
 

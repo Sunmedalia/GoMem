@@ -19,6 +19,7 @@ type nativeCheckEvaluator struct {
 	diagnostics uint64
 	pathErrors  uint64
 	image       string
+	viewCounts  [4]uint64
 }
 
 func (n *nativeCheckEvaluator) inputPlugin() (string, map[string]bool, error) {
@@ -30,6 +31,8 @@ func (n *nativeCheckEvaluator) inputPlugin() (string, map[string]bool, error) {
 		return "windows.suspicious_threads", map[string]bool{"non_file_backed": true, "unexpected_protection": true, "other_executable": true}, nil
 	case "hollowprocesses":
 		return "windows.hollowprocesses", map[string]bool{"image_base_mismatch": true, "executable_vad_missing": true, "executable_protection": true, "dll_protection": true}, nil
+	case "psxview":
+		return "windows.psxview", nil, nil
 	default:
 		return "", nil, fmt.Errorf("unknown native triage input %s", n.rule.Inputs[0])
 	}
@@ -62,6 +65,13 @@ func (n *nativeCheckEvaluator) consume(ctx context.Context, rows []evidence.Row,
 			return fmt.Errorf("native triage input has no record type")
 		}
 		switch kind.String() {
+		case "process":
+			if name != "windows.psxview" {
+				return fmt.Errorf("unexpected process record in %s", name)
+			}
+			if err := n.consumeProcessView(ctx, row, emit); err != nil {
+				return err
+			}
 		case "summary":
 			if row.Cells["Coverage"].Kind != "structure" {
 				return fmt.Errorf("native triage input has no structured coverage")
@@ -138,6 +148,9 @@ func (n *nativeCheckEvaluator) finish() (map[string]string, error) {
 	}
 	if n.coverage == nil {
 		return nil, fmt.Errorf("%w: native input lacks a final coverage summary", ErrIncomplete)
+	}
+	if n.rule.Inputs[0] == "psxview" {
+		return n.finishProcessViews()
 	}
 	keys := []string{"processes", "findings"}
 	if n.rule.Inputs[0] == "suspicious_threads" {

@@ -101,7 +101,7 @@ GOMEM_CORPUS_DIR="$PWD/.cache/corpus" go test ./internal/engine -run TestOfficia
 
 `go test ./...`、`go test -race ./...` 和 `go vet ./...` 通过。测试覆盖三种分页模式、4KiB 与大页、canonical 高地址、跨页读取、稀疏洞、LiME/ELF/crash/bitmap 映射、截断、循环/不一致链表、错误符号、取消与部分提交、缓存重放和镜像变更、输入/输出别名拒绝、案件锁和中断恢复、压缩符号、TUI 布局与过期消息、导出完整性及 HTML 转义。
 
-八类分诊评估器都有阳性与正常构造输入；IOC、Windows/Linux 直接 RWX、Linux 删除文件/memfd 执行 pipeline 已贯通。测试验证阳性、正常及未知元数据、原始证据回溯、白名单和任务复用；合成场景和真实样本结果不等同于真实恶意 VM 场景验收。[Windows VAD](windows-vad.md) 和 [Linux VMA](linux-maps.md) 记录范围。Windows 可疑线程与进程空洞输入现已接入分页分诊；真实 Windows 正常对照、1001 条诊断后仍保留阳性的跨页测试、原始证据引用、白名单和缓存复用见[原生检查分诊](windows-native-triage.md)。读取覆盖不足标为 incomplete，其他输入缺口继续报告 unavailable，整体分诊保持非零状态。
+八类分诊评估器都有阳性与正常构造输入；IOC、Windows/Linux 直接 RWX、Linux 删除文件/memfd 执行 pipeline 已贯通。测试验证阳性、正常及未知元数据、原始证据回溯、白名单和任务复用；合成场景和真实样本结果不等同于真实恶意 VM 场景验收。[Windows VAD](windows-vad.md) 和 [Linux VMA](linux-maps.md) 记录范围。Windows 多视图进程、可疑线程与进程空洞输入现已接入分页分诊；已退出多视图候选为信息级，并按对象身份保留同 PID 不同对象。真实 Windows 正常对照、1001 条诊断后仍保留阳性的跨页测试、原始证据引用、白名单和缓存复用见[原生检查分诊](windows-native-triage.md)。读取覆盖不足标为 incomplete，其他输入缺口继续报告 unavailable，整体分诊保持非零状态。
 
 区域提取对照使用 `tools/reference.py --dump-dir NEW_DIRECTORY ... -- --pid PID --address ADDRESS --dump`，目录必须新建。对照 manifest 记录逐文件大小与摘要。原生 `analyze ... --param dump=true` 的 JSONL 和案件目录传给 `tools/compare_extractions.py --native ROWS --case CASE --reference-manifest MANIFEST --reference-dir DIRECTORY --output REPORT`，逐字节比较并核验双方实际文件摘要、原生来源及填充日志摘要。示例范围见 [区域提取记录](region-extraction-validation.json)，均为选定 x64 区域，不代表所有恢复格式或参数已验收。证据包再使用独立 `verify_bundle.py` 核验，包括填充区域确实全零。
 

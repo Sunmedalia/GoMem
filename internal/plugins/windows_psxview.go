@@ -317,6 +317,17 @@ func windowsPsXView(ctx context.Context, e plugin.Environment, p map[string]stri
 		return err
 	}
 	coverage := map[string]string{"active_candidates": formatCount(uint64(len(active))), "csrss_processes": formatCount(csrss), "csrss_handles": formatCount(uint64(walker.handles)), "csrss_unreadable_object_tables": formatCount(uint64(walker.skippedObjects)), "csrss_unreadable_handle_tables": formatCount(uint64(walker.skippedTables)), "csrss_handle_cycles": formatCount(uint64(walker.cycles))}
+	if pool, ok := poolStats.Data.(map[string]any); ok {
+		for _, key := range []string{"read_failures", "type_map_entries"} {
+			value, ok := pool[key].(string)
+			if !ok {
+				return fmt.Errorf("pool coverage lacks %s", key)
+			}
+			coverage["pool_"+key] = value
+		}
+	} else {
+		return fmt.Errorf("psxview pool coverage is unavailable")
+	}
 	for i, source := range psxviewSources {
 		coverage[source] = formatCount(uint64(len(index.sources[i])))
 		coverage[source+"_rejected"] = formatCount(index.rejected[i])
