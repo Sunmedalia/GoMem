@@ -33,6 +33,8 @@ jobs:
       - run: python3 tools/build_argument_fixtures.py --check
       - run: python3 tools/build_inode_mode_oracle.py --check
       - run: python3 tools/fetch_baseline.py
+      - run: python3 -m pip install pefile==2024.8.26
+      - run: python3 tools/build_service_oracle.py --check
       - run: python3 tools/baseline_matrix.py --source .cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75 --check
       - run: go test ./pkg/memory -run '^$' -fuzz FuzzDetect -fuzztime 5s
       - run: go test ./pkg/memory -run '^$' -fuzz FuzzAVML -fuzztime 5s

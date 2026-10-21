@@ -58,7 +58,7 @@ func TestServiceWalkUsesPrevEntryAddress(t *testing.T) {
 	var rows []evidence.Row
 	seen := map[string]bool{}
 	stats := svcStats{}
-	err := walkServiceHeader(context.Background(), mem, 0x100, nil, seen, &stats, func(row evidence.Row) error {
+	err := (serviceReader{mem, serviceLayouts["services-win10-19041-x64"]}).walkHeader(context.Background(), 0x100, nil, seen, &stats, func(row evidence.Row) error {
 		rows = append(rows, row)
 		return nil
 	})
@@ -74,7 +74,7 @@ func TestServiceWalkUsesPrevEntryAddress(t *testing.T) {
 	// PID and binary are fresh absent values here, and neither name is in the
 	// registry map, so the pinned tuple comparison does not stop the chain.
 	before := len(rows)
-	if err = walkServiceHeader(context.Background(), mem, 0x100, nil, seen, &stats, func(row evidence.Row) error {
+	if err = (serviceReader{mem, serviceLayouts["services-win10-19041-x64"]}).walkHeader(context.Background(), 0x100, nil, seen, &stats, func(row evidence.Row) error {
 		rows = append(rows, row)
 		return nil
 	}); err != nil || len(rows) != before+2 || stats.records != 4 {
@@ -89,8 +89,8 @@ func TestServiceWalkStopsOnStableDuplicate(t *testing.T) {
 	putService(mem, 0x200, 0, 9, 3, 32, 4, 0x800, 0x840, 0xA00)
 	putUTF16(mem, 0x800, "spooler")
 	putUTF16(mem, 0x840, "spooler display")
-	putU64(mem, 0xA00+svcProcBinary, 0xB00)
-	putU32(mem, 0xA00+svcProcPID, 1234)
+	putU64(mem, 0xA00+serviceLayouts["services-win10-19041-x64"].binaryPtr, 0xB00)
+	putU32(mem, 0xA00+serviceLayouts["services-win10-19041-x64"].pid, 1234)
 	putUTF16(mem, 0xB00, `C:\spoolsv.exe`)
 	binaries := map[string]svcBinary{
 		"spooler": {path: `C:\Windows\System32\spoolsv.exe`, dll: `spoolsv.dll`, pathOK: true, dllOK: true},
@@ -102,26 +102,26 @@ func TestServiceWalkStopsOnStableDuplicate(t *testing.T) {
 		rows = append(rows, row)
 		return nil
 	}
-	if err := walkServiceHeader(context.Background(), mem, 0x100, binaries, seen, &stats, emit); err != nil || len(rows) != 1 {
+	if err := (serviceReader{mem, serviceLayouts["services-win10-19041-x64"]}).walkHeader(context.Background(), 0x100, binaries, seen, &stats, emit); err != nil || len(rows) != 1 {
 		t.Fatal(len(rows), err)
 	}
 	if rows[0].Cells["PID"].String() != "1234" || rows[0].Cells["Binary"].String() != `C:\spoolsv.exe` || rows[0].Cells["BinaryRegistry"].String() != `C:\Windows\System32\spoolsv.exe` || rows[0].Cells["Dll"].String() != "spoolsv.dll" {
 		t.Fatal(rows[0].Cells)
 	}
-	if err := walkServiceHeader(context.Background(), mem, 0x100, binaries, seen, &stats, emit); err != nil || len(rows) != 1 || stats.records != 1 {
+	if err := (serviceReader{mem, serviceLayouts["services-win10-19041-x64"]}).walkHeader(context.Background(), 0x100, binaries, seen, &stats, emit); err != nil || len(rows) != 1 || stats.records != 1 {
 		t.Fatal("stable duplicate chain was emitted", len(rows), stats, err)
 	}
 }
 
 func putService(mem flatMemory, record, prev uint64, order, start, typ, state uint32, name, display, proc uint64) {
-	putU64(mem, record+svcRecordPrev, prev)
-	binary.LittleEndian.PutUint32(mem[record+svcRecordOrder:], order)
-	binary.LittleEndian.PutUint32(mem[record+svcRecordStart:], start)
-	putU64(mem, record+svcRecordName, name)
-	putU64(mem, record+svcRecordDisp, display)
-	binary.LittleEndian.PutUint32(mem[record+svcRecordType:], typ)
-	binary.LittleEndian.PutUint32(mem[record+svcRecordState:], state)
-	putU64(mem, record+svcRecordProc, proc)
+	putU64(mem, record+serviceLayouts["services-win10-19041-x64"].prev, prev)
+	binary.LittleEndian.PutUint32(mem[record+serviceLayouts["services-win10-19041-x64"].order:], order)
+	binary.LittleEndian.PutUint32(mem[record+serviceLayouts["services-win10-19041-x64"].start:], start)
+	putU64(mem, record+serviceLayouts["services-win10-19041-x64"].namePtr, name)
+	putU64(mem, record+serviceLayouts["services-win10-19041-x64"].displayPtr, display)
+	binary.LittleEndian.PutUint32(mem[record+serviceLayouts["services-win10-19041-x64"].serviceType:], typ)
+	binary.LittleEndian.PutUint32(mem[record+serviceLayouts["services-win10-19041-x64"].state:], state)
+	putU64(mem, record+serviceLayouts["services-win10-19041-x64"].processPtr, proc)
 }
 
 func putUTF16(mem flatMemory, addr uint64, text string) {

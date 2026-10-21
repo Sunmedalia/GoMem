@@ -7,7 +7,7 @@ bin/gomem analyze windows.svclist --image memory.dmp --case ./case-001 --offline
 bin/gomem analyze windows.svcdiff --image memory.dmp --case ./case-001 --offline --format jsonl
 ```
 
-两条命令共享 [svcscan 的服务记录解析与注册表映射](windows-svcscan.md)。当前只有 Windows 10 19041 x64 的服务字段布局。链表门槛沿用上游的 Windows 10 15063+ x64 判断：优先使用 PE 版本元数据，否则检查 `ObHeaderCookie`、`_HANDLE_TABLE.HandleCount` 和 `_EPROCESS.KeepAliveCounter`。这一门槛不代表所有 15063+ 服务布局已经实现或验收。
+两条命令共享 [svcscan 的服务记录解析与注册表映射](windows-svcscan.md)。字段布局现已扩展到基线全部 16 套，并分别通过对象级合成对照，见 [svcscan 的布局验证](windows-svcscan.md#服务布局与独立参考)。链表门槛沿用上游的 Windows 10 15063+ x64 判断：优先使用完整四段 PE 版本元数据；元数据不完整（包括缺少 build）时，回退检查 `ObHeaderCookie`、`_HANDLE_TABLE.HandleCount` 和 `_EPROCESS.KeepAliveCounter`。32 位仍明确拒绝；这与基线的链表插件门槛一致。字段偏移实现不代表完整版本矩阵已通过整镜像验收。
 
 `svclist` 按 VAD 前序，取第一个文件路径忽略大小写后以 `\services.exe` 结尾的区域。只在这里搜索 `Sc27`，命中必须按 8 字节对齐。每个头都完整遍历 `PrevEntry`，不使用扫描插件的全局元组去重。第一条显示记录本体地址，后续条目显示前一条记录的 `PrevEntry` 槽地址；证据来源保留实际读取的记录地址。不存在主映像 VAD 或进程层无法建立时，在 Coverage 中计数。未知版本明确失败。循环链表与 100000 条遍历上限让任务失败并保留此前输出。
 
@@ -20,4 +20,4 @@ GOMEM_CORPUS_DIR="$PWD/.cache/corpus" go test ./internal/engine -run 'TestOffici
 go test ./internal/plugins -run 'TestSvcScan|TestService' -count=1
 ```
 
-参考由锁定的 `tools/reference.py` 分别运行 `windows.svclist.SvcList` 与 `windows.malware.svcdiff.SvcDiff` 生成。差分映射是 `docs/diff/windows.svclist.json` 和 `docs/diff/windows.svcdiff.json`。其他 Windows 版本的服务布局、真实 32 位和时间线仍未完成。能力保持 partial、accepted=false。
+参考由锁定的 `tools/reference.py` 分别运行 `windows.svclist.SvcList` 与 `windows.malware.svcdiff.SvcDiff` 生成。差分映射是 `docs/diff/windows.svclist.json` 和 `docs/diff/windows.svcdiff.json`。其他 Windows 版本的整镜像对照、旧版 VAD 入口、真实 32 位和时间线仍未完成。能力保持 partial、accepted=false。

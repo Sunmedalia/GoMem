@@ -35,8 +35,8 @@ func TestServiceListPatternAndRepeatedWalk(t *testing.T) {
 	putService(mem, 0x400, 0, 1, 2, 32, 4, 0x800, 0xA00, 0xC00)
 	putUTF16(mem, 0x800, "listed")
 	putUTF16(mem, 0xA00, "Listed service")
-	putU64(mem, 0xC00+svcProcBinary, 0xE00)
-	putU32(mem, 0xC00+svcProcPID, 112)
+	putU64(mem, 0xC00+serviceLayouts["services-win10-19041-x64"].binaryPtr, 0xE00)
+	putU32(mem, 0xC00+serviceLayouts["services-win10-19041-x64"].pid, 112)
 	putUTF16(mem, 0xE00, "service.exe")
 	var hits []uint64
 	err := scanServicePattern(context.Background(), mem, 0, uint64(len(mem)), []byte("Sc27"), func(a uint64) error { hits = append(hits, a); return nil })
@@ -47,7 +47,7 @@ func TestServiceListPatternAndRepeatedWalk(t *testing.T) {
 	stats := svcStats{}
 	var rows []evidence.Row
 	for i := 0; i < 2; i++ {
-		err = walkServiceHeader(context.Background(), mem, 0x100, binaries, nil, &stats, func(row evidence.Row) error { rows = append(rows, row); return nil })
+		err = (serviceReader{mem, serviceLayouts["services-win10-19041-x64"]}).walkHeader(context.Background(), 0x100, binaries, nil, &stats, func(row evidence.Row) error { rows = append(rows, row); return nil })
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -100,16 +100,16 @@ func TestServiceDiffKeepsLastScannedRecordAndExactNames(t *testing.T) {
 }
 
 func TestServiceListVersionAndRegistration(t *testing.T) {
-	table := &symbols.ISF{Meta: map[string]json.RawMessage{}}
+	table := &symbols.ISF{Meta: map[string]json.RawMessage{}, Bases: map[string]symbols.Type{"pointer": {Size: 8}}}
 	env := plugin.Environment{Symbols: table}
 	for _, c := range []struct {
 		version string
 		want    bool
 	}{
-		{`{"pe":{"major":10,"minor":0,"revision":15062}}`, false},
-		{`{"pe":{"major":10,"minor":0,"revision":15063}}`, true},
-		{`{"pe":{"major":10,"minor":0,"revision":19041}}`, true},
-		{`{"pe":{"major":6,"minor":3,"revision":9600}}`, false},
+		{`{"pe":{"major":10,"minor":0,"build":0,"revision":15062}}`, false},
+		{`{"pe":{"major":10,"minor":0,"build":0,"revision":15063}}`, true},
+		{`{"pe":{"major":10,"minor":0,"build":0,"revision":19041}}`, true},
+		{`{"pe":{"major":6,"minor":3,"build":0,"revision":9600}}`, false},
 	} {
 		table.Meta["windows"] = json.RawMessage(c.version)
 		if got := serviceListSupported(env); got != c.want {
@@ -133,7 +133,7 @@ func TestServiceListCycleFailsAndKeepsOutput(t *testing.T) {
 	putUTF16(mem, 0x600, "cycle")
 	putUTF16(mem, 0x800, "Cycle service")
 	count := 0
-	err := walkServiceRecord(context.Background(), mem, 0x100, 0x100, nil, nil, &svcStats{}, func(evidence.Row) error { count++; return nil })
+	err := (serviceReader{mem, serviceLayouts["services-win10-19041-x64"]}).walkRecord(context.Background(), 0x100, 0x100, nil, nil, &svcStats{}, func(evidence.Row) error { count++; return nil })
 	if err == nil || count != 1 {
 		t.Fatal(count, err)
 	}

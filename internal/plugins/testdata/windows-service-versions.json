@@ -1,0 +1,1891 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "cases": [
+    {
+      "width": 4,
+      "pe": {
+        "major": 5,
+        "minor": 0,
+        "revision": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 5,
+        "minor": 0,
+        "revision": 0,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 5,
+        "minor": 0,
+        "revision": 0,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 5,
+        "minor": 1,
+        "revision": 2600
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 5,
+        "minor": 1,
+        "revision": 2600,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 5,
+        "minor": 1,
+        "revision": 2600,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 5,
+        "minor": 2,
+        "revision": 3790
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 5,
+        "minor": 2,
+        "revision": 3790,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 5,
+        "minor": 2,
+        "revision": 3790,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 6,
+        "minor": 0,
+        "revision": 6000
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 6,
+        "minor": 0,
+        "revision": 6000,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-vista-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 6,
+        "minor": 0,
+        "revision": 6000,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-vista-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 6,
+        "minor": 1,
+        "revision": 7601
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 6,
+        "minor": 1,
+        "revision": 7601,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-vista-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 6,
+        "minor": 1,
+        "revision": 7601,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-vista-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 6,
+        "minor": 2,
+        "revision": 9200
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 6,
+        "minor": 2,
+        "revision": 9200,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-vista-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 6,
+        "minor": 2,
+        "revision": 9200,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-vista-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 6,
+        "minor": 3,
+        "revision": 9600
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 6,
+        "minor": 3,
+        "revision": 9600,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-vista-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 6,
+        "minor": 3,
+        "revision": 9600,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-vista-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 10240
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 10240,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win8-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 10240,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win8-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 15062
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 15062,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win8-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 15062,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win8-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 15063
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 15063,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-vista-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 15063,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-vista-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 15064
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 15064,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-vista-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 15064,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-vista-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 16298
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 16298,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-vista-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 16298,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-vista-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 16299
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 16299,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-16299-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 16299,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-16299-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 17763
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 17763,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-17763-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 17763,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-17763-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 18362
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 18362,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-18362-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 18362,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-18362-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 19040
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 19040,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-18362-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 19040,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-18362-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 19041
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 19041,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-19041-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 19041,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-19041-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 25397
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 25397,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-19041-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 25397,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-19041-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 25398
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 25398,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-19041-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 25398,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-19041-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": null,
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": null,
+      "types": {
+        "_HANDLE_TABLE": [
+          "HandleCount"
+        ]
+      },
+      "symbols": [],
+      "layout": "services-xp-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 4,
+      "pe": null,
+      "types": {
+        "_EPROCESS": [],
+        "_HANDLE_TABLE": []
+      },
+      "symbols": [
+        "KdCopyDataBlock"
+      ],
+      "layout": "services-vista-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": null,
+      "types": {
+        "_EPROCESS": [
+          "KeepAliveCounter"
+        ],
+        "_HANDLE_TABLE": []
+      },
+      "symbols": [
+        "ObHeaderCookie",
+        "KdCopyDataBlock"
+      ],
+      "layout": "services-win8-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": null,
+      "types": {
+        "_EPROCESS": [
+          "ControlFlowGuardEnabled"
+        ],
+        "_HANDLE_TABLE": []
+      },
+      "symbols": [
+        "ObHeaderCookie",
+        "KdCopyDataBlock"
+      ],
+      "layout": "services-win10-15063-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": null,
+      "types": {
+        "_EPROCESS": [],
+        "_HANDLE_TABLE": []
+      },
+      "symbols": [
+        "ObHeaderCookie",
+        "KdCopyDataBlock"
+      ],
+      "layout": "services-win10-16299-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": null,
+      "types": {
+        "_EPROCESS": [],
+        "_HANDLE_TABLE": []
+      },
+      "symbols": [
+        "ParentSecurityDomain",
+        "KdCopyDataBlock"
+      ],
+      "layout": "services-win10-17763-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": null,
+      "types": {
+        "_EPROCESS": [],
+        "_HANDLE_TABLE": [],
+        "_WNF_PROCESS_CONTEXT": []
+      },
+      "symbols": [
+        "ObHeaderCookie",
+        "KdCopyDataBlock"
+      ],
+      "layout": "services-win10-18362-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": null,
+      "types": {
+        "_EPROCESS": [
+          "TimerResolutionIgnore",
+          "VmProcessorHostTransition"
+        ],
+        "_HANDLE_TABLE": [],
+        "_KQOS_GROUPING_SETS": []
+      },
+      "symbols": [
+        "KdCopyDataBlock"
+      ],
+      "layout": "services-win10-19041-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": null,
+      "types": {
+        "_EPROCESS": [
+          "MmSlabIdentity",
+          "EnableProcessImpersonationLogging"
+        ],
+        "_HANDLE_TABLE": []
+      },
+      "symbols": [
+        "KdCopyDataBlock"
+      ],
+      "layout": "services-vista-x86",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 4,
+      "pe": null,
+      "types": {
+        "_HANDLE_TABLE": []
+      },
+      "symbols": [
+        "ObHeaderCookie"
+      ],
+      "layout": "services-win8-x86",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 5,
+        "minor": 0,
+        "revision": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 5,
+        "minor": 0,
+        "revision": 0,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 5,
+        "minor": 0,
+        "revision": 0,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 5,
+        "minor": 1,
+        "revision": 2600
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 5,
+        "minor": 1,
+        "revision": 2600,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-2003-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 5,
+        "minor": 1,
+        "revision": 2600,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-2003-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 5,
+        "minor": 2,
+        "revision": 3790
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 5,
+        "minor": 2,
+        "revision": 3790,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-2003-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 5,
+        "minor": 2,
+        "revision": 3790,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-xp-2003-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 6,
+        "minor": 0,
+        "revision": 6000
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 6,
+        "minor": 0,
+        "revision": 6000,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-vista-x64",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 6,
+        "minor": 0,
+        "revision": 6000,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-vista-x64",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 6,
+        "minor": 1,
+        "revision": 7601
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 6,
+        "minor": 1,
+        "revision": 7601,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-vista-x64",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 6,
+        "minor": 1,
+        "revision": 7601,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-vista-x64",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 6,
+        "minor": 2,
+        "revision": 9200
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 6,
+        "minor": 2,
+        "revision": 9200,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win8-x64",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 6,
+        "minor": 2,
+        "revision": 9200,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win8-x64",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 6,
+        "minor": 3,
+        "revision": 9600
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 6,
+        "minor": 3,
+        "revision": 9600,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win8-x64",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 6,
+        "minor": 3,
+        "revision": 9600,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win8-x64",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 10240
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 10240,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win8-x64",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 10240,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win8-x64",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 15062
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 15062,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win8-x64",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 15062,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win8-x64",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 15063
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 15063,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win8-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 15063,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win8-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 15064
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 15064,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win8-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 15064,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win8-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 16298
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 16298,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win8-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 16298,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win8-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 16299
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 16299,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-16299-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 16299,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-16299-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 17763
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 17763,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-16299-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 17763,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-16299-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 18362
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 18362,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-18362-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 18362,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-18362-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 19040
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 19040,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-18362-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 19040,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-18362-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 19041
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 19041,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-19041-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 19041,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-19041-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 25397
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 25397,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-19041-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 25397,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-19041-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 25398
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 25398,
+        "build": 0
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": {
+        "major": 10,
+        "minor": 0,
+        "revision": 25398,
+        "build": 123
+      },
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": null,
+      "types": {},
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": null,
+      "types": {
+        "_HANDLE_TABLE": [
+          "HandleCount"
+        ]
+      },
+      "symbols": [],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    },
+    {
+      "width": 8,
+      "pe": null,
+      "types": {
+        "_EPROCESS": [],
+        "_HANDLE_TABLE": []
+      },
+      "symbols": [
+        "KdCopyDataBlock"
+      ],
+      "layout": "services-win8-x64",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": null,
+      "types": {
+        "_EPROCESS": [
+          "KeepAliveCounter"
+        ],
+        "_HANDLE_TABLE": []
+      },
+      "symbols": [
+        "ObHeaderCookie",
+        "KdCopyDataBlock"
+      ],
+      "layout": "services-win8-x64",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": null,
+      "types": {
+        "_EPROCESS": [
+          "ControlFlowGuardEnabled"
+        ],
+        "_HANDLE_TABLE": []
+      },
+      "symbols": [
+        "ObHeaderCookie",
+        "KdCopyDataBlock"
+      ],
+      "layout": "services-win10-15063-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": null,
+      "types": {
+        "_EPROCESS": [],
+        "_HANDLE_TABLE": []
+      },
+      "symbols": [
+        "ObHeaderCookie",
+        "KdCopyDataBlock"
+      ],
+      "layout": "services-win10-16299-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": null,
+      "types": {
+        "_EPROCESS": [],
+        "_HANDLE_TABLE": []
+      },
+      "symbols": [
+        "ParentSecurityDomain",
+        "KdCopyDataBlock"
+      ],
+      "layout": "services-win8-x64",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": null,
+      "types": {
+        "_EPROCESS": [],
+        "_HANDLE_TABLE": [],
+        "_WNF_PROCESS_CONTEXT": []
+      },
+      "symbols": [
+        "ObHeaderCookie",
+        "KdCopyDataBlock"
+      ],
+      "layout": "services-win10-18362-x64",
+      "list_supported": true,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": null,
+      "types": {
+        "_EPROCESS": [
+          "TimerResolutionIgnore",
+          "VmProcessorHostTransition"
+        ],
+        "_HANDLE_TABLE": [],
+        "_KQOS_GROUPING_SETS": []
+      },
+      "symbols": [
+        "KdCopyDataBlock"
+      ],
+      "layout": "services-win10-19041-x64",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": null,
+      "types": {
+        "_EPROCESS": [
+          "MmSlabIdentity",
+          "EnableProcessImpersonationLogging"
+        ],
+        "_HANDLE_TABLE": []
+      },
+      "symbols": [
+        "KdCopyDataBlock"
+      ],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": true
+    },
+    {
+      "width": 8,
+      "pe": null,
+      "types": {
+        "_HANDLE_TABLE": []
+      },
+      "symbols": [
+        "ObHeaderCookie"
+      ],
+      "layout": "services-win10-25398-x64",
+      "list_supported": false,
+      "vista": false
+    }
+  ]
+}
