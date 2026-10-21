@@ -1,0 +1,234 @@
+{
+  "scope": "Development preview: one Debian x64 module cross-view differential in two taint profiles; complete capability acceptance remains pending.",
+  "profiles": [
+    {
+      "profile": "default",
+      "plugin": "linux.modxview",
+      "task_id": "1683ccb985bc20d4b54e7474409372ac",
+      "unmodified_reference_manifest": {
+        "baseline": {
+          "name": "Volatility 3",
+          "version": "2.28.2",
+          "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+          "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+          "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+          "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+        },
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "plugin": "linux.malware.modxview.Modxview",
+        "parameters": [],
+        "output_sha256": "91278a4247b05dd74d050b7b19d9853ef2761bf0e9cd44c24335bacf587202b7",
+        "config_sha256": "0d07c0088ae87e6d66e18676aec2f045de5b18b1087cccf3ab8478a0c600a2ec",
+        "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+      },
+      "comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Name",
+          "Address",
+          "In procfs",
+          "In sysfs",
+          "In scan",
+          "Taints"
+        ],
+        "native_rows": 79,
+        "reference_rows": 79,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "8a46f81a3505a0a980924e57197a17292a01d7c04fb9758b11104ef70593f1a1",
+          "reference": "91278a4247b05dd74d050b7b19d9853ef2761bf0e9cd44c24335bacf587202b7",
+          "mapping": "df26b44761481d5dbd8a4982cefd85070ffb2d8a2590ee59b44fda09e957117e"
+        },
+        "native_input_rows": 627,
+        "native_non_entity_records": {
+          "source_observation": 3,
+          "module_observation": 237,
+          "sysfs_candidate": 103,
+          "source_selection": 103,
+          "scan_candidate": 101,
+          "summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "module",
+          "excluded_values": [
+            "module_observation",
+            "source_observation",
+            "sysfs_candidate",
+            "source_selection",
+            "scan_candidate",
+            "diagnostic",
+            "summary"
+          ]
+        }
+      },
+      "enumeration_order_matches": true,
+      "coverage": {
+        "diagnostics": "0",
+        "lsmod": "79",
+        "modules": "79",
+        "read_layout_errors": "0",
+        "scan_positions": "587805",
+        "scan_rejected": "22",
+        "scan_self_matches": "101",
+        "scan_unreadable": "79919",
+        "scanner": "79",
+        "scope": "three module sources; missing reads are not evidence of absence",
+        "source_visits": "283",
+        "sysfs": "79"
+      },
+      "record_counts": {
+        "source_observation": 3,
+        "module_observation": 237,
+        "sysfs_candidate": 103,
+        "source_selection": 103,
+        "scan_candidate": 101,
+        "module": 79,
+        "summary": 1
+      },
+      "cli_record_count": 627,
+      "raw_captures_independently_reread": 1973,
+      "fresh_cache_byte_identical": true,
+      "cache_sha256": "8a46f81a3505a0a980924e57197a17292a01d7c04fb9758b11104ef70593f1a1",
+      "bundle": {
+        "verification": {
+          "tasks": 1,
+          "members": 2,
+          "verified": true
+        },
+        "sha256": "0b00a28e22630eb1a7eeb5bb2548d73990d146ffc9c349868e8462cd8331c47a"
+      }
+    },
+    {
+      "profile": "plain",
+      "plugin": "linux.modxview",
+      "task_id": "84463d58f6d91ca2cfbaa65ee8ed6e77",
+      "unmodified_reference_manifest": {
+        "baseline": {
+          "name": "Volatility 3",
+          "version": "2.28.2",
+          "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+          "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+          "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+          "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+        },
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "plugin": "linux.malware.modxview.Modxview",
+        "parameters": [
+          "--plain-taints"
+        ],
+        "output_sha256": "91278a4247b05dd74d050b7b19d9853ef2761bf0e9cd44c24335bacf587202b7",
+        "config_sha256": "65420cf68aee49a8f9ebea786d93249c35f3e204f250593ffd221c671a22519f",
+        "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+      },
+      "comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Name",
+          "Address",
+          "In procfs",
+          "In sysfs",
+          "In scan",
+          "Taints"
+        ],
+        "native_rows": 79,
+        "reference_rows": 79,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "2dad05ed61ab0638483c7bc3473ab65a769085afc64578da3f3503a36d81993e",
+          "reference": "91278a4247b05dd74d050b7b19d9853ef2761bf0e9cd44c24335bacf587202b7",
+          "mapping": "df26b44761481d5dbd8a4982cefd85070ffb2d8a2590ee59b44fda09e957117e"
+        },
+        "native_input_rows": 627,
+        "native_non_entity_records": {
+          "source_observation": 3,
+          "module_observation": 237,
+          "sysfs_candidate": 103,
+          "source_selection": 103,
+          "scan_candidate": 101,
+          "summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "module",
+          "excluded_values": [
+            "module_observation",
+            "source_observation",
+            "sysfs_candidate",
+            "source_selection",
+            "scan_candidate",
+            "diagnostic",
+            "summary"
+          ]
+        }
+      },
+      "enumeration_order_matches": true,
+      "coverage": {
+        "diagnostics": "0",
+        "lsmod": "79",
+        "modules": "79",
+        "read_layout_errors": "0",
+        "scan_positions": "587805",
+        "scan_rejected": "22",
+        "scan_self_matches": "101",
+        "scan_unreadable": "79919",
+        "scanner": "79",
+        "scope": "three module sources; missing reads are not evidence of absence",
+        "source_visits": "283",
+        "sysfs": "79"
+      },
+      "record_counts": {
+        "source_observation": 3,
+        "module_observation": 237,
+        "sysfs_candidate": 103,
+        "source_selection": 103,
+        "scan_candidate": 101,
+        "module": 79,
+        "summary": 1
+      },
+      "cli_record_count": 627,
+      "raw_captures_independently_reread": 1973,
+      "fresh_cache_byte_identical": true,
+      "cache_sha256": "2dad05ed61ab0638483c7bc3473ab65a769085afc64578da3f3503a36d81993e",
+      "bundle": {
+        "verification": {
+          "tasks": 1,
+          "members": 2,
+          "verified": true
+        },
+        "sha256": "0ed4f0e335bee457a15801266097621e172776d8c997c91427aba9567441947c"
+      }
+    }
+  ],
+  "pinned_helper_cases": {
+    "legacy_taints": 14,
+    "dynamic_taints": 32,
+    "aggregation_graphs": 3,
+    "module_validity": 12
+  },
+  "fuzz": {
+    "target": "FuzzLinuxModuleMemoryLayouts",
+    "executions": 506962,
+    "passed": true
+  },
+  "checks": [
+    "make check",
+    "python3 tools/build_modxview_oracle.py --check",
+    "python3 tools/build_inode_mode_oracle.py --check",
+    "python3 tools/baseline_matrix.py --source .cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75 --check",
+    "GOMEM_CORPUS_DIR=\"$PWD/.cache/corpus\" GOMEM_KALI_IMAGE=\"$PWD/images/kali.raw\" go test ./internal/engine -run 'TestOfficialLinuxModxview|TestOfficialLinuxIP|TestOfficialVMCoreInfo|TestLinuxModxview' -count=1 -v",
+    "make build",
+    "git diff --check"
+  ],
+  "pending": [
+    "Actual modern and x86/PAE module corpus differentials",
+    "ARM64 virtual translator and Kali kernel symbols",
+    "Complete damaged-list/partial-read/version/parameter acceptance",
+    "Python Unicode surrogate taint rendering",
+    "Full capability acceptance"
+  ]
+}

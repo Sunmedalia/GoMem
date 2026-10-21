@@ -5,7 +5,6 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
-	"io"
 	"math/big"
 	"strconv"
 	"strings"
@@ -193,23 +192,6 @@ func vmcoreParseBounded(ctx context.Context, data []byte, maxEntries int) ([]vmc
 	return entries, "parsed", nil
 }
 
-func vmcoreCapture(ctx context.Context, layer memory.MemoryLayer, address uint64, size int) ([]byte, evidence.Value, error) {
-	raw := make([]byte, size)
-	got, err := layer.ReadAt(ctx, raw, address)
-	if got < 0 || got > size {
-		got = 0
-		err = fmt.Errorf("invalid VMCOREINFO capture count")
-	}
-	if err == nil && got != size {
-		err = io.ErrUnexpectedEOF
-	}
-	fields := map[string]evidence.Value{"Address": evidence.Address(address), "Raw": evidence.Bytes(raw[:got]), "RequestedBytes": evidence.Number(uint64(size)), "CapturedBytes": evidence.Number(uint64(got)), "ReadComplete": evidence.Bool(err == nil)}
-	if err != nil {
-		fields["Error"] = evidence.Missing("capture_incomplete", err)
-	}
-	return raw[:got], evidence.Value{Kind: "structure", Data: fields}, err
-}
-
 func linuxVMCoreInfo(ctx context.Context, e plugin.Environment, p map[string]string, out plugin.Emit) error {
 	if e.Physical == nil {
 		return fmt.Errorf("VMCOREINFO requires physical memory")
@@ -279,7 +261,7 @@ func linuxVMCoreInfo(ctx context.Context, e plugin.Environment, p map[string]str
 		}
 		address := magic - 12
 		r := base("note_observation", &address)
-		header, proof, err := vmcoreCapture(ctx, e.Physical, address, 24)
+		header, proof, err := linuxCaptureRange(ctx, e.Physical, address, 24)
 		r.Cells["HeaderEvidence"] = proof
 		if err != nil {
 			return diagnose(r, "header_unreadable", err)
@@ -299,7 +281,7 @@ func linuxVMCoreInfo(ctx context.Context, e plugin.Environment, p map[string]str
 		if _, err := memory.Add(descAddress, uint64(descsz)); err != nil {
 			return diagnose(r, "descriptor_address_invalid", err)
 		}
-		data, proof, err := vmcoreCapture(ctx, e.Physical, descAddress, int(descsz))
+		data, proof, err := linuxCaptureRange(ctx, e.Physical, descAddress, int(descsz))
 		r.Cells["DescriptorEvidence"] = proof
 		if err != nil {
 			return diagnose(r, "descriptor_unreadable", err)

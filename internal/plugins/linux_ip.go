@@ -42,28 +42,6 @@ func linuxIPPlugins() []builtin {
 var linuxIPFlagDefaults = map[string]uint64{"IFF_UP": 1, "IFF_BROADCAST": 2, "IFF_DEBUG": 4, "IFF_LOOPBACK": 8, "IFF_POINTOPOINT": 16, "IFF_NOTRAILERS": 32, "IFF_RUNNING": 64, "IFF_NOARP": 128, "IFF_PROMISC": 256, "IFF_ALLMULTI": 512, "IFF_MASTER": 1024, "IFF_SLAVE": 2048, "IFF_MULTICAST": 4096, "IFF_PORTSEL": 8192, "IFF_AUTOMEDIA": 16384, "IFF_DYNAMIC": 32768, "IFF_LOWER_UP": 65536, "IFF_DORMANT": 131072, "IFF_ECHO": 262144}
 var linuxIPStates = []string{"UNKNOWN", "NOTPRESENT", "DOWN", "LOWERLAYERDOWN", "TESTING", "DORMANT", "UP"}
 
-func linuxIPChoices(e plugin.Environment, name string, fallback map[string]uint64) (map[string]uint64, error) {
-	enum, err := e.Symbols.Enumeration(name)
-	if err != nil {
-		if fallback != nil {
-			return fallback, nil
-		}
-		return nil, err
-	}
-	choices := map[string]uint64{}
-	if enum.Size == 0 || enum.Size > 8 {
-		return nil, fmt.Errorf("invalid %s enum size %d", name, enum.Size)
-	}
-	for k, n := range enum.Constants {
-		v, err := strconv.ParseUint(string(n), 10, 64)
-		if err != nil {
-			return nil, fmt.Errorf("invalid %s.%s: %w", name, k, err)
-		}
-		choices[k] = v
-	}
-	return choices, nil
-}
-
 // Preserve the pinned gflags spelling and Flags' any-bit mask semantics.
 func linuxIPFlags(flags, gflags, state, oper uint64, choices, bits map[string]uint64) (string, error) {
 	for _, key := range []string{"__LINK_STATE_START", "__LINK_STATE_NOCARRIER", "__LINK_STATE_DORMANT"} {
@@ -293,8 +271,8 @@ func linuxIP(ctx context.Context, e plugin.Environment, p map[string]string, out
 	if err != nil {
 		return err
 	}
-	choices, choicesErr := linuxIPChoices(e, "net_device_flags", linuxIPFlagDefaults)
-	bits, bitsErr := linuxIPChoices(e, "netdev_state_t", nil)
+	choices, choicesErr := linuxEnumChoices(e, "net_device_flags", linuxIPFlagDefaults)
+	bits, bitsErr := linuxEnumChoices(e, "netdev_state_t", nil)
 	var failures pluginFailures
 	var visits, devices, rows, diagnostics uint64
 	var emitErr error

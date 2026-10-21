@@ -26,6 +26,7 @@ fuzz:
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxArgumentDisplay -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxClockArithmetic -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzVMCoreInfoDescriptor -fuzztime 10s
+	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxModuleMemoryLayouts -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxPsTreeHierarchy -fuzztime 10s
 	$(GO) test ./pkg/memory -run '^$$' -fuzz FuzzDetect -fuzztime 10s
 	$(GO) test ./pkg/memory -run '^$$' -fuzz FuzzAVML -fuzztime 10s

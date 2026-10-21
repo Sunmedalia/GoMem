@@ -1,0 +1,528 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "taints": [
+    {
+      "value": "0",
+      "plain": "",
+      "parsed": ""
+    },
+    {
+      "value": "1",
+      "plain": "PG",
+      "parsed": "PROPRIETARY_MODULE"
+    },
+    {
+      "value": "2",
+      "plain": "",
+      "parsed": ""
+    },
+    {
+      "value": "3",
+      "plain": "PG",
+      "parsed": "PROPRIETARY_MODULE"
+    },
+    {
+      "value": "1024",
+      "plain": "C",
+      "parsed": "CRAP"
+    },
+    {
+      "value": "4096",
+      "plain": "O",
+      "parsed": "OOT_MODULE"
+    },
+    {
+      "value": "8192",
+      "plain": "E",
+      "parsed": "UNSIGNED_MODULE"
+    },
+    {
+      "value": "32768",
+      "plain": "K",
+      "parsed": "LIVEPATCH"
+    },
+    {
+      "value": "65536",
+      "plain": "X",
+      "parsed": "AUX"
+    },
+    {
+      "value": "131072",
+      "plain": "T",
+      "parsed": "RANDSTRUCT"
+    },
+    {
+      "value": "262144",
+      "plain": "N",
+      "parsed": "TEST"
+    },
+    {
+      "value": "9223372036854775808",
+      "plain": "",
+      "parsed": ""
+    },
+    {
+      "value": "18446744073709551615",
+      "plain": "PGCOEKXTN",
+      "parsed": "PROPRIETARY_MODULE,CRAP,OOT_MODULE,UNSIGNED_MODULE,LIVEPATCH,AUX,RANDSTRUCT,TEST"
+    },
+    {
+      "value": "5121",
+      "plain": "PGCO",
+      "parsed": "PROPRIETARY_MODULE,CRAP,OOT_MODULE"
+    }
+  ],
+  "dynamic": [
+    {
+      "value": "0",
+      "plain": "G-",
+      "parsed": "<UNKNOWN_TAINT_CHAR_->"
+    },
+    {
+      "value": "1",
+      "plain": "P-",
+      "parsed": "PROPRIETARY_MODULE,<UNKNOWN_TAINT_CHAR_->"
+    },
+    {
+      "value": "2",
+      "plain": "G-",
+      "parsed": "<UNKNOWN_TAINT_CHAR_->"
+    },
+    {
+      "value": "3",
+      "plain": "P-",
+      "parsed": "PROPRIETARY_MODULE,<UNKNOWN_TAINT_CHAR_->"
+    },
+    {
+      "value": "4",
+      "plain": "G?",
+      "parsed": "<UNKNOWN_TAINT_CHAR_?>"
+    },
+    {
+      "value": "5",
+      "plain": "P?",
+      "parsed": "PROPRIETARY_MODULE,<UNKNOWN_TAINT_CHAR_?>"
+    },
+    {
+      "value": "6",
+      "plain": "G?",
+      "parsed": "<UNKNOWN_TAINT_CHAR_?>"
+    },
+    {
+      "value": "7",
+      "plain": "P?",
+      "parsed": "PROPRIETARY_MODULE,<UNKNOWN_TAINT_CHAR_?>"
+    },
+    {
+      "value": "8",
+      "plain": "G-",
+      "parsed": "<UNKNOWN_TAINT_CHAR_->"
+    },
+    {
+      "value": "9",
+      "plain": "P-",
+      "parsed": "PROPRIETARY_MODULE,<UNKNOWN_TAINT_CHAR_->"
+    },
+    {
+      "value": "10",
+      "plain": "G-",
+      "parsed": "<UNKNOWN_TAINT_CHAR_->"
+    },
+    {
+      "value": "11",
+      "plain": "P-",
+      "parsed": "PROPRIETARY_MODULE,<UNKNOWN_TAINT_CHAR_->"
+    },
+    {
+      "value": "12",
+      "plain": "G?",
+      "parsed": "<UNKNOWN_TAINT_CHAR_?>"
+    },
+    {
+      "value": "13",
+      "plain": "P?",
+      "parsed": "PROPRIETARY_MODULE,<UNKNOWN_TAINT_CHAR_?>"
+    },
+    {
+      "value": "14",
+      "plain": "G?",
+      "parsed": "<UNKNOWN_TAINT_CHAR_?>"
+    },
+    {
+      "value": "15",
+      "plain": "P?",
+      "parsed": "PROPRIETARY_MODULE,<UNKNOWN_TAINT_CHAR_?>"
+    },
+    {
+      "value": "16",
+      "plain": "G-O",
+      "parsed": "<UNKNOWN_TAINT_CHAR_->,OOT_MODULE"
+    },
+    {
+      "value": "17",
+      "plain": "P-O",
+      "parsed": "PROPRIETARY_MODULE,<UNKNOWN_TAINT_CHAR_->,OOT_MODULE"
+    },
+    {
+      "value": "18",
+      "plain": "G-O",
+      "parsed": "<UNKNOWN_TAINT_CHAR_->,OOT_MODULE"
+    },
+    {
+      "value": "19",
+      "plain": "P-O",
+      "parsed": "PROPRIETARY_MODULE,<UNKNOWN_TAINT_CHAR_->,OOT_MODULE"
+    },
+    {
+      "value": "20",
+      "plain": "G?O",
+      "parsed": "<UNKNOWN_TAINT_CHAR_?>,OOT_MODULE"
+    },
+    {
+      "value": "21",
+      "plain": "P?O",
+      "parsed": "PROPRIETARY_MODULE,<UNKNOWN_TAINT_CHAR_?>,OOT_MODULE"
+    },
+    {
+      "value": "22",
+      "plain": "G?O",
+      "parsed": "<UNKNOWN_TAINT_CHAR_?>,OOT_MODULE"
+    },
+    {
+      "value": "23",
+      "plain": "P?O",
+      "parsed": "PROPRIETARY_MODULE,<UNKNOWN_TAINT_CHAR_?>,OOT_MODULE"
+    },
+    {
+      "value": "24",
+      "plain": "G-O",
+      "parsed": "<UNKNOWN_TAINT_CHAR_->,OOT_MODULE"
+    },
+    {
+      "value": "25",
+      "plain": "P-O",
+      "parsed": "PROPRIETARY_MODULE,<UNKNOWN_TAINT_CHAR_->,OOT_MODULE"
+    },
+    {
+      "value": "26",
+      "plain": "G-O",
+      "parsed": "<UNKNOWN_TAINT_CHAR_->,OOT_MODULE"
+    },
+    {
+      "value": "27",
+      "plain": "P-O",
+      "parsed": "PROPRIETARY_MODULE,<UNKNOWN_TAINT_CHAR_->,OOT_MODULE"
+    },
+    {
+      "value": "28",
+      "plain": "G?O",
+      "parsed": "<UNKNOWN_TAINT_CHAR_?>,OOT_MODULE"
+    },
+    {
+      "value": "29",
+      "plain": "P?O",
+      "parsed": "PROPRIETARY_MODULE,<UNKNOWN_TAINT_CHAR_?>,OOT_MODULE"
+    },
+    {
+      "value": "30",
+      "plain": "G?O",
+      "parsed": "<UNKNOWN_TAINT_CHAR_?>,OOT_MODULE"
+    },
+    {
+      "value": "31",
+      "plain": "P?O",
+      "parsed": "PROPRIETARY_MODULE,<UNKNOWN_TAINT_CHAR_?>,OOT_MODULE"
+    }
+  ],
+  "aggregates": [
+    {
+      "sources": {
+        "Lsmod": [
+          [
+            1,
+            "one",
+            10,
+            20
+          ]
+        ],
+        "SysFs": [
+          [
+            1,
+            "one",
+            10,
+            20
+          ],
+          [
+            2,
+            "two",
+            30,
+            40
+          ]
+        ],
+        "Scanner": [
+          [
+            1,
+            "one",
+            10,
+            20
+          ],
+          [
+            2,
+            "two",
+            30,
+            40
+          ],
+          [
+            3,
+            "three",
+            50,
+            60
+          ]
+        ]
+      },
+      "rows": [
+        {
+          "name": "one",
+          "offset": 1,
+          "lsmod": true,
+          "sysfs": true,
+          "scan": true
+        },
+        {
+          "name": "two",
+          "offset": 2,
+          "lsmod": false,
+          "sysfs": true,
+          "scan": true
+        },
+        {
+          "name": "three",
+          "offset": 3,
+          "lsmod": false,
+          "sysfs": false,
+          "scan": true
+        }
+      ],
+      "flattened": [
+        {
+          "offset": 1,
+          "base": 10
+        },
+        {
+          "offset": 2,
+          "base": 30
+        },
+        {
+          "offset": 3,
+          "base": 50
+        }
+      ]
+    },
+    {
+      "sources": {
+        "Lsmod": [
+          [
+            1,
+            "one",
+            10,
+            20
+          ],
+          [
+            2,
+            "two",
+            10,
+            30
+          ]
+        ],
+        "SysFs": [
+          [
+            1,
+            "one",
+            10,
+            20
+          ],
+          [
+            1,
+            "one",
+            10,
+            20
+          ]
+        ],
+        "Scanner": []
+      },
+      "rows": [
+        {
+          "name": "one",
+          "offset": 1,
+          "lsmod": true,
+          "sysfs": true,
+          "scan": false
+        },
+        {
+          "name": "two",
+          "offset": 2,
+          "lsmod": true,
+          "sysfs": false,
+          "scan": false
+        }
+      ],
+      "flattened": [
+        {
+          "offset": 1,
+          "base": 10
+        }
+      ]
+    },
+    {
+      "sources": {
+        "Lsmod": [],
+        "SysFs": [
+          [
+            2,
+            "two",
+            30,
+            40
+          ]
+        ],
+        "Scanner": [
+          [
+            3,
+            "three",
+            50,
+            60
+          ],
+          [
+            2,
+            "two",
+            30,
+            40
+          ]
+        ]
+      },
+      "rows": [
+        {
+          "name": "two",
+          "offset": 2,
+          "lsmod": false,
+          "sysfs": true,
+          "scan": true
+        },
+        {
+          "name": "three",
+          "offset": 3,
+          "lsmod": false,
+          "sysfs": false,
+          "scan": true
+        }
+      ],
+      "flattened": [
+        {
+          "offset": 2,
+          "base": 30
+        },
+        {
+          "offset": 3,
+          "base": 50
+        }
+      ]
+    }
+  ],
+  "validity": [
+    {
+      "core": 4096,
+      "text": 2048,
+      "init": 0,
+      "self": 1,
+      "readable": true,
+      "valid": true
+    },
+    {
+      "core": 1,
+      "text": 1,
+      "init": 4095,
+      "self": 1,
+      "readable": true,
+      "valid": true
+    },
+    {
+      "core": 4095,
+      "text": 1,
+      "init": 0,
+      "self": 1,
+      "readable": true,
+      "valid": false
+    },
+    {
+      "core": 4096,
+      "text": 0,
+      "init": 0,
+      "self": 1,
+      "readable": true,
+      "valid": false
+    },
+    {
+      "core": 0,
+      "text": 1,
+      "init": 4096,
+      "self": 1,
+      "readable": true,
+      "valid": false
+    },
+    {
+      "core": 20000001,
+      "text": 1,
+      "init": 0,
+      "self": 1,
+      "readable": true,
+      "valid": false
+    },
+    {
+      "core": 4096,
+      "text": 20000001,
+      "init": 0,
+      "self": 1,
+      "readable": true,
+      "valid": false
+    },
+    {
+      "core": 4096,
+      "text": 1,
+      "init": 0,
+      "self": 0,
+      "readable": true,
+      "valid": false
+    },
+    {
+      "core": 4096,
+      "text": 1,
+      "init": 0,
+      "self": 2,
+      "readable": true,
+      "valid": false
+    },
+    {
+      "core": 4096,
+      "text": 1,
+      "init": 0,
+      "self": 1,
+      "readable": false,
+      "valid": false
+    },
+    {
+      "core": 1,
+      "text": 1,
+      "init": 18446744073709551615,
+      "self": 1,
+      "readable": true,
+      "valid": true
+    },
+    {
+      "core": 4096,
+      "text": 1,
+      "init": 18446744073709551615,
+      "self": 1,
+      "readable": true,
+      "valid": true
+    }
+  ]
+}

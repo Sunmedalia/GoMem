@@ -2050,15 +2050,26 @@
           "default": false
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Gather symbol-described Intel Linux modules from the active module list, module_kset/sysfs and allocation-area self-pointer scanning. Support legacy module_core/core_size, module_layout and 6.4+ module_memory/mod_mem_type layouts, old/modern kref counters, module_addr_min/max and mod_tree bounds. Sysfs selection uses nonzero name pointers and reference count >2; duplicate names retain last object and first position. Scan at pointer-size steps, validate complete module readability, fixed core/text/init extent conditions and self-reference. Aggregate by module object offset in gatherer order; preserve all source observations, sysfs candidates/selections, valid/rejected scan candidates and raw captures. Decode legacy or kernel-embedded module taints, with plain-taints support. max-nodes/max-scan-bytes and 4096-byte field/module captures are native bounds; failed required reads/layouts retain partial evidence and fail tasks. Allocation holes are counted explicitly as unreadable prefilter positions, not silently called absent modules.",
+      "native": "linux.modxview",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-modxview-x64-x86-pae-three-module-layouts",
+        "pinned-14-legacy-32-dynamic-taints-3-aggregation-12-validity-oracles",
+        "official-linux-sample-1"
+      ],
+      "comparison": "79_modules_default_and_plain_match_all_6_columns_and_order_1973_raw_captures_per_profile_reread",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "One Debian 3.2 x64 image has 79 modules in each of all three sources; default and plain-taints profiles match all six displayed fields and order. 22 additional self-pointer candidates fail module validity and remain raw observations; 79919 unreadable filter positions are counted across 587805 positions",
+        "Synthetic paging validates active/sysfs/scan-only modules, legacy/core_layout/6.4 mem layouts on x64/x86/PAE, mod_tree/old globals, duplicate sysfs names, reference thresholds, null/bad/partial names, source list damage, invalid module self-pointers, malformed layouts, bounds, cancellation, output errors, SQLite verification and cache reuse",
+        "Pinned oracles exercise taint character/description semantics including legacy PG, kernel true/false characters and unknown flags, duplicate-source aggregation versus base-based flattening, and validity boundary arithmetic including full-width init sizes",
+        "Native forward backlink/tail checks do not reproduce all fixed bidirectional recovery cases. Scanner page-prefix buffering preserves readable pointers before a hole, while individually unreadable allocation positions are summarized without a full per-position dump",
+        "Native keeps full canonical addresses; the differential explicitly masks x64 object addresses to match the reference low48 renderer. Missing sources make the task fail; false In-source flags describe actual yields and do not establish complete negative evidence",
+        "Whole module/field captures are bounded at 4096 bytes and arithmetic layout/range overflow fails explicitly. Dynamic taint arrays are bounded at 256 entries; Unicode surrogates are diagnosed rather than silently replaced. Modern/ARM64 real images, manipulated real modules and complete damaged-source/version acceptance remain pending",
+        "Shared module sources and flattening are groundwork for kthreads and other checks; kthreads itself and kernel/module function-symbol resolution are not claimed implemented"
+      ],
+      "validation_record": "docs/linux-modxview.md"
     },
     {
       "id": "linux.malware.netfilter.Netfilter",
