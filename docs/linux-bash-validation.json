@@ -1,0 +1,68 @@
+{
+  "scope": "Development preview: one Debian 3.2 x64 bash history differential. Not complete acceptance.",
+  "plugin": "linux.bash",
+  "task_id": "adb36a94fb50cb1c37c396b77bc9ab08",
+  "task_state": "completed",
+  "reference_manifest": {
+    "baseline": {
+      "name": "Volatility 3",
+      "version": "2.28.2",
+      "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+      "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+    },
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "plugin": "linux.bash.Bash",
+    "parameters": [],
+    "output_sha256": "ca2b388b772a550daa02ce2de63a20053515d58ab6e8f13675e5f24eedb9fced",
+    "config_sha256": "a5b6e418eb6f01f38cde3752f506e41472dd317d7fc20705344d46142cdd3147",
+    "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+  },
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "PID",
+      "Process",
+      "CommandTime",
+      "Command"
+    ],
+    "native_rows": 27,
+    "reference_rows": 27,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "f767625e81fe5c2879d0fbf92cc377d63247c149a5ce91fef93d2a071c7fecb0",
+      "reference": "ca2b388b772a550daa02ce2de63a20053515d58ab6e8f13675e5f24eedb9fced",
+      "mapping": "71402cda7d5c29d048996b8dff6de14a8afee8afc5e7f2f1fc270e408816f27f"
+    },
+    "native_input_rows": 28,
+    "native_non_entity_records": {
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "value": "history",
+      "excluded_values": [
+        "diagnostic",
+        "summary"
+      ]
+    }
+  },
+  "native_rows": 28,
+  "native_summary": {
+    "shells": "3",
+    "entries": "27",
+    "read_layout_errors": "0"
+  },
+  "cache": {
+    "reused": true,
+    "jsonl_sha256": "f767625e81fe5c2879d0fbf92cc377d63247c149a5ce91fef93d2a071c7fecb0"
+  },
+  "limitations": [
+    "Pinned hist_entry layout only",
+    "No 32-bit or alternate bash build differential",
+    "Timeline output pending"
+  ]
+}

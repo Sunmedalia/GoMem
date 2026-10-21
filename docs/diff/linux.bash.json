@@ -1,0 +1,9 @@
+{
+  "native_record_type": {"field": "RecordType", "value": "history", "excluded_values": ["diagnostic", "summary"]},
+  "fields": {
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "Process": {"native": "Process", "reference": "Process", "kind": "string"},
+    "CommandTime": {"native": "CommandTime", "reference": "CommandTime", "kind": "timestamp_seconds"},
+    "Command": {"native": "Command", "reference": "Command", "kind": "string"}
+  }
+}

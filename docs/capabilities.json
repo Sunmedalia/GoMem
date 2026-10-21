@@ -296,15 +296,20 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Intel Linux tasks named bash, sh, or dash. Scan readable ranges of VMAs overlapping the heap for pinned hist_entry records. Require a nonempty command and a decimal #timestamp. Sort by Unix second, then entry address. Invalid candidates are not rows. Read failures on a selected shell stay diagnostics and fail the task.",
+      "native": "linux.bash",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "official-linux-sample-1"
+      ],
+      "comparison": "27_history_rows_match_pid_process_time_command_and_order",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "One Debian 3.2 x64 image has three shells and 27 valid entries. All four displayed fields and order match",
+        "The hist_entry layout is the pinned bash64/bash32 profile, not a layout recovered from the target bash binary",
+        "32-bit images, other bash builds, modern kernels, ARM64, and timeline output remain pending"
+      ],
+      "validation_record": "docs/linux-bash.md"
     },
     {
       "id": "linux.boottime.Boottime",
