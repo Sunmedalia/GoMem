@@ -1,0 +1,18 @@
+{
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "Offset", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "PID": {"native": "PID", "reference": "PID", "kind": "uint64"},
+    "TID": {"native": "TID", "reference": "TID", "kind": "uint64"},
+    "StartAddress": {"native": "StartAddress", "reference": "StartAddress", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Win32StartAddress": {"native": "Win32StartAddress", "reference": "Win32StartAddress", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "StartPath": {"native": "StartPath", "reference": "StartPath", "kind": "string", "missing_reasons": ["not_set", "not_file_backed", "not_mapped_in_vad", "system_thread_mapping_not_applicable", "owner_not_valid"]},
+    "Win32StartPath": {"native": "Win32StartPath", "reference": "Win32StartPath", "kind": "string", "missing_reasons": ["not_set", "not_file_backed", "not_mapped_in_vad", "system_thread_mapping_not_applicable", "owner_not_valid"]},
+    "CreateTime": {"native": "CreateTime", "reference": "CreateTime", "kind": "timestamp_seconds", "missing_reasons": ["not_set", "unparsable_filetime"]},
+    "ExitTime": {"native": "ExitTime", "reference": "ExitTime", "kind": "timestamp_seconds", "missing_reasons": ["not_set", "unparsable_filetime"]}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["thread"],
+    "excluded_values": ["summary", "diagnostic"]
+  }
+}

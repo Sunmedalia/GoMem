@@ -65,3 +65,5 @@
 2026-10-21：windows.timers 列出内核定时器。选定 Windows 10 19041 样本的 44 行与固定基线一致，512 条链表里检查了 317 个对象，273 个 DPC 被跳过，23 个符号不可用。真实 32 位镜像和时间线还没有验收。[详情](windows-timers.md)
 
 2026-10-21：windows.virtmap 列出内核系统虚拟地址区。选定 Windows 10 19041 样本的 13 行与固定基线一致，名称来自 `SystemVaRegions` 下标。`Size` 是字节数，不是结束地址。真实 32 位镜像和类型数组路径还没有验收。[详情](windows-virtmap.md)
+
+2026-10-21：windows.orphan_kernel_threads 在线程池扫描上寻找模块外的内核线程。选定 Windows 10 19041 样本的 1752 个线程里，1490 个不是 System 或其子进程，3 个已退出或已终止，2 个起始地址在内核范围之下，257 个落在模块里，输出 0 行，与固定基线一致。带孤儿线程的样本还没有验收。[详情](windows-orphan-kernel-threads.md)

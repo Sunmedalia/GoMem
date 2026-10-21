@@ -8701,15 +8701,24 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "ETHREAD pool scan with the same Thr\\xe5 and Thre constraints as windows.thrdscan. The owning process is ThreadsProcess, or else Tcb.Process. UniqueProcessId and InheritedFromUniqueProcessId are masked like pointers. Only PID 4 or PPID 4 continues. An unreadable owner, PID, PPID or StartAddress is skipped. ExitTime.QuadPart is signed and a value above 0 is exited. Tcb.State 4 is terminated. An unreadable exit time or state fails the task. StartAddress is masked and compared with the masked MmSystemRangeStart; an unreadable symbol value falls back to 0xFFFF800000000000 or 0x80000000 before the mask. Modules come from PsLoadedModuleList. An unreadable module name is skipped. An unreadable base or size, or a duplicate module stem, fails the task. A canonical start inside any loaded module, using base <= address <= base+size, is omitted. Surviving threads use the windows.thrdscan field and path rules, including the CID PID rather than the owner PID. max-nodes bounds only VAD paths and is not an upstream parameter. The summary row is not a thread.",
+      "native": "windows.orphan_kernel_threads",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_0_rows_match_after_1752_threads_are_classified",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It examines 1752 threads, skips 1490 that are not System or a child of System, 3 exited or terminated threads, 2 starts below the kernel range and 257 starts inside a loaded module, and emits no orphan",
+        "The selected image therefore does not exercise path resolution or a positive orphan row. A corpus with an orphan kernel thread remains pending",
+        "32-bit images remain pending. The synthetic check covers only the pointer mask used before the kernel-range comparison",
+        "A duplicate loaded-module stem fails the task. This image has none",
+        "Reference addresses omit the canonical high bits. The comparison masks both sides to the low 48 bits",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-orphan-kernel-threads.md"
     },
     {
       "id": "windows.pe_symbols.PESymbols",
