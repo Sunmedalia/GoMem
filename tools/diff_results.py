@@ -31,6 +31,14 @@ def normalized(value, kind, mask=None, missing_reasons=()):
         value = value.get("value")
     if value is None:
         return {"missing": "reference-null"}
+    if kind == "artifact_name":
+        # This profile compares the displayed filename only. File contents,
+        # state, hashes and gap provenance require separate extraction checks.
+        if isinstance(value, dict) and isinstance(value.get("name"), str):
+            return value["name"]
+        if isinstance(value, str):
+            return value
+        raise ValueError("artifact_name requires a filename or artifact object")
     if kind in ("address", "uint64", "int64"):
         number = int(value, 0) if isinstance(value, str) and value.lower().startswith("0x") else int(value)
         if mask is not None:

@@ -1,0 +1,7 @@
+{
+  "fields": {
+    "Base": {"native": "Base", "reference": "Base", "kind": "address"},
+    "File Size": {"native": "File Size", "reference": "File Size", "kind": "uint64"},
+    "File output": {"native": "File output", "reference": "File output", "kind": "artifact_name"}
+  }
+}

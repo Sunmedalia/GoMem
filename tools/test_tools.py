@@ -12,6 +12,15 @@ from compare_extractions import compare as compare_extractions
 
 
 class DifferentialTests(unittest.TestCase):
+    def test_artifact_filename_profile_keeps_errors_distinct(self):
+        artifact = {"kind": "artifact", "value": {"name": "module.elf", "state": "completed_with_gaps", "sha256": "other-check"}}
+        self.assertEqual(normalized_result(artifact, "artifact_name"), "module.elf")
+        self.assertEqual(normalized_result("module.elf", "artifact_name"), "module.elf")
+        missing = {"kind": "missing", "reason": "unreadable", "error": "page absent"}
+        self.assertEqual(normalized_result(missing, "artifact_name"), {"missing": "unreadable", "error": "page absent"})
+        with self.assertRaisesRegex(ValueError, "artifact_name"):
+            normalized_result({"size": "0"}, "artifact_name")
+
     def test_nanosecond_comparison_rounding_is_explicit_and_exact(self):
         profile = "timestamp_microseconds_rounded"
         self.assertEqual(normalized_result("2014-06-24T10:22:33.016000956Z", profile), "2014-06-24T10:22:33.016001+00:00")

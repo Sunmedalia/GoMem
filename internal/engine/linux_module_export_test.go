@@ -160,6 +160,14 @@ func moduleExportEngine(t *testing.T, arch, layout, fault string) *engine.Engine
 	if fault == "gaps" {
 		data = data[:0x31000]
 	}
+	if fault == "extract-only" {
+		for _, name := range []string{"modules", "init_task", "module_kset", "param_get_int"} {
+			delete(table.Symbols, name)
+		}
+		for _, name := range []string{"list", "mkobj", "module_core", "core_size", "core_text_size", "init_size", "taints", "kp", "num_kp"} {
+			delete(table.Types["module"].Fields, name)
+		}
+	}
 	encoded, err := table.Encode()
 	if err != nil {
 		t.Fatal(err)

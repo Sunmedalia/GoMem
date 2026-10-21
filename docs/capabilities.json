@@ -2356,15 +2356,23 @@
           }
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Direct Intel Linux module ELF extraction from a required base virtual address, without active/sysfs module lists, code extents, taints or load-parameter decoding. Preserve the exact input Base and use it in the standalone filename. Accept low48 x64 offsets by translating to canonical kernel addresses retained on KernelAddress and provenance. Probe one source byte, retain the module name and original ELF symbol bytes, and use the shared bounded reconstruction/artifact writer with explicit gap logs. Invalid/unreadable objects retain failed extraction evidence rather than the reference's empty result. Native max-module-bytes is an allocation bound.",
+      "native": "linux.module_extract",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-module-extract-x64-x86-pae-legacy-inline-pointer",
+        "official-linux-sample-1"
+      ],
+      "comparison": "three_real_base_profiles_match_base_size_filename_and_elf_bytes_with_verified_padding",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Real Debian x64 coverage is rfcomm and parport_pc; the latter is tested with both low48 and canonical input addresses. Its parameter arrays fail in lsmod but are not a prerequisite for direct extraction",
+        "Nine synthetic ABI/kallsyms profiles remove modules/init_task/module_kset and module list/layout/taint/parameter members before loading symbols. Positive direct extraction and cached JSONL replay still succeed",
+        "Unreadable bases/names/metadata/symbols and native count/byte bounds fail tasks with explicit missing file/size evidence. Reference invalid-base or reconstruction failure yields no row; that diagnostic difference is intentional",
+        "Shared extraction retains the pinned ELF index/link quirks and native limits; see docs/linux-module-elf.md. Output is a reconstruction, not a fully normalized/original disk ELF",
+        "Actual x86/PAE acquisitions, real modern metadata, ARM64 virtual translation and full smeared/version/parameter acceptance remain pending"
+      ],
+      "validation_record": "docs/linux-module-extract.md"
     },
     {
       "id": "linux.modxview.Modxview",

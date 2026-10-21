@@ -467,6 +467,10 @@ func linuxBuildModuleELF(n *linuxModuleRead, module, max uint64) (*elfimage.Modu
 }
 
 func linuxDumpModule(s *linuxModuleSources, row *evidence.Row, address, max uint64) {
+	linuxDumpModuleAs(s, row, address, max, "")
+}
+
+func linuxDumpModuleAs(s *linuxModuleSources, row *evidence.Row, address, max uint64, filename string) {
 	if row.Cells["Name"].Kind != "string" {
 		err := fmt.Errorf("module name unavailable for extraction")
 		s.failures.add(err)
@@ -494,7 +498,10 @@ func linuxDumpModule(s *linuxModuleSources, row *evidence.Row, address, max uint
 		row.Cells["File Output"] = evidence.Missing("module_elf_unavailable", maskErr)
 		return
 	}
-	w, err := s.e.Artifacts.Create(s.ctx, evidence.ArtifactRequest{Name: fmt.Sprintf("kernel_module.%s.%#x.elf", name, address&mask), Size: uint64(len(image.Data)), Layer: s.e.Kernel.Name(), Offset: fmt.Sprintf("0x%x", address)})
+	if filename == "" {
+		filename = fmt.Sprintf("kernel_module.%s.%#x.elf", name, address&mask)
+	}
+	w, err := s.e.Artifacts.Create(s.ctx, evidence.ArtifactRequest{Name: filename, Size: uint64(len(image.Data)), Layer: s.e.Kernel.Name(), Offset: fmt.Sprintf("0x%x", address)})
 	if err != nil {
 		s.failures.add(err)
 		row.Cells["File Output"] = evidence.Missing("module_elf_unavailable", err)
