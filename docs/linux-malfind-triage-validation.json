@@ -1,0 +1,75 @@
+{
+  "schema": "gomem.linux-malfind-triage-validation/v1",
+  "date": "2026-10-21",
+  "release": "development-preview",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "rules_version": "v8",
+  "checks": [
+    "make check",
+    "make matrix",
+    "python3 tools/build_inode_mode_oracle.py --check",
+    "python3 tools/build_malfind_oracle.py --check",
+    "go test -race ./internal/engine -run TestLinuxMalfind -count=1",
+    "go test -race ./internal/triage -count=1",
+    "GOMEM_CORPUS_DIR=$PWD/.cache/corpus go test -race ./internal/triage -run TestOfficialLinuxMalfindTriageCoverage -count=1 -v"
+  ],
+  "debian": {
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "cli_summary_sha256": "191b00f5ee8ba3633be4634c1afba37b4e93f1592ca6974fb4e37489f4311183",
+    "cli_state": "incomplete",
+    "all_rule_findings": 5,
+    "malfind_checks": [
+      {
+        "rule": "anonymous-executable-region",
+        "state": "incomplete",
+        "reason": "triage coverage incomplete; inspect check states and coverage",
+        "findings": 0,
+        "coverage": {
+          "diagnostics": "2880",
+          "dirty_scans": "3192",
+          "invalid_records": "0",
+          "missing_pages": "149562",
+          "probes": "210847",
+          "rows": "3192",
+          "source_error": "Linux suspicious executable mappings: 2880 failures; first error: dirty page probes: 3 failures; first error: page 0x400000: unmapped memory: nonpresent page-table entry 0x0 at 0x1d62b000 (prototype/swap or unsupported software encoding)",
+          "source_state": "failed"
+        }
+      },
+      {
+        "rule": "executable-dirty-page",
+        "state": "incomplete",
+        "reason": "triage coverage incomplete; inspect check states and coverage",
+        "findings": 0,
+        "coverage": {
+          "diagnostics": "2880",
+          "dirty_scans": "3192",
+          "invalid_records": "0",
+          "missing_pages": "149562",
+          "probes": "210847",
+          "rows": "3192",
+          "source_error": "Linux suspicious executable mappings: 2880 failures; first error: dirty page probes: 3 failures; first error: page 0x400000: unmapped memory: nonpresent page-table entry 0x0 at 0x1d62b000 (prototype/swap or unsupported software encoding)",
+          "source_state": "failed"
+        }
+      }
+    ],
+    "finding_task": "24f5a9056383d6f4e736428cdd002d5b"
+  },
+  "kali": {
+    "image_sha256": "cf04d76ab9177d7ee355cc96020d29ae194c065c692304ff25e594ab510c639d",
+    "plugin": "linux.vmcoreinfo",
+    "cli_output_sha256": "8da5dace34d22adf0100a586907430632e7f44bc0849371e1cf86e1f7e0d9802",
+    "state": "completed",
+    "rows": 115,
+    "entries": 111,
+    "note_observations": 3,
+    "summary_rows": 1,
+    "limitation": "physical-only; ARM64 virtual translation not implemented"
+  },
+  "limitations": [
+    "No positive real injection corpus acceptance",
+    "Triage validates captured proof consistency, not independent whole-address-space replay",
+    "Zero findings with missing pages remains incomplete",
+    "195 upstream classes inventoried; zero certified complete"
+  ]
+}

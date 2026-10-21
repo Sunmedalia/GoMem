@@ -169,7 +169,7 @@ func TestLinuxHiddenTaskPipelineControlsResidualsPIDReuseAndWhitelist(t *testing
 				}
 			}
 			for _, task := range again.Tasks {
-				if !task.Reused {
+				if task.Task.State == "completed" && !task.Reused {
 					t.Fatal("completed producer not reused", task)
 				}
 			}

@@ -151,3 +151,5 @@ substitutes for the unmodified plugin run. Optional skipped tests do not
 establish acceptance. Positive real suspicious mappings, modern kernels,
 actual x86/PAE acquisitions, ARM64 translation, complete parameter/corruption
 and disassembly differentials remain pending. The capability stays partial.
+
+自动分诊规则、部分失败任务的保留和覆盖语义见 [Linux Malfind 分诊](linux-malfind-triage.md)。

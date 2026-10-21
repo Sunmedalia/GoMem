@@ -116,6 +116,9 @@ func TestWritableExecutableProtectionModifiersAndCopyOnWriteControl(t *testing.T
 }
 func TestEveryRulePositiveAndControl(t *testing.T) {
 	for _, rule := range Rules {
+		if rule.Kind == "linux-malfind" {
+			continue
+		} // Dedicated raw-proof and source-task tests.
 		t.Run(rule.ID, func(t *testing.T) {
 			known := row(0x1000, "known")
 			other := row(0x2000, "other")
@@ -290,7 +293,11 @@ func TestLinuxNativeMappingRulesControlsAndSourceReferences(t *testing.T) {
 					t.Fatal(s, err)
 				}
 			}
-			if !errors.Is(err, ErrIncomplete) || s.Findings != count*2 {
+			extra := 0
+			if scenario == "normal" {
+				extra = 2
+			} // Anonymous RX is still an indicator, even with no deleted/RWX mappings.
+			if !errors.Is(err, ErrIncomplete) || s.Findings != count*2+extra {
 				t.Fatal(s, err)
 			}
 			if scenario == "normal" {

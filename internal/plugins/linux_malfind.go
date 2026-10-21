@@ -31,7 +31,7 @@ func linuxMalfindPlugins() []builtin {
 			{Name: "max-pages", Kind: "uint", Default: "16777216", Description: "Total executable page-table probes, 1..1073741824"},
 		}, Columns: []evidence.Column{
 			{Name: "PID", Kind: "uint64"}, {Name: "Process", Kind: "string"}, {Name: "Start", Kind: "address"}, {Name: "End", Kind: "address"}, {Name: "Path", Kind: "string"}, {Name: "Protection", Kind: "string"}, {Name: "Hexdump", Kind: "bytes"}, {Name: "Disasm", Kind: "string"}, {Name: "FileOutput", Kind: "artifact"},
-			{Name: "Reason", Kind: "string"}, {Name: "RegionStart", Kind: "address"}, {Name: "RegionSize", Kind: "uint64"}, {Name: "DataAddress", Kind: "address"}, {Name: "Disassembly", Kind: "structure"}, {Name: "Offset", Kind: "address"}, {Name: "ProcessOffset", Kind: "address"}, {Name: "ProcessIdentity", Kind: "string"}, {Name: "FieldEvidence", Kind: "structure"}, {Name: "RecordType", Kind: "string"}, {Name: "Error", Kind: "missing"},
+			{Name: "Reason", Kind: "string"}, {Name: "RegionStart", Kind: "address"}, {Name: "RegionSize", Kind: "uint64"}, {Name: "DataAddress", Kind: "address"}, {Name: "Disassembly", Kind: "structure"}, {Name: "Offset", Kind: "address"}, {Name: "ProcessOffset", Kind: "address"}, {Name: "ProcessIdentity", Kind: "string"}, {Name: "Created", Kind: "uint64"}, {Name: "FieldEvidence", Kind: "structure"}, {Name: "RecordType", Kind: "string"}, {Name: "Error", Kind: "missing"},
 		}}, linuxMalfind}}
 }
 
@@ -94,7 +94,7 @@ func linuxMalfind(ctx context.Context, e plugin.Environment, p map[string]string
 		identity := evidence.ProcessID(e.ImageHash, e.Kernel.Name(), task, pid, stamp)
 		base := func(r linuxELFRegion) evidence.Row {
 			row := evidence.Row{Cells: map[string]evidence.Value{
-				"PID": evidence.Number(pid), "Process": evidence.Text(name), "Start": evidence.Address(r.start), "End": evidence.Address(r.end), "Offset": evidence.Address(r.object), "ProcessOffset": evidence.Address(task), "ProcessIdentity": evidence.Text(identity), "RecordType": evidence.Text("malfind_region"), "Error": evidence.Missing("not_applicable", nil), "FileOutput": evidence.Missing("not_requested", nil),
+				"PID": evidence.Number(pid), "Process": evidence.Text(name), "Start": evidence.Address(r.start), "End": evidence.Address(r.end), "Offset": evidence.Address(r.object), "ProcessOffset": evidence.Address(task), "ProcessIdentity": evidence.Text(identity), "Created": created, "RecordType": evidence.Text("malfind_region"), "Error": evidence.Missing("not_applicable", nil), "FileOutput": evidence.Missing("not_requested", nil),
 			}, Provenance: evidence.Provenance{Layer: e.Kernel.Name(), Offset: fmt.Sprintf("0x%x", r.object)}}
 			if r.end == 0 {
 				row.Cells["Start"] = evidence.Missing("vma_not_available", nil)

@@ -16,6 +16,14 @@ func emitFinding(ctx context.Context, rule Rule, row evidence.Row, entity string
 		return fmt.Errorf("rule input lacks sealed evidence provenance")
 	}
 	cells := map[string]evidence.Value{"Rule": evidence.Text(rule.ID), "Severity": evidence.Text(rule.Severity), "Basis": evidence.Text(rule.Basis), "FalsePositive": evidence.Text(rule.FalsePositive), "Entity": evidence.Text(entity), "EvidenceIDs": {Kind: "references", Data: refs}}
+	if rule.Kind == "linux-malfind" {
+		cells["SourcePlugin"] = evidence.Text(row.Provenance.Plugin)
+		for _, key := range []string{"PID", "Process", "ProcessIdentity", "ProcessOffset", "Created", "Offset", "Start", "End", "Path", "Protection", "Reason", "RegionStart", "RegionSize", "DataAddress", "Hexdump", "Disasm", "Disassembly", "FileOutput", "FieldEvidence", "Error"} {
+			if value, ok := row.Cells[key]; ok {
+				cells[key] = value
+			}
+		}
+	}
 	if rule.Kind == "module-difference" {
 		cells["SourcePlugin"] = evidence.Text(row.Provenance.Plugin)
 		cells["Assessment"] = evidence.Text("Pool-scanned loader object absent from the loaded-module list; stale or unloaded allocations may explain this mismatch")

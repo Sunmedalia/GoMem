@@ -36,6 +36,8 @@ var Rules = []Rule{
 	{"suspicious-thread-start", "high", "A live thread entry maps to a VAD with no readable file path, unexpected initial protection, or another executable path; addresses are checked once per process.", "JIT, legitimate unpackers and acquisition smear may trigger this check. An unreadable path does not prove that a mapping has no file.", []string{"suspicious_threads"}, "native-check"},
 	{"hollow-process-mapping", "high", "The native PEB image base differs from the kernel section base, the executable VAD is missing, or an executable/loader DLL VAD has unexpected initial protection.", "Legitimate loaders, modified mappings, exiting processes and acquisition smear may differ. These checks alone do not establish process hollowing.", []string{"hollowprocesses"}, "native-check"},
 	{"peb-string-length", "info", "A nonempty native PEB string has Length/2 or MaximumLength/2-1 different from its decoded Unicode codepoint count.", "Embedded NUL, legitimate buffer allocation, Unicode surrogate pairs and acquisition smear can explain this length indicator. Correlate kernel names and raw bytes before assessing masquerading.", []string{"pebmasquerade"}, "native-check"},
+	{"anonymous-executable-region", "medium", "An anonymous VMA has exactly read/execute protection, supported by captured vm_flags and null vm_file bytes.", "JIT, runtime trampolines and legitimate in-memory loaders can create anonymous executable mappings.", []string{"malfind"}, "linux-malfind"},
+	{"executable-dirty-page", "high", "An executable mapping has a hardware dirty leaf independently captured from physical memory.", "Relocations, breakpoints, legitimate patching and acquisition smear can explain dirty executable pages; a dirty bit alone does not establish injection.", []string{"malfind"}, "linux-malfind"},
 }
 
 func ruleForPlatform(rule Rule, platform string) Rule {
@@ -90,6 +92,13 @@ func Evaluate(ctx context.Context, r Rule, inputs map[string][]evidence.Row, emi
 		return emitFinding(ctx, r, row, entity, refs, emit)
 	}
 	switch r.Kind {
+	case "linux-malfind":
+		evaluator := malfindEvaluator{rule: r}
+		if err := evaluator.consume(ctx, inputs["malfind"], emit); err != nil {
+			return err
+		}
+		_, err := evaluator.finish()
+		return err
 	case "module-difference":
 		evaluator := moduleViewEvaluator{rule: r}
 		if err := evaluator.consume(ctx, inputs["modules"], false, emit); err != nil {
@@ -266,6 +275,8 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 	}
 	order = append(order, "maps")
 	if os == "linux" {
+		names["malfind"] = "linux.malfind"
+		order = append(order, "malfind")
 		names["psscan"] = "linux.psscan"
 		order = append(order, "psscan")
 	} else {
@@ -282,9 +293,15 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 		if key == "pslist" && os == "linux" {
 			parameters = map[string]string{"threads": "true"}
 		}
+		if key == "malfind" {
+			parameters = map[string]string{"show-all-dirty-pages": "true"}
+		}
 		res, runErr := e.Run(ctx, names[key], parameters, engine.RunOptions{})
 		if runErr != nil {
 			failures[key] = runErr.Error()
+			if key == "malfind" && res.Task.ID != "" {
+				tasks[key] = res.Task
+			}
 		} else {
 			tasks[key] = res.Task
 		}
@@ -312,7 +329,7 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 	}
 	b, _ := json.Marshal(summary.Tasks)
 	hash := sha256.Sum256(b)
-	task, err := e.Store.Begin(ctx, "triage:"+hex.EncodeToString(hash[:]), "triage", evidence.Provenance{ImageSHA256: e.Hash, Engine: version.Version, EngineBuild: e.Build, Plugin: "triage", Layer: e.Env.Physical.Name(), Parameters: map[string]string{"rules": "v7"}})
+	task, err := e.Store.Begin(ctx, "triage:"+hex.EncodeToString(hash[:]), "triage", evidence.Provenance{ImageSHA256: e.Hash, Engine: version.Version, EngineBuild: e.Build, Plugin: "triage", Layer: e.Env.Physical.Name(), Parameters: map[string]string{"rules": "v8"}})
 	if err != nil {
 		return summary, err
 	}
@@ -322,6 +339,11 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 	for _, rule := range Rules {
 		rule = ruleForPlatform(rule, os)
 		check := Check{Rule: rule.ID, State: "unavailable"}
+		if rule.Kind == "linux-malfind" && os != "linux" {
+			check.State, check.Reason = "not_applicable", "Linux-only native check"
+			summary.Checks = append(summary.Checks, check)
+			continue
+		}
 		if rule.Kind == "native-check" && os != "windows" {
 			check.State, check.Reason = "not_applicable", "Windows-only native check"
 			summary.Checks = append(summary.Checks, check)
@@ -364,6 +386,10 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 			if allowed {
 				return nil
 			}
+			if rule.Kind == "linux-malfind" {
+				row.Cells["SourceTask"] = evidence.Value{Kind: "structure", Data: comparisonTask(tasks["malfind"])}
+				row.Seal()
+			}
 			if rule.Kind == "difference" || rule.Kind == "module-difference" {
 				model := "same image and address space; physical coordinates when declared"
 				if rule.Kind == "module-difference" {
@@ -383,7 +409,28 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 			return nil
 		}
 		if available {
-			if rule.Kind == "module-difference" {
+			if rule.Kind == "linux-malfind" {
+				input := tasks["malfind"]
+				evaluator := malfindEvaluator{rule: rule, source: &input}
+				for off := 0; ; off += 500 {
+					rows, readErr := e.Store.Query(ctx, evidence.Query{TaskID: input.ID, Offset: off, Limit: 500})
+					if readErr != nil {
+						err = readErr
+						break
+					}
+					if err = evaluator.consume(ctx, rows, emit); err != nil || len(rows) < 500 {
+						break
+					}
+				}
+				if err == nil {
+					var coverageErr error
+					check.Coverage, coverageErr = evaluator.finish()
+					check.State = "completed"
+					if coverageErr != nil {
+						check.State, check.Reason = "incomplete", coverageErr.Error()
+					}
+				}
+			} else if rule.Kind == "module-difference" {
 				evaluator := moduleViewEvaluator{rule: rule, resolve: physicalModuleResolver(e.Env)}
 				for index, key := range rule.Inputs {
 					for off := 0; ; off += 500 {
