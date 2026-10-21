@@ -18,6 +18,8 @@ baseline:
 matrix:
 	python3 tools/baseline_matrix.py --source $(BASELINE) --check
 fuzz:
+	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxFramebufferAcquisition -fuzztime 10s
+	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxFramebufferPixels -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxPerfEvents -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxKmsgRings -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxPIDHash -fuzztime 10s

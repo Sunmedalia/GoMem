@@ -844,15 +844,25 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Linux kernels with typed num_registered_fb, registered_fb and fb_info/fix/var/device layouts. Enumerate virtual framebuffer resolution, size, state and names; optional case-owned PNG for bitfield colors or raw for FOURCC. Generic pointer-width reads work with native x64/x86/PAE and configured ARM64 layers.",
+      "native": "linux.fbdev",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-fbdev-26-byte-backed-object-cases",
+        "synthetic-linux-fbdev-x64-x86-pae-39-paging-cases",
+        "official-linux-sample-1-zero-framebuffer-control",
+        "local-kali-6.8.11-arm64-positive-native-smoke"
+      ],
+      "comparison": "26_pinned_object_cases_metadata_and_RGBA_or_raw_match_39_native_paging_cases_Debian_empty_control_Kali_native_only_no_ARM64_upstream_translation",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Kali ARM64 has one native 1024x768 XRGB framebuffer with independently reread source, pixel comparison, artifact and stored evidence seals and cache replay. The baseline misidentifies ARM64 as Intel and faults; this is not a real positive upstream differential. Native framebuffer bytes contain only zero RGB and opaque alpha, so varied real display content remains pending",
+        "Native cumulative acquisition, source/decoded/encoded allocation, count and layout bounds reject oversized dimensions, non-byte-aligned or >64 bpp and malformed color fields; pinned code can consume unbounded resources or render zero-step pixels. Full malformed-layout parity pending",
+        "Pinned sequential pixels ignore row padding, do not scale low-bit channels and clamp wide values through Pillow; 26 object fixtures include these quirks, short buffers, reverse fields, Unicode, grayscale and FOURCC. PNG compression bytes differ by encoder; decoded RGBA is compared",
+        "Native mandatory read/layout failures retain raw partial evidence and fail tasks; device name failures retain typed missing and also fail instead of silent baseline missing. Filename path separators/control bytes are sanitized and artifacts never leave case storage",
+        "Real Intel positive exports, real FOURCC, broader kernel/platform versions, every parameter/renderer and full capability acceptance remain pending"
+      ],
+      "validation_record": "docs/linux-fbdev.md"
     },
     {
       "id": "linux.hidden_modules.Hidden_modules",

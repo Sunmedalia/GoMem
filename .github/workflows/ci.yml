@@ -36,7 +36,7 @@ jobs:
       - run: python3 tools/build_argument_fixtures.py --check
       - run: python3 tools/build_inode_mode_oracle.py --check
       - run: python3 tools/fetch_baseline.py
-      - run: python3 -m pip install pefile==2024.8.26
+      - run: python3 -m pip install pefile==2024.8.26 Pillow==12.2.0
       - run: python3 tools/build_service_oracle.py --check
       - run: python3 tools/build_vad_oracle.py --check
       - run: python3 tools/build_suspicious_thread_oracle.py --check
@@ -61,6 +61,7 @@ jobs:
       - run: python3 tools/build_pidhashtable_oracle.py --check
       - run: python3 tools/build_kmsg_oracle.py --check
       - run: python3 tools/build_perf_events_oracle.py --check
+      - run: python3 tools/build_fbdev_oracle.py --check
       - run: python3 tools/build_kthreads_oracle.py --check
       - run: python3 tools/build_afinfo_oracle.py --check
       - run: python3 tools/build_idt_oracle.py --check
@@ -69,6 +70,8 @@ jobs:
       - run: python3 tools/build_ptrace_oracle.py --check
       - run: python3 tools/build_linux_pstree_oracle.py --check
       - run: python3 tools/baseline_matrix.py --source .cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75 --check
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxFramebufferAcquisition -fuzztime 5s
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxFramebufferPixels -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxPerfEvents -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxKmsgRings -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxPIDHash -fuzztime 5s

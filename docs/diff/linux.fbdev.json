@@ -1,0 +1,12 @@
+{
+  "native_record_type": {"field":"RecordType","value":"framebuffer","excluded_values":["framebuffer_read"]},
+  "fields": {
+    "Address":{"native":"Address","reference":"Address","kind":"address","mask":"0x0000ffffffffffff"},
+    "Device":{"native":"Device","reference":"Device","kind":"string","missing_reasons":["device_name_unavailable"]},
+    "ID":{"native":"ID","reference":"ID","kind":"string","missing_reasons":["not_available"]},
+    "Size":{"native":"Size","reference":"Size","kind":"uint64"},
+    "Virtual resolution":{"native":"Virtual resolution","reference":"Virtual resolution","kind":"string"},
+    "BPP":{"native":"BPP","reference":"BPP","kind":"uint64"},
+    "State":{"native":"State","reference":"State","kind":"string"}
+  }
+}
