@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 	"time"
 
@@ -243,7 +244,20 @@ func (s *Store) Query(ctx context.Context, q evidence.Query) ([]evidence.Row, er
 	if q.Desc {
 		order = "DESC"
 	}
-	r, e := s.db.QueryContext(ctx, "SELECT body FROM results WHERE task_id=? AND (?='' OR instr(lower(search),lower(?))>0) ORDER BY seq "+order+" LIMIT ? OFFSET ?", q.TaskID, q.Filter, q.Filter, q.Limit, q.Offset)
+	var r *sql.Rows
+	var e error
+	if q.Sort == "" {
+		r, e = s.db.QueryContext(ctx, "SELECT body FROM results WHERE task_id=? AND (?='' OR instr(lower(search),lower(?))>0) ORDER BY seq "+order+" LIMIT ? OFFSET ?", q.TaskID, q.Filter, q.Filter, q.Limit, q.Offset)
+	} else {
+		if strings.ContainsAny(q.Sort, "\"\\") {
+			return nil, fmt.Errorf("sort column %q is not addressable", q.Sort)
+		}
+		// Cell values are text; unsigned decimals order by length first so
+		// values above the int64 range stay exact, signed decimals cast exactly,
+		// and fixed-width addresses order lexically. seq keeps paging stable.
+		path := `$.cells."` + q.Sort + `"`
+		r, e = s.db.QueryContext(ctx, "SELECT body FROM (SELECT seq,body,json_extract(CAST(body AS TEXT),?||'.kind') AS k,json_extract(CAST(body AS TEXT),?||'.value') AS v FROM results WHERE task_id=? AND (?='' OR instr(lower(search),lower(?))>0)) ORDER BY CASE WHEN k='uint64' THEN length(v) END "+order+",CASE WHEN k='int64' THEN CAST(v AS INTEGER) END "+order+",v "+order+",seq "+order+" LIMIT ? OFFSET ?", path, path, q.TaskID, q.Filter, q.Filter, q.Limit, q.Offset)
+	}
 	if e != nil {
 		return nil, e
 	}
@@ -269,6 +283,24 @@ func (s *Store) Bookmark(ctx context.Context, id, note string) error {
 func (s *Store) History(ctx context.Context, cmd string) error {
 	_, e := s.db.ExecContext(ctx, "INSERT INTO history(command,created) VALUES(?,?)", cmd, time.Now().UTC().Format(time.RFC3339Nano))
 	return e
+}
+
+// Commands returns up to limit recorded commands, oldest first.
+func (s *Store) Commands(ctx context.Context, limit int) ([]string, error) {
+	r, e := s.db.QueryContext(ctx, "SELECT command FROM (SELECT seq,command FROM history ORDER BY seq DESC LIMIT ?) ORDER BY seq", limit)
+	if e != nil {
+		return nil, e
+	}
+	defer r.Close()
+	var out []string
+	for r.Next() {
+		var c string
+		if e := r.Scan(&c); e != nil {
+			return nil, e
+		}
+		out = append(out, c)
+	}
+	return out, r.Err()
 }
 func (s *Store) Allow(ctx context.Context, rule, entity, reason string) error {
 	if reason == "" {

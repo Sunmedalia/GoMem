@@ -1,14 +1,16 @@
+// Package tui is the asynchronous, paged investigation interface.
+//
+// The root model routes focus and coordinates tasks; capabilities, results,
+// prompt and taskPicker each own their state and rendering.
 package tui
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"strings"
-	"time"
 
-	"charm.land/bubbles/v2/table"
-	"charm.land/bubbles/v2/textinput"
+	"charm.land/bubbles/v2/help"
+	"charm.land/bubbles/v2/key"
 	"charm.land/bubbles/v2/viewport"
 	tea "charm.land/bubbletea/v2"
 	"charm.land/lipgloss/v2"
@@ -22,47 +24,29 @@ import (
 	"github.com/Sunmedalia/GoMem/pkg/plugin"
 )
 
-const pageSize = 100
+const minWidth, minHeight = 85, 18
 
-type tick time.Time
-type started struct {
-	task       evidence.Task
-	generation uint64
-}
-type done struct {
-	result     engine.Result
-	err        error
-	generation uint64
-}
-type pageMsg struct {
-	task   string
-	offset int
-	filter string
-	desc   bool
-	rows   []evidence.Row
-	err    error
-}
-type commandMsg struct {
-	text string
-	err  error
-}
+type focus int
+
+const (
+	focusNav focus = iota
+	focusResults
+)
+
 type model struct {
 	ctx            context.Context
 	engine         *engine.Engine
 	explorer       *explore.Session
-	specs          []plugin.Spec
-	selected       int
-	nav            bool
-	width, height  int
-	grid           table.Model
+	caps           capabilities
+	res            results
 	detail         viewport.Model
-	input          textinput.Model
-	mode           string
-	filter         string
-	desc           bool
-	rows           []evidence.Row
-	task           evidence.Task
-	offset         int
+	prompt         prompt
+	picker         taskPicker
+	help           help.Model
+	focus          focus
+	showHelp       bool
+	expanded       bool
+	width, height  int
 	running        bool
 	cancel         context.CancelFunc
 	events         chan tea.Msg
@@ -74,118 +58,67 @@ type model struct {
 }
 
 func New(ctx context.Context, e *engine.Engine) tea.Model {
-	input := textinput.New()
-	input.CharLimit = 4096
-	input.Prompt = "› "
-	input.SetWidth(70)
-	m := model{ctx: ctx, engine: e, explorer: explore.New(e), specs: e.Registry.List(), nav: true, width: 120, height: 30, input: input, events: make(chan tea.Msg, 4), status: "Select a capability and press enter. Results are persisted and paged."}
-	m.grid = table.New(table.WithFocused(false), table.WithHeight(18))
+	m := model{ctx: ctx, engine: e, explorer: explore.New(e), caps: newCapabilities(e.Registry.List()), res: newResults(), prompt: newPrompt(), help: help.New(), width: 120, height: 30, events: make(chan tea.Msg, 4), status: "Select a capability and press enter. Results are persisted and paged. ? for help."}
 	m.detail = viewport.New()
 	m.resize()
 	return m
 }
-func (m model) Init() tea.Cmd { return tea.Batch(m.waitEvent(), pulse()) }
-func pulse() tea.Cmd {
-	return tea.Tick(300*time.Millisecond, func(t time.Time) tea.Msg { return tick(t) })
-}
-func (m model) waitEvent() tea.Cmd {
+func (m model) Init() tea.Cmd { return tea.Batch(m.waitEvent(), pulse(), m.loadHistory()) }
+
+func (m model) loadHistory() tea.Cmd {
 	return func() tea.Msg {
-		select {
-		case event := <-m.events:
-			return event
-		case <-m.ctx.Done():
-			return tea.Quit()
-		}
+		cmds, _ := m.engine.Store.Commands(m.ctx, historyLimit)
+		return historyMsg(cmds)
 	}
 }
-func (m model) query() tea.Cmd {
-	q := evidence.Query{TaskID: m.task.ID, Offset: m.offset, Limit: pageSize, Filter: m.filter, Desc: m.desc}
+func (m model) loadTasks() tea.Cmd {
 	return func() tea.Msg {
-		rows, err := m.engine.Store.Query(m.ctx, q)
-		return pageMsg{q.TaskID, q.Offset, q.Filter, q.Desc, rows, err}
+		tasks, err := m.engine.Store.Tasks(m.ctx)
+		return tasksMsg{tasks, err}
 	}
 }
-func (m *model) resize() {
-	_, right, middle := m.sizes()
-	cols := []table.Column{}
-	spec := m.specs[m.selected]
-	if m.task.ID != "" {
-		if p, err := m.engine.Registry.Get(m.task.Plugin); err == nil {
-			spec = p.Spec()
-		}
-	}
-	visible := spec.Columns[:min(4, len(spec.Columns))]
-	budget := middle - 2*len(visible)
-	total := 0
-	for _, c := range visible {
-		w := 6
-		if c.Kind == "address" {
-			w = 10
-		}
-		if c.Kind == "string" {
-			w = 18
-		}
-		cols = append(cols, table.Column{Title: c.Name, Width: w})
-		total += w
-	}
-	for total > budget {
-		largest := 0
-		for i := range cols {
-			if cols[i].Width > cols[largest].Width {
-				largest = i
-			}
-		}
-		if cols[largest].Width <= 3 {
-			break
-		}
-		cols[largest].Width--
-		total--
-	}
-	if total < budget && len(cols) > 0 {
-		target := len(cols) - 1
-		for i, c := range visible {
-			if c.Kind == "string" {
-				target = i
-				break
-			}
-		}
-		cols[target].Width += budget - total
-	}
-	m.grid.SetColumns(cols)
-	m.grid.SetWidth(middle)
-	m.grid.SetHeight(max(4, m.height-11))
-	m.detail.SetWidth(right - 4)
-	m.detail.SetHeight(max(4, m.height-12))
-	m.input.SetWidth(max(20, m.width-8))
-	m.updateDetail()
-}
-func (m model) sizes() (left, right, middle int) {
+func (m model) query() tea.Cmd { return m.res.query(m.ctx, m.engine.Store) }
+
+// sizes returns the total widths of the three panels and their shared height.
+func (m model) sizes() (left, middle, right, height int) {
 	left = 24
-	right = min(38, max(22, m.width/3))
-	middle = max(20, m.width-(left+2)-(right+2)-4)
+	right = min(40, max(26, m.width/3))
+	middle = m.width - left - right
+	height = max(8, m.height-7)
 	return
 }
-func (m *model) updateDetail() {
-	if m.showCommand {
-		lines := strings.Split(m.commandView, "\n")
-		for i := range lines {
-			lines[i] = render.Safe(lines[i])
+
+// resultSpec is the shown task's plugin, or the selected capability before any run.
+func (m model) resultSpec() plugin.Spec {
+	if m.res.task.ID != "" {
+		if p, err := m.engine.Registry.Get(m.res.task.Plugin); err == nil {
+			return p.Spec()
 		}
-		m.detail.SetContent(strings.Join(lines, "\n"))
-		return
 	}
-	idx := m.grid.Cursor()
-	if idx >= 0 && idx < len(m.rows) {
-		b, err := json.MarshalIndent(m.rows[idx], "", "  ")
-		if err != nil {
-			m.detail.SetContent(err.Error())
-		} else {
-			m.detail.SetContent(string(b))
-		}
-	} else {
-		spec := m.specs[m.selected]
-		b, _ := json.MarshalIndent(spec, "", "  ")
-		m.detail.SetContent(string(b))
+	return m.caps.spec()
+}
+func (m *model) resize() {
+	_, middle, right, height := m.sizes()
+	m.caps.setHeight(height - 4)
+	m.res.setSpec(m.resultSpec())
+	m.res.layout(middle-4, height-4)
+	if m.expanded {
+		right = m.width
+	}
+	m.detail.SetWidth(right - 4)
+	m.detail.SetHeight(height - 4)
+	m.prompt.input.SetWidth(max(20, m.width-8))
+	m.help.SetWidth(m.width)
+	m.refreshDetail()
+}
+func (m *model) refreshDetail() {
+	switch row, ok := m.res.current(); {
+	case m.showCommand:
+		m.detail.SetContent(commandText(m.commandView))
+	case ok:
+		m.detail.SetContent(detailText(row))
+	default:
+		m.detail.SetContent(detailText(m.caps.spec()))
 	}
 }
 func (m *model) start(name string, params map[string]string) tea.Cmd {
@@ -197,14 +130,11 @@ func (m *model) start(name string, params map[string]string) tea.Cmd {
 	m.cancel = cancel
 	m.running = true
 	m.showCommand = false
+	m.picker.open = false
 	m.status = "Running " + name
-	m.offset = 0
-	m.filter = ""
 	m.generation++
 	generation := m.generation
-	m.task = evidence.Task{}
-	m.rows = nil
-	m.grid.SetRows(nil)
+	m.res.reset(evidence.Task{})
 	m.resize()
 	eng, events := m.engine, m.events
 	return func() tea.Msg {
@@ -218,17 +148,39 @@ func (m *model) start(name string, params map[string]string) tea.Cmd {
 		return done{res, err, generation}
 	}
 }
+
+// openTask shows a persisted task's evidence without running it again.
+func (m *model) openTask(t evidence.Task) tea.Cmd {
+	m.picker.open = false
+	m.showCommand = false
+	m.caps.selectName(t.Plugin)
+	m.res.reset(t)
+	m.resize()
+	m.status = fmt.Sprintf("%s · %s · %d rows", t.Plugin, t.State, t.Rows)
+	return m.query()
+}
+func (m *model) quit() tea.Cmd {
+	if m.cancel != nil {
+		m.cancel()
+	}
+	return tea.Quit
+}
+
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch x := msg.(type) {
 	case tea.WindowSizeMsg:
 		m.width, m.height = x.Width, x.Height
 		m.resize()
 		return m, nil
+	case historyMsg:
+		m.prompt.history = append([]string(x), m.prompt.history...)
+		m.prompt.pos = len(m.prompt.history)
+		return m, nil
 	case started:
 		if x.generation != m.generation || !m.running {
 			return m, m.waitEvent()
 		}
-		m.task = x.task
+		m.res.task = x.task
 		m.status = "Running " + x.task.Plugin
 		return m, tea.Batch(m.query(), m.waitEvent())
 	case done:
@@ -237,44 +189,27 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 		m.running = false
 		m.cancel = nil
-		m.task = x.result.Task
-		m.status = fmt.Sprintf("%s · %d rows · cached %t", m.task.State, m.task.Rows, x.result.Reused)
+		m.res.task = x.result.Task
+		m.status = fmt.Sprintf("%s · %d rows · cached %t", m.res.task.State, m.res.task.Rows, x.result.Reused)
 		if x.err != nil {
 			m.status = x.err.Error()
 		}
 		return m, m.query()
 	case tick:
-		if m.running && m.task.ID != "" {
+		if m.running && m.res.task.ID != "" {
 			return m, tea.Batch(pulse(), m.query())
 		}
 		return m, pulse()
 	case pageMsg:
-		if x.task != m.task.ID || x.offset != m.offset || x.filter != m.filter || x.desc != m.desc {
+		if !m.res.accepts(x) {
 			return m, nil
 		}
 		if x.err != nil {
 			m.status = x.err.Error()
 			return m, nil
 		}
-		m.rows = x.rows
-		rows := make([]table.Row, 0, len(x.rows))
-		cols := m.grid.Columns()
-		for _, r := range x.rows {
-			cells := make(table.Row, len(cols))
-			for i, c := range cols {
-				v, ok := r.Cells[c.Title]
-				if !ok {
-					v = evidence.Missing("column_absent", nil)
-				}
-				cells[i] = render.Safe(v.String())
-			}
-			rows = append(rows, cells)
-		}
-		m.grid.SetRows(rows)
-		if len(rows) > 0 && (m.grid.Cursor() < 0 || m.grid.Cursor() >= len(rows)) {
-			m.grid.SetCursor(0)
-		}
-		m.updateDetail()
+		m.res.setRows(x.rows)
+		m.refreshDetail()
 		return m, nil
 	case commandMsg:
 		m.commandRunning = false
@@ -285,256 +220,347 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		} else {
 			m.status = "Command complete · " + m.explorer.Layer.Name()
 		}
-		m.updateDetail()
+		m.refreshDetail()
+		return m, nil
+	case tasksMsg:
+		if x.err != nil {
+			m.status = x.err.Error()
+			return m, nil
+		}
+		m.picker.show(x.tasks)
 		return m, nil
 	case tea.KeyPressMsg:
-		key := x.String()
-		if key == "ctrl+c" {
-			if m.cancel != nil {
-				m.cancel()
-			}
-			return m, tea.Quit
-		}
-		if m.mode != "" {
-			switch key {
-			case "esc":
-				m.mode = ""
-				m.input.Blur()
-				return m, nil
-			case "enter":
-				line := m.input.Value()
-				mode := m.mode
-				m.mode = ""
-				m.input.Blur()
-				if mode == "filter" {
-					m.filter = line
-					m.offset = 0
-					return m, m.query()
-				}
-				args, err := explore.Split(line)
-				if err != nil {
-					m.status = err.Error()
-					return m, nil
-				}
-				if len(args) == 0 {
-					return m, nil
-				}
-				if args[0] == "quit" {
-					if m.cancel != nil {
-						m.cancel()
-					}
-					return m, tea.Quit
-				}
-				if args[0] == "run" && len(args) > 1 {
-					p := map[string]string{}
-					for _, v := range args[2:] {
-						k, val, ok := strings.Cut(v, "=")
-						if !ok {
-							m.status = "Parameters use key=value"
-							return m, nil
-						}
-						p[k] = val
-					}
-					found := false
-					for i, s := range m.specs {
-						if s.Name == args[1] {
-							m.selected = i
-							found = true
-							m.resize()
-							break
-						}
-					}
-					if !found {
-						m.status = "Plugin is not implemented"
-						return m, nil
-					}
-					return m, m.start(args[1], p)
-				}
-				if m.running || m.commandRunning {
-					m.status = "Wait for the running task or cancel with ctrl+x"
-					return m, nil
-				}
-				session := m.explorer
-				ctx := m.ctx
-				m.commandRunning = true
-				return m, func() tea.Msg {
-					var text strings.Builder
-					err := session.Execute(ctx, line, &limitedWriter{w: &text, remaining: 65536})
-					return commandMsg{text.String(), err}
-				}
-			}
-			var cmd tea.Cmd
-			m.input, cmd = m.input.Update(msg)
-			return m, cmd
-		}
-		switch key {
-		case "q":
-			if m.cancel != nil {
-				m.cancel()
-			}
-			return m, tea.Quit
-		case "ctrl+x":
-			if m.cancel != nil {
-				m.cancel()
-				m.status = "Canceling; partial evidence will be retained"
-			}
-			return m, nil
-		case "ctrl+up":
-			m.detail.ScrollUp(3)
-			return m, nil
-		case "ctrl+down":
-			m.detail.ScrollDown(3)
-			return m, nil
-		case "ctrl+left":
-			m.detail.ScrollLeft(4)
-			return m, nil
-		case "ctrl+right":
-			m.detail.ScrollRight(4)
-			return m, nil
-		case "tab":
-			m.nav = !m.nav
-			if m.nav {
-				m.grid.Blur()
-			} else {
-				m.grid.Focus()
-			}
-			return m, nil
-		case "/", ":":
-			if key == "/" {
-				m.mode = "filter"
-				m.input.Placeholder = "Filter current task"
-			} else {
-				m.mode = "command"
-				m.input.Placeholder = "run linux.pslist · hex 0x1000 · use kernel · help"
-			}
-			m.input.SetValue("")
-			return m, m.input.Focus()
-		case "enter":
-			if m.nav {
-				return m, m.start(m.specs[m.selected].Name, nil)
-			}
-		case "up", "k":
-			if m.nav {
-				m.selected = max(0, m.selected-1)
-				m.resize()
-				return m, nil
-			}
-		case "down", "j":
-			if m.nav {
-				m.selected = min(len(m.specs)-1, m.selected+1)
-				m.resize()
-				return m, nil
-			}
-		case "n", "pgdown":
-			if len(m.rows) == pageSize {
-				m.offset += pageSize
-				return m, m.query()
-			}
-			return m, nil
-		case "p", "pgup":
-			m.offset = max(0, m.offset-pageSize)
-			return m, m.query()
-		case "s":
-			m.desc = !m.desc
-			m.offset = 0
-			return m, m.query()
-		case "b":
-			idx := m.grid.Cursor()
-			if idx >= 0 && idx < len(m.rows) {
-				if err := m.engine.Store.Bookmark(m.ctx, m.rows[idx].ID, "TUI bookmark"); err != nil {
-					m.status = err.Error()
-				} else {
-					m.status = "Evidence bookmarked"
-				}
-			}
-			return m, nil
-		case "h":
-			if m.commandRunning {
-				m.status = "Wait for the exploration command to finish"
-				return m, nil
-			}
-			idx := m.grid.Cursor()
-			if idx >= 0 && idx < len(m.rows) {
-				offset := m.rows[idx].Provenance.Offset
-				if offset == "" {
-					m.status = "Selected row has no address"
-					return m, nil
-				}
-				layer := m.rows[idx].Provenance.Layer
-				if m.engine.Env.Kernel != nil && layer == m.engine.Env.Kernel.Name() {
-					m.explorer.Layer = m.engine.Env.Kernel
-				} else if layer == m.engine.Env.Physical.Name() {
-					m.explorer.Layer = m.engine.Env.Physical
-				}
-				m.mode = "command"
-				m.input.SetValue("hex " + offset + " 256")
-				return m, m.input.Focus()
-			}
-		}
-		if !m.nav {
-			var cmd tea.Cmd
-			m.grid, cmd = m.grid.Update(msg)
-			m.showCommand = false
-			m.updateDetail()
-			return m, cmd
+		if next, cmd, ok := m.key(x); ok {
+			return next, cmd
 		}
 	}
-	// Details scroll independently with mouse wheel and ctrl+up/down.
+	// Details scroll independently with mouse wheel and ctrl+arrows.
 	var cmd tea.Cmd
 	m.detail, cmd = m.detail.Update(msg)
 	return m, cmd
 }
 
-type limitedWriter struct {
-	w         *strings.Builder
-	remaining int
+// key handles a key press; ok is false when the detail viewport should get it.
+func (m model) key(msg tea.KeyPressMsg) (model, tea.Cmd, bool) {
+	if key.Matches(msg, keys.ForceQuit) {
+		return m, m.quit(), true
+	}
+	if m.prompt.active() {
+		next, cmd := m.promptKey(msg)
+		return next, cmd, true
+	}
+	if m.showHelp {
+		if key.Matches(msg, keys.Help, keys.Back, keys.Quit) {
+			m.showHelp = false
+		}
+		return m, nil, true
+	}
+	if m.picker.open {
+		next, cmd := m.pickerKey(msg)
+		return next, cmd, true
+	}
+	switch {
+	case key.Matches(msg, keys.Quit):
+		return m, m.quit(), true
+	case key.Matches(msg, keys.Cancel):
+		if m.cancel != nil {
+			m.cancel()
+			m.status = "Canceling; partial evidence will be retained"
+		}
+		return m, nil, true
+	case key.Matches(msg, keys.ScrollUp):
+		m.detail.ScrollUp(3)
+		return m, nil, true
+	case key.Matches(msg, keys.ScrollDown):
+		m.detail.ScrollDown(3)
+		return m, nil, true
+	case key.Matches(msg, keys.ScrollLeft):
+		m.detail.ScrollLeft(4)
+		return m, nil, true
+	case key.Matches(msg, keys.ScrollRight):
+		m.detail.ScrollRight(4)
+		return m, nil, true
+	case key.Matches(msg, keys.Help):
+		m.showHelp = true
+		return m, nil, true
+	case key.Matches(msg, keys.Focus):
+		if m.focus == focusNav {
+			m.focus = focusResults
+			m.res.grid.Focus()
+		} else {
+			m.focus = focusNav
+			m.res.grid.Blur()
+		}
+		return m, nil, true
+	case key.Matches(msg, keys.Command):
+		return m, m.prompt.open(promptCommand, "run linux.pslist · hex 0x1000 · use kernel · help  (↑/↓ history)", ""), true
+	case key.Matches(msg, keys.Filter):
+		if m.focus == focusNav {
+			return m, m.prompt.open(promptSearch, "Search capabilities", m.caps.query), true
+		}
+		return m, m.prompt.open(promptFilter, "Filter current task", m.res.filter), true
+	case key.Matches(msg, keys.Tasks):
+		if m.running || m.commandRunning {
+			m.status = "Wait for the running task or cancel with ctrl+x"
+			return m, nil, true
+		}
+		return m, m.loadTasks(), true
+	case key.Matches(msg, keys.Back):
+		if m.expanded {
+			m.expanded = false
+			m.resize()
+		} else if m.caps.query != "" {
+			m.caps.setQuery("")
+			m.resize()
+		}
+		return m, nil, true
+	case key.Matches(msg, keys.Next):
+		if len(m.res.rows) == pageSize {
+			m.res.offset += pageSize
+			return m, m.query(), true
+		}
+		return m, nil, true
+	case key.Matches(msg, keys.Prev):
+		m.res.offset = max(0, m.res.offset-pageSize)
+		return m, m.query(), true
+	case key.Matches(msg, keys.Reverse):
+		m.res.desc = !m.res.desc
+		m.res.offset = 0
+		m.resize()
+		return m, m.query(), true
+	case key.Matches(msg, keys.Sort):
+		m.res.cycleSort()
+		m.resize()
+		m.status = "Insertion order"
+		if m.res.sort != "" {
+			m.status = "Sorted by " + render.Safe(m.res.sort)
+		}
+		return m, m.query(), true
+	case key.Matches(msg, keys.ColLeft, keys.ColRight):
+		delta := -1
+		if key.Matches(msg, keys.ColRight) {
+			delta = 1
+		}
+		if m.res.shift(delta) {
+			m.resize()
+		}
+		return m, nil, true
+	case key.Matches(msg, keys.Bookmark):
+		if row, ok := m.res.current(); ok {
+			if err := m.engine.Store.Bookmark(m.ctx, row.ID, "TUI bookmark"); err != nil {
+				m.status = err.Error()
+			} else {
+				m.status = "Evidence bookmarked"
+			}
+		}
+		return m, nil, true
+	case key.Matches(msg, keys.CopyID, keys.CopyAddr):
+		row, ok := m.res.current()
+		if !ok {
+			return m, nil, true
+		}
+		text, what := row.ID, "evidence ID"
+		if key.Matches(msg, keys.CopyAddr) {
+			text, what = row.Provenance.Offset, "address"
+		}
+		if text == "" {
+			m.status = "Selected row has no " + what
+			return m, nil, true
+		}
+		m.status = "Copied " + what + " " + render.Safe(text)
+		return m, tea.SetClipboard(text), true
+	case key.Matches(msg, keys.Hex):
+		if m.commandRunning {
+			m.status = "Wait for the exploration command to finish"
+			return m, nil, true
+		}
+		row, ok := m.res.current()
+		if !ok {
+			return m, nil, false
+		}
+		if row.Provenance.Offset == "" {
+			m.status = "Selected row has no address"
+			return m, nil, true
+		}
+		layer := row.Provenance.Layer
+		if m.engine.Env.Kernel != nil && layer == m.engine.Env.Kernel.Name() {
+			m.explorer.Layer = m.engine.Env.Kernel
+		} else if layer == m.engine.Env.Physical.Name() {
+			m.explorer.Layer = m.engine.Env.Physical
+		}
+		return m, m.prompt.open(promptCommand, "", "hex "+row.Provenance.Offset+" 256"), true
+	}
+	if m.focus == focusNav {
+		switch {
+		case key.Matches(msg, keys.Run):
+			if m.caps.position() < 0 {
+				m.status = "No capability matches the search"
+				return m, nil, true
+			}
+			return m, m.start(m.caps.spec().Name, nil), true
+		case key.Matches(msg, keys.Up, keys.Down):
+			delta := -1
+			if key.Matches(msg, keys.Down) {
+				delta = 1
+			}
+			m.caps.move(delta)
+			m.resize()
+			return m, nil, true
+		}
+		return m, nil, false
+	}
+	if key.Matches(msg, keys.Expand) {
+		m.expanded = !m.expanded
+		m.resize()
+		return m, nil, true
+	}
+	var cmd tea.Cmd
+	m.res.grid, cmd = m.res.grid.Update(msg)
+	m.showCommand = false
+	m.refreshDetail()
+	return m, cmd, true
 }
 
-func (w *limitedWriter) Write(p []byte) (int, error) {
-	if len(p) > w.remaining {
-		return 0, fmt.Errorf("TUI command output exceeds 64 KiB; use CLI for full output")
+func (m model) promptKey(msg tea.KeyPressMsg) (model, tea.Cmd) {
+	mode := m.prompt.mode
+	switch {
+	case key.Matches(msg, keys.Back):
+		if mode == promptSearch {
+			m.caps.setQuery("")
+			m.resize()
+		}
+		m.prompt.close()
+		return m, nil
+	case key.Matches(msg, keys.Run):
+		line := m.prompt.input.Value()
+		m.prompt.close()
+		switch mode {
+		case promptSearch:
+			m.caps.setQuery(line)
+			m.resize()
+			return m, nil
+		case promptFilter:
+			m.res.filter = line
+			m.res.offset = 0
+			return m, m.query()
+		}
+		return m.execute(line)
+	case mode == promptCommand && msg.String() == "up":
+		m.prompt.recall(-1)
+		return m, nil
+	case mode == promptCommand && msg.String() == "down":
+		m.prompt.recall(1)
+		return m, nil
 	}
-	w.remaining -= len(p)
-	return w.w.Write(p)
+	var cmd tea.Cmd
+	m.prompt.input, cmd = m.prompt.input.Update(msg)
+	if mode == promptSearch {
+		m.caps.setQuery(m.prompt.input.Value())
+		m.resize()
+	}
+	return m, cmd
 }
+
+// execute runs a command line: run and quit are handled here, the rest by explore.
+func (m model) execute(line string) (model, tea.Cmd) {
+	args, err := explore.Split(line)
+	if err != nil {
+		m.status = err.Error()
+		return m, nil
+	}
+	if len(args) == 0 {
+		return m, nil
+	}
+	m.prompt.record(line)
+	if args[0] == "quit" {
+		return m, m.quit()
+	}
+	if args[0] == "run" && len(args) > 1 {
+		name, params, err := runArgs(args[1:])
+		if err != nil {
+			m.status = err.Error()
+			return m, nil
+		}
+		if !m.caps.selectName(name) {
+			m.status = "Plugin is not implemented"
+			return m, nil
+		}
+		// explore records its own commands; run never reaches it.
+		if err := m.engine.Store.History(m.ctx, line); err != nil {
+			m.status = err.Error()
+			return m, nil
+		}
+		m.resize()
+		return m, m.start(name, params)
+	}
+	if m.running || m.commandRunning {
+		m.status = "Wait for the running task or cancel with ctrl+x"
+		return m, nil
+	}
+	session := m.explorer
+	ctx := m.ctx
+	m.commandRunning = true
+	return m, func() tea.Msg {
+		var text strings.Builder
+		err := session.Execute(ctx, line, &limitedWriter{w: &text, remaining: 65536})
+		return commandMsg{text.String(), err}
+	}
+}
+
+func (m model) pickerKey(msg tea.KeyPressMsg) (model, tea.Cmd) {
+	_, _, _, height := m.sizes()
+	switch {
+	case key.Matches(msg, keys.Back, keys.Tasks):
+		m.picker.open = false
+	case key.Matches(msg, keys.Quit):
+		return m, m.quit()
+	case key.Matches(msg, keys.Up):
+		m.picker.move(-1, height-4)
+	case key.Matches(msg, keys.Down):
+		m.picker.move(1, height-4)
+	case key.Matches(msg, keys.Run):
+		if t, ok := m.picker.selected(); ok {
+			return m, m.openTask(t)
+		}
+	}
+	return m, nil
+}
+
 func (m model) View() tea.View {
-	if m.width < 85 || m.height < 18 {
-		v := tea.NewView("GoMem needs at least 85 columns × 18 rows. Resize the terminal, or q to quit.")
+	if m.width < minWidth || m.height < minHeight {
+		v := tea.NewView(fmt.Sprintf("GoMem needs at least %d columns × %d rows. Resize the terminal, or q to quit.", minWidth, minHeight))
 		v.AltScreen = true
 		return v
 	}
-	accent := lipgloss.NewStyle().Foreground(lipgloss.Color("#52D6BE"))
-	muted := lipgloss.NewStyle().Foreground(lipgloss.Color("#8C9DAE"))
-	header := accent.Bold(true).Render(" GoMem ") + muted.Render(version.Version+"  /  "+m.engine.Format+"  /  "+m.engine.Hash[:16]+"…")
-	var nav strings.Builder
-	nav.WriteString(accent.Render("CAPABILITIES") + "\n\n")
-	for i, s := range m.specs {
-		prefix := "  "
-		style := muted
-		if i == m.selected {
-			prefix = "› "
-			style = accent.Bold(true)
+	header := strong.Render(" GoMem ") + muted.Render(version.Version+"  /  "+m.engine.Format+"  /  "+m.engine.Hash[:16]+"…  /  development preview")
+	header = ansi.Truncate(header, m.width, "…")
+	left, middle, right, height := m.sizes()
+	var body string
+	switch {
+	case m.showHelp:
+		body = panel(accent.Render("KEYS")+"\n"+m.help.FullHelpView(keys.FullHelp()), m.width, height, true)
+	case m.expanded:
+		body = panel(accent.Render("DETAIL / EVIDENCE")+muted.Render("  esc or enter to restore")+"\n\n"+m.detail.View(), m.width, height, true)
+	default:
+		center := m.res.View()
+		if m.picker.open {
+			center = m.picker.View(middle-4, height-4)
 		}
-		nav.WriteString(style.Render(prefix+s.Name) + "\n")
+		body = lipgloss.JoinHorizontal(lipgloss.Top,
+			panel(m.caps.View(left-4), left, height, m.focus == focusNav),
+			panel(center, middle, height, m.focus == focusResults || m.picker.open),
+			panel(accent.Render("DETAIL / EVIDENCE")+"\n\n"+m.detail.View(), right, height, false))
 	}
-	nav.WriteString("\n" + muted.Render("enter  run\ntab    focus\n:      commands\n/      filter\nn / p  pages\ns      reverse\nb      bookmark\nh      hex jump\nctrl+x cancel\nq      quit"))
-	panel := func(text string, width int, active bool) string {
-		color := "#304657"
-		if active {
-			color = "#52D6BE"
-		}
-		return lipgloss.NewStyle().Border(lipgloss.RoundedBorder()).BorderForeground(lipgloss.Color(color)).Padding(0, 1).Width(width).Height(max(8, m.height-7)).MaxHeight(m.height - 5).Render(text)
-	}
-	leftWidth, rightWidth, middleWidth := m.sizes()
-	left := panel(nav.String(), leftWidth, m.nav)
-	middle := panel(accent.Render("RESULTS")+fmt.Sprintf("  %d–%d", m.offset, m.offset+len(m.rows))+"\n\n"+m.grid.View(), middleWidth, !m.nav)
-	right := panel(accent.Render("DETAIL / EVIDENCE")+"\n\n"+m.detail.View(), rightWidth, false)
-	body := lipgloss.JoinHorizontal(lipgloss.Top, left, middle, right)
 	footer := muted.Render(ansi.Truncate(render.Safe(m.status), m.width, "…"))
-	if m.mode != "" {
-		footer = m.input.View()
+	if m.prompt.active() {
+		footer = m.prompt.input.View()
 	}
-	content := header + "\n" + body + "\n" + footer + "\n" + muted.Render("Development preview · native capabilities only · detail pane scroll: mouse wheel")
+	hints := keys.navHelp()
+	if m.focus == focusResults {
+		hints = keys.resultHelp()
+	}
+	// ShortHelpView can overrun its width when the ellipsis does not fit.
+	content := header + "\n" + body + "\n" + footer + "\n" + ansi.Truncate(m.help.ShortHelpView(hints), m.width, "…")
 	v := tea.NewView(content)
 	v.AltScreen = true
 	v.MouseMode = tea.MouseModeCellMotion

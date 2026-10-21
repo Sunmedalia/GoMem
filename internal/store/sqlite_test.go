@@ -148,3 +148,69 @@ func BenchmarkPageQuery(b *testing.B) {
 		}
 	}
 }
+
+func TestSortedQueryAndCommandHistory(t *testing.T) {
+	ctx := context.Background()
+	s, err := Open(t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer s.Close()
+	task, err := s.Begin(ctx, "sort-key", "test", evidence.Provenance{ImageSHA256: "image"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	var rows []evidence.Row
+	for _, v := range []struct {
+		name string
+		pid  uint64
+		off  int64
+	}{{"b", 18446744073709551615, -2}, {"c", 9, 10}, {"a", 10, -30}} {
+		r := evidence.Row{Cells: map[string]evidence.Value{"Process Name": evidence.Text(v.name), "PID": evidence.Number(v.pid), "Delta": evidence.Integer(v.off)}}
+		r.Seal()
+		rows = append(rows, r)
+	}
+	if err = s.Append(ctx, task.ID, rows); err != nil {
+		t.Fatal(err)
+	}
+	order := func(q evidence.Query) string {
+		t.Helper()
+		q.TaskID, q.Limit = task.ID, 10
+		got, err := s.Query(ctx, q)
+		if err != nil {
+			t.Fatal(err)
+		}
+		var names string
+		for _, r := range got {
+			names += r.Cells["Process Name"].String()
+		}
+		return names
+	}
+	for _, c := range []struct {
+		q    evidence.Query
+		want string
+	}{
+		{evidence.Query{}, "bca"},
+		{evidence.Query{Sort: "Process Name"}, "abc"},
+		{evidence.Query{Sort: "Process Name", Desc: true}, "cba"},
+		{evidence.Query{Sort: "PID"}, "cab"},
+		{evidence.Query{Sort: "Delta"}, "abc"},
+		{evidence.Query{Sort: "Delta", Filter: "-30"}, "a"},
+	} {
+		if got := order(c.q); got != c.want {
+			t.Fatalf("%+v: got %q want %q", c.q, got, c.want)
+		}
+	}
+	if _, err = s.Query(ctx, evidence.Query{TaskID: task.ID, Limit: 10, Sort: `x"y`}); err == nil {
+		t.Fatal("quoted sort column accepted")
+	}
+	for _, c := range []string{"use kernel", "hex 0x10", "help"} {
+		if err = s.History(ctx, c); err != nil {
+			t.Fatal(err)
+		}
+	}
+	got, err := s.Commands(ctx, 2)
+	if err != nil || len(got) != 2 || got[0] != "hex 0x10" || got[1] != "help" {
+		t.Fatal(got, err)
+	}
+}

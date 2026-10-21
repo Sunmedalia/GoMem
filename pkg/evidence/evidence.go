@@ -185,6 +185,8 @@ type Query struct {
 	Offset, Limit int
 	Filter        string
 	Desc          bool
+	// Sort names a result column; empty keeps insertion order.
+	Sort string
 }
 type EvidenceStore interface {
 	ArtifactPage(context.Context, string, int, int) ([]Artifact, error)
