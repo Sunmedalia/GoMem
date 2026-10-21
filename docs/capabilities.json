@@ -2200,15 +2200,22 @@
           }
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Intel Linux through 4.2 with global nf_hooks as list_head[13][8]. Walk IPV4, ARP, BRIDGE, IPV6 and DECNET hook lists. Net NS is not applicable. Handler module and exact symbol use the shared module lookup. Later per-namespace hook arrays are rejected.",
+      "native": "linux.netfilter",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "official-linux-sample-1-legacy-global-hooks",
+        "synthetic-linux-netfilter-x64"
+      ],
+      "comparison": "legacy_real_negative_25_empty_heads_reread_cache_equal_synthetic_kernel_unknown_and_incomplete_sources",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Kernels 4.3 and later, ingress/egress and per-namespace layouts are not implemented",
+        "Only a Debian 3.2 negative control has a real differential: zero hooks, 25 empty heads independently reread, 548 module-source observations retained and cached JSONL equal. Kernel/unknown attribution is synthetic; positive module-owned and hooked real callbacks remain pending",
+        "Source failures fail the task and leave unmatched-handler classification unavailable. The selected-owner module symbol helper differs from the pinned final-range-owner behavior. Native backward-link checks and resource bounds differ from silent upstream skips",
+        "Full protocol/version acceptance remains pending"
+      ],
+      "validation_record": "docs/linux-netfilter.md"
     },
     {
       "id": "linux.malware.process_spoofing.ProcessSpoofing",
@@ -2624,7 +2631,7 @@
       "corpora": [],
       "comparison": "not_run",
       "gaps": [
-        "Native implementation and validation pending"
+        "Deprecated alias of linux.malware.netfilter.Netfilter; native command is linux.netfilter"
       ]
     },
     {
