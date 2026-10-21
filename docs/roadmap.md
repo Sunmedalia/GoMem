@@ -67,3 +67,5 @@
 2026-10-21：windows.virtmap 列出内核系统虚拟地址区。选定 Windows 10 19041 样本的 13 行与固定基线一致，名称来自 `SystemVaRegions` 下标。`Size` 是字节数，不是结束地址。真实 32 位镜像和类型数组路径还没有验收。[详情](windows-virtmap.md)
 
 2026-10-21：windows.orphan_kernel_threads 在线程池扫描上寻找模块外的内核线程。选定 Windows 10 19041 样本的 1752 个线程里，1490 个不是 System 或其子进程，3 个已退出或已终止，2 个起始地址在内核范围之下，257 个落在模块里，输出 0 行，与固定基线一致。带孤儿线程的样本还没有验收。[详情](windows-orphan-kernel-threads.md)
+
+2026-10-21：windows.memmap 列出活动进程的内存映射。选定 Windows 10 19041 样本里 PID 2968 的 74969 行与固定基线一致，共 415870976 字节；导出的 `pid.2968.dmp` 逐字节相同。原生地址保留规范高位。其余进程和真实 32 位镜像还没有验收。[详情](windows-memmap.md)

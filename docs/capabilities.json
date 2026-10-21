@@ -8070,15 +8070,24 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active processes from PsActiveProcessHead. pid is one optional integer, not a comma list; an empty pid includes every process. An unreadable UniqueProcessId or DirectoryTableBase is skipped and the task still succeeds. Each process layer is the Windows Intel map of Pcb.DirectoryTableBase. The walk is the pinned layer.mapping from 0 through maximum_address, one byte short of the 48-bit or 32-bit space, with ignore_errors. A page-table page whose entries are all identical is absent. Windows x64 physical addresses keep bits 12..44, including present entries. A large page is emitted only when its whole physical span is backed by the image; a hole drops that entire span. Adjacent runs merge only when both the 48-bit virtual addresses and the physical addresses are contiguous, including a run that crosses the canonical sign boundary. Native virtual addresses restore the canonical high bits when the run starts in the high half. Reference addresses keep the raw 48-bit value, so Virtual is compared after a low-48 mask. File offset accumulates the mapped size even when dump is false. File output is the literal Disabled unless dump is set. dump writes pid.<pid>.dmp and a failed range is Error outputting to file. max-nodes bounds only the active list and is not an upstream parameter. The summary row is not a mapping.",
+      "native": "windows.memmap",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_74969_rows_match_virtual_physical_size_file_offset_and_disabled_output_for_pid_2968",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump and one process, PID 2968 notepad.exe, have a selected-field differential. It has 74969 runs and 415870976 mapped bytes",
+        "dump=true for that process writes pid.2968.dmp. The file matches the pinned extraction byte for byte, SHA-256 09f08a08628f23c88482e50920ee474711f2c855d8498fdac8e2094aab32ba50",
+        "The other 119 active processes and real 32-bit and PAE images remain pending",
+        "A failed dump range is padded with zeros so later file offsets stay aligned. The pinned plugin omits those bytes and still advances Offset in File. This image had no failed range",
+        "Reference virtual addresses omit the canonical high bits. The comparison masks both sides to the low 48 bits",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-memmap.md"
     },
     {
       "id": "windows.mftscan.ADS",

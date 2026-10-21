@@ -64,6 +64,7 @@ bin/gomem analyze windows.pslist \
 | `windows.timers` | 列出内核定时器和 DPC 例程所在的模块、符号；读不到的 DPC 跳过，类型或到期时间读失败则任务失败；[说明](docs/windows-timers.md) |
 | `windows.virtmap` | 列出内核系统虚拟地址区；`SystemVaRegions` 用下标取枚举名，`Size` 是字节数而不是结束地址；类型数组沿用基线里记错对象的长度；[说明](docs/windows-virtmap.md) |
 | `windows.orphan_kernel_threads` | 列出起始地址不在已加载模块里的内核线程；System 及其子进程才检查，已退出或用户地址跳过；[说明](docs/windows-orphan-kernel-threads.md) |
+| `windows.memmap` | 列出活动进程的虚拟地址、物理地址和长度；相同条目的页表整段跳过，物理空洞的大页整段丢掉；[说明](docs/windows-memmap.md) |
 | `windows.hivelist` | 从 `CmpHiveListHead` 枚举注册表 hive；保留签名、三个路径字段和链表断裂；`dump` 重建稳定 hive，缺页记入空洞日志并令任务失败 |
 | `windows.hivescan` | 在 64 位 Windows 8.1 及以后扫描 `PoolBigPageTable` 的在用 `CM10` 分配；旧式池头扫描会明确失败；[说明](docs/windows-hivescan.md) |
 | `windows.filescan` | 扫描池头中的文件对象，输出规范虚拟地址和文件名；Windows 10 扫内核层，更早的系统扫物理内存；[说明](docs/windows-filescan.md) |
@@ -166,6 +167,8 @@ Windows 完整/bitmap 转储可进一步自动选择架构、DTB 和内核基址
 `windows.virtmap` 列出内核系统虚拟地址区。有 `MiVisibleState.SystemVaRegions` 时，名称来自下标对应的 `_MI_SYSTEM_VA_TYPE`，不是槽内字节。`BaseAddress` 按指针掩码，`NumberOfBytes` 原样保留。固定基线把字节数放在名为 `End offset` 的列里。Windows 10 19041 样本的 13 行低 48 位起始地址和字节数与固定基线一致，路径是 `SystemVaRegions`，大页尺寸算出 2097152 但没有使用。`MiVaPagedPool` 起始于 `0xfcf68050b648`。没有 `SystemVaRegions` 时沿用基线的类型数组状态机：连续区段的长度记到下一个名称，末段多出的页被丢掉。真实 32 位镜像和那两条旧路径还没有语料差分。[系统地址区验证](docs/windows-virtmap.md)
 
 `windows.orphan_kernel_threads` 在线程池扫描上只保留 System 或其子进程里、尚未退出、起始地址处于内核范围、且没有落入任何已加载模块的线程。Windows 10 19041 样本有 1752 个线程：1490 个不是这类进程，3 个已退出或已终止，2 个起始地址在内核范围之下，257 个落在模块里。输出 0 行，与固定基线的空结果一致。真实 32 位镜像和带孤儿线程的样本还没有验收。[孤儿内核线程验证](docs/windows-orphan-kernel-threads.md)
+
+`windows.memmap` 走活动进程的页表。Windows 10 19041 样本里 PID 2968 `notepad.exe` 有 74969 段、415870976 字节，虚拟地址、物理地址、长度、文件偏移和 `Disabled` 与固定基线一致。虚拟地址保留规范高位，对照时只比较低 48 位。整页相同的页表被丢掉，物理范围不完整的大页也不输出。`dump=true` 写出的 `pid.2968.dmp` 与固定基线逐字节相同。其余进程和真实 32 位镜像还没有验收。[内存映射验证](docs/windows-memmap.md)
 
 `windows.hivelist` 正向遍历内核 hive 链表，签名不符或链表断裂时改为反向补齐，并保留已经读到的 hive。名称按 `FileFullPath`、`FileUserName`、`HiveRootPath` 取第一个非空值，三个字段都保留。Windows 10 19041 样本的 24 个偏移和名称与固定基线一致；该样本的 `FileFullPath` 成员均为空，选中名称来自另外两个字段。`dump=true` 写出 base block 和稳定存储；读不到的页是带日志的零字节，任务失败，不会把空洞说成原始数据。[注册表 hive 验证](docs/windows-hivelist.md)
 

@@ -1,0 +1,35 @@
+{
+  "fields": {
+    "Virtual": {
+      "native": "Virtual",
+      "reference": "Virtual",
+      "kind": "address",
+      "mask": "0x0000ffffffffffff"
+    },
+    "Physical": {
+      "native": "Physical",
+      "reference": "Physical",
+      "kind": "address"
+    },
+    "Size": {
+      "native": "Size",
+      "reference": "Size",
+      "kind": "uint64"
+    },
+    "Offset in File": {
+      "native": "FileOffset",
+      "reference": "Offset in File",
+      "kind": "uint64"
+    },
+    "File output": {
+      "native": "FileOutput",
+      "reference": "File output",
+      "kind": "string"
+    }
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["map"],
+    "excluded_values": ["summary"]
+  }
+}
