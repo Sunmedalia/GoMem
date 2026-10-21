@@ -2525,7 +2525,7 @@
           "default": false
         }
       ],
-      "applicability": "Symbol-described Intel Linux. Walk each task mount namespace, deduplicate by mount id unless pids is set, and emit /proc/pid/mountinfo fields plus the brief mount view. Missing namespace inodes stay rows. Unreadable mount, path, superblock or source data stays a diagnostic and fails the task.",
+      "applicability": "Symbol-described Intel Linux. Walk each task mount namespace, deduplicate by mount id unless pids is set, and emit /proc/pid/mountinfo fields plus the brief mount view. Missing namespace inodes stay rows. Null mount roots/superblocks and unreadable mount, path, superblock, filesystem type or source data stay diagnostics and fail the task. Signed/unsigned numeric captures retain failed prefixes and causes. Output failures and cancellation stop traversal immediately.",
       "native": "linux.mountinfo",
       "status": "partial",
       "accepted": false,
@@ -2537,7 +2537,7 @@
       "gaps": [
         "Debian 3.2 x64 has no namespace inode. The reference null and native namespace_inode_not_in_layout compare equal. All 13 mounts match the detailed columns and order, including the deleted binfmt_misc display",
         "The image has no shared, slave or propagate_from tags. Those paths are implemented and covered only by code review until a positive sample exists",
-        "Synthetic x64 covers a self-parent rootfs, a deleted mount point, nosuid/relatime flags and a completed task. 32-bit, modern, ARM64 and damaged namespace lists remain pending",
+        "Synthetic x64 covers self-parent rootfs, deleted mount points, flags, null roots/superblocks, partial superblocks, unreadable filesystem types, failed-task reruns and immediate output/cancellation stop. Signed/unsigned partial captures keep exact prefixes and errors. Real differential asserts report.matched and independently compares ordered mount id/parent/path tuples, rereads all 91 captures before and after byte-identical cache replay. 32-bit, modern, ARM64 and damaged namespace lists remain pending",
         "A mount whose root, path, superblock or source cannot be read is retained and fails the task; the fixed plugin skips that mount and continues"
       ],
       "validation_record": "docs/linux-mountinfo.md"

@@ -154,8 +154,13 @@ func linuxMountInfo(ctx context.Context, e plugin.Environment, p map[string]stri
 	}
 	columns := linuxMountInfoPlugins()[0].spec.Columns
 	var failures pluginFailures
+	var emitErr error
 	emit := func(r evidence.Row) error {
+		if emitErr != nil {
+			return emitErr
+		}
 		if err := ctx.Err(); err != nil {
+			emitErr = err
 			return err
 		}
 		for _, column := range columns {
@@ -163,7 +168,8 @@ func linuxMountInfo(ctx context.Context, e plugin.Environment, p map[string]stri
 				r.Cells[column.Name] = evidence.Missing("not_applicable", nil)
 			}
 		}
-		return out(r)
+		emitErr = out(r)
+		return emitErr
 	}
 	base := func(task, pid, mount uint64, ns evidence.Value) evidence.Row {
 		r := evidence.Row{Cells: map[string]evidence.Value{}, Provenance: evidence.Provenance{Layer: e.Kernel.Name(), Offset: fmt.Sprintf("0x%x", mount)}}
@@ -174,6 +180,7 @@ func linuxMountInfo(ctx context.Context, e plugin.Environment, p map[string]stri
 		return r
 	}
 	diagnostic := func(r evidence.Row, reason string, cause error) error {
+		failures.add(cause)
 		r.Cells["RecordType"] = evidence.Text("diagnostic")
 		r.Cells["Error"] = evidence.Missing(reason, cause)
 		return emit(r)
@@ -185,12 +192,10 @@ func linuxMountInfo(ctx context.Context, e plugin.Environment, p map[string]stri
 		nsValue := evidence.Missing("namespace_inode_not_in_layout", nil)
 		fs, err := e.Objects.Uint(ctx, task, "task_struct", "fs")
 		if err != nil {
-			failures.add(err)
 			return diagnostic(base(task, pid, 0, nsValue), "task_fs_unreadable", err)
 		}
 		nsproxy, err := e.Objects.Uint(ctx, task, "task_struct", "nsproxy")
 		if err != nil {
-			failures.add(err)
 			return diagnostic(base(task, pid, 0, nsValue), "task_nsproxy_unreadable", err)
 		}
 		if fs == 0 || nsproxy == 0 {
@@ -199,7 +204,6 @@ func linuxMountInfo(ctx context.Context, e plugin.Environment, p map[string]stri
 		}
 		ns, err := e.Objects.Uint(ctx, nsproxy, "nsproxy", "mnt_ns")
 		if err != nil {
-			failures.add(err)
 			return diagnostic(base(task, pid, 0, nsValue), "mount_namespace_unreadable", err)
 		}
 		if ns == 0 {
@@ -209,7 +213,6 @@ func linuxMountInfo(ctx context.Context, e plugin.Environment, p map[string]stri
 		if id, err := linuxMember(ctx, e, ns, "mnt_namespace", "proc_inum", "ns.inum"); err == nil {
 			nsValue = evidence.Number(id)
 		} else if !errors.Is(err, object.ErrFieldAbsent) {
-			failures.add(err)
 			return diagnostic(base(task, pid, 0, evidence.Missing("namespace_inode_unreadable", err)), "namespace_inode_unreadable", err)
 		}
 		if namespaceFilter != nil {
@@ -227,7 +230,6 @@ func linuxMountInfo(ctx context.Context, e plugin.Environment, p map[string]stri
 		}
 		rootDentry, rootMount, err := linuxProcessRoot(ctx, e, task)
 		if err != nil {
-			failures.add(err)
 			return diagnostic(base(task, pid, 0, nsValue), "process_root_unreadable", err)
 		}
 		each := func(address uint64) error {
@@ -240,12 +242,10 @@ func linuxMountInfo(ctx context.Context, e plugin.Environment, p map[string]stri
 			r.Cells["FieldEvidence"] = evidence.Value{Kind: "structure", Data: fields}
 			vfs, err := memory.Add(address, embedded)
 			if err != nil {
-				failures.add(err)
 				return diagnostic(r, "mount_container_invalid", err)
 			}
 			id, _, err := linuxSignedField(ctx, e, address, mountType, "mnt_id", fields, "MountID")
 			if err != nil {
-				failures.add(err)
 				return diagnostic(r, "mount_id_unreadable", err)
 			}
 			if pids == nil {
@@ -256,7 +256,6 @@ func linuxMountInfo(ctx context.Context, e plugin.Environment, p map[string]stri
 			}
 			root, err := e.Objects.Uint(ctx, vfs, "vfsmount", "mnt_root")
 			if err != nil {
-				failures.add(err)
 				return diagnostic(r, "mount_root_unreadable", err)
 			}
 			if root == 0 {
@@ -264,13 +263,11 @@ func linuxMountInfo(ctx context.Context, e plugin.Environment, p map[string]stri
 			}
 			parentVFS, point, err := linuxMountParent(ctx, e, vfs)
 			if err != nil {
-				failures.add(err)
 				return diagnostic(r, "mount_parent_unreadable", err)
 			}
 			scope := "process_root"
 			path, err := linuxPathAtRoot(ctx, e, rootDentry, rootMount, root, vfs, &scope, false)
 			if err != nil {
-				failures.add(err)
 				return diagnostic(r, "mount_point_unreadable", err)
 			}
 			if len(path) == 0 {
@@ -278,13 +275,11 @@ func linuxMountInfo(ctx context.Context, e plugin.Environment, p map[string]stri
 			}
 			deleted, err := linuxMountPointDeleted(ctx, e, point)
 			if err != nil {
-				failures.add(err)
 				return diagnostic(r, "mount_point_inode_unreadable", err)
 			}
 			display := linuxMountPointDisplay(string(path), deleted)
 			sb, err := e.Objects.Uint(ctx, vfs, "vfsmount", "mnt_sb")
 			if err != nil {
-				failures.add(err)
 				return diagnostic(r, "superblock_pointer_unreadable", err)
 			}
 			r.Cells["Superblock"] = evidence.Address(sb)
@@ -296,47 +291,38 @@ func linuxMountInfo(ctx context.Context, e plugin.Environment, p map[string]stri
 			}
 			dev, _, err := linuxUnsignedField(ctx, e, sb, "super_block", "s_dev", fields, "Device")
 			if err != nil {
-				failures.add(err)
 				return diagnostic(r, "superblock_device_unreadable", err)
 			}
 			mntFlags, _, err := linuxUnsignedField(ctx, e, vfs, "vfsmount", "mnt_flags", fields, "MountFlags")
 			if err != nil {
-				failures.add(err)
 				return diagnostic(r, "mount_flags_unreadable", err)
 			}
 			sbFlags, _, err := linuxUnsignedField(ctx, e, sb, "super_block", "s_flags", fields, "SuperFlags")
 			if err != nil {
-				failures.add(err)
 				return diagnostic(r, "superblock_flags_unreadable", err)
 			}
 			parentOuter, err := linuxOuterMount(parentVFS, mountType, embedded)
 			if err != nil {
-				failures.add(err)
 				return diagnostic(r, "parent_mount_invalid", err)
 			}
 			parentID, _, err := linuxSignedField(ctx, e, parentOuter, mountType, "mnt_id", fields, "ParentID")
 			if err != nil {
-				failures.add(err)
 				return diagnostic(r, "parent_id_unreadable", err)
 			}
 			rootPath, err := linuxDentryTreePath(ctx, e, root)
 			if err != nil {
-				failures.add(err)
 				return diagnostic(r, "mount_root_path_unreadable", err)
 			}
 			fstype, err := linuxMountFilesystemType(ctx, e, sb, fields)
 			if err != nil {
-				failures.add(err)
 				return diagnostic(r, "filesystem_type_unreadable", err)
 			}
 			source, err := linuxMountDevname(ctx, e, address, vfs, mountType, fields)
 			if err != nil {
-				failures.add(err)
 				return diagnostic(r, "mount_source_unreadable", err)
 			}
 			tagged, err := linuxMountTaggedFields(ctx, e, address, mountType, mntFlags, ns, rootDentry, rootMount, embedded, fields)
 			if err != nil {
-				failures.add(err)
 				return diagnostic(r, "mount_fields_unreadable", err)
 			}
 			mntText, mntOpts := linuxMountOptionList(mntFlags)
@@ -354,7 +340,12 @@ func linuxMountInfo(ctx context.Context, e plugin.Environment, p map[string]stri
 			return emit(r)
 		}
 		if err := linuxWalkNamespaceMounts(ctx, e, ns, mountType, int(maxMounts), each); err != nil {
-			failures.add(err)
+			if emitErr != nil {
+				return emitErr
+			}
+			if ctx.Err() != nil {
+				return ctx.Err()
+			}
 			return diagnostic(base(task, pid, ns, nsValue), "mount_list_incomplete", err)
 		}
 		return nil
@@ -427,6 +418,7 @@ func linuxWalkNamespaceMounts(ctx context.Context, e plugin.Environment, ns uint
 
 func linuxSignedField(ctx context.Context, e plugin.Environment, base uint64, typ, path string, fields map[string]evidence.Value, name string) (int64, evidence.Value, error) {
 	proof, err := linuxFieldProof(ctx, e, base, typ, path)
+	fields[name] = proof
 	if err != nil {
 		return 0, proof, err
 	}
@@ -434,12 +426,12 @@ func linuxSignedField(ctx context.Context, e plugin.Environment, base uint64, ty
 	if err != nil {
 		return 0, proof, err
 	}
-	fields[name] = proof
 	return value, proof, nil
 }
 
 func linuxUnsignedField(ctx context.Context, e plugin.Environment, base uint64, typ, path string, fields map[string]evidence.Value, name string) (uint64, evidence.Value, error) {
 	proof, err := linuxFieldProof(ctx, e, base, typ, path)
+	fields[name] = proof
 	if err != nil {
 		return 0, proof, err
 	}
@@ -447,7 +439,6 @@ func linuxUnsignedField(ctx context.Context, e plugin.Environment, base uint64, 
 	if err != nil {
 		return 0, proof, err
 	}
-	fields[name] = proof
 	return value, proof, nil
 }
 
@@ -567,7 +558,7 @@ func linuxMountFilesystemType(ctx context.Context, e plugin.Environment, sb uint
 		target = "file_system_type"
 	}
 	if err := spoofReadable(ctx, e, pointer, target); err != nil {
-		return evidence.Missing("not_available", nil), nil
+		return evidence.Missing("fstype_unreadable", err), err
 	}
 	namePtr, err := e.Objects.Uint(ctx, pointer, target, "name")
 	if err != nil {

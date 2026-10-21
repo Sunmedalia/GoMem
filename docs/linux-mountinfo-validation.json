@@ -78,5 +78,70 @@
     "No shared or slave mount sample",
     "Namespace inode is absent on Debian 3.2",
     "32-bit, modern kernels and ARM64 remain pending"
-  ]
+  ],
+  "failure_handling_revalidation": {
+    "date": "2026-10-21",
+    "artifact_directory": ".cache/mountinfo-errors-validation",
+    "task": "9f15ad49906e7e1152a417d7df936553",
+    "state": "completed",
+    "rows": 14,
+    "comparison": {
+      "scope": "selected fields only; full capability acceptance remains pending",
+      "fields": [
+        "MNT_NS_ID",
+        "MOUNT ID",
+        "PARENT_ID",
+        "MAJOR:MINOR",
+        "ROOT",
+        "MOUNT_POINT",
+        "MOUNT_OPTIONS",
+        "FIELDS",
+        "FSTYPE",
+        "MOUNT_SRC",
+        "SB_OPTIONS"
+      ],
+      "native_rows": 13,
+      "reference_rows": 13,
+      "matched": true,
+      "missing": [],
+      "extra": [],
+      "sha256": {
+        "native": "7439158a167ec38441d6b5fe8dbb7d1dd884c0907e64a36d9d9b039b98619b1c",
+        "reference": "3ee4161d13b1933abe9ab2dba20824e26d20b4f16817e501248d46dc6b93bcd8",
+        "mapping": "9b2eaa15afd98b07a24f272e18edbecec366c48080ba9bbc88275f13cbe80441"
+      },
+      "native_input_rows": 14,
+      "native_non_entity_records": {
+        "summary": 1
+      },
+      "entity_selection": {
+        "field": "RecordType",
+        "value": "mount",
+        "excluded_values": [
+          "diagnostic",
+          "summary"
+        ]
+      }
+    },
+    "sequence_check": "TestOfficialLinuxMountInfo independently compares all 13 ordered mount id/parent/path tuples",
+    "raw_captures_reread": 91,
+    "raw_capture_verification_scope": "fresh and cached, using JSON wire decoding with per-row minimum seven captures",
+    "cache_jsonl_identical": true,
+    "cached_sha256": "7439158a167ec38441d6b5fe8dbb7d1dd884c0907e64a36d9d9b039b98619b1c",
+    "synthetic_diagnostics": [
+      "null mount root",
+      "null superblock",
+      "partial superblock",
+      "unreadable filesystem type"
+    ],
+    "failed_task_rerun": true,
+    "numeric_failed_prefixes": "signed and unsigned helpers retain 2-of-4-byte captures, read errors and missing-layout causes",
+    "output_failure": "original error identity retained; exactly one emit attempted even if subsequent emits would succeed",
+    "cancellation": "cancellation after first emit stops further output",
+    "validation_commands": [
+      "GOMEM_CORPUS_DIR=\"$PWD/.cache/corpus\" go test -race ./internal/engine ./internal/plugins -run 'Test(OfficialLinuxMountInfo|LinuxMount)' -count=1 -v",
+      "make check",
+      "make matrix"
+    ]
+  }
 }

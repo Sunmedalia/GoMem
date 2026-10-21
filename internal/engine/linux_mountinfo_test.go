@@ -1,7 +1,6 @@
 package engine_test
 
 import (
-	"bytes"
 	"context"
 	"encoding/binary"
 	"os"
@@ -178,25 +177,8 @@ func TestLinuxMountInfoSynthetic(t *testing.T) {
 		if c["RecordType"].String() != "mount" || c["MOUNT ID"].String() != want[i].id || c["PARENT_ID"].String() != want[i].parent || c["MAJOR:MINOR"].String() != want[i].dev || c["MOUNT_POINT"].String() != want[i].point || c["MOUNT_OPTIONS"].String() != want[i].opts || c["FSTYPE"].String() != want[i].kind || c["MOUNT_SRC"].String() != want[i].src || c["SB_OPTIONS"].String() != want[i].sb || c["FIELDS"].String() != want[i].fields || c["ROOT"].String() != want[i].root || c["MNT_NS_ID"].String() != want[i].ns || c["PATH"].String() != want[i].point || c["DEVNAME"].String() != want[i].src {
 			t.Fatalf("row %d %+v", i, c)
 		}
-		fields, ok := c["FieldEvidence"].Data.(map[string]evidence.Value)
-		if !ok {
-			continue
-		}
-		for _, proof := range fields {
-			capture, ok := proof.Data.(map[string]evidence.Value)
-			if !ok {
-				continue
-			}
-			if capture["ReadComplete"].Data != true {
-				continue
-			}
-			at, err := capture["Address"].Uint()
-			raw := capture["Raw"].Data.([]byte)
-			got := make([]byte, len(raw))
-			n, readErr := e.Env.Kernel.ReadAt(ctx, got, at)
-			if err != nil || readErr != nil || n != len(raw) || !bytes.Equal(raw, got) {
-				t.Fatal(err, readErr, n)
-			}
+		if captures := verifyModuleParameterWireCaptures(t, e, c["FieldEvidence"]); captures != 7 {
+			t.Fatalf("row %d verified %d captures, expected all seven scalar/text captures", i, captures)
 		}
 	}
 	if rows[2].Cells["RecordType"].String() != "summary" {
