@@ -1,5 +1,7 @@
 # GoMem
 
+[![CI](https://github.com/Sunmedalia/GoMem/actions/workflows/ci.yml/badge.svg)](https://github.com/Sunmedalia/GoMem/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 Go 原生、只读的内存取证引擎与交互式 TUI。当前版本 **0.1.0-dev，开发预览**，不能作为完整 Volatility 替代品或“镜像正常”的判断依据。
 
 固定基线为 [Volatility 3 v2.28.2](https://github.com/volatilityfoundation/volatility3/releases/tag/v2.28.2)，提交 `881e970121c16f0932fb9d16fbd5fb258cbcbf75`。已经盘点 **195 个官方插件类**（包含旧名称入口），完整验收通过 **0 项**。原生进程、模块和 banner 能力已有指定字段对照，仍缺少参数、场景及全部字段验收。[能力矩阵](docs/capabilities.json)、[验证记录](docs/validation.json)、[剩余工作](docs/roadmap.md) 是发布依据。
@@ -336,3 +338,7 @@ make dist
 `gomem doctor --strict` 在验收未完成时失败；测试和打包程序会阻止把缺口未关闭的构建标成正式版。YARA、Capstone、LeechCore 均未接入，发布清单会如实标注。
 
 公开语料来自 [Volatility 官方测试资料库](https://github.com/volatilityfoundation/volatility3-test-data)，受其许可证约束，存放在忽略提交的 `.cache` 中。[验证说明](docs/validation.md) 包含下载、固定对照、字段归一化和基准的复现步骤。
+
+## 许可证
+
+本项目原生代码采用 [MIT 许可证](LICENSE)。外部依赖、Volatility 基线及测试语料受各自许可证约束；基线源码、镜像与案件数据不随本仓库分发。
