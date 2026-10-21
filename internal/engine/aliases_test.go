@@ -13,7 +13,7 @@ import (
 )
 
 func TestDeprecatedHiddenModuleAlias(t *testing.T) {
-	if engine.DeprecatedPluginAliases["linux.hidden_modules.Hidden_modules"] != "linux.hidden_modules" || len(engine.DeprecatedPluginAliases) != 22 {
+	if engine.DeprecatedPluginAliases["linux.hidden_modules.Hidden_modules"] != "linux.hidden_modules" || len(engine.DeprecatedPluginAliases) != 23 {
 		t.Fatal(len(engine.DeprecatedPluginAliases))
 	}
 	f := modxFixture(t, "x64", "legacy", "")
@@ -74,4 +74,9 @@ func verifyDeprecatedPluginAlias(t *testing.T, e *engine.Engine, native, alias s
 		}
 	}
 
+}
+
+func TestDeprecatedMalfindAlias(t *testing.T) {
+	e := malfindEngine(t, "x64", "list", "")
+	verifyDeprecatedPluginAlias(t, e, "linux.malfind", "linux.malfind.Malfind", 10)
 }

@@ -20,6 +20,7 @@ The wired names are:
 - `linux.hidden_modules.Hidden_modules` to `linux.hidden_modules`
 - `linux.keyboard_notifiers.Keyboard_notifiers` to `linux.keyboard_notifiers`
 - `linux.modxview.Modxview` to `linux.modxview`
+- `linux.malfind.Malfind` to `linux.malfind`
 - `linux.netfilter.Netfilter` to `linux.netfilter`
 - `linux.tty_check.tty_check` to `linux.tty_check`
 - `windows.amcache.Amcache` to `windows.amcache`
@@ -49,3 +50,6 @@ task `39236220ecc348ae99ba711eb7b60b3e` completes with 573 source/list rows
 and zero hooks, preserves the deprecated name in row provenance and replays
 byte-identical JSONL. This remains a negative control, not full alias or
 Netfilter capability acceptance.
+
+`TestDeprecatedMalfindAlias` checks every result cell, requested task identity,
+row seals and cached JSONL for the native suspicious-mapping fixture.

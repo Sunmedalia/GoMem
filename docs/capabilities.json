@@ -1570,14 +1570,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "linux.malfind",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-malfind-deprecated"
+      ],
+      "comparison": "all_native_cells_requested_task_identity_seals_and_cached_jsonl",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Deprecated alias delegates to linux.malfind; real alias-name, parameter and full capability acceptance remain pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "linux.malware.check_afinfo.Check_afinfo",
@@ -2049,15 +2052,23 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Intel Linux active tasks with optional task.pid list and symbol-described list or Maple Tree VMAs. Select RWX, anonymous RX, then executable mappings with hardware leaf dirty bit 6. Skip vdso. Follow full hardware page-size stride, including large mappings; default stops at first dirty page and displays VMA-start bytes at that page PC, while show-all-dirty-pages reads each dirty page. Native limits bound task/VMA/page traversal, display bytes and decoded instructions. Preserve VMA/flags/file/mm/pgd, physical dirty leaf bytes, page-state digests, read gaps, process identity and selected region extent. Dump limit is strict: equality and zero skip.",
+      "native": "linux.malfind",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "official-linux-sample-1-negative-with-delegated-page-state-probe",
+        "synthetic-linux-malfind-x64-x86-pae-list-maple",
+        "pinned-malfind-24-traversals-14-flag-large-page-cases"
+      ],
+      "comparison": "zero_findings_3192_executable_vmas_210847_probes_and_page_state_digests_match_149562_unavailable_pages_retained",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Debian 3.2 x64 is a negative control: zero findings. An independent delegated probe matches all 3192 VMA page-state digests, 210847 probes and 149562 unavailable pages; native marks 2880 scans and the task incomplete and retries rather than treating absence as clean. Positive real suspicious mappings and modern kernels remain pending",
+        "Native original page-table and display captures, strict size bounds, extraction gaps, synthetic cancellation/output failures and row/cache integrity are tested. Default dirty display PC/data mismatch follows pinned behavior. Permission labels are evidence, not a malware verdict",
+        "Native disassembly uses Go x86asm instead of Capstone, retains exact input bytes/PC/architecture and decoded extent, and bounds decoded instructions to 4096. Text/opcode support equivalence and full render acceptance remain pending",
+        "Native forward list/Maple owner/interval validation, explicit read errors, whole-VMA capture bound 4096 and traversal/display bounds differ from silent baseline skips. All damaged-input, parameter, real x86/PAE, ARM64 and full capability acceptance remain pending"
+      ],
+      "validation_record": "docs/linux-malfind.md"
     },
     {
       "id": "linux.malware.modxview.Modxview",

@@ -50,10 +50,18 @@ type MemoryLayer interface {
 	Ranges() []Range
 }
 type Translation struct {
-	Physical   uint64
-	Available  uint64
-	Writable   bool
-	Executable bool
+	// PageSize is the hardware leaf mapping size, including large pages.
+	// EntryAddress and Entry retain the final physical page-table entry.
+	PageSize     uint64
+	EntryAddress uint64
+	Entry        uint64
+	EntryWidth   uint8
+	Dirty        bool
+	DirtyKnown   bool
+	Physical     uint64
+	Available    uint64
+	Writable     bool
+	Executable   bool
 	// Software transition entries do not carry hardware access permissions.
 	PermissionsKnown bool
 	Transition       bool

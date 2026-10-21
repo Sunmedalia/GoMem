@@ -160,7 +160,7 @@ func (i *Intel) Translate(ctx context.Context, a uint64) (Translation, error) {
 			if large {
 				frame &= ^(size - 1)
 			}
-			return Translation{Physical: frame + (a & (size - 1)), Available: size - (a & (size - 1)), Writable: w && !transition, Executable: x && !transition, PermissionsKnown: !transition, Transition: transition}, nil
+			return Translation{PageSize: size, EntryAddress: table + index*uint64(width), Entry: entry, EntryWidth: uint8(width), Dirty: !transition && entry&64 != 0, DirtyKnown: !transition, Physical: frame + (a & (size - 1)), Available: size - (a & (size - 1)), Writable: w && !transition, Executable: x && !transition, PermissionsKnown: !transition, Transition: transition}, nil
 		}
 		table = entry & 0x000ffffffffff000
 		if software && i.mode == "x64" {

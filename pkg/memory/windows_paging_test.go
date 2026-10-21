@@ -64,7 +64,7 @@ func TestWindowsResidentTransitionPages(t *testing.T) {
 						}
 						continue
 					}
-					if err != nil || !v.Transition || v.PermissionsKnown || v.Writable || v.Executable {
+					if err != nil || !v.Transition || v.PermissionsKnown || v.DirtyKnown || v.Dirty || v.Writable || v.Executable {
 						t.Fatal("transition metadata/permission uncertainty lost", v, err)
 					}
 					layer := &Virtual{Physical: p, Translator: tr, ID: "windows-transition"}

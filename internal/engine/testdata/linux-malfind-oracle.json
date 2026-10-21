@@ -1,0 +1,1514 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Execute locked Linux Malfind heuristics and generator over mocked objects.\n\nActual _get_dirty_pages, _is_suspicious, _list_injections and _generator run\nunchanged. Kernel objects, translated page state, reads and file output are\nmocked boundaries; this does not establish real malicious-code acceptance.\n",
+  "cases": [
+    {
+      "bits": 32,
+      "scenario": "standard",
+      "all_pages": false,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x409000",
+          "protection": "r-x",
+          "data": "b808000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4227072,
+          "region_start": 4231168,
+          "region_size": 4096,
+          "disasm_address": 4231168,
+          "disasm_data": "b808000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 32,
+      "scenario": "standard",
+      "all_pages": true,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x409000",
+          "protection": "r-x",
+          "data": "b809000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4231168,
+          "region_start": 4231168,
+          "region_size": 4096,
+          "disasm_address": 4231168,
+          "disasm_data": "b809000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x40a000",
+          "protection": "r-x",
+          "data": "b80a000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4235264,
+          "region_start": 4235264,
+          "region_size": 4096,
+          "disasm_address": 4235264,
+          "disasm_data": "b80a000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 32,
+      "scenario": "clean",
+      "all_pages": false,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 32,
+      "scenario": "clean",
+      "all_pages": true,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 32,
+      "scenario": "vdso",
+      "all_pages": false,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x409000",
+          "protection": "r-x",
+          "data": "b808000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4227072,
+          "region_start": 4231168,
+          "region_size": 4096,
+          "disasm_address": 4231168,
+          "disasm_data": "b808000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 32,
+      "scenario": "vdso",
+      "all_pages": true,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x409000",
+          "protection": "r-x",
+          "data": "b809000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4231168,
+          "region_start": 4231168,
+          "region_size": 4096,
+          "disasm_address": 4231168,
+          "disasm_data": "b809000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x40a000",
+          "protection": "r-x",
+          "data": "b80a000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4235264,
+          "region_start": 4235264,
+          "region_size": 4096,
+          "disasm_address": 4235264,
+          "disasm_data": "b80a000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 32,
+      "scenario": "scan-hole",
+      "all_pages": false,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x40a000",
+          "protection": "r-x",
+          "data": "b808000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4227072,
+          "region_start": 4235264,
+          "region_size": 4096,
+          "disasm_address": 4235264,
+          "disasm_data": "b808000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 32,
+      "scenario": "scan-hole",
+      "all_pages": true,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x40a000",
+          "protection": "r-x",
+          "data": "b80a000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4235264,
+          "region_start": 4235264,
+          "region_size": 4096,
+          "disasm_address": 4235264,
+          "disasm_data": "b80a000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 32,
+      "scenario": "data-hole",
+      "all_pages": false,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x409000",
+          "protection": "r-x",
+          "data": "b808000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4227072,
+          "region_start": 4231168,
+          "region_size": 4096,
+          "disasm_address": 4231168,
+          "disasm_data": "b808000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 32,
+      "scenario": "data-hole",
+      "all_pages": true,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x409000",
+          "protection": "r-x",
+          "data": "b809000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4231168,
+          "region_start": 4231168,
+          "region_size": 4096,
+          "disasm_address": 4231168,
+          "disasm_data": "b809000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x40a000",
+          "protection": "r-x",
+          "data": "b80a000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4235264,
+          "region_start": 4235264,
+          "region_size": 4096,
+          "disasm_address": 4235264,
+          "disasm_data": "b80a000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 32,
+      "scenario": "zero-data",
+      "all_pages": false,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x409000",
+          "protection": "r-x",
+          "data": "",
+          "data_address": 4227072,
+          "region_start": 4231168,
+          "region_size": 4096,
+          "disasm_address": 4231168,
+          "disasm_data": "",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 32,
+      "scenario": "zero-data",
+      "all_pages": true,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x409000",
+          "protection": "r-x",
+          "data": "",
+          "data_address": 4231168,
+          "region_start": 4231168,
+          "region_size": 4096,
+          "disasm_address": 4231168,
+          "disasm_data": "",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x40a000",
+          "protection": "r-x",
+          "data": "",
+          "data_address": 4235264,
+          "region_start": 4235264,
+          "region_size": 4096,
+          "disasm_address": 4235264,
+          "disasm_data": "",
+          "architecture": "intel",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 64,
+      "scenario": "standard",
+      "all_pages": false,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x409000",
+          "protection": "r-x",
+          "data": "b808000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4227072,
+          "region_start": 4231168,
+          "region_size": 4096,
+          "disasm_address": 4231168,
+          "disasm_data": "b808000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 64,
+      "scenario": "standard",
+      "all_pages": true,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x409000",
+          "protection": "r-x",
+          "data": "b809000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4231168,
+          "region_start": 4231168,
+          "region_size": 4096,
+          "disasm_address": 4231168,
+          "disasm_data": "b809000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x40a000",
+          "protection": "r-x",
+          "data": "b80a000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4235264,
+          "region_start": 4235264,
+          "region_size": 4096,
+          "disasm_address": 4235264,
+          "disasm_data": "b80a000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 64,
+      "scenario": "clean",
+      "all_pages": false,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 64,
+      "scenario": "clean",
+      "all_pages": true,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 64,
+      "scenario": "vdso",
+      "all_pages": false,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x409000",
+          "protection": "r-x",
+          "data": "b808000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4227072,
+          "region_start": 4231168,
+          "region_size": 4096,
+          "disasm_address": 4231168,
+          "disasm_data": "b808000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 64,
+      "scenario": "vdso",
+      "all_pages": true,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x409000",
+          "protection": "r-x",
+          "data": "b809000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4231168,
+          "region_start": 4231168,
+          "region_size": 4096,
+          "disasm_address": 4231168,
+          "disasm_data": "b809000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x40a000",
+          "protection": "r-x",
+          "data": "b80a000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4235264,
+          "region_start": 4235264,
+          "region_size": 4096,
+          "disasm_address": 4235264,
+          "disasm_data": "b80a000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 64,
+      "scenario": "scan-hole",
+      "all_pages": false,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x40a000",
+          "protection": "r-x",
+          "data": "b808000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4227072,
+          "region_start": 4235264,
+          "region_size": 4096,
+          "disasm_address": 4235264,
+          "disasm_data": "b808000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 64,
+      "scenario": "scan-hole",
+      "all_pages": true,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "b800000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x40a000",
+          "protection": "r-x",
+          "data": "b80a000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4235264,
+          "region_start": 4235264,
+          "region_size": 4096,
+          "disasm_address": 4235264,
+          "disasm_data": "b80a000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 64,
+      "scenario": "data-hole",
+      "all_pages": false,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x409000",
+          "protection": "r-x",
+          "data": "b808000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4227072,
+          "region_start": 4231168,
+          "region_size": 4096,
+          "disasm_address": 4231168,
+          "disasm_data": "b808000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 64,
+      "scenario": "data-hole",
+      "all_pages": true,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "b804000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x409000",
+          "protection": "r-x",
+          "data": "b809000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4231168,
+          "region_start": 4231168,
+          "region_size": 4096,
+          "disasm_address": 4231168,
+          "disasm_data": "b809000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x40a000",
+          "protection": "r-x",
+          "data": "b80a000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "data_address": 4235264,
+          "region_start": 4235264,
+          "region_size": 4096,
+          "disasm_address": 4235264,
+          "disasm_data": "b80a000000c390900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 64,
+      "scenario": "zero-data",
+      "all_pages": false,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x409000",
+          "protection": "r-x",
+          "data": "",
+          "data_address": 4227072,
+          "region_start": 4231168,
+          "region_size": 4096,
+          "disasm_address": 4231168,
+          "disasm_data": "",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        }
+      ]
+    },
+    {
+      "bits": 64,
+      "scenario": "zero-data",
+      "all_pages": true,
+      "rows": [
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4194304,
+          "end": 4202496,
+          "path": "Anonymous Mapping",
+          "protection": "rwx",
+          "data": "",
+          "data_address": 4194304,
+          "region_start": 4194304,
+          "region_size": 8192,
+          "disasm_address": 4194304,
+          "disasm_data": "",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4210688,
+          "end": 4218880,
+          "path": "[heap]",
+          "protection": "r-x",
+          "data": "",
+          "data_address": 4210688,
+          "region_start": 4210688,
+          "region_size": 8192,
+          "disasm_address": 4210688,
+          "disasm_data": "",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x409000",
+          "protection": "r-x",
+          "data": "",
+          "data_address": 4231168,
+          "region_start": 4231168,
+          "region_size": 4096,
+          "disasm_address": 4231168,
+          "disasm_data": "",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        },
+        {
+          "pid": 100,
+          "process": "init",
+          "start": 4227072,
+          "end": 4239360,
+          "path": "/lib/libfoo.so, dirty page address: 0x40a000",
+          "protection": "r-x",
+          "data": "",
+          "data_address": 4235264,
+          "region_start": 4235264,
+          "region_size": 4096,
+          "disasm_address": 4235264,
+          "disasm_data": "",
+          "architecture": "intel64",
+          "file_output": "Disabled"
+        }
+      ]
+    }
+  ],
+  "flags": [
+    {
+      "protection": "---",
+      "file": 0,
+      "result": null,
+      "dirty_pages": [
+        [
+          4198400,
+          2097152
+        ]
+      ]
+    },
+    {
+      "protection": "---",
+      "file": 1,
+      "result": null,
+      "dirty_pages": [
+        [
+          4198400,
+          2097152
+        ]
+      ]
+    },
+    {
+      "protection": "--x",
+      "file": 0,
+      "result": [
+        4198400,
+        2097152,
+        2
+      ],
+      "dirty_pages": [
+        [
+          4198400,
+          2097152
+        ]
+      ]
+    },
+    {
+      "protection": "--x",
+      "file": 1,
+      "result": [
+        4198400,
+        2097152,
+        2
+      ],
+      "dirty_pages": [
+        [
+          4198400,
+          2097152
+        ]
+      ]
+    },
+    {
+      "protection": "-wx",
+      "file": 0,
+      "result": [
+        4198400,
+        2097152,
+        2
+      ],
+      "dirty_pages": [
+        [
+          4198400,
+          2097152
+        ]
+      ]
+    },
+    {
+      "protection": "-wx",
+      "file": 1,
+      "result": [
+        4198400,
+        2097152,
+        2
+      ],
+      "dirty_pages": [
+        [
+          4198400,
+          2097152
+        ]
+      ]
+    },
+    {
+      "protection": "r--",
+      "file": 0,
+      "result": null,
+      "dirty_pages": [
+        [
+          4198400,
+          2097152
+        ]
+      ]
+    },
+    {
+      "protection": "r--",
+      "file": 1,
+      "result": null,
+      "dirty_pages": [
+        [
+          4198400,
+          2097152
+        ]
+      ]
+    },
+    {
+      "protection": "rw-",
+      "file": 0,
+      "result": null,
+      "dirty_pages": [
+        [
+          4198400,
+          2097152
+        ]
+      ]
+    },
+    {
+      "protection": "rw-",
+      "file": 1,
+      "result": null,
+      "dirty_pages": [
+        [
+          4198400,
+          2097152
+        ]
+      ]
+    },
+    {
+      "protection": "r-x",
+      "file": 0,
+      "result": [
+        4198400,
+        8192,
+        1
+      ],
+      "dirty_pages": [
+        [
+          4198400,
+          2097152
+        ]
+      ]
+    },
+    {
+      "protection": "r-x",
+      "file": 1,
+      "result": [
+        4198400,
+        2097152,
+        2
+      ],
+      "dirty_pages": [
+        [
+          4198400,
+          2097152
+        ]
+      ]
+    },
+    {
+      "protection": "rwx",
+      "file": 0,
+      "result": [
+        4198400,
+        8192,
+        0
+      ],
+      "dirty_pages": [
+        [
+          4198400,
+          2097152
+        ]
+      ]
+    },
+    {
+      "protection": "rwx",
+      "file": 1,
+      "result": [
+        4198400,
+        8192,
+        0
+      ],
+      "dirty_pages": [
+        [
+          4198400,
+          2097152
+        ]
+      ]
+    }
+  ]
+}
