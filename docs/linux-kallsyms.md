@@ -1,6 +1,6 @@
 # Linux kallsyms 原生底座开发预览
 
-`pkg/kallsyms` 从镜像中的 `kallsyms_num_syms`、压缩名称流、token 索引/字典以及地址表恢复核心符号。它不把外部 ISF 的名称列表当作分析输出；ISF 只提供布局、表坐标及内核边界。当前是底座 API，**尚未注册 `linux.kallsyms` CLI 插件**，能力矩阵仍为 missing；模块、ftrace 和 BPF 符号源及完整插件参数语义待接入。
+`pkg/kallsyms` 从镜像中的 `kallsyms_num_syms`、压缩名称流、token 索引/字典以及地址表恢复核心符号。它不把外部 ISF 的名称列表当作分析输出；ISF 只提供布局、表坐标及内核边界。当前还提供 `linux.kallsyms` CLI，四类来源及其验证范围见下文；能力矩阵为部分实现，尚未完整验收。
 
 ## 已实现的核心读取
 
@@ -29,6 +29,42 @@ GOMEM_KALLSYMS_CORE_REFERENCE="$PWD/.cache/kallsyms-core-validation/reference" \
 go test -race ./pkg/kallsyms -count=1
 ```
 
-参考结果用固定 `tools/reference.py`、`linux.kallsyms --core` 产生，测试验证 manifest 的提交、镜像哈希、输出摘要及参数。跳过可选语料测试不构成验收。更多现代内核、真实 x86/PAE/ARM64、大端、损坏镜像、持久化证据、其余符号源和插件入口仍待完成。
+参考结果用固定 `tools/reference.py`、`linux.kallsyms --core` 产生，测试验证 manifest 的提交、镜像哈希、输出摘要及参数。跳过可选语料测试不构成验收。核心层的更多现代内核、真实 x86/PAE、大端及损坏镜像仍待验证；CLI 与案件证据的验证范围见下文。
 
 [机器可读验证记录](linux-kallsyms-core-validation.json)。
+
+## 全源 CLI 开发预览
+
+`linux.kallsyms` 原生接入核心、已加载模块、ftrace 模块映射/跳板及 BPF 符号链。支持固定基线的 Intel x64/x86/PAE；ARM64 不属于该固定类的 `LINUX_ARCHS`，入口明确拒绝。
+
+```sh
+bin/gomem analyze linux.kallsyms --image memory.raw --symbols kernel.json.xz \
+  --offline --case case-symbols --param core=true --format jsonl
+```
+
+`core`、`modules`、`ftrace`、`bpf` 默认 false；没有任何 true 时启用全部来源，多个 true 取并集。官方列为 Addr、Type、Size、Exported、SubSystem、ModuleName、SymbolName、Description。输出顺序按 core → module → ftrace → bpf，各来源保留其内部顺序。单独选择非核心来源时不强制读取无关核心表；固定基线始终初始化核心配置，这是明确的前置条件差异。
+
+模块支持旧式直接表及指针/内嵌 `mod_kallsyms`，5.2+ typetab，以及 `kernel_symbol` 绝对/PREL32 导出表。以固定二分查找语义判定导出：零导出数为 false，找不到条目为不可用，找到但地址不等为 false。保留基线原始地址比较，不擅自掩码两侧来推导导出状态。ELF 名称采用固定 512 字节上下文的替换解码；模块名称和指针字符串保留 NUL/首个 U+FFFD 截断行为。
+
+固定 elf.json 的 Elf32_Sym.st_size 声明为八字节，会覆盖 st_info 等后续字段。官方 Size 列保留此固定行为，`RawELFSize` 另存 ABI 的四字节原值；不将它描述为正确的 ELF32 大小。固定 PREL32 导出名称 helper 将 int 传给只接受 Pointer 的函数，实际抛出 `pointer_to_string takes a Pointer`。原生按声明的有符号相对偏移解析，并对溢出/下溢明确失败；这类用例只验证与相同绝对表内容的原生布局等价，不计为与异常基线成功对齐。
+
+ftrace 支持 `ftrace_mod_maps` 的模块/函数链，以及可用的 `ftrace_ops_trampoline_list`。映射函数地址使用虚拟层掩码，跳板值保持基线未掩码语义。BPF 支持现代 `bpf_ksym` 和旧式 `bpf_prog_aux`，程序名称与 pack 标志跟随 `prog.aux`，而非假定它等于链上的 aux 对象。旧式大小取 JIT 页头的 pages × 4096，普通头按 4096 对齐，启用 pack 时按 64 对齐；现代大小来自 end-start。零/负大小不可用，原始区间依据另外保留。可用类型/符号不存在时按固定内核版本门槛跳过来源；损坏布局和读取错误明确使任务失败。
+
+`symbol_read` 保存全部实际读取及原始字节、地址、请求/采集长度、完整标记和错误；`symbol_source` 保存来源状态或失败，`symbols_summary` 保存计数/预算。实体 `symbol` 带对象/索引/表坐标等依据，核心行带压缩偏移和大小区间。名称跨入缺页时保留实际前缀和原始失败；受影响实体的 `Error` 为 `symbol_name_acquisition_incomplete`，其 `NameReadIssues` 保存坐标、长度和原因。任务失败后不能作为成功缓存复用。真实镜像中的实体字段一致不抹除缺页，也不证明来源完整。
+
+全局 `max-nodes` 默认 131072，上限 1000000；`max-symbols` 默认 1000000，上限 10000000；`max-bytes` 默认 512 MiB，上限 1 GiB。所有下限为 1，采集预算跨来源共享，包含名称、符号及链表读取。每次输出和读取均检查取消/输出失败。链表循环、回链不一致、超界、缺页、错误表布局均保留显式错误；严格链校验与上游的恢复/静默跳过并不完全相同。
+
+## 全源验证
+
+`tools/build_kallsyms_sources_oracle.py` 执行未修改的 `get_all_symbols` 及真实 Linux module/kernel_symbol/BPF 扩展和 ELF 对象，不 mock 来源或解析方法。120 个案例覆盖两种指针宽度、四种模块布局、三种 BPF 布局、正常/空链/零导出/PREL32 导出/重定向 aux。96 个案例的八字段结果与基线匹配；24 个 PREL32 案例记录基线 TypeError，并单独验证原生相对布局。180 个 x64/x86/PAE 分页案例中，144 个可作基线字段对照，36 个仅作相对布局验证。验证原始读取独立重读、输出不可变、SQLite 封存及成功缓存 JSONL 逐字节一致。
+
+附加测试覆盖全部 16 种来源开关组合、每个输出/取消边界、循环链、缺页、表错误、资源上限、部分读取和失败重试；采集入口接入 Go fuzz。真实 Debian 全源基线输出 34,472 个实体（核心 24,648、模块 9,824），八列全部匹配。原生发生 65 次部分名称读取，保留错误并将任务标记失败。这是**带缺页的实体字段对照**，不能作为成功完整采集或 ftrace/BPF 真实阳性验收。
+
+```sh
+python3 tools/build_kallsyms_sources_oracle.py --check
+GOMEM_CORPUS_DIR="$PWD/.cache/corpus" \
+GOMEM_KALLSYMS_REFERENCE="$PWD/.cache/kallsyms-validation/reference" \
+go test ./internal/engine -run '^TestOfficialLinuxKallsymsSourcesPartialControl' -count=1
+```
+
+[全源验证记录](linux-kallsyms-validation.json)、[八字段对照配置](diff/linux.kallsyms.json)。真实现代内核、x86/PAE、ftrace/BPF 阳性、并发损坏镜像、全部参数/渲染方式及完整验收仍待补齐。

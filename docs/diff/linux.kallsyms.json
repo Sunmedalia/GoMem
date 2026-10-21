@@ -1,0 +1,86 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "symbol",
+    "excluded_values": [
+      "symbol_read",
+      "symbol_source",
+      "symbols_summary"
+    ]
+  },
+  "fields": {
+    "Addr": {
+      "native": "Addr",
+      "reference": "Addr",
+      "kind": "address",
+      "missing_reasons": [
+        "not_available",
+        "name_not_in_layout"
+      ],
+      "mask": "0x0000ffffffffffff"
+    },
+    "Type": {
+      "native": "Type",
+      "reference": "Type",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available",
+        "name_not_in_layout"
+      ]
+    },
+    "Size": {
+      "native": "Size",
+      "reference": "Size",
+      "kind": "uint64",
+      "missing_reasons": [
+        "not_available",
+        "name_not_in_layout"
+      ]
+    },
+    "Exported": {
+      "native": "Exported",
+      "reference": "Exported",
+      "kind": "bool",
+      "missing_reasons": [
+        "not_available",
+        "name_not_in_layout"
+      ]
+    },
+    "SubSystem": {
+      "native": "SubSystem",
+      "reference": "SubSystem",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available",
+        "name_not_in_layout"
+      ]
+    },
+    "ModuleName": {
+      "native": "ModuleName",
+      "reference": "ModuleName",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available",
+        "name_not_in_layout"
+      ]
+    },
+    "SymbolName": {
+      "native": "SymbolName",
+      "reference": "SymbolName",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available",
+        "name_not_in_layout"
+      ]
+    },
+    "Description": {
+      "native": "Description",
+      "reference": "Description",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available",
+        "name_not_in_layout"
+      ]
+    }
+  }
+}

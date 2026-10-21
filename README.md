@@ -10,7 +10,7 @@ Go 原生、只读的内存取证引擎与交互式 TUI。当前版本 **0.1.0-d
 
 `linux.kmsg` 已支持四类内核日志缓冲区，保留读取证据、描述符状态及有界失败。Debian 样本的 1,445 条日志通过五字段对照；真实现代内核日志与完整验收仍待补齐。[内核日志验证](docs/linux-kmsg.md)
 
-原生 kallsyms 核心解码底座已与 Debian 的 24,648 个驻留符号对照；完整插件入口和其余符号源仍待接入。[核心符号验证](docs/linux-kallsyms.md)
+`linux.kallsyms` 已接入核心、模块、ftrace 和 BPF 符号源。Debian 的 34,472 个实体八列匹配，但保留 65 次部分读取并标记任务失败；完整验收仍待补齐。[符号验证](docs/linux-kallsyms.md)
 
 `linux.check_tracepoints` 已支持绝对地址/PREL32 表、探针优先级和模块关联，保留原始读取证据。60 组固定对象对照通过；Debian 的 202 个 tracepoint 为零探针对照，真实阳性仍待验证。[tracepoint 验证](docs/linux-tracepoints.md)
 

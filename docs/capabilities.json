@@ -1115,20 +1115,23 @@
           "optional": true
         }
       ],
-      "applicability": "Resident core compressed symbol tables with typed count, tokens, absolute addresses or fixed ABSOLUTE_PERCPU signed relative offsets; full plugin also requires module/ftrace/BPF sources and architecture-specific virtual layers.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Intel Linux resident compressed core tables, typed module ELF/export tables, optional ftrace module maps/trampolines and modern or legacy BPF symbol lists. Four source flags select union; none enabled selects all.",
+      "native": "linux.kallsyms",
+      "status": "partial",
       "accepted": false,
       "corpora": [
         "pinned-kallsyms-core-52-byte-backed-object-cases",
-        "official-linux-sample-1-core-symbols"
+        "pinned-kallsyms-sources-120-byte-backed-object-cases",
+        "synthetic-kallsyms-180-x64-x86-pae-paging-cases",
+        "official-linux-sample-1-partial-acquisition"
       ],
-      "comparison": "core_library_only_24648_Debian_symbols_five_fields_match_no_registered_plugin",
+      "comparison": "96_source_cases_eight_fields_match_24_PREL32_reference_TypeErrors_native_layout_equivalence_34472_Debian_entities_match_65_partial_reads_task_failed",
       "gaps": [
-        "Native pkg/kallsyms core decoder exists but no linux.kallsyms CLI plugin is registered; keep class missing",
-        "Module, ftrace and BPF symbol sources, full result columns, parameter semantics and persistent acquisition evidence remain pending",
-        "Fixed core extended-length stream-advance quirk preserved with offsets; native rejects unordered tables, invalid UTF-8 token bytes, read failures and bounds explicitly",
-        "Real modern relative tables, x86/PAE/ARM64 and big-endian kernels, damaged images and full capability acceptance remain pending"
+        "Fixed PREL32 export-name helper raises TypeError; native supports relative layout and records this explicit behavior difference. No successful PREL32 baseline differential claimed",
+        "Fixed Elf32_Sym size reads eight bytes overlapping later fields; official Size preserved and ABI RawELFSize retained separately",
+        "Core extended-length stream-advance quirk retained. Native independently selected non-core sources do not require unrelated core bootstrap; strict read/layout/list/budget failures differ from silent baseline skipping/padding",
+        "Debian full eight-column entity comparison matches 34472 rows but has 65 partial name reads; task fails with affected-entity errors. This does not establish complete acquisition, ftrace/BPF real positives or successful cache replay on this corpus",
+        "Real modern relative kernels, x86/PAE, ftrace/BPF positives, damaged/concurrent images and all parameter/renderer acceptance pending. Intel only as required by fixed class"
       ],
       "validation_record": "docs/linux-kallsyms.md"
     },

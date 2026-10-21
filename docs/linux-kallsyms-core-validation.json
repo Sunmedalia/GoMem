@@ -3,7 +3,7 @@
   "date": "2026-10-22",
   "release": "development-preview",
   "accepted": false,
-  "plugin_registered": false,
+  "plugin_registered": true,
   "baseline": {
     "name": "Volatility 3",
     "version": "2.28.2",
@@ -84,11 +84,10 @@
     "bin/gomem doctor --offline"
   ],
   "limitations": [
-    "No linux.kallsyms CLI yet; capability remains missing",
-    "Module, ftrace and BPF symbol sources not implemented",
     "Fixed extended-name header stream-advance quirk preserved with explicit offsets",
     "Unordered arrays, invalid UTF-8 bytes, read errors and bounds fail explicitly rather than fixed partial silent skipping",
     "Actual modern/relative, x86/PAE/ARM64 and big-endian corpus acceptance pending",
-    "Package API does not persist case evidence; plugin integration pending"
-  ]
+    "Package API itself does not persist evidence; CLI integration and all-source validation are recorded separately"
+  ],
+  "scope": "Core decoder evidence only; current full-source plugin validation is docs/linux-kallsyms-validation.json"
 }
