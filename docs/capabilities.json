@@ -8393,6 +8393,7 @@
       "comparison": "selected_177_rows_match_offset_base_size_names_and_disabled_output",
       "gaps": [
         "Only one Windows 10 x64 crash dump has a selected-field differential. It has 177 modules. One base name and 20 paths were unreadable; the compared cells match the reference nulls and the errors stay on NameError or PathError",
+        "Windows module-difference triage is wired to paged raw module rows and validates final pool coverage. Synthetic tests cover same-name/base distinct objects, virtual aliases, legacy physical coordinates, translation gaps, duplicate candidates, late pages, whitelist, cache, evidence seals and metadata errors. One selected image has 176 matches and one informational unreadable extra candidate, not a malicious positive; see docs/windows-module-triage.md",
         "32-bit images and real pre-Windows 8 physical scans remain pending",
         "dump extraction was not differentially compared. The default File output is the literal Disabled on all 177 rows",
         "base=0 disables filtering, matching windows.modules. The pinned optional integer would select DllBase 0",
@@ -8474,6 +8475,7 @@
       "gaps": [
         "Full version/architecture, session mapping and failure/parameter acceptance pending",
         "19 path errors remain distinct from reference nulls in the selected image",
+        "Windows module-difference triage compares loader object physical coordinates, preserving original source evidence and task provenance. The selected image matches all 176 active objects to 177 pool candidates; the one unreadable extra candidate is informational, not a verified malicious module. See docs/windows-module-triage.md",
         "PE files retain canonical ImageBase high bits; explicit byte differences and filename mapping remain recorded"
       ],
       "validation_record": "docs/windows-process-modules.md"

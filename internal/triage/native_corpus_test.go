@@ -30,12 +30,17 @@ func TestOfficialWindowsNativeTriageCoverage(t *testing.T) {
 		if !errors.Is(err, ErrIncomplete) {
 			t.Fatal(summary, err)
 		}
-		if summary.Findings != 31 {
+		if summary.Findings != 32 {
 			t.Fatal("unexpected findings", summary.Findings)
 		}
 		seen := 0
 		for _, check := range summary.Checks {
 			switch check.Rule {
+			case "module-enumeration-difference":
+				seen++
+				if check.State != "completed" || check.Findings != 1 || check.Coverage["active_modules"] != "176" || check.Coverage["scanned_modules"] != "177" || check.Coverage["matched"] != "176" || check.Coverage["active_unresolved"] != "0" || check.Coverage["scanned_unresolved"] != "0" {
+					t.Fatal(check)
+				}
 			case "hidden-process":
 				seen++
 				if check.State != "completed" || check.Findings != 1 || check.Coverage["pslist"] != "113" || check.Coverage["psscan"] != "114" || check.Coverage["thrdscan"] != "112" || check.Coverage["csrss"] != "103" {
@@ -53,7 +58,7 @@ func TestOfficialWindowsNativeTriageCoverage(t *testing.T) {
 				}
 			}
 		}
-		if seen != 3 {
+		if seen != 4 {
 			t.Fatal("native triage rules were not evaluated", summary)
 		}
 
@@ -61,8 +66,17 @@ func TestOfficialWindowsNativeTriageCoverage(t *testing.T) {
 		if queryErr != nil {
 			t.Fatal(queryErr)
 		}
-		hidden := 0
+		hidden, modules := 0, 0
 		for _, finding := range findings {
+			if finding.Cells["Rule"].String() == "module-enumeration-difference" {
+				modules++
+				refs := finding.Cells["EvidenceIDs"].Data.([]any)
+				source, sourceErr := e.Store.Find(ctx, refs[0].(string))
+				if finding.Verify() != nil || sourceErr != nil || source.Verify() != nil || source.Provenance.Plugin != "windows.modscan" || finding.Cells["ComparisonSpace"].String() != "physical" || finding.Cells["Comparison"].Kind != "structure" || finding.Cells["Severity"].String() != "info" || finding.Cells["NameError"].Error == "" || finding.Cells["PathError"].Error == "" || finding.Provenance.Offset != source.Provenance.Offset {
+					t.Fatal(finding, source, sourceErr)
+				}
+				t.Logf("module mismatch: offset %s physical %s name %s path %s", source.Provenance.Offset, finding.Cells["ComparisonOffset"].String(), source.Cells["Name"].String(), source.Cells["Path"].String())
+			}
 			if finding.Cells["Rule"].String() != "hidden-process" {
 				continue
 			}
@@ -74,7 +88,7 @@ func TestOfficialWindowsNativeTriageCoverage(t *testing.T) {
 				t.Fatal(finding, source, sourceErr)
 			}
 		}
-		if hidden != 1 {
+		if hidden != 1 || modules != 1 {
 			t.Fatal("missing residual process evidence", hidden)
 		}
 		for _, task := range summary.Tasks {

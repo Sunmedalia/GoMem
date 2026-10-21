@@ -148,6 +148,9 @@ func TestLinuxHiddenTaskPipelineControlsResidualsPIDReuseAndWhitelist(t *testing
 			if finding.Cells["Comparison"].Kind != "structure" {
 				t.Fatal("difference lost the completed task comparison provenance", finding)
 			}
+			if err := finding.Verify(); err != nil {
+				t.Fatal("stored comparison evidence did not retain its seal", err)
+			}
 			refs := finding.Cells["EvidenceIDs"].Data.([]any)
 			source, err := e.Store.Find(ctx, refs[0].(string))
 			if err != nil || source.Provenance.Plugin != "linux.psscan" {

@@ -16,6 +16,20 @@ func emitFinding(ctx context.Context, rule Rule, row evidence.Row, entity string
 		return fmt.Errorf("rule input lacks sealed evidence provenance")
 	}
 	cells := map[string]evidence.Value{"Rule": evidence.Text(rule.ID), "Severity": evidence.Text(rule.Severity), "Basis": evidence.Text(rule.Basis), "FalsePositive": evidence.Text(rule.FalsePositive), "Entity": evidence.Text(entity), "EvidenceIDs": {Kind: "references", Data: refs}}
+	if rule.Kind == "module-difference" {
+		cells["SourcePlugin"] = evidence.Text(row.Provenance.Plugin)
+		cells["Assessment"] = evidence.Text("Pool-scanned loader object absent from the loaded-module list; stale or unloaded allocations may explain this mismatch")
+		for _, key := range []string{"Offset", "Base", "Size", "Name", "NameError", "Path", "PathError"} {
+			if value, ok := row.Cells[key]; ok {
+				cells[key] = value
+			}
+		}
+		if row.Cells["Name"].Kind == "missing" || row.Cells["Path"].Kind == "missing" || row.Cells["NameError"].Error != "" || row.Cells["PathError"].Error != "" {
+			cells["Severity"] = evidence.Text("info")
+			cells["Confidence"] = evidence.Text("limited_by_module_metadata")
+			cells["Assessment"] = evidence.Text("Pool candidate absent from the loaded-module list with unreadable metadata; a false pool match, stale allocation or acquisition smear may explain it")
+		}
+	}
 	if rule.Kind == "native-check" && row.Provenance.Plugin == "windows.psxview" {
 		cells["SourcePlugin"] = evidence.Text("windows.psxview")
 		cells["NativeRule"] = evidence.Text("absent_active_view")

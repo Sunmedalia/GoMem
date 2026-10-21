@@ -38,6 +38,10 @@ var Rules = []Rule{
 }
 
 func ruleForPlatform(rule Rule, platform string) Rule {
+	if platform == "windows" && rule.ID == "module-enumeration-difference" {
+		rule.Kind = "module-difference"
+		rule.Basis = "A pool-scanned loader object is absent from the loaded-module list by object coordinates; the case workflow compares physical backing, never names or executable base addresses."
+	}
 	if platform == "windows" && rule.ID == "hidden-process" {
 		rule.Kind = "native-check"
 		rule.Inputs = []string{"psxview"}
@@ -79,6 +83,16 @@ func Evaluate(ctx context.Context, r Rule, inputs map[string][]evidence.Row, emi
 		return emitFinding(ctx, r, row, entity, refs, emit)
 	}
 	switch r.Kind {
+	case "module-difference":
+		evaluator := moduleViewEvaluator{rule: r}
+		if err := evaluator.consume(ctx, inputs["modules"], false, emit); err != nil {
+			return err
+		}
+		if err := evaluator.consume(ctx, inputs["modscan"], true, emit); err != nil {
+			return err
+		}
+		_, err := evaluator.finish()
+		return err
 	case "native-check":
 		if len(r.Inputs) != 1 {
 			return fmt.Errorf("invalid native triage rule inputs")
@@ -248,10 +262,11 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 		names["psscan"] = "linux.psscan"
 		order = append(order, "psscan")
 	} else {
+		names["modscan"] = "windows.modscan"
 		names["psxview"] = "windows.psxview"
 		names["suspicious_threads"] = "windows.suspicious_threads"
 		names["hollowprocesses"] = "windows.hollowprocesses"
-		order = append(order, "psxview", "suspicious_threads", "hollowprocesses")
+		order = append(order, "modscan", "psxview", "suspicious_threads", "hollowprocesses")
 	}
 	for _, key := range order {
 		var parameters map[string]string
@@ -288,7 +303,7 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 	}
 	b, _ := json.Marshal(summary.Tasks)
 	hash := sha256.Sum256(b)
-	task, err := e.Store.Begin(ctx, "triage:"+hex.EncodeToString(hash[:]), "triage", evidence.Provenance{ImageSHA256: e.Hash, Engine: version.Version, EngineBuild: e.Build, Plugin: "triage", Layer: e.Env.Physical.Name(), Parameters: map[string]string{"rules": "v4"}})
+	task, err := e.Store.Begin(ctx, "triage:"+hex.EncodeToString(hash[:]), "triage", evidence.Provenance{ImageSHA256: e.Hash, Engine: version.Version, EngineBuild: e.Build, Plugin: "triage", Layer: e.Env.Physical.Name(), Parameters: map[string]string{"rules": "v5"}})
 	if err != nil {
 		return summary, err
 	}
@@ -340,10 +355,14 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 			if allowed {
 				return nil
 			}
-			if rule.Kind == "difference" {
+			if rule.Kind == "difference" || rule.Kind == "module-difference" {
+				model := "same image and address space; physical coordinates when declared"
+				if rule.Kind == "module-difference" {
+					model = "same image and physical backing of loader objects; source evidence unchanged"
+				}
 				row.Cells["Comparison"] = evidence.Value{Kind: "structure", Data: map[string]any{
-					"active_task": tasks[rule.Inputs[0]], "scanned_task": tasks[rule.Inputs[1]],
-					"coordinate_model": "same image and address space; physical coordinates when declared",
+					"active_task": comparisonTask(tasks[rule.Inputs[0]]), "scanned_task": comparisonTask(tasks[rule.Inputs[1]]),
+					"coordinate_model": model,
 				}}
 				row.Seal()
 			}
@@ -355,7 +374,34 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 			return nil
 		}
 		if available {
-			if rule.Kind == "native-check" {
+			if rule.Kind == "module-difference" {
+				evaluator := moduleViewEvaluator{rule: rule, resolve: physicalModuleResolver(e.Env)}
+				for index, key := range rule.Inputs {
+					for off := 0; ; off += 500 {
+						rows, readErr := e.Store.Query(ctx, evidence.Query{TaskID: tasks[key].ID, Offset: off, Limit: 500})
+						if readErr != nil {
+							err = readErr
+							break
+						}
+						if err = evaluator.consume(ctx, rows, index == 1, emit); err != nil || len(rows) < 500 {
+							break
+						}
+					}
+					if err != nil {
+						break
+					}
+				}
+				if err == nil {
+					var coverageErr error
+					check.Coverage, coverageErr = evaluator.finish()
+					check.State = "completed"
+					if errors.Is(coverageErr, ErrIncomplete) {
+						check.State, check.Reason = "incomplete", coverageErr.Error()
+					} else if coverageErr != nil {
+						err = coverageErr
+					}
+				}
+			} else if rule.Kind == "native-check" {
 				evaluator := nativeCheckEvaluator{rule: rule}
 				input := tasks[rule.Inputs[0]]
 				for off := 0; ; off += 500 {

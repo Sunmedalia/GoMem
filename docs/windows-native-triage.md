@@ -1,5 +1,7 @@
 # Windows 原生检查的自动分诊
 
+Windows 的模块对照另见[模块分诊](windows-module-triage.md)。
+
 Windows 的 `triage` 自动执行 `windows.psxview`、`windows.suspicious_threads` 和 `windows.hollowprocesses`，然后从案件 SQLite 每次读取 500 行进行评估。三者分别产生 `hidden-process`、`suspicious-thread-start`、`hollow-process-mapping` 规则。Linux 保留原生任务扫描与活动链的隐藏进程对照；另两项是 `not_applicable`，不运行 Windows 插件。
 
 ```sh
@@ -25,7 +27,7 @@ bin/gomem triage --image memory.dmp --case ./case-001 --offline
 - 进程多视图：113/114/112/103 个来源偏移、1 条信息级差异（已退出的 `MpCmdRun.exe` PID 408），检查状态 `completed`。发现引用已封存的原始对象和四源坐标。
 - 可疑线程检查：1749 个线程、0 条发现、gather 和文件路径错误均为 0，检查状态 `completed`。
 - 进程空洞检查：99 个进程进入检查、0 条发现、330 条原生读取/覆盖诊断，检查状态 `incomplete`。
-- 原有 RWX 检查产生 30 条映射线索，合计 31 条；这些不是上述原生检查的真实恶意阳性验证。第二次执行的已完成输入任务全部复用，检查状态和发现数量一致。
+- 原有 RWX 检查产生 30 条映射线索，加上已退出进程和模块候选差异，合计 32 条；这些不是上述原生检查的真实恶意阳性验证。第二次执行的已完成输入任务全部复用，检查状态和发现数量一致。
 
 这份镜像是正常对照。新检查的真实恶意阳性和完整版本、误报验收仍待补齐，能力矩阵保持 partial、accepted=false。
 
