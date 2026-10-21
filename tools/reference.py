@@ -27,6 +27,7 @@ def main():
     parser.add_argument("--plugin", required=True)
     parser.add_argument("--output", type=pathlib.Path, required=True)
     parser.add_argument("--dump-dir", type=pathlib.Path, help="New empty directory for reference extraction files")
+    parser.add_argument("--stacker", action="append", help="Restrict baseline layer stackers (repeatable); recorded in the manifest")
     parser.add_argument("--native-library", type=pathlib.Path, action="append", default=[], help="Record a native reference dependency's size and SHA-256; loading remains configured by the reference environment")
     parser.add_argument("parameters", nargs=argparse.REMAINDER)
     args = parser.parse_args()
@@ -47,6 +48,8 @@ def main():
                "-r", "json"]
     if args.dump_dir:
         command += ["-o", str(args.dump_dir.resolve())]
+    if args.stacker:
+        command += ["--stackers", *args.stacker, "--"]
     command += [args.plugin, *parameters]
     image_hash = digest(args.image)
     libraries = [{"name": path.name, "size": str(path.stat().st_size), "sha256": digest(path)} for path in args.native_library]
@@ -59,6 +62,8 @@ def main():
             raise
     meta = {"baseline": lock, "image_sha256": image_hash, "plugin": args.plugin, "parameters": parameters,
             "output_sha256": digest(args.output), "config_sha256": digest(config), "python": sys.version}
+    if args.stacker:
+        meta["stackers"] = args.stacker
     if libraries:
         # Recheck after execution so a replacement during reference analysis
         # cannot silently inherit the old dependency identity.

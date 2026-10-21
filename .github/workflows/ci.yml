@@ -47,6 +47,7 @@ jobs:
       - run: python3 tools/build_boottime_oracle.py --check
       - run: python3 tools/build_iomem_oracle.py --check
       - run: python3 tools/build_linux_ip_oracle.py --check
+      - run: python3 tools/build_vmcoreinfo_oracle.py --check
       - run: python3 tools/build_ptrace_oracle.py --check
       - run: python3 tools/build_linux_pstree_oracle.py --check
       - run: python3 tools/baseline_matrix.py --source .cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75 --check
@@ -63,6 +64,7 @@ jobs:
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsVADTraversal -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxArgumentDisplay -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxClockArithmetic -fuzztime 5s
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzVMCoreInfoDescriptor -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxInodeTimestamp -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxUnixEndpoint -fuzztime 5s
       - run: go test ./internal/engine -run '^$' -fuzz FuzzMappedPE -fuzztime 5s

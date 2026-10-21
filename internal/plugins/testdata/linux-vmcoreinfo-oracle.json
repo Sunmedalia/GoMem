@@ -1,0 +1,2900 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "cases": [
+    {
+      "raw": "",
+      "accepted": false,
+      "entries": []
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740d0a5041474553495a453d343039360d",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "PAGESIZE",
+          "value": "4096",
+          "integer": "4096"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740b5041474553495a453d343039360c",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "PAGESIZE",
+          "value": "4096",
+          "integer": "4096"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a0a424144",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d610a5041474553495a453d343039360a4f5352454c454153453d620a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "b",
+          "integer": ""
+        },
+        {
+          "key": "PAGESIZE",
+          "value": "4096",
+          "integer": "4096"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d780a3d656d7074792d6b65790a413d0a413d613d620a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "x",
+          "integer": ""
+        },
+        {
+          "key": "",
+          "value": "empty-key",
+          "integer": ""
+        },
+        {
+          "key": "A",
+          "value": "a=b",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "0a4f5352454c454153453d74657374",
+      "accepted": false,
+      "entries": []
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a424144",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d7465737400",
+      "accepted": false,
+      "entries": []
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a0aff",
+      "accepted": false,
+      "entries": []
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a2058203d2076616c7565200a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": " X ",
+          "value": " value ",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SYMBOL(test)",
+          "value": "0x0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d30300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SYMBOL(test)",
+          "value": "0x0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d305f300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SYMBOL(test)",
+          "value": "0x0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d30310a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SYMBOL(test)",
+          "value": "0x1",
+          "integer": "1"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d2d30310a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SYMBOL(test)",
+          "value": "-0x1",
+          "integer": "-1"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d2b300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SYMBOL(test)",
+          "value": "0x0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d2d300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SYMBOL(test)",
+          "value": "0x0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d343039360a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SYMBOL(test)",
+          "value": "0x4096",
+          "integer": "16534"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d20202b34303936090a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SYMBOL(test)",
+          "value": "0x4096",
+          "integer": "16534"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d315f3032340a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SYMBOL(test)",
+          "value": "0x1024",
+          "integer": "4132"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d315f5f320a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d5f310a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d315f0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d307831300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SYMBOL(test)",
+          "value": "0x10",
+          "integer": "16"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d2d305866660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SYMBOL(test)",
+          "value": "-0xff",
+          "integer": "-255"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d30785f660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SYMBOL(test)",
+          "value": "0xf",
+          "integer": "15"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d30785f5f660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d30623130310a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SYMBOL(test)",
+          "value": "0xb101",
+          "integer": "45313"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d306f37370a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d306f5f370a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d2b0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d2d0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d20200a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d30780a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d66660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SYMBOL(test)",
+          "value": "0xff",
+          "integer": "255"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d665f660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SYMBOL(test)",
+          "value": "0xff",
+          "integer": "255"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d3120320a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d3a0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d3165320a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SYMBOL(test)",
+          "value": "0x1e2",
+          "integer": "482"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d3334303238323336363932303933383436333436333337343630373433313736383231313435360a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SYMBOL(test)",
+          "value": "0x340282366920938463463374607431768211456",
+          "integer": "18557716542837109008068124674738210919755617366"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53594d424f4c2874657374293d666666666666666666666666666666666666666666666666666666666666666666666666666666660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SYMBOL(test)",
+          "value": "0xffffffffffffffffffffffffffffffffffffffff",
+          "integer": "1461501637330902918203684832716283019655932542975"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "KERNELOFFSET",
+          "value": "0x0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d30300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "KERNELOFFSET",
+          "value": "0x0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d305f300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "KERNELOFFSET",
+          "value": "0x0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d30310a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "KERNELOFFSET",
+          "value": "0x1",
+          "integer": "1"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d2d30310a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "KERNELOFFSET",
+          "value": "-0x1",
+          "integer": "-1"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d2b300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "KERNELOFFSET",
+          "value": "0x0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d2d300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "KERNELOFFSET",
+          "value": "0x0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d343039360a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "KERNELOFFSET",
+          "value": "0x4096",
+          "integer": "16534"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d20202b34303936090a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "KERNELOFFSET",
+          "value": "0x4096",
+          "integer": "16534"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d315f3032340a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "KERNELOFFSET",
+          "value": "0x1024",
+          "integer": "4132"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d315f5f320a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d5f310a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d315f0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d307831300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "KERNELOFFSET",
+          "value": "0x10",
+          "integer": "16"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d2d305866660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "KERNELOFFSET",
+          "value": "-0xff",
+          "integer": "-255"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d30785f660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "KERNELOFFSET",
+          "value": "0xf",
+          "integer": "15"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d30785f5f660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d30623130310a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "KERNELOFFSET",
+          "value": "0xb101",
+          "integer": "45313"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d306f37370a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d306f5f370a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d2b0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d2d0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d20200a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d30780a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d66660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "KERNELOFFSET",
+          "value": "0xff",
+          "integer": "255"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d665f660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "KERNELOFFSET",
+          "value": "0xff",
+          "integer": "255"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d3120320a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d3a0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d3165320a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "KERNELOFFSET",
+          "value": "0x1e2",
+          "integer": "482"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d3334303238323336363932303933383436333436333337343630373433313736383231313435360a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "KERNELOFFSET",
+          "value": "0x340282366920938463463374607431768211456",
+          "integer": "18557716542837109008068124674738210919755617366"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4b45524e454c4f46465345543d666666666666666666666666666666666666666666666666666666666666666666666666666666660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "KERNELOFFSET",
+          "value": "0xffffffffffffffffffffffffffffffffffffffff",
+          "integer": "1461501637330902918203684832716283019655932542975"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "NUMBER(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d30300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "NUMBER(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d305f300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "NUMBER(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d30310a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d2d30310a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d2b300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "NUMBER(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d2d300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "NUMBER(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d343039360a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "NUMBER(test)",
+          "value": "4096",
+          "integer": "4096"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d20202b34303936090a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "NUMBER(test)",
+          "value": "4096",
+          "integer": "4096"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d315f3032340a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "NUMBER(test)",
+          "value": "1024",
+          "integer": "1024"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d315f5f320a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d5f310a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d315f0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d307831300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "NUMBER(test)",
+          "value": "16",
+          "integer": "16"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d2d305866660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "NUMBER(test)",
+          "value": "-255",
+          "integer": "-255"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d30785f660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "NUMBER(test)",
+          "value": "15",
+          "integer": "15"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d30785f5f660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d30623130310a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "NUMBER(test)",
+          "value": "5",
+          "integer": "5"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d306f37370a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "NUMBER(test)",
+          "value": "63",
+          "integer": "63"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d306f5f370a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "NUMBER(test)",
+          "value": "7",
+          "integer": "7"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d2b0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d2d0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d20200a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d30780a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d66660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d665f660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d3120320a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d3a0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d3165320a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d3334303238323336363932303933383436333436333337343630373433313736383231313435360a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "NUMBER(test)",
+          "value": "340282366920938463463374607431768211456",
+          "integer": "340282366920938463463374607431768211456"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4e554d4245522874657374293d666666666666666666666666666666666666666666666666666666666666666666666666666666660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "LENGTH(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d30300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "LENGTH(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d305f300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "LENGTH(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d30310a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d2d30310a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d2b300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "LENGTH(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d2d300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "LENGTH(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d343039360a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "LENGTH(test)",
+          "value": "4096",
+          "integer": "4096"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d20202b34303936090a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "LENGTH(test)",
+          "value": "4096",
+          "integer": "4096"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d315f3032340a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "LENGTH(test)",
+          "value": "1024",
+          "integer": "1024"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d315f5f320a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d5f310a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d315f0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d307831300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "LENGTH(test)",
+          "value": "16",
+          "integer": "16"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d2d305866660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "LENGTH(test)",
+          "value": "-255",
+          "integer": "-255"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d30785f660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "LENGTH(test)",
+          "value": "15",
+          "integer": "15"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d30785f5f660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d30623130310a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "LENGTH(test)",
+          "value": "5",
+          "integer": "5"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d306f37370a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "LENGTH(test)",
+          "value": "63",
+          "integer": "63"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d306f5f370a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "LENGTH(test)",
+          "value": "7",
+          "integer": "7"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d2b0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d2d0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d20200a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d30780a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d66660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d665f660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d3120320a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d3a0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d3165320a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d3334303238323336363932303933383436333436333337343630373433313736383231313435360a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "LENGTH(test)",
+          "value": "340282366920938463463374607431768211456",
+          "integer": "340282366920938463463374607431768211456"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4c454e4754482874657374293d666666666666666666666666666666666666666666666666666666666666666666666666666666660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SIZE(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d30300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SIZE(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d305f300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SIZE(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d30310a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d2d30310a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d2b300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SIZE(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d2d300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SIZE(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d343039360a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SIZE(test)",
+          "value": "4096",
+          "integer": "4096"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d20202b34303936090a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SIZE(test)",
+          "value": "4096",
+          "integer": "4096"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d315f3032340a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SIZE(test)",
+          "value": "1024",
+          "integer": "1024"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d315f5f320a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d5f310a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d315f0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d307831300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SIZE(test)",
+          "value": "16",
+          "integer": "16"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d2d305866660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SIZE(test)",
+          "value": "-255",
+          "integer": "-255"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d30785f660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SIZE(test)",
+          "value": "15",
+          "integer": "15"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d30785f5f660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d30623130310a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SIZE(test)",
+          "value": "5",
+          "integer": "5"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d306f37370a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SIZE(test)",
+          "value": "63",
+          "integer": "63"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d306f5f370a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SIZE(test)",
+          "value": "7",
+          "integer": "7"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d2b0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d2d0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d20200a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d30780a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d66660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d665f660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d3120320a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d3a0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d3165320a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d3334303238323336363932303933383436333436333337343630373433313736383231313435360a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "SIZE(test)",
+          "value": "340282366920938463463374607431768211456",
+          "integer": "340282366920938463463374607431768211456"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a53495a452874657374293d666666666666666666666666666666666666666666666666666666666666666666666666666666660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OFFSET(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d30300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OFFSET(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d305f300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OFFSET(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d30310a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d2d30310a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d2b300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OFFSET(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d2d300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OFFSET(test)",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d343039360a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OFFSET(test)",
+          "value": "4096",
+          "integer": "4096"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d20202b34303936090a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OFFSET(test)",
+          "value": "4096",
+          "integer": "4096"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d315f3032340a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OFFSET(test)",
+          "value": "1024",
+          "integer": "1024"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d315f5f320a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d5f310a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d315f0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d307831300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OFFSET(test)",
+          "value": "16",
+          "integer": "16"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d2d305866660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OFFSET(test)",
+          "value": "-255",
+          "integer": "-255"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d30785f660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OFFSET(test)",
+          "value": "15",
+          "integer": "15"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d30785f5f660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d30623130310a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OFFSET(test)",
+          "value": "5",
+          "integer": "5"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d306f37370a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OFFSET(test)",
+          "value": "63",
+          "integer": "63"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d306f5f370a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OFFSET(test)",
+          "value": "7",
+          "integer": "7"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d2b0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d2d0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d20200a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d30780a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d66660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d665f660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d3120320a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d3a0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d3165320a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d3334303238323336363932303933383436333436333337343630373433313736383231313435360a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OFFSET(test)",
+          "value": "340282366920938463463374607431768211456",
+          "integer": "340282366920938463463374607431768211456"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f46465345542874657374293d666666666666666666666666666666666666666666666666666666666666666666666666666666660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "PAGESIZE",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d30300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "PAGESIZE",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d305f300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "PAGESIZE",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d30310a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d2d30310a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d2b300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "PAGESIZE",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d2d300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "PAGESIZE",
+          "value": "0",
+          "integer": "0"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d343039360a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "PAGESIZE",
+          "value": "4096",
+          "integer": "4096"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d20202b34303936090a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "PAGESIZE",
+          "value": "4096",
+          "integer": "4096"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d315f3032340a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "PAGESIZE",
+          "value": "1024",
+          "integer": "1024"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d315f5f320a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d5f310a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d315f0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d307831300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "PAGESIZE",
+          "value": "16",
+          "integer": "16"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d2d305866660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "PAGESIZE",
+          "value": "-255",
+          "integer": "-255"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d30785f660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "PAGESIZE",
+          "value": "15",
+          "integer": "15"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d30785f5f660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d30623130310a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "PAGESIZE",
+          "value": "5",
+          "integer": "5"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d306f37370a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "PAGESIZE",
+          "value": "63",
+          "integer": "63"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d306f5f370a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "PAGESIZE",
+          "value": "7",
+          "integer": "7"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d2b0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d2d0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d20200a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d30780a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d66660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d665f660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d3120320a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d3a0a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d3165320a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d3334303238323336363932303933383436333436333337343630373433313736383231313435360a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "PAGESIZE",
+          "value": "340282366920938463463374607431768211456",
+          "integer": "340282366920938463463374607431768211456"
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a5041474553495a453d666666666666666666666666666666666666666666666666666666666666666666666666666666660a",
+      "error": "ValueError"
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d0a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "0",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d30300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "00",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d305f300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "0_0",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d30310a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "01",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d2d30310a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "-01",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d2b300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "+0",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d2d300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "-0",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d343039360a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "4096",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d20202b34303936090a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "  +4096\t",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d315f3032340a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "1_024",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d315f5f320a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "1__2",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d5f310a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "_1",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d315f0a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "1_",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d307831300a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "0x10",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d2d305866660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "-0Xff",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d30785f660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "0x_f",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d30785f5f660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "0x__f",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d30623130310a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "0b101",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d306f37370a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "0o77",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d306f5f370a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "0o_7",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d2b0a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "+",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d2d0a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "-",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d20200a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "  ",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d30780a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "0x",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d66660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "ff",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d665f660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "f_f",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d3120320a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "1 2",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d3a0a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": ":",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d3165320a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "1e2",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d3334303238323336363932303933383436333436333337343630373433313736383231313435360a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "340282366920938463463374607431768211456",
+          "integer": ""
+        }
+      ]
+    },
+    {
+      "raw": "4f5352454c454153453d746573740a4f544845523d666666666666666666666666666666666666666666666666666666666666666666666666666666660a",
+      "accepted": true,
+      "entries": [
+        {
+          "key": "OSRELEASE",
+          "value": "test",
+          "integer": ""
+        },
+        {
+          "key": "OTHER",
+          "value": "ffffffffffffffffffffffffffffffffffffffff",
+          "integer": ""
+        }
+      ]
+    }
+  ]
+}

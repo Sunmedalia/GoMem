@@ -3835,15 +3835,26 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Scan enumerated physical ranges for aligned VMCOREINFO signatures, validate little-endian ELF note name/type/descriptor fields, require OSRELEASE= and whole-descriptor printable ASCII, and parse the pinned splitlines/blank-stop/numeric grammar. Repeated keys keep first position and last value. Retain lossless integer strings, raw header/name and descriptor captures, last-value line coordinates and every rejected candidate. No symbols or kernel translator are required. Native descriptor/candidate/row/digit bounds, strict scan reads and cancellation apply. Malformed numeric/line data, unreadable descriptors and resource bounds retain diagnostics and fail the task; ordinary signature/header/tag/printability rejection remains an observed non-error.",
+      "native": "linux.vmcoreinfo",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-raw-vmcoreinfo-notes",
+        "pinned-268-vmcoreinfo-parser-renderer-cases",
+        "official-linux-sample-1",
+        "user-kali-6.8.11-arm64-lime"
+      ],
+      "comparison": "physical_layer_47_Debian_and_111_Kali_entries_match_offset_key_value_and_order_all_note_and_line_captures_reread",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Debian RAW and Kali ARM64 LiME each contain one valid table; all three upstream fields and order match the unmodified reference on equivalent physical layers. Kali additionally retains two header-mismatch candidates, rather than losing their coordinates",
+        "The baseline defaults to a LinuxIntel32e virtual primary for Debian and renders the physical table twice at virtual aliases; the differential explicitly restricts stackers to select a FileLayer. Native currently scans physical ranges only; arbitrary virtual primary layers remain pending",
+        "268 fixed parser/renderer cases cover printable rejection, CR/LF/VT/FF, blank stops, duplicate order, empty keys/values, equals within values, signed/arbitrary-precision values, base prefixes, underscores and invalid integers. Synthetic tests cover chunk boundaries, missing/truncated bytes, bad headers/tags, limits, cancellation, output errors, persisted evidence and cache reuse",
+        "Native records malformed candidates as failures while continuing independent notes; the fixed plugin may abort. Limits are native: max-descriptor 1 MiB by default and at most 16 MiB, up to 1000000 candidates/rows, at most 65536 radix digits, and Python-default 4300 decimal input digits",
+        "Python interpreter decimal conversion settings can differ for extreme nondecimal values rendered as decimal; full extreme-value/primary-layer/version acceptance remains pending. ELF note endianness follows the pinned little-endian type, rather than introducing unvalidated big-endian support",
+        "Kali physical VMCOREINFO parsing is verified without ARM64 virtual translation; process/network/task analysis for that image remains unsupported"
+      ],
+      "validation_record": "docs/linux-vmcoreinfo.md"
     },
     {
       "id": "mac.bash.Bash",

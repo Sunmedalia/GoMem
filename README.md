@@ -114,6 +114,7 @@ bin/gomem analyze windows.pslist \
 | `linux.check_creds` | 按凭据对象地址检查活动任务共享，保留成员身份与读取诊断；[说明](docs/linux-check-creds.md) |
 | `linux.pstree` | 按进程和线程构建父子树，保留候选对象、筛选与原始证据；[说明](docs/linux-pstree.md) |
 | `linux.ptrace` | 检查进程/线程 ptrace 关系，保留标志、对象身份和原始字段；[说明](docs/linux-ptrace.md) |
+| `linux.vmcoreinfo` | 无需符号扫描物理内存中的 VMCOREINFO，保留原始 note 与无损键值；[说明](docs/linux-vmcoreinfo.md) |
 | `linux.ip.link` / `linux.ip.addr` | 枚举网络接口、链路状态及 IPv4/IPv6 地址，保留命名空间与原始字段；[说明](docs/linux-ip.md) |
 | `linux.iomem` | 枚举内核 I/O 内存资源树，保留范围、父子关系与原始字段；[说明](docs/linux-iomem.md) |
 | `linux.boottime` | 按时间命名空间枚举启动时间，保留原始时钟、纳秒值与时间线字段；[说明](docs/linux-boottime.md) |

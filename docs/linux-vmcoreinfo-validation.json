@@ -1,0 +1,215 @@
+{
+  "scope": "Development preview: Debian RAW and Kali ARM64 LiME physical VMCOREINFO differentials; complete capability acceptance remains pending.",
+  "profiles": [
+    {
+      "profile": "linux",
+      "task_id": "6516a19f659d26fbb0eb22ab37958efb",
+      "unmodified_reference_manifest": {
+        "baseline": {
+          "name": "Volatility 3",
+          "version": "2.28.2",
+          "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+          "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+          "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+          "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+        },
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "plugin": "linux.vmcoreinfo.VMCoreInfo",
+        "parameters": [],
+        "output_sha256": "89dfbec9ccc6f6d9eeb226ffc94445bb1cd110e1aff875895af45e17a9a3f3ac",
+        "config_sha256": "6335e253d3398a8d121245c6a87f26de04f54c8c066e5ac35446d33c0b8ac57a",
+        "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]",
+        "stackers": [
+          "LimeStacker"
+        ]
+      },
+      "primary_layer_config": {
+        "VMCoreInfo": false,
+        "primary.class": "volatility3.framework.layers.physical.FileLayer",
+        "primary.location": "file:///Volumes/l/GoMem/.cache/corpus/linux-sample-1.bin"
+      },
+      "comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "Key",
+          "Value"
+        ],
+        "native_rows": 47,
+        "reference_rows": 47,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "c1755788a77f741b7378979439594c396ae1a8a4327d54138175bb44e61b1c6e",
+          "reference": "89dfbec9ccc6f6d9eeb226ffc94445bb1cd110e1aff875895af45e17a9a3f3ac",
+          "mapping": "bf65cd9d46d2ae3ffe2fda02da91d6d83ea2d3189b4cdf6453f2960c5184b623"
+        },
+        "native_input_rows": 49,
+        "native_non_entity_records": {
+          "note_observation": 1,
+          "summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "entry",
+          "excluded_values": [
+            "note_observation",
+            "diagnostic",
+            "summary"
+          ]
+        }
+      },
+      "enumeration_order_matches": true,
+      "coverage": {
+        "candidates": "1",
+        "diagnostics": "0",
+        "note_endian": "little",
+        "rejected": "0",
+        "rows": "47",
+        "scan_layer": "physical:raw",
+        "scope": "physical VMCOREINFO ELF notes; complete acceptance pending",
+        "tables": "1"
+      },
+      "raw_captures_independently_reread": 2,
+      "all_final_value_lines_independently_reread": true,
+      "cli_record_count": 49,
+      "fresh_cache_byte_identical": true,
+      "cache_sha256": "c1755788a77f741b7378979439594c396ae1a8a4327d54138175bb44e61b1c6e",
+      "bundle": {
+        "verification": {
+          "tasks": 1,
+          "members": 2,
+          "verified": true
+        },
+        "sha256": "1b2ee7ebe72c26a1532c38b7432f401812a619ccc68f1bf7644cfb2d8d4b9b47"
+      }
+    },
+    {
+      "profile": "kali",
+      "task_id": "e40f7e1c529ef2927c3a2714393db6dc",
+      "unmodified_reference_manifest": {
+        "baseline": {
+          "name": "Volatility 3",
+          "version": "2.28.2",
+          "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+          "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+          "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+          "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+        },
+        "image_sha256": "cf04d76ab9177d7ee355cc96020d29ae194c065c692304ff25e594ab510c639d",
+        "plugin": "linux.vmcoreinfo.VMCoreInfo",
+        "parameters": [],
+        "output_sha256": "144f121fbc84862ac374679a5348124cfbd838bf1aef734a421ddc23b7da0101",
+        "config_sha256": "41833b2af501ee01d8f086d8a6f9b0345cc9d29e4ef8423f56d62874e168409a",
+        "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+      },
+      "primary_layer_config": {
+        "VMCoreInfo": false,
+        "primary.base_layer.class": "volatility3.framework.layers.physical.FileLayer",
+        "primary.base_layer.location": "file:///Volumes/l/GoMem/images/kali.raw",
+        "primary.class": "volatility3.framework.layers.lime.LimeLayer"
+      },
+      "comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "Key",
+          "Value"
+        ],
+        "native_rows": 111,
+        "reference_rows": 111,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "55872abb452b4980f594abdf264170e5bf1eaf52901239c1dd2537e8f46e8167",
+          "reference": "144f121fbc84862ac374679a5348124cfbd838bf1aef734a421ddc23b7da0101",
+          "mapping": "bf65cd9d46d2ae3ffe2fda02da91d6d83ea2d3189b4cdf6453f2960c5184b623"
+        },
+        "native_input_rows": 115,
+        "native_non_entity_records": {
+          "note_observation": 3,
+          "summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "entry",
+          "excluded_values": [
+            "note_observation",
+            "diagnostic",
+            "summary"
+          ]
+        }
+      },
+      "enumeration_order_matches": true,
+      "coverage": {
+        "candidates": "3",
+        "diagnostics": "0",
+        "note_endian": "little",
+        "rejected": "2",
+        "rows": "111",
+        "scan_layer": "physical:lime",
+        "scope": "physical VMCOREINFO ELF notes; complete acceptance pending",
+        "tables": "1"
+      },
+      "raw_captures_independently_reread": 4,
+      "all_final_value_lines_independently_reread": true,
+      "cli_record_count": 115,
+      "fresh_cache_byte_identical": true,
+      "cache_sha256": "55872abb452b4980f594abdf264170e5bf1eaf52901239c1dd2537e8f46e8167",
+      "bundle": {
+        "verification": {
+          "tasks": 1,
+          "members": 2,
+          "verified": true
+        },
+        "sha256": "135388e9dff9e3f975864f97081cff8be6a87be173d3b859b02849b14b99f162"
+      }
+    }
+  ],
+  "default_Debian_virtual_primary": {
+    "reference_manifest": {
+      "baseline": {
+        "name": "Volatility 3",
+        "version": "2.28.2",
+        "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+        "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+      },
+      "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "plugin": "linux.vmcoreinfo.VMCoreInfo",
+      "parameters": [],
+      "output_sha256": "7644613e3aaefb94877924a78ba99f4081bfde096d9c8da11a93e15162805eef",
+      "config_sha256": "d3da7d3238fd4a972d07378f6e4ea93aab2a15e1ff784448368d93f4e2efd669",
+      "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+    },
+    "primary_class": "volatility3.framework.layers.intel.LinuxIntel32e",
+    "rows": 94,
+    "tables": 2,
+    "explanation": "Two virtual aliases of one physical note; physical differential explicitly selects FileLayer via recorded LimeStacker restriction. Arbitrary virtual-layer scanning remains pending."
+  },
+  "fuzz": {
+    "target": "FuzzVMCoreInfoDescriptor",
+    "duration": "10s",
+    "executions": 663124,
+    "result": "passed"
+  },
+  "checks": [
+    "make check",
+    "make build",
+    "python3 tools/build_vmcoreinfo_oracle.py --check",
+    "python3 tools/build_inode_mode_oracle.py --check",
+    "python3 tools/baseline_matrix.py --source .cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75 --check",
+    "GOMEM_CORPUS_DIR=\"$PWD/.cache/corpus\" GOMEM_KALI_IMAGE=\"$PWD/images/kali.raw\" go test ./internal/engine -run TestOfficialVMCoreInfo -count=1 -v",
+    "git diff --check"
+  ],
+  "pending": [
+    "Arbitrary virtual primary layers and alias behavior",
+    "Full damaged-note/layer/endian/version matrix",
+    "Extreme values with nondefault Python integer conversion settings",
+    "ARM64 virtual address translation and kernel plugins",
+    "Full capability release acceptance"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "entry",
+    "excluded_values": ["note_observation", "diagnostic", "summary"]
+  },
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "Offset", "kind": "address"},
+    "Key": {"native": "Key", "reference": "Key", "kind": "string"},
+    "Value": {"native": "Value", "reference": "Value", "kind": "string"}
+  }
+}
