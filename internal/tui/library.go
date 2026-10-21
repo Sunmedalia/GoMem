@@ -9,15 +9,16 @@ import (
 	"sort"
 	"strings"
 
+	"image/color"
+
+	"charm.land/bubbles/v2/help"
 	"charm.land/bubbles/v2/spinner"
 	"charm.land/bubbles/v2/textinput"
 	"charm.land/bubbles/v2/viewport"
 	tea "charm.land/bubbletea/v2"
 	"github.com/Sunmedalia/GoMem/internal/engine"
 	"github.com/Sunmedalia/GoMem/internal/library"
-	"github.com/Sunmedalia/GoMem/internal/render"
 	"github.com/Sunmedalia/GoMem/pkg/symbols"
-	"github.com/charmbracelet/x/ansi"
 )
 
 // Workspace owns the engine lifetime and permits library use without an image.
@@ -51,6 +52,13 @@ type Workspace struct {
 	image         string
 	matches       []library.Candidate
 	matchCursor   int
+	level         level
+	st            styles
+	spin          spinner.Model
+	help          help.Model
+	// background is the terminal's reported color, replayed to each new
+	// analysis session so it starts in the right palette.
+	background color.Color
 }
 type childMsg struct {
 	seq uint64
@@ -76,9 +84,12 @@ type libraryMsg struct {
 
 func NewWorkspace(ctx context.Context, config engine.Config, l library.Library) *Workspace {
 	w := &Workspace{ctx: ctx, config: config, library: l, kind: library.Images, width: 120, height: 30, input: textinput.New(), detail: viewport.New(), image: config.Image}
-	w.detail.SetWidth(116)
-	w.detail.SetHeight(9)
-	w.status = "i import · enter inspect/select · m match symbols · o open analysis · tab images/symbols"
+	w.st = newStyles(true)
+	w.spin = spinner.New(spinner.WithSpinner(spinner.Dot), spinner.WithStyle(w.st.accent))
+	w.help = help.New()
+	w.help.Styles = w.st.help
+	w.layout()
+	w.say(levelInfo, "i import · enter inspect/select · m match symbols · o open analysis · tab images/symbols")
 	return w
 }
 func (w *Workspace) Close() {
@@ -98,11 +109,11 @@ func (w *Workspace) Close() {
 func (w *Workspace) Init() tea.Cmd {
 	if w.image != "" {
 		path := w.image
-		return tea.Batch(w.load(), w.task(func(ctx context.Context) libraryMsg {
+		return tea.Batch(w.load(), tea.RequestBackgroundColor, w.task(func(ctx context.Context) libraryMsg {
 			return probeLocalImage(ctx, w.library, path)
 		}))
 	}
-	return w.load()
+	return tea.Batch(w.load(), tea.RequestBackgroundColor)
 }
 func (w *Workspace) load() tea.Cmd {
 	l, kind := w.library, w.kind
@@ -122,7 +133,7 @@ func (w *Workspace) task(fn func(context.Context) libraryMsg) tea.Cmd {
 	ctx, cancel := context.WithCancel(w.ctx)
 	w.cancel = cancel
 	w.busy = true
-	return func() tea.Msg {
+	run := func() tea.Msg {
 		result := fn(ctx)
 		if result.eng == nil {
 			cancel()
@@ -131,6 +142,7 @@ func (w *Workspace) task(fn func(context.Context) libraryMsg) tea.Cmd {
 		}
 		return result
 	}
+	return tea.Batch(run, w.spin.Tick)
 }
 func (w *Workspace) inspect() tea.Cmd {
 	name, ok := w.selected()
@@ -154,14 +166,16 @@ func (w *Workspace) inspect() tea.Cmd {
 		w.status = "This .source.json file is provenance only; import the full ISF or vmlinux symbol file"
 		return nil
 	}
+	// The scan result is copied: the command runs off the update loop.
+	probe := w.probe
 	return w.task(func(ctx context.Context) libraryMsg {
 		t, err := symbols.LoadContext(ctx, path)
 		if err != nil {
 			return libraryMsg{err: err}
 		}
-		if len(w.probe.Identities) > 0 {
+		if len(probe.Identities) > 0 {
 			matched := false
-			for _, id := range w.probe.Identities {
+			for _, id := range probe.Identities {
 				if id.Matches(t) {
 					matched = true
 				}
@@ -190,9 +204,32 @@ func (w *Workspace) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		w.child, cmd = w.child.Update(x.msg)
 		w.syncChildEngine()
 		return w, w.childCommand(cmd)
+	case spinner.TickMsg:
+		if x.ID == w.spin.ID() {
+			if !w.busy {
+				return w, nil
+			}
+			var cmd tea.Cmd
+			w.spin, cmd = w.spin.Update(x)
+			return w, cmd
+		}
+	case tea.BackgroundColorMsg:
+		w.background = x.Color
+		w.st = newStyles(x.IsDark())
+		w.spin.Style = w.st.accent
+		w.help.Styles = w.st.help
+	case tea.MouseClickMsg:
+		if !w.inAnalysis {
+			return w, w.click(x.Mouse())
+		}
+	case tea.MouseWheelMsg:
+		if !w.inAnalysis {
+			w.wheel(x.Mouse())
+			return w, nil
+		}
 	case libraryFilesMsg:
 		if x.err != nil {
-			w.status = x.err.Error()
+			w.say(levelError, x.err.Error())
 		} else {
 			w.files = x.files
 			w.cursor = min(w.cursor, max(0, len(w.files)-1))
@@ -202,7 +239,7 @@ func (w *Workspace) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		w.busy = false
 		w.cancel = nil
 		if x.err != nil {
-			w.status = x.err.Error()
+			w.say(levelError, x.err.Error())
 			return w, nil
 		}
 		if x.probe != nil {
@@ -226,8 +263,10 @@ func (w *Workspace) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 			}
 			w.showMatches()
+			w.level = levelSuccess
 			w.status = fmt.Sprintf("%d local table(s), %d local diagnostic(s), %d remote URL(s). s selects local; d confirms download.", len(w.local.Matches), len(w.local.Diagnostics), len(w.matches))
 			if len(w.local.Matches) == 0 && len(w.local.Diagnostics) > 0 {
+				w.level = levelWarn
 				w.status += " " + w.local.Diagnostics[0].Status + ": " + w.local.Diagnostics[0].Message
 			}
 			if w.remoteStatus != "" {
@@ -240,7 +279,7 @@ func (w *Workspace) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 		if x.path != "" {
 			w.config.Symbols = x.path
-			w.status = "Selected symbols: " + x.path
+			w.say(levelSuccess, "Selected symbols: "+x.path)
 		}
 		if x.eng != nil {
 			if w.engine != nil {
@@ -273,6 +312,9 @@ func (w *Workspace) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}})
 			w.inAnalysis = true
 			w.child, _ = w.child.Update(tea.WindowSizeMsg{Width: w.width, Height: w.height})
+			if w.background != nil {
+				w.child, _ = w.child.Update(tea.BackgroundColorMsg{Color: w.background})
+			}
 			return w, w.childCommand(w.child.Init())
 		}
 		if x.path != "" || strings.HasPrefix(x.text, "Imported: ") {
@@ -281,9 +323,7 @@ func (w *Workspace) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return w, nil
 	case tea.WindowSizeMsg:
 		w.width, w.height = x.Width, x.Height
-		w.detail.SetWidth(max(20, x.Width-4))
-		w.detail.SetHeight(max(3, x.Height/3))
-		w.input.SetWidth(max(20, x.Width-8))
+		w.layout()
 	case tea.KeyPressMsg:
 		if x.String() == "ctrl+c" {
 			w.Close()
@@ -299,7 +339,7 @@ func (w *Workspace) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		if w.busy {
 			if x.String() == "ctrl+x" && w.cancel != nil {
 				w.cancel()
-				w.status = "Canceling…"
+				w.say(levelWarn, "Canceling…")
 			}
 			return w, nil
 		}
@@ -307,7 +347,7 @@ func (w *Workspace) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			action := w.pending
 			w.pending = ""
 			if x.String() != "y" {
-				w.status = "Canceled"
+				w.say(levelWarn, "Canceled")
 				return w, nil
 			}
 			if action == "delete" {
@@ -387,12 +427,9 @@ func (w *Workspace) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return w, tea.Quit
 		case "tab":
 			if w.kind == library.Images {
-				w.kind = library.Symbols
-			} else {
-				w.kind = library.Images
+				return w, w.switchKind(library.Symbols)
 			}
-			w.cursor = 0
-			return w, w.load()
+			return w, w.switchKind(library.Images)
 		case "up", "k":
 			w.cursor = max(0, w.cursor-1)
 		case "down", "j":
@@ -522,69 +559,6 @@ func (w *Workspace) openAnalysis() tea.Cmd {
 	})
 }
 
-func (w *Workspace) View() tea.View {
-	if w.inAnalysis && w.child != nil {
-		return w.child.View()
-	}
-	var b strings.Builder
-	fmt.Fprintf(&b, "GoMem · LOCAL LIBRARY · %s/\n", render.Safe(w.library.Directory(w.kind)))
-	b.WriteString("tab images/sysmbols · i import · r rename · x delete · enter inspect/select · R refresh\n")
-	b.WriteString("l local · m local first · M remote · </> local candidate · s select · [/] remote · d download\n")
-	fmt.Fprintf(&b, "Image: %s\nSymbols: %s\n", render.Safe(w.image), render.Safe(w.config.Symbols))
-	summaryRows := 0
-	if len(w.local.Matches) > 0 {
-		summaryRows++
-	}
-	if len(w.local.Diagnostics) > 0 {
-		summaryRows++
-	}
-	if len(w.matches) > 0 {
-		summaryRows++
-	}
-	if w.edit != "" {
-		summaryRows++
-	}
-	rows := max(1, w.height-w.detail.Height()-9-summaryRows)
-	start := max(0, w.cursor-rows+1)
-	for i := start; i < min(len(w.files), start+rows); i++ {
-		marker := "  "
-		if i == w.cursor {
-			marker = "> "
-		}
-		fmt.Fprintf(&b, "%s%s (%d bytes)\n", marker, render.Safe(w.files[i].Name), w.files[i].Size)
-	}
-	if len(w.files) == 0 {
-		b.WriteString("  No local files. Press i to import a copy.\n")
-	}
-	if len(w.local.Matches) > 0 {
-		fmt.Fprintf(&b, "Local table %d/%d: %s\n", w.localCursor+1, len(w.local.Matches), render.Safe(w.local.Matches[w.localCursor].Table.Location))
-	}
-	if len(w.local.Diagnostics) > 0 {
-		fmt.Fprintf(&b, "Local diagnostics: %d (source-only records / errors; see details)\n", len(w.local.Diagnostics))
-	}
-	if len(w.matches) > 0 {
-		fmt.Fprintf(&b, "Download candidate %d/%d: %s\n", w.matchCursor+1, len(w.matches), render.Safe(w.matches[w.matchCursor].Name))
-	}
-	b.WriteString("\n" + w.detail.View() + "\n")
-	status := w.status
-	if w.busy {
-		status = "Working… " + status
-	}
-	b.WriteString(render.Safe(status) + "\n")
-	if w.edit != "" {
-		b.WriteString(w.edit + ": " + w.input.View() + "\n")
-	}
-	b.WriteString("o analysis · a resume · c close · L library in analysis · ctrl+arrows detail · ctrl+x cancel · q quit")
-	lines := strings.Split(b.String(), "\n")
-	for i := range lines {
-		lines[i] = ansi.Truncate(lines[i], max(10, w.width), "…")
-	}
-	v := tea.NewView(strings.Join(lines, "\n"))
-	v.AltScreen = true
-	v.WindowTitle = "GoMem — Images and symbols"
-	return v
-}
-
 func (w *Workspace) activeFile(kind, name string) bool {
 	if w.engine == nil {
 		return false
@@ -616,7 +590,7 @@ func wrapChildCommand(seq uint64, cmd tea.Cmd) tea.Cmd {
 				cmds[i] = wrapChildCommand(seq, c)
 			}
 			return tea.Batch(cmds...)()
-		case tick, started, done, pageMsg, commandMsg, tasksMsg, historyMsg, progressMsg, openedMsg, spinner.TickMsg, tea.QuitMsg:
+		case tick, started, done, pageMsg, treeMsg, commandMsg, tasksMsg, historyMsg, progressMsg, openedMsg, spinner.TickMsg, tea.QuitMsg:
 			return childMsg{seq, msg}
 		}
 		return msg
@@ -667,6 +641,7 @@ func (w *Workspace) showMatches() {
 	}{w.local, w.matches, w.remoteStatus}, "", "  ")
 	w.detail.SetContent(commandText(string(probe) + "\n\n" + string(matching)))
 	w.detail.GotoTop()
+	w.layout()
 }
 func (w *Workspace) matchSymbols(localOnly, forceRemote bool) tea.Cmd {
 	if len(w.probe.Identities) == 0 {

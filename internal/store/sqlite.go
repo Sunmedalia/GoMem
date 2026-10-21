@@ -14,6 +14,7 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"unicode/utf8"
 
 	"github.com/Sunmedalia/GoMem/pkg/evidence"
 	"github.com/gofrs/flock"
@@ -123,9 +124,37 @@ func (s *Store) init() error {
 	if e = s.initArtifacts(); e != nil {
 		return e
 	}
+	if e = s.initSearch(); e != nil {
+		return e
+	}
 	_, e = s.db.Exec("UPDATE tasks SET state='failed',error='interrupted before terminal state; partial evidence retained',finished=? WHERE state='running'", time.Now().UTC().Format(time.RFC3339Nano))
 	return e
 }
+
+// initSearch maintains a trigram index over result search text. Cases from
+// before the index are indexed once when first opened.
+func (s *Store) initSearch() error {
+	var n int
+	if e := s.db.QueryRow("SELECT count(*) FROM sqlite_master WHERE name='results_fts'").Scan(&n); e != nil {
+		return e
+	}
+	tx, e := s.db.Begin()
+	if e != nil {
+		return e
+	}
+	defer tx.Rollback()
+	if n == 0 {
+		if _, e = tx.Exec(`CREATE VIRTUAL TABLE results_fts USING fts5(search, content='results', content_rowid='seq', tokenize='trigram');
+INSERT INTO results_fts(results_fts) VALUES('rebuild');`); e != nil {
+			return e
+		}
+	}
+	if _, e = tx.Exec("CREATE TRIGGER IF NOT EXISTS results_fts_insert AFTER INSERT ON results BEGIN INSERT INTO results_fts(rowid,search) VALUES(new.seq,new.search); END"); e != nil {
+		return e
+	}
+	return tx.Commit()
+}
+
 func (s *Store) Close() error {
 	s.closeOnce.Do(func() {
 		s.closeErr = errors.Join(s.abortArtifacts(), s.db.Close())
@@ -238,45 +267,97 @@ func (s *Store) Tasks(ctx context.Context) ([]evidence.Task, error) {
 	return out, r.Err()
 }
 func (s *Store) Query(ctx context.Context, q evidence.Query) ([]evidence.Row, error) {
-	if q.Limit < 1 || q.Limit > 1000 || q.Offset < 0 {
-		return nil, fmt.Errorf("page limit must be 1..1000 and offset nonnegative")
+	page, err := s.QueryPage(ctx, q)
+	return page.Rows, err
+}
+
+// Page is one page of results. Last is the position of its final row; pass
+// it as Query.After to continue in insertion order without an offset scan.
+type Page struct {
+	Rows []evidence.Row
+	Last int64
+}
+
+// cellPath addresses a cell in a stored row body.
+func cellPath(column string) (string, error) {
+	if column == "" || strings.ContainsAny(column, "\"\\") {
+		return "", fmt.Errorf("column %q is not addressable", column)
+	}
+	return `$.cells."` + column + `"`, nil
+}
+
+// QueryPage returns a page of a task's rows. A filter of three or more
+// characters uses the trigram index; shorter ones scan the task's rows.
+func (s *Store) QueryPage(ctx context.Context, q evidence.Query) (Page, error) {
+	if q.Limit < 1 || q.Limit > 1000 || q.Offset < 0 || q.After < 0 {
+		return Page{}, fmt.Errorf("page limit must be 1..1000 and offset nonnegative")
 	}
 	order := "ASC"
 	if q.Desc {
 		order = "DESC"
 	}
-	var r *sql.Rows
-	var e error
+	where, args := []string{"task_id=?"}, []any{q.TaskID}
+	if q.Filter != "" {
+		if utf8.RuneCountInString(q.Filter) >= 3 {
+			where = append(where, "seq IN (SELECT rowid FROM results_fts WHERE results_fts MATCH ?)")
+			args = append(args, `"`+strings.ReplaceAll(q.Filter, `"`, `""`)+`"`)
+		} else {
+			where = append(where, "instr(lower(search),lower(?))>0")
+			args = append(args, q.Filter)
+		}
+	}
+	for _, c := range q.Columns {
+		path, err := cellPath(c.Column)
+		if err != nil {
+			return Page{}, err
+		}
+		value := "CAST(json_extract(CAST(body AS TEXT),?) AS TEXT)"
+		if c.Exact {
+			where = append(where, value+"=?")
+		} else {
+			where = append(where, "instr(lower("+value+"),lower(?))>0")
+		}
+		args = append(args, path+".value", c.Value)
+	}
+	var query string
 	if q.Sort == "" {
-		r, e = s.db.QueryContext(ctx, "SELECT body FROM results WHERE task_id=? AND (?='' OR instr(lower(search),lower(?))>0) ORDER BY seq "+order+" LIMIT ? OFFSET ?", q.TaskID, q.Filter, q.Filter, q.Limit, q.Offset)
+		if q.After > 0 {
+			where = append(where, map[bool]string{false: "seq>?", true: "seq<?"}[q.Desc])
+			args = append(args, q.After)
+		}
+		query = "SELECT seq,body FROM results WHERE " + strings.Join(where, " AND ") + " ORDER BY seq " + order + " LIMIT ? OFFSET ?"
 	} else {
-		if strings.ContainsAny(q.Sort, "\"\\") {
-			return nil, fmt.Errorf("sort column %q is not addressable", q.Sort)
+		path, err := cellPath(q.Sort)
+		if err != nil {
+			return Page{}, err
 		}
 		// Cell values are text; unsigned decimals order by length first so
 		// values above the int64 range stay exact, signed decimals cast exactly,
 		// and fixed-width addresses order lexically. seq keeps paging stable.
-		path := `$.cells."` + q.Sort + `"`
-		r, e = s.db.QueryContext(ctx, "SELECT body FROM (SELECT seq,body,json_extract(CAST(body AS TEXT),?||'.kind') AS k,json_extract(CAST(body AS TEXT),?||'.value') AS v FROM results WHERE task_id=? AND (?='' OR instr(lower(search),lower(?))>0)) ORDER BY CASE WHEN k='uint64' THEN length(v) END "+order+",CASE WHEN k='int64' THEN CAST(v AS INTEGER) END "+order+",v "+order+",seq "+order+" LIMIT ? OFFSET ?", path, path, q.TaskID, q.Filter, q.Filter, q.Limit, q.Offset)
+		args = append([]any{path, path}, args...)
+		query = "SELECT seq,body FROM (SELECT seq,body,json_extract(CAST(body AS TEXT),?||'.kind') AS k,json_extract(CAST(body AS TEXT),?||'.value') AS v FROM results WHERE " + strings.Join(where, " AND ") + ") ORDER BY CASE WHEN k='uint64' THEN length(v) END " + order + ",CASE WHEN k='int64' THEN CAST(v AS INTEGER) END " + order + ",v " + order + ",seq " + order + " LIMIT ? OFFSET ?"
 	}
+	args = append(args, q.Limit, q.Offset)
+	r, e := s.db.QueryContext(ctx, query, args...)
 	if e != nil {
-		return nil, e
+		return Page{}, e
 	}
 	defer r.Close()
-	out := make([]evidence.Row, 0, q.Limit)
+	page := Page{Rows: make([]evidence.Row, 0, q.Limit)}
 	for r.Next() {
 		var b []byte
-		if e := r.Scan(&b); e != nil {
-			return nil, e
+		if e := r.Scan(&page.Last, &b); e != nil {
+			return Page{}, e
 		}
 		var row evidence.Row
 		if e := json.Unmarshal(b, &row); e != nil {
-			return nil, e
+			return Page{}, e
 		}
-		out = append(out, row)
+		page.Rows = append(page.Rows, row)
 	}
-	return out, r.Err()
+	return page, r.Err()
 }
+
 func (s *Store) Bookmark(ctx context.Context, id, note string) error {
 	_, e := s.db.ExecContext(ctx, "INSERT INTO bookmarks VALUES(?,?,?) ON CONFLICT(row_id) DO UPDATE SET note=excluded.note", id, note, time.Now().UTC().Format(time.RFC3339Nano))
 	return e

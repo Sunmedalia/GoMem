@@ -11,6 +11,7 @@ import (
 	"github.com/Sunmedalia/GoMem/internal/engine"
 	"github.com/Sunmedalia/GoMem/internal/library"
 	"github.com/Sunmedalia/GoMem/internal/testfixture"
+	"github.com/charmbracelet/x/ansi"
 )
 
 func workspaceKey(w *Workspace, value string) tea.Cmd {
@@ -26,12 +27,19 @@ func workspaceKey(w *Workspace, value string) tea.Cmd {
 	_, cmd := w.Update(msg)
 	return cmd
 }
+
+// applyLibrary runs a command and delivers its messages, expanding batches
+// such as a task with its spinner. Commands returned by Update are not run,
+// so an analysis session's blocking event loop never starts here.
 func applyLibrary(w *Workspace, cmd tea.Cmd) {
 	if cmd == nil {
 		return
 	}
 	msg := cmd()
-	if _, ok := msg.(tea.BatchMsg); ok {
+	if batch, ok := msg.(tea.BatchMsg); ok {
+		for _, c := range batch {
+			applyLibrary(w, c)
+		}
 		return
 	}
 	w.Update(msg)
@@ -246,8 +254,15 @@ func TestWorkspaceImportRenameAndView(t *testing.T) {
 	}
 	applyLibrary(w, workspaceKey(w, "enter"))
 	w.Update(tea.WindowSizeMsg{Width: 120, Height: 30})
-	view := w.View().Content
-	if !strings.Contains(view, "\n  \"os\": \"linux\"") {
+	view := ansi.Strip(w.View().Content)
+	// Details sit inside the right panel; each JSON field keeps its own line.
+	kept := false
+	for _, line := range strings.Split(view, "\n") {
+		if strings.Contains(line, "│   \"os\": \"linux\"") && !strings.Contains(line, "\"format\"") {
+			kept = true
+		}
+	}
+	if !kept {
 		t.Fatal("details lost newlines", view)
 	}
 	for _, text := range []string{"LOCAL LIBRARY", "renamed.raw", "linux", "candidate", "m local first"} {
@@ -260,7 +275,7 @@ func TestWorkspaceImportRenameAndView(t *testing.T) {
 		preview := *w
 		preview.library.Root = "."
 		preview.image = "./images/renamed.raw"
-		view = preview.View().Content
+		view = ansi.Strip(preview.View().Content)
 		if err = os.MkdirAll(filepath.Dir(path), 0700); err != nil {
 			t.Fatal(err)
 		}

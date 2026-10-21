@@ -187,6 +187,19 @@ type Query struct {
 	Desc          bool
 	// Sort names a result column; empty keeps insertion order.
 	Sort string
+	// Columns narrows rows by individual cell values, all of which must match.
+	Columns []ColumnFilter
+	// After continues insertion-order paging past a position a previous
+	// page reported, instead of skipping Offset rows. It is ignored when
+	// Sort is set.
+	After int64
+}
+
+// ColumnFilter matches one cell's value: a case-insensitive substring, or
+// the exact value when Exact is set.
+type ColumnFilter struct {
+	Column, Value string
+	Exact         bool
 }
 type EvidenceStore interface {
 	ArtifactPage(context.Context, string, int, int) ([]Artifact, error)

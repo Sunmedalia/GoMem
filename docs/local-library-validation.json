@@ -46,6 +46,10 @@
     {
       "command": "bin/gomem symbols match images/kali.raw --offline",
       "result": "one local exact match: kali-6.8.11-arm64.json.xz (table sha256 7b27ed03e5abd81b4913ca01a0265aabf0ffc5491a306b9d0b271bfd452ebf56); companion source.json reported as source-only; no network/download"
+    },
+    {
+      "command": "merged PR #3: bin/gomem tui --image images/kali.raw --symbols sysmbols/kali-6.8.11-arm64.json.xz --offline",
+      "result": "manual PTY: styled local library finds one matching table; o opens ARM64 analysis; linux.pslist completes with 169 rows in a result tab"
     }
   ],
   "automated_coverage": [
@@ -61,7 +65,8 @@
     "upstream importer integration preserves platform filtering, engine ownership and lifetime after image switches",
     "local matching across multiple image identities; source-only records and invalid-table diagnostics do not hide valid matches",
     "exact local ISF/ZIP/Windows PDB matching, duplicate-content deduplication, distinct-table ambiguity and stale selection rejection",
-    "offline and local-only CLI matching; successful local matches skip remote lookup by default"
+    "offline and local-only CLI matching; successful local matches skip remote lookup by default",
+    "PR #3 styled library, background propagation, result tabs, column filtering, tree views and local symbol matching pass combined integration tests"
   ],
   "preview": "screenshots/local-library.png",
   "limitations": [
@@ -72,5 +77,6 @@
     "Upstream provides no expected content checksum; identity verification is not independent source authentication",
     "Windows matching uses Microsoft PDB service because the requested repository has no Windows symbols",
     "Existing address-space, architecture, image-format and symbol-size limitations still apply"
-  ]
+  ],
+  "preview_description": "Merged PR #3 library view, rendered from the real TUI View at 150 columns with local Kali identity matching; ANSI stripped for the PNG."
 }
