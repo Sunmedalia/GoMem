@@ -37,6 +37,10 @@ type tasksMsg struct {
 	err   error
 }
 type historyMsg []string
+type progressMsg struct {
+	task string
+	rows int64
+}
 
 func pulse() tea.Cmd {
 	return tea.Tick(300*time.Millisecond, func(t time.Time) tea.Msg { return tick(t) })

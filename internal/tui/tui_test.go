@@ -3,9 +3,12 @@ package tui
 import (
 	"context"
 	"fmt"
+	"image/color"
 	"strings"
 	"testing"
+	"time"
 
+	"charm.land/bubbles/v2/spinner"
 	tea "charm.land/bubbletea/v2"
 	"charm.land/lipgloss/v2"
 	"github.com/Sunmedalia/GoMem/internal/engine"
@@ -45,6 +48,8 @@ func press(t testing.TB, m model, keys ...string) (model, tea.Cmd) {
 			msg = tea.KeyPressMsg{Code: tea.KeyDown}
 		case "tab":
 			msg = tea.KeyPressMsg{Code: tea.KeyTab}
+		case "space":
+			msg = tea.KeyPressMsg{Code: tea.KeySpace, Text: " "}
 		}
 		updated, c := m.Update(msg)
 		m, cmd = updated.(model), c
@@ -58,8 +63,32 @@ func deliver(t testing.TB, m model, cmd tea.Cmd) model {
 	if cmd == nil {
 		t.Fatal("expected a command")
 	}
-	updated, _ := m.Update(cmd())
-	return updated.(model)
+	m, _ = feed(t, m, cmd)
+	return m
+}
+
+// feed runs a command, expanding batches, and delivers every message except
+// spinner ticks, returning the model and the commands the messages produced.
+func feed(t testing.TB, m model, cmd tea.Cmd) (model, []tea.Cmd) {
+	t.Helper()
+	var out []tea.Cmd
+	if cmd == nil {
+		return m, nil
+	}
+	switch msg := cmd().(type) {
+	case tea.BatchMsg:
+		for _, c := range msg {
+			var more []tea.Cmd
+			m, more = feed(t, m, c)
+			out = append(out, more...)
+		}
+	case spinner.TickMsg, nil:
+	default:
+		updated, next := m.Update(msg)
+		m = updated.(model)
+		out = append(out, next)
+	}
+	return m, out
 }
 
 func fits(t testing.TB, m model) string {
@@ -81,7 +110,7 @@ func runPslist(t testing.TB, m model) model {
 		t.Fatal(err)
 	}
 	m.res.task = res.Task
-	m.resize()
+	m.layout()
 	return deliver(t, m, m.query())
 }
 
@@ -93,13 +122,22 @@ func TestLayoutPagingFilterAndStaleMessages(t *testing.T) {
 		func(m *model) { m.focus = focusResults },
 		func(m *model) { m.showHelp = true },
 		func(m *model) { m.expanded = true },
+		func(m *model) { m.openForm(m.caps.specs[0]) },
+		func(m *model) {
+			for _, s := range m.caps.specs {
+				if len(s.Parameters) > 10 {
+					m.openForm(s)
+				}
+			}
+		},
+		func(m *model) { m.setTheme(false) },
 	} {
 		v := m
 		view(&v)
 		for _, height := range []int{18, 30} {
 			for _, width := range []int{85, 100, 120, 160} {
 				v.width, v.height = width, height
-				v.resize()
+				v.layout()
 				if out := fits(t, v); !strings.HasSuffix(ansi.Strip(strings.Split(out, "\n")[height-7]), "╯") {
 					t.Fatalf("panel bottom border clipped at %d×%d\n%s", width, height, out)
 				}
@@ -107,7 +145,7 @@ func TestLayoutPagingFilterAndStaleMessages(t *testing.T) {
 		}
 	}
 	m.width, m.height = 120, 30
-	m.resize()
+	m.layout()
 	if len(m.res.rows) != 2 {
 		t.Fatal(len(m.res.rows))
 	}
@@ -145,7 +183,6 @@ func BenchmarkLocalNavigation(b *testing.B) {
 	}
 	m.res.setRows(rows)
 	m.focus = focusResults
-	m.res.grid.Focus()
 	b.ResetTimer()
 	for b.Loop() {
 		updated, _ := m.Update(tea.KeyPressMsg{Code: tea.KeyDown})
@@ -157,12 +194,14 @@ func BenchmarkLocalNavigation(b *testing.B) {
 func TestStartedTaskSelectsFirstEvidence(t *testing.T) {
 	m := fixtureModel(t)
 	m.caps.selectName("linux.pslist")
-	run := m.start("linux.pslist", nil)
-	updated, query := m.Update(run())
-	m = updated.(model)
-	updated, _ = m.Update(query())
-	m = updated.(model)
-	if m.res.grid.Cursor() != 0 || !strings.Contains(m.detail.GetContent(), "image_sha256") {
+	m, next := feed(t, m, m.start("linux.pslist", nil))
+	if m.running || m.level != levelSuccess || !strings.Contains(m.statusLine(), "rows") {
+		t.Fatal("task did not finish successfully", m.status)
+	}
+	for _, c := range next {
+		m, _ = feed(t, m, c)
+	}
+	if m.res.grid.Cursor() != 0 || !strings.Contains(m.detail.GetContent(), "PROVENANCE") {
 		t.Fatal("first result was not selected", m.res.grid.Cursor(), m.detail.GetContent())
 	}
 }
@@ -170,7 +209,7 @@ func TestStartedTaskSelectsFirstEvidence(t *testing.T) {
 func TestCapabilityListScrollsAndSearches(t *testing.T) {
 	m := fixtureModel(t)
 	m.width, m.height = 100, minHeight
-	m.resize()
+	m.layout()
 	last := m.caps.specs[len(m.caps.specs)-1].Name
 	for range m.caps.specs {
 		m, _ = press(t, m, "down")
@@ -292,5 +331,136 @@ func TestCommandHistoryHelpAndExpand(t *testing.T) {
 	m, cmd = press(t, m, "y")
 	if cmd == nil || !strings.HasPrefix(m.status, "Copied evidence ID") {
 		t.Fatal(m.status)
+	}
+}
+
+func specNamed(t testing.TB, m model, name string) plugin.Spec {
+	t.Helper()
+	for _, s := range m.caps.specs {
+		if s.Name == name {
+			return s
+		}
+	}
+	t.Fatalf("no capability %s", name)
+	return plugin.Spec{}
+}
+
+func TestStructuredDetailAndRawToggle(t *testing.T) {
+	m := fixtureModel(t)
+	m.caps.selectName("linux.kthreads")
+	m.layout()
+	if got := m.detail.GetContent(); !strings.Contains(got, "PARAMETERS") || !strings.Contains(got, "max-nodes") {
+		t.Fatal("spec detail lacks parameters", got)
+	}
+	m = runPslist(t, m)
+	m, _ = press(t, m, "tab")
+	got := m.detail.GetContent()
+	if !strings.Contains(got, "EVIDENCE") || !strings.Contains(got, "PROVENANCE") || !strings.Contains(got, "linux.pslist") || strings.Contains(got, `"cells"`) {
+		t.Fatal("row detail is not structured", got)
+	}
+	m, _ = press(t, m, "r")
+	if !strings.Contains(m.detail.GetContent(), `"cells"`) {
+		t.Fatal("raw toggle did not show JSON")
+	}
+	m, _ = press(t, m, "r")
+	row := evidence.Row{ID: "x", Cells: map[string]evidence.Value{"Name": evidence.Missing("paged_out", fmt.Errorf("no page")), "Raw": evidence.Bytes([]byte{0xde, 0xad})}}
+	got = ansi.Strip(rowView(m.st, row, m.res.spec, 80))
+	if !strings.Contains(got, "<paged_out: no page>") || !strings.Contains(got, "dead  (2 bytes)") {
+		t.Fatal(got)
+	}
+}
+
+func TestParameterFormValidatesAndRuns(t *testing.T) {
+	m := fixtureModel(t)
+	m.caps.selectName("linux.modxview")
+	m.layout()
+	m, _ = press(t, m, "enter")
+	if !m.form.open || m.running || !strings.Contains(fits(t, m), "plain-taints") {
+		t.Fatal("parameter form did not open")
+	}
+	before := m.form.inputs[0].Value()
+	m, _ = press(t, m, "space")
+	if m.form.inputs[0].Value() == before {
+		t.Fatal("bool did not toggle")
+	}
+	m, _ = press(t, m, "esc")
+	if m.form.open {
+		t.Fatal("esc did not close the form")
+	}
+
+	m.caps.selectName("linux.kthreads")
+	m, _ = press(t, m, "e")
+	m.form.inputs[0].SetValue("abc")
+	updated, cmd := m.Update(tea.KeyPressMsg{Code: 's', Mod: tea.ModCtrl})
+	m = updated.(model)
+	if cmd != nil || !m.form.open || m.form.err == "" || m.running || !strings.Contains(fits(t, m), "max-nodes") {
+		t.Fatal("invalid parameter accepted", m.form.err)
+	}
+	m.form.inputs[0].SetValue("7")
+	for !m.form.last() {
+		m, _ = press(t, m, "tab")
+	}
+	m, cmd = press(t, m, "enter")
+	if !m.running || m.form.open || m.prompt.history[len(m.prompt.history)-1] != "run linux.kthreads max-nodes=7" {
+		t.Fatal("form did not start the task", m.prompt.history)
+	}
+	m, _ = feed(t, m, cmd)
+	if m.running {
+		t.Fatal("task did not finish")
+	}
+}
+
+func TestStatusLevelsProgressAndTheme(t *testing.T) {
+	m := fixtureModel(t)
+	m.running, m.res.task.ID, m.runStarted = true, "a", time.Now()
+	updated, _ := m.Update(progressMsg{"a", 42})
+	m = updated.(model)
+	if !strings.Contains(m.statusLine(), "42 rows") || !strings.Contains(m.res.View(m.st, false, m.activity()), "42 rows") {
+		t.Fatal(m.statusLine())
+	}
+	m.generation = 5
+	updated, _ = m.Update(done{err: context.Canceled, generation: 5})
+	m = updated.(model)
+	if m.level != levelWarn || m.running {
+		t.Fatal(m.level, m.status)
+	}
+	updated, _ = m.Update(done{err: fmt.Errorf("broken"), generation: 5})
+	m = updated.(model)
+	if m.level != levelError || m.status != "broken" {
+		t.Fatal(m.level, m.status)
+	}
+	updated, _ = m.Update(tea.BackgroundColorMsg{Color: color.White})
+	m = updated.(model)
+	if m.st.dark {
+		t.Fatal("light background kept the dark palette")
+	}
+	fits(t, m)
+}
+
+func TestMouseSelectsCapabilitiesAndRows(t *testing.T) {
+	m := fixtureModel(t)
+	m = runPslist(t, m)
+	left, _, _, _ := m.sizes()
+	// Capability items start on the third line inside the panel: y = 1 header + 1 border + 2.
+	for i, it := range m.caps.items {
+		if it.spec >= 0 && it.spec != m.caps.selected && i < m.caps.height {
+			updated, _ := m.Update(tea.MouseClickMsg{X: 3, Y: 4 + i, Button: tea.MouseLeft})
+			m = updated.(model)
+			if m.caps.selected != it.spec || m.focus != focusNav {
+				t.Fatal("click did not select capability", i)
+			}
+			break
+		}
+	}
+	// Result rows start below the title, a blank line and the column header.
+	updated, _ := m.Update(tea.MouseClickMsg{X: left + 3, Y: 6, Button: tea.MouseLeft})
+	m = updated.(model)
+	if m.focus != focusResults || m.res.grid.Cursor() != 1 {
+		t.Fatal("click did not select row", m.res.grid.Cursor())
+	}
+	updated, _ = m.Update(tea.MouseWheelMsg{X: left + 3, Y: 6, Button: tea.MouseWheelUp})
+	m = updated.(model)
+	if m.res.grid.Cursor() != 0 {
+		t.Fatal("wheel did not move the row", m.res.grid.Cursor())
 	}
 }

@@ -285,6 +285,13 @@ func (s *Store) History(ctx context.Context, cmd string) error {
 	return e
 }
 
+// TaskRows counts the rows a task has stored so far.
+func (s *Store) TaskRows(ctx context.Context, id string) (int64, error) {
+	var n int64
+	e := s.db.QueryRowContext(ctx, "SELECT count(*) FROM results WHERE task_id=?", id).Scan(&n)
+	return n, e
+}
+
 // Commands returns up to limit recorded commands, oldest first.
 func (s *Store) Commands(ctx context.Context, limit int) ([]string, error) {
 	r, e := s.db.QueryContext(ctx, "SELECT command FROM (SELECT seq,command FROM history ORDER BY seq DESC LIMIT ?) ORDER BY seq", limit)

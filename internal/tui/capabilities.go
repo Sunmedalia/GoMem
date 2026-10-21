@@ -140,6 +140,17 @@ func (c *capabilities) selectName(name string) bool {
 	return false
 }
 
+// clickLine selects the spec drawn on list line i (0 is the first item line).
+func (c *capabilities) clickLine(i int) bool {
+	i += c.top
+	if i < 0 || i >= len(c.items) || c.items[i].spec < 0 {
+		return false
+	}
+	c.selected = c.items[i].spec
+	c.scroll()
+	return true
+}
+
 func (c capabilities) spec() plugin.Spec { return c.specs[c.selected] }
 
 // scroll keeps the selection and, at the top, its group heading visible.
@@ -157,11 +168,11 @@ func (c *capabilities) scroll() {
 	c.top = max(0, min(c.top, len(c.items)-c.height))
 }
 
-func (c capabilities) View(width int) string {
+func (c capabilities) View(st styles, width int) string {
 	var b strings.Builder
-	b.WriteString(accent.Render("CAPABILITIES") + muted.Render(fmt.Sprintf("  %d", c.matches())) + "\n")
+	b.WriteString(st.accent.Render("CAPABILITIES") + st.muted.Render(fmt.Sprintf("  %d", c.matches())) + "\n")
 	if c.query != "" {
-		b.WriteString(muted.Render(ansi.Truncate("search: "+c.query, width, "…")))
+		b.WriteString(st.muted.Render(ansi.Truncate("search: "+c.query, width, "…")))
 	}
 	b.WriteString("\n")
 	end := min(len(c.items), c.top+c.height)
@@ -169,18 +180,18 @@ func (c capabilities) View(width int) string {
 		it := c.items[i]
 		switch {
 		case it.spec < 0:
-			b.WriteString(muted.Bold(true).Render(ansi.Truncate(strings.ToUpper(it.group), width, "…")))
+			b.WriteString(st.heading.Render(ansi.Truncate(strings.ToUpper(it.group), width, "…")))
 		case it.spec == c.selected:
-			b.WriteString(strong.Render(ansi.Truncate("› "+c.specs[it.spec].Name, width, "…")))
+			b.WriteString(st.strong.Render(ansi.Truncate("› "+c.specs[it.spec].Name, width, "…")))
 		default:
-			b.WriteString(muted.Render(ansi.Truncate("  "+c.specs[it.spec].Name, width, "…")))
+			b.WriteString(st.muted.Render(ansi.Truncate("  "+c.specs[it.spec].Name, width, "…")))
 		}
 		if i < end-1 {
 			b.WriteString("\n")
 		}
 	}
 	if len(c.items) == 0 {
-		b.WriteString(muted.Render("no match"))
+		b.WriteString(st.muted.Render("no match"))
 	}
 	return b.String()
 }

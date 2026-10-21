@@ -5,9 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"charm.land/bubbles/v2/table"
 	tea "charm.land/bubbletea/v2"
-	"github.com/charmbracelet/x/ansi"
 
 	"github.com/Sunmedalia/GoMem/internal/render"
 	"github.com/Sunmedalia/GoMem/internal/store"
@@ -22,7 +20,7 @@ const (
 
 // results owns the paged evidence of one task and the window of columns shown.
 type results struct {
-	grid     table.Model
+	grid     grid
 	spec     plugin.Spec
 	visible  []evidence.Column
 	colStart int
@@ -32,11 +30,7 @@ type results struct {
 	filter   string
 	desc     bool
 	sort     string
-	width    int
-}
-
-func newResults() results {
-	return results{grid: table.New(table.WithFocused(false), table.WithHeight(18))}
+	layoutAt string
 }
 
 // setSpec switches the column source, resetting column window and sort for a new plugin.
@@ -44,6 +38,7 @@ func (r *results) setSpec(spec plugin.Spec) {
 	if spec.Name != r.spec.Name {
 		r.colStart = 0
 		r.sort = ""
+		r.layoutAt = ""
 	}
 	r.spec = spec
 }
@@ -53,18 +48,22 @@ func (r *results) reset(task evidence.Task) {
 	r.task = task
 	r.offset = 0
 	r.filter = ""
-	r.rows = nil
-	r.grid.SetRows(nil)
+	r.setRows(nil)
 }
 
+// layout sizes the visible columns; it is a no-op when nothing it depends on changed.
 func (r *results) layout(width, height int) {
-	r.width = width
 	cols := r.spec.Columns
 	r.colStart = max(0, min(r.colStart, len(cols)-visibleColumns))
+	key := fmt.Sprint(r.spec.Name, r.colStart, r.sort, r.desc, width, height)
+	if key == r.layoutAt {
+		return
+	}
+	r.layoutAt = key
 	r.visible = cols[r.colStart:min(r.colStart+visibleColumns, len(cols))]
 	budget := width - 2*len(r.visible)
 	total := 0
-	out := make([]table.Column, 0, len(r.visible))
+	out := make([]gridColumn, 0, len(r.visible))
 	for _, c := range r.visible {
 		w := 6
 		if c.Kind == "address" {
@@ -77,20 +76,20 @@ func (r *results) layout(width, height int) {
 		if c.Name == r.sort {
 			title += map[bool]string{false: " ▲", true: " ▼"}[r.desc]
 		}
-		out = append(out, table.Column{Title: render.Safe(title), Width: w})
+		out = append(out, gridColumn{title: render.Safe(title), width: w})
 		total += w
 	}
 	for total > budget {
 		largest := 0
 		for i := range out {
-			if out[i].Width > out[largest].Width {
+			if out[i].width > out[largest].width {
 				largest = i
 			}
 		}
-		if out[largest].Width <= 3 {
+		if out[largest].width <= 3 {
 			break
 		}
-		out[largest].Width--
+		out[largest].width--
 		total--
 	}
 	if total < budget && len(out) > 0 {
@@ -101,33 +100,21 @@ func (r *results) layout(width, height int) {
 				break
 			}
 		}
-		out[target].Width += budget - total
+		out[target].width += budget - total
 	}
-	// Rows must match the new column count before the columns change, which
-	// also clears the cursor; restore it once the rows are back.
-	cursor := r.grid.Cursor()
-	r.grid.SetRows(nil)
-	r.grid.SetColumns(out)
-	r.grid.SetWidth(width)
-	r.grid.SetHeight(max(4, height))
+	r.grid.setColumns(out, max(4, height))
 	r.render()
-	if len(r.rows) > 0 {
-		r.grid.SetCursor(max(0, cursor))
-	}
 }
 
 func (r *results) setRows(rows []evidence.Row) {
 	r.rows = rows
 	r.render()
-	if len(rows) > 0 && (r.grid.Cursor() < 0 || r.grid.Cursor() >= len(rows)) {
-		r.grid.SetCursor(0)
-	}
 }
 
 func (r *results) render() {
-	rows := make([]table.Row, 0, len(r.rows))
+	rows := make([][]string, 0, len(r.rows))
 	for _, row := range r.rows {
-		cells := make(table.Row, len(r.visible))
+		cells := make([]string, len(r.visible))
 		for i, c := range r.visible {
 			v, ok := row.Cells[c.Name]
 			if !ok {
@@ -137,7 +124,7 @@ func (r *results) render() {
 		}
 		rows = append(rows, cells)
 	}
-	r.grid.SetRows(rows)
+	r.grid.setRows(rows)
 }
 
 // shift moves the column window; it reports whether anything changed.
@@ -189,16 +176,21 @@ func (r results) accepts(p pageMsg) bool {
 	return p.task == r.task.ID && p.offset == r.offset && p.filter == r.filter && p.desc == r.desc && p.sort == r.sort
 }
 
-func (r results) View() string {
-	head := accent.Render("RESULTS") + muted.Render(fmt.Sprintf("  %d–%d", r.offset, r.offset+len(r.rows)))
+// View renders the title line, a blank line, then the grid; activity is
+// appended to the title while a task runs.
+func (r results) View(st styles, focused bool, activity string) string {
+	head := st.accent.Render("RESULTS") + st.muted.Render(fmt.Sprintf("  %d–%d", r.offset, r.offset+len(r.rows)))
 	if n := len(r.spec.Columns); n > visibleColumns {
-		head += muted.Render(fmt.Sprintf(" · cols %d–%d/%d", r.colStart+1, r.colStart+len(r.visible), n))
+		head += st.muted.Render(fmt.Sprintf(" · cols %d–%d/%d", r.colStart+1, r.colStart+len(r.visible), n))
 	}
 	if r.sort != "" {
-		head += muted.Render(" · by " + render.Safe(r.sort))
+		head += st.muted.Render(" · by " + render.Safe(r.sort))
 	}
 	if r.filter != "" {
-		head += muted.Render(" · " + strconv.Quote(render.Safe(r.filter)))
+		head += st.muted.Render(" · " + strconv.Quote(render.Safe(r.filter)))
 	}
-	return ansi.Truncate(head, r.width, "…") + "\n\n" + r.grid.View()
+	if activity != "" {
+		head += "  " + activity
+	}
+	return head + "\n\n" + r.grid.View(st, focused)
 }
