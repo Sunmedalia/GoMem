@@ -10701,15 +10701,24 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "serH service records inside services.exe using the Windows 10 19041 x64 layout. A pointer size other than 8 fails the task. Only an ImageFileName of exactly services.exe is scanned. A process layer that cannot be created is skipped. VADs use the same modern preorder as MMVAD.traverse, not the sorted file index. Each VAD is scanned for serH, and a hit that is not 8-byte aligned is dropped. _SERVICE_HEADER.ServiceRecord is the pointer at the header plus 16. A record is kept only when Order is at most 0xFFFF and Start and State are known names. Type flags, in order, are kernel driver, file system driver, adaptor, recognizer, own process, share process and interactive, joined by |. Name, display and binary strings are UTF-16LE, at most 512 bytes, cut at the first NUL. A short read is unreadable. PID is set only when State is SERVICE_RUNNING and the type string contains PROCESS; otherwise it is not applicable. A binary is not applicable unless the service is running. A running driver treats the pointer at record plus 296 as the UTF-16 string itself. The first row of a chain shows the record address. Every later row shows the previous record's PrevEntry slot, which is that record plus 16. Seen comparison follows the pinned tuple identity: absent PID and binary cells are fresh objects, and registry cells are shared only for a name present in the map. Only a numeric PID, a string binary and a mapped service can stop the chain, so one offset can be emitted more than once. A chain longer than 100000 records stops and is counted; this image did not reach the cap. The registry map comes from the first hive whose name contains machine\\system, using CurrentControlSet\\Services and then ControlSet001\\Services. Unreadable subkeys and values are skipped. ImagePath and ServiceDll are case-sensitive. A value cell that could not be read becomes an empty string, matching zero-fill followed by rstrip. A missing value stays unreadable. The summary row is not a service.",
+      "native": "windows.svcscan",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_1578_rows_match_offset_order_pid_start_state_type_name_display_binary_and_registry",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Windows 10 x64 crash dump has a selected-field differential. It has one services.exe, 142 serH headers, 350 registry service keys and 1578 rows. 746 offsets are distinct. Starts are 1196 demand, 181 auto, 97 boot, 67 system and 37 disabled. 1152 services are stopped and 426 are running. 1373 PIDs, 1162 binaries, 868 registry binaries and 1296 DLLs are null. Four registry binaries are empty strings. The chain cap was not hit",
+        "Only the services-win10-19041-x64 field offsets are implemented. Other Windows 10 builds, Windows 8, Vista, XP, the pre-Vista sErv tag and 32-bit records are not implemented",
+        "windows.svclist.SvcList and windows.malware.svcdiff.SvcDiff are not implemented. The deprecated windows.svcdiff.SvcDiff alias is not implemented",
+        "Real 32-bit images remain pending",
+        "A VAD tree with an unrecognized pool tag or a parent mismatch fails the task. This image's trees were already accepted by windows.vadwalk",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-svcscan.md"
     },
     {
       "id": "windows.symlinkscan.SymlinkScan",

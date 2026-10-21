@@ -21,10 +21,10 @@ type windowsVADPath struct {
 	file                evidence.Value
 }
 
-// windowsVADPaths builds one sorted file index per process, shared by every
-// thread address lookup in that process. Unsupported layouts and incomplete
-// trees are errors; a failed index must never become a clean "no mapping".
-func windowsVADPaths(ctx context.Context, e plugin.Environment, process uint64, max int) ([]windowsVADPath, error) {
+// windowsVADRegions walks a modern VAD tree in the same preorder as
+// MMVAD.traverse: the node, then its left subtree, then its right subtree.
+// Unsupported layouts and incomplete trees are errors.
+func windowsVADRegions(ctx context.Context, e plugin.Environment, process uint64, max int) ([]windowsVADPath, error) {
 	root, err := e.Objects.Uint(ctx, process, "_EPROCESS", "VadRoot.Root")
 	if err != nil {
 		return nil, fmt.Errorf("modern RTL_AVL_TREE VAD root: %w", err)
@@ -126,6 +126,17 @@ func windowsVADPaths(ctx context.Context, e plugin.Environment, process uint64, 
 		}
 		regions = append(regions, windowsVADPath{start: start, end: end, address: address, parent: item.parent, left: left, right: right, tag: string(tag), file: path})
 		stack = append(stack, frame{node: right, parent: item.node, depth: item.depth + 1}, frame{node: left, parent: item.node, depth: item.depth + 1})
+	}
+	return regions, nil
+}
+
+// windowsVADPaths builds one sorted file index per process, shared by every
+// thread address lookup in that process. A failed index must never become a
+// clean "no mapping".
+func windowsVADPaths(ctx context.Context, e plugin.Environment, process uint64, max int) ([]windowsVADPath, error) {
+	regions, err := windowsVADRegions(ctx, e, process, max)
+	if err != nil || len(regions) < 2 {
+		return regions, err
 	}
 	sort.Slice(regions, func(i, j int) bool { return regions[i].start < regions[j].start })
 	for i := 1; i < len(regions); i++ {

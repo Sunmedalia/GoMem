@@ -77,3 +77,5 @@
 2026-10-21：windows.verinfo 列出内核模块和进程 DLL 的 PE 产品版本。选定 Windows 10 19041 样本的 5918 行与固定基线一致，176 个内核模块版本都不可用，1715 个 DLL 有版本。5 条加载链表在缺页的下一节点停下。`extensive=true`、真实 32 位镜像和时间线还没有验收。[详情](windows-verinfo.md)
 
 2026-10-21：windows.ldrmodules 对照 MZ 开头的 VAD 和 PEB 三条链表。选定 Windows 10 19041 样本的 3193 行与固定基线一致，120 个进程里 103 个有此类 VAD。2660 个在加载链表，2580 个在初始化链表，2660 个在内存链表。真实 32 位镜像、pid 筛选和时间线还没有验收。[详情](windows-ldrmodules.md)
+
+2026-10-21：windows.svcscan 扫描 services.exe 里的 serH 服务记录。选定 Windows 10 19041 样本的 1578 行与固定基线一致，142 个服务头，350 个注册表服务。746 个偏移互不相同，426 个服务正在运行。其他 Windows 版本、32 位、svclist、svcdiff 和时间线还没有实现。[详情](windows-svcscan.md)
