@@ -1,0 +1,30 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "values": [
+      "time_namespace"
+    ],
+    "excluded_values": [
+      "diagnostic",
+      "summary"
+    ]
+  },
+  "fields": {
+    "TIME NS": {
+      "native": "TIME NS",
+      "reference": "TIME NS",
+      "kind": "uint64",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "Boot Time": {
+      "native": "Boot Time",
+      "reference": "Boot Time",
+      "kind": "timestamp_microseconds_rounded",
+      "missing_reasons": [
+        "unparsable_boot_time"
+      ]
+    }
+  }
+}

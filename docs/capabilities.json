@@ -347,15 +347,25 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Default active task list, excluding init_task and additional threads. De-duplicate by the first observed time namespace ID; absent namespace and ID zero are distinct keys, though both render unavailable in TIME NS. Kernels without nsproxy/time_ns and null time_ns use the root clock. Existing but unreadable/null nsproxy or unreadable namespace/offset fields remain diagnostics and fail the native task. Offsets are read only for a first-seen ID and are subtracted from the root boot epoch using signed arbitrary-precision nanoseconds. Root clocks support tk_core scalar/tv64 offsets, old timekeeper timespecs and global wall_to_monotonic plus optional sleep timespec/seconds. Boot Time preserves the pinned binary64-to-microsecond display; BootTimeExact and BootEpochNS retain exact nanoseconds. Raw clock fields, namespace offset captures, representative task coordinates and CREATED timeline fields are preserved. max-nodes and clock/timespec capture extents are native bounds.",
+      "native": "linux.boottime",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-boottime-x64-x86-pae",
+        "pinned-79-boot-datetime-and-6-namespace-oracles",
+        "official-linux-sample-1"
+      ],
+      "comparison": "selected_legacy_namespace_boot_time_matches_microseconds_exact_nanoseconds_retained",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Debian 3.2 x64 image has an unmodified full-plugin differential: 133 tasks de-duplicate to one legacy namespace and match the displayed boot time; no real modern time namespace corpus yet",
+        "Fixed-source timestamp and grouping oracles cover fractional/large/out-of-range dates, zero/absent IDs, task order and duplicate IDs; synthetic readers cover clock ABIs, positive/negative offsets, absent offsets, failures, duplicate short-circuit, x86/PAE, cancellation, bounds, output errors, SQLite verification and cache reuse",
+        "Native rejects invalid timespec nanoseconds and null declared nsproxy; upstream may normalize invalid values or try dereferencing zero. Full damaged-input differential remains pending",
+        "Namespace offset failures keep their ID seen and continue independent namespaces with a failed task; the fixed plugin can abort immediately",
+        "CREATED event fields are present on native rows, but the global timeliner aggregation command remains unimplemented",
+        "Actual modern/x86/PAE images, ARM64, all source/version/namespace cases and full task-list validity behavior remain pending"
+      ],
+      "validation_record": "docs/linux-boottime.md"
     },
     {
       "id": "linux.capabilities.Capabilities",

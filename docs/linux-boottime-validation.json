@@ -1,0 +1,86 @@
+{
+  "scope": "Development preview: one legacy time namespace selected-field differential, not modern namespace or full release acceptance.",
+  "reference_manifest": {
+    "baseline": {
+      "name": "Volatility 3",
+      "version": "2.28.2",
+      "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+      "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+    },
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "plugin": "linux.boottime.Boottime",
+    "parameters": [],
+    "output_sha256": "6ff5cfded9487287cf83f6e952ef85bb683b3f59ac75b59b4c6bb04180f87330",
+    "config_sha256": "ce91e2d13ebec7868bbf11306bece08a712d42ce9d783bfefed4591fbb6fd8f4",
+    "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+  },
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "TIME NS",
+      "Boot Time"
+    ],
+    "native_rows": 1,
+    "reference_rows": 1,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "5867b55e3d5dbe9f645b8d167f2ecb5f53d4b60ab6c62a495eaa8815793473a7",
+      "reference": "6ff5cfded9487287cf83f6e952ef85bb683b3f59ac75b59b4c6bb04180f87330",
+      "mapping": "a0698002b55b147d51cf6010f69592c6c16ff1a0a88a508f0b0edf980b226bb7"
+    },
+    "native_input_rows": 2,
+    "native_non_entity_records": {
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "values": [
+        "time_namespace"
+      ],
+      "excluded_values": [
+        "diagnostic",
+        "summary"
+      ]
+    }
+  },
+  "observed": {
+    "display": "2014-06-24T10:22:33.691776Z",
+    "exact": "2014-06-24T10:22:33.691776031Z",
+    "epoch_ns": "1403605353691776031",
+    "namespace": "legacy None"
+  },
+  "coverage": {
+    "diagnostics": "0",
+    "duplicates": "132",
+    "namespaces": "1",
+    "tasks": "133",
+    "times_read": "1",
+    "unparsable_times": "0"
+  },
+  "checks": {
+    "make_check": "passed",
+    "fixed_datetime_cases": 79,
+    "fixed_namespace_group_cases": 6,
+    "synthetic_paging": [
+      "x64",
+      "x86",
+      "pae"
+    ],
+    "sqlite_row_verification": true,
+    "cache_reuse": true,
+    "fresh_cached_jsonl_identical": true,
+    "bundle_verified": true,
+    "bundle_sha256": "fa1b0d9c2e636963982573343032517fec9e21ee5bfa7997629608782c4797a8"
+  },
+  "pending": [
+    "Real modern time namespaces",
+    "Actual x86/PAE images",
+    "ARM64",
+    "Global timeline aggregation",
+    "Complete corrupted-input and version conditions"
+  ]
+}
