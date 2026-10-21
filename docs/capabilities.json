@@ -2507,15 +2507,22 @@
           "default": false
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Symbol-described Intel Linux. Walk each task mount namespace, deduplicate by mount id unless pids is set, and emit /proc/pid/mountinfo fields plus the brief mount view. Missing namespace inodes stay rows. Unreadable mount, path, superblock or source data stays a diagnostic and fails the task.",
+      "native": "linux.mountinfo",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-mountinfo-x64",
+        "official-linux-sample-1"
+      ],
+      "comparison": "13_mounts_match_detailed_fields_and_order_including_deleted_binfmt_misc",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Debian 3.2 x64 has no namespace inode. The reference null and native namespace_inode_not_in_layout compare equal. All 13 mounts match the detailed columns and order, including the deleted binfmt_misc display",
+        "The image has no shared, slave or propagate_from tags. Those paths are implemented and covered only by code review until a positive sample exists",
+        "Synthetic x64 covers a self-parent rootfs, a deleted mount point, nosuid/relatime flags and a completed task. 32-bit, modern, ARM64 and damaged namespace lists remain pending",
+        "A mount whose root, path, superblock or source cannot be read is retained and fails the task; the fixed plugin skips that mount and continues"
+      ],
+      "validation_record": "docs/linux-mountinfo.md"
     },
     {
       "id": "linux.netfilter.Netfilter",

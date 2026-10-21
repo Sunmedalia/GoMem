@@ -1,0 +1,20 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "mount",
+    "excluded_values": ["diagnostic", "summary"]
+  },
+  "fields": {
+    "MNT_NS_ID": {"native": "MNT_NS_ID", "reference": "MNT_NS_ID", "kind": "uint64", "missing_reasons": ["namespace_inode_not_in_layout"]},
+    "MOUNT ID": {"native": "MOUNT ID", "reference": "MOUNT ID", "kind": "int64"},
+    "PARENT_ID": {"native": "PARENT_ID", "reference": "PARENT_ID", "kind": "int64"},
+    "MAJOR:MINOR": {"native": "MAJOR:MINOR", "reference": "MAJOR:MINOR", "kind": "string"},
+    "ROOT": {"native": "ROOT", "reference": "ROOT", "kind": "string"},
+    "MOUNT_POINT": {"native": "MOUNT_POINT", "reference": "MOUNT_POINT", "kind": "linux_path_display"},
+    "MOUNT_OPTIONS": {"native": "MOUNT_OPTIONS", "reference": "MOUNT_OPTIONS", "kind": "string"},
+    "FIELDS": {"native": "FIELDS", "reference": "FIELDS", "kind": "string"},
+    "FSTYPE": {"native": "FSTYPE", "reference": "FSTYPE", "kind": "string", "missing_reasons": ["not_available"]},
+    "MOUNT_SRC": {"native": "MOUNT_SRC", "reference": "MOUNT_SRC", "kind": "string"},
+    "SB_OPTIONS": {"native": "SB_OPTIONS", "reference": "SB_OPTIONS", "kind": "string"}
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "scope": "Development preview: one Debian 3.2 x64 mountinfo differential. Not complete acceptance.",
+  "plugin": "linux.mountinfo",
+  "task_id": "395fa4f6f813ef96169f0658c4a966d4",
+  "task_state": "completed",
+  "reference_manifest": {
+    "baseline": {
+      "name": "Volatility 3",
+      "version": "2.28.2",
+      "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+      "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+    },
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "plugin": "linux.mountinfo.MountInfo",
+    "parameters": [],
+    "output_sha256": "3ee4161d13b1933abe9ab2dba20824e26d20b4f16817e501248d46dc6b93bcd8",
+    "config_sha256": "9bb86d9028d3a3e925c9a5dd79274fdf2676548c23117bf94892d96db70e1c6c",
+    "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+  },
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "MNT_NS_ID",
+      "MOUNT ID",
+      "PARENT_ID",
+      "MAJOR:MINOR",
+      "ROOT",
+      "MOUNT_POINT",
+      "MOUNT_OPTIONS",
+      "FIELDS",
+      "FSTYPE",
+      "MOUNT_SRC",
+      "SB_OPTIONS"
+    ],
+    "native_rows": 13,
+    "reference_rows": 13,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "db62d97f1c107676f4306945c13ccbbfac4e3ab208cd158a7cde2a19a8dd14ac",
+      "reference": "3ee4161d13b1933abe9ab2dba20824e26d20b4f16817e501248d46dc6b93bcd8",
+      "mapping": "9b2eaa15afd98b07a24f272e18edbecec366c48080ba9bbc88275f13cbe80441"
+    },
+    "native_input_rows": 14,
+    "native_non_entity_records": {
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "value": "mount",
+      "excluded_values": [
+        "diagnostic",
+        "summary"
+      ]
+    }
+  },
+  "native_rows": 14,
+  "native_summary": {
+    "entities": "13",
+    "mounts_visited": "13",
+    "read_layout_errors": "0",
+    "namespace_inode": "not_in_layout"
+  },
+  "complete_raw_captures_independently_reread": 91,
+  "cache": {
+    "reused": true,
+    "jsonl_byte_identical": true,
+    "sha256": "db62d97f1c107676f4306945c13ccbbfac4e3ab208cd158a7cde2a19a8dd14ac"
+  },
+  "bundle": {
+    "verified_export": true,
+    "sha256": "80ecbdfa3d3e5f4cfd8ff373688f754bbe6d35e323aac6dac898c93755fb91a8"
+  },
+  "limitations": [
+    "No shared or slave mount sample",
+    "Namespace inode is absent on Debian 3.2",
+    "32-bit, modern kernels and ARM64 remain pending"
+  ]
+}
