@@ -2,11 +2,66 @@ package store
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"testing"
 
 	"github.com/Sunmedalia/GoMem/pkg/evidence"
 )
+
+func TestEvidenceNullCaptureAndLargeMetadataSurviveReopen(t *testing.T) {
+	ctx := context.Background()
+	dir := t.TempDir()
+	s, err := Open(dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	task, err := s.Begin(ctx, "serialization", "test", evidence.Provenance{ImageSHA256: "fixture"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	r := evidence.Row{Cells: map[string]evidence.Value{
+		"Raw": evidence.Bytes(nil), "AbsentValue": {Kind: "bytes"}, "EmptyBase64": {Kind: "bytes", Data: ""},
+		"Error":   evidence.Missing("no_readable_prefix", fmt.Errorf("missing page")),
+		"Details": {Kind: "structure", Data: map[string]any{"Unsigned": uint64(18446744073709551615), "Signed": int64(-9223372036854775808), "Decimal": json.Number("1.2300")}},
+	}}
+	r.Seal()
+	want, err := json.Marshal(r)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err = s.Append(ctx, task.ID, []evidence.Row{r}); err != nil {
+		t.Fatal(err)
+	}
+	if err = s.Finish(ctx, task.ID, "completed", nil); err != nil {
+		t.Fatal(err)
+	}
+	if err = s.Close(); err != nil {
+		t.Fatal(err)
+	}
+	s, err = Open(dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer s.Close()
+	rows, err := s.Query(ctx, evidence.Query{TaskID: task.ID, Limit: 10})
+	if err != nil || len(rows) != 1 {
+		t.Fatal(rows, err)
+	}
+	found, err := s.Find(ctx, r.ID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, row := range []evidence.Row{rows[0], found} {
+		if err = row.Verify(); err != nil {
+			t.Fatal(err)
+		}
+		got, err := json.Marshal(row)
+		if err != nil || string(got) != string(want) {
+			t.Fatal(string(got), string(want), err)
+		}
+	}
+}
 
 func TestResumeLockPagingAndNotes(t *testing.T) {
 	ctx := context.Background()

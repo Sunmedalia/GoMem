@@ -51,6 +51,55 @@ func TestBoolEvidencePreservesFalse(t *testing.T) {
 	}
 }
 
+func TestZeroByteCaptureRoundTrip(t *testing.T) {
+	for _, value := range []Value{Bytes(nil), Bytes([]byte{}), Bytes([]byte{0}), {Kind: "bytes"}, {Kind: "bytes", Data: ""}} {
+		r := Row{Cells: map[string]Value{"Raw": value}}
+		r.Seal()
+		raw, err := json.Marshal(r)
+		if err != nil {
+			t.Fatal(err)
+		}
+		for pass := 0; pass < 3; pass++ {
+			var decoded Row
+			if err = json.Unmarshal(raw, &decoded); err != nil {
+				t.Fatal(err)
+			}
+			if err = decoded.Verify(); err != nil {
+				t.Fatal(string(raw), err)
+			}
+			round, err := json.Marshal(decoded)
+			if err != nil || !bytes.Equal(raw, round) {
+				t.Fatal(string(raw), string(round), err)
+			}
+			raw = round
+		}
+	}
+}
+
+func TestStructuredNumbersSurviveDefaultJSONReader(t *testing.T) {
+	r := Row{Cells: map[string]Value{"Details": {Kind: "structure", Data: map[string]any{
+		"Unsigned": uint64(18446744073709551615), "Signed": int64(-9223372036854775808),
+		"Fraction": json.Number("1.2300"), "Exponent": json.Number("1e100"),
+		"Nested": []Value{Bytes(nil), Bool(false), Text("")},
+	}}}}
+	r.Seal()
+	raw, err := json.Marshal(r)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var decoded Row
+	if err = json.Unmarshal(raw, &decoded); err != nil {
+		t.Fatal(err)
+	}
+	if err = decoded.Verify(); err != nil {
+		t.Fatal(string(raw), err)
+	}
+	round, err := json.Marshal(decoded)
+	if err != nil || !bytes.Equal(raw, round) {
+		t.Fatal(string(raw), string(round), err)
+	}
+}
+
 // Nested Values become generic maps after persistence. Their field ordering,
 // false/empty values, raw bytes and full-width integer metadata must survive.
 func TestNestedTypedStructureEvidenceRoundTrip(t *testing.T) {

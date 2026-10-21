@@ -33,6 +33,35 @@ func Missing(reason string, e error) Value {
 	return v
 }
 func Bool(b bool) Value { return Value{Kind: "bool", Data: b} }
+
+func (v *Value) UnmarshalJSON(raw []byte) error {
+	var wire struct {
+		Kind   string          `json:"kind"`
+		Data   json.RawMessage `json:"value"`
+		Reason string          `json:"reason"`
+		Error  string          `json:"error"`
+	}
+	if err := json.Unmarshal(raw, &wire); err != nil {
+		return err
+	}
+	var data any
+	if len(wire.Data) != 0 {
+		decoder := json.NewDecoder(bytes.NewReader(wire.Data))
+		decoder.UseNumber()
+		if err := decoder.Decode(&data); err != nil {
+			return err
+		}
+		// Bytes(nil) is an explicit null capture. Keep a typed nil slice so
+		// omitempty does not turn that value into an absent key after paging.
+		// An originally absent value remains absent for old evidence hashes.
+		if wire.Kind == "bytes" && data == nil {
+			data = []byte(nil)
+		}
+	}
+	*v = Value{Kind: wire.Kind, Data: data, Reason: wire.Reason, Error: wire.Error}
+	return nil
+}
+
 func (v Value) MarshalJSON() ([]byte, error) {
 	type wire struct {
 		Kind   string `json:"kind"`
