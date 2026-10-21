@@ -1,0 +1,77 @@
+{
+  "scope": "Development preview: one Debian x64 I/O memory resource tree selected-field differential; full acceptance remains pending.",
+  "reference_manifest": {
+    "baseline": {
+      "name": "Volatility 3",
+      "version": "2.28.2",
+      "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+      "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+    },
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "plugin": "linux.iomem.IOMem",
+    "parameters": [],
+    "output_sha256": "0082ae37d40d312e0ddbfd716245d59eb145ed540febe3bf04a9503176303788",
+    "config_sha256": "6ea13670c191ab0414a2017a5f6f3a4ccc77f08b333661bc048f7429226205f1",
+    "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+  },
+  "comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "Name",
+      "Start",
+      "End",
+      "Depth"
+    ],
+    "native_rows": 116,
+    "reference_rows": 116,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "8982524f04318709f0c8ab5cfddd748b65b8d5cb257fcd0ec1bad10d14ec7bb3",
+      "reference": "0082ae37d40d312e0ddbfd716245d59eb145ed540febe3bf04a9503176303788",
+      "mapping": "67c12b106b33f695cfc0ed7e7f13a8b25e2f6db6e09e2f8e4607df667c5aba0e"
+    },
+    "native_input_rows": 117,
+    "native_non_entity_records": {
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "value": "resource",
+      "excluded_values": [
+        "diagnostic",
+        "summary"
+      ]
+    }
+  },
+  "coverage": {
+    "diagnostics": "0",
+    "resources": "116",
+    "visits": "116"
+  },
+  "checks": {
+    "make_check": "passed",
+    "fixed_traversal_cases": 17,
+    "synthetic_paging": [
+      "x64",
+      "x86",
+      "pae"
+    ],
+    "raw_captures_reread": 696,
+    "sqlite_row_verification": true,
+    "cache_reuse": true,
+    "fresh_cached_jsonl_identical": true,
+    "bundle_verified": true,
+    "bundle_sha256": "f0547d0df8160a2c0872caec489d41b1f0e656e9cc58c36f9e2a7fb5d6aabf62"
+  },
+  "pending": [
+    "Modern real kernels",
+    "Actual x86/PAE images",
+    "ARM64",
+    "Complete damaged metadata and memory-smear conditions",
+    "Unique identity for structurally identical duplicate subtrees (reference omits object offsets)"
+  ]
+}

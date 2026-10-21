@@ -55,6 +55,7 @@ func Register(r *plugin.Registry) error {
 	specs = append(specs, linuxCapabilityPlugins()...)
 	specs = append(specs, linuxCheckCredsPlugins()...)
 	specs = append(specs, linuxBoottimePlugins()...)
+	specs = append(specs, linuxIOMemPlugins()...)
 	specs = append(specs, windowsHivePlugins()...)
 	specs = append(specs, windowsPrintKeyPlugins()...)
 	specs = append(specs, windowsUserAssistPlugins()...)

@@ -1,0 +1,471 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "cases": [
+    {
+      "name": "root",
+      "nodes": [
+        {
+          "raw": "504349206d656d",
+          "start": 0,
+          "end": 65535,
+          "child": -1,
+          "sibling": -1
+        }
+      ],
+      "rows": [
+        {
+          "depth": 0,
+          "name": "PCI mem",
+          "start": 0,
+          "end": 65535
+        }
+      ]
+    },
+    {
+      "name": "tree",
+      "nodes": [
+        {
+          "raw": "726f6f74",
+          "start": 0,
+          "end": 65535,
+          "child": 1,
+          "sibling": -1
+        },
+        {
+          "raw": "6f6e65",
+          "start": 0,
+          "end": 65535,
+          "child": 2,
+          "sibling": 3
+        },
+        {
+          "raw": "64656570",
+          "start": 0,
+          "end": 65535,
+          "child": -1,
+          "sibling": -1
+        },
+        {
+          "raw": "6c617374",
+          "start": 0,
+          "end": 65535,
+          "child": -1,
+          "sibling": -1
+        }
+      ],
+      "rows": [
+        {
+          "depth": 0,
+          "name": "root",
+          "start": 0,
+          "end": 65535
+        },
+        {
+          "depth": 1,
+          "name": "one",
+          "start": 0,
+          "end": 65535
+        },
+        {
+          "depth": 2,
+          "name": "deep",
+          "start": 0,
+          "end": 65535
+        },
+        {
+          "depth": 1,
+          "name": "last",
+          "start": 0,
+          "end": 65535
+        }
+      ]
+    },
+    {
+      "name": "root-sibling",
+      "nodes": [
+        {
+          "raw": "726f6f74",
+          "start": 0,
+          "end": 65535,
+          "child": -1,
+          "sibling": 1
+        },
+        {
+          "raw": "6f74686572",
+          "start": 0,
+          "end": 65535,
+          "child": -1,
+          "sibling": -1
+        }
+      ],
+      "rows": [
+        {
+          "depth": 0,
+          "name": "root",
+          "start": 0,
+          "end": 65535
+        },
+        {
+          "depth": 0,
+          "name": "other",
+          "start": 0,
+          "end": 65535
+        }
+      ]
+    },
+    {
+      "name": "self-child",
+      "nodes": [
+        {
+          "raw": "726f6f74",
+          "start": 0,
+          "end": 65535,
+          "child": 0,
+          "sibling": -1
+        }
+      ],
+      "rows": [
+        {
+          "depth": 0,
+          "name": "root",
+          "start": 0,
+          "end": 65535
+        }
+      ]
+    },
+    {
+      "name": "self-sibling",
+      "nodes": [
+        {
+          "raw": "726f6f74",
+          "start": 0,
+          "end": 65535,
+          "child": -1,
+          "sibling": 0
+        }
+      ],
+      "rows": [
+        {
+          "depth": 0,
+          "name": "root",
+          "start": 0,
+          "end": 65535
+        }
+      ]
+    },
+    {
+      "name": "ancestor-loop",
+      "nodes": [
+        {
+          "raw": "726f6f74",
+          "start": 0,
+          "end": 65535,
+          "child": 1,
+          "sibling": -1
+        },
+        {
+          "raw": "6f6e65",
+          "start": 0,
+          "end": 65535,
+          "child": 0,
+          "sibling": 2
+        },
+        {
+          "raw": "6c617374",
+          "start": 0,
+          "end": 65535,
+          "child": -1,
+          "sibling": -1
+        }
+      ],
+      "rows": [
+        {
+          "depth": 0,
+          "name": "root",
+          "start": 0,
+          "end": 65535
+        },
+        {
+          "depth": 1,
+          "name": "one",
+          "start": 0,
+          "end": 65535
+        },
+        {
+          "depth": 1,
+          "name": "last",
+          "start": 0,
+          "end": 65535
+        }
+      ]
+    },
+    {
+      "name": "shared-node",
+      "nodes": [
+        {
+          "raw": "726f6f74",
+          "start": 0,
+          "end": 65535,
+          "child": 1,
+          "sibling": -1
+        },
+        {
+          "raw": "6f6e65",
+          "start": 0,
+          "end": 65535,
+          "child": 2,
+          "sibling": 2
+        },
+        {
+          "raw": "736861726564",
+          "start": 0,
+          "end": 65535,
+          "child": -1,
+          "sibling": -1
+        }
+      ],
+      "rows": [
+        {
+          "depth": 0,
+          "name": "root",
+          "start": 0,
+          "end": 65535
+        },
+        {
+          "depth": 1,
+          "name": "one",
+          "start": 0,
+          "end": 65535
+        },
+        {
+          "depth": 2,
+          "name": "shared",
+          "start": 0,
+          "end": 65535
+        }
+      ]
+    },
+    {
+      "name": "inverted",
+      "nodes": [
+        {
+          "raw": "696e766572746564",
+          "start": 100,
+          "end": 1,
+          "child": -1,
+          "sibling": -1
+        }
+      ],
+      "rows": [
+        {
+          "depth": 0,
+          "name": "inverted",
+          "start": 100,
+          "end": 1
+        }
+      ]
+    },
+    {
+      "name": "uint64",
+      "nodes": [
+        {
+          "raw": "66756c6c",
+          "start": 0,
+          "end": 18446744073709551615,
+          "child": -1,
+          "sibling": -1
+        }
+      ],
+      "rows": [
+        {
+          "depth": 0,
+          "name": "full",
+          "start": 0,
+          "end": 18446744073709551615
+        }
+      ]
+    },
+    {
+      "name": "empty-name",
+      "nodes": [
+        {
+          "raw": "",
+          "start": 0,
+          "end": 65535,
+          "child": -1,
+          "sibling": -1
+        }
+      ],
+      "rows": [
+        {
+          "depth": 0,
+          "name": "",
+          "start": 0,
+          "end": 65535
+        }
+      ]
+    },
+    {
+      "name": "nul-name",
+      "nodes": [
+        {
+          "raw": "6265666f7265006166746572",
+          "start": 0,
+          "end": 65535,
+          "child": -1,
+          "sibling": -1
+        }
+      ],
+      "rows": [
+        {
+          "depth": 0,
+          "name": "before",
+          "start": 0,
+          "end": 65535
+        }
+      ]
+    },
+    {
+      "name": "utf8-name",
+      "nodes": [
+        {
+          "raw": "e8b584e6ba90",
+          "start": 0,
+          "end": 65535,
+          "child": -1,
+          "sibling": -1
+        }
+      ],
+      "rows": [
+        {
+          "depth": 0,
+          "name": "资源",
+          "start": 0,
+          "end": 65535
+        }
+      ]
+    },
+    {
+      "name": "invalid-utf8",
+      "nodes": [
+        {
+          "raw": "6162ff6364",
+          "start": 0,
+          "end": 65535,
+          "child": -1,
+          "sibling": -1
+        }
+      ],
+      "rows": [
+        {
+          "depth": 0,
+          "name": "ab",
+          "start": 0,
+          "end": 65535
+        }
+      ]
+    },
+    {
+      "name": "replacement",
+      "nodes": [
+        {
+          "raw": "6162efbfbd6364",
+          "start": 0,
+          "end": 65535,
+          "child": -1,
+          "sibling": -1
+        }
+      ],
+      "rows": [
+        {
+          "depth": 0,
+          "name": "ab",
+          "start": 0,
+          "end": 65535
+        }
+      ]
+    },
+    {
+      "name": "name-bound",
+      "nodes": [
+        {
+          "raw": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+          "start": 0,
+          "end": 65535,
+          "child": -1,
+          "sibling": -1
+        }
+      ],
+      "rows": [
+        {
+          "depth": 0,
+          "name": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "start": 0,
+          "end": 65535
+        }
+      ]
+    },
+    {
+      "name": "unreadable-name",
+      "nodes": [
+        {
+          "raw": "",
+          "start": 0,
+          "end": 65535,
+          "child": -1,
+          "sibling": -1,
+          "unreadable_name": true
+        }
+      ],
+      "rows": [
+        {
+          "depth": 0,
+          "name": null,
+          "start": 0,
+          "end": 65535
+        }
+      ]
+    },
+    {
+      "name": "bad-child",
+      "nodes": [
+        {
+          "raw": "726f6f74",
+          "start": 0,
+          "end": 65535,
+          "child": 1,
+          "sibling": 2
+        },
+        {
+          "raw": "626164",
+          "start": 0,
+          "end": 65535,
+          "child": -1,
+          "sibling": -1,
+          "invalid": true
+        },
+        {
+          "raw": "6c617374",
+          "start": 0,
+          "end": 65535,
+          "child": -1,
+          "sibling": -1
+        }
+      ],
+      "rows": [
+        {
+          "depth": 0,
+          "name": "root",
+          "start": 0,
+          "end": 65535
+        },
+        {
+          "depth": 0,
+          "name": "last",
+          "start": 0,
+          "end": 65535
+        }
+      ]
+    }
+  ]
+}

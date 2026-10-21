@@ -199,6 +199,49 @@ class DifferentialTests(unittest.TestCase):
             native.write_text(json.dumps(parent) + "\n" + json.dumps(child) + "\n")
             self.assertFalse(compare(native, reference, mapping)["matched"])
 
+    def test_composite_tree_paths_detect_same_range_reparenting(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = pathlib.Path(temp)
+            native, reference, mapping = [directory / name for name in ("native", "reference", "mapping")]
+            profile = {"tree_key": ["Name", "Start"], "tree_path": True, "fields": {
+                "Name": {"native": "Name", "reference": "Name", "kind": "string"},
+                "Start": {"native": "Start", "reference": "Start", "kind": "address"},
+                "Depth": {"native": "Depth", "kind": "tree_depth"}}}
+            mapping.write_text(json.dumps(profile))
+            def row(id, name, depth, parent=None):
+                result = {"id": id, "cells": {"Name": {"kind": "string", "value": name},
+                    "Start": {"kind": "address", "value": "0x0"}, "Depth": {"kind": "uint64", "value": str(depth)}}}
+                if parent:
+                    result["parent_id"] = parent
+                return result
+            rows = [row("a", "a", 0), row("b", "b", 0), row("x", "same", 1, "a"),
+                    row("y", "same", 1, "b"), row("z", "leaf", 2, "x")]
+            ref = [{"Name": "a", "Start": 0, "__children": [{"Name": "same", "Start": 0,
+                "__children": [{"Name": "leaf", "Start": 0}]}]},
+                {"Name": "b", "Start": 0, "__children": [{"Name": "same", "Start": 0}]}]
+            def write():
+                native.write_text("".join(json.dumps(r) + "\n" for r in rows))
+            reference.write_text(json.dumps(ref))
+            write()
+            self.assertTrue(compare(native, reference, mapping)["matched"])
+            rows[-1]["parent_id"] = "y"
+            write()
+            self.assertFalse(compare(native, reference, mapping)["matched"])
+            rows[0]["parent_id"] = "x"
+            write()
+            with self.assertRaisesRegex(ValueError, "cycle"):
+                compare(native, reference, mapping)
+            rows[0].pop("parent_id")
+            rows[-1]["parent_id"] = "missing"
+            write()
+            with self.assertRaisesRegex(ValueError, "parent evidence"):
+                compare(native, reference, mapping)
+            for keys in (None, [], ["absent"], ["Name", "Name"]):
+                profile["tree_key"] = keys
+                mapping.write_text(json.dumps(profile))
+                with self.assertRaisesRegex(ValueError, "invalid tree_key"):
+                    compare(native, reference, mapping)
+
     def test_missing_cells_are_not_zeroes(self):
         with tempfile.TemporaryDirectory() as temp:
             directory = pathlib.Path(temp)

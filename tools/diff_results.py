@@ -121,16 +121,44 @@ def compare(native_path, reference_path, mapping_path):
             result[name] = normalized(source[key], field["kind"], field.get("mask"), field.get("missing_reasons", ()))
         return result
 
+    tree_key = mapping.get("tree_key")
+    tree_path = mapping.get("tree_path", False)
+    if "tree_key" in mapping:
+        keys = tree_key if isinstance(tree_key, list) else [tree_key]
+        if not keys or any(not isinstance(k, str) or k not in fields for k in keys) or len(keys) != len(set(keys)):
+            raise ValueError("invalid tree_key columns")
+    if not isinstance(tree_path, bool) or tree_path and tree_key is None:
+        raise ValueError("tree_path requires an explicit tree_key profile")
+
+    def node_key(row, native, depth=0):
+        values = field_values(row, native, depth)
+        return [values[k] for k in tree_key] if isinstance(tree_key, list) else values[tree_key]
+
     native_ids = {row["id"]: row for row in native if row.get("id")}
+    if tree_path and len(native_ids) != len(native):
+        raise ValueError("tree_path requires unique native evidence IDs")
+
+    def native_parent(row):
+        path, seen = [], set()
+        while row.get("parent_id"):
+            parent_id = row["parent_id"]
+            if parent_id in seen:
+                raise ValueError("cycle in native parent evidence")
+            seen.add(parent_id)
+            if parent_id not in native_ids:
+                raise ValueError("native parent evidence is absent from the comparison")
+            row = native_ids[parent_id]
+            path.append(node_key(row, True))
+            if not tree_path:
+                return path[0]
+        return list(reversed(path)) if path else None
 
     def record(row, native, parent=None, depth=0):
         result = field_values(row, native, depth)
         if native and row.get("parent_id"):
             if "tree_key" not in mapping:
                 raise ValueError("hierarchical output requires an explicit tree_key profile")
-            if row["parent_id"] not in native_ids:
-                raise ValueError("native parent evidence is absent from the comparison")
-            parent = field_values(native_ids[row["parent_id"]], True)[mapping["tree_key"]]
+            parent = native_parent(row)
         result["parent"] = parent
         return json.dumps(result, sort_keys=True)
 
@@ -143,7 +171,11 @@ def compare(native_path, reference_path, mapping_path):
             # Parent keys are explicit in the profile, never silently discarded.
             if children and "tree_key" not in mapping:
                 raise ValueError("hierarchical output requires an explicit tree_key profile")
-            yield from walk(children, field_values(row, False, depth)[mapping["tree_key"]] if children else None, depth + 1)
+            next_parent = None
+            if children:
+                key = node_key(row, False, depth)
+                next_parent = (parent or []) + [key] if tree_path else key
+            yield from walk(children, next_parent, depth + 1)
 
     a = collections.Counter(record(r, True) for r in native)
     b = collections.Counter(walk(reference))

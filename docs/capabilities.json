@@ -900,15 +900,25 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Traverse the iomem_resource object itself, then child before sibling using symbol-provided resource.name/start/end/child/sibling fields. Preserve inclusive unsigned ranges without correcting inverted or full-width values. UTF8 names use the first contiguous prefix of at most 128 bytes and stop at NUL or U+FFFD. Resource offsets, actual traversal parents, depth, sealed parent evidence IDs, five raw field captures and name captures remain available. Each execution gets a fresh seen set; repeated nodes, unreadable extents and native max-nodes/max-depth bounds retain diagnostics. Name/read/link faults retain available evidence and fail the task. Missing required symbols or layout fails explicitly.",
+      "native": "linux.iomem",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-iomem-x64-x86-pae",
+        "pinned-17-iomem-traversal-oracles",
+        "official-linux-sample-1"
+      ],
+      "comparison": "116_resources_match_names_ranges_depth_and_full_ancestor_paths_696_raw_captures_reread",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Only one Debian 3.2 x64 real image has a full plugin selected-field differential, with 116 resources and no read diagnostics; complete capability acceptance remains pending",
+        "17 fixed-source mocked traversal/name cases and native fault tests cover trees, repeated nodes, invalid child/name pointers, UTF8 and NUL termination, inverted/full-width ranges, partial captures, bounds, cancellation, output errors, SQLite row verification and cache reuse",
+        "The native reader uses fresh seen state and iteration. The fixed helper has a mutable default seen set and recursive traversal; repeat-call bugs and Python recursion limits are not reproduced",
+        "Native unreadable child/sibling pointers retain the current resource and continue any independently readable link with a failed task; the reference can abort on those accesses. Partial name prefixes remain usable with read errors retained",
+        "Actual modern/x86/PAE images, ARM64 and all damaged-layout/extent/name/memory-smear behaviors remain pending",
+        "Comparison uses Name/Start/End composite ancestor paths, not object offsets unavailable from the reference renderer; structurally identical duplicate subtrees cannot establish unique object identity"
+      ],
+      "validation_record": "docs/linux-iomem.md"
     },
     {
       "id": "linux.ip.Addr",

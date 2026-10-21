@@ -1,0 +1,37 @@
+{
+  "tree_key": [
+    "Name",
+    "Start",
+    "End"
+  ],
+  "tree_path": true,
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "resource",
+    "excluded_values": [
+      "diagnostic",
+      "summary"
+    ]
+  },
+  "fields": {
+    "Name": {
+      "native": "Name",
+      "reference": "Name",
+      "kind": "string"
+    },
+    "Start": {
+      "native": "Start",
+      "reference": "Start",
+      "kind": "address"
+    },
+    "End": {
+      "native": "End",
+      "reference": "End",
+      "kind": "address"
+    },
+    "Depth": {
+      "native": "Depth",
+      "kind": "tree_depth"
+    }
+  }
+}
