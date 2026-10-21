@@ -1,0 +1,12 @@
+{
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "Offset", "kind": "address"},
+    "Length": {"native": "Length", "reference": "Length", "kind": "uint64"},
+    "Password": {"native": "Password", "reference": "Password", "kind": "string"}
+  },
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["password"],
+    "excluded_values": ["summary"]
+  }
+}

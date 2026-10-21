@@ -10985,15 +10985,23 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "The first loaded module whose BaseDllName lowercases to truecrypt.sys. An unreadable name fails the task before later modules are considered. Its kernel-mapped PE .data section is scanned as signed 32-bit lengths. A length outside min-length..64 is ignored. The following length bytes must all be in [0x20, 0x7F). Three bytes after the skipped terminator must be zero. The reported offset is the passphrase, not the length dword. A .data size that is not a multiple of four fails the task. No truecrypt.sys module completes with no rows, matching the pinned warning. min-length defaults to 5 and is bounded to 0..64. max-nodes bounds only the module list and is not an upstream parameter. The summary row is not a passphrase.",
+      "native": "windows.truecrypt",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-windows-x64",
+        "official-windows-10-19041"
+      ],
+      "comparison": "selected_image_has_zero_passphrases_because_truecrypt_sys_is_absent",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "The selected Windows 10 19041 crash dump has no truecrypt.sys module, so both implementations emit no passphrases",
+        "No resident-passphrase corpus differential yet. The length, ASCII range, alignment padding and .data lookup are synthetic",
+        "A .data section above the bounded read fails the task instead of scanning it in pieces",
+        "Real 32-bit images remain pending",
+        "Timeline output is not implemented"
+      ],
+      "validation_record": "docs/windows-truecrypt.md"
     },
     {
       "id": "windows.unhooked_system_calls.unhooked_system_calls",
