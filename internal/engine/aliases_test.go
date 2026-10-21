@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"maps"
+	"reflect"
 	"testing"
 
 	"github.com/Sunmedalia/GoMem/internal/engine"
@@ -11,12 +13,26 @@ import (
 )
 
 func TestDeprecatedHiddenModuleAlias(t *testing.T) {
-	if engine.DeprecatedPluginAliases["linux.hidden_modules.Hidden_modules"] != "linux.hidden_modules" || len(engine.DeprecatedPluginAliases) != 21 {
+	if engine.DeprecatedPluginAliases["linux.hidden_modules.Hidden_modules"] != "linux.hidden_modules" || len(engine.DeprecatedPluginAliases) != 22 {
 		t.Fatal(len(engine.DeprecatedPluginAliases))
 	}
 	f := modxFixture(t, "x64", "legacy", "")
 	withDwarf2JSON(t, f, "0.9.0")
 	e := openModx(t, f, "x64")
+	verifyDeprecatedPluginAlias(t, e, "linux.hidden_modules", "linux.hidden_modules.Hidden_modules", 3)
+}
+
+func TestDeprecatedNetfilterAlias(t *testing.T) {
+	for _, kind := range []string{"list", "entries", "split"} {
+		t.Run(kind, func(t *testing.T) {
+			e := netfilterLayoutEngine(t, kind, true, "")
+			verifyDeprecatedPluginAlias(t, e, "linux.netfilter", "linux.netfilter.Netfilter", 0)
+		})
+	}
+}
+
+func verifyDeprecatedPluginAlias(t *testing.T, e *engine.Engine, native, alias string, expectedRows int64) {
+	t.Helper()
 	ctx := context.Background()
 	var direct, aliased bytes.Buffer
 	var directRows, aliasRows []evidence.Row
@@ -24,24 +40,27 @@ func TestDeprecatedHiddenModuleAlias(t *testing.T) {
 		*rows = append(*rows, row)
 		return json.NewEncoder(buf).Encode(row)
 	}
-	first, err := e.Run(ctx, "linux.hidden_modules", nil, engine.RunOptions{Emit: func(row evidence.Row) error { return decode(row, &direct, &directRows) }})
-	if err != nil || first.Task.Rows != 3 {
+	first, err := e.Run(ctx, native, nil, engine.RunOptions{Emit: func(row evidence.Row) error { return decode(row, &direct, &directRows) }})
+	if err != nil || expectedRows > 0 && first.Task.Rows != expectedRows {
 		t.Fatal(first, err)
 	}
-	second, err := e.Run(ctx, "linux.hidden_modules.Hidden_modules", nil, engine.RunOptions{Emit: func(row evidence.Row) error { return decode(row, &aliased, &aliasRows) }})
-	if err != nil || second.Reused || second.Task.Rows != 3 || second.Task.Plugin != "linux.hidden_modules.Hidden_modules" || second.Task.Provenance.Plugin != "linux.hidden_modules.Hidden_modules" {
+	second, err := e.Run(ctx, alias, nil, engine.RunOptions{Emit: func(row evidence.Row) error { return decode(row, &aliased, &aliasRows) }})
+	if err != nil || second.Reused || second.Task.Rows != first.Task.Rows || second.Task.Plugin != alias || second.Task.Provenance.Plugin != alias {
 		t.Fatal(second, err)
 	}
 	for i, row := range aliasRows {
-		if err = row.Verify(); err != nil || row.Cells["RequestedPlugin"].String() != "linux.hidden_modules.Hidden_modules" || row.Cells["ImplementedPlugin"].String() != "linux.hidden_modules" || row.Provenance.Plugin != "linux.hidden_modules.Hidden_modules" {
+		if err = row.Verify(); err != nil || row.Cells["RequestedPlugin"].String() != alias || row.Cells["ImplementedPlugin"].String() != native || row.Provenance.Plugin != alias {
 			t.Fatal(i, row, err)
 		}
-		if row.Cells["Module Name"].String() != directRows[i].Cells["Module Name"].String() || row.Cells["RecordType"].String() != directRows[i].Cells["RecordType"].String() {
+		cells := maps.Clone(row.Cells)
+		delete(cells, "RequestedPlugin")
+		delete(cells, "ImplementedPlugin")
+		if !reflect.DeepEqual(cells, directRows[i].Cells) {
 			t.Fatal(row, directRows[i])
 		}
 	}
 	var replayBytes bytes.Buffer
-	replay, err := e.Run(ctx, "linux.hidden_modules.Hidden_modules", nil, engine.RunOptions{Emit: func(row evidence.Row) error { return json.NewEncoder(&replayBytes).Encode(row) }})
+	replay, err := e.Run(ctx, alias, nil, engine.RunOptions{Emit: func(row evidence.Row) error { return json.NewEncoder(&replayBytes).Encode(row) }})
 	if err != nil || !replay.Reused || replay.Task.ID != second.Task.ID || replay.Task.Plugin != second.Task.Plugin || !bytes.Equal(aliased.Bytes(), replayBytes.Bytes()) {
 		t.Fatal(replay, err)
 	}

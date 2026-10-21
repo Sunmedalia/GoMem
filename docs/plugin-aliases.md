@@ -20,6 +20,7 @@ The wired names are:
 - `linux.hidden_modules.Hidden_modules` to `linux.hidden_modules`
 - `linux.keyboard_notifiers.Keyboard_notifiers` to `linux.keyboard_notifiers`
 - `linux.modxview.Modxview` to `linux.modxview`
+- `linux.netfilter.Netfilter` to `linux.netfilter`
 - `linux.tty_check.tty_check` to `linux.tty_check`
 - `windows.amcache.Amcache` to `windows.amcache`
 - `windows.cachedump.Cachedump` to `windows.cachedump`
@@ -37,6 +38,14 @@ The wired names are:
 `TestDeprecatedHiddenModuleAlias` runs the hidden-module synthetic fixture
 through both names. The deprecated run has the same module names and record
 types, a separate cache entry, sealed alias provenance, and a successful
-replay with byte-identical JSONL. The stored task list uses the same requested
+replay with byte-identical JSONL. `TestDeprecatedNetfilterAlias` applies the
+same checks to namespace list, entries and split-array fixtures with device
+hooks, comparing every result cell except the alias identity markers. The stored task list uses the same requested
 name as each task's provenance. Calling every alias against every real corpus remains open, so none of
 these entries is accepted.
+
+A Debian 3.2 CLI smoke test also runs `linux.netfilter.Netfilter` offline:
+task `39236220ecc348ae99ba711eb7b60b3e` completes with 573 source/list rows
+and zero hooks, preserves the deprecated name in row provenance and replays
+byte-identical JSONL. This remains a negative control, not full alias or
+Netfilter capability acceptance.

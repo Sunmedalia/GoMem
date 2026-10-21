@@ -383,6 +383,7 @@ var DeprecatedPluginAliases = map[string]string{
 	"linux.hidden_modules.Hidden_modules":          "linux.hidden_modules",
 	"linux.keyboard_notifiers.Keyboard_notifiers":  "linux.keyboard_notifiers",
 	"linux.modxview.Modxview":                      "linux.modxview",
+	"linux.netfilter.Netfilter":                    "linux.netfilter",
 	"linux.tty_check.tty_check":                    "linux.tty_check",
 	"windows.amcache.Amcache":                      "windows.amcache",
 	"windows.cachedump.Cachedump":                  "windows.cachedump",

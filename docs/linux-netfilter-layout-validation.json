@@ -93,6 +93,14 @@
       "release_ready": false,
       "accepted_plugins": 0,
       "upstream_plugin_classes": 195
+    },
+    "deprecated_alias": {
+      "requested": "linux.netfilter.Netfilter",
+      "implemented": "linux.netfilter",
+      "task": "39236220ecc348ae99ba711eb7b60b3e",
+      "rows": 573,
+      "fresh_cache_jsonl_equal": true,
+      "row_provenance_retains_requested_name": true
     }
   }
 }

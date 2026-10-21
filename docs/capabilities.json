@@ -2626,14 +2626,17 @@
         }
       ],
       "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "native": "linux.netfilter",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-netfilter-deprecated-list-entries-split-device"
+      ],
+      "comparison": "deprecated_name_preserves_cells_requested_task_identity_and_cached_jsonl",
       "gaps": [
-        "Deprecated alias of linux.malware.netfilter.Netfilter; native command is linux.netfilter"
-      ]
+        "Deprecated alias of linux.malware.netfilter.Netfilter delegates to linux.netfilter. All result cells match native fixtures except explicit alias markers. Independent real-corpus alias-name acceptance remains pending"
+      ],
+      "validation_record": "docs/plugin-aliases.md"
     },
     {
       "id": "linux.pagecache.Files",
