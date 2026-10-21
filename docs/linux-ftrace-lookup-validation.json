@@ -1,0 +1,54 @@
+{
+  "schema": "gomem.linux-ftrace-lookup-validation/v1",
+  "date": "2026-10-22",
+  "release": "development-preview",
+  "accepted": false,
+  "plugin_registered": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Standalone native resident ftrace interval lookup API; no complete resolver or callstack acceptance",
+  "oracle": {
+    "cases": 46,
+    "queries": 1242,
+    "sha256": "a7b261ccfba33bbb60e877bf08645e3b13a185027789dc8722716d218bbc6214",
+    "configuration_rejection_queries": 54,
+    "native_queries": 1188,
+    "matched_seven_fields": 305,
+    "matched_no_result": 818,
+    "matched_read_errors": 65,
+    "methods": [
+      "ftrace_lookup_address",
+      "_ftrace_mod_get_symbols",
+      "_ftrace_get_trampoline_symbols",
+      "list_head.to_list"
+    ],
+    "widths": [
+      4,
+      8
+    ],
+    "native_paging_cases": 69,
+    "paging_scope": "Equivalent results/errors against reference-validated flat controls; virtual acquisitions independently compared against identity-mapped bytes",
+    "raw_acquisitions_independently_reread": true,
+    "every_acquisition_failure_cancellation_and_retry": true,
+    "native_paging_configuration_rejections": 3,
+    "native_paging_exercised_cases": 66
+  },
+  "fuzz": {
+    "target": "FuzzFtraceLookup",
+    "seconds": 10,
+    "executions": 54921
+  },
+  "checks": [
+    "make check",
+    "make matrix",
+    "python3 tools/build_inode_mode_oracle.py --check",
+    "python3 tools/build_ftrace_lookup_oracle.py --check",
+    "make build",
+    "bin/gomem doctor --offline"
+  ],
+  "limitations": [
+    "No real modern-kernel ftrace positive or dynamically changing acquisition validation",
+    "Standalone API; module lookup, whole-source precedence, CLI address lookup and pscallstack remain pending",
+    "Malformed data and resource bounds return explicit errors; not every baseline silent-failure path is duplicated",
+    "Acquisition capture, aggregate byte budget and persistence are caller responsibilities"
+  ]
+}
