@@ -3193,15 +3193,26 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Enumerate active task-list leaders plus user threads through legacy thread_group or signal.thread_head/thread_node layouts. Select nonzero task.ptrace or a readable nonself ptraced.next list_head target. Tracer TID comes from task.parent.pid, not real_parent or tgid; false zero tracer TID renders unavailable while raw identity is retained. Tracee TIDs come from ptraced/ptrace_entry objects, retaining zero and repeated TIDs on distinct objects. Decode the fixed 12 PT_FLAGS members in declaration order, retaining raw/unknown bits and errors. For each selected task, fixed relationship display rows have incrementing depth 0,1,2,... and sealed renderer parents; actual tracer/tracee object identities are explicit separate fields. All inspected tasks remain observation rows, with raw field captures, task addresses and object-based thread IDs. Native max-nodes, max-tasks, max-relations and field capture bounds apply; read/list/flag faults retain evidence and fail tasks rather than becoming empty results.",
+      "native": "linux.ptrace",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-ptrace-x64-x86-pae",
+        "pinned-4101-ptrace-flags-and-12-generator-oracles",
+        "official-linux-sample-1"
+      ],
+      "comparison": "negative_control_zero_relationships_matches_unmodified_reference_316_task_states_match_separate_instrumented_observations",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Debian 3.2 x64 is a real negative control: 133 leaders and 183 threads inspected, zero ptrace relationships, zero diagnostics. This does not establish real positive ptrace detection",
+        "A separate instrumented run observes original PsList task yields without changing listing or ptrace selection; all 316 task names/PIDs/TIDs/low48-equivalent object addresses/raw ptrace values/traced and tracer states match. This observation probe is not mislabeled an unmodified full-plugin run",
+        "4101 fixed flag values and 12 mocked generator scenarios cover known/unknown flags, tracer/tracee/both, multi-tracee nesting, duplicate/zero TIDs, user threads and unreadable selection targets; synthetic native readers also cover independent object identities, legacy/signal thread ABIs, x86/PAE, corrupt and partial fields/lists, bounds, cancellation, output failures, SQLite verification and cache reuse",
+        "Native traversal verifies forward list back-links, global task uniqueness and thread owner consistency; fixed PsList walks both directions with different task validity and deduplication rules. Complete corrupted-list parity is pending",
+        "Unknown flag bits make the fixed enum raise ValueError; native keeps unknown/raw bits and failed relationship evidence. Read/list faults preserve available observations and partial relationships while failing the task",
+        "The reference relationship depth is a renderer convention, not actual nested ptrace parentage. Object-based tracer and tracee fields remain authoritative for association",
+        "Real positive/modern kernels, actual x86/PAE images, ARM64 and complete parameter/corruption/version conditions remain pending"
+      ],
+      "validation_record": "docs/linux-ptrace.md"
     },
     {
       "id": "linux.sockscan.Sockscan",

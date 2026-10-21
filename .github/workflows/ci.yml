@@ -46,6 +46,7 @@ jobs:
       - run: python3 tools/build_check_creds_oracle.py --check
       - run: python3 tools/build_boottime_oracle.py --check
       - run: python3 tools/build_iomem_oracle.py --check
+      - run: python3 tools/build_ptrace_oracle.py --check
       - run: python3 tools/baseline_matrix.py --source .cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75 --check
       - run: go test ./pkg/memory -run '^$' -fuzz FuzzDetect -fuzztime 5s
       - run: go test ./pkg/memory -run '^$' -fuzz FuzzAVML -fuzztime 5s

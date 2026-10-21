@@ -1,0 +1,145 @@
+{
+  "scope": "Development preview: Debian x64 ptrace negative control plus separate instrumented task-yield differential; no real positive or full capability acceptance.",
+  "unmodified_reference_manifest": {
+    "baseline": {
+      "name": "Volatility 3",
+      "version": "2.28.2",
+      "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+      "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+    },
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "plugin": "linux.ptrace.Ptrace",
+    "parameters": [],
+    "output_sha256": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
+    "config_sha256": "5903a7e7afcbf11dbe94a05e93e115d06196a7f1d4dba8433bb7eecb37285484",
+    "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+  },
+  "unmodified_relationship_comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "Process",
+      "PID",
+      "TID",
+      "Tracer TID",
+      "Tracee TID",
+      "Flags",
+      "Depth"
+    ],
+    "native_rows": 0,
+    "reference_rows": 0,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "a25a91e3eee5c77c212516419ab31650bc717031551492ceb202d07a339bc585",
+      "reference": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
+      "mapping": "d407b197f3a26612f2848146c2bfa753b8ecf227c42f2f233e12e0a00e1d84c0"
+    },
+    "native_input_rows": 317,
+    "native_non_entity_records": {
+      "task": 316,
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "value": "relationship",
+      "excluded_values": [
+        "task",
+        "diagnostic",
+        "summary"
+      ]
+    }
+  },
+  "instrumented_observation_manifest": {
+    "scope": "instrumented task-yield observations; original task listing and ptrace selection are retained; separate unmodified plugin differential required",
+    "baseline": {
+      "name": "Volatility 3",
+      "version": "2.28.2",
+      "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+      "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+    },
+    "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+    "output_sha256": "d6d9a72f4fa5d676fac38d9033024b1376f1e97d981147d02894ada176da1fc7",
+    "plugin_output_sha256": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
+    "config_sha256": "5903a7e7afcbf11dbe94a05e93e115d06196a7f1d4dba8433bb7eecb37285484",
+    "probe_sha256": "808e77059d2663d7baa33b6f52627681a97ed55042967720a646d0f603e259e0",
+    "listing_calls": 1,
+    "observed_tasks": 316,
+    "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+  },
+  "instrumented_observation_comparison": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "Process",
+      "PID",
+      "TID",
+      "Offset",
+      "PtraceRaw",
+      "IsBeingTraced",
+      "IsTracer"
+    ],
+    "native_rows": 316,
+    "reference_rows": 316,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "a25a91e3eee5c77c212516419ab31650bc717031551492ceb202d07a339bc585",
+      "reference": "d6d9a72f4fa5d676fac38d9033024b1376f1e97d981147d02894ada176da1fc7",
+      "mapping": "944a0a6f67bdf14742ec0932c2ee31fade3c89a6ed765fdc732c465cccbd53ca"
+    },
+    "native_input_rows": 317,
+    "native_non_entity_records": {
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "value": "task",
+      "excluded_values": [
+        "relationship",
+        "diagnostic",
+        "summary"
+      ]
+    }
+  },
+  "address_comparison": "Native canonical addresses retained. Separate observation differential explicitly masks both addresses to low 48 bits, matching the fixed x64 layer object offsets.",
+  "coverage": {
+    "checked": "316",
+    "diagnostics": "0",
+    "relationships": "0",
+    "selected": "0",
+    "tasks": "316",
+    "traced_tasks": "0",
+    "tracee_entries": "0",
+    "tracer_tasks": "0"
+  },
+  "checks": {
+    "make_check": "passed",
+    "fixed_flag_values": 4101,
+    "fixed_generator_cases": 12,
+    "synthetic_paging": [
+      "x64",
+      "x86",
+      "pae"
+    ],
+    "raw_captures_reread": 2262,
+    "leaders": 133,
+    "threads": 183,
+    "sqlite_row_verification": true,
+    "cache_reuse": true,
+    "fresh_cached_jsonl_identical": true,
+    "bundle_verified": true,
+    "bundle_sha256": "c3f6e64335fed5c8463f536446e35dd47338c546fbdc49e4e5c5beae2344687a"
+  },
+  "pending": [
+    "Real positive ptrace acquisitions",
+    "Modern kernels with real signal-based thread lists",
+    "Actual x86/PAE images",
+    "ARM64",
+    "Complete damaged task/list/flag/version behavior and full capability acceptance"
+  ]
+}

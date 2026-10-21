@@ -1,0 +1,65 @@
+{
+  "tree_key": [
+    "Process",
+    "PID",
+    "TID",
+    "Tracer TID",
+    "Tracee TID",
+    "Flags"
+  ],
+  "tree_path": true,
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "relationship",
+    "excluded_values": [
+      "task",
+      "diagnostic",
+      "summary"
+    ]
+  },
+  "fields": {
+    "Process": {
+      "native": "Process",
+      "reference": "Process",
+      "kind": "string"
+    },
+    "PID": {
+      "native": "PID",
+      "reference": "PID",
+      "kind": "uint64"
+    },
+    "TID": {
+      "native": "TID",
+      "reference": "TID",
+      "kind": "uint64"
+    },
+    "Tracer TID": {
+      "native": "Tracer TID",
+      "reference": "Tracer TID",
+      "kind": "uint64",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "Tracee TID": {
+      "native": "Tracee TID",
+      "reference": "Tracee TID",
+      "kind": "uint64",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "Flags": {
+      "native": "Flags",
+      "reference": "Flags",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "Depth": {
+      "native": "Depth",
+      "kind": "tree_depth"
+    }
+  }
+}

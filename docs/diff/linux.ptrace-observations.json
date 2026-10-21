@@ -1,0 +1,49 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "task",
+    "excluded_values": [
+      "relationship",
+      "diagnostic",
+      "summary"
+    ]
+  },
+  "fields": {
+    "Process": {
+      "native": "Process",
+      "reference": "Process",
+      "kind": "string"
+    },
+    "PID": {
+      "native": "PID",
+      "reference": "PID",
+      "kind": "uint64"
+    },
+    "TID": {
+      "native": "TID",
+      "reference": "TID",
+      "kind": "uint64"
+    },
+    "Offset": {
+      "native": "Offset",
+      "reference": "Offset",
+      "kind": "address",
+      "mask": "0xffffffffffff"
+    },
+    "PtraceRaw": {
+      "native": "PtraceRaw",
+      "reference": "PtraceRaw",
+      "kind": "uint64"
+    },
+    "IsBeingTraced": {
+      "native": "IsBeingTraced",
+      "reference": "IsBeingTraced",
+      "kind": "bool"
+    },
+    "IsTracer": {
+      "native": "IsTracer",
+      "reference": "IsTracer",
+      "kind": "bool"
+    }
+  }
+}
