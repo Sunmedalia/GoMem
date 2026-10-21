@@ -7344,6 +7344,7 @@
         "576 independent pinned check cases compare exact Notes; synthetic pipelines cover all four rules, normal controls, exact-base lookup, minimum distinct counts, duplicate maps, native/WoW64 load order, 32-bit loader fields, unreadable strings, malformed VADs, cancellation and bounds",
         "99 of 120 processes were checked; 21 had fewer than three DLLs. Native diagnostics preserve 311 DLL path read failures, 14 unreadable PEB loader pointers and five invalid/unmapped loader-list stops",
         "Real positive, older Windows, native x86 and WoW64 end-to-end differentials, full parameter semantics and investigative false-positive validation remain pending",
+        "Native paged triage retains raw evidence references and completes later pages even after diagnostics; selected corpus triage is explicitly incomplete for this check due to 330 read/coverage diagnostics",
         "Native process and VAD integrity checks are stricter than upstream silent skips; symbol/layout coverage and complete acceptance remain pending"
       ],
       "validation_record": "docs/windows-hollowprocesses.md"
@@ -7902,6 +7903,7 @@
         "721 pinned helper cases compare path and exact note semantics. Synthetic full pipelines cover three positive rules, normal controls, duplicate addresses, thread filters, minimum VAD counts, Core layouts, boundaries, read faults, cancellation and bounds",
         "Real older Windows, x86 and positive suspicious-thread images remain pending",
         "Native linked-list integrity and VAD checks are stricter than upstream silent skips. File-read failures retain PathError while the compared VADPath follows the reference non-file marker",
+        "Native paged triage now retains raw process/thread evidence references, summaries, whitelist suppression and limited read-error findings; diagnostics or skipped gathers prevent a clean triage check",
         "Full version/parameter/failure acceptance and investigative false-positive validation remain pending"
       ],
       "validation_record": "docs/windows-suspicious-threads.md"

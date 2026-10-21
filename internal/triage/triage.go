@@ -18,7 +18,7 @@ import (
 	"github.com/Sunmedalia/GoMem/pkg/plugin"
 )
 
-var ErrIncomplete = errors.New("triage coverage incomplete; inspect unavailable checks")
+var ErrIncomplete = errors.New("triage coverage incomplete; inspect check states and coverage")
 
 type Rule struct {
 	ID, Severity, Basis, FalsePositive string
@@ -33,13 +33,16 @@ var Rules = []Rule{
 	{"deleted-or-memfd-execution", "high", "A mapping explicitly marked executable references a deleted file or memfd.", "Package upgrades, containers and legitimate in-memory software can produce these mappings.", []string{"maps"}, "deleted"},
 	{"persistence-process-link", "medium", "A persistence record explicitly references the same address-based process identity.", "Authorized startup software is common; validate the configuration owner and command.", []string{"persistence", "pslist"}, "persistence"},
 	{"literal-ioc", "medium", "An exact configured literal occurs at the recorded physical offset.", "Literal strings may occur in caches, logs, inactive buffers or security software.", []string{"ioc"}, "ioc"},
+	{"suspicious-thread-start", "high", "A live thread entry maps to a VAD with no readable file path, unexpected initial protection, or another executable path; addresses are checked once per process.", "JIT, legitimate unpackers and acquisition smear may trigger this check. An unreadable path does not prove that a mapping has no file.", []string{"suspicious_threads"}, "native-check"},
+	{"hollow-process-mapping", "high", "The native PEB image base differs from the kernel section base, the executable VAD is missing, or an executable/loader DLL VAD has unexpected initial protection.", "Legitimate loaders, modified mappings, exiting processes and acquisition smear may differ. These checks alone do not establish process hollowing.", []string{"hollowprocesses"}, "native-check"},
 }
 
 type Check struct {
-	Rule     string `json:"rule"`
-	State    string `json:"state"`
-	Reason   string `json:"reason,omitempty"`
-	Findings int    `json:"findings"`
+	Rule     string            `json:"rule"`
+	State    string            `json:"state"`
+	Reason   string            `json:"reason,omitempty"`
+	Findings int               `json:"findings"`
+	Coverage map[string]string `json:"coverage,omitempty"`
 }
 type Summary struct {
 	State       string          `json:"state"`
@@ -66,6 +69,16 @@ func Evaluate(ctx context.Context, r Rule, inputs map[string][]evidence.Row, emi
 		return emitFinding(ctx, r, row, entity, refs, emit)
 	}
 	switch r.Kind {
+	case "native-check":
+		if len(r.Inputs) != 1 {
+			return fmt.Errorf("invalid native triage rule inputs")
+		}
+		evaluator := nativeCheckEvaluator{rule: r}
+		if err := evaluator.consume(ctx, inputs[r.Inputs[0]], emit); err != nil {
+			return err
+		}
+		_, err := evaluator.finish()
+		return err
 	case "ioc":
 		for _, row := range inputs["ioc"] {
 			if err := finding(row, row.ID, []string{row.ID}); err != nil {
@@ -224,6 +237,10 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 	if os == "linux" {
 		names["psscan"] = "linux.psscan"
 		order = append(order, "psscan")
+	} else {
+		names["suspicious_threads"] = "windows.suspicious_threads"
+		names["hollowprocesses"] = "windows.hollowprocesses"
+		order = append(order, "suspicious_threads", "hollowprocesses")
 	}
 	for _, key := range order {
 		var parameters map[string]string
@@ -260,7 +277,7 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 	}
 	b, _ := json.Marshal(summary.Tasks)
 	hash := sha256.Sum256(b)
-	task, err := e.Store.Begin(ctx, "triage:"+hex.EncodeToString(hash[:]), "triage", evidence.Provenance{ImageSHA256: e.Hash, Engine: version.Version, EngineBuild: e.Build, Plugin: "triage", Layer: e.Env.Physical.Name(), Parameters: map[string]string{"rules": "v2"}})
+	task, err := e.Store.Begin(ctx, "triage:"+hex.EncodeToString(hash[:]), "triage", evidence.Provenance{ImageSHA256: e.Hash, Engine: version.Version, EngineBuild: e.Build, Plugin: "triage", Layer: e.Env.Physical.Name(), Parameters: map[string]string{"rules": "v3"}})
 	if err != nil {
 		return summary, err
 	}
@@ -269,6 +286,11 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 	// the evaluator when invoked independently; unsupported inputs remain explicit.
 	for _, rule := range Rules {
 		check := Check{Rule: rule.ID, State: "unavailable"}
+		if rule.Kind == "native-check" && os != "windows" {
+			check.State, check.Reason = "not_applicable", "Windows-only native check"
+			summary.Checks = append(summary.Checks, check)
+			continue
+		}
 		available := true
 		inputs := map[string][]evidence.Row{}
 		for _, key := range rule.Inputs {
@@ -321,7 +343,30 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 			return nil
 		}
 		if available {
-			if rule.Kind == "ioc" || rule.Kind == "rwx" || rule.Kind == "deleted" && os == "linux" {
+			if rule.Kind == "native-check" {
+				evaluator := nativeCheckEvaluator{rule: rule}
+				input := tasks[rule.Inputs[0]]
+				for off := 0; ; off += 500 {
+					rows, readErr := e.Store.Query(ctx, evidence.Query{TaskID: input.ID, Offset: off, Limit: 500})
+					if readErr != nil {
+						err = readErr
+						break
+					}
+					if err = evaluator.consume(ctx, rows, emit); err != nil || len(rows) < 500 {
+						break
+					}
+				}
+				if err == nil {
+					var coverageErr error
+					check.Coverage, coverageErr = evaluator.finish()
+					check.State = "completed"
+					if errors.Is(coverageErr, ErrIncomplete) {
+						check.State, check.Reason = "incomplete", coverageErr.Error()
+					} else if coverageErr != nil {
+						err = coverageErr
+					}
+				}
+			} else if rule.Kind == "ioc" || rule.Kind == "rwx" || rule.Kind == "deleted" && os == "linux" {
 				inputTasks, inputKey := iocTasks, "ioc"
 				if rule.Kind == "rwx" || rule.Kind == "deleted" {
 					inputTasks, inputKey = []evidence.Task{tasks["maps"]}, "maps"
@@ -393,7 +438,7 @@ func Run(ctx context.Context, e *engine.Engine, needles []string) (summary Summa
 	defer cancel()
 	if err == nil {
 		for _, check := range summary.Checks {
-			if check.State != "completed" {
+			if check.State != "completed" && check.State != "not_applicable" {
 				err = ErrIncomplete
 				break
 			}

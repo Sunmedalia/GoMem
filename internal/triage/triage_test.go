@@ -89,7 +89,7 @@ func TestWindowsVADPipelineFindingsControlAndWhitelist(t *testing.T) {
 				t.Fatal(second, err)
 			}
 			for _, task := range second.Tasks {
-				if !task.Reused {
+				if task.Task.State == "completed" && !task.Reused {
 					t.Fatal("completed VAD/process/module steps were not reused", task)
 				}
 			}
@@ -140,6 +140,8 @@ func TestEveryRulePositiveAndControl(t *testing.T) {
 				other.Cells["ProcessIdentity"] = evidence.Text("known")
 				inputs["persistence"] = []evidence.Row{other}
 				inputs["pslist"] = []evidence.Row{known}
+			case "native-check":
+				inputs[rule.Inputs[0]] = nativeCheckRows(t, rule, true, 0)
 			}
 			var findings []evidence.Row
 			for key := range inputs {
@@ -156,6 +158,9 @@ func TestEveryRulePositiveAndControl(t *testing.T) {
 			}
 			for k := range inputs {
 				inputs[k] = nil
+			}
+			if rule.Kind == "native-check" {
+				inputs[rule.Inputs[0]] = nativeCheckRows(t, rule, false, 0)
 			}
 			if err = Evaluate(context.Background(), rule, inputs, func(r evidence.Row) error { t.Fatal("empty control produced a finding"); return nil }); err != nil {
 				t.Fatal(err)
@@ -180,6 +185,13 @@ func TestTriageCoverageAndWhitelist(t *testing.T) {
 	s, err := Run(ctx, e, []string{"gomem-test-ioc"})
 	if !errors.Is(err, ErrIncomplete) || s.Findings != 5 || len(s.Checks) != len(Rules) {
 		t.Fatal(s, err)
+	}
+	for _, check := range s.Checks {
+		if check.Rule == "suspicious-thread-start" || check.Rule == "hollow-process-mapping" {
+			if check.State != "not_applicable" {
+				t.Fatal("Windows native check applied to Linux", check)
+			}
+		}
 	}
 	rows, err := e.Store.Query(ctx, evidence.Query{TaskID: s.FindingTask, Limit: 100})
 	if err != nil || len(rows) != 5 {

@@ -16,6 +16,23 @@ func emitFinding(ctx context.Context, rule Rule, row evidence.Row, entity string
 		return fmt.Errorf("rule input lacks sealed evidence provenance")
 	}
 	cells := map[string]evidence.Value{"Rule": evidence.Text(rule.ID), "Severity": evidence.Text(rule.Severity), "Basis": evidence.Text(rule.Basis), "FalsePositive": evidence.Text(rule.FalsePositive), "Entity": evidence.Text(entity), "EvidenceIDs": {Kind: "references", Data: refs}}
+	if rule.Kind == "native-check" {
+		cells["SourcePlugin"] = evidence.Text(row.Provenance.Plugin)
+		cells["NativeRule"] = row.Cells["Rule"]
+		cells["Assessment"] = row.Cells["Notes"]
+		if row.Provenance.Plugin == "windows.suspicious_threads" {
+			cells["Assessment"] = row.Cells["Note"]
+		}
+		for _, key := range []string{"PID", "Process", "ProcessIdentity", "ProcessOffset", "ThreadIdentity", "ThreadOffset", "TID", "Context", "Address", "RawAddress", "Base", "ImageBase", "SectionBase", "VADOffset", "VADBase", "VADPath", "Protection", "Path", "PathError", "LoaderOffset", "LoaderLayer"} {
+			if value, ok := row.Cells[key]; ok {
+				cells[key] = value
+			}
+		}
+		if row.Cells["PathError"].Error != "" {
+			cells["Severity"] = evidence.Text("info")
+			cells["Confidence"] = evidence.Text("limited_by_path_read_error")
+		}
+	}
 	if rule.ID == "hidden-process" {
 		if state, ok := row.Cells["ExitState"]; ok {
 			if state.Kind != "string" {
