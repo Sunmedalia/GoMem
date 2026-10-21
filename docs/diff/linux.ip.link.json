@@ -1,0 +1,56 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "interface",
+    "excluded_values": [
+      "diagnostic",
+      "summary"
+    ]
+  },
+  "fields": {
+    "NS": {
+      "native": "NS",
+      "reference": "NS",
+      "kind": "uint64",
+      "missing_reasons": [
+        "namespace_inode_layout_unavailable",
+        "namespace_inode_zero"
+      ]
+    },
+    "Interface": {
+      "native": "Interface",
+      "reference": "Interface",
+      "kind": "string"
+    },
+    "MAC": {
+      "native": "MAC",
+      "reference": "MAC",
+      "kind": "string"
+    },
+    "State": {
+      "native": "State",
+      "reference": "State",
+      "kind": "string"
+    },
+    "MTU": {
+      "native": "MTU",
+      "reference": "MTU",
+      "kind": "uint64"
+    },
+    "Qdisc": {
+      "native": "Qdisc",
+      "reference": "Qdisc",
+      "kind": "string"
+    },
+    "Qlen": {
+      "native": "Qlen",
+      "reference": "Qlen",
+      "kind": "uint64"
+    },
+    "Flags": {
+      "native": "Flags",
+      "reference": "Flags",
+      "kind": "string"
+    }
+  }
+}

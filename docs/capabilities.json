@@ -949,15 +949,25 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Enumerate net_namespace_list/net.list and net.dev_base_head/net_device.dev_list in symbol-described Intel Linux. Device namespace IDs come from nd_net or possible_net_t.net, then proc_inum or ns.inum; absent old-kernel inode layouts and zero IDs remain explicitly unavailable. Link preserves operational states, permanent/fallback MAC selection, qdisc, MTU, queue length and pinned device/gflags/state mask semantics, including its IFF_ALLMULTI) spelling. Addr preserves IPv4-before-IPv6 ordering, signed indexes/prefixes, symbol IPv4 scopes and IPv6 scope priority. Native evidence retains device/address coordinates, list/device observations and raw field captures. Strict forward back-link checking, a shared max-nodes bound, 129 IPv4 addresses per device and 4096-byte field/MAC bounds apply. Faults, cycles, limits and unsupported declared layouts retain partial evidence and fail tasks; cancellation/output errors propagate.",
+      "native": "linux.ip.addr",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-ip-x64-x86-pae",
+        "pinned-768-interface-flag-cases-128-scopes-12-addresses-6-chains",
+        "official-linux-sample-1"
+      ],
+      "comparison": "2_links_match_all_8_columns_and_4_addresses_match_all_9_columns_and_order_88_raw_captures_reread",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "One Debian 3.2 x64 image validates two devices, two IPv4 and two IPv6 addresses, legacy flag constants, absent namespace inode layout and permanent MACs; all displayed fields/order match the unmodified reference with no read/layout errors",
+        "Synthetic real paging covers x64/x86/PAE, possible_net_t and namespace inode layouts, device-vs-enumerated namespace identity, missing/zero IDs, MAC fallback/zero extent/partial reads, qdisc faults, wrong layouts/enums, IPv4 cycles/129 bound, cancellation after persisted observations, output failure, sealed SQLite rows and cache reuse",
+        "Pinned helper oracles validate 768 flag combinations including composite masks and gflags spelling, 128 IPv6 scopes, 12 IP encodings and six IPv4 chains; these mocked helpers do not establish full-plugin acceptance",
+        "Native list walks are forward with back-link/tail checks rather than all fixed bidirectional validity/skip behavior; damaged-input differential remains pending. Pre-3.0 IPv6 layout produces an explicit failed diagnostic rather than a silently omitted family",
+        "Native MAC reads never pad missing bytes into a trusted address; full permanent arrays are captured before selecting addr_len bytes. Mapped IPv6 is rendered with dotted IPv4 tails and normalized in the helper oracle across Python versions",
+        "Ambiguous IPv4 enum aliases with different scope meanings fail explicitly because symbol constant declaration order is not retained; unknown scope values still display unknown. Actual modern/x86/PAE images, IPv4 aliases and unusual link hardware, ARM64 and full version/parameter acceptance remain pending"
+      ],
+      "validation_record": "docs/linux-ip.md"
     },
     {
       "id": "linux.ip.Link",
@@ -988,15 +998,25 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Enumerate net_namespace_list/net.list and net.dev_base_head/net_device.dev_list in symbol-described Intel Linux. Device namespace IDs come from nd_net or possible_net_t.net, then proc_inum or ns.inum; absent old-kernel inode layouts and zero IDs remain explicitly unavailable. Link preserves operational states, permanent/fallback MAC selection, qdisc, MTU, queue length and pinned device/gflags/state mask semantics, including its IFF_ALLMULTI) spelling. Addr preserves IPv4-before-IPv6 ordering, signed indexes/prefixes, symbol IPv4 scopes and IPv6 scope priority. Native evidence retains device/address coordinates, list/device observations and raw field captures. Strict forward back-link checking, a shared max-nodes bound, 129 IPv4 addresses per device and 4096-byte field/MAC bounds apply. Faults, cycles, limits and unsupported declared layouts retain partial evidence and fail tasks; cancellation/output errors propagate.",
+      "native": "linux.ip.link",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "synthetic-linux-ip-x64-x86-pae",
+        "pinned-768-interface-flag-cases-128-scopes-12-addresses-6-chains",
+        "official-linux-sample-1"
+      ],
+      "comparison": "2_links_match_all_8_columns_and_4_addresses_match_all_9_columns_and_order_88_raw_captures_reread",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "One Debian 3.2 x64 image validates two devices, two IPv4 and two IPv6 addresses, legacy flag constants, absent namespace inode layout and permanent MACs; all displayed fields/order match the unmodified reference with no read/layout errors",
+        "Synthetic real paging covers x64/x86/PAE, possible_net_t and namespace inode layouts, device-vs-enumerated namespace identity, missing/zero IDs, MAC fallback/zero extent/partial reads, qdisc faults, wrong layouts/enums, IPv4 cycles/129 bound, cancellation after persisted observations, output failure, sealed SQLite rows and cache reuse",
+        "Pinned helper oracles validate 768 flag combinations including composite masks and gflags spelling, 128 IPv6 scopes, 12 IP encodings and six IPv4 chains; these mocked helpers do not establish full-plugin acceptance",
+        "Native list walks are forward with back-link/tail checks rather than all fixed bidirectional validity/skip behavior; damaged-input differential remains pending. Pre-3.0 IPv6 layout produces an explicit failed diagnostic rather than a silently omitted family",
+        "Native MAC reads never pad missing bytes into a trusted address; full permanent arrays are captured before selecting addr_len bytes. Mapped IPv6 is rendered with dotted IPv4 tails and normalized in the helper oracle across Python versions",
+        "Ambiguous IPv4 enum aliases with different scope meanings fail explicitly because symbol constant declaration order is not retained; unknown scope values still display unknown. Actual modern/x86/PAE images, IPv4 aliases and unusual link hardware, ARM64 and full version/parameter acceptance remain pending"
+      ],
+      "validation_record": "docs/linux-ip.md"
     },
     {
       "id": "linux.kallsyms.Kallsyms",

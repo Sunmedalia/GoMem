@@ -1,0 +1,181 @@
+{
+  "scope": "Development preview: one Debian x64 network interface/address differential; complete capability acceptance remains pending.",
+  "profiles": [
+    {
+      "plugin": "linux.ip.link",
+      "task_id": "deeedb3a2a40a059ffae083bbe4fb513",
+      "unmodified_reference_manifest": {
+        "baseline": {
+          "name": "Volatility 3",
+          "version": "2.28.2",
+          "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+          "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+          "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+          "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+        },
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "plugin": "linux.ip.Link",
+        "parameters": [],
+        "output_sha256": "25971d6d9a294714f824ab5ec21c370842f632bf57d42a292473b682bd3396c9",
+        "config_sha256": "b9824b58c8144cd0aa5132bc1cdc2b246fe60e7d1c3ec71738293471e09c51fd",
+        "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+      },
+      "comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "NS",
+          "Interface",
+          "MAC",
+          "State",
+          "MTU",
+          "Qdisc",
+          "Qlen",
+          "Flags"
+        ],
+        "native_rows": 2,
+        "reference_rows": 2,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "6c09c7cb33cb160ae9d0d7b5aeb3ebfb8a4d640882a296c13a8acd702d1ef710",
+          "reference": "25971d6d9a294714f824ab5ec21c370842f632bf57d42a292473b682bd3396c9",
+          "mapping": "9535969ca3a13b77ca2a81f77eb874088f914c596d51a3ffac4144cbec37dbc5"
+        },
+        "native_input_rows": 3,
+        "native_non_entity_records": {
+          "summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "interface",
+          "excluded_values": [
+            "diagnostic",
+            "summary"
+          ]
+        }
+      },
+      "enumeration_order_matches": true,
+      "coverage": {
+        "devices": "2",
+        "diagnostics": "0",
+        "ipv4_address_bound": "129_per_device",
+        "list_policy": "bounded_forward_with_backlinks",
+        "read_layout_errors": "0",
+        "rows": "2",
+        "scope": "symbol-described Intel Linux; no cross-kernel release acceptance",
+        "visits": "3"
+      },
+      "raw_captures_independently_reread": 36,
+      "cli_record_count": 3,
+      "fresh_cache_byte_identical": true,
+      "cache_sha256": "6c09c7cb33cb160ae9d0d7b5aeb3ebfb8a4d640882a296c13a8acd702d1ef710",
+      "bundle": {
+        "verification": {
+          "tasks": 1,
+          "members": 2,
+          "verified": true
+        },
+        "sha256": "64a0e249481577b576c99145ebdb64b7e192ef137eb37deea2cd0cc2aa955397"
+      }
+    },
+    {
+      "plugin": "linux.ip.addr",
+      "task_id": "11ab4bce53c8775a27b5a94f184cb478",
+      "unmodified_reference_manifest": {
+        "baseline": {
+          "name": "Volatility 3",
+          "version": "2.28.2",
+          "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+          "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+          "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+          "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+        },
+        "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+        "plugin": "linux.ip.Addr",
+        "parameters": [],
+        "output_sha256": "1ee8af42c72d25e32119af0338745b01e94e5c61549f1f4b0c35aafe2df88fcc",
+        "config_sha256": "b9824b58c8144cd0aa5132bc1cdc2b246fe60e7d1c3ec71738293471e09c51fd",
+        "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]"
+      },
+      "comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "NetNS",
+          "Index",
+          "Interface",
+          "MAC",
+          "Promiscuous",
+          "IP",
+          "Prefix",
+          "Scope Type",
+          "State"
+        ],
+        "native_rows": 4,
+        "reference_rows": 4,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "2a40ef5f72ffc7e899705652635cd747a4c890650b79f9164fe145d8da2b06d2",
+          "reference": "1ee8af42c72d25e32119af0338745b01e94e5c61549f1f4b0c35aafe2df88fcc",
+          "mapping": "257ae1c581159770eff8f3fe5eb3a680a3fbf17027cb4c2ca6ef1575c42284de"
+        },
+        "native_input_rows": 11,
+        "native_non_entity_records": {
+          "device_observation": 2,
+          "address_list_observation": 4,
+          "summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "address",
+          "excluded_values": [
+            "device_observation",
+            "address_list_observation",
+            "diagnostic",
+            "summary"
+          ]
+        }
+      },
+      "enumeration_order_matches": true,
+      "coverage": {
+        "devices": "2",
+        "diagnostics": "0",
+        "ipv4_address_bound": "129_per_device",
+        "list_policy": "bounded_forward_with_backlinks",
+        "read_layout_errors": "0",
+        "rows": "4",
+        "scope": "symbol-described Intel Linux; no cross-kernel release acceptance",
+        "visits": "7"
+      },
+      "raw_captures_independently_reread": 52,
+      "cli_record_count": 11,
+      "fresh_cache_byte_identical": true,
+      "cache_sha256": "2a40ef5f72ffc7e899705652635cd747a4c890650b79f9164fe145d8da2b06d2",
+      "bundle": {
+        "verification": {
+          "tasks": 1,
+          "members": 2,
+          "verified": true
+        },
+        "sha256": "6ab839749005d3307ce7ac72f26130a47e0834e3d09585083b739c7a55f67f91"
+      }
+    }
+  ],
+  "checks": [
+    "make check",
+    "python3 tools/build_linux_ip_oracle.py --check",
+    "python3 tools/baseline_matrix.py --source .cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75 --check",
+    "GOMEM_CORPUS_DIR=\"$PWD/.cache/corpus\" go test ./internal/engine -run TestOfficialLinuxIP -count=1 -v",
+    "make build",
+    "git diff --check"
+  ],
+  "pending": [
+    "Actual modern and x86/PAE images",
+    "ARM64 translator and Kali network enumeration",
+    "Full damaged-list validity/recovery behavior",
+    "IPv4 scope enum declaration-order aliases with different meanings",
+    "Full capability/version/parameter acceptance"
+  ]
+}

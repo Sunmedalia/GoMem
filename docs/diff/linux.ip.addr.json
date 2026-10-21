@@ -1,0 +1,63 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "address",
+    "excluded_values": [
+      "device_observation",
+      "address_list_observation",
+      "diagnostic",
+      "summary"
+    ]
+  },
+  "fields": {
+    "NetNS": {
+      "native": "NetNS",
+      "reference": "NetNS",
+      "kind": "uint64",
+      "missing_reasons": [
+        "namespace_inode_layout_unavailable",
+        "namespace_inode_zero"
+      ]
+    },
+    "Index": {
+      "native": "Index",
+      "reference": "Index",
+      "kind": "int64"
+    },
+    "Interface": {
+      "native": "Interface",
+      "reference": "Interface",
+      "kind": "string"
+    },
+    "MAC": {
+      "native": "MAC",
+      "reference": "MAC",
+      "kind": "string"
+    },
+    "Promiscuous": {
+      "native": "Promiscuous",
+      "reference": "Promiscuous",
+      "kind": "bool"
+    },
+    "IP": {
+      "native": "IP",
+      "reference": "IP",
+      "kind": "string"
+    },
+    "Prefix": {
+      "native": "Prefix",
+      "reference": "Prefix",
+      "kind": "int64"
+    },
+    "Scope Type": {
+      "native": "Scope Type",
+      "reference": "Scope Type",
+      "kind": "string"
+    },
+    "State": {
+      "native": "State",
+      "reference": "State",
+      "kind": "string"
+    }
+  }
+}
