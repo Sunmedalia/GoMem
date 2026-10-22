@@ -70,3 +70,7 @@ cmdscan parity, process/VAD discovery, registry history settings, correct
 per-process conhost version selection, console screen recovery, evidence-store
 integration, or complete generator parity. These remain required before either
 plugin can advance in the capability matrix.
+
+Later milestones add [cmdscan integration](windows-cmdscan.md) and a separate
+[screen reader](windows-console-screen.md). This document records the original
+command/history component validation.

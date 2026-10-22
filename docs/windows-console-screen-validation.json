@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "status": "development_dependency",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Native signed screen layout adapter, raw cells, dimensions and bounded circular buffers; windows.consoles remains missing and unregistered",
+  "synthetic": {
+    "layouts": 11,
+    "cases": 209,
+    "original_method_results": 1672,
+    "original_methods_unmodified": true,
+    "source_files_match_compiled_catalog_sha256": true,
+    "cell_capture_independent_rereads": true,
+    "trimming_retains_all_acquired_raw_rows": true,
+    "partial_cell_read_bytes_and_cause_retained": true,
+    "signed_address_and_limit_controls": "pass",
+    "cancel_during_acquisition_preserves_prefix": "pass",
+    "comparison": "Dimensions, row text and four buffer trimming combinations checked, with explicit malformed-length and error-status differences",
+    "intentional_differences": [
+      {
+        "scenario": "negative-length",
+        "cases": 11,
+        "original": "BufferDataLayer negative slices produce empty row text",
+        "native": "reject invalid length and retain acquired prefix; no appended empty row"
+      },
+      {
+        "scenario": "negative-capacity",
+        "cases": 11,
+        "original": "empty range with no error",
+        "native": "empty acquired rows with explicit invalid capacity error"
+      },
+      {
+        "scenario": "row read failures",
+        "original": "buffer may return silently truncated prefix",
+        "native": "same acquired display prefix with explicit read error"
+      }
+    ]
+  },
+  "checks": {
+    "package_race": "pass; pkg/winconsole including all original controls, partial capture and cancellation regressions, 4.427s",
+    "screen_pipeline_fuzz": "pass; 10000 executions on final partial-capture implementation",
+    "screen_layout_fuzz": "pass; 1016 executions on final implementation (1000 requested)",
+    "oracle_python312": "pass; all 209 controls regenerate identically",
+    "vet": "pass; go vet ./...",
+    "matrix": "pass; 195 plugins, 148 partial, 47 missing, 0 accepted",
+    "inode_oracle": "32768 pass",
+    "python_tests": "43 pass",
+    "argument_fixtures": "428 pass",
+    "build_offline_doctor": "pass; development preview",
+    "cross_compile": "Windows amd64 and Linux amd64 package test executables built; runtime validation pending CI",
+    "full_make_check": "Previous initial cmdscan snapshot passed; expanded cmdscan snapshot is running separately and began before the new screen component. Screen changes have focused package race/vet/fuzz coverage. Do not treat that older run as full screen-component validation."
+  },
+  "remaining": [
+    "Full windows.consoles plugin and property-tree integration",
+    "Real-image positive screen and console differential",
+    "Console discovery, aliases, titles, attached processes and history linking",
+    "Complete version/parameter/corruption/corpus matrix",
+    "Evidence-store sealing/export/cache/resume integration and release performance acceptance"
+  ]
+}

@@ -93,3 +93,7 @@ conhost/VAD identification, direct PE revision acquisition, physical fallback
 integration, registry history settings, byte-pattern candidate scanning,
 property-tree evidence, task caching/retry and complete CmdScan generator parity
 remain to be integrated. Screen and console enumeration remain separate work.
+
+The subsequent [screen reader](windows-console-screen.md) adds bounded row and
+circular-buffer parsing, including signed offsets. Full `windows.consoles`
+enumeration is still pending.

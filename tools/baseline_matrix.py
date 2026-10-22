@@ -369,6 +369,12 @@ def generate(source):
                               comparison="all_builtin_constraints_and_1440_actual_header_filters_match;1984_actual_callback_factory_index_header_filters_match_with_explicit_schema_and_field_fault_controls;36_actual_nonexecutive_generators_and_56_rows_match;native_file_header_object_name_digest_and_fault_controls_pass;36_engine_storage_cache_and_failed_retry_controls_pass;real_8090_selected_type_header_name_rows_match_with_441271_original_reads_and_449363_seals_independently_verified",
                               validation_record="docs/windows-poolscanner.md",
                               gaps=["Development preview; complete executive-object differential fixtures and full real-image acceptance are pending", "Real Windows 10 selected rows match, but 5702 failure observations (including nested reads/name callbacks, not unique pages) retain failed/incomplete coverage; recovered-row parity is not complete acquisition", "GUI constraints, broad Windows/architecture/version coverage, swap/prototype pages and arbitrary malformed layouts remain outstanding", "All renderer/export and release performance acceptance remain pending; finite synthetic coverage is not full capability acceptance"])
+        if identifier == "windows.consoles.Consoles":
+            plugins[-1].update(status="missing",
+                              corpora=["pinned-209-console-screen-component-controls-11-layouts"],
+                              comparison="screen_component_only;not_a_registered_native_plugin",
+                              validation_record="docs/windows-console-screen.md",
+                              gaps=["Native screen rows, signed layout offsets and circular buffers have component controls only; no windows.consoles plugin is registered", "Full console candidate discovery, titles, aliases, attached processes, history trees, evidence-store integration and real-image screen differential remain pending", "Original negative row lengths and silent row-read truncation are explicit native errors; finite component fixtures are not plugin or release acceptance"])
         if identifier == "windows.cmdscan.CmdScan":
             plugins[-1].update(native="windows.cmdscan", status="partial",
                               applicability="Native Intel process/VAD command-history signature scanning with measured KUSER/debug version selection and SHA-pinned conhost history layouts. Baseline conhost layouts are x64 only. Registry history-size discovery defaults on; bounded reads, mapped coverage and errors remain explicit.",
