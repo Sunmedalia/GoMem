@@ -41,6 +41,7 @@ jobs:
       - run: python3 tools/build_vad_oracle.py --check
       - run: python3 tools/build_suspicious_thread_oracle.py --check
       - run: python3 tools/build_suspended_threads_oracle.py --check
+      - run: python3 tools/build_pe_symbols_oracle.py --check
       - run: python3 tools/build_hollowprocess_oracle.py --check
       - run: python3 tools/build_psxview_oracle.py --check
       - run: python3 tools/build_processghosting_oracle.py --check
@@ -115,6 +116,7 @@ jobs:
       - run: go test ./pkg/memory -run '^$' -fuzz FuzzPointerScan -fuzztime 5s
       - run: go test ./pkg/winpath -run '^$' -fuzz FuzzWindowsModulePath -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzSuspendedThreadPipeline -fuzztime 5s
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzPESymbolRequest -fuzztime 5s
       - run: go test ./pkg/pesymbols -run '^$' -fuzz FuzzModuleSymbolRequests -fuzztime 5s
       - run: go test ./pkg/pe -run '^$' -fuzz FuzzMappedPEExports -fuzztime 5s
       - run: go test ./pkg/pe -run '^$' -fuzz FuzzMappedPEReconstruction -fuzztime 5s

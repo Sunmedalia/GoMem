@@ -1,0 +1,152 @@
+{
+  "schema": "gomem.windows-pe-symbols-validation/v1",
+  "release": "development-preview",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "oracle": {
+    "actual_generator_fixtures": 36,
+    "actual_command_queries": 240,
+    "native_paging_query_combinations": 360,
+    "architectures": [
+      "x86",
+      "pae",
+      "x64"
+    ],
+    "comparison": "three result columns, order, duplicates, independently reread captures and sealed JSONL",
+    "explained_difference": "No-MZ export fallback preserves the same found symbols and reports invalid DOS signature rather than silently skipping the corrupt PE"
+  },
+  "fuzz": [
+    {
+      "target": "FuzzPESymbolRequest",
+      "duration_seconds": 10,
+      "executions": 457917,
+      "result": "pass"
+    },
+    {
+      "target": "FuzzModuleRSDS",
+      "duration_seconds": 10,
+      "executions": 152483,
+      "result": "pass"
+    }
+  ],
+  "real_kernel_control": {
+    "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+    "reference_sha256": "9ea5473da90c02727700d9a37a6d65491a5b45698bc7aeb16ef45536ba9c89c9",
+    "source": "kernel",
+    "module": "ntoskrnl.exe",
+    "symbols": [
+      "PsActiveProcessHead"
+    ],
+    "matched_symbols": 1,
+    "independently_reread_captures": 6009,
+    "captured_bytes": 8732737,
+    "read_faults": 2038,
+    "native_task_state": "failed",
+    "explanation": "Readable PDB identity supplies the exact symbol; unrelated missing module pages remain explicit evidence and prevent clean completion",
+    "stored_row_seals_verified": true,
+    "fresh_execution_verified": true,
+    "compiled_cli_diff": {
+      "scope": "selected fields only; full capability acceptance remains pending",
+      "fields": [
+        "Module",
+        "Symbol",
+        "Address"
+      ],
+      "native_rows": 1,
+      "reference_rows": 1,
+      "matched": true,
+      "missing": [],
+      "extra": [],
+      "sha256": {
+        "native": "8839d05b24467ed937105a51b876d15f45ed170f5afac324f7b5507b0db32a3d",
+        "reference": "9ea5473da90c02727700d9a37a6d65491a5b45698bc7aeb16ef45536ba9c89c9",
+        "mapping": "08d50210b6bc2da579aa3296d824303e9c8e757a426db1d7cdcb10dd9abc4117"
+      },
+      "native_input_rows": 6011,
+      "native_non_entity_records": {
+        "memory_read": 6009,
+        "summary": 1
+      },
+      "entity_selection": {
+        "field": "RecordType",
+        "values": [
+          "symbol"
+        ],
+        "excluded_values": [
+          "memory_read",
+          "summary"
+        ]
+      }
+    }
+  },
+  "remaining": [
+    "broad Windows and real process-source corpus coverage",
+    "arbitrary Unicode PDB acquisition and live server policy controls",
+    "dynamic dependency-aware cache replay",
+    "full plugin acceptance"
+  ],
+  "real_process_control": {
+    "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+    "reference_sha256": "c43c220bc1a7cfb6467956ae0644cfeb84e5488b9e5ccaf4537fa77903eb05d9",
+    "source": "processes",
+    "module": "ntdll.dll",
+    "symbols": [
+      "NtClose"
+    ],
+    "parameters": {
+      "max-read-bytes": "536870912"
+    },
+    "matched_symbols": 1,
+    "native_task_state": "failed",
+    "read_captures": 341491,
+    "read_faults": 35917,
+    "captured_bytes": 97500541,
+    "regions": 19999,
+    "module_instances": 118,
+    "coverage_errors": 35957,
+    "compiled_cli_diff": {
+      "scope": "selected fields only; full capability acceptance remains pending",
+      "fields": [
+        "Module",
+        "Symbol",
+        "Address"
+      ],
+      "native_rows": 1,
+      "reference_rows": 1,
+      "matched": true,
+      "missing": [],
+      "extra": [],
+      "sha256": {
+        "native": "a08e8d51467dda291846161726f48650506ef2d9cbb89dc911ccd9b3aa2ea006",
+        "reference": "c43c220bc1a7cfb6467956ae0644cfeb84e5488b9e5ccaf4537fa77903eb05d9",
+        "mapping": "08d50210b6bc2da579aa3296d824303e9c8e757a426db1d7cdcb10dd9abc4117"
+      },
+      "native_input_rows": 341493,
+      "native_non_entity_records": {
+        "memory_read": 341491,
+        "summary": 1
+      },
+      "entity_selection": {
+        "field": "RecordType",
+        "values": [
+          "symbol"
+        ],
+        "excluded_values": [
+          "memory_read",
+          "summary"
+        ]
+      }
+    },
+    "scope": "compiled CLI selected-field differential; all raw captures independently reread through freshly collected process roots; all row seals/provenance verified",
+    "independent_validation": {
+      "all_captures_independently_reread": true,
+      "all_seals_and_provenance_verified": true,
+      "captured_bytes": 97500541,
+      "captures": 341491,
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "process_layers": 120,
+      "read_faults": 35917,
+      "rows": 341493,
+      "symbols": 1
+    }
+  }
+}

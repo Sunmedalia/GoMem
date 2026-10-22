@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"context"
 	"encoding/binary"
+	"errors"
 	"fmt"
+	"io"
 	"unicode/utf8"
 
 	"github.com/Sunmedalia/GoMem/pkg/memory"
@@ -42,14 +44,28 @@ func scanModulePDB(ctx context.Context, module pesymbols.Module) ([]symbols.PDBI
 		return nil, nil
 	}
 	var carry []byte
+	var failures []error
+	totalFailures := 0
 	for offset := uint64(0); offset < module.Size; {
 		if err := ctx.Err(); err != nil {
 			return nil, err
 		}
-		n := min(uint64(4096), module.Size-offset)
+		n := min(uint64(4096)-(module.Base+offset)%4096, module.Size-offset)
 		chunk, err := memory.Read(ctx, module.Layer, module.Base+offset, int(n))
 		if err != nil {
-			return nil, fmt.Errorf("scan module RSDS at %#x: %w", module.Base+offset, err)
+			cause := fmt.Errorf("scan module RSDS at %#x: %w", module.Base+offset, err)
+			if !errors.Is(err, memory.ErrUnmapped) && !errors.Is(err, io.EOF) && !errors.Is(err, io.ErrUnexpectedEOF) {
+				return nil, cause
+			}
+			// A missing page cannot bridge two otherwise readable fragments.
+			// Retain bounded causes and let the observer retain every raw fault.
+			totalFailures++
+			if len(failures) < 64 {
+				failures = append(failures, cause)
+			}
+			carry = nil
+			offset += n
+			continue
 		}
 		data := append(carry, chunk...)
 		for at := 0; at+25 <= len(data); {
@@ -82,5 +98,8 @@ func scanModulePDB(ctx context.Context, module pesymbols.Module) ([]symbols.PDBI
 			result = append(result, *identity)
 		}
 	}
-	return result, ctx.Err()
+	if totalFailures > len(failures) {
+		failures = append(failures, fmt.Errorf("%d additional module scan read failures retained in evidence", totalFailures-len(failures)))
+	}
+	return result, errors.Join(append(failures, ctx.Err())...)
 }

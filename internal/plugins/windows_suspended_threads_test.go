@@ -16,14 +16,14 @@ func TestSuspendedPathCandidatesAndFailureBounds(t *testing.T) {
 	if suspendedFileAt(regions, 0x1900).String() != `C:\x.dll` || suspendedFileAt(regions, 0).Kind != "missing" || suspendedFileAt(regions, 0x3000).Kind != "missing" {
 		t.Fatal("preorder/inclusive lookup")
 	}
-	if suspendedModuleName(`C:\Windows/sys/FiXtUrE.DLL`) != "fixture.dll" {
+	if windowsModuleName(`C:\Windows/sys/FiXtUrE.DLL`) != "fixture.dll" {
 		t.Fatal("Windows mixed separators")
 	}
 	regions[0].file = evidence.Missing("read_failure", errors.New("hole"))
-	if _, err := suspendedFileVADs(regions); err == nil {
+	if _, err := windowsFileVADs(regions); err == nil {
 		t.Fatal("file read error disappeared")
 	}
-	a := &suspendedAnalysis{}
+	a := &windowsSymbolAnalysis{}
 	for range 10000 {
 		a.failure(errors.New("hole"))
 	}

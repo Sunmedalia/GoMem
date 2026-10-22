@@ -24,11 +24,13 @@ func (e *Engine) modulePDBProvider() pesymbols.Provider {
 		}
 		module.Layer = modulePDBExtent{MemoryLayer: module.Layer, base: module.Base, size: module.Size}
 		var images []kernelPE
+		var discoveryErr error
 		if module.PDBNames != nil {
 			identities, err := scanModulePDB(ctx, module)
-			if err != nil {
+			if err != nil && len(identities) == 0 {
 				return result, err
 			}
+			discoveryErr = err
 			for _, identity := range identities {
 				images = append(images, kernelPE{Identity: identity})
 			}
@@ -49,8 +51,11 @@ func (e *Engine) modulePDBProvider() pesymbols.Provider {
 			resolved, err := resolveModulePDB(ctx, config, build, kernel, image)
 			result = resolved
 			if err == nil || !errors.Is(err, pesymbols.ErrUnavailable) {
-				return resolved, err
+				return resolved, errors.Join(err, discoveryErr)
 			}
+		}
+		if discoveryErr != nil {
+			return result, discoveryErr
 		}
 		return result, pesymbols.ErrUnavailable
 	}

@@ -1,0 +1,12 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "values": ["symbol"],
+    "excluded_values": ["memory_read", "summary"]
+  },
+  "fields": {
+    "Module": {"native": "Module", "reference": "Module", "kind": "string"},
+    "Symbol": {"native": "Symbol", "reference": "Symbol", "kind": "string"},
+    "Address": {"native": "Address", "reference": "Address", "kind": "address", "mask": "0x0000ffffffffffff"}
+  }
+}

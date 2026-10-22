@@ -26,8 +26,11 @@ acquisition budget. Owned raw bytes, addresses, layers, requested lengths and
 read errors are persisted by the caller. Reads stop on cancellation, evidence
 output failure or an exhausted budget. The scanner does not materialize a
 module or image in memory. It scans the complete extent once, then attempts
-acquisition; incomplete reads fail explicitly even if an earlier record was
-found. This is stricter than upstream layers that skip inaccessible regions.
+acquisition. Missing pages are skipped with their explicit errors, and the
+overlap carry is cleared. Readable identities remain available alongside the
+errors, so callers can retain useful symbols while marking the task partial.
+Cancellation, observer and budget failures stop the scan. This is stricter than
+upstream layers that skip inaccessible regions.
 Corrupt symbol indexes and other genuine acquisition failures remain errors;
 they are not silently recast as an offline miss or empty finding set.
 
@@ -73,4 +76,4 @@ go test ./internal/engine -run '^$' -fuzz FuzzModuleRSDS -fuzztime 10s
 The compiled CLI also reran the six original discovery reproductions; all six now match the upstream symbols and exit successfully. The supplied Windows image was rerun with 1,752 threads, zero findings and 6,098 independently reread acquisitions (37,360 bytes), with no errors. It is still only a negative suspended-thread control;
 see [its validation record](windows-suspended-threads.md). These synthetic
 positive identity controls do not close real-world positive or Windows version
-acceptance. No plugin changes from partial to accepted.
+acceptance. No plugin changes from partial to accepted. Sparse-scan continuation and the standalone command are additionally validated in [windows-pe-symbols.md](windows-pe-symbols.md).

@@ -159,6 +159,59 @@ func TestModuleRSDSAcquisitionCandidatePriority(t *testing.T) {
 	}
 }
 
+func TestModuleRSDSSparseEvidenceKeepsUsableIdentity(t *testing.T) {
+	m, table, _ := nativeModuleFixture(t, "x64")
+	id, _ := table.PDBIdentity()
+	resident := m.Layer.(moduleTestLayer).data
+	at := bytes.Index(resident, []byte("RSDS"))
+	if at < 0 {
+		t.Fatal("fixture identity absent")
+	}
+	record := append([]byte(nil), resident[at:at+25+len(id.Database)]...)
+	data := make([]byte, 3*4096)
+	copy(data[2*4096+80:], record)
+	// Put halves of a fake record on opposite sides of the missing page.
+	copy(data[4090:], []byte("RSDSxx"))
+	reads := 0
+	m.Layer = scanFaultLayer{MemoryLayer: moduleTestLayer{m.Base, data}, reads: &reads, stop: memory.ErrUnmapped}
+	m.Size = uint64(len(data))
+	m.PDBNames = []string{id.Database}
+	e := &Engine{Config: Config{Offline: true, SymbolCache: t.TempDir()}}
+	e.Env.Symbols = table
+	opts := pesymbols.Options{PDB: e.modulePDBProvider(), Limits: pe.DefaultExportLimits(), MaxSymbols: 1000000}
+	captures, faults := 0, 0
+	opts.Observe = func(r pesymbols.Read) error {
+		captures++
+		if errors.Is(r.Err, memory.ErrUnmapped) {
+			faults++
+		}
+		return nil
+	}
+	resolver, err := pesymbols.New([]pesymbols.Module{m}, opts)
+	if err != nil {
+		t.Fatal(err)
+	}
+	result, err := resolver.Resolve(context.Background(), pesymbols.Request{Names: []string{"entry"}})
+	if !errors.Is(err, memory.ErrUnmapped) || len(result.Found) != 1 || result.Found[0].Method != "pdb" || captures != 3 || faults != 1 {
+		t.Fatal(result, err, captures, faults)
+	}
+	// A cached partial table keeps both its useful symbol and the read error.
+	readsBefore := reads
+	again, err := resolver.Resolve(context.Background(), pesymbols.Request{Names: []string{"entry"}})
+	if !errors.Is(err, memory.ErrUnmapped) || len(again.Found) != 1 || reads != readsBefore {
+		t.Fatal(again, err, reads)
+	}
+	// A record split across a hole cannot be joined into a fabricated identity.
+	copy(data[4090:], record[:6])
+	copy(data[8192:], record[6:])
+	clear(data[8192+80:])
+	reads = 0
+	identities, err := scanModulePDB(context.Background(), m)
+	if !errors.Is(err, memory.ErrUnmapped) || len(identities) != 0 {
+		t.Fatal(identities, err)
+	}
+}
+
 func FuzzModuleRSDS(f *testing.F) {
 	f.Add(scanTestRecord("x.pdb", 0x12), uint16(4090))
 	f.Add([]byte("RSDS"), uint16(0))

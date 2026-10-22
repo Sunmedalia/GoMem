@@ -67,6 +67,7 @@ type Result struct {
 
 type loaded struct {
 	pdbDone, exportDone bool
+	pdbUsable           bool
 	pdb                 PDB
 	pdbErr              error
 	table               *pe.ExportTable
@@ -183,7 +184,7 @@ func (r *Resolver) loadPDB(ctx context.Context, index int) *loaded {
 		return nil
 	}}
 	c.pdb, c.pdbErr = r.options.PDB(ctx, m)
-	if c.pdbErr != nil {
+	if c.pdbErr != nil && c.pdb.Table == nil {
 		return c
 	}
 	if c.pdb.Table == nil {
@@ -244,6 +245,7 @@ func (r *Resolver) loadPDB(ctx context.Context, index int) *loaded {
 			c.byAddress[at] = name
 		}
 	}
+	c.pdbUsable = true
 	return c
 }
 func (r *Resolver) loadExports(ctx context.Context, index int) *loaded {
@@ -327,7 +329,9 @@ func (r *Resolver) Resolve(ctx context.Context, request Request) (result Result,
 				if !attempt.Unavailable {
 					failures = append(failures, cause)
 				}
-				continue
+				if method != "pdb" || !c.pdbUsable {
+					continue
+				}
 			}
 			nameAt := func(address uint64) (string, error) {
 				if method == "pdb" {

@@ -9259,15 +9259,25 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Exact named/address PE lookup over active process file VADs or loaded kernel modules in ordered session spaces. Source/module required. Nonempty symbol names take precedence over addresses; JSON arrays preserve names, duplicate requests and unsigned 64-bit coordinates. Module filters use lowercase suffix collection but exact group lookup, including first kernel module alias ntoskrnl.exe. All instances use PDB before exports, ordered candidate names and first resident GUID per candidate. Raw metadata, RSDS and export reads, table/source digests, explicit errors and missing requests remain evidence. Canonical native addresses normalize to the baseline pointer mask. Sparse scans keep readable identities and genuine missing-page errors; failed tasks are never replayed.",
+      "native": "windows.pe_symbols",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-pe-symbol-command-36-paged-fixtures-240-queries",
+        "native-x86-pae-x64-360-query-combinations",
+        "official-windows-10-19041-kernel-symbol-partial-control",
+        "official-windows-10-19041-process-symbol-partial-control"
+      ],
+      "comparison": "synthetic_three_columns_order_and_duplicate_requests_match;real_PsActiveProcessHead_and_NtClose_match_with_read_faults_explicit",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Development preview; only one Windows 10 19041 build has one kernel and one process symbol differential; broad versions and live server acquisition remain pending",
+        "Native missing pages, corrupt PE headers, list corruption and acquisition bounds remain explicit task failures even when the baseline silently skips them",
+        "Unicode 16 helper parity does not establish arbitrary Unicode PDB acquisition; baseline Latin-1 scan boundary remains",
+        "Dynamic symbol dependencies force fresh tasks; dependency-aware cache replay pending",
+        "JSON request arrays and resource bounds are native interface semantics; empty symbol names are rejected"
+      ],
+      "validation_record": "docs/windows-pe-symbols.md"
     },
     {
       "id": "windows.pedump.PEDump",

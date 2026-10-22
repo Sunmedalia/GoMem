@@ -6,6 +6,8 @@ Go 原生、只读的内存取证引擎与交互式 TUI。当前版本 **0.1.0-d
 
 固定基线为 [Volatility 3 v2.28.2](https://github.com/volatilityfoundation/volatility3/releases/tag/v2.28.2)，提交 `881e970121c16f0932fb9d16fbd5fb258cbcbf75`。已经盘点 **195 个官方插件类**（包含旧名称入口），完整验收通过 **0 项**。原生进程、模块和 banner 能力已有指定字段对照，仍缺少参数、场景及全部字段验收。[能力矩阵](docs/capabilities.json)、[验证记录](docs/validation.json)、[剩余工作](docs/roadmap.md) 是发布依据。
 
+`windows.pe_symbols` 提供进程/内核模块的 PDB 优先精确符号查询，保留缺页诊断和部分结果；36 个固定分页语料、240 个上游命令查询及 360 组原生组合对照通过。[PE 符号命令](docs/windows-pe-symbols.md)
+
 `windows.suspended_threads` 已实现挂起线程与起始地址归属分析。52 组固定上游生成器对照、78 组原生分页组合通过；真实 Windows 镜像仅建立 1,752 个线程的零挂起阴性对照。真实阳性、版本覆盖和动态符号缓存仍待验收。[挂起线程验证](docs/windows-suspended-threads.md)
 
 `linux.pidhashtable` 已支持旧式 PID 哈希及命名空间 IDR，提供排序任务、名称装饰和逐次读取证据。Debian 样本的 316 条任务通过五字段双模式对照；现代内核真实语料和完整验收仍待补齐。[PID 索引验证](docs/linux-pidhashtable.md)
@@ -93,6 +95,7 @@ bin/gomem analyze windows.pslist \
 | `windows.truecrypt` | 在 `truecrypt.sys` 的 `.data` 段寻找缓存口令；没有该模块时不输出口令；长度不是 4 的倍数则任务失败；[说明](docs/windows-truecrypt.md) |
 | `windows.verinfo` | 列出内核模块和进程加载顺序 DLL 的 PE 产品版本；内核基址按 48 位截断后读取，缺页的下一链表项结束当前链表；[说明](docs/windows-verinfo.md) |
 | `windows.ldrmodules` | 对照 MZ 开头的 VAD 与 PEB 三条加载链表；页表建不起来则任务失败，文件名错误留在 `PathError`；[说明](docs/windows-ldrmodules.md) |
+| `windows.pe_symbols` | 进程/内核模块精确名称和地址查询、PDB 优先、原始读取证据及明确的部分失败；[说明](docs/windows-pe-symbols.md) |
 | `windows.suspended_threads` | 挂起且未终止的线程、跨进程文件映射、PDB 优先的精确符号与读取证据；动态符号任务重新执行；[说明](docs/windows-suspended-threads.md) |
 | `windows.suspicious_threads` | 检查活动线程入口所在 VAD 的文件映射、保护和 EXE 路径，保留线程及 VAD 证据；[说明](docs/windows-suspicious-threads.md) |
 | `windows.hollowprocesses` | 检查 PEB 映像基址与 EXE/DLL VAD 初始保护，保留不可读数据的诊断；[说明](docs/windows-hollowprocesses.md) |
