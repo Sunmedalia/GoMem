@@ -99,3 +99,6 @@ They do not validate independent PDB parsing, session-private GUI pages on the
 real dump, GUI pool/name recovery, full plugin generators or sealed
 store/cache/retry behavior. These remain required. The matrix stays at 149
 partial, 46 missing and zero accepted plugins.
+
+Subsequent development: [executive names and desktop enumeration](windows-gui-names.md)
+adds original-selected real station name controls without establishing native pool recovery.

@@ -19,6 +19,7 @@ type Reader struct {
 	Layer         memory.MemoryLayer
 	Layout        *Layout
 	KernelSymbols symbols.SymbolTable
+	KernelBase    uint64 // required to resolve relative kernel symbols for executive names
 }
 
 func (r Reader) objects() (*object.Reader, error) {

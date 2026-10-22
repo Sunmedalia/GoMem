@@ -18,6 +18,7 @@ baseline:
 matrix:
 	python3 tools/baseline_matrix.py --source $(BASELINE) --check
 fuzz:
+	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUINames$$' -fuzztime 20000x
 	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUISessions$$' -fuzztime 20000x
 	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUIObjects$$' -fuzztime 20000x
 	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUILayout$$' -fuzztime 2000x

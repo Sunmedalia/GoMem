@@ -125,6 +125,7 @@ func TestGUISessionsCorpusOriginalMapAndReadAudit(t *testing.T) {
 	reader := wingui.SessionReader{Kernel: &object.Reader{Layer: kernelAudit, Symbols: table}, Physical: physicalAudit, KernelBase: base}
 	rows := []guiSessionCorpusRow{}
 	selected := []map[string]any{}
+	spaces := map[uint64]memory.MemoryLayer{}
 	runErr := reader.Visit(context.Background(), wingui.SessionOptions{MaxProcesses: 131072, MaxSessions: 4096}, func(space wingui.SessionSpace) error {
 		row := guiSessionCorpusRow{Session: space.SessionID, CR3: fmt.Sprintf("0x%x", space.RawCR3)}
 		selected = append(selected, map[string]any{"session": space.SessionID, "process": fmt.Sprintf("0x%x", space.Process), "pid": space.PID, "session_pointer": fmt.Sprintf("0x%x", space.SessionPointer), "method": space.Method, "raw_cr3": fmt.Sprintf("0x%x", space.RawCR3), "normalized_cr3": fmt.Sprintf("0x%x", space.CR3), "layer": space.Layer.Name()})
@@ -136,6 +137,7 @@ func TestGUISessionsCorpusOriginalMapAndReadAudit(t *testing.T) {
 			row.Probe = hex.EncodeToString(data)
 		}
 		rows = append(rows, row)
+		spaces[space.SessionID] = space.Layer
 		return nil
 	})
 	if !reflect.DeepEqual(rows, reference.Rows) {
@@ -144,6 +146,7 @@ func TestGUISessionsCorpusOriginalMapAndReadAudit(t *testing.T) {
 	if reference.Error != "" && runErr == nil {
 		t.Fatal("original failure lost")
 	}
+	verifyGUINameCorpus(t, table, base, spaces, reference.ImageSHA256)
 	audit := map[string]any{"image_sha256": reference.ImageSHA256, "symbols_sha256": reference.SymbolsSHA256, "format": format, "sessions": len(rows), "rows": rows, "selected": selected, "physical_reads_verified": physicalAudit.Reads, "physical_bytes_verified": physicalAudit.Bytes, "physical_read_failures": physicalAudit.Failures, "kernel_reads_verified": kernelAudit.Reads, "kernel_read_failures": kernelAudit.Failures, "reference_error": reference.Error, "native_error": "", "scope": "Session selection and shared kernel probes; no GUI object or sealed store acceptance"}
 	if runErr != nil {
 		audit["native_error"] = runErr.Error()

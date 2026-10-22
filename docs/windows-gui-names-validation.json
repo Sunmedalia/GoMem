@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "status": "development_dependency",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Native executive names, station get_info and pinned desktop enumeration; no GUI plugin registration",
+  "synthetic": {
+    "controls": 768,
+    "layouts": 12,
+    "header_mechanisms": 2,
+    "scenarios_per_layout_and_header": 32,
+    "codec_vectors": 512,
+    "original_methods_unmodified": true,
+    "partial_raw_reads": true,
+    "fuzz_executions": 10000,
+    "fuzz_seconds": 1.205
+  },
+  "real_control": {
+    "manifest": {
+      "baseline": {
+        "name": "Volatility 3",
+        "version": "2.28.2",
+        "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "source_url": "https://github.com/volatilityfoundation/volatility3/tree/881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "archive_sha256": "81dbbf5d2a62d0aa5b9b1bd11eed78524640ad24f31a3d310d85905be13ae4cb",
+        "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d"
+      },
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "plugin": "windows.windowstations",
+      "parameters": [],
+      "output_sha256": "7c8970823b42bca23e8671daecc3aeafdb5df2dc1f1b6b1f7f160739a4e1bfdd",
+      "config_sha256": "266a1f571442496c735d2e2d235fec785f833b3a9255c0e7c672a27efd251af5",
+      "python": "3.12.10 (main, Apr  9 2025, 03:49:38) [Clang 20.1.0 ]"
+    },
+    "manifest_sha256": "a366169ff4a4079adc1767fe15484ec997198a5fbc941174d6676be0e7c19c0d",
+    "kernel_symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+    "kernel_symbols_archive_member_independently_verified": true,
+    "native_audit": {
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "layout": "gui-win10-19041-x64",
+      "layout_sha256": "db87d5f9b3ed6e00cfecb227658d451b22e690c65bf909b81f3c87ab85db7d58",
+      "reference_sha256": "7c8970823b42bca23e8671daecc3aeafdb5df2dc1f1b6b1f7f160739a4e1bfdd",
+      "rows": 13,
+      "scope": "Original-selected station names/session IDs only; no native pool discovery or sealed evidence",
+      "session_bytes_verified": 974,
+      "session_read_failures": 0,
+      "session_reads_verified": 91
+    },
+    "comparison": "All 13 original-selected station names and session IDs match. Native station pool discovery not exercised. Session discovery retains four unavailable session-ID reads.",
+    "limits": [
+      "Original pool-selected object addresses",
+      "Same kernel ISF; no independent PDB parity",
+      "No full desktop/thread/plugin or sealed store/cache/retry acceptance"
+    ]
+  },
+  "checks": {
+    "original_oracle": "pass;768 controls",
+    "complete_package_race": "pass;24.246s final snapshot; optional real name corpus extension passes4.327s",
+    "fuzz": "pass;10000 inputs",
+    "vet_windows_linux_compile": "pass; final snapshot",
+    "full_make_check": "running on earlier session-map snapshot; not yet a passing result",
+    "remote_ci": "wired; not yet run for this milestone",
+    "matrix_inode_python_arguments": "pass;195 inventoried;32768 modes;43 Python tests;428 argument fixtures",
+    "build_offline_doctor": "pass; development preview"
+  },
+  "remaining": [
+    "Native GUI pool scanning and full original plugin generators",
+    "Desktop/thread positive real recovery",
+    "Sealed evidence, failed-task retry and cache integration",
+    "All supported platform/version acceptance"
+  ]
+}
