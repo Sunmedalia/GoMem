@@ -12,26 +12,30 @@
     "accepted": 0
   },
   "synthetic": {
-    "complete_original_generators": 11,
-    "exact_matching_property_generators": 10,
+    "complete_original_generators": 132,
+    "exact_matching_property_generators": 120,
     "original_exception_controls": [
       {
         "scenario": "missing-vad-page",
         "original": "UnboundLocalError",
-        "native": "explicit incomplete mapped acquisition and not-found observation; failed task"
+        "native": "explicit incomplete mapped acquisition and not-found observation; failed task",
+        "count": 12
       }
     ],
     "component_history_controls": 385,
     "component_version_controls": 663,
-    "full_generator_layout": "19041 x64 only",
+    "full_generator_layout": "10 reachable x64 layouts across 12 measured build/revision selections, including 20348.2520 and 25398 aliases; bundled 25398 layout is not selected by baseline",
     "read_bytes_and_digests_independently_verified": true,
     "bounds_cancel_emitter_tests": "pass",
     "registry_failure_preserves_independent_history": "pass",
     "native_revision_fallback_guard": "pass; bad direct PE parse remains explicit failure while physical file revision 1 selects 17763 layout and preserves 9 properties; native damaged-PE continuation is not baseline parity",
-    "engine_storage_controls": 2,
-    "sealed_parent_and_sqlite_wire_checks": "pass",
+    "engine_storage_controls": 24,
+    "sealed_parent_and_sqlite_wire_checks": "pass; all 24 expanded build/revision controls",
     "fresh_retries": "successful and failed controls rerun; external symbol dependencies intentionally disable reuse",
-    "fuzz_minimum_executions": 1000
+    "fuzz_minimum_executions": 1000,
+    "direct_pe_revision_controls": 88,
+    "direct_pe_revision_semantics": "Actual original PE reconstruction and pefile resource parser; file revision 17 differs from product revision to detect incorrect selection",
+    "property_parent_paths": "120 complete generators checked against original depth hierarchy"
   },
   "real": {
     "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
@@ -97,22 +101,23 @@
     ]
   },
   "checks": {
-    "focused_plugin_race": "pass; final native guards and all original generator controls",
-    "focused_engine_race": "pass; 2 sealed-storage controls with fresh successful/failed retries",
-    "full_make_check": "running on registered-scanner snapshot; subsequent registry provenance enrichment and revision-probe failure guard separately pass focused race tests",
+    "focused_plugin_race": "pass; 132 controls with selected layouts, original display values and parent paths, independent source rereads, bounds and failure guards (7.117s)",
+    "focused_engine_race": "pass; 24 sealed-storage controls with fresh successful/failed retries (194.873s)",
+    "full_make_check": "pass on initial registered-scanner snapshot: engine race 1348.310s, 43 Python tests and 428 argument fixtures. Subsequent provenance/revision guards and cache locks pass focused race tests; expanded-layout tests are a later snapshot.",
     "go_vet": "pass; plugins and source verifier",
     "python_tests": "43 pass",
     "argument_fixtures": "428 pass",
     "inode_oracle": "32768 pass",
-    "cmdscan_oracle_python312": "11 original generators pass regeneration",
+    "cmdscan_oracle_python312": "132 original generators pass regeneration",
     "matrix": "pass; 195 plugins, 148 partial, 47 missing, 0 accepted",
     "local_build_offline_doctor": "pass; development preview",
-    "windows_catalog_ci_regression": "Windows native job in run 39831630600 exposed concurrent cache read/rename/delete sharing violations. Fixed by cancellable per-path transaction locks; local race and single-download/cleanup regressions pass. Windows runtime revalidation pending new CI."
+    "windows_catalog_ci_regression": "Windows native run 39831630600 exposed concurrent sharing violations. Cancellable per-path transaction locks pass local race/stress tests and five repetitions on actual Windows runner in run 39835965131; overall new CI still in progress.",
+    "expanded_full_make_check": "running on expanded-layout snapshot; previous initial registered-scanner full check passed"
   },
   "remaining": [
     "Positive real command recovery and broader conhost/OS/version corpus",
     "Registry-positive full synthetic original-generator controls and non-DWORD semantics",
-    "Successful direct PE revision and all damaged PE/PTE/swap behavior",
+    "Broader damaged PE/PTE/swap behavior and real direct PE revision corpus",
     "Strict native VAD/hive recovery versus original partial walks",
     "Validated external-symbol cache reuse and resumed tasks",
     "Full parameter, investigation, renderer/export, performance and release acceptance"

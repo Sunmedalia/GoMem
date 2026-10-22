@@ -23,6 +23,9 @@ func TestWindowsCmdScanSealedTreesAndFreshRetry(t *testing.T) {
 	var fixture struct {
 		Cases []struct {
 			Scenario string
+			Layout   string
+			Build    uint64
+			Revision uint64
 			ISF      json.RawMessage
 			Size     int
 			Writes   []struct {
@@ -46,7 +49,7 @@ func TestWindowsCmdScanSealedTreesAndFreshRetry(t *testing.T) {
 		if c.Scenario != "normal" && c.Scenario != "unreadable-command" {
 			continue
 		}
-		t.Run(c.Scenario, func(t *testing.T) {
+		t.Run(fmt.Sprintf("%d-%d/%s", c.Build, c.Revision, c.Scenario), func(t *testing.T) {
 			dir := t.TempDir()
 			image, symbol, cache := filepath.Join(dir, "memory.raw"), filepath.Join(dir, "kernel.json"), filepath.Join(dir, "symbols")
 			data := make([]byte, c.Size)
@@ -57,8 +60,11 @@ func TestWindowsCmdScanSealedTreesAndFreshRetry(t *testing.T) {
 				}
 				copy(data[w.Offset:], raw)
 			}
-			name := "consoles-win10-19041-x64"
+			name := c.Layout
 			schema := []byte(auxiliary.Catalog[name])
+			if len(schema) == 0 {
+				t.Fatal("unknown original layout", name)
+			}
 			hash := sha256.Sum256(schema)
 			if err = os.MkdirAll(filepath.Join(cache, "console-symbols"), 0700); err != nil {
 				t.Fatal(err)

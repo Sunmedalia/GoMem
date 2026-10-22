@@ -23,6 +23,9 @@ import (
 
 type cmdControl struct {
 	Scenario string
+	Layout   string
+	Build    uint64
+	Revision uint64
 	ISF      json.RawMessage
 	Size     int
 	Writes   []struct {
@@ -49,7 +52,7 @@ func cmdControls(t testing.TB) []cmdControl {
 	if err = json.Unmarshal(raw, &fixture); err != nil {
 		t.Fatal(err)
 	}
-	if fixture.Commit != "881e970121c16f0932fb9d16fbd5fb258cbcbf75" || len(fixture.Cases) != 11 {
+	if fixture.Commit != "881e970121c16f0932fb9d16fbd5fb258cbcbf75" || len(fixture.Cases) != 132 {
 		t.Fatal("cmdscan fixture drift")
 	}
 	return fixture.Cases
@@ -82,8 +85,11 @@ func cmdEnvironment(t testing.TB, c cmdControl) (plugin.Environment, flatMemory)
 	if err = json.Unmarshal(raw, &fixture); err != nil {
 		t.Fatal(err)
 	}
-	name := "consoles-win10-19041-x64"
+	name := c.Layout
 	source := []byte(fixture.Catalog[name])
+	if len(source) == 0 {
+		t.Fatal("unknown original layout", name)
+	}
 	hash := sha256.Sum256(source)
 	if err = os.MkdirAll(filepath.Join(cache, "console-symbols"), 0700); err != nil {
 		t.Fatal(err)
@@ -95,7 +101,7 @@ func cmdEnvironment(t testing.TB, c cmdControl) (plugin.Environment, flatMemory)
 }
 func TestCmdScanOriginalCompleteGenerators(t *testing.T) {
 	for _, c := range cmdControls(t) {
-		t.Run(c.Scenario, func(t *testing.T) {
+		t.Run(fmt.Sprintf("%d-%d/%s", c.Build, c.Revision, c.Scenario), func(t *testing.T) {
 			env, physical := cmdEnvironment(t, c)
 			b := windowsCmdScanPlugins()[0]
 			p, err := plugin.Parameters(b.spec, map[string]string{"no-registry": "true"})
@@ -104,9 +110,16 @@ func TestCmdScanOriginalCompleteGenerators(t *testing.T) {
 			}
 			rows := []evidence.Row{}
 			var properties []evidence.Row
+			selections := 0
 			spaces := map[string]memory.MemoryLayer{"flat": physical, "kernel": env.Kernel}
 			err = b.run(context.Background(), env, p, func(row evidence.Row) error {
 				rows = append(rows, row)
+				if row.Cells["RecordType"].String() == "layout_selection" {
+					selections++
+					if row.Cells["LayoutName"].String() != c.Layout {
+						t.Fatal("wrong layout selected", row.Cells["LayoutName"], c.Layout)
+					}
+				}
 				if row.Cells["RecordType"].String() == "history_property" || row.Cells["RecordType"].String() == "history_not_found" {
 					properties = append(properties, row)
 				}
@@ -116,21 +129,35 @@ func TestCmdScanOriginalCompleteGenerators(t *testing.T) {
 			if failed != (err != nil) {
 				t.Fatalf("failed=%v error=%v", failed, err)
 			}
+			if (c.Scenario == "uppercase-process" && selections != 0) || (c.Scenario != "uppercase-process" && selections != 1) {
+				t.Fatal("layout selection count", selections)
+			}
 			if c.Error != nil {
 				if *c.Error != "UnboundLocalError" || len(properties) != 1 {
 					t.Fatal("unexpected original exception handling", c.Error, properties)
 				}
-				return
 			}
-			if len(properties) != len(c.Rows) {
+			if c.Error == nil && len(properties) != len(c.Rows) {
 				t.Fatalf("properties %d != %d: %v", len(properties), len(c.Rows), err)
 			}
+			ancestors := map[uint64]string{}
 			for i, want := range c.Rows {
 				row := properties[i]
 				depth, _ := row.Cells["Depth"].Uint()
 				if depth != want.Depth {
 					t.Fatal("depth", i, depth, want.Depth)
 				}
+				parent := ""
+				if depth > 0 {
+					parent = ancestors[depth-1]
+					if parent == "" {
+						t.Fatal("missing original tree ancestor", i, depth)
+					}
+				}
+				if row.ParentID != parent {
+					t.Fatal("parent differs from original tree", i, row.ParentID, parent)
+				}
+				ancestors[depth] = row.ID
 				got := []any{}
 				for _, name := range []string{"PID", "Process", "ConsoleInfo", "Property", "Address", "Data"} {
 					v := row.Cells[name]

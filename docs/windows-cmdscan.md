@@ -80,18 +80,24 @@ fresh execution even for successful tasks; validated cache reuse remains work.
 
 ## Verification
 
-- `tools/build_cmdscan_oracle.py` runs 11 complete original generators with real
-  process/VAD/file objects, process layers, Intel PTEs and conhost types. Ten
-  controls match native display fields and depth exactly: ordinary/unused slots,
+- `tools/build_cmdscan_oracle.py` runs 132 complete original generators with real
+  process/VAD/file objects, process layers, Intel PTEs and conhost types across
+  all ten layouts reachable by the baseline version selector. Twelve measured
+  build/revision combinations include the 20348.2520 and 25398 aliases. The
+  bundled 25398 layout is intentionally not selected. On 88 revision-sensitive
+  controls, actual PE reconstruction and pefile resource parsing read the
+  product revision; a different file revision catches incorrect field use.
+  120 controls match native display fields, depth and parent paths exactly: ordinary/unused slots,
   valid length 1024 with absent text, reversed sub-slot count, invalid handle,
   unreadable command/bucket/application, empty commands and case-sensitive
-  process filtering. In the missing-VAD-page control the original raises
+  process filtering. In the 12 missing-VAD-page controls the original raises
   `UnboundLocalError`; native emits explicit incomplete acquisition and a
   not-found observation instead of reproducing that exception.
 - Plugin race tests independently reread every capture, compare raw bytes and
   digests, and test bounds, cancellation and emitter failures.
 - Engine tests verify sealed parent relationships, persisted wire equality and
-  fresh retries for a successful control and an unreadable-command control.
+  fresh retries for successful and unreadable-command controls across all 12
+  measured version selections (24 controls).
 - `FuzzCmdScanPipeline` mutates history, bucket, process and VAD bytes through the
   bounded native pipeline; at least 1000 local executions pass. CI includes the
   oracle regeneration and fuzz control.
@@ -119,16 +125,18 @@ python3 tools/diff_results.py --native native.jsonl --reference reference.json \
   --mapping docs/diff/windows.cmdscan.json --output comparison.json
 ```
 
-See [validation details](windows-cmdscan-validation.json). All full-generator
-synthetic controls currently use the 19041 x64 layout; other layouts have
-component controls, not complete-plugin acceptance. Registry-positive full
+See [validation details](windows-cmdscan-validation.json). Full-generator
+synthetic coverage of the reachable layouts does not establish acceptance on
+other real systems. Registry-positive full
 synthetic controls, independent real command recovery, other system versions,
 PTE/swap damage, complete parameter behavior, case resume/cache, renderer/export
 and performance acceptance remain pending. Hive enumeration reuses native
 recovery helpers and can differ from the original list-only selection. Strict
 native VAD validation can reject damaged indexes the baseline partially walks.
 
-The complete existing race suite is still running for the registered-scanner
-snapshot. Latest evidence metadata and revision-probe guards pass separate
-focused race tests. Full local/remote checks must finish before treating this
-milestone as fully checked; the matrix remains partial regardless.
+The initial registered-scanner snapshot passed `make check` (engine race suite
+1348.310 seconds, 43 Python tests and 428 argument fixtures). Later provenance,
+revision-probe and cache-lock changes passed focused race tests. The cache-lock
+regression also passed five repetitions on the actual Windows CI runner in
+run 39835965131; the full remote workflow remains in progress. Expanded layout
+controls have separate local checks. The capability matrix remains partial.

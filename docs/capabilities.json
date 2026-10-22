@@ -5812,12 +5812,12 @@
       "corpora": [
         "pinned-385-command-history-object-controls",
         "pinned-663-conhost-version-selections",
-        "pinned-11-complete-cmdscan-generators",
+        "pinned-132-complete-cmdscan-generators-10-layouts",
         "official-windows-10-19041-partial-cmdscan-control"
       ],
-      "comparison": "10_complete_original_generators_match_selected_properties_and_depth;one_original_UnboundLocalError_retained_as_explicit_native_incomplete_acquisition;real_15_selected_display_rows_and_full_parent_paths_match_in_registry_and_no_registry_modes_with_failed_native_acquisition",
+      "comparison": "120_complete_original_generators_match_selected_properties_depth_and_parent_paths;12_original_UnboundLocalError_controls_retained_as_explicit_native_incomplete_acquisition;real_15_selected_display_rows_and_full_parent_paths_match_in_registry_and_no_registry_modes_with_failed_native_acquisition",
       "gaps": [
-        "Only selected Windows 10 19041 x64 synthetic full generators; real image has two partial history trees and a not-found observation, not positive command-string recovery. Broader conhost version acceptance pending",
+        "132 full generators cover ten reachable x64 layouts and the 2520/25398 aliases, including direct PE product revision probes. Real image has two partial history trees and a not-found observation, not positive command-string recovery. Broader real conhost/version acceptance pending",
         "Registry discovery uses native hive recovery and strict integer bounds; complete original-registry differential pending",
         "Native preserves candidate/read errors and missing VAD acquisition with failed tasks rather than silently swallowing errors or reproducing the original uninitialized-variable exception",
         "Runtime auxiliary layout dependencies currently force fresh tasks; resumable validated result reuse pending",
