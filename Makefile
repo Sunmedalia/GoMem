@@ -18,6 +18,7 @@ baseline:
 matrix:
 	python3 tools/baseline_matrix.py --source $(BASELINE) --check
 fuzz:
+	$(GO) test ./pkg/winconsole -run '^$$' -fuzz FuzzHistoryBucket -fuzztime 20000x
 	GOMEM_BASELINE_DIR="$(CURDIR)/$(BASELINE)" $(GO) test ./internal/plugins -run '^$$' -fuzz FuzzCallbacksPermutedPagePipeline -fuzztime 20000x
 	GOMEM_BASELINE_DIR="$(CURDIR)/$(BASELINE)" $(GO) test ./internal/plugins -run '^$$' -fuzz FuzzCallbacksGeneratorPipeline -fuzztime 20000x
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzCallbackPoolObjects -fuzztime 20000x

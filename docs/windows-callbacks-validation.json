@@ -176,7 +176,7 @@
   },
   "implementation_checks": {
     "focused_race": "pass; all callback plugin tests with pinned baseline environment, including 144 complete generators",
-    "full_make_check": "running for mapped acquisition milestone",
+    "full_make_check": "pass; mapped-acquisition milestone: go vet, full existing race suite (engine 1361.791s), 43 Python tests, 428 argument fixtures. New winconsole component validated separately; optional 90-case mapped engine replay passed separately.",
     "matrix": "pass; 195 plugins, 147 partial, 48 missing, 0 accepted",
     "build_offline_doctor": "pass; development preview and acceptance false",
     "object_oracle_python312": "pass; uv Python 3.12 pinned pefile",
