@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "status": "development_dependency",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Window field readers; windows.windows remains unregistered and missing",
+  "original_controls": {
+    "layouts": 12,
+    "scenarios_per_layout": 26,
+    "total": 312,
+    "methods_unmodified": true,
+    "methods": ["tagWND.get_name", "tagWND.get_desktop", "tagWND.get_session_id", "tagWND.get_window_procedure", "tagWND.get_process"],
+    "layer": "Original BufferDataLayer with fault injection and an explicit 64-bit address mask",
+    "compared": ["name", "desktop", "session", "procedure", "owner process address", "process name", "PID", "desktop top window"],
+    "native_captures_rechecked_against_source": true
+  },
+  "checks": {
+    "gui_package_race": "pass; 34.407s",
+    "field_fuzz": "pass; 20000 executions; old and modern layouts",
+    "build": "pass",
+    "matrix": "195 plugins; 152 partial; 43 missing; 0 accepted",
+    "inode_oracle": "32768 modes passed",
+    "ci": "oracle regeneration and field fuzz wired; final commit not yet executed"
+  },
+  "remaining": [
+    "Original traversal ordering, adjacent and child window cycles and duplicate semantics",
+    "Paged original control for direct-name contiguous prefixes after a later mapping gap",
+    "Full generator integration and parameter bounds",
+    "Sealed session-layer read/provenance audit",
+    "Real-image differential and full OS/version/architecture acceptance"
+  ]
+}

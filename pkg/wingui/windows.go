@@ -3,8 +3,11 @@ package wingui
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"strings"
 
+	"github.com/Sunmedalia/GoMem/pkg/memory"
 	"github.com/Sunmedalia/GoMem/pkg/object"
 	"github.com/Sunmedalia/GoMem/pkg/symbols"
 )
@@ -137,4 +140,75 @@ func (r Reader) WindowProcedure(ctx context.Context, window uint64) (uint64, err
 		return o.Uint(ctx, sub, "subTagWNDType", "lpfnWndProc")
 	}
 	return o.Uint(ctx, window, "tagWND", "lpfnWndProc")
+}
+
+// WindowOwner resolves the thread's process in this window's session layer.
+func (r Reader) WindowOwner(ctx context.Context, window uint64) (ThreadOwner, error) {
+	o, err := r.objects()
+	if err != nil {
+		return ThreadOwner{}, err
+	}
+	if r.KernelSymbols == nil || r.KernelSymbols.PointerSize() != 8 {
+		return ThreadOwner{}, fmt.Errorf("GUI window owner requires matching x64 kernel symbols")
+	}
+	thread, err := o.Uint(ctx, window, "tagWND", "head.pti")
+	if err != nil {
+		return ThreadOwner{}, err
+	}
+	return r.threadOwner(ctx, o, &object.Reader{Layer: r.Layer, Symbols: r.KernelSymbols}, thread)
+}
+
+// WindowName prefers the newer directName pointer, then falls back to strName
+// after a failed direct read. A readable partial direct prefix is displayed,
+// with its read error preserved. All failed reads remain observable by Layer.
+func (r Reader) WindowName(ctx context.Context, window uint64) (Name, error) {
+	result := Name{}
+	o, err := r.objects()
+	if err != nil {
+		return result, err
+	}
+	var directError error
+	if _, ok := r.Layout.Types.Types["tagWND"].Fields["directName"]; ok {
+		result.Buffer, err = o.Uint(ctx, window, "tagWND", "directName")
+		if err == nil {
+			result.Raw, err = readName(ctx, r.Layer, result.Buffer, 256)
+			if err == nil || len(result.Raw) > 0 {
+				text := decodeName(result.Raw)
+				if i := strings.IndexRune(text, '\ufffd'); i >= 0 {
+					text = text[:i]
+				}
+				result.Text = &text
+				return result, err
+			}
+		}
+		if ctx.Err() != nil {
+			return result, ctx.Err()
+		}
+		directError = err
+	}
+	f, err := o.Field("tagWND", "strName")
+	if err != nil {
+		return result, errors.Join(directError, err)
+	}
+	result.Info, err = memory.Add(window, f.Offset)
+	if err != nil {
+		return result, errors.Join(directError, err)
+	}
+	length, err := o.Uint(ctx, result.Info, "_LARGE_UNICODE_STRING", "Length")
+	if err != nil {
+		return result, errors.Join(directError, err)
+	}
+	result.Buffer, err = o.Uint(ctx, result.Info, "_LARGE_UNICODE_STRING", "Buffer")
+	if err != nil {
+		return result, errors.Join(directError, err)
+	}
+	if length > 65535 {
+		return result, errors.Join(directError, fmt.Errorf("GUI window name length %d exceeds 65535-byte bound", length))
+	}
+	result.Raw, err = readName(ctx, r.Layer, result.Buffer, int(length))
+	if err == nil {
+		text := decodeName(result.Raw)
+		result.Text = &text
+	}
+	return result, errors.Join(directError, err)
 }
