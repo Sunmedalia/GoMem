@@ -142,6 +142,69 @@ func (m original) ReadAt(ctx context.Context, p []byte, at uint64) (int, error) 
 	return n, nil
 }
 
+type relocated struct {
+	original
+	base uint64
+}
+
+func (m relocated) Name() string { return "native-virtual" }
+func (m relocated) Ranges() []memory.Range {
+	return []memory.Range{{Start: m.base, Length: uint64(len(m.original))}}
+}
+func (m relocated) ReadAt(ctx context.Context, p []byte, at uint64) (int, error) {
+	if at < m.base {
+		return 0, io.EOF
+	}
+	return m.original.ReadAt(ctx, p, at-m.base)
+}
+
+func TestPhysicalAllocationUsesNativePointerAddressSpace(t *testing.T) {
+	layout, err := Parse([]byte(boundedSchema))
+	if err != nil {
+		t.Fatal(err)
+	}
+	layout.table.Bases["u8"] = symbols.Type{Kind: "int", Size: 1, Endian: "little"}
+	ptr := func(name string) symbols.TypeRef {
+		return symbols.TypeRef{Kind: "pointer", Subtype: &symbols.TypeRef{Kind: "struct", Name: name}}
+	}
+	byteType := symbols.TypeRef{Kind: "base", Name: "u8"}
+	layout.table.Types["_ROOT"] = symbols.Type{Kind: "struct", Size: 24, Fields: map[string]symbols.Field{
+		"InetAF": {Offset: 0, Type: ptr("_INETAF")}, "AddrInfo": {Offset: 8, Type: ptr("_ADDRINFO")}, "LocalAddr": {Offset: 16, Type: ptr("_LOCAL_ADDRESS")},
+	}}
+	layout.table.Types["_INETAF"] = symbols.Type{Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"AddressFamily": {Type: symbols.TypeRef{Kind: "base", Name: "u64"}}}}
+	layout.table.Types["_ADDRINFO"] = symbols.Type{Kind: "struct", Size: 16, Fields: map[string]symbols.Field{"Local": {Type: ptr("_LOCAL_ADDRESS")}, "Remote": {Offset: 8, Type: ptr("_IN_ADDR")}}}
+	ipRef := ptr("_IN_ADDR")
+	layout.table.Types["_LOCAL_ADDRESS"] = symbols.Type{Kind: "struct", Size: 8, Fields: map[string]symbols.Field{"pData": {Type: symbols.TypeRef{Kind: "pointer", Subtype: &ipRef}}}}
+	layout.table.Types["_IN_ADDR"] = symbols.Type{Kind: "struct", Size: 6, Fields: map[string]symbols.Field{
+		"addr4": {Type: symbols.TypeRef{Kind: "array", Count: 4, Subtype: &byteType}}, "addr6": {Type: symbols.TypeRef{Kind: "array", Count: 16, Subtype: &byteType}},
+	}}
+	physical := make(original, 24)
+	for at, value := range map[int]uint64{0: 0x1000, 8: 0x1010, 16: 0x1020} {
+		binary.LittleEndian.PutUint64(physical[at:], value)
+	}
+	native := make(original, 0x60)
+	for at, value := range map[int]uint64{0: 2, 0x10: 0x1020, 0x18: 0x1050, 0x20: 0x1030, 0x30: 0x1040} {
+		binary.LittleEndian.PutUint64(native[at:], value)
+	}
+	copy(native[0x40:], []byte{10, 4, 3, 2})
+	copy(native[0x50:], []byte{192, 0, 2, 1})
+	o := Object{Layout: layout, Layer: physical, Native: relocated{native, 0x1000}, Type: "_ROOT"}
+	ctx := context.Background()
+	if family, err := o.Family(ctx); err != nil || family != 2 {
+		t.Fatal("wrong family space", family, err)
+	}
+	if local, remote, err := o.TCPAddresses(ctx); err != nil || local != "10.4.3.2" || remote != "192.0.2.1" {
+		t.Fatal("wrong TCP pointer space", local, remote, err)
+	}
+	if sockets, err := o.ListenerSockets(ctx); err != nil || len(sockets) != 1 || sockets[0] != (Socket{"v4", "10.4.3.2", "0.0.0.0"}) {
+		t.Fatal("wrong listener pointer space", sockets, err)
+	}
+	o.Native = nil
+	if _, err := o.Family(ctx); err == nil {
+		t.Fatal("physical pointer target silently accepted")
+	}
+}
+
 // These controls require the exact external layout files, not a reconstructed
 // copy of their field offsets. CI runs this explicitly after fetching baseline.
 func TestActualNetworkObjectMethods(t *testing.T) {
@@ -202,6 +265,10 @@ func TestActualNetworkObjectMethods(t *testing.T) {
 		}
 		if layout.Digest() != source.SourceSHA256 {
 			t.Fatal("lost original source identity")
+		}
+		pin, ok := catalogPins[source.Name]
+		if !ok || pin.sha256 != source.SourceSHA256 || pin.width != layout.PointerSize() {
+			t.Fatal("compiled catalog differs from original layout", source.Name)
 		}
 		for typ, want := range source.DeclaredSizes {
 			got, err := layout.DeclaredSize(typ)

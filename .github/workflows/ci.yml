@@ -73,6 +73,7 @@ jobs:
       - run: python3 tools/build_pool_header_oracle.py --check
       - run: python3 tools/build_poolscanner_oracle.py --check
       - run: python3 tools/build_windows_network_oracle.py --check
+      - run: python3 tools/build_windows_network_version_oracle.py --check
       - run: go test -race ./pkg/winnet -count=1
         env:
           GOMEM_BASELINE_DIR: ${{ github.workspace }}/.cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75

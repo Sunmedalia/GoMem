@@ -4,6 +4,8 @@
 matrix. These reference artifacts and the native `pkg/winnet` field decoder
 prepare their plugin implementations; they do not constitute native network
 acquisition, complete plugin parity or release acceptance.
+The [native version selector and verified symbol catalog](windows-network-catalog.md)
+add separate factory/download controls without changing that plugin status.
 
 `tools/build_windows_network_oracle.py` runs the unmodified network extension
 methods from the locked Volatility 3 v2.28.2 tree. All 25 shipped network ISF

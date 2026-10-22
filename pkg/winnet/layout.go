@@ -189,10 +189,20 @@ func (l *Layout) uint(ctx context.Context, layer memory.MemoryLayer, base uint64
 }
 
 type Object struct {
-	Layout  *Layout
-	Layer   memory.MemoryLayer
+	Layout *Layout
+	Layer  memory.MemoryLayer
+	// Native holds pointer targets when the allocation itself was scanned in
+	// physical memory. Nil uses Layer, as for a kernel-virtual allocation.
+	Native  memory.MemoryLayer
 	Address uint64
 	Type    string
+}
+
+func (o Object) native() memory.MemoryLayer {
+	if o.Native != nil {
+		return o.Native
+	}
+	return o.Layer
 }
 
 func read(ctx context.Context, layer memory.MemoryLayer, at uint64, n int) ([]byte, error) {
@@ -220,7 +230,7 @@ func (o Object) Family(ctx context.Context) (uint64, error) {
 	if err != nil {
 		return 0, err
 	}
-	return o.Layout.uint(ctx, o.Layer, at, "_INETAF", "AddressFamily")
+	return o.Layout.uint(ctx, o.native(), at, "_INETAF", "AddressFamily")
 }
 
 func (o Object) State(ctx context.Context) (string, error) {
@@ -244,7 +254,7 @@ func (o Object) State(ctx context.Context) (string, error) {
 }
 
 func (o Object) pointerAt(ctx context.Context, at uint64) (uint64, error) {
-	buf, err := read(ctx, o.Layer, at, o.Layout.PointerSize())
+	buf, err := read(ctx, o.native(), at, o.Layout.PointerSize())
 	if err != nil {
 		return 0, err
 	}
@@ -272,7 +282,7 @@ func (o Object) ip(ctx context.Context, at, family uint64) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	buf, err := read(ctx, o.Layer, address, size)
+	buf, err := read(ctx, o.native(), address, size)
 	if err != nil {
 		return "", err
 	}
@@ -290,9 +300,9 @@ func (o Object) TCPAddresses(ctx context.Context) (string, string, error) {
 	if err != nil {
 		return "", "", errors.Join(familyErr, err)
 	}
-	local, localErr := o.Layout.uint(ctx, o.Layer, info, "_ADDRINFO", "Local")
+	local, localErr := o.Layout.uint(ctx, o.native(), info, "_ADDRINFO", "Local")
 	if localErr == nil {
-		local, localErr = o.Layout.uint(ctx, o.Layer, local, "_LOCAL_ADDRESS", "pData")
+		local, localErr = o.Layout.uint(ctx, o.native(), local, "_LOCAL_ADDRESS", "pData")
 	}
 	if localErr == nil {
 		local, localErr = o.pointerAt(ctx, local)
@@ -301,7 +311,7 @@ func (o Object) TCPAddresses(ctx context.Context) (string, string, error) {
 	if localErr == nil {
 		localIP, localErr = o.ip(ctx, local, family)
 	}
-	remote, remoteErr := o.Layout.uint(ctx, o.Layer, info, "_ADDRINFO", "Remote")
+	remote, remoteErr := o.Layout.uint(ctx, o.native(), info, "_ADDRINFO", "Remote")
 	var remoteIP string
 	if remoteErr == nil {
 		remoteIP, remoteErr = o.ip(ctx, remote, family)
@@ -323,7 +333,7 @@ func (o Object) ListenerSockets(ctx context.Context) ([]Socket, error) {
 	}
 	addressType := f.Type.Subtype.Name
 	if localErr == nil {
-		local, localErr = o.Layout.uint(ctx, o.Layer, local, addressType, "pData")
+		local, localErr = o.Layout.uint(ctx, o.native(), local, addressType, "pData")
 	}
 	pdata, _, err := o.Layout.field(addressType, "pData")
 	if err != nil || pdata.Type.Subtype == nil {
@@ -340,7 +350,7 @@ func (o Object) ListenerSockets(ctx context.Context) ([]Socket, error) {
 			var at uint64
 			at, localErr = memory.Add(local, probe.Offset)
 			if localErr == nil {
-				_, localErr = read(ctx, o.Layer, at, 1)
+				_, localErr = read(ctx, o.native(), at, 1)
 			}
 		}
 	}

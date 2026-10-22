@@ -1,6 +1,6 @@
 {
   "schema": "gomem.windows-network-reference/v1",
-  "status": "native-field-decoder-and-reference-preparation",
+  "status": "native-fields-version-selection-and-symbol-catalog",
   "native_netscan": "missing",
   "native_netstat": "missing",
   "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
@@ -54,11 +54,14 @@
     "full_make_check": "pass; Go vet/race suite, 40 Python tests and 428 argument fixtures; unchanged engine tests reused the verified final poolscanner cache",
     "matrix": "pass; network plugins remain missing",
     "inode_mode_oracle": "pass",
-    "native_layout_comparison": "pass with GOMEM_BASELINE_DIR explicitly set; no skipped original-layout cases"
+    "native_layout_comparison": "pass with GOMEM_BASELINE_DIR explicitly set; no skipped original-layout cases",
+    "catalog_and_separate_pointer_layer_race": "pass; full pkg/winnet with GOMEM_BASELINE_DIR explicitly set",
+    "catalog_full_make_check": "pass; Go vet/race suite, 40 Python tests and 428 argument fixtures",
+    "catalog_build_and_offline_doctor": "pass"
   },
   "limitations": [
-    "Object methods only; version factory and pool carving are not synthetic differential controls",
-    "Native field decoding has selected controls; full acquisition, symbol selection and plugin error evidence remain unimplemented",
+    "Object methods and version factory have synthetic differential controls; complete pool acquisition and generator parity remain unverified",
+    "Native fields, version selection and catalog controls pass; complete acquisition, plugin integration and complete plugin error evidence remain open",
     "NetStat traversal, include-corrupt, timelines, renderers and export acceptance remain open"
   ],
   "native_decoder": {
@@ -82,6 +85,27 @@
       "executions": 100000,
       "result": "pass"
     },
-    "scope": "Field decoding only; no acquisition, owner validity, kernel attribution, timestamp conversion, network validity or complete plugin parity claim"
+    "scope": "Field decoding only; no acquisition, owner validity, kernel attribution, timestamp conversion, network validity or complete plugin parity claim",
+    "separate_pointer_address_space": "pass; physical allocation with relocated native virtual family/address targets"
+  },
+  "version_factory": {
+    "cases": 99,
+    "architectures": {
+      "x86": 33,
+      "pae": 33,
+      "x64": 33
+    },
+    "source": "actual unmodified NetScan.determine_tcpip_version and create_netscan_constraints with original Intel/KUSER/debug/metadata objects and actual physical version scan",
+    "native_selected_layout_and_class_comparison": "pass",
+    "unsupported_nt_cases": 6,
+    "python_3_12_check": "pass",
+    "python_3_14_check": "pass"
+  },
+  "symbol_catalog": {
+    "pinned_layouts": 25,
+    "network_limit_bytes": 4194304,
+    "local_http_controls": "pass; fetch/offline replay, repair, concurrent loads, malformed responses, cancellation and bounded cache reads",
+    "live_official_url_control": "pass; pinned 19041 x64 fetch and subsequent offline replay",
+    "scope": "Data-only fixed-commit JSON; not runtime Python/Volatility. CLI integration remains open."
   }
 }

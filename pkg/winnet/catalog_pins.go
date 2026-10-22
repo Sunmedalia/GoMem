@@ -1,0 +1,30 @@
+// Catalog identities derived from the fixed network-object oracle.
+package winnet
+
+var catalogPins = map[string]catalogPin{
+	"netscan-vista-sp12-x64":  {8, "e74f540a9df2f24917ca666e0a398a210ff12b1ba66ad016e52af646d012a9a9"},
+	"netscan-vista-x64":       {8, "300d8d03db2c6e422ec2d49115c6ea4d1e3ef0dd21ecad97b18c2cb62a94f11b"},
+	"netscan-vista-x86":       {4, "54c23c206d2cf8dd551a2f552715917df03431d5f6be8f131aa6fd7addceaf54"},
+	"netscan-win10-10240-x86": {4, "fdc692553db42a805b251f021c039dea1f46b6340eaa347ddfd4316027e77441"},
+	"netscan-win10-10586-x86": {4, "c7dab68ed2e66e9236d5523864786787187f599a408fc4d73eee67487a47522b"},
+	"netscan-win10-14393-x86": {4, "bbb0835d7663085db699e5744128e76e8f2316db9ad922b0dbb7bdb114650a00"},
+	"netscan-win10-15063-x64": {8, "23008f542015e4e3a2d7428114a2517e3cdadde0ffa56b22019d1eca32a6a4f9"},
+	"netscan-win10-15063-x86": {4, "dcf5a61c9eb06e80c96605099e1a8cb6862c0a4181e7a2453b04bfe9e47ac78e"},
+	"netscan-win10-16299-x64": {8, "ff38f9c9e5634246b6ba91c4beee37a00442171bb4a67a03a7db920f7ef94b37"},
+	"netscan-win10-17134-x64": {8, "9b34bf236f99d9b1d214b828110f3cf681ec965c6d1870aab89ffe8724ca1308"},
+	"netscan-win10-17134-x86": {4, "54d69b1fb2d03efc8c146680b1945745e139b2052fb6dc77301cc229d8c66ebc"},
+	"netscan-win10-17763-x64": {8, "4fcf4dd602dac3351fde707951293db88f278c4cb3c0d576ed8da4c0dd90dd0e"},
+	"netscan-win10-18362-x64": {8, "45377ef57466e0e2793c9e5ce0cabd84ebbe30b9b6142ed61652a942d79cba1a"},
+	"netscan-win10-18363-x64": {8, "94e33494a78c759f5695b1604e67f6303760b12b0e3181e2374353618238d4d6"},
+	"netscan-win10-19041-x64": {8, "bffcb47d0591d1f17592f997aa34a1717eac2bfe71fa6253ca334287733b2b79"},
+	"netscan-win10-19041-x86": {4, "edf5b8777e0e224529c8bbae46db5929d4f754ff3fd3859870dc2e223ba00c30"},
+	"netscan-win10-20348-x64": {8, "ba65993432fb1c88543acfffb8a5d5be843d4911a3b6e3f79f17a17b38e63946"},
+	"netscan-win10-x64":       {8, "6c239adf810b43b53e126a30a931498398b40075f76fe7a2fb12a7d9b2710c4b"},
+	"netscan-win7-x64":        {8, "72bf57f96f7e5299728b3a7f109d6b497e027acf461e1c14c1a49c49387b54e2"},
+	"netscan-win7-x86":        {4, "1603d998af20b84134f17cbc5d236f2ff021ada15e361fe9d1c1d2308bb031fc"},
+	"netscan-win8-x64":        {8, "0c5243afa4b98e766d74d637922cfd039500c5a4557f428d0bdaa86a0dd10061"},
+	"netscan-win8-x86":        {4, "87cdacb9f167566abca985fd201ea5622cd86a4147b4956f7f936ba01730ce98"},
+	"netscan-win81-19935-x64": {8, "0afad4fe47b1b09cedf19602645b273a97b68b6c4ebf35257cac9260e758cf53"},
+	"netscan-win81-x64":       {8, "110ed8e4bb05c9d0280bf1a6d7a227ddb0656b86dc450cc80429e309571093b7"},
+	"netscan-win81-x86":       {4, "7b516694476ff2132096054ff807b912fb682ed83b0c2b14bb3d7e314ee1a692"},
+}
