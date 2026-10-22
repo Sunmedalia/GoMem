@@ -2,7 +2,7 @@
   "schema": "gomem.windows-network-reference/v1",
   "status": "native-netscan-partial-with-fields-version-catalog-controls",
   "native_netscan": "partial",
-  "native_netstat": "missing",
+  "native_netstat": "partial; see docs/windows-netstat-validation.json",
   "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
   "object_methods": {
     "layouts": 25,

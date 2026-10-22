@@ -1,8 +1,8 @@
 # Windows network reference preparation
 
 `windows.netscan` now has a [partial native acquisition implementation](windows-netscan.md).
-`windows.netstat` remains missing. These object/factory controls support that
-implementation; full capability and release acceptance remain open.
+`windows.netstat` now has [partial native index traversal](windows-netstat.md).
+These object/factory controls support both implementations; full capability and release acceptance remain open.
 The [native version selector and verified symbol catalog](windows-network-catalog.md)
 provide separate factory/download controls.
 

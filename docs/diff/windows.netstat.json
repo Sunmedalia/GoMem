@@ -1,0 +1,79 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "network",
+    "excluded_values": [
+      "memory_read",
+      "summary",
+      "diagnostic",
+      "task_summary",
+      "network_symbols",
+      "network_candidate",
+      "tcpip_symbols"
+    ]
+  },
+  "fields": {
+    "Offset": {
+      "native": "Offset",
+      "reference": "Offset",
+      "kind": "address",
+      "mask": "0x0000ffffffffffff"
+    },
+    "Proto": {
+      "native": "Proto",
+      "reference": "Proto",
+      "kind": "string"
+    },
+    "LocalAddr": {
+      "native": "LocalAddr",
+      "reference": "LocalAddr",
+      "kind": "string"
+    },
+    "LocalPort": {
+      "native": "LocalPort",
+      "reference": "LocalPort",
+      "kind": "uint64"
+    },
+    "ForeignAddr": {
+      "native": "ForeignAddr",
+      "reference": "ForeignAddr",
+      "kind": "string"
+    },
+    "ForeignPort": {
+      "native": "ForeignPort",
+      "reference": "ForeignPort",
+      "kind": "uint64"
+    },
+    "State": {
+      "native": "State",
+      "reference": "State",
+      "kind": "string"
+    },
+    "PID": {
+      "native": "PID",
+      "reference": "PID",
+      "kind": "uint64",
+      "missing_reasons": [
+        "unreadable_network_owner"
+      ]
+    },
+    "Owner": {
+      "native": "Owner",
+      "reference": "Owner",
+      "kind": "string",
+      "missing_reasons": [
+        "unreadable_network_owner"
+      ]
+    },
+    "Created": {
+      "native": "Created",
+      "reference": "Created",
+      "kind": "timestamp_seconds",
+      "missing_reasons": [
+        "not_applicable_filetime",
+        "unparsable_filetime",
+        "unreadable_network_time"
+      ]
+    }
+  }
+}

@@ -9083,7 +9083,7 @@
         "Development preview; complete synthetic generators cover Windows 7 x86/PAE/x64, while other layouts have selected object/factory controls; broader acquisition acceptance remains pending",
         "The real Windows 10 control retains 115 failure observations including nested/callback reads, not unique missing pages; selected row parity does not establish complete acquisition",
         "Broad real positive/negative, Windows version and real x86/PAE corpus coverage remain pending",
-        "NetStat traversal, network timeline integration, full renderer/export, performance and release acceptance remain open",
+        "Complete NetStat acceptance, network timeline integration, full renderer/export, performance and release acceptance remain open",
         "Swapped/prototype pages and ARM64 virtual translation remain unsupported; selected unknown builds visibly use the baseline fallback rather than proving compatibility"
       ],
       "validation_record": "docs/windows-netscan.md"
@@ -9184,15 +9184,26 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Native Intel Windows x86/PAE/x64 TCP/IP index walking using measured-version SHA-pinned network layouts and matching tcpip.pdb acquired through the native module provider. Partition counts, hash directories, bitmaps, direct port pools and compartment pools preserve fixed-baseline traversal order, tagged pointers and duplicate entities. Kernel cross-table types stay separate from network schemas. Layouts missing traversal members fail explicitly; source failures and oversized/cyclic indexes remain incomplete instead of clean absence. Read/page-table captures, index route/port, symbol hashes, owner identity and typed field errors remain evidence. External driver symbols require fresh execution until full dependency cache validation exists.",
+      "native": "windows.netstat",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-16-original-layouts-256-list-sockets-controls",
+        "native-three-architecture-network-index-plugin-controls",
+        "pinned-48-allocations-96-complete-netstat-generators",
+        "native-three-architecture-real-provider-storage-and-retry-controls",
+        "official-windows-10-19041-74-and-88-network-index-partial-controls"
+      ],
+      "comparison": "256_actual_list_sockets_routes_and_order_match;90_complete_generators_match_ten_columns_with_six_documented_baseline_TypeError_cases;three_architecture_native_PDB_provider_sealed_storage_fresh_execution_and_failed_retry_controls_pass;real_74_default_and_88_corrupt_selected_rows_match_ten_columns_with_original_reads_and_seals_verified_using_same_native_PDB_symbols_in_reference",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Development preview; 96 complete upstream generator runs cover three architectures and two families, with a preseeded matching ISF. Six missing-family corrupt-mode runs raise baseline TypeError; native preserves two typed-error TCP rows and fails completeness. Native provider controls separately verify resident identity and symbol-index acquisition",
+        "Nine shipped layouts lack required index fields; broad Windows version and real x86/PAE corpus coverage remain outstanding",
+        "Real Windows 10 tasks retain 267 default and 295 corrupt-mode failure observations including driver scan, nested reads and callbacks, not unique pages; selected parity is not complete acquisition",
+        "The reference was supplied the matching native-converted driver ISF; this validates traversal/fields but not independent PDB parsing parity",
+        "Sealed SQLite and default JSONL export are verified; external-symbol tasks intentionally execute fresh. Driver dependency cache, timeline, full renderer/export, performance and release acceptance remain pending"
+      ],
+      "validation_record": "docs/windows-netstat.md"
     },
     {
       "id": "windows.orphan_kernel_threads.Threads",

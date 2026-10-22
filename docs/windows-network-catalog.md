@@ -59,5 +59,6 @@ establish this behavior.
 
 The CLI plugin now reads version inputs, honors cache/offline settings, validates
 network/owner objects and scans pools. Full acquisition/version acceptance,
-custom layout overrides and NetStat remain open. See the
+custom layout overrides and complete NetStat acceptance remain open.
+[Partial native NetStat traversal](windows-netstat.md) has separate controls. See the
 [network validation record](windows-netscan-validation.json).

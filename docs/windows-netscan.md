@@ -1,8 +1,8 @@
 # Native Windows network pool acquisition
 
 `windows.netscan` is a **partial development-preview implementation** of the
-fixed Volatility 3 v2.28.2 `windows.netscan.NetScan`. `windows.netstat` remains
-missing. Matching recovered rows does not certify complete acquisition.
+fixed Volatility 3 v2.28.2 `windows.netscan.NetScan`. `windows.netstat` has
+[partial native index traversal](windows-netstat.md). Matching recovered rows does not certify complete acquisition.
 
 ```sh
 bin/gomem analyze windows.netscan --image memory.dmp --case ./case-001 \

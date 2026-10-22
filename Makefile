@@ -18,6 +18,7 @@ baseline:
 matrix:
 	python3 tools/baseline_matrix.py --source $(BASELINE) --check
 fuzz:
+	GOMEM_BASELINE_DIR="$(CURDIR)/$(BASELINE)" $(GO) test ./pkg/winnet -run '^$$' -fuzz FuzzNetworkIndexes -fuzztime 20000x
 	GOMEM_BASELINE_DIR="$(CURDIR)/$(BASELINE)" $(GO) test ./internal/plugins -run '^$$' -fuzz FuzzNetworkAcquisition -fuzztime 20000x
 	$(GO) test ./pkg/winnet -run '^$$' -fuzz FuzzNetworkLayout -fuzztime 200000x
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzPoolScannerOriginalCaptures -fuzztime 100000x

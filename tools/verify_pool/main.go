@@ -85,11 +85,11 @@ func capture(row evidence.Row, layers map[string]memory.MemoryLayer) error {
 func run() error {
 	image := flag.String("image", "", "Original image")
 	rows := flag.String("rows", "", "Sealed pool scanner or network JSONL")
-	plugin := flag.String("plugin", "windows.poolscanner", "windows.poolscanner or windows.netscan")
+	plugin := flag.String("plugin", "windows.poolscanner", "windows.poolscanner, windows.netscan or windows.netstat")
 	dtb := flag.String("dtb", "", "Kernel page root")
 	arch := flag.String("arch", "x64", "Intel architecture")
 	flag.Parse()
-	if *plugin != "windows.poolscanner" && *plugin != "windows.netscan" {
+	if *plugin != "windows.poolscanner" && *plugin != "windows.netscan" && *plugin != "windows.netstat" {
 		return fmt.Errorf("unsupported audit plugin")
 	}
 	if *image == "" || *rows == "" || *dtb == "" {
@@ -136,8 +136,8 @@ func run() error {
 		case "pool_object", "network":
 			objects++
 		case "summary", "diagnostic", "task_summary":
-		case "network_candidate", "network_symbols":
-			if *plugin != "windows.netscan" {
+		case "network_candidate", "network_symbols", "tcpip_symbols":
+			if *plugin != "windows.netscan" && *plugin != "windows.netstat" {
 				return fmt.Errorf("unexpected network record")
 			}
 		default:

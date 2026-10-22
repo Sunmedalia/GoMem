@@ -1,0 +1,130 @@
+{
+  "schema": "gomem.windows-netstat-validation/v1",
+  "status": "partial-development-preview",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "synthetic": {
+    "index_cases": 256,
+    "applicable_original_layouts": 16,
+    "recorded_inapplicable_layouts": 9,
+    "complete_generator_allocations": 48,
+    "complete_generator_runs": 96,
+    "complete_generator_ten_column_matches": 90,
+    "baseline_exceptions": {
+      "runs": 6,
+      "condition": "missing-family with include-corrupt=true",
+      "exception": "TypeError in debug format before yield",
+      "native": "Two TCP endpoint rows with typed errors; task incomplete; not parity"
+    },
+    "architectures": [
+      "x86",
+      "pae",
+      "x64"
+    ],
+    "native_provider_storage_fresh_execution_and_failed_retry_architectures": 3,
+    "race": "pass",
+    "python_3_12_oracle_checks": "pass",
+    "fuzz": {
+      "target": "FuzzNetworkIndexes",
+      "executions": 10000,
+      "result": "pass"
+    }
+  },
+  "real_control": {
+    "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+    "native_binary_sha256": "5a72096557fd16e43c9b430d5c604595abd868782b445aa3ba16a5b7df16ae34",
+    "driver": {
+      "pdb": "tcpip.pdb",
+      "guid": "822833E2F09280241D136E5E1F087784",
+      "age": 1
+    },
+    "reference_scope": "Actual unmodified pinned reference supplied matching native-converted driver ISF. This verifies same-symbol traversal and fields, not independent PDB parser parity. Initial reference without driver symbols failed and is only a negative control.",
+    "default": {
+      "entities": 74,
+      "reference_entities": 74,
+      "selected_columns": [
+        "Offset",
+        "Proto",
+        "LocalAddr",
+        "LocalPort",
+        "ForeignAddr",
+        "ForeignPort",
+        "State",
+        "PID",
+        "Owner",
+        "Created"
+      ],
+      "strict_selected_columns_match": true,
+      "failure_observations": 267,
+      "failure_count_scope": "Includes nested reads/callbacks and driver scans; not unique pages",
+      "task_state": "failed",
+      "original_source_audit": {
+        "EntityRows": 74,
+        "OriginalReads": 45502,
+        "Plugin": "windows.netstat",
+        "Scope": "Original captured bytes, digests, read lengths/completeness and seals only; object recovery is validated separately",
+        "SealedRows": 45594
+      },
+      "sha256": {
+        "native": "cd7ce04601e5f4d8f62a40fbf0a80aca9d7c6794d41b9e2eb6480bfa01ffa549",
+        "reference": "fb1120c53aa541bbe7aa3e1ad650d887958033acfcd74d5c6d4fa5c9e9249c73",
+        "mapping": "c7c5ce33f653184e5370a6ae2972ebfb77ee6a02783ce19122e28d021e7d34b1"
+      },
+      "sqlite_export": {
+        "identical_rows": 45594,
+        "task_state": "failed",
+        "sha256": "2134c0bae3f2a2a61f43b66963721c31d6ba8242694c5333e9eabe6d2ada9eb8"
+      }
+    },
+    "include_corrupt": {
+      "entities": 88,
+      "reference_entities": 88,
+      "selected_columns": [
+        "Offset",
+        "Proto",
+        "LocalAddr",
+        "LocalPort",
+        "ForeignAddr",
+        "ForeignPort",
+        "State",
+        "PID",
+        "Owner",
+        "Created"
+      ],
+      "strict_selected_columns_match": true,
+      "failure_observations": 295,
+      "failure_count_scope": "Includes nested reads/callbacks and driver scans; not unique pages",
+      "task_state": "failed",
+      "original_source_audit": {
+        "EntityRows": 88,
+        "OriginalReads": 45276,
+        "Plugin": "windows.netstat",
+        "Scope": "Original captured bytes, digests, read lengths/completeness and seals only; object recovery is validated separately",
+        "SealedRows": 45368
+      },
+      "sha256": {
+        "native": "ebc8b1cd8ecbc4b5ee7c92415d971049d2578a50c6058cb4e3e7fbbb61091e76",
+        "reference": "9bb76f742c7dc03e5adad4c7f5a1c9a17d55b63d625eb7261e376bc3852a6380",
+        "mapping": "c7c5ce33f653184e5370a6ae2972ebfb77ee6a02783ce19122e28d021e7d34b1"
+      }
+    }
+  },
+  "artifacts": {
+    "internal/plugins/testdata/windows-netstat-index-oracle.json": "d39facb349e10569c414c5cc5e33d1ebe5426de8de8234eadbccd85acdb88fd5",
+    "internal/plugins/testdata/windows-netstat-oracle.json": "daec7e31c8e06d52eadd3557d3428fa9fbe93e74c3c2c7f2775c5f74ca48b351",
+    "docs/diff/windows.netstat.json": "c7c5ce33f653184e5370a6ae2972ebfb77ee6a02783ce19122e28d021e7d34b1"
+  },
+  "limitations": [
+    "One real Windows 10 x64 crash dump; additional versions, positive/normal corpora and real x86/PAE pending",
+    "Read failures retain partial results and failed task state, not full acquisition acceptance",
+    "External symbol dependencies force fresh execution; dependency-aware success cache pending",
+    "Full timelines, renderer/export, performance and release acceptance pending"
+  ],
+  "local_verification": {
+    "full_make_check": "pass; Go vet, complete race suite, 40 Python tests and 428 UTF-8/argument fixtures",
+    "matrix": "pass; 195 plugins, 146 partial, 49 missing, 0 accepted",
+    "inode_mode_oracle": "pass; 32768 modes",
+    "build": "pass",
+    "offline_doctor": "runs; release acceptance remains false",
+    "real_control_binary_scope": "Hash identifies the real-control build before documentation/matrix updates; analysis source is unchanged in the final build."
+  }
+}
