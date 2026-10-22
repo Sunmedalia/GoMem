@@ -30,6 +30,8 @@ type poolConstraint struct {
 	maxSize    uint64
 	hasMin     bool
 	hasMax     bool
+	minIndex   uint64
+	maxIndex   uint64
 	skipType   bool
 	additional []string
 }
@@ -151,6 +153,7 @@ func scanPoolObjectsExtra(ctx context.Context, e plugin.Environment, constraints
 		}
 	}
 	var hits, skippedInvalid, skippedType, skippedName uint64
+	var indexFailures pluginFailures
 	scanned, failures, err := scanNeedles(ctx, scanLayer, ranges, needles, needleWidth, func(address uint64, tag []byte) error {
 		if address < layout.tagOffset {
 			return nil
@@ -178,6 +181,18 @@ func scanPoolObjectsExtra(ctx context.Context, e plugin.Environment, constraints
 			return nil
 		}
 		if !poolPageOK(poolType, constraint.pageType, layout.vista) {
+			return nil
+		}
+		indexOK, indexErr := poolIndexOK(ctx, scanReader, header, constraint)
+		if indexErr != nil {
+			if ctx.Err() != nil {
+				return ctx.Err()
+			}
+			skippedInvalid++
+			indexFailures.add(indexErr)
+			return nil
+		}
+		if !indexOK {
 			return nil
 		}
 		objects, err := carvePoolObjects(ctx, layout, constraint, header, blockBytes, scanReader, e.Kernel)
@@ -233,7 +248,7 @@ func scanPoolObjectsExtra(ctx context.Context, e plugin.Environment, constraints
 		"skipped_invalid":  formatCount(skippedInvalid),
 		"skipped_type":     formatCount(skippedType),
 		"skipped_name":     formatCount(skippedName),
-		"read_failures":    formatCount(uint64(failures.count)),
+		"read_failures":    formatCount(uint64(failures.count + indexFailures.count)),
 		"type_map_entries": formatCount(uint64(len(typeMap))),
 		"windows10":        yesNo(layout.windows10),
 		"top_down":         yesNo(layout.topDown),
@@ -244,7 +259,7 @@ func scanPoolObjectsExtra(ctx context.Context, e plugin.Environment, constraints
 		coverage[key] = value
 	}
 	summary.Cells["Coverage"] = poolCoverage(coverage)
-	cause := failures.err("Windows pool scan")
+	cause := errors.Join(failures.err("Windows pool scan"), indexFailures.err("Windows pool index reads"))
 	if cause != nil {
 		summary.Cells["Error"] = evidence.Missing("pool_scan_incomplete", cause)
 		diagnostic := rowFor(scanLayer.Name(), 0)
@@ -265,6 +280,20 @@ func yesNo(v bool) string {
 		return "true"
 	}
 	return "false"
+}
+
+// The pinned scanner tests each endpoint for truthiness. An index constraint
+// (0, 0), used by shutdown callbacks, therefore does not restrict PoolIndex.
+// Do not replace this with an equality check against zero.
+func poolIndexOK(ctx context.Context, reader *object.Reader, header uint64, c poolConstraint) (bool, error) {
+	if c.minIndex == 0 && c.maxIndex == 0 {
+		return true, nil
+	}
+	index, err := reader.Uint(ctx, header, "_POOL_HEADER", "PoolIndex")
+	if err != nil {
+		return false, err
+	}
+	return (c.minIndex == 0 || index >= c.minIndex) && (c.maxIndex == 0 || index <= c.maxIndex), nil
 }
 
 func poolScanLayout(e plugin.Environment, constraints []poolConstraint) (poolLayout, error) {
@@ -321,6 +350,15 @@ func poolScanLayout(e plugin.Environment, constraints []poolConstraint) (poolLay
 		layout.optional, layout.padding = optionalHeaderSizes(e.Symbols)
 	}
 	for _, constraint := range constraints {
+		if constraint.minIndex != 0 || constraint.maxIndex != 0 {
+			field, err := e.Objects.Field("_POOL_HEADER", "PoolIndex")
+			if err != nil {
+				return poolLayout{}, err
+			}
+			if _, err := e.Objects.ScalarType(field.Type); err != nil {
+				return poolLayout{}, fmt.Errorf("pool index schema: %w", err)
+			}
+		}
 		if constraint.objectType != "" && constraint.typeName != "_FILE_OBJECT" && constraint.typeName != "_EPROCESS" && constraint.typeName != "_ETHREAD" && constraint.typeName != "_KMUTANT" && constraint.typeName != "_DRIVER_OBJECT" && constraint.typeName != "_OBJECT_SYMBOLIC_LINK" {
 			return poolLayout{}, fmt.Errorf("pool validity for %s is not implemented", constraint.typeName)
 		}

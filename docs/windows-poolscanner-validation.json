@@ -124,5 +124,26 @@
     "GUI pool constraints and broader real architecture/version coverage remain outstanding",
     "Missing swap/prototype data and malformed layouts remain incomplete coverage",
     "Full renderer/export and performance acceptance remain outstanding"
-  ]
+  ],
+  "callback_pool_dependency": {
+    "status": "shared-scanner dependency only; windows.callbacks remains missing",
+    "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "actual_header_cases": 1984,
+    "original_callback_schema_widths": [
+      4,
+      8
+    ],
+    "vista_modes": [
+      false,
+      true
+    ],
+    "max_callback_constraints": 7,
+    "native_constraints_and_acceptance": "match",
+    "zero_index_endpoint_semantics": "Ignored, matching pinned truthiness checks; (0,0) does not restrict index",
+    "pipeline": "pass; indices 0/1/2/255, missing required schema and unreadable index field retained as explicit error",
+    "oracle": "tools/build_callback_pool_oracle.py",
+    "fixture": "internal/plugins/testdata/windows-callback-pool-oracle.json",
+    "race": "pass",
+    "full_make_check": "pass; complete Go vet/race suite, 40 Python tests and 428 argument fixtures; new callback core additionally covered by explicit package race checks"
+  }
 }

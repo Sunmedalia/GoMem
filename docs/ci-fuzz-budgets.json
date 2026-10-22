@@ -12,6 +12,7 @@
     "FuzzAcquireCorrespondence": 89000,
     "FuzzBPFLookup": 26000,
     "FuzzByteRegex": 49000,
+    "FuzzCallbackIndexes": 10000,
     "FuzzCodeView": 2000,
     "FuzzCoreLookup": 53000,
     "FuzzCoreTables": 58000,

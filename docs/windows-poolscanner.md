@@ -83,3 +83,32 @@ Full executive-object differential fixtures, GUI constraints,
 broader Windows/version/architecture coverage, swap/prototype pages, arbitrary
 malformed layouts, all renderers/exports and release performance acceptance
 remain outstanding. See [validation status](windows-poolscanner-validation.json).
+
+
+## Callback pool-index dependency
+
+The shared scanner also supports the callback factory's pool-index bounds.
+`tools/build_callback_pool_oracle.py` runs the actual unmodified callback
+constraint factories with both original x86/x64 data-only symbol tables, and
+runs the original `PoolHeaderScanner` on **1,984 byte-backed headers** across
+pre-Vista/Vista, seven callback tags, minimum/maximum allocation boundaries,
+eight pool types and index values 0, 1, 2 and 255. Native constraint sizes,
+page masks, index endpoints and header acceptance match these observations.
+
+The pinned scanner ignores zero-valued index endpoints: the shutdown callback
+constraint `(0, 0)` does **not** require `PoolIndex == 0`. PnP callback tags
+require index 1. The native scanner preserves that behavior. An absent or
+nonscalar `PoolIndex` schema fails before scanning when a nonzero bound is
+needed. An unreadable index retains an explicit failure rather than successful
+empty output. Pipeline tests exercise accepted/rejected indices and a field
+read hole, including callers without the task capture wrapper.
+
+This is a shared-scanner dependency for `windows.callbacks`, which remains
+missing until callback enumeration, decoding, attribution and end-to-end
+validation are implemented. Callback tags are not added to the independent
+plugin's fifteen upstream built-in tags.
+
+```sh
+python3 tools/build_callback_pool_oracle.py --check
+go test -race ./internal/plugins -run '^TestCallbackPool' -count=1
+```

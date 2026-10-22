@@ -5661,11 +5661,17 @@
       "native": null,
       "status": "missing",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-1984-callback-pool-header-controls",
+        "pinned-88-callback-index-controls-352-original-method-runs"
+      ],
+      "comparison": "native_dependency_controls_only;index_order_fields_and_original_bytes_checked_with_explicit_damaged_input_differences;not_a_complete_Callbacks_generator_comparison",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "The CLI analysis plugin remains missing. Native bounded notification, bugcheck and registry index readers are dependencies, not complete callback acquisition",
+        "Pool callback object decoding/validity, module/symbol attribution, complete original generator comparison, engine storage/cache, real corpus and release acceptance remain pending",
+        "Eight damaged notification controls abort the baseline method; native preserves the independent process notification with a failed result. Four unreadable-altitude controls retain typed missing data instead of the baseline display string"
+      ],
+      "validation_record": "docs/windows-callbacks.md"
     },
     {
       "id": "windows.cmdline.CmdLine",
@@ -9511,11 +9517,12 @@
       "accepted": false,
       "corpora": [
         "pinned-15-constraints-1440-pool-headers",
+        "pinned-callback-factory-1984-pool-index-header-controls",
         "pinned-36-complete-nonexecutive-pool-generators-56-rows",
         "native-file-object-capture-and-fault-controls",
         "official-windows-10-19041-pool-8090-object-partial-control"
       ],
-      "comparison": "all_builtin_constraints_and_1440_actual_header_filters_match;36_actual_nonexecutive_generators_and_56_rows_match;native_file_header_object_name_digest_and_fault_controls_pass;36_engine_storage_cache_and_failed_retry_controls_pass;real_8090_selected_type_header_name_rows_match_with_441271_original_reads_and_449363_seals_independently_verified",
+      "comparison": "all_builtin_constraints_and_1440_actual_header_filters_match;1984_actual_callback_factory_index_header_filters_match_with_explicit_schema_and_field_fault_controls;36_actual_nonexecutive_generators_and_56_rows_match;native_file_header_object_name_digest_and_fault_controls_pass;36_engine_storage_cache_and_failed_retry_controls_pass;real_8090_selected_type_header_name_rows_match_with_441271_original_reads_and_449363_seals_independently_verified",
       "gaps": [
         "Development preview; complete executive-object differential fixtures and full real-image acceptance are pending",
         "Real Windows 10 selected rows match, but 5702 failure observations (including nested reads/name callbacks, not unique pages) retain failed/incomplete coverage; recovered-row parity is not complete acquisition",

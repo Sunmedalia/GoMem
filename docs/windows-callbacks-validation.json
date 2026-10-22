@@ -1,0 +1,98 @@
+{
+  "schema": "gomem.windows-callbacks-validation/v1",
+  "status": "dependencies-only; full plugin missing",
+  "release": "development-preview",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Native auxiliary-layout acquisition, callback index reads and shared pool-index filtering; not a complete Callbacks plugin or generator comparison",
+  "index_controls": {
+    "byte_backed_controls": 88,
+    "unmodified_method_runs": 352,
+    "pointer_widths": [
+      4,
+      8
+    ],
+    "vista_modes": [
+      false,
+      true
+    ],
+    "registry_formats": [
+      "legacy-vector",
+      "new-list"
+    ],
+    "scenarios": [
+      "normal",
+      "empty",
+      "duplicate",
+      "zero-function",
+      "missing-callback",
+      "missing-component",
+      "bad-altitude",
+      "missing-fastref",
+      "array-boundaries",
+      "null-reference",
+      "both-registry-roots"
+    ],
+    "fields": [
+      "Type",
+      "Callback",
+      "Detail"
+    ],
+    "source_bytes": "Native callback addresses independently reread using original schema offsets",
+    "intentional_differences": [
+      {
+        "cases": 8,
+        "condition": "unreadable notification Callback field",
+        "baseline": "method aborts after image callback",
+        "native": "preserves independent later process callback; returns failed completeness"
+      },
+      {
+        "cases": 4,
+        "condition": "unreadable new-registry altitude",
+        "baseline": "Altitude: None",
+        "native": "typed missing altitude and failed completeness"
+      }
+    ],
+    "faults_bounds_cycles_schema_cancel_output": "pass",
+    "race": "pass",
+    "fuzz": {
+      "target": "FuzzCallbackIndexes",
+      "executions": 10000,
+      "result": "pass"
+    }
+  },
+  "pool_controls": {
+    "actual_header_cases": 1984,
+    "factory_layouts": 4,
+    "native_index_pipeline": "pass; indices 0/1/2/255, schema absence and unreadable index",
+    "zero_endpoint": "ignored, as in pinned truthiness tests",
+    "race": "pass"
+  },
+  "catalog": {
+    "sha256": {
+      "callbacks-x86": "712a16677e973918f8101d83c4493fbe63e913e97b6e1960a3d3ed79b48e4a79",
+      "callbacks-x64": "f246fe8d9b187546fe78f72336a923a710255d712226bcc2f578c45b95c6c618"
+    },
+    "actual_source_local_server_download_offline_repair_concurrency": "pass for both original schemas",
+    "official_live_HTTP_and_offline_replay": "pass for both original schemas",
+    "malformed_response_size_HTTP_offline_cancel_typed_nil": "pass"
+  },
+  "checks": {
+    "python_3_12_oracles": "pass",
+    "targeted_plugin_race": "pass",
+    "targeted_core_catalog_race": "pass",
+    "full_make_check": "pass; Go vet, complete existing race suite with shared scanner change, 40 Python tests and 428 argument fixtures. Newly added wincallbacks package separately passes complete race and vet checks with original pinned schemas.",
+    "matrix": "pass; 195 plugins, 146 partial, 49 missing, 0 accepted; callbacks remains missing",
+    "build_offline_doctor": "pass; final local build and offline readiness report; release acceptance remains false"
+  },
+  "artifacts": {
+    "pkg/wincallbacks/testdata/index-oracle.json": "1d81984f197b616933477cfd8ffc7eeff35a84abda649bab1bbf8acb8e0a082f",
+    "internal/plugins/testdata/windows-callback-pool-oracle.json": "5b86e934e0f14ada4b84905c5e8277f7d6c712349c1e69e7360b48ec1d0bac06"
+  },
+  "remaining": [
+    "Pool callback object validity and decoding, shutdown/PnP name handling",
+    "Module/symbol attribution and complete unmodified generator comparisons",
+    "CLI/TUI registration and sealed engine storage/cache",
+    "Real corpus, Windows/architecture breadth and false-positive validation",
+    "Timeline/investigation, complete rendering/export, performance and release acceptance"
+  ]
+}

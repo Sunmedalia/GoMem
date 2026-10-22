@@ -125,6 +125,12 @@
     "inode_mode_oracle": "pass; 32768 modes",
     "build": "pass",
     "offline_doctor": "runs; release acceptance remains false",
-    "real_control_binary_scope": "Hash identifies the real-control build before documentation/matrix updates; analysis source is unchanged in the final build."
+    "real_control_binary_scope": "Hash identifies the real-control build before documentation/matrix updates; analysis source is unchanged in the final build.",
+    "remote_ci": {
+      "commit": "e1cee4ec381c1180ef016ad80d3e30ea62da30bb",
+      "url": "https://github.com/Sunmedalia/GoMem/actions/runs/39784835452",
+      "conclusion": "success",
+      "scope": "Windows/Linux/macOS native jobs, four engine race shards, acceptance and Unicode reference"
+    }
   }
 }
