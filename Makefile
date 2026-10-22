@@ -8,7 +8,8 @@ test:
 	$(GO) test -timeout 30m ./...
 check:
 	$(GO) vet ./...
-	$(GO) test -race -timeout 30m ./...
+	python3 tools/test_engine_shard.py --go "$(GO)" --other-packages
+	@for shard in 0 1 2 3; do python3 tools/test_engine_shard.py --go "$(GO)" --shard $$shard || exit $$?; done
 	python3 -m unittest discover -s tools -p 'test_*.py'
 	python3 tools/build_argument_fixtures.py --check
 fixtures:
@@ -24,6 +25,8 @@ fuzz:
 	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUINames$$' -fuzztime 20000x
 	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUIWindowFields$$' -fuzztime 20000x
 	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUIWindowTraversal$$' -fuzztime 20000x
+	$(GO) test ./pkg/winshimcache -run '^$$' -fuzz '^FuzzShimcacheAVL$$' -fuzztime 20000x
+	$(GO) test ./pkg/winshimcache -run '^$$' -fuzz '^FuzzShimcacheAVLLayout$$' -fuzztime 2000x
 	$(GO) test ./internal/plugins -run '^$$' -fuzz '^FuzzWindowListPagedPipeline$$' -fuzztime 2000x
 	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUISessions$$' -fuzztime 20000x
 	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUIObjects$$' -fuzztime 20000x

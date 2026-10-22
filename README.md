@@ -384,4 +384,4 @@ make dist
 
 ## 许可证
 
-本项目原生代码采用 [MIT 许可证](LICENSE)。生成的 Unicode 16 数据表另遵循 [Unicode License V3](LICENSES/Unicode-3.0.txt)，其来源和独立验证见 [Windows 路径规则](docs/windows-paths.md)。IAT 的 696 个序号名称数据来自 pefile 2024.8.26，保留其 [MIT 版权与许可](LICENSES/pefile-MIT.txt)。外部依赖、Volatility 基线及测试语料受各自许可证约束；原始 GUI 布局测试数据保留 Volatility Foundation 版权，遵循 [Volatility Software License 1.0](LICENSES/Volatility-Software-License-1.0.txt)，不属于 MIT 许可范围。除测试夹具中明确保留的符号布局数据外，基线源码、镜像与案件数据不随本仓库分发。
+本项目原生代码采用 [MIT 许可证](LICENSE)。生成的 Unicode 16 数据表另遵循 [Unicode License V3](LICENSES/Unicode-3.0.txt)，其来源和独立验证见 [Windows 路径规则](docs/windows-paths.md)。IAT 的 696 个序号名称数据来自 pefile 2024.8.26，保留其 [MIT 版权与许可](LICENSES/pefile-MIT.txt)。外部依赖、Volatility 基线及测试语料受各自许可证约束；原始 GUI 和 Shimcache 布局测试数据保留 Volatility Foundation 版权，遵循 [Volatility Software License 1.0](LICENSES/Volatility-Software-License-1.0.txt)，不属于 MIT 许可范围。除测试夹具中明确保留的符号布局数据外，基线源码、镜像与案件数据不随本仓库分发。

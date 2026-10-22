@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "status": "development_dependency",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Native bounded AVL candidate predicate; windows.shimcachemem remains missing",
+  "original": {
+    "method": "RTL_AVL_TABLE.is_valid",
+    "method_unmodified": true,
+    "data_only_layouts": 12,
+    "controls": 264,
+    "architectures": ["x86", "x64"],
+    "predicate_results_compared": true,
+    "ordered_read_addresses_and_lengths_compared": true,
+    "captured_bytes_rechecked_against_source": true
+  },
+  "checks": {
+    "package_race": "pass; 1.733s",
+    "scalar_fuzz": "pass; 20000 executions",
+    "layout_fuzz": "pass; 2000 executions",
+    "oracle_regeneration": "pass in independent Python 3.12 process",
+    "cross_compile": "Windows 386 and Linux amd64 test binaries passed",
+    "vet_build_matrix_doctor": "pass",
+    "python_tools": "44 tests passed, including shard Go executable override",
+    "full_check": "Prior unsharded snapshot timed out at 30 minutes; local check now uses all four audited CI engine shards; complete new run pending",
+    "remote_ci": "oracle and fuzz wired; final commit not yet executed"
+  },
+  "remaining": [
+    "Version/layout selection and pinned runtime acquisition",
+    "ERESOURCE, handle and entry decoding and validation",
+    "Modern/legacy/XP cache discovery and bounded traversal",
+    "Native plugin/timeline integration and sealed source audits",
+    "Complete original-plugin generators, real positive images and full supported-version acceptance"
+  ]
+}

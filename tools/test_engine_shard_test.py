@@ -1,7 +1,8 @@
 """Prove sharding preserves the entire Go test inventory."""
 import unittest
+from unittest.mock import patch
 
-from test_engine_shard import partitions, test_names
+from test_engine_shard import ENGINE, main, partitions, test_names
 
 
 class EngineShardTests(unittest.TestCase):
@@ -23,6 +24,28 @@ class EngineShardTests(unittest.TestCase):
         for count in (0, -1, 4097):
             with self.assertRaises(ValueError):
                 partitions(['TestA'], count)
+
+    def test_go_override_applies_to_discovery_and_execution(self):
+        executable = '/tmp/Go tool with spaces'
+        with patch('sys.argv', ['test_engine_shard.py', '--go', executable, '--other-packages']), \
+                patch('test_engine_shard.subprocess.check_output', return_value=ENGINE + '\nexample/other\n') as discover, \
+                patch('test_engine_shard.subprocess.run') as run:
+            main()
+            discover.assert_called_once_with([executable, 'list', './...'], text=True)
+            self.assertEqual(run.call_args.args[0], [executable, 'test', '-race', '-timeout', '30m', 'example/other'])
+            self.assertTrue(run.call_args.kwargs['check'])
+        names = ['TestA', 'TestB', 'FuzzParser']
+        index = next(i for i, group in enumerate(partitions(names, 4)) if group)
+        with patch('sys.argv', ['test_engine_shard.py', '--go', executable, '--shard', str(index)]), \
+                patch('test_engine_shard.subprocess.check_output', return_value='\n'.join(names)) as discover, \
+                patch('test_engine_shard.subprocess.run') as run:
+            main()
+            discover.assert_called_once_with([executable, 'test', '-list', '.', ENGINE], text=True)
+            command = run.call_args.args[0]
+            self.assertEqual(command[0], executable)
+            self.assertEqual(command[-1], ENGINE)
+            self.assertIn('-race', command)
+            self.assertTrue(run.call_args.kwargs['check'])
 
 
 if __name__ == '__main__':

@@ -38,6 +38,7 @@ def partitions(names, count):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--go', default='go', help='Go executable; honors Makefile GO override when passed explicitly')
     parser.add_argument('--shard', type=int)
     parser.add_argument('--shards', type=int, default=4)
     parser.add_argument('--other-packages', action='store_true')
@@ -47,17 +48,17 @@ def main():
     if args.other_packages:
         if args.shard is not None or args.manifest:
             parser.error('other-packages cannot select an engine shard')
-        packages = subprocess.check_output(['go', 'list', './...'], text=True).splitlines()
+        packages = subprocess.check_output([args.go, 'list', './...'], text=True).splitlines()
         if packages.count(ENGINE) != 1:
             raise ValueError('expected exactly one engine package')
         packages.remove(ENGINE)
         if not packages:
             raise ValueError('no other packages discovered')
-        command = ['go', 'test', '-race', '-timeout', '30m', *packages]
+        command = [args.go, 'test', '-race', '-timeout', '30m', *packages]
     else:
         if args.shard is None or not 0 <= args.shard < args.shards:
             parser.error('shard must be 0..shards-1')
-        output = subprocess.check_output(['go', 'test', '-list', '.', ENGINE], text=True)
+        output = subprocess.check_output([args.go, 'test', '-list', '.', ENGINE], text=True)
         names = test_names(output)
         groups = partitions(names, args.shards)
         selected = groups[args.shard]
@@ -71,7 +72,7 @@ def main():
         if args.manifest:
             args.manifest.write_text(json.dumps(manifest, indent=2) + '\n')
         print(f'Engine shard {args.shard}/{args.shards}: {len(selected)}/{len(names)} tests and fuzz seed functions', flush=True)
-        command = ['go', 'test', '-race', '-timeout', '30m', '-count=1', '-run', expression, ENGINE]
+        command = [args.go, 'test', '-race', '-timeout', '30m', '-count=1', '-run', expression, ENGINE]
     if not args.list_only:
         subprocess.run(command, check=True)
 
