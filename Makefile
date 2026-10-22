@@ -18,6 +18,8 @@ baseline:
 matrix:
 	python3 tools/baseline_matrix.py --source $(BASELINE) --check
 fuzz:
+	$(GO) test ./pkg/memoryscan -run '^$$' -fuzz FuzzAcquireCorrespondence -fuzztime 10s
+	$(GO) test ./pkg/memoryscan -run '^$$' -fuzz FuzzMemoryScanPipeline -fuzztime 10s
 	$(GO) test ./pkg/memory -run '^$$' -fuzz FuzzScanPlan -fuzztime 10s
 	$(GO) test ./pkg/byteregex -run '^$$' -fuzz FuzzByteRegex -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzMFTPipeline -fuzztime 10s

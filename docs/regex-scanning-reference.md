@@ -7,9 +7,9 @@ The source tree digest is checked before execution. The fixtures are
 `byte-regex-semantics.jsonl`. This is implementation reference
 evidence; both plugin classes remain **missing** in the capability matrix.
 The [native matching core](byte-regex.md) is implemented separately; acquisition
-and plugin integration remain pending. The selected-range page walker and
-Intel chunk planner are now implemented as acquisition foundations; neither
-executes a regex plugin.
+and plugin integration remain pending. The selected-range page walker,
+Intel chunk planner and native acquisition/matching stages are implemented
+as foundations; neither command is registered yet.
 
 Run with Python 3.12, matching CI:
 
@@ -79,8 +79,8 @@ compiled when all tasks are skipped. Mapped pages outside selected VMAs must
 not contribute scan matches. Upstream silently skips unavailable scan mappings;
 native analysis must additionally retain explicit incomplete-coverage evidence.
 
-Native plugin implementation, raw scan and result
-acquisitions, original page-table provenance, sealed storage/cache checks,
+Native plugin implementation, result-context
+acquisition, persistence of scan/page-table provenance, sealed storage/cache checks,
 failure tests, real-corpus comparisons and full renderer/export validation are
 still required. These reference cases do not justify a status upgrade or an
 acceptance claim.
@@ -111,3 +111,35 @@ chunk bounds, invalid/overflowing/unordered intervals and closed-planner reuse.
 The planner fuzz invariant checks every chunk's source correspondence and exact
 coverage/overlap count. These tests establish planning only; acquisition errors,
 scan digests and plugin results remain to be integrated and verified.
+
+## Native scan acquisition and matching
+
+`pkg/memoryscan.Acquire` validates the full chunk before reading, limits buffers
+to 32 MiB, and splits physical reads at the 16 MiB reader bound. Each part
+records its virtual/physical start, requested/captured length, SHA256 of the
+captured prefix, success state and original error. A short read is a failure
+even if the reader omits its error. Failed parts are discarded from the scan
+buffer, never padded or interpreted as successful acquisition. Other parts
+remain available, together with an explicit incomplete result. Cancellation
+stops further acquisition; unattempted parts remain in the caller's original
+plan. No image writes are performed.
+
+`memoryscan.Find` uses the native byte engine with a finite match count and VM
+limits. Each hit has its baseline coordinate and exact source spans. The
+baseline's end-minus-successful-bytes coordinate can differ from actual virtual
+sources after failed parts; this discrepancy is explicit. Empty matches have no
+source bytes. An incomplete buffer always returns `ErrIncomplete`, including
+when it produces zero matches, so an acquisition failure cannot become a clean
+negative result.
+
+Tests compare 35 actual scanner cases and the scan offsets of 42 actual paged
+VMA generator cases, independently rereading original bytes for scan digests.
+These establish the scan stage; VMA traversal in the plugin, padded context
+acquisition, Python replacement decoding, result extraction, evidence storage,
+cache behavior and real-image differential validation are not covered yet.
+Additional tests exercise a 16 MiB-plus part, failed prefixes, a fault on the
+second bounded read, cancellation, malformed reader counts, whole-plan
+validation, source attribution across discarded parts and match/output bounds.
+Fuzz targets check physical acquisition correspondence and the acquisition-to-
+matching pipeline, including explicit partial coverage and every emitted source
+span. Neither regex plugin's matrix status is upgraded by these foundations.
