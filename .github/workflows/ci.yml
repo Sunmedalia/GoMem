@@ -65,6 +65,7 @@ jobs:
       - run: python3 tools/build_pe_symbols_oracle.py --check
       - run: python3 tools/build_debugregisters_oracle.py --check
       - run: python3 tools/build_etwpatch_oracle.py --check
+      - run: python3 tools/build_windows_malfind_oracle.py --check
       - run: python3 tools/build_iat_oracle.py --check
       - run: python3 tools/build_iat_ordinal_names.py --check
       - run: python3 tools/build_hollowprocess_oracle.py --check
@@ -143,6 +144,7 @@ jobs:
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzSuspendedThreadPipeline -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzDebugRegisterPipeline -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzETWPatchPipeline -fuzztime 5s
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsMalfindPipeline -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzIATPipeline -fuzztime 5s
       - run: go test ./pkg/pe -run '^$' -fuzz FuzzMappedPEImports -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzPESymbolRequest -fuzztime 5s

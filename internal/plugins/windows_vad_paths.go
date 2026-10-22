@@ -24,27 +24,27 @@ type windowsVADPath struct {
 // windowsVADRegions preserves preorder and rejects incomplete indexes. The
 // modern RTL fast path is kept for current images; older roots and node types
 // resolve their links and ranges from symbols.
-func windowsVADRegions(ctx context.Context, e plugin.Environment, process uint64, max int) ([]windowsVADPath, error) {
+func windowsVADRegions(ctx context.Context, e plugin.Environment, process uint64, max int, paths ...bool) ([]windowsVADPath, error) {
 	root, err := e.Objects.Field("_EPROCESS", "VadRoot")
 	if err != nil {
 		return nil, err
 	}
 	if root.Type.Kind == "pointer" {
-		return windowsLegacyVADRegions(ctx, e, process, max)
+		return windowsLegacyVADRegions(ctx, e, process, max, paths...)
 	}
 	if _, err := e.Objects.Field("_EPROCESS", "VadRoot.BalancedRoot"); err == nil {
-		return windowsLegacyVADRegions(ctx, e, process, max)
+		return windowsLegacyVADRegions(ctx, e, process, max, paths...)
 	} else if !errors.Is(err, object.ErrFieldAbsent) {
 		return nil, err
 	}
 	member, err := e.Objects.Field("_MMVAD_SHORT", "VadNode")
 	if err != nil || member.Type.Name != "_RTL_BALANCED_NODE" {
-		return windowsLegacyVADRegions(ctx, e, process, max)
+		return windowsLegacyVADRegions(ctx, e, process, max, paths...)
 	}
-	return windowsModernVADRegions(ctx, e, process, max)
+	return windowsModernVADRegions(ctx, e, process, max, paths...)
 }
 
-func windowsModernVADRegions(ctx context.Context, e plugin.Environment, process uint64, max int) ([]windowsVADPath, error) {
+func windowsModernVADRegions(ctx context.Context, e plugin.Environment, process uint64, max int, paths ...bool) ([]windowsVADPath, error) {
 	root, err := e.Objects.Uint(ctx, process, "_EPROCESS", "VadRoot.Root")
 	if err != nil {
 		return nil, fmt.Errorf("modern RTL_AVL_TREE VAD root: %w", err)
@@ -114,7 +114,7 @@ func windowsModernVADRegions(ctx context.Context, e plugin.Environment, process 
 			return nil, fmt.Errorf("unrecognized VAD pool tag %q at %#x", tag, address)
 		}
 		path := evidence.Missing("not_file_backed", nil)
-		if string(tag) != "VadS" && string(tag) != "VadF" {
+		if (len(paths) == 0 || paths[0]) && string(tag) != "VadS" && string(tag) != "VadF" {
 			path = windowsVADFile(ctx, e, address)
 		}
 		regions = append(regions, windowsVADPath{start: start, end: end, address: address, parent: item.parent, left: left, right: right, tag: string(tag), file: path})

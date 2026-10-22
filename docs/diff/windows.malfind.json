@@ -1,0 +1,68 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "values": [
+      "finding"
+    ],
+    "excluded_values": [
+      "memory_read",
+      "diagnostic",
+      "summary"
+    ]
+  },
+  "fields": {
+    "PID": {
+      "native": "PID",
+      "reference": "PID",
+      "kind": "uint64"
+    },
+    "Process": {
+      "native": "Process",
+      "reference": "Process",
+      "kind": "string"
+    },
+    "Start": {
+      "native": "Start",
+      "reference": "Start VPN",
+      "kind": "address"
+    },
+    "End": {
+      "native": "End",
+      "reference": "End VPN",
+      "kind": "address"
+    },
+    "Tag": {
+      "native": "Tag",
+      "reference": "Tag",
+      "kind": "string"
+    },
+    "Protection": {
+      "native": "Protection",
+      "reference": "Protection",
+      "kind": "string"
+    },
+    "CommitCharge": {
+      "native": "CommitCharge",
+      "reference": "CommitCharge",
+      "kind": "uint64"
+    },
+    "PrivateMemory": {
+      "native": "PrivateMemory",
+      "reference": "PrivateMemory",
+      "kind": "uint64"
+    },
+    "Notes": {
+      "native": "Notes",
+      "reference": "Notes",
+      "kind": "string",
+      "missing_reasons": [
+        "not_applicable"
+      ]
+    },
+    "Hexdump": {
+      "native": "Hexdump",
+      "reference": "Hexdump",
+      "kind": "hex_bytes"
+    }
+  }
+}

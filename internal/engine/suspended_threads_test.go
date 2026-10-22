@@ -29,6 +29,7 @@ type suspendedOracleCase struct {
 		Offset int
 		Data   string
 	}
+	Files    map[string]string
 	Expected [][]json.RawMessage
 }
 

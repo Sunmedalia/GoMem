@@ -16,7 +16,7 @@ import (
 // Legacy roots can be a direct VAD pointer or an inline AVL sentinel. Later
 // roots can point to MM_AVL_NODE rather than RTL_BALANCED_NODE. Link fields are
 // resolved from the actual node type; ranges use the pool-tag-selected VAD type.
-func windowsLegacyVADRegions(ctx context.Context, e plugin.Environment, process uint64, max int) ([]windowsVADPath, error) {
+func windowsLegacyVADRegions(ctx context.Context, e plugin.Environment, process uint64, max int, paths ...bool) ([]windowsVADPath, error) {
 	rootField, err := e.Objects.Field("_EPROCESS", "VadRoot")
 	if err != nil {
 		return nil, err
@@ -129,7 +129,7 @@ func windowsLegacyVADRegions(ctx context.Context, e plugin.Environment, process 
 				return nil, err
 			}
 			path := evidence.Missing("not_file_backed", nil)
-			if typ == "_MMVAD" {
+			if (len(paths) == 0 || paths[0]) && typ == "_MMVAD" {
 				path = windowsVADFile(ctx, e, item.node)
 			}
 			regions = append(regions, windowsVADPath{start: start, end: end, address: item.node, parent: item.parent, left: left, right: right, tag: tag, file: path})

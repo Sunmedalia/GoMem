@@ -13,7 +13,7 @@ import (
 )
 
 func TestDeprecatedHiddenModuleAlias(t *testing.T) {
-	if engine.DeprecatedPluginAliases["linux.hidden_modules.Hidden_modules"] != "linux.hidden_modules" || len(engine.DeprecatedPluginAliases) != 23 {
+	if engine.DeprecatedPluginAliases["linux.hidden_modules.Hidden_modules"] != "linux.hidden_modules" || len(engine.DeprecatedPluginAliases) != 24 {
 		t.Fatal(len(engine.DeprecatedPluginAliases))
 	}
 	f := modxFixture(t, "x64", "legacy", "")
@@ -79,4 +79,15 @@ func verifyDeprecatedPluginAlias(t *testing.T, e *engine.Engine, native, alias s
 func TestDeprecatedMalfindAlias(t *testing.T) {
 	e := malfindEngine(t, "x64", "list", "")
 	verifyDeprecatedPluginAlias(t, e, "linux.malfind", "linux.malfind.Malfind", 10)
+}
+
+func TestDeprecatedWindowsMalfindAlias(t *testing.T) {
+	for _, c := range windowsMalfindCases(t) {
+		if c.Width == 8 && c.Name == "rwx-private-short" {
+			e, _ := windowsMalfindEngine(t, c)
+			verifyDeprecatedPluginAlias(t, e, "windows.malfind", "windows.malfind.Malfind", 0)
+			return
+		}
+	}
+	t.Fatal("missing fixture")
 }

@@ -30,6 +30,7 @@ The wired names are:
 - `windows.hollowprocesses.HollowProcesses` to `windows.hollowprocesses`
 - `windows.ldrmodules.LdrModules` to `windows.ldrmodules`
 - `windows.lsadump.Lsadump` to `windows.lsadump`
+- `windows.malfind.Malfind` to `windows.malfind`
 - `windows.processghosting.ProcessGhosting` to `windows.processghosting`
 - `windows.psxview.PsXView` to `windows.psxview`
 - `windows.scheduled_tasks.ScheduledTasks` to `windows.scheduledtasks`
@@ -53,3 +54,6 @@ Netfilter capability acceptance.
 
 `TestDeprecatedMalfindAlias` checks every result cell, requested task identity,
 row seals and cached JSONL for the native suspicious-mapping fixture.
+
+`TestDeprecatedWindowsMalfindAlias` verifies native Windows findings, exact cells,
+requested task identity, sealed provenance and byte-identical cache replay.

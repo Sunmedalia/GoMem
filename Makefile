@@ -19,6 +19,7 @@ matrix:
 	python3 tools/baseline_matrix.py --source $(BASELINE) --check
 fuzz:
 	$(GO) test ./pkg/winpath -run '^$$' -fuzz FuzzWindowsModulePath -fuzztime 10s
+	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzWindowsMalfindPipeline -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzSuspendedThreadPipeline -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzDebugRegisterPipeline -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzETWPatchPipeline -fuzztime 10s

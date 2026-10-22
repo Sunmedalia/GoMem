@@ -4,6 +4,7 @@
 Reports selected-field parity only. Never certifies an entire capability. Missing
 values, duplicate rows and parent relationships are preserved in comparisons.
 """
+import base64
 import argparse
 import collections
 import hashlib
@@ -23,6 +24,7 @@ def load_rows(path, native):
 
 
 def normalized(value, kind, mask=None, missing_reasons=()):
+    source_kind = value.get("kind") if isinstance(value, dict) else None
     if isinstance(value, dict) and "kind" in value:
         if value["kind"] == "missing":
             if value.get("reason") in missing_reasons and not value.get("error"):
@@ -31,6 +33,12 @@ def normalized(value, kind, mask=None, missing_reasons=()):
         value = value.get("value")
     if value is None:
         return {"missing": "reference-null"}
+    if kind == "hex_bytes":
+        if source_kind == "bytes" and isinstance(value, str):
+            return base64.b64decode(value, validate=True).hex()
+        if isinstance(value, str) and re.fullmatch(r"(?:[0-9a-fA-F]{2}(?: +|$))*", value):
+            return bytes.fromhex(value).hex()
+        raise ValueError("hex_bytes requires typed base64 bytes or space-separated hexadecimal")
     if kind == "artifact_name":
         # This profile compares the displayed filename only. File contents,
         # state, hashes and gap provenance require separate extraction checks.

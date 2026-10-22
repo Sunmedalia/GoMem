@@ -101,3 +101,78 @@ func TestIndependentIATCoordinatesAndPointers(t *testing.T) {
 		}
 	}
 }
+
+func TestIndependentMalfindBytesAndSelection(t *testing.T) {
+	for _, mode := range []string{"valid", "wrong-hexdump", "wrong-input", "wrong-origin", "zero-page", "outside-range", "invented-missing", "bad-architecture"} {
+		t.Run(mode, func(t *testing.T) {
+			raw := iatVerificationMemory(make([]byte, 0x4000))
+			raw[0x1000] = 0x90
+			prefix := append([]byte(nil), raw[0x1000:0x1040]...)
+			row := evidence.Row{Cells: map[string]evidence.Value{"Start": evidence.Address(0x1000), "End": evidence.Address(0x1fff), "NonzeroPage": evidence.Address(0x1000), "DirtyPage": evidence.Missing("not_required", nil), "Hexdump": evidence.Bytes(prefix), "Disassembly": {Kind: "structure", Data: map[string]evidence.Value{"Bytes": evidence.Bytes(prefix), "Address": evidence.Address(0x1000), "Architecture": evidence.Text("intel64")}}}, Provenance: evidence.Provenance{Layer: raw.Name(), Offset: "0x1000"}}
+			detail := row.Cells["Disassembly"].Data.(map[string]evidence.Value)
+			switch mode {
+			case "wrong-hexdump":
+				row.Cells["Hexdump"] = evidence.Bytes(make([]byte, 64))
+			case "wrong-input":
+				detail["Bytes"] = evidence.Bytes(make([]byte, 64))
+			case "wrong-origin":
+				detail["Address"] = evidence.Address(0x1001)
+			case "zero-page":
+				row.Cells["NonzeroPage"] = evidence.Address(0x1100)
+			case "outside-range":
+				row.Cells["NonzeroPage"] = evidence.Address(0x2000)
+			case "invented-missing":
+				row.Cells["Hexdump"] = evidence.Missing("first_bytes_unavailable", fmt.Errorf("invented missing page"))
+			case "bad-architecture":
+				detail["Architecture"] = evidence.Text("arm64")
+			}
+			err := verifyMalfindRow(context.Background(), row, map[string]memory.MemoryLayer{raw.Name(): raw})
+			if (err == nil) != (mode == "valid") {
+				t.Fatal(mode, err)
+			}
+		})
+	}
+}
+
+func TestIndependentMalfindDirtyLeaf(t *testing.T) {
+	for _, mode := range []string{"valid", "clean", "wrong-entry", "wrong-coordinate", "wrong-width", "wrong-size", "wrong-page", "wrong-flag"} {
+		t.Run(mode, func(t *testing.T) {
+			raw := iatVerificationMemory(make([]byte, 0x8000))
+			binary.LittleEndian.PutUint64(raw[0x1000:], 0x2003)
+			binary.LittleEndian.PutUint64(raw[0x2000:], 0x3003)
+			binary.LittleEndian.PutUint64(raw[0x3000:], 0x4003)
+			entry := uint64(0x6043)
+			if mode == "clean" {
+				entry &^= 64
+			}
+			binary.LittleEndian.PutUint64(raw[0x4008:], entry)
+			raw[0x6000] = 0x90
+			translator, err := memory.NewIntelForOS(raw, 0x1000, "x64", "windows", 8)
+			if err != nil {
+				t.Fatal(err)
+			}
+			layer := &memory.Virtual{Physical: raw, Translator: translator, ID: "process:dirty"}
+			prefix := append([]byte(nil), raw[0x6000:0x6040]...)
+			leaf := map[string]evidence.Value{"PhysicalEntry": evidence.Address(0x4008), "Entry": evidence.Address(0x6043), "EntryWidth": evidence.Number(8), "PageSize": evidence.Number(4096), "Virtual": evidence.Address(0x1000), "Dirty": evidence.Bool(true)}
+			row := evidence.Row{Cells: map[string]evidence.Value{"Start": evidence.Address(0x1000), "End": evidence.Address(0x1fff), "NonzeroPage": evidence.Address(0x1000), "DirtyPage": evidence.Address(0x1000), "DirtyLeaf": {Kind: "structure", Data: leaf}, "Hexdump": evidence.Bytes(prefix), "Disassembly": {Kind: "structure", Data: map[string]evidence.Value{"Bytes": evidence.Bytes(prefix), "Address": evidence.Address(0x1000), "Architecture": evidence.Text("intel64")}}}, Provenance: evidence.Provenance{Layer: layer.Name(), Offset: "0x1000"}}
+			switch mode {
+			case "wrong-entry":
+				leaf["Entry"] = evidence.Address(0x6041)
+			case "wrong-coordinate":
+				leaf["PhysicalEntry"] = evidence.Address(0x4000)
+			case "wrong-width":
+				leaf["EntryWidth"] = evidence.Number(4)
+			case "wrong-size":
+				leaf["PageSize"] = evidence.Number(2 << 20)
+			case "wrong-page":
+				leaf["Virtual"] = evidence.Address(0x2000)
+			case "wrong-flag":
+				leaf["Dirty"] = evidence.Bool(false)
+			}
+			err = verifyMalfindRow(context.Background(), row, map[string]memory.MemoryLayer{layer.Name(): layer})
+			if (err == nil) != (mode == "valid") {
+				t.Fatal(mode, err)
+			}
+		})
+	}
+}

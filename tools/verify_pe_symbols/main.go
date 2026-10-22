@@ -31,9 +31,9 @@ func run() error {
 	image := flag.String("image", "", "Original image")
 	table := flag.String("symbols", "", "Exact kernel ISF")
 	rows := flag.String("jsonl", "", "Saved Windows symbol, ETW or IAT evidence JSONL")
-	expectedPlugin := flag.String("plugin", "windows.pe_symbols", "Expected command: windows.pe_symbols, windows.etwpatch or windows.iat")
+	expectedPlugin := flag.String("plugin", "windows.pe_symbols", "Expected command: windows.pe_symbols, windows.etwpatch, windows.iat or windows.malfind")
 	flag.Parse()
-	if *expectedPlugin != "windows.pe_symbols" && *expectedPlugin != "windows.etwpatch" && *expectedPlugin != "windows.iat" {
+	if *expectedPlugin != "windows.pe_symbols" && *expectedPlugin != "windows.etwpatch" && *expectedPlugin != "windows.iat" && *expectedPlugin != "windows.malfind" {
 		return fmt.Errorf("unsupported verification command %s", *expectedPlugin)
 	}
 	if *image == "" || *table == "" || *rows == "" {
@@ -45,7 +45,7 @@ func run() error {
 		return err
 	}
 	defer e.Close()
-	layers := map[string]memory.MemoryLayer{e.Env.Kernel.Name(): e.Env.Kernel}
+	layers := map[string]memory.MemoryLayer{e.Env.Kernel.Name(): e.Env.Kernel, e.Env.Physical.Name(): e.Env.Physical}
 	ps, err := e.Registry.Get("windows.pslist")
 	if err != nil {
 		return err
@@ -78,7 +78,7 @@ func run() error {
 	streamHash := sha256.New()
 	decode := json.NewDecoder(bufio.NewReaderSize(io.TeeReader(file, streamHash), 64<<10))
 	var captures, failed, symbols, count, bytesRead uint64
-	var findings, probes, acquisitions, summaries, expectedReads, imports, diagnostics, expectedImports uint64
+	var findings, probes, acquisitions, summaries, expectedReads, imports, diagnostics, expectedImports, expectedFindings uint64
 	widths := map[string]int{}
 	for {
 		var row evidence.Row
@@ -104,8 +104,13 @@ func run() error {
 			}
 			symbols++
 		case "finding":
-			if *expectedPlugin != "windows.etwpatch" {
+			if *expectedPlugin != "windows.etwpatch" && *expectedPlugin != "windows.malfind" {
 				return fmt.Errorf("unexpected finding record")
+			}
+			if *expectedPlugin == "windows.malfind" {
+				if cause := verifyMalfindRow(ctx, row, layers); cause != nil {
+					return cause
+				}
 			}
 			findings++
 		case "import":
@@ -117,16 +122,17 @@ func run() error {
 			}
 			imports++
 		case "diagnostic":
-			if *expectedPlugin != "windows.iat" {
+			if *expectedPlugin != "windows.iat" && *expectedPlugin != "windows.malfind" {
 				return fmt.Errorf("unexpected diagnostic record")
 			}
 			diagnostics++
 		case "summary":
 			summaries++
-			if *expectedPlugin == "windows.etwpatch" || *expectedPlugin == "windows.iat" {
+			if *expectedPlugin == "windows.etwpatch" || *expectedPlugin == "windows.iat" || *expectedPlugin == "windows.malfind" {
 				var coverage struct {
 					Acquisition struct{ Reads uint64 }
 					Imports     uint64
+					Findings    uint64
 				}
 				encoded, cause := json.Marshal(row.Cells["Coverage"].Data)
 				if cause != nil {
@@ -137,6 +143,7 @@ func run() error {
 				}
 				expectedReads = coverage.Acquisition.Reads
 				expectedImports = coverage.Imports
+				expectedFindings = coverage.Findings
 			}
 		case "memory_read":
 			layer, ok := layers[row.Provenance.Layer]
@@ -205,16 +212,19 @@ func run() error {
 	if summaries != 1 {
 		return fmt.Errorf("missing terminal summary; input may be incomplete")
 	}
-	if (*expectedPlugin == "windows.etwpatch" || *expectedPlugin == "windows.iat") && acquisitions != expectedReads {
+	if (*expectedPlugin == "windows.etwpatch" || *expectedPlugin == "windows.iat" || *expectedPlugin == "windows.malfind") && acquisitions != expectedReads {
 		return fmt.Errorf("summary/acquisition count mismatch: %d/%d", expectedReads, acquisitions)
 	}
 	if *expectedPlugin == "windows.iat" && expectedImports != imports {
 		return fmt.Errorf("IAT summary/import count mismatch")
 	}
+	if (*expectedPlugin == "windows.malfind" || *expectedPlugin == "windows.etwpatch") && findings != expectedFindings {
+		return fmt.Errorf("summary/finding count mismatch")
+	}
 	if captures == 0 {
 		return fmt.Errorf("no read captures in input")
 	}
-	return json.NewEncoder(os.Stdout).Encode(map[string]any{"image_sha256": e.Hash, "jsonl_sha256": fmt.Sprintf("%x", streamHash.Sum(nil)), "imports": imports, "diagnostics": diagnostics, "all_iat_coordinates_and_available_pointers_verified": *expectedPlugin == "windows.iat", "rows": count, "captures": captures, "acquisition_calls": acquisitions, "read_faults": failed, "captured_bytes": bytesRead, "symbols": symbols, "findings": findings, "opcode_probes": probes, "plugin": *expectedPlugin, "process_layers": len(layers) - 1, "all_seals_and_provenance_verified": true, "all_captures_independently_reread": true})
+	return json.NewEncoder(os.Stdout).Encode(map[string]any{"image_sha256": e.Hash, "jsonl_sha256": fmt.Sprintf("%x", streamHash.Sum(nil)), "imports": imports, "diagnostics": diagnostics, "all_iat_coordinates_and_available_pointers_verified": *expectedPlugin == "windows.iat", "rows": count, "captures": captures, "acquisition_calls": acquisitions, "read_faults": failed, "captured_bytes": bytesRead, "symbols": symbols, "findings": findings, "opcode_probes": probes, "plugin": *expectedPlugin, "process_layers": len(layers) - 2, "all_seals_and_provenance_verified": true, "all_captures_independently_reread": true})
 }
 
 type acquisitionCall struct{ Offset, Requested, Captured uint64 }
@@ -344,6 +354,113 @@ func verifyImportRow(ctx context.Context, row evidence.Row, layers map[string]me
 	}
 	if actual != expectedPointer {
 		return fmt.Errorf("captured IAT pointer mismatch")
+	}
+	return nil
+}
+
+func evidenceBytes(value evidence.Value) ([]byte, error) {
+	if value.Kind != "bytes" {
+		return nil, fmt.Errorf("expected bytes evidence")
+	}
+	switch raw := value.Data.(type) {
+	case []byte:
+		return raw, nil
+	case string:
+		return base64.StdEncoding.DecodeString(raw)
+	default:
+		return nil, fmt.Errorf("invalid bytes evidence encoding")
+	}
+}
+func verifyMalfindRow(ctx context.Context, row evidence.Row, layers map[string]memory.MemoryLayer) error {
+	layer := layers[row.Provenance.Layer]
+	if layer == nil {
+		return fmt.Errorf("unknown malfind process layer")
+	}
+	start, err := row.Cells["Start"].Uint()
+	if err != nil {
+		return err
+	}
+	end, err := row.Cells["End"].Uint()
+	if err != nil || end < start {
+		return fmt.Errorf("invalid malfind range")
+	}
+	if row.Cells["Hexdump"].Kind == "missing" {
+		if row.Cells["Hexdump"].Reason != "first_bytes_unavailable" || row.Cells["Hexdump"].Error == "" {
+			return fmt.Errorf("invalid missing first-byte evidence")
+		}
+		if _, cause := memory.Read(ctx, layer, start, 64); cause == nil {
+			return fmt.Errorf("missing hexdump asserted over readable bytes")
+		}
+	} else {
+		raw, err := evidenceBytes(row.Cells["Hexdump"])
+		if err != nil || len(raw) != 64 {
+			return fmt.Errorf("invalid malfind first-byte capture")
+		}
+		actual, err := memory.Read(ctx, layer, start, 64)
+		if err != nil || !bytes.Equal(raw, actual) {
+			return fmt.Errorf("original malfind first bytes differ: %v", err)
+		}
+		var disasm struct{ Bytes, Address, Architecture evidence.Value }
+		encoded, err := json.Marshal(row.Cells["Disassembly"].Data)
+		if err != nil {
+			return err
+		}
+		if err = json.Unmarshal(encoded, &disasm); err != nil {
+			return err
+		}
+		decoded, err := evidenceBytes(disasm.Bytes)
+		if err != nil || !bytes.Equal(decoded, raw) {
+			return fmt.Errorf("disassembly input differs")
+		}
+		at, err := disasm.Address.Uint()
+		if err != nil || at != start {
+			return fmt.Errorf("disassembly origin differs")
+		}
+		if disasm.Architecture.String() != "intel" && disasm.Architecture.String() != "intel64" {
+			return fmt.Errorf("unknown disassembly architecture")
+		}
+	}
+	nonzero, err := row.Cells["NonzeroPage"].Uint()
+	if err != nil || nonzero < start || nonzero > end {
+		return fmt.Errorf("invalid nonzero-page origin")
+	}
+	actual, err := memory.Read(ctx, layer, nonzero, 4096)
+	if err != nil || bytes.Equal(actual, make([]byte, 4096)) {
+		return fmt.Errorf("nonzero-page selection not supported: %v", err)
+	}
+	if row.Cells["DirtyPage"].Kind != "missing" {
+		page, err := row.Cells["DirtyPage"].Uint()
+		if err != nil || page < start || page > end {
+			return fmt.Errorf("invalid dirty-page origin")
+		}
+		virtual, ok := layer.(*memory.Virtual)
+		if !ok {
+			return fmt.Errorf("dirty translator unavailable")
+		}
+		tr, err := virtual.Translator.Translate(ctx, page)
+		if err != nil || !tr.DirtyKnown || !tr.Dirty {
+			return fmt.Errorf("dirty-page flag not supported")
+		}
+		var leaf struct{ PhysicalEntry, Entry, EntryWidth, PageSize, Virtual, Dirty evidence.Value }
+		encoded, err := json.Marshal(row.Cells["DirtyLeaf"].Data)
+		if err != nil {
+			return err
+		}
+		if err = json.Unmarshal(encoded, &leaf); err != nil {
+			return err
+		}
+		for _, pair := range []struct {
+			cell evidence.Value
+			want uint64
+		}{{leaf.PhysicalEntry, tr.EntryAddress}, {leaf.Entry, tr.Entry}, {leaf.EntryWidth, uint64(tr.EntryWidth)}, {leaf.PageSize, tr.PageSize}, {leaf.Virtual, page}} {
+			n, err := pair.cell.Uint()
+			if err != nil || n != pair.want {
+				return fmt.Errorf("dirty leaf differs from original translator")
+			}
+		}
+		if leaf.Dirty.Data != true {
+			return fmt.Errorf("dirty leaf bool differs")
+		}
 	}
 	return nil
 }

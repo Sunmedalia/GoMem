@@ -1,0 +1,377 @@
+{
+  "schema": "gomem.windows-malfind-validation/v1",
+  "release": "development-preview",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "oracle": {
+    "actual_unmodified_generator_cases": 70,
+    "native_paging_combinations": 105,
+    "architectures": [
+      "x86",
+      "pae",
+      "x64"
+    ],
+    "comparison": "baseline columns/order/notes, hexdump, disassembly bytes/origin/mode, reference extraction bytes; explicit first64 missing exceptions; independent original captures and sealed store/cache"
+  },
+  "fuzz": {
+    "target": "FuzzWindowsMalfindPipeline",
+    "duration_seconds": 10,
+    "executions": 96936,
+    "result": "pass"
+  },
+  "real_partial": {
+    "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+    "task": "822ff3cf5d4854a6341539eea8e2642e",
+    "state": "failed",
+    "coverage": {
+      "kind": "structure",
+      "value": {
+        "acquisition": {
+          "Bytes": 841066,
+          "Complete": false,
+          "Errors": 1670,
+          "Excluded": 0,
+          "Modules": 0,
+          "NoFileVADs": 0,
+          "Reads": 189369,
+          "Regions": 0,
+          "Reported": 0,
+          "Suspended": 0,
+          "Terminated": 0,
+          "Threads": 0
+        },
+        "dirty_probes": 0,
+        "empty_probes": 1676,
+        "findings": 6,
+        "missing_pages": 1670,
+        "pages": 1676,
+        "processes": 120,
+        "regions": 19999
+      }
+    },
+    "independent_verifier": {
+      "acquisition_calls": 189369,
+      "all_captures_independently_reread": true,
+      "all_iat_coordinates_and_available_pointers_verified": false,
+      "all_seals_and_provenance_verified": true,
+      "captured_bytes": 841066,
+      "captures": 189369,
+      "diagnostics": 0,
+      "findings": 6,
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "imports": 0,
+      "jsonl_sha256": "5594f52771e06da73de6bc96770b41d46173c941245ac59366400d3b80adeca0",
+      "opcode_probes": 0,
+      "plugin": "windows.malfind",
+      "process_layers": 120,
+      "read_faults": 1670,
+      "rows": 189376,
+      "symbols": 0
+    }
+  },
+  "cli_diff": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "PID",
+      "Process",
+      "Start",
+      "End",
+      "Tag",
+      "Protection",
+      "CommitCharge",
+      "PrivateMemory",
+      "Notes",
+      "Hexdump"
+    ],
+    "native_rows": 6,
+    "reference_rows": 6,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "5594f52771e06da73de6bc96770b41d46173c941245ac59366400d3b80adeca0",
+      "reference": "4b1005c9466311e2bb1185fb056b5a0b2afe2e7484ccf78479ab6bfdf06b0d88",
+      "mapping": "5debc66c07d7e039c45853138ffa99bc052d468ce15f7fcdfa1433afb6f3ab91"
+    },
+    "native_input_rows": 189376,
+    "native_non_entity_records": {
+      "memory_read": 189369,
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "values": [
+        "finding"
+      ],
+      "excluded_values": [
+        "memory_read",
+        "diagnostic",
+        "summary"
+      ]
+    }
+  },
+  "checks": {
+    "pinned_oracle": "passed",
+    "malfind_engine_race": "passed",
+    "independent_verifier_race": "passed",
+    "python_unittests": "36 passed",
+    "make_check": "passed (vet, all Go race tests, 36 Python tests, argument fixtures)",
+    "matrix": "passed",
+    "inode_mode_oracle": "passed",
+    "real_pe_iat_etw_verifier_regression": "passed",
+    "local_build": "passed (darwin/arm64)",
+    "doctor_offline": "passed; release acceptance remains false",
+    "cross_build": "passed (windows/amd64 and linux/amd64)",
+    "real_artifact_comparison": "six files byte-identical",
+    "real_artifact_gap_binding": "1263 gaps and all bytes bound to independently reread calls",
+    "evidence_bundle": "passed (six files and their gap logs)"
+  },
+  "remaining": [
+    "Broader Windows versions and real x86/WoW64 images",
+    "Real dirty-page corpora; current real six findings use RWX route",
+    "Native decoder text is not Capstone syntax parity; reference control lacks Capstone",
+    "Read holes and typed-missing first64 exceptions prevent complete coverage",
+    "Full parameter, renderer, version/failure and investigative positive/normal acceptance"
+  ],
+  "real_extraction": {
+    "task": "a74afde371d233a62ba30bfe51137942",
+    "state": "failed",
+    "parameters": {
+      "pid": "1944,1956",
+      "dump": "true"
+    },
+    "independent_verifier": {
+      "acquisition_calls": 19377,
+      "all_captures_independently_reread": true,
+      "all_iat_coordinates_and_available_pointers_verified": false,
+      "all_seals_and_provenance_verified": true,
+      "captured_bytes": 1442345,
+      "captures": 19377,
+      "diagnostics": 0,
+      "findings": 6,
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "imports": 0,
+      "jsonl_sha256": "d136e2286e48ab71cfd33a56413f0982978d8be741852644b77fb341a06df3dd",
+      "opcode_probes": 0,
+      "plugin": "windows.malfind",
+      "process_layers": 120,
+      "read_faults": 2554,
+      "rows": 19384,
+      "symbols": 0
+    },
+    "comparison": {
+      "scope": "Selected extracted regions only; padding is explicit and full capability acceptance remains pending",
+      "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "reference_parameters": [
+        "--pid",
+        "1944",
+        "1956",
+        "--dump"
+      ],
+      "native_files": 6,
+      "reference_files": 6,
+      "explicit_file_name_mapping": {},
+      "matched": true,
+      "files": [
+        {
+          "name": "pid.1944.vad.0x1f6127d0000-0x1f6127dffff.dmp",
+          "reference_name": "pid.1944.vad.0x1f6127d0000-0x1f6127dffff.dmp",
+          "size": "65536",
+          "reference_size": "65536",
+          "native_sha256": "803cc547b13e3181c2342e1491ee654f3bcfda886c9359648e1d70afcb507b66",
+          "reference_sha256": "803cc547b13e3181c2342e1491ee654f3bcfda886c9359648e1d70afcb507b66",
+          "bytes_equal": true,
+          "differing_bytes": 0,
+          "first_differing_offsets": [],
+          "state": "completed_with_gaps",
+          "missing_bytes": "57344",
+          "gap_count": "14",
+          "gaps_sha256": "45d35b31af4538129697ce0b978e106e2c6a6d73a74c7e31e010bed5c866fb80",
+          "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+          "engine_build_sha256": "21362e2bb06f59bb91fda97c9bf5595bdc33f760cfc6476637cee58677dda95d",
+          "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+          "layer": "process:ed674efebc05c644142680fa103219cdb8de138144afaad3ee2410983e9ccac9",
+          "offset": "0x1f6127d0000"
+        },
+        {
+          "name": "pid.1956.vad.0x29ed9570000-0x29ed967cfff.dmp",
+          "reference_name": "pid.1956.vad.0x29ed9570000-0x29ed967cfff.dmp",
+          "size": "1101824",
+          "reference_size": "1101824",
+          "native_sha256": "835cdffa537ae68a8f5a21cfec569c2ebd02f822f5bf37d8643bf5b18bb1ab5c",
+          "reference_sha256": "835cdffa537ae68a8f5a21cfec569c2ebd02f822f5bf37d8643bf5b18bb1ab5c",
+          "bytes_equal": true,
+          "differing_bytes": 0,
+          "first_differing_offsets": [],
+          "state": "completed_with_gaps",
+          "missing_bytes": "1048576",
+          "gap_count": "256",
+          "gaps_sha256": "6a708af0ac6821a647434b33aeb913566d5cd7a2891ce9ad81dcefb164834543",
+          "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+          "engine_build_sha256": "21362e2bb06f59bb91fda97c9bf5595bdc33f760cfc6476637cee58677dda95d",
+          "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+          "layer": "process:253aea9172b1fff01a9f0153544704d5723e87cdb93e46dab343b06d0d186f88",
+          "offset": "0x29ed9570000"
+        },
+        {
+          "name": "pid.1956.vad.0x29ee1190000-0x29ee128ffff.dmp",
+          "reference_name": "pid.1956.vad.0x29ee1190000-0x29ee128ffff.dmp",
+          "size": "1048576",
+          "reference_size": "1048576",
+          "native_sha256": "3fbd8b48c00ee9d979ef2b087132294b8485c32f47a58dbe8e46091c283d5282",
+          "reference_sha256": "3fbd8b48c00ee9d979ef2b087132294b8485c32f47a58dbe8e46091c283d5282",
+          "bytes_equal": true,
+          "differing_bytes": 0,
+          "first_differing_offsets": [],
+          "state": "completed_with_gaps",
+          "missing_bytes": "208896",
+          "gap_count": "51",
+          "gaps_sha256": "efe43a2252f151ca98b84f327db3feded39320f75806e15a09c7291bb006e8a7",
+          "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+          "engine_build_sha256": "21362e2bb06f59bb91fda97c9bf5595bdc33f760cfc6476637cee58677dda95d",
+          "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+          "layer": "process:253aea9172b1fff01a9f0153544704d5723e87cdb93e46dab343b06d0d186f88",
+          "offset": "0x29ee1190000"
+        },
+        {
+          "name": "pid.1956.vad.0x29ee6600000-0x29ee67fffff.dmp",
+          "reference_name": "pid.1956.vad.0x29ee6600000-0x29ee67fffff.dmp",
+          "size": "2097152",
+          "reference_size": "2097152",
+          "native_sha256": "12cbd9704aadc34c715c9627a9e03f4ba8169105ed0b75622134cf5057f53102",
+          "reference_sha256": "12cbd9704aadc34c715c9627a9e03f4ba8169105ed0b75622134cf5057f53102",
+          "bytes_equal": true,
+          "differing_bytes": 0,
+          "first_differing_offsets": [],
+          "state": "completed_with_gaps",
+          "missing_bytes": "1748992",
+          "gap_count": "427",
+          "gaps_sha256": "0684357b9114bf86a55a76abf89056e8ef3a42d44b772c324f44527d4a830f85",
+          "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+          "engine_build_sha256": "21362e2bb06f59bb91fda97c9bf5595bdc33f760cfc6476637cee58677dda95d",
+          "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+          "layer": "process:253aea9172b1fff01a9f0153544704d5723e87cdb93e46dab343b06d0d186f88",
+          "offset": "0x29ee6600000"
+        },
+        {
+          "name": "pid.1956.vad.0x29ee6f50000-0x29ee705cfff.dmp",
+          "reference_name": "pid.1956.vad.0x29ee6f50000-0x29ee705cfff.dmp",
+          "size": "1101824",
+          "reference_size": "1101824",
+          "native_sha256": "64f9b270e1df44e5a9080beea8dcc148c9b99327f10574de175647b1aae67783",
+          "reference_sha256": "64f9b270e1df44e5a9080beea8dcc148c9b99327f10574de175647b1aae67783",
+          "bytes_equal": true,
+          "differing_bytes": 0,
+          "first_differing_offsets": [],
+          "state": "completed_with_gaps",
+          "missing_bytes": "1064960",
+          "gap_count": "260",
+          "gaps_sha256": "d63e7882d6ff07b309026bf05ab56b7208cdb971663d18b7e1998fd2d6a0977d",
+          "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+          "engine_build_sha256": "21362e2bb06f59bb91fda97c9bf5595bdc33f760cfc6476637cee58677dda95d",
+          "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+          "layer": "process:253aea9172b1fff01a9f0153544704d5723e87cdb93e46dab343b06d0d186f88",
+          "offset": "0x29ee6f50000"
+        },
+        {
+          "name": "pid.1956.vad.0x29ee7610000-0x29ee771cfff.dmp",
+          "reference_name": "pid.1956.vad.0x29ee7610000-0x29ee771cfff.dmp",
+          "size": "1101824",
+          "reference_size": "1101824",
+          "native_sha256": "059961469c389c1fd8caf7250fa2830cf23bc448ba0704837882c4e14cdd55c7",
+          "reference_sha256": "059961469c389c1fd8caf7250fa2830cf23bc448ba0704837882c4e14cdd55c7",
+          "bytes_equal": true,
+          "differing_bytes": 0,
+          "first_differing_offsets": [],
+          "state": "completed_with_gaps",
+          "missing_bytes": "1044480",
+          "gap_count": "255",
+          "gaps_sha256": "a28dbd0bf4a11a65888ff83ad9846cd4d104badca8cdda3c0645a3195cb7b6aa",
+          "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+          "engine_build_sha256": "21362e2bb06f59bb91fda97c9bf5595bdc33f760cfc6476637cee58677dda95d",
+          "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+          "layer": "process:253aea9172b1fff01a9f0153544704d5723e87cdb93e46dab343b06d0d186f88",
+          "offset": "0x29ee7610000"
+        }
+      ],
+      "native_rows_sha256": "5d45a60f70f0bae79566e13dd869d3570068fbc8acccdced1294c353623985a1",
+      "reference_manifest_sha256": "47a969a378931c0b330983b3bf108d59c4c28df851b10cb3038d1c07bda29e54"
+    },
+    "source_and_padding": {
+      "scope": "Selected Malfind artifacts, source calls and padding only; full acceptance pending",
+      "jsonl_sha256": "d136e2286e48ab71cfd33a56413f0982978d8be741852644b77fb341a06df3dd",
+      "independent_report_sha256": "c320dab2c8265c3931b8267af0bb3eb727dd6a8b3614d240fb59cc5775692dcd",
+      "all_bytes_and_gaps_bound_to_original_calls": true,
+      "files": [
+        {
+          "name": "pid.1944.vad.0x1f6127d0000-0x1f6127dffff.dmp",
+          "size": 65536,
+          "sha256": "803cc547b13e3181c2342e1491ee654f3bcfda886c9359648e1d70afcb507b66",
+          "acquisition_calls": 16,
+          "gap_count": 14,
+          "missing_bytes": 57344,
+          "gaps_sha256": "45d35b31af4538129697ce0b978e106e2c6a6d73a74c7e31e010bed5c866fb80",
+          "state": "completed_with_gaps"
+        },
+        {
+          "name": "pid.1956.vad.0x29ed9570000-0x29ed967cfff.dmp",
+          "size": 1101824,
+          "sha256": "835cdffa537ae68a8f5a21cfec569c2ebd02f822f5bf37d8643bf5b18bb1ab5c",
+          "acquisition_calls": 269,
+          "gap_count": 256,
+          "missing_bytes": 1048576,
+          "gaps_sha256": "6a708af0ac6821a647434b33aeb913566d5cd7a2891ce9ad81dcefb164834543",
+          "state": "completed_with_gaps"
+        },
+        {
+          "name": "pid.1956.vad.0x29ee1190000-0x29ee128ffff.dmp",
+          "size": 1048576,
+          "sha256": "3fbd8b48c00ee9d979ef2b087132294b8485c32f47a58dbe8e46091c283d5282",
+          "acquisition_calls": 256,
+          "gap_count": 51,
+          "missing_bytes": 208896,
+          "gaps_sha256": "efe43a2252f151ca98b84f327db3feded39320f75806e15a09c7291bb006e8a7",
+          "state": "completed_with_gaps"
+        },
+        {
+          "name": "pid.1956.vad.0x29ee6600000-0x29ee67fffff.dmp",
+          "size": 2097152,
+          "sha256": "12cbd9704aadc34c715c9627a9e03f4ba8169105ed0b75622134cf5057f53102",
+          "acquisition_calls": 512,
+          "gap_count": 427,
+          "missing_bytes": 1748992,
+          "gaps_sha256": "0684357b9114bf86a55a76abf89056e8ef3a42d44b772c324f44527d4a830f85",
+          "state": "completed_with_gaps"
+        },
+        {
+          "name": "pid.1956.vad.0x29ee6f50000-0x29ee705cfff.dmp",
+          "size": 1101824,
+          "sha256": "64f9b270e1df44e5a9080beea8dcc148c9b99327f10574de175647b1aae67783",
+          "acquisition_calls": 269,
+          "gap_count": 260,
+          "missing_bytes": 1064960,
+          "gaps_sha256": "d63e7882d6ff07b309026bf05ab56b7208cdb971663d18b7e1998fd2d6a0977d",
+          "state": "completed_with_gaps"
+        },
+        {
+          "name": "pid.1956.vad.0x29ee7610000-0x29ee771cfff.dmp",
+          "size": 1101824,
+          "sha256": "059961469c389c1fd8caf7250fa2830cf23bc448ba0704837882c4e14cdd55c7",
+          "acquisition_calls": 269,
+          "gap_count": 255,
+          "missing_bytes": 1044480,
+          "gaps_sha256": "a28dbd0bf4a11a65888ff83ad9846cd4d104badca8cdda3c0645a3195cb7b6aa",
+          "state": "completed_with_gaps"
+        }
+      ]
+    },
+    "bundle_verification": {
+      "tasks": 1,
+      "members": 15,
+      "verified": true,
+      "artifacts": 6,
+      "included_artifacts": 6,
+      "partial_artifacts": 0
+    },
+    "bundle_note": "All six files and logs included; partial_artifacts counts interrupted exports, not the 1263 recorded source-page gaps."
+  }
+}

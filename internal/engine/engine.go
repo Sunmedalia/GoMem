@@ -411,6 +411,7 @@ var DeprecatedPluginAliases = map[string]string{
 	"windows.drivermodule.DriverModule":            "windows.drivermodule",
 	"windows.hashdump.Hashdump":                    "windows.hashdump",
 	"windows.hollowprocesses.HollowProcesses":      "windows.hollowprocesses",
+	"windows.malfind.Malfind":                      "windows.malfind",
 	"windows.ldrmodules.LdrModules":                "windows.ldrmodules",
 	"windows.lsadump.Lsadump":                      "windows.lsadump",
 	"windows.processghosting.ProcessGhosting":      "windows.processghosting",

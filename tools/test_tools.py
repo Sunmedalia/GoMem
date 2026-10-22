@@ -283,5 +283,16 @@ class DifferentialTests(unittest.TestCase):
             self.assertFalse(compare(native, reference, mapping)["matched"])
 
 
+class HexByteDifferentialTests(unittest.TestCase):
+    def test_typed_bytes_and_reference_hex(self):
+        from diff_results import normalized
+        self.assertEqual(normalized({"kind":"bytes","value":"AJD/"}, "hex_bytes"), "0090ff")
+        self.assertEqual(normalized("00 90 ff", "hex_bytes"), "0090ff")
+        self.assertEqual(normalized("00 90 ff ", "hex_bytes"), "0090ff")
+        for value in ("zz", "0090", "00 9", {"kind":"bytes","value":"??"}):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                normalized(value, "hex_bytes")
+
+
 if __name__ == "__main__":
     unittest.main()
