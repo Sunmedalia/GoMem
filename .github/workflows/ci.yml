@@ -69,6 +69,7 @@ jobs:
       - run: python3 tools/build_ftrace_lookup_oracle.py --check
       - run: python3 tools/build_bpf_lookup_oracle.py --check
       - run: python3 tools/build_sockscan_oracle.py --check
+      - run: python3 tools/build_module_symbols_oracle.py --check
       - run: python3 tools/build_pe_exports_oracle.py --check
       - run: python3 tools/build_object_view_oracle.py --check
       - run: python3 tools/build_latch_tree_oracle.py --check
@@ -109,6 +110,7 @@ jobs:
       - run: go test ./pkg/memory -run '^$' -fuzz FuzzAVML -fuzztime 5s
       - run: go test ./pkg/memory -run '^$' -fuzz FuzzSnappyBlock -fuzztime 5s
       - run: go test ./pkg/memory -run '^$' -fuzz FuzzPointerScan -fuzztime 5s
+      - run: go test ./pkg/pesymbols -run '^$' -fuzz FuzzModuleSymbolRequests -fuzztime 5s
       - run: go test ./pkg/pe -run '^$' -fuzz FuzzMappedPEExports -fuzztime 5s
       - run: go test ./pkg/pe -run '^$' -fuzz FuzzMappedPEReconstruction -fuzztime 5s
       - run: go test ./pkg/object -run '^$' -fuzz FuzzLinuxIntrusiveTrees -fuzztime 5s

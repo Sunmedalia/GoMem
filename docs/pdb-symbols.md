@@ -50,3 +50,5 @@ bin/gomem analyze windows.modules --image memory.dmp --case ./case-001 \
 `doctor` 的 `symbol_resolution` 显示缓存位置、身份、摘要、是否下载/转换，以及类型冲突等转换报告。错误身份的下载不会进入可信缓存，损坏缓存会报错，不返回成功空结果。离线缓存缺失也明确报错。官方样本的自动下载、随后离线复用验证见 [pdb-acquisition-validation.json](pdb-acquisition-validation.json)。测试还覆盖并发下载仅一次、二进制变化后的重新转换、未完成发布的恢复、超限、错误身份和取消。
 
 Windows 完整/bitmap 转储已有条件明确的 [内核/DTB 自动配置](windows-discovery.md)；其余格式的通用发现、微软 CAB 压缩 PDB 传输、其他平台在线符号索引仍在缺口中。`symbols fetch` 目前仍是校验和固定的 ISF 下载命令，PDB 自动获取由分析引擎完成。
+
+模块级精确 PDB 身份获取与 PDB 优先、导出回退的共享接口已接入引擎，详见 [模块符号解析](module-symbols.md)。尚未接入挂起线程等插件，不增加已验收能力。

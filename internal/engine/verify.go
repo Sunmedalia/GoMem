@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/binary"
+	"errors"
 	"fmt"
 
 	"github.com/Sunmedalia/GoMem/pkg/memory"
@@ -55,6 +56,8 @@ func verifyPE(ctx context.Context, l memory.MemoryLayer, base uint64, t *symbols
 	}
 	return t.MatchPDB(image.Identity.Database, image.Identity.GUID, image.Identity.Age)
 }
+
+var errNoMappedPDB = errors.New("mapped PE has no supported PDB identity")
 
 type kernelPE struct {
 	Identity symbols.PDBIdentity
@@ -117,9 +120,6 @@ func readKernelPE(ctx context.Context, l memory.MemoryLayer, base uint64) (image
 	default:
 		return image, fmt.Errorf("unsupported PE optional header")
 	}
-	if len(opt) < data+7*8 || binary.LittleEndian.Uint32(opt[count:]) < 7 {
-		return image, fmt.Errorf("kernel PE debug directory is absent")
-	}
 	image.Size = uint64(binary.LittleEndian.Uint32(opt[56:]))
 	if image.Size == 0 || image.Size > 1<<30 {
 		return image, fmt.Errorf("invalid mapped PE image size")
@@ -127,8 +127,20 @@ func readKernelPE(ctx context.Context, l memory.MemoryLayer, base uint64) (image
 	if peOff+24+uint64(size) > image.Size {
 		return image, fmt.Errorf("PE headers exceed mapped image size")
 	}
+	if len(opt) < data {
+		return image, fmt.Errorf("truncated PE optional header")
+	}
+	if binary.LittleEndian.Uint32(opt[count:]) < 7 {
+		return image, fmt.Errorf("kernel PE debug directory is absent: %w", errNoMappedPDB)
+	}
+	if len(opt) < data+7*8 {
+		return image, fmt.Errorf("truncated PE debug data directory")
+	}
 	rva := uint64(binary.LittleEndian.Uint32(opt[data+6*8:]))
 	n := uint64(binary.LittleEndian.Uint32(opt[data+6*8+4:]))
+	if n == 0 && rva == 0 {
+		return image, errNoMappedPDB
+	}
 	if n == 0 || n > 65536 || n%28 != 0 || rva > image.Size || n > image.Size-rva {
 		return image, fmt.Errorf("invalid PE debug directory length")
 	}
@@ -143,7 +155,7 @@ func readKernelPE(ctx context.Context, l memory.MemoryLayer, base uint64) (image
 		}
 		lenCV := int(binary.LittleEndian.Uint32(d[16:]))
 		if lenCV < 25 || lenCV > 4096 {
-			continue
+			return image, fmt.Errorf("invalid PE CodeView record length")
 		}
 		cvRVA := uint64(binary.LittleEndian.Uint32(d[20:]))
 		if cvRVA > image.Size || uint64(lenCV) > image.Size-cvRVA {
@@ -171,5 +183,5 @@ func readKernelPE(ctx context.Context, l memory.MemoryLayer, base uint64) (image
 		image.Identity = symbols.PDBIdentity{Database: string(name), GUID: guid, Age: age}
 		return image, nil
 	}
-	return image, fmt.Errorf("kernel PE has no supported RSDS PDB identity")
+	return image, fmt.Errorf("kernel PE has no supported RSDS PDB identity: %w", errNoMappedPDB)
 }

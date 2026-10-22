@@ -11,6 +11,7 @@ import (
 	"github.com/Sunmedalia/GoMem/pkg/evidence"
 	"github.com/Sunmedalia/GoMem/pkg/memory"
 	"github.com/Sunmedalia/GoMem/pkg/object"
+	"github.com/Sunmedalia/GoMem/pkg/pesymbols"
 	"github.com/Sunmedalia/GoMem/pkg/symbols"
 )
 
@@ -31,6 +32,7 @@ type Spec struct {
 	Dependencies []string          `json:"dependencies,omitempty"`
 }
 type Environment struct {
+	ModulePDB      pesymbols.Provider
 	Artifacts      evidence.ArtifactSink
 	Physical       memory.MemoryLayer
 	Kernel         memory.MemoryLayer

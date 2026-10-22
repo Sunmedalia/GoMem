@@ -286,6 +286,9 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 	}
 	eng.life, eng.stop = context.WithCancel(ctx)
 	eng.Env.SymbolLocation = eng.Config.Symbols
+	if eng.Env.OS == "windows" {
+		eng.Env.ModulePDB = eng.modulePDBProvider()
+	}
 	return eng, nil
 }
 func Hash(ctx context.Context, s memory.MemorySource) (string, error) {

@@ -1,0 +1,35 @@
+{
+  "schema": "gomem.module-symbols-validation/v1",
+  "status": "development-preview",
+  "baseline": {
+    "version": "2.28.2",
+    "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75"
+  },
+  "deterministic": {
+    "upstream_cases": 18,
+    "methods": "unmodified PDB GUID/cache/ISF and export resolution",
+    "native_architectures": [
+      "x86",
+      "x64"
+    ],
+    "comparison": "ordered exact matches, remaining requests, independently reread captures"
+  },
+  "real_control": {
+    "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+    "matched_symbols": 3,
+    "identity_reads": 5,
+    "captured_bytes": 449,
+    "scope": "exact loaded kernel ISF reuse only"
+  },
+  "limitations": [
+    "No automatic process/module collection or new plugin",
+    "Dynamic task-cache policy/digest integration required before plugin use",
+    "No full version/corruption acceptance"
+  ],
+  "fuzz": {
+    "target": "FuzzModuleSymbolRequests",
+    "duration_seconds": 10,
+    "executions": 1707113,
+    "result": "pass"
+  }
+}

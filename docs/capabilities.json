@@ -12517,7 +12517,7 @@
       "validation_record": "docs/pe-exports.md",
       "gaps": [
         "Supporting parser, not complete PESymbols or suspended-thread plugin implementation",
-        "PDB-first cross-process module resolution and broader PE extension behavior remain pending",
+        "Ordered PDB-first module resolution has 18 pinned controls; automatic cross-process collection, plugin integration and broader extension behavior remain pending",
         "Real PE32, forwarded-export corpora and full corruption/version acceptance remain pending",
         "Forwarder strings are metadata and are not recursively resolved"
       ]

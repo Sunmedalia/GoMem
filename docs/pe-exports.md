@@ -8,7 +8,7 @@ The parser validates the image through the existing `pe.Plan` reconstruction pla
 
 Named exports follow name-table order, including aliases. Remaining ordinal-only exports follow export-address-table order. Zero-RVA slots are omitted. Ordinals use widened arithmetic so a large ordinal base cannot wrap. Duplicate function addresses remain separate entries. `NameAt` uses exact absolute addresses and returns the first matching export's name, matching the pinned `ExportSymbolFinder`; it does not select a nearby symbol. `AddressForName` returns the first matching named export. Lookup name bytes are copied so callers cannot mutate the index through a lookup result.
 
-An RVA inside the export directory identifies a forwarder. Its original NUL-terminated string remains metadata, and the reported address is the forwarder string's address. Recursive module/ordinal resolution is not performed. Symbol consumers must distinguish this metadata from executable code and must implement the baseline's PDB-first resolution separately.
+An RVA inside the export directory identifies a forwarder. Its original NUL-terminated string remains metadata, and the reported address is the forwarder string's address. Recursive module/ordinal resolution is not performed. Symbol consumers must distinguish this metadata from executable code and can use the shared [PDB-first module resolver](module-symbols.md); plugin integration and automatic module collection remain pending.
 
 The API always returns an `ExportTable`, including on failure. `Complete=true` with no entries establishes a successfully parsed empty directory; `Complete=false` and a non-nil error retain any preceding complete entries as partial evidence. Consumers must check both the error and completeness before caching a result as successful. The table itself is not a case database or a plugin result. CLI consumers must convert addresses into the structured evidence model's hexadecimal address values.
 
@@ -46,4 +46,4 @@ GOMEM_PE_EXPORT_MAPPED=PATH_TO_MAPPED_PE \
 go test ./internal/engine -run '^TestOfficialWindowsKernelPEExports$' -count=1 -v
 ```
 
-No plugin is newly accepted. Real PE32/forwarded-export corpora, process/module collection, PDB-first fallback and broader version/corruption/extension acceptance remain pending. Measurements are in [pe-exports-validation.json](pe-exports-validation.json).
+No plugin is newly accepted. Real PE32/forwarded-export corpora, process/module collection, plugin integration and broader version/corruption/extension acceptance remain pending. Measurements are in [pe-exports-validation.json](pe-exports-validation.json).
