@@ -42,6 +42,8 @@ jobs:
           name: engine-tests-${{ matrix.shard }}
           path: engine-tests-${{ matrix.shard }}.json
           if-no-files-found: error
+  # Count budgets avoid Go 1.26 timed-fuzz shutdown races (golang/go#82362).
+  # Calibration and per-target budgets: docs/ci-fuzz-budgets.json.
   acceptance:
     runs-on: ubuntu-latest
     steps:
@@ -119,72 +121,73 @@ jobs:
       - run: python3 tools/build_ptrace_oracle.py --check
       - run: python3 tools/build_linux_pstree_oracle.py --check
       - run: python3 tools/baseline_matrix.py --source .cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75 --check
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxKallsymsSources -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxPsCallStack -fuzztime 5s
-      - run: go test ./pkg/kallsyms -run '^$' -fuzz FuzzFullResolver -fuzztime 5s
-      - run: go test ./pkg/kallsyms -run '^$' -fuzz FuzzModuleLookup -fuzztime 5s
-      - run: go test ./pkg/kallsyms -run '^$' -fuzz FuzzFtraceLookup -fuzztime 5s
-      - run: go test ./pkg/kallsyms -run '^$' -fuzz FuzzBPFLookup -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxSockscan -fuzztime 5s
-      - run: go test ./pkg/object -run '^$' -fuzz FuzzViewDataAndNativeLayers -fuzztime 5s
-      - run: go test ./pkg/object -run '^$' -fuzz FuzzLatchTree -fuzztime 5s
-      - run: go test ./pkg/kallsyms -run '^$' -fuzz FuzzCoreLookup -fuzztime 5s
-      - run: go test ./pkg/kallsyms -run '^$' -fuzz FuzzCoreTables -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxTracepointAcquisition -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxFtraceAcquisition -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxFramebufferAcquisition -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxFramebufferPixels -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxPerfEvents -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxKmsgRings -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxPIDHash -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxEBPFIDR -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxLibraryList -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxMalfindDisassembly -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzRegexPluginPipeline -fuzztime 5s
-      - run: go test ./pkg/memoryscan -run '^$' -fuzz FuzzAcquireCorrespondence -fuzztime 5s
-      - run: go test ./pkg/memoryscan -run '^$' -fuzz FuzzMemoryScanPipeline -fuzztime 5s
-      - run: go test ./pkg/memory -run '^$' -fuzz FuzzScanPlan -fuzztime 5s
-      - run: go test ./pkg/memory -run '^$' -fuzz FuzzDetect -fuzztime 5s
-      - run: go test ./pkg/memory -run '^$' -fuzz FuzzAVML -fuzztime 5s
-      - run: go test ./pkg/memory -run '^$' -fuzz FuzzSnappyBlock -fuzztime 5s
-      - run: go test ./pkg/memory -run '^$' -fuzz FuzzPointerScan -fuzztime 5s
-      - run: go test ./pkg/winpath -run '^$' -fuzz FuzzWindowsModulePath -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzSuspendedThreadPipeline -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzDebugRegisterPipeline -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzETWPatchPipeline -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzMFTPipeline -fuzztime 5s
-      - run: go test ./pkg/ntfs -run '^$' -fuzz FuzzMFTRecord -fuzztime 5s
-      - run: go test ./pkg/byteregex -run '^$' -fuzz FuzzByteRegex -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsStringsPipeline -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsMalfindPipeline -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzIATPipeline -fuzztime 5s
-      - run: go test ./pkg/pe -run '^$' -fuzz FuzzMappedPEImports -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzPESymbolRequest -fuzztime 5s
-      - run: go test ./pkg/pesymbols -run '^$' -fuzz FuzzModuleSymbolRequests -fuzztime 5s
-      - run: go test ./pkg/pe -run '^$' -fuzz FuzzMappedPEExports -fuzztime 5s
-      - run: go test ./pkg/pe -run '^$' -fuzz FuzzMappedPEReconstruction -fuzztime 5s
-      - run: go test ./pkg/object -run '^$' -fuzz FuzzLinuxIntrusiveTrees -fuzztime 5s
-      - run: go test ./pkg/linuxcache -run '^$' -fuzz FuzzPageCacheTree -fuzztime 5s
-      - run: go test ./pkg/elfimage -run '^$' -fuzz FuzzELFHeaders -fuzztime 5s
-      - run: go test ./pkg/elfimage -run '^$' -fuzz FuzzModuleELFRebuild -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxVMAMetadata -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsCommandLineUTF16 -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsVADTraversal -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxArgumentDisplay -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxClockArithmetic -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzVMCoreInfoDescriptor -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxModuleParameterGraph -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxModuleMemoryLayouts -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxModuleELFSymbols -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxInodeTimestamp -fuzztime 5s
-      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxUnixEndpoint -fuzztime 5s
-      - run: go test ./internal/engine -run '^$' -fuzz FuzzModuleRSDS -fuzztime 5s
-      - run: go test ./internal/engine -run '^$' -fuzz FuzzMappedPE -fuzztime 5s
-      - run: go test ./pkg/symbols -run '^$' -fuzz FuzzISF -fuzztime 5s
-      - run: go test ./pkg/symbols -run '^$' -fuzz FuzzDWARF -fuzztime 5s
-      - run: go test ./pkg/symbols -run '^$' -fuzz FuzzSymbolIndex -fuzztime 5s
-      - run: go test ./pkg/symbols -run '^$' -fuzz FuzzMSF -fuzztime 5s
-      - run: go test ./pkg/symbols -run '^$' -fuzz FuzzCodeView -fuzztime 5s
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxKallsymsSources -fuzztime 20000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxPsCallStack -fuzztime 10000x
+      - run: go test ./pkg/kallsyms -run '^$' -fuzz FuzzFullResolver -fuzztime 6000x
+      - run: go test ./pkg/kallsyms -run '^$' -fuzz FuzzModuleLookup -fuzztime 6000x
+      - run: go test ./pkg/kallsyms -run '^$' -fuzz FuzzFtraceLookup -fuzztime 9000x
+      - run: go test ./pkg/kallsyms -run '^$' -fuzz FuzzBPFLookup -fuzztime 26000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxSockscan -fuzztime 2000x
+      - run: go test ./pkg/object -run '^$' -fuzz FuzzViewDataAndNativeLayers -fuzztime 16000x
+      - run: go test ./pkg/object -run '^$' -fuzz FuzzLatchTree -fuzztime 30000x
+      - run: go test ./pkg/kallsyms -run '^$' -fuzz FuzzCoreLookup -fuzztime 53000x
+      - run: go test ./pkg/kallsyms -run '^$' -fuzz FuzzCoreTables -fuzztime 58000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxTracepointAcquisition -fuzztime 17000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxFtraceAcquisition -fuzztime 16000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxFramebufferAcquisition -fuzztime 20000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxFramebufferPixels -fuzztime 47000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxPerfEvents -fuzztime 6000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxKmsgRings -fuzztime 24000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxPIDHash -fuzztime 7000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxEBPFIDR -fuzztime 26000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxLibraryList -fuzztime 2000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxMalfindDisassembly -fuzztime 42000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzRegexPluginPipeline -fuzztime 20000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsVADRegexPipeline -fuzztime 50000x
+      - run: go test ./pkg/memoryscan -run '^$' -fuzz FuzzAcquireCorrespondence -fuzztime 89000x
+      - run: go test ./pkg/memoryscan -run '^$' -fuzz FuzzMemoryScanPipeline -fuzztime 443000x
+      - run: go test ./pkg/memory -run '^$' -fuzz FuzzScanPlan -fuzztime 452000x
+      - run: go test ./pkg/memory -run '^$' -fuzz FuzzDetect -fuzztime 29000x
+      - run: go test ./pkg/memory -run '^$' -fuzz FuzzAVML -fuzztime 629000x
+      - run: go test ./pkg/memory -run '^$' -fuzz FuzzSnappyBlock -fuzztime 358000x
+      - run: go test ./pkg/memory -run '^$' -fuzz FuzzPointerScan -fuzztime 142000x
+      - run: go test ./pkg/winpath -run '^$' -fuzz FuzzWindowsModulePath -fuzztime 124000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzSuspendedThreadPipeline -fuzztime 24000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzDebugRegisterPipeline -fuzztime 22000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzETWPatchPipeline -fuzztime 11000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzMFTPipeline -fuzztime 41000x
+      - run: go test ./pkg/ntfs -run '^$' -fuzz FuzzMFTRecord -fuzztime 412000x
+      - run: go test ./pkg/byteregex -run '^$' -fuzz FuzzByteRegex -fuzztime 49000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsStringsPipeline -fuzztime 24000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsMalfindPipeline -fuzztime 13000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzIATPipeline -fuzztime 13000x
+      - run: go test ./pkg/pe -run '^$' -fuzz FuzzMappedPEImports -fuzztime 10x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzPESymbolRequest -fuzztime 40000x
+      - run: go test ./pkg/pesymbols -run '^$' -fuzz FuzzModuleSymbolRequests -fuzztime 229000x
+      - run: go test ./pkg/pe -run '^$' -fuzz FuzzMappedPEExports -fuzztime 220x
+      - run: go test ./pkg/pe -run '^$' -fuzz FuzzMappedPEReconstruction -fuzztime 782000x
+      - run: go test ./pkg/object -run '^$' -fuzz FuzzLinuxIntrusiveTrees -fuzztime 57000x
+      - run: go test ./pkg/linuxcache -run '^$' -fuzz FuzzPageCacheTree -fuzztime 263000x
+      - run: go test ./pkg/elfimage -run '^$' -fuzz FuzzELFHeaders -fuzztime 464000x
+      - run: go test ./pkg/elfimage -run '^$' -fuzz FuzzModuleELFRebuild -fuzztime 481000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxVMAMetadata -fuzztime 50000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsCommandLineUTF16 -fuzztime 27000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsVADTraversal -fuzztime 3000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxArgumentDisplay -fuzztime 55000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxClockArithmetic -fuzztime 59000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzVMCoreInfoDescriptor -fuzztime 71000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxModuleParameterGraph -fuzztime 4000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxModuleMemoryLayouts -fuzztime 57000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxModuleELFSymbols -fuzztime 19000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxInodeTimestamp -fuzztime 59000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxUnixEndpoint -fuzztime 65000x
+      - run: go test ./internal/engine -run '^$' -fuzz FuzzModuleRSDS -fuzztime 33000x
+      - run: go test ./internal/engine -run '^$' -fuzz FuzzMappedPE -fuzztime 24000x
+      - run: go test ./pkg/symbols -run '^$' -fuzz FuzzISF -fuzztime 174000x
+      - run: go test ./pkg/symbols -run '^$' -fuzz FuzzDWARF -fuzztime 10x
+      - run: go test ./pkg/symbols -run '^$' -fuzz FuzzSymbolIndex -fuzztime 173000x
+      - run: go test ./pkg/symbols -run '^$' -fuzz FuzzMSF -fuzztime 25000x
+      - run: go test ./pkg/symbols -run '^$' -fuzz FuzzCodeView -fuzztime 2000x
 
   unicode-reference:
     runs-on: ubuntu-latest

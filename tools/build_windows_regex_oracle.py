@@ -44,6 +44,12 @@ def generate(source):
         ('invalid-no-vads', '(', b'MATCH'),
         ('missing-page', 'MATCH', b'MATCH'),
         ('vad-edge', 'XYZMATCH', b'MATCH'),
+        ('adjacent-vads', 'XYZMATCH', b'MATCH'),
+        ('padded-context', 'MATCH', b''),
+        ('invalid-name', 'MATCH', b'MATCH'),
+        ('pid-match', 'MATCH', b'MATCH'),
+        ('pid-mismatch', 'MATCH', b'MATCH'),
+        ('invalid-pid-mismatch', '(', b'MATCH'),
     ]
     cases = []
     for arch, layer_class in [('x86', Intel), ('pae', IntelPAE), ('x64', Intel32e)]:
@@ -72,6 +78,18 @@ def generate(source):
                 data[table + 0x100 * entry:table + 0x101 * entry] = bytes(entry)
             if name == 'vad-edge':
                 data[0x103ffc:0x104004] = b'XYZMATCH'
+            if name == 'adjacent-vads':
+                struct.pack_into('<Q' if width == 8 else '<I', data, 0x1008, 0x1100)
+                struct.pack_into('<Q' if width == 8 else '<I', data, 0x1110, 0x1000)
+                struct.pack_into('<II', data, 0x1118, 0x104, 0x104)
+                bias = 12 if width == 8 else 4
+                data[0x1100-bias:0x1104-bias] = b'VadS'
+                data[0x103ffc:0x104004] = b'XYZMATCH'
+            if name == 'padded-context':
+                data[0x103ff8:0x103ffd] = b'MATCH'
+                data[table + 0x104 * entry:table + 0x105 * entry] = bytes(entry)
+            if name == 'invalid-name':
+                data[0x418:0x428] = b'main\xff.exe\0' + bytes(6)
             context = contexts.Context()
             context.layers.add_layer(BufferDataLayer(context, 'physical', 'physical', bytes(data)))
             context.config['memory.memory_layer'] = 'physical'
@@ -91,7 +109,8 @@ def generate(source):
                 runner = SimpleNamespace(context=context, config={'maxsize': 4},
                                          MAXSIZE_DEFAULT=128, _progress_callback=lambda *_: None)
                 try:
-                    processes = PsList.list_processes(context, 'kernel')
+                    pids = [108] if name.endswith('pid-mismatch') else [104] if name == 'pid-match' else []
+                    processes = PsList.list_processes(context, 'kernel', filter_func=PsList.create_pid_filter(pids))
                     for _, row in VadRegExScan._generator(runner, pattern, processes):
                         expected.append([int(row[0]), str(row[1]), int(row[2]),
                                          str(row[3]), bytes(row[4]).hex()])
@@ -100,7 +119,7 @@ def generate(source):
             writes = [dict(offset=at, data=data[at:at + 256].hex())
                       for at in range(0, len(data), 256) if any(data[at:at + 256])]
             cases.append(dict(name=name, arch=arch, pattern=pattern, configured_maxsize=4,
-                              isf=kernel, size=len(data), writes=writes, rows=expected, error=error))
+                              pid=pids, isf=kernel, size=len(data), writes=writes, rows=expected, error=error))
     for arch in ('x86', 'pae', 'x64'):
         selected = {c['name']: c for c in cases if c['arch'] == arch}
         assert len(selected['literal']['rows']) == 1
@@ -111,6 +130,9 @@ def generate(source):
         assert selected['invalid-no-vads']['error'] is not None
         assert selected['no-vads']['rows'] == []
         assert selected['vad-edge']['rows'] == []
+        assert selected['adjacent-vads']['rows'][0][2] == 0x103ffc
+        assert selected['padded-context']['rows'][0][2] == 0x103ff8
+        assert selected['invalid-pid-mismatch']['error'] is None
     return json.dumps(dict(commit=COMMIT, python='3.12', scope=__doc__, cases=cases), indent=2) + '\n'
 
 

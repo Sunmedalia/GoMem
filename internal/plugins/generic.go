@@ -32,6 +32,7 @@ func Register(r *plugin.Registry) error {
 	}
 	specs = append(specs, regexPlugins()...)
 	specs = append(specs, linuxVMARegexPlugins()...)
+	specs = append(specs, windowsVADRegexPlugins()...)
 	specs = append(specs, processPlugins()...)
 	specs = append(specs, modulePlugins()...)
 	specs = append(specs, linuxModuleExtractPlugins()...)

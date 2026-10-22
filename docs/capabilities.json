@@ -11830,15 +11830,24 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Native Intel x86/PAE/x64 Windows process VAD regex scanning with matching kernel symbols. PID filtering, process DTBs, sorted/coalesced VAD sections, DOTALL scan and anchored non-DOTALL extraction preserve the pinned generator. Display context is fixed at 128 bytes despite maxsize. Raw metadata, tags, page tables, match/context bytes, scan digests and hardware correspondence are retained. Damaged indexes, unavailable selected bytes, resource limits and read/output errors fail coverage and prevent successful caching.",
+      "native": "windows.vadregexscan",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-windows-vadregex-57-real-paged-generator-cases",
+        "official-windows-10-19041-explorer-49-positive-smss-zero-partial-controls"
+      ],
+      "comparison": "57_actual_x86_PAE_x64_generators_and_39_selected_rows_match_with_original_byte_storage_and_cache_checks;real_explorer_49_and_smss_zero_selected_matches_equal_reference_with_independent_original_image_audit;fault_cycle_overlap_bounds_cancel_and_output_controls_pass",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Development preview; full Windows version, parameter, renderer/export and performance acceptance remains pending",
+        "Real Explorer and SMSS controls retain 4623 and 57 unmapped VAD interval observations; they are failed/partial tasks, not complete coverage or clean absence",
+        "Broad real positive/negative corpus controls, real x86/PAE and legacy VAD layouts with regex scanning remain outstanding",
+        "ARM64 virtual scanning and swap/prototype page resolution are unsupported",
+        "Locale flags and bounded Python-compatible regex execution retain the shared engine limitations",
+        "Finite synthetic comparisons do not establish complete acquisition coverage; unavailable selected pages must remain failed partial evidence"
+      ],
+      "validation_record": "docs/windows-vadregexscan.md"
     },
     {
       "id": "windows.vadwalk.VadWalk",

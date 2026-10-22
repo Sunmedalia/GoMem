@@ -1,0 +1,162 @@
+{
+  "schema": "gomem.windows-vadregex-validation/v1",
+  "release": "development-preview",
+  "status": "partial",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "plugin": "windows.vadregexscan",
+  "synthetic": {
+    "reference_python": "3.12",
+    "actual_paged_generator_cases": 57,
+    "selected_result_rows": 39,
+    "architectures": [
+      "x86",
+      "pae",
+      "x64"
+    ],
+    "terminal_reference_syntax_failures": 6,
+    "fields": [
+      "PID",
+      "Process",
+      "Offset",
+      "Text",
+      "Hex"
+    ],
+    "original_bytes_seals_storage_cache": "pass",
+    "failed_tasks_cached": false
+  },
+  "checks": {
+    "targeted_engine_race": "pass; 57 generator cases and 10 failure modes",
+    "full_make_check": "running; not established yet for this milestone",
+    "build": "pass",
+    "final_go_vet": "pass",
+    "matrix": "pass; 195 official plugins, 143 partial, 52 missing, 0 accepted",
+    "inode_modes_oracle_cases": 32768,
+    "windows_regex_oracle": "pass; Python 3.12, 57 actual generator cases"
+  },
+  "fuzz": {
+    "target": "FuzzWindowsVADRegexPipeline",
+    "seconds": 15,
+    "executions": 159025,
+    "result": "pass",
+    "additional_execution_budget_run": {
+      "executions": 50000,
+      "result": "pass",
+      "workers": 4
+    }
+  },
+  "real_controls": [
+    {
+      "name": "smss",
+      "pid": 384,
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "dtb": "0x6d4000",
+      "kernel_base": "0xfffff8043601f000",
+      "symbol_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+      "parameters": {
+        "pid": "384",
+        "pattern": "This program cannot be run in DOS mode",
+        "maxsize": "4"
+      },
+      "reference_python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]",
+      "task_status": "failed-partial",
+      "coverage_failure_unit": "unmapped VAD interval observations; not missing-page count",
+      "selected_native_rows": 0,
+      "selected_reference_rows": 0,
+      "matched": true,
+      "total_native_rows": 920,
+      "native_coverage": {
+        "Chunks": 129,
+        "Completed": false,
+        "DetailedDiagnostics": 57,
+        "Diagnostics": 57,
+        "Entries": 7523,
+        "Mappings": 120,
+        "Matches": 0,
+        "OmittedDiagnostics": 0,
+        "PhysicalRequestedBytes": 941527,
+        "ProofPages": 0,
+        "Spaces": 1,
+        "Tables": 71,
+        "UnavailableMappings": 0
+      },
+      "independent_original_image_audit": {
+        "Reads": 596,
+        "Chunks": 129,
+        "Matches": 0,
+        "ContextParts": 0,
+        "HardwareProofs": 0,
+        "Disagreements": 0,
+        "UnavailableProofs": 0
+      },
+      "local_artifact_directory": ".cache/windows-vadregex-validation",
+      "artifact_sha256": {
+        "native-smss.jsonl": "0d43000d58bc45718ff2d36359c5d8430c80d01da9deea4d5b00a1f881df4ef4",
+        "reference-smss.json": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
+        "reference-smss.config.json": "be577a99d4b04ce79d5f42d040ff49c754be3187342bf9a6eb1c921e9aa3a327",
+        "reference-smss.manifest.json": "ad7502ba29a5b7f72e2902fc9ba3eb1d9154b536aa4cd231dde110c83046296b",
+        "diff-smss.json": "08bb87cae18a5dd88527853509bbc62e619db7666007f3fc21bc0204418cfefe",
+        "audit-smss.json": "10c7c4a10a1178dd547e4c506a2c11133b78302cff1064191bfaac0963d89b20"
+      }
+    },
+    {
+      "name": "explorer",
+      "pid": 4912,
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "dtb": "0x6d4000",
+      "kernel_base": "0xfffff8043601f000",
+      "symbol_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+      "parameters": {
+        "pid": "4912",
+        "pattern": "This program cannot be run in DOS mode",
+        "maxsize": "4"
+      },
+      "reference_python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]",
+      "task_status": "failed-partial",
+      "coverage_failure_unit": "unmapped VAD interval observations; not missing-page count",
+      "selected_native_rows": 49,
+      "selected_reference_rows": 49,
+      "matched": true,
+      "total_native_rows": 43700,
+      "native_coverage": {
+        "Chunks": 15866,
+        "Completed": false,
+        "DetailedDiagnostics": 4096,
+        "Diagnostics": 4623,
+        "Entries": 109694,
+        "Mappings": 15585,
+        "Matches": 49,
+        "OmittedDiagnostics": 527,
+        "PhysicalRequestedBytes": 79855045,
+        "ProofPages": 49,
+        "Spaces": 1,
+        "Tables": 2256,
+        "UnavailableMappings": 0
+      },
+      "independent_original_image_audit": {
+        "Reads": 7546,
+        "Chunks": 15866,
+        "Matches": 49,
+        "ContextParts": 49,
+        "HardwareProofs": 49,
+        "Disagreements": 0,
+        "UnavailableProofs": 0
+      },
+      "local_artifact_directory": ".cache/windows-vadregex-validation",
+      "artifact_sha256": {
+        "native-explorer.jsonl": "77c7dc566466b4dc1f6a08469897f03a945645e61889ede39d4191e16f585d5f",
+        "reference-explorer.json": "d355e709a510f41d31eac3ba0435cd01d30f24d0a5751a25f6914cd12ceb4ec9",
+        "reference-explorer.config.json": "52d00027a9e05ee84f26c0a744d05e64fb6642e92495aa6cf47b9a83195602a7",
+        "reference-explorer.manifest.json": "e9e5acc87ce0bc89471d5ce128d510f85c3d0b596aa2a6c07be842a6842f5d27",
+        "diff-explorer.json": "8a0f55d071c55479821ae2c2ed5b7810d7126a4dd2c63441c9e7d23d371fdd39",
+        "audit-explorer.json": "f51bd8cb7f74446ac0646631b2b46768a0c4f3cd0188b47e1ff3556008ad7734"
+      }
+    }
+  ],
+  "limitations": [
+    "Partial coverage on both real controls; empty findings do not establish absence",
+    "Broader Windows versions, real x86/PAE and legacy VAD regex controls remain outstanding",
+    "ARM64 virtual scanning and swap/prototype-page resolution unsupported",
+    "Shared byte-regex locale and bounded-execution limits remain explicit",
+    "All renderers/exports and release performance acceptance remain outstanding"
+  ]
+}
