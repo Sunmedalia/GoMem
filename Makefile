@@ -40,6 +40,7 @@ fuzz:
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxLibraryList -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxMalfindDisassembly -fuzztime 10s
 	$(GO) test ./pkg/elfimage -run '^$$' -fuzz FuzzModuleELFRebuild -fuzztime 10s
+	$(GO) test ./pkg/pe -run '^$$' -fuzz FuzzMappedPEExports -fuzztime 10s
 	$(GO) test ./pkg/pe -run '^$$' -fuzz FuzzMappedPEReconstruction -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxVMAMetadata -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzWindowsCommandLineUTF16 -fuzztime 10s

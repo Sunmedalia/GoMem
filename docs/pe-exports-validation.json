@@ -1,0 +1,53 @@
+{
+  "schema": "gomem.pe-exports-validation/v1",
+  "date": "2026-10-22",
+  "release": "development-preview",
+  "accepted": false,
+  "baseline": {
+    "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+    "pefile": "2024.8.26"
+  },
+  "oracle": {
+    "cases": 18,
+    "sha256": "93d9e41b63ddbd36be2084a3a2cd0d1bc3c4f910b7b580dc003afe27d09a7515",
+    "scope": "Actual pefile export parser and unmodified pinned ExportSymbolFinder on PE32/PE32+ mapped bytes"
+  },
+  "corpus": {
+    "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+    "kernel_base": "0xfffff8043601f000",
+    "mapped_pe_sha256": "39cf271274ae4d6a8732804773ee175f3fe2e1dcebc54ff0c74e6b0d64091f5e",
+    "reference_sha256": "a13bd1d6d2747fa65ba2fc6bbb0701aa17d67ddacf2d9db3851aefbed0ba2f66",
+    "exports": 3093,
+    "exact_lookups": 3093,
+    "reads": 70938,
+    "captured_bytes": 103424,
+    "comparison": "All ordered native entries and exact lookups match; every acquisition independently reread directly from original kernel memory",
+    "seconds": 3.029
+  },
+  "checks": {
+    "make_check": "passed",
+    "matrix": "passed",
+    "inode_oracle": "passed",
+    "export_oracle": "passed",
+    "race_package": "passed",
+    "corpus": "passed",
+    "build": "passed",
+    "offline_doctor": "passed"
+  },
+  "fuzz": {
+    "target": "FuzzMappedPEExports",
+    "seconds_requested": 10,
+    "executions": 24904,
+    "new_interesting": 1,
+    "failure": false
+  },
+  "limitations": [
+    "Supporting parser only; no new plugin acceptance",
+    "PDB-first cross-process/module resolution pending",
+    "Forwarders retained as metadata, not recursively resolved",
+    "Strict malformed-input failures differ from pefile silent skips",
+    "Raw names preserve bytes; no pefile display-name validity heuristic",
+    "Real PE32 and forwarded-export corpora pending",
+    "Full architecture/version/corruption and PE extension acceptance pending"
+  ]
+}

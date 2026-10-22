@@ -707,6 +707,11 @@ def generate(source):
                 infrastructure[-1].update(status="partial", corpora=["synthetic-linux-x64", "official-linux-sample-1"],
                                           comparison="selected_kernel_identity_only", validation_record="docs/linux-discovery.md")
                 infrastructure[-1]["corpora"].extend(["synthetic-linux-arm64", "local-kali-6.8.11-arm64-smoke"])
+            if module == "volatility3.framework.symbols.windows.extensions.pe":
+                infrastructure[-1].update(status="partial", corpora=["synthetic-pe32-pe32plus-reconstruction", "pinned-pe-export-18-cases", "official-windows-10-19041-kernel"],
+                                          applicability="Native bounded Intel mapped-PE reconstruction and export-table parsing; exact-name/address lookup retains aliases, ordinals and forwarder metadata. Export acquisition errors preserve partial entries and never establish a complete empty table.",
+                                          comparison="18_pefile_and_pinned_ExportSymbolFinder_cases_plus_3093_ordered_real_kernel_exports_and_exact_lookups", validation_record="docs/pe-exports.md",
+                                          gaps=["Supporting parser, not complete PESymbols or suspended-thread plugin implementation", "PDB-first cross-process module resolution and broader PE extension behavior remain pending", "Real PE32, forwarded-export corpora and full corruption/version acceptance remain pending", "Forwarder strings are metadata and are not recursively resolved"])
             if module == "volatility3.framework.layers.avml":
                 infrastructure[-1].update(status="partial", corpora=["synthetic-avml-v2", "official-linux-sample-1-reencoded-avml"],
                                           applicability="AVML v2 inclusive physical regions and Snappy framed data with 64KiB decoded frame bounds; CRC32C on reads, exact stored-length trailers and bounded random-access cache.",

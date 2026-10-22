@@ -12505,11 +12505,22 @@
       "id": "volatility3.framework.symbols.windows.extensions.pe",
       "category": "symbols",
       "source": "volatility3/framework/symbols/windows/extensions/pe.py",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "See locked source; source-module inventory includes support modules.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "Native bounded Intel mapped-PE reconstruction and export-table parsing; exact-name/address lookup retains aliases, ordinals and forwarder metadata. Export acquisition errors preserve partial entries and never establish a complete empty table.",
+      "corpora": [
+        "synthetic-pe32-pe32plus-reconstruction",
+        "pinned-pe-export-18-cases",
+        "official-windows-10-19041-kernel"
+      ],
+      "comparison": "18_pefile_and_pinned_ExportSymbolFinder_cases_plus_3093_ordered_real_kernel_exports_and_exact_lookups",
+      "validation_record": "docs/pe-exports.md",
+      "gaps": [
+        "Supporting parser, not complete PESymbols or suspended-thread plugin implementation",
+        "PDB-first cross-process module resolution and broader PE extension behavior remain pending",
+        "Real PE32, forwarded-export corpora and full corruption/version acceptance remain pending",
+        "Forwarder strings are metadata and are not recursively resolved"
+      ]
     },
     {
       "id": "volatility3.framework.symbols.windows.extensions.pool",
