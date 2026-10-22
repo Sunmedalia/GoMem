@@ -6,7 +6,7 @@
     39757034756,
     39763243861
   ],
-  "calibration": "Maximum observed executions in the prior successful 5-second CI run and later run through ftrace; round upward to 1000, or 10 for slow targets. New regex targets calibrated from local paged plugin fuzzing. Count budgets specify inputs, not deterministic generated corpus contents. Pool scanner capture fuzzing: 50000 inputs passed locally in 2.69 seconds. Native network layout fuzzing: 100000 inputs passed locally in 0.832 seconds. Callback object and complete paged pipeline fuzzing use 10000 CI inputs; bounded pipeline inputs exercise source bytes, actual Intel translation and callback/pool decoding. Permuted callback mapping inputs: 10000 passed locally with original-read rechecks in 9.743 seconds. Console screen acquisition uses 10000 inputs and the signed screen layout parser uses 1000; local runs passed 10000 and 1017 executions respectively. Console title/scalar/list fuzzing passed 10000 local executions in 2.956 seconds; its signed layout parser passed 1000 in 0.917 seconds.",
+  "calibration": "Maximum observed executions in the prior successful 5-second CI run and later run through ftrace; round upward to 1000, or 10 for slow targets. New regex targets calibrated from local paged plugin fuzzing. Count budgets specify inputs, not deterministic generated corpus contents. Pool scanner capture fuzzing: 50000 inputs passed locally in 2.69 seconds. Native network layout fuzzing: 100000 inputs passed locally in 0.832 seconds. Callback object and complete paged pipeline fuzzing use 10000 CI inputs; bounded pipeline inputs exercise source bytes, actual Intel translation and callback/pool decoding. Permuted callback mapping inputs: 10000 passed locally with original-read rechecks in 9.743 seconds. Console screen acquisition uses 10000 inputs and the signed screen layout parser uses 1000; local runs passed 10000 and 1017 executions respectively. Console title/scalar/list fuzzing passed 10000 local executions in 2.956 seconds; its signed layout parser passed 1000 in 0.917 seconds. Console screen-chain and alias-text pipeline passed 10000 local executions in 3.730 seconds.",
   "ci_executions": {
     "FuzzAVML": 629000,
     "FuzzAcquireCorrespondence": 89000,
@@ -19,6 +19,7 @@
     "FuzzCodeView": 2000,
     "FuzzConsoleObjectLayout": 1000,
     "FuzzConsoleObjects": 10000,
+    "FuzzConsoleRelations": 10000,
     "FuzzConsoleScreen": 10000,
     "FuzzConsoleScreenLayout": 1000,
     "FuzzCoreLookup": 53000,

@@ -75,3 +75,6 @@ Remaining work includes full console candidate scanning, screen-chain behavior,
 executable/alias strings, command/property trees, registry settings, real-image
 positive controls, task/store/export/cache/resume integration and performance
 acceptance. Component controls do not advance `windows.consoles` to partial.
+
+The subsequent [relation reader](windows-console-relations.md) adds screen
+chains and alias text controls. Full plugin integration remains pending.

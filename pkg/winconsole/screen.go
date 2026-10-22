@@ -52,6 +52,7 @@ func ParseScreenLayout(raw []byte) (*ScreenLayout, error) {
 	l := &ScreenLayout{SHA256: hex.EncodeToString(hash[:]), fields: map[string]int64{}}
 	for _, required := range []struct{ typ, field, kind, target string }{
 		{"_SCREEN_INFORMATION", "TextBufferInfo", "pointer", "_TEXT_BUFFER_INFO"},
+		{"_SCREEN_INFORMATION", "Next", "pointer", "_SCREEN_INFORMATION"},
 		{"_TEXT_BUFFER_INFO", "BufferRows", "pointer", "_ROWS_ARRAY"},
 		{"_TEXT_BUFFER_INFO", "BufferCapacity", "short", ""},
 		{"_TEXT_BUFFER_INFO", "BufferStart", "short", ""},

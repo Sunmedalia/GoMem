@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "status": "development_dependency",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Native console screen chain pointer/target enumeration and embedded alias/executable text; no registered windows.consoles plugin",
+  "synthetic": {
+    "layouts": 11,
+    "cases": 264,
+    "original_result_projections": 1056,
+    "original_methods_unmodified": true,
+    "source_sha256_matches_compiled_catalog": true,
+    "physical_fixture_address_mask": "explicit 64-bit to prevent truncating corrupt pointers into the small fixture",
+    "screen_comparison": "ordered pointer field addresses and target addresses; original iterator prefixes retained on errors",
+    "screen_original_completed": 201,
+    "screen_original_read_exceptions": 63,
+    "native_negative_capacity_difference": "ten nonoverlapping layouts reject before second link; overlapping 17763 layout fails earlier like original",
+    "cycle_difference": "native retains original emitted links including repeated targets, adds cycle error, continues alternate chain",
+    "overlapping_17763": "original Next offset 36 overlaps TextBufferInfo at 32; full-width corrupted pointer remains a matched read failure; no offset rewrite",
+    "exe_original_successes": 161,
+    "exe_original_attribute_errors": 92,
+    "exe_original_read_errors": 11,
+    "legacy_exe": "ErrLegacyExeName matches missing get_string method; target-hole/non-ASCII controls preserve AttributeError behavior without extra target reads",
+    "alias_source_and_target": "optional original strings/None and read failures checked with independent source-byte rereads",
+    "partial_command_text_bytes_and_error": "pass; shared reader preserves partial raw bytes with nil decoded string",
+    "bounds_cancel_emitter_mixed_digest_and_error_accumulation": "pass"
+  },
+  "checks": {
+    "package_race": "pass; all winconsole components and 264 relation controls, 9.362s",
+    "cmdscan_plugin_race": "pass; 132 original complete generators plus native guards, 7.225s",
+    "cmdscan_engine_race": "pass; 24 sealed-storage and fresh retry controls after shared partial-read change, 200.908s",
+    "relations_fuzz": "pass; 10000 executions on final implementation, 4.051s",
+    "history_bucket_fuzz": "pass; 10000 executions after shared text-read change, 0.436s",
+    "oracle_python312": "264 controls regenerate identically",
+    "vet": "pass; go vet ./...",
+    "matrix": "pass; 195 plugins, 148 partial, 47 missing, 0 accepted",
+    "inode_oracle": "32768 pass",
+    "python_tests": "43 pass",
+    "argument_fixtures": "428 pass",
+    "build_offline_doctor": "pass; development preview",
+    "cross_compile": "Windows amd64 and Linux amd64 package test executables built; latest runtime CI pending",
+    "full_make_check": "console object snapshot is still running; it predates relations and shared partial-text read change. These changes have focused package/plugin/engine race tests. Do not claim full-suite validation for newest snapshot."
+  },
+  "remaining": [
+    "Full windows.consoles plugin candidate/registry scanning",
+    "Console property/history tree and structured evidence linkage",
+    "Legacy executable name support beyond pinned missing-method behavior",
+    "Real positive console corpus and complete version/parameter/corruption matrix",
+    "Sealed store/export/cache/resume and release performance acceptance"
+  ]
+}

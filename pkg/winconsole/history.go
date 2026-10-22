@@ -80,7 +80,7 @@ func (r Reader) Text(ctx context.Context, at uint64) (*string, []byte, error) {
 			return nil, nil, err
 		}
 	}
-	raw, err := memory.Read(ctx, r.Objects.Layer, address, int(n*2))
+	raw, err := consoleRead(ctx, r.Objects.Layer, address, int(n*2))
 	if err != nil {
 		return nil, raw, err
 	}
