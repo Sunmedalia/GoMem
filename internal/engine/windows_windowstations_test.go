@@ -45,13 +45,6 @@ func TestWindowStationsSealedStorageFreshSymbolsAndFailedRetry(t *testing.T) {
 	if fixture.Commit != "881e970121c16f0932fb9d16fbd5fb258cbcbf75" || len(fixture.Cases) != 16 {
 		t.Fatal("GUI pipeline fixture drift")
 	}
-	var identity windowsRegexCase
-	for _, c := range windowsRegexCases(t) {
-		if c.Arch == "x64" && c.Name == "literal" {
-			identity = c
-			break
-		}
-	}
 	for _, c := range fixture.Cases {
 		if len(c.Holes) > 0 {
 			continue
@@ -65,52 +58,7 @@ func TestWindowStationsSealedStorageFreshSymbolsAndFailedRetry(t *testing.T) {
 				}
 				copy(data[w.Offset:], b)
 			}
-			for _, w := range identity.Writes {
-				if w.Offset < 0x10000 || w.Offset >= 0x12000 {
-					continue
-				}
-				b, err := hex.DecodeString(w.Data)
-				if err != nil || w.Offset > len(data)-len(b) {
-					t.Fatal("invalid PE fixture", err)
-				}
-				copy(data[w.Offset:], b)
-			}
-			var table, source map[string]json.RawMessage
-			if err = json.Unmarshal(c.ISF, &table); err != nil {
-				t.Fatal(err)
-			}
-			if err = json.Unmarshal(identity.ISF, &source); err != nil {
-				t.Fatal(err)
-			}
-			var meta, original map[string]json.RawMessage
-			_ = json.Unmarshal(source["metadata"], &meta)
-			_ = json.Unmarshal(table["metadata"], &original)
-			var windows, identityWindows map[string]json.RawMessage
-			_ = json.Unmarshal(original["windows"], &windows)
-			_ = json.Unmarshal(meta["windows"], &identityWindows)
-			for key, value := range windows {
-				identityWindows[key] = value
-			}
-			meta["windows"], _ = json.Marshal(identityWindows)
-			table["metadata"], _ = json.Marshal(meta)
-			isf, err := json.Marshal(table)
-			if err != nil {
-				t.Fatal(err)
-			}
-			dir := t.TempDir()
-			image, symbol := filepath.Join(dir, "memory.raw"), filepath.Join(dir, "kernel.json")
-			if err = os.WriteFile(image, data, 0600); err != nil {
-				t.Fatal(err)
-			}
-			if err = os.WriteFile(symbol, isf, 0600); err != nil {
-				t.Fatal(err)
-			}
-			cache := filepath.Join(dir, "symbols")
-			catalogPath := seedWindowStationsEngineCatalog(t, cache)
-			e, err := engine.Open(context.Background(), engine.Config{Image: image, Symbols: symbol, OS: "windows", Arch: "x64", DTB: "0x1000", KernelBase: c.KernelBase, CaseDir: filepath.Join(dir, "case"), SymbolCache: cache, Offline: true})
-			if err != nil {
-				t.Fatal(err)
-			}
+			e, catalogPath := openGUIFixtureEngine(t, data, c.ISF, c.KernelBase)
 			defer e.Close()
 			var wire bytes.Buffer
 			got := [][]any{}
@@ -221,4 +169,63 @@ func seedWindowStationsEngineCatalog(t testing.TB, cache string) string {
 		t.Fatal(err)
 	}
 	return path
+}
+
+func openGUIFixtureEngine(t testing.TB, data []byte, isfRaw json.RawMessage, kernelBase uint64) (*engine.Engine, string) {
+	t.Helper()
+	var err error
+	var identity windowsRegexCase
+	for _, c := range windowsRegexCases(t) {
+		if c.Arch == "x64" && c.Name == "literal" {
+			identity = c
+			break
+		}
+	}
+	for _, w := range identity.Writes {
+		if w.Offset < 0x10000 || w.Offset >= 0x12000 {
+			continue
+		}
+		b, err := hex.DecodeString(w.Data)
+		if err != nil || w.Offset > len(data)-len(b) {
+			t.Fatal("invalid PE fixture", err)
+		}
+		copy(data[w.Offset:], b)
+	}
+	var table, source map[string]json.RawMessage
+	if err = json.Unmarshal(isfRaw, &table); err != nil {
+		t.Fatal(err)
+	}
+	if err = json.Unmarshal(identity.ISF, &source); err != nil {
+		t.Fatal(err)
+	}
+	var meta, original map[string]json.RawMessage
+	_ = json.Unmarshal(source["metadata"], &meta)
+	_ = json.Unmarshal(table["metadata"], &original)
+	var windows, identityWindows map[string]json.RawMessage
+	_ = json.Unmarshal(original["windows"], &windows)
+	_ = json.Unmarshal(meta["windows"], &identityWindows)
+	for key, value := range windows {
+		identityWindows[key] = value
+	}
+	meta["windows"], _ = json.Marshal(identityWindows)
+	table["metadata"], _ = json.Marshal(meta)
+	isf, err := json.Marshal(table)
+	if err != nil {
+		t.Fatal(err)
+	}
+	dir := t.TempDir()
+	image, symbol := filepath.Join(dir, "memory.raw"), filepath.Join(dir, "kernel.json")
+	if err = os.WriteFile(image, data, 0600); err != nil {
+		t.Fatal(err)
+	}
+	if err = os.WriteFile(symbol, isf, 0600); err != nil {
+		t.Fatal(err)
+	}
+	cache := filepath.Join(dir, "symbols")
+	catalogPath := seedWindowStationsEngineCatalog(t, cache)
+	e, err := engine.Open(context.Background(), engine.Config{Image: image, Symbols: symbol, OS: "windows", Arch: "x64", DTB: "0x1000", KernelBase: kernelBase, CaseDir: filepath.Join(dir, "case"), SymbolCache: cache, Offline: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	return e, catalogPath
 }

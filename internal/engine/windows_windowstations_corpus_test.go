@@ -25,24 +25,47 @@ import (
 // Audit an existing real acquisition rather than rerunning or accepting a
 // filtered JSON result as evidence that all rows were sealed and source-backed.
 func TestWindowStationsCorpusSealedOriginalAndReadAudit(t *testing.T) {
-	image, symbol, caseDir, taskID, wirePath, referencePath := os.Getenv("GOMEM_WINSTA_IMAGE"), os.Getenv("GOMEM_WINSTA_SYMBOLS"), os.Getenv("GOMEM_WINSTA_CASE"), os.Getenv("GOMEM_WINSTA_TASK"), os.Getenv("GOMEM_WINSTA_WIRE"), os.Getenv("GOMEM_WINSTA_REFERENCE")
+	auditWindowsGUICorpus(t, "windows.windowstations", "windowstation", "GOMEM_WINSTA_")
+}
+func TestDesktopsCorpusSealedOriginalAndReadAudit(t *testing.T) {
+	name := os.Getenv("GOMEM_GUI_PLUGIN")
+	if name == "" {
+		t.Skip("set GOMEM_GUI_PLUGIN=windows.desktops or windows.deskscan and GOMEM_GUI_* corpus inputs")
+	}
+	if name != "windows.desktops" && name != "windows.deskscan" {
+		t.Fatal("unsupported desktop corpus plugin")
+	}
+	auditWindowsGUICorpus(t, name, "desktop", "GOMEM_GUI_")
+}
+
+type guiCorpusEntity struct {
+	Offset        uint64
+	Name          string
+	SessionID     uint64
+	WindowStation string `json:"Window Station"`
+	Session       uint64
+	Desktop       *string
+	Process       string
+	PID           uint64
+}
+
+func auditWindowsGUICorpus(t *testing.T, pluginName, recordType, prefix string) {
+	t.Helper()
+
+	image, symbol, caseDir, taskID, wirePath, referencePath := os.Getenv(prefix+"IMAGE"), os.Getenv(prefix+"SYMBOLS"), os.Getenv(prefix+"CASE"), os.Getenv(prefix+"TASK"), os.Getenv(prefix+"WIRE"), os.Getenv(prefix+"REFERENCE")
 	if image == "" || symbol == "" || caseDir == "" || taskID == "" || wirePath == "" || referencePath == "" {
-		t.Skip("set GOMEM_WINSTA_IMAGE/SYMBOLS/CASE/TASK/WIRE/REFERENCE; see docs/windows-windowstations.md")
+		t.Skip("set " + prefix + "IMAGE/SYMBOLS/CASE/TASK/WIRE/REFERENCE; see docs/windows-windowstations.md")
 	}
 	raw, err := os.ReadFile(referencePath)
 	if err != nil {
 		t.Fatal(err)
 	}
-	var reference []struct {
-		Offset    uint64
-		Name      string
-		SessionID uint64
-	}
+	var reference []guiCorpusEntity
 	if err = json.Unmarshal(raw, &reference); err != nil {
 		t.Fatal(err)
 	}
 	if len(reference) == 0 {
-		t.Fatal("requires positive original station control")
+		t.Fatal("requires positive original GUI control")
 	}
 	var manifest struct {
 		Baseline     struct{ Commit string }
@@ -59,7 +82,7 @@ func TestWindowStationsCorpusSealedOriginalAndReadAudit(t *testing.T) {
 		t.Fatal(err)
 	}
 	digest := sha256.Sum256(raw)
-	if manifest.Baseline.Commit != "881e970121c16f0932fb9d16fbd5fb258cbcbf75" || manifest.Plugin != "windows.windowstations" || manifest.OutputSHA256 != hex.EncodeToString(digest[:]) {
+	if manifest.Baseline.Commit != "881e970121c16f0932fb9d16fbd5fb258cbcbf75" || manifest.Plugin != pluginName || manifest.OutputSHA256 != hex.EncodeToString(digest[:]) {
 		t.Fatal("original GUI reference identity differs")
 	}
 	e, err := engine.Open(context.Background(), engine.Config{Image: image, Symbols: symbol, OS: "windows", Arch: "x64", DTB: "0x6d4000", KernelBase: 0xfffff8043601f000, CaseDir: caseDir, Offline: true})
@@ -105,7 +128,7 @@ func TestWindowStationsCorpusSealedOriginalAndReadAudit(t *testing.T) {
 		if task.ID == taskID {
 			found = true
 			state = string(task.State)
-			if task.Plugin != "windows.windowstations" {
+			if task.Plugin != pluginName {
 				t.Fatal("task is not a GUI station run")
 			}
 		}
@@ -120,11 +143,7 @@ func TestWindowStationsCorpusSealedOriginalAndReadAudit(t *testing.T) {
 	defer wire.Close()
 	decoder := json.NewDecoder(wire)
 	layers := map[string]memory.MemoryLayer{e.Env.Physical.Name(): e.Env.Physical, e.Env.Kernel.Name(): e.Env.Kernel}
-	got := []struct {
-		Offset    uint64
-		Name      string
-		SessionID uint64
-	}{}
+	got := []guiCorpusEntity{}
 	var seals, reads, captured, rawRows, readFailures uint64
 	counts := map[string]uint64{}
 	summary := map[string]evidence.Value{}
@@ -223,14 +242,23 @@ func TestWindowStationsCorpusSealedOriginalAndReadAudit(t *testing.T) {
 				}
 				reads++
 				captured += n
-			case "windowstation":
+			case recordType:
 				at, _ := row.Cells["Offset"].Uint()
-				sid, _ := row.Cells["SessionId"].Uint()
-				got = append(got, struct {
-					Offset    uint64
-					Name      string
-					SessionID uint64
-				}{at & 0x0000ffffffffffff, row.Cells["Name"].String(), sid})
+				entity := guiCorpusEntity{Offset: at & 0x0000ffffffffffff}
+				if recordType == "windowstation" {
+					entity.Name = row.Cells["Name"].String()
+					entity.SessionID, _ = row.Cells["SessionId"].Uint()
+				} else {
+					entity.WindowStation = row.Cells["WindowStation"].String()
+					entity.Session, _ = row.Cells["Session"].Uint()
+					entity.Process = row.Cells["Process"].String()
+					entity.PID, _ = row.Cells["PID"].Uint()
+					if row.Cells["Desktop"].Kind != "missing" {
+						name := row.Cells["Desktop"].String()
+						entity.Desktop = &name
+					}
+				}
+				got = append(got, entity)
 			case "task_summary":
 				raw, _ := json.Marshal(row.Cells["Coverage"].Data)
 				if err = json.Unmarshal(raw, &summary); err != nil {
@@ -256,13 +284,13 @@ func TestWindowStationsCorpusSealedOriginalAndReadAudit(t *testing.T) {
 	if readFailures > 0 && state != "failed" {
 		t.Fatal("GUI read failures presented as successful")
 	}
-	audit := map[string]any{"image_sha256": e.Env.ImageHash, "symbols_sha256": e.Env.Symbols.Digest(), "reference_sha256": manifest.OutputSHA256, "task": taskID, "state": state, "ordered_rows": len(got), "seals_verified": seals, "source_reads_verified": reads, "captured_bytes_verified": captured, "raw_captures_verified": rawRows, "failed_reads_verified": readFailures, "record_counts": counts, "coverage": summary, "scope": "Same ISF archive member; independent native full station scan, ordered fields, stored stream and every captured read audited; no independent PDB or full OS acceptance"}
+	audit := map[string]any{"image_sha256": e.Env.ImageHash, "symbols_sha256": e.Env.Symbols.Digest(), "reference_sha256": manifest.OutputSHA256, "task": taskID, "state": state, "ordered_rows": len(got), "seals_verified": seals, "source_reads_verified": reads, "captured_bytes_verified": captured, "raw_captures_verified": rawRows, "failed_reads_verified": readFailures, "record_counts": counts, "coverage": summary, "plugin": pluginName, "scope": "Same ISF archive member; independent native full GUI scan, ordered fields, stored stream and every captured read audited; no independent PDB or full OS acceptance"}
 	data, err := json.MarshalIndent(audit, "", "  ")
 	if err != nil {
 		t.Fatal(err)
 	}
 	t.Log(string(data))
-	if path := os.Getenv("GOMEM_WINSTA_AUDIT"); path != "" {
+	if path := os.Getenv(prefix + "AUDIT"); path != "" {
 		if err = os.WriteFile(path, append(data, '\n'), 0600); err != nil {
 			t.Fatal(err)
 		}

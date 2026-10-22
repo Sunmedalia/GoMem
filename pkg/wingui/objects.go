@@ -151,8 +151,14 @@ func (r Reader) Threads(ctx context.Context, at uint64, maxNodes uint64, emit fu
 	}
 	current := head
 	seen := map[uint64]bool{head: true}
-	var failures []error
-	fail := func(err error) error { return errors.Join(append(failures, err)...) }
+	var failures uint64
+	var first error
+	fail := func(err error) error {
+		if first != nil {
+			return errors.Join(fmt.Errorf("GUI thread owners: %d failures; first: %w", failures, first), err)
+		}
+		return err
+	}
 	for count := uint64(0); ; {
 		if err := ctx.Err(); err != nil {
 			return fail(err)
@@ -187,7 +193,10 @@ func (r Reader) Threads(ctx context.Context, at uint64, maxNodes uint64, emit fu
 		count++
 		owner, err := r.threadOwner(ctx, o, kernel, thread)
 		if err != nil {
-			failures = append(failures, fmt.Errorf("GUI thread 0x%x owner: %w", thread, err))
+			failures++
+			if first == nil {
+				first = fmt.Errorf("GUI thread 0x%x owner: %w", thread, err)
+			}
 			if ctx.Err() != nil {
 				return fail(ctx.Err())
 			}

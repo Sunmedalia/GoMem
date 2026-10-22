@@ -127,3 +127,6 @@ is 150 partial, 45 missing and zero accepted plugins. Desktop/thread generators,
 other full-plugin layouts, modern/legacy real dumps, malformed type coverage,
 swap/prototype pages, ARM64 virtual GUI scanning, safe successful cache reuse,
 full exports/renderers and performance acceptance remain pending.
+
+Subsequent integrations: [Desktops and DeskScan](windows-desktops.md) add partial
+thread-owner recovery with full-generator and real-image controls.

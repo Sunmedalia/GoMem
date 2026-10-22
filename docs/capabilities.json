@@ -6102,15 +6102,24 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Native Windows x64 GUI session rebinding and desktop thread-owner decoding. Desktops uses the enumerating window station and pinned repeated-root desktop list; DeskScan uses independent Desk pool objects and each object's own parent station/session. Duplicate thread owners, None vs empty names and raw process/name bytes are retained. Explicit read, node, byte and output bounds; failed partial tasks stay failed.",
+      "native": "windows.deskscan",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-32-complete-Desktops-DeskScan-generators",
+        "pinned-GUI-layout-object-session-name-pool-component-controls",
+        "official-windows-10-19041-desktops-401-deskscan-418-rows-partial-controls"
+      ],
+      "comparison": "16_actual_full_generators_per_plugin_match_six_ordered_fields;32_engine_sealed_stream_fresh_symbol_failed_retry_controls;real_401_418_rows_match_with_193328_125040_seals_and_189402_124594_original_reads_verified",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Development preview; one full-generator GUI layout and one positive real Windows10 x64 dump, no full supported-version/malformed-layout acceptance",
+        "Real Desktops/DeskScan retain 3729/2592 failed read observations; counts overlap/nest and are not unique pages. Matching selected rows is not complete acquisition",
+        "Original repeated-root desktop behavior, missing/empty name distinctions and per-thread duplicate owners are intentional; rows do not independently prove live processes/desktops",
+        "Runtime GUI symbol dependencies force fresh tasks; successful cache/resume revalidation remains pending",
+        "Swap/prototype pages, ARM64 virtual GUI scanning, independent PDB parity and full renderer/export/performance acceptance remain pending"
+      ],
+      "validation_record": "docs/windows-desktops.md"
     },
     {
       "id": "windows.desktops.Desktops",
@@ -6141,15 +6150,24 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Native Windows x64 GUI session rebinding and desktop thread-owner decoding. Desktops uses the enumerating window station and pinned repeated-root desktop list; DeskScan uses independent Desk pool objects and each object's own parent station/session. Duplicate thread owners, None vs empty names and raw process/name bytes are retained. Explicit read, node, byte and output bounds; failed partial tasks stay failed.",
+      "native": "windows.desktops",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-32-complete-Desktops-DeskScan-generators",
+        "pinned-GUI-layout-object-session-name-pool-component-controls",
+        "official-windows-10-19041-desktops-401-deskscan-418-rows-partial-controls"
+      ],
+      "comparison": "16_actual_full_generators_per_plugin_match_six_ordered_fields;32_engine_sealed_stream_fresh_symbol_failed_retry_controls;real_401_418_rows_match_with_193328_125040_seals_and_189402_124594_original_reads_verified",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Development preview; one full-generator GUI layout and one positive real Windows10 x64 dump, no full supported-version/malformed-layout acceptance",
+        "Real Desktops/DeskScan retain 3729/2592 failed read observations; counts overlap/nest and are not unique pages. Matching selected rows is not complete acquisition",
+        "Original repeated-root desktop behavior, missing/empty name distinctions and per-thread duplicate owners are intentional; rows do not independently prove live processes/desktops",
+        "Runtime GUI symbol dependencies force fresh tasks; successful cache/resume revalidation remains pending",
+        "Swap/prototype pages, ARM64 virtual GUI scanning, independent PDB parity and full renderer/export/performance acceptance remain pending"
+      ],
+      "validation_record": "docs/windows-desktops.md"
     },
     {
       "id": "windows.devicetree.DeviceTree",
@@ -12274,7 +12292,7 @@
         "Real run retains 3723 failed read observations and 194 semantic failure observations; these overlap/nest and are not unique missing pages. Task remains failed/incomplete despite matching selected rows",
         "Pinned repeated-root traversal, null target behavior and unusual original names are preserved; recovered names do not independently prove live objects",
         "GUI symbol dependencies force fresh execution; safe successful task reuse/resume remains pending",
-        "Desktop/thread generators, swap/prototype pages, ARM64 virtual GUI scanning, independent PDB parity and full renderer/export/performance acceptance remain pending"
+        "Desktop/thread generators have separate partial native integrations; swap/prototype pages, ARM64 virtual GUI scanning, independent PDB parity and full renderer/export/performance acceptance remain pending"
       ],
       "validation_record": "docs/windows-windowstations.md"
     },

@@ -1,0 +1,288 @@
+{
+  "schema": 1,
+  "status": "partial",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "plugins": [
+    "windows.desktops",
+    "windows.deskscan"
+  ],
+  "synthetic": {
+    "complete_original_generators": 32,
+    "scenarios_per_plugin": 16,
+    "full_generator_GUI_layout": "gui-win10-19041-x64",
+    "actual_pool_session_Intel_name_thread_methods_unmodified": true,
+    "ordered_fields": [
+      "Offset",
+      "WindowStation",
+      "Session",
+      "Desktop",
+      "Process",
+      "PID"
+    ],
+    "engine_sealed_fresh_symbols_failed_retry_controls": 32,
+    "station_engine_regression_controls": 14,
+    "fuzz_executions": 1042,
+    "fuzz_seconds": 11.453
+  },
+  "real_controls": {
+    "desktops": {
+      "audit": {
+        "captured_bytes_verified": 805742504,
+        "coverage": {
+          "Completed": {
+            "kind": "bool",
+            "value": false
+          },
+          "DesktopOwners": {
+            "kind": "uint64",
+            "value": "401"
+          },
+          "EvidenceRows": {
+            "kind": "uint64",
+            "value": "193327"
+          },
+          "PoolCandidates": {
+            "kind": "uint64",
+            "value": "3322"
+          },
+          "ReadFailures": {
+            "kind": "uint64",
+            "value": "3729"
+          },
+          "Reads": {
+            "kind": "uint64",
+            "value": "189402"
+          },
+          "RequestedBytes": {
+            "kind": "uint64",
+            "value": "806123789"
+          },
+          "Sessions": {
+            "kind": "uint64",
+            "value": "3"
+          },
+          "Stations": {
+            "kind": "uint64",
+            "value": "13"
+          },
+          "UnboundCandidates": {
+            "kind": "uint64",
+            "value": "22"
+          }
+        },
+        "failed_reads_verified": 3729,
+        "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+        "ordered_rows": 401,
+        "plugin": "windows.desktops",
+        "raw_captures_verified": 95386,
+        "record_counts": {
+          "desktop": 401,
+          "gui_candidate": 3493,
+          "gui_desktop": 13,
+          "gui_session": 3,
+          "gui_station": 13,
+          "gui_symbols": 1,
+          "memory_read": 189402,
+          "summary": 1,
+          "task_summary": 1
+        },
+        "reference_sha256": "6bd6932154c20ab01c8760b8f2987a194726bb3552eee506facb0c31118c1f6c",
+        "scope": "Same ISF archive member; independent native full station scan, ordered fields, stored stream and every captured read audited; no independent PDB or full OS acceptance",
+        "seals_verified": 193328,
+        "source_reads_verified": 189402,
+        "state": "failed",
+        "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+        "task": "694c06cc0b465d7b955a9ee1fcbf95d7"
+      },
+      "diff": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "WindowStation",
+          "Session",
+          "Desktop",
+          "Process",
+          "PID"
+        ],
+        "native_rows": 401,
+        "reference_rows": 401,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "b6948cd8b7f80669d277abbff47af6b7c6bfdf4f65d646171bb4f4d59fe95ca2",
+          "reference": "6bd6932154c20ab01c8760b8f2987a194726bb3552eee506facb0c31118c1f6c",
+          "mapping": "656d27680a780aa8c392fdb997837a86e7ac90cad9f7143a67b79420948e31db"
+        },
+        "native_input_rows": 193328,
+        "native_non_entity_records": {
+          "gui_symbols": 1,
+          "memory_read": 189402,
+          "gui_session": 3,
+          "gui_candidate": 3493,
+          "gui_station": 13,
+          "gui_desktop": 13,
+          "summary": 1,
+          "task_summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "desktop",
+          "excluded_values": [
+            "memory_read",
+            "summary",
+            "diagnostic",
+            "task_summary",
+            "gui_symbols",
+            "gui_session",
+            "gui_candidate",
+            "gui_station",
+            "gui_desktop"
+          ]
+        }
+      },
+      "semantic_failure_observations": 200,
+      "failure_counts_are_not_unique_pages": true,
+      "scope": "Independent native scans and all source reads/seals audited;same kernel ISF;one positive real Windows10 x64 dump;no independent PDB/full OS acceptance"
+    },
+    "deskscan": {
+      "audit": {
+        "captured_bytes_verified": 803962386,
+        "coverage": {
+          "Completed": {
+            "kind": "bool",
+            "value": false
+          },
+          "DesktopOwners": {
+            "kind": "uint64",
+            "value": "418"
+          },
+          "EvidenceRows": {
+            "kind": "uint64",
+            "value": "125039"
+          },
+          "PoolCandidates": {
+            "kind": "uint64",
+            "value": "22"
+          },
+          "ReadFailures": {
+            "kind": "uint64",
+            "value": "2592"
+          },
+          "Reads": {
+            "kind": "uint64",
+            "value": "124594"
+          },
+          "RequestedBytes": {
+            "kind": "uint64",
+            "value": "803974259"
+          },
+          "Sessions": {
+            "kind": "uint64",
+            "value": "3"
+          },
+          "Stations": {
+            "kind": "uint64",
+            "value": "0"
+          },
+          "UnboundCandidates": {
+            "kind": "uint64",
+            "value": "0"
+          }
+        },
+        "failed_reads_verified": 2592,
+        "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+        "ordered_rows": 418,
+        "plugin": "windows.deskscan",
+        "raw_captures_verified": 30578,
+        "record_counts": {
+          "desktop": 418,
+          "gui_candidate": 8,
+          "gui_desktop": 14,
+          "gui_session": 3,
+          "gui_symbols": 1,
+          "memory_read": 124594,
+          "summary": 1,
+          "task_summary": 1
+        },
+        "reference_sha256": "473a540d45f50b29838ec282e15a0597067aaaa039868cdbce89539b67764422",
+        "scope": "Same ISF archive member; independent native full station scan, ordered fields, stored stream and every captured read audited; no independent PDB or full OS acceptance",
+        "seals_verified": 125040,
+        "source_reads_verified": 124594,
+        "state": "failed",
+        "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+        "task": "09a91426d23a318d272e1543d03ce0dd"
+      },
+      "diff": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "WindowStation",
+          "Session",
+          "Desktop",
+          "Process",
+          "PID"
+        ],
+        "native_rows": 418,
+        "reference_rows": 418,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "4c01fa82fdef31cbb0145249412e60764ee7e6b52728188f09fa0644d0b1e071",
+          "reference": "473a540d45f50b29838ec282e15a0597067aaaa039868cdbce89539b67764422",
+          "mapping": "656d27680a780aa8c392fdb997837a86e7ac90cad9f7143a67b79420948e31db"
+        },
+        "native_input_rows": 125040,
+        "native_non_entity_records": {
+          "gui_symbols": 1,
+          "memory_read": 124594,
+          "gui_session": 3,
+          "gui_desktop": 14,
+          "gui_candidate": 8,
+          "summary": 1,
+          "task_summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "desktop",
+          "excluded_values": [
+            "memory_read",
+            "summary",
+            "diagnostic",
+            "task_summary",
+            "gui_symbols",
+            "gui_session",
+            "gui_candidate",
+            "gui_station",
+            "gui_desktop"
+          ]
+        }
+      },
+      "semantic_failure_observations": 1,
+      "failure_counts_are_not_unique_pages": true,
+      "scope": "Independent native scans and all source reads/seals audited;same kernel ISF;one positive real Windows10 x64 dump;no independent PDB/full OS acceptance"
+    }
+  },
+  "checks": {
+    "GUI_package_race": "pass;25.382s",
+    "desktop_focused_race": "pass;14.003s",
+    "combined_engine_race": "pass;118.812s;32 desktop and14 station cases",
+    "all_plugin_package_race": "pass;66.312s",
+    "real_source_seal_audits": "pass;17.471s desktops,15.711s deskscan;DeskScan race126.031s",
+    "station_real_audit_helper_regression": "pass;20.860s",
+    "oracle_check": "pass;32 original complete generators",
+    "fuzz": "pass;1042 inputs",
+    "vet_windows_linux_compile": "pass;engine Windows andplugins Linux",
+    "full_make_check": "running on preceding WindowStations snapshot;not desktop final snapshot",
+    "remote_ci": "wired;not run for desktop milestone",
+    "matrix_inode_python_arguments_build_doctor": "pass;195 inventoried/152 partial/43 missing/0 accepted;32768 modes;43 Python tests;428 fixtures;native build and offline doctor"
+  },
+  "remaining": [
+    "Complete plugin supported-OS/layout/malformed acceptance",
+    "Successful task cache/resume with runtime dependency revalidation",
+    "Swap/prototype pages and ARM64 virtual GUI scanning",
+    "Independent PDB parity and renderer/export/performance acceptance"
+  ]
+}

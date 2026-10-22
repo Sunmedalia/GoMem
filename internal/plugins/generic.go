@@ -35,6 +35,7 @@ func Register(r *plugin.Registry) error {
 	specs = append(specs, windowsVADRegexPlugins()...)
 	specs = append(specs, windowsPoolScannerPlugins()...)
 	specs = append(specs, windowsWindowStationsPlugins()...)
+	specs = append(specs, windowsDesktopPlugins()...)
 	specs = append(specs, windowsNetScanPlugins()...)
 	specs = append(specs, windowsNetStatPlugins()...)
 	specs = append(specs, windowsCallbackPlugins()...)

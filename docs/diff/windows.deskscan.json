@@ -1,0 +1,53 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "desktop",
+    "excluded_values": [
+      "memory_read",
+      "summary",
+      "diagnostic",
+      "task_summary",
+      "gui_symbols",
+      "gui_session",
+      "gui_candidate",
+      "gui_station",
+      "gui_desktop"
+    ]
+  },
+  "fields": {
+    "Offset": {
+      "native": "Offset",
+      "reference": "Offset",
+      "kind": "address",
+      "mask": "0x0000ffffffffffff"
+    },
+    "WindowStation": {
+      "native": "WindowStation",
+      "reference": "Window Station",
+      "kind": "string"
+    },
+    "Session": {
+      "native": "Session",
+      "reference": "Session",
+      "kind": "uint64"
+    },
+    "Desktop": {
+      "native": "Desktop",
+      "reference": "Desktop",
+      "kind": "string",
+      "missing_reasons": [
+        "desktop_name_unavailable"
+      ]
+    },
+    "Process": {
+      "native": "Process",
+      "reference": "Process",
+      "kind": "string"
+    },
+    "PID": {
+      "native": "PID",
+      "reference": "PID",
+      "kind": "uint64"
+    }
+  }
+}

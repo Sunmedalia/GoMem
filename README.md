@@ -99,6 +99,7 @@ bin/gomem analyze windows.pslist \
 | `windows.cmdscan` | 原生 conhost VAD 命令历史扫描、固定布局校验、属性树和读取证据；默认读取注册表历史大小，缺页保留失败状态；[说明](docs/windows-cmdscan.md) |
 | `windows.consoles` | 原生控制台元数据、关联进程、别名、活动命令与屏幕缓冲区树；缺页和读取错误保留为失败证据；[说明](docs/windows-consoles.md) |
 | `windows.windowstations` | 原生 GUI 池扫描、会话重绑定及窗口站名称；真实样本 13 行匹配，读取失败保留部分证据；[说明](docs/windows-windowstations.md) |
+| `windows.desktops` / `windows.deskscan` | 枚举或扫描桌面与线程所属进程；保留会话、父窗口站、重复线程行和读取错误；[说明](docs/windows-desktops.md) |
 | `windows.verinfo` | 列出内核模块和进程加载顺序 DLL 的 PE 产品版本；内核基址按 48 位截断后读取，缺页的下一链表项结束当前链表；[说明](docs/windows-verinfo.md) |
 | `windows.ldrmodules` | 对照 MZ 开头的 VAD 与 PEB 三条加载链表；页表建不起来则任务失败，文件名错误留在 `PathError`；[说明](docs/windows-ldrmodules.md) |
 | `windows.pe_symbols` | 进程/内核模块精确名称和地址查询、PDB 优先、原始读取证据及明确的部分失败；[说明](docs/windows-pe-symbols.md) |

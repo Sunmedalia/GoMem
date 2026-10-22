@@ -26,9 +26,14 @@ func windowsWindowStationsPlugins() []builtin {
 
 type guiScanOptions struct {
 	maxProcesses, maxSessions, maxStations uint64
+	maxDesktops, maxThreads                uint64
+	mode                                   string
 }
 
 func windowsWindowStations(ctx context.Context, e plugin.Environment, p map[string]string, out plugin.Emit) error {
+	return windowsGUIRun(ctx, e, p, out, "")
+}
+func windowsGUIRun(ctx context.Context, e plugin.Environment, p map[string]string, out plugin.Emit, mode string) error {
 	if err := ctx.Err(); err != nil {
 		return err
 	}
@@ -36,7 +41,7 @@ func windowsWindowStations(ctx context.Context, e plugin.Environment, p map[stri
 		return fmt.Errorf("Windows GUI scans support only native Windows x64")
 	}
 	a := &poolScannerAnalysis{ctx: ctx, out: out}
-	opts := guiScanOptions{}
+	opts := guiScanOptions{mode: mode}
 	for _, b := range []struct {
 		name   string
 		target *uint64
@@ -51,6 +56,19 @@ func windowsWindowStations(ctx context.Context, e plugin.Environment, p map[stri
 			return fmt.Errorf("invalid %s bound", b.name)
 		}
 		*b.target = n
+	}
+	if mode != "" {
+		for _, bound := range []struct {
+			name   string
+			target *uint64
+			zero   bool
+		}{{"max-desktops", &opts.maxDesktops, true}, {"max-threads", &opts.maxThreads, false}} {
+			n, err := strconv.ParseUint(p[bound.name], 0, 64)
+			if err != nil || n > 1000000 || !bound.zero && n == 0 {
+				return fmt.Errorf("invalid %s bound", bound.name)
+			}
+			*bound.target = n
+		}
 	}
 	selection, err := wingui.Select(e.Symbols)
 	if err != nil {
@@ -99,12 +117,16 @@ func runWindowStations(ctx context.Context, e plugin.Environment, layout *wingui
 	if a.stop != nil || ctx.Err() != nil {
 		return errors.Join(discoveryErr, a.stop, ctx.Err())
 	}
-	constraints, err := guiPoolConstraints(layout, "Wind")
+	tag := "Wind"
+	if opts.mode == "deskscan" {
+		tag = "Desk"
+	}
+	constraints, err := guiPoolConstraints(layout, tag)
 	if err != nil {
 		return err
 	}
 	seen := map[uint64]bool{}
-	var stations, candidates, unbound uint64
+	var stations, candidates, unbound, desktopRows uint64
 	var semantic pluginFailures
 	scanErr := scanPoolObjects(ctx, e, constraints, "gui_candidates", poolScannerRow, a.emit, func(ctx context.Context, hit poolHit) (evidence.Row, bool, error) {
 		if a.stop != nil {
@@ -112,7 +134,13 @@ func runWindowStations(ctx context.Context, e plugin.Environment, layout *wingui
 		}
 		candidates++
 		scanReader := wingui.Reader{Layer: hit.scan.Layer, Layout: layout, KernelSymbols: e.Symbols, KernelBase: e.KernelBase}
-		sid, err := scanReader.StationSession(ctx, hit.object)
+		var sid *uint64
+		var err error
+		if opts.mode == "deskscan" {
+			sid, err = scanReader.DesktopSession(ctx, hit.object)
+		} else {
+			sid, err = scanReader.StationSession(ctx, hit.object)
+		}
 		if err != nil {
 			semantic.add(err)
 			return evidence.Row{}, false, nil
@@ -130,6 +158,15 @@ func runWindowStations(ctx context.Context, e plugin.Environment, layout *wingui
 			return evidence.Row{}, false, nil
 		}
 		reader := wingui.Reader{Layer: space.Layer, Layout: layout, KernelSymbols: e.Symbols, KernelBase: e.KernelBase}
+		if opts.mode == "deskscan" {
+			rows, err := scanGUIDesktopOwners(ctx, reader, hit.object, opts, a)
+			desktopRows += rows
+			if a.stop != nil || ctx.Err() != nil {
+				return evidence.Row{}, false, poolFatalError{errors.Join(err, a.stop, ctx.Err())}
+			}
+			semantic.add(err)
+			return evidence.Row{}, false, nil
+		}
 		err = reader.TraverseStations(ctx, hit.object, opts.maxStations, func(at uint64) error {
 			if seen[at] {
 				return nil
@@ -160,6 +197,17 @@ func runWindowStations(ctx context.Context, e plugin.Environment, layout *wingui
 			if cause != nil {
 				row.Cells["Error"] = evidence.Missing("gui_name_read_failed", cause)
 			}
+			if opts.mode == "desktops" && info.Name != nil && info.Session != nil {
+				row.Cells["RecordType"] = evidence.Text("gui_station")
+				if err := a.emit(row); err != nil {
+					return err
+				}
+				return reader.Desktops(ctx, at, opts.maxDesktops, func(desktop uint64, name wingui.Name) error {
+					rows, err := emitGUIDesktopOwners(ctx, reader, desktop, at, *info.Name, *info.Session, name, opts, a)
+					desktopRows += rows
+					return err
+				})
+			}
 			return a.emit(row)
 		})
 		if a.stop != nil || ctx.Err() != nil {
@@ -174,7 +222,7 @@ func runWindowStations(ctx context.Context, e plugin.Environment, layout *wingui
 	}
 	summary := poolScannerRow("", 0)
 	summary.Cells["RecordType"] = evidence.Text("task_summary")
-	summary.Cells["Coverage"] = evidence.Value{Kind: "structure", Data: map[string]evidence.Value{"Sessions": evidence.Number(uint64(len(spaces))), "PoolCandidates": evidence.Number(candidates), "Stations": evidence.Number(stations), "UnboundCandidates": evidence.Number(unbound), "ReadFailures": evidence.Number(uint64(a.failures.count)), "Reads": evidence.Number(a.reads), "RequestedBytes": evidence.Number(a.requested), "EvidenceRows": evidence.Number(a.rows), "Completed": evidence.Bool(cause == nil)}}
+	summary.Cells["Coverage"] = evidence.Value{Kind: "structure", Data: map[string]evidence.Value{"Sessions": evidence.Number(uint64(len(spaces))), "PoolCandidates": evidence.Number(candidates), "Stations": evidence.Number(stations), "DesktopOwners": evidence.Number(desktopRows), "UnboundCandidates": evidence.Number(unbound), "ReadFailures": evidence.Number(uint64(a.failures.count)), "Reads": evidence.Number(a.reads), "RequestedBytes": evidence.Number(a.requested), "EvidenceRows": evidence.Number(a.rows), "Completed": evidence.Bool(cause == nil)}}
 	if cause != nil {
 		summary.Cells["Error"] = evidence.Missing("gui_scan_incomplete", cause)
 	}
