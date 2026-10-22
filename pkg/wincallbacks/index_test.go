@@ -308,3 +308,18 @@ func FuzzCallbackIndexes(f *testing.F) {
 		})
 	})
 }
+
+func TestBugcheckComponentOverflowPreservesCallback(t *testing.T) {
+	x, data := setup(t, controls(t)[44])
+	binary.LittleEndian.PutUint64(data.data[0x19028:], ^uint64(0))
+	preserved := false
+	err := x.Walk(context.Background(), func(entry Entry) error {
+		if entry.Type == "KeBugCheckCallbackListHead" {
+			preserved = entry.Callback == 0x28300 && entry.Detail.Kind == "missing" && entry.Detail.Error != ""
+		}
+		return nil
+	})
+	if err == nil || !preserved {
+		t.Fatal("overflow dropped readable callback or became complete", preserved, err)
+	}
+}

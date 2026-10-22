@@ -1,0 +1,56 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "callback",
+    "excluded_values": [
+      "memory_read",
+      "callback_symbols",
+      "callback_candidate",
+      "summary",
+      "diagnostic",
+      "task_summary"
+    ]
+  },
+  "fields": {
+    "Type": {
+      "native": "Type",
+      "reference": "Type",
+      "kind": "string",
+      "missing_reasons": [
+        "unparsable"
+      ]
+    },
+    "Callback": {
+      "native": "Callback",
+      "reference": "Callback",
+      "kind": "address",
+      "mask": "0x0000ffffffffffff"
+    },
+    "Module": {
+      "native": "Module",
+      "reference": "Module",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "Symbol": {
+      "native": "Symbol",
+      "reference": "Symbol",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "Detail": {
+      "native": "Detail",
+      "reference": "Detail",
+      "kind": "string",
+      "missing_reasons": [
+        "not_applicable",
+        "unparsable",
+        "unreadable"
+      ]
+    }
+  }
+}

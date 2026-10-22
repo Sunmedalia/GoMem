@@ -85,11 +85,11 @@ func capture(row evidence.Row, layers map[string]memory.MemoryLayer) error {
 func run() error {
 	image := flag.String("image", "", "Original image")
 	rows := flag.String("rows", "", "Sealed pool scanner or network JSONL")
-	plugin := flag.String("plugin", "windows.poolscanner", "windows.poolscanner, windows.netscan or windows.netstat")
+	plugin := flag.String("plugin", "windows.poolscanner", "windows.poolscanner, windows.netscan, windows.netstat or windows.callbacks")
 	dtb := flag.String("dtb", "", "Kernel page root")
 	arch := flag.String("arch", "x64", "Intel architecture")
 	flag.Parse()
-	if *plugin != "windows.poolscanner" && *plugin != "windows.netscan" && *plugin != "windows.netstat" {
+	if *plugin != "windows.poolscanner" && *plugin != "windows.netscan" && *plugin != "windows.netstat" && *plugin != "windows.callbacks" {
 		return fmt.Errorf("unsupported audit plugin")
 	}
 	if *image == "" || *rows == "" || *dtb == "" {
@@ -135,6 +135,15 @@ func run() error {
 			reads++
 		case "pool_object", "network":
 			objects++
+		case "callback":
+			if *plugin != "windows.callbacks" {
+				return fmt.Errorf("unexpected callback record")
+			}
+			objects++
+		case "callback_candidate", "callback_symbols":
+			if *plugin != "windows.callbacks" {
+				return fmt.Errorf("unexpected callback metadata")
+			}
 		case "summary", "diagnostic", "task_summary":
 		case "network_candidate", "network_symbols", "tcpip_symbols":
 			if *plugin != "windows.netscan" && *plugin != "windows.netstat" {

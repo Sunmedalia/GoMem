@@ -1,9 +1,9 @@
 {
   "schema": "gomem.windows-callbacks-validation/v1",
-  "status": "dependencies-only; full plugin missing",
+  "status": "partial-development-preview",
   "release": "development-preview",
   "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
-  "scope": "Native auxiliary-layout acquisition, callback index reads and shared pool-index filtering; not a complete Callbacks plugin or generator comparison",
+  "scope": "Native callback index and pool decoding plugin; selected real generator fields and original-source audit; full release acceptance pending",
   "index_controls": {
     "byte_backed_controls": 88,
     "unmodified_method_runs": 352,
@@ -76,7 +76,95 @@
     "official_live_HTTP_and_offline_replay": "pass for both original schemas",
     "malformed_response_size_HTTP_offline_cancel_typed_nil": "pass"
   },
-  "checks": {
+  "artifacts": {
+    "pkg/wincallbacks/testdata/index-oracle.json": "1d81984f197b616933477cfd8ffc7eeff35a84abda649bab1bbf8acb8e0a082f",
+    "internal/plugins/testdata/windows-callback-pool-oracle.json": "5b86e934e0f14ada4b84905c5e8277f7d6c712349c1e69e7360b48ec1d0bac06",
+    "internal/plugins/testdata/windows-callback-object-oracle.json": "3837ccb95267ace6fed9d7232fce55bf1c568d923a535dda55b8586bb9e56f5b",
+    "docs/diff/windows.callbacks.json": "1cc4b4788ffa84a7568a04c5da647fbf16da10fa1d422f172354ca675fff8564",
+    "docs/diff/windows.callbacks-identity.json": "fc098e4cc0e6852d32a9581d85a9cb7228febdd73d6d99297940b9ca6163ef6f"
+  },
+  "remaining": [
+    "Complete unmodified synthetic generators; broader paged layouts and faulty acquisition cases",
+    "Broader real positive/negative Windows and architecture coverage",
+    "Resolve or explicitly validate unreadable detail differences and incomplete acquisition",
+    "Timeline/investigation, complete rendering/export, performance and release acceptance"
+  ],
+  "object_controls": {
+    "cases": 360,
+    "widths": [
+      4,
+      8
+    ],
+    "header_formats": [
+      "legacy-type",
+      "index",
+      "encoded-index"
+    ],
+    "structures": 5,
+    "scenarios": 12,
+    "actual_unmodified_processor_and_x86_validity": "pass",
+    "race": "pass",
+    "projection_aliases_overlapping_modules_and_terminal_errors": "pass",
+    "fuzz": {
+      "target": "FuzzCallbackPoolObjects",
+      "executions": 10000,
+      "result": "pass"
+    },
+    "intentional_differences": [
+      "Missing PnP NameInfo preserves the callback with a typed detail error instead of aborting the generator",
+      "Baseline-caught unreadable details retain explicit task failure in native analysis"
+    ]
+  },
+  "real_control": {
+    "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+    "kernel_isf_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+    "same_symbol_scope": "Same kernel ISF; not independent PDB parser parity",
+    "native_task": "8826af96cce881045babaad25ae2ff8f",
+    "native_entities": 204,
+    "reference_entities": 204,
+    "identity_columns": [
+      "Type",
+      "Callback",
+      "Module",
+      "Symbol"
+    ],
+    "identity_differential": "matched; multiset with 48-bit callback address mask",
+    "full_five_column_differential": {
+      "matched": false,
+      "unchanged_rows": 48,
+      "differing_rows": 156,
+      "difference": "1 ordinary BugCheck and 155 reason callback Detail values are reference null vs native unreadable plus explicit errors"
+    },
+    "task_state": "failed",
+    "failure_observations": 280,
+    "original_reads_verified": 107302,
+    "sealed_rows_verified": 107509,
+    "audit_scope": "Coordinates, original raw bytes/digests, read lengths/completeness and row seals; not complete acquisition",
+    "storage_export_matches_emitted_rows": 107509,
+    "budget_failures_reexecuted_without_cache": 2,
+    "typed_absence_audit": {
+      "reference_analysis": "Unmodified original; output-only JsonRenderer subclass preserves BaseAbsentValue class names",
+      "matched_rows": 204,
+      "columns": [
+        "Type",
+        "Callback",
+        "Module",
+        "Symbol",
+        "Detail"
+      ],
+      "native_unreadable_detail_errors_retained": 156,
+      "native_error_details_are_additional": "Task remains failed; no error normalization in the strict JSON differential",
+      "reference_typed_sha256": "5ebc011db2bdf0fb86405f102f6cdc198ba631000d4c4227b12600961fae0784",
+      "renderer_runner_sha256": "586d1fbb7bef877a6cab88d1d7d1148d2e0391788cdae46ae60f62f0bc99f961",
+      "renderer": "tools/reference_callback_types.py",
+      "comparison": "tools/compare_callback_types.py",
+      "comparator_negative_controls": "pass; distinguishes absent classes, duplicate counts, rejects ordinary null and unknown records"
+    },
+    "engine_build_sha256": "7ac2684cbfbbbc374a06de257d0d1023357d4a5a9d43f361e634f6da32d97ebb",
+    "native_jsonl_sha256": "cd81f7221cf7e7ad1ab33aa20439bfa582d95e0b6b4b1960ff185379d039d553",
+    "native_binary_sha256": "7ac2684cbfbbbc374a06de257d0d1023357d4a5a9d43f361e634f6da32d97ebb"
+  },
+  "dependency_milestone_checks": {
     "python_3_12_oracles": "pass",
     "targeted_plugin_race": "pass",
     "targeted_core_catalog_race": "pass",
@@ -84,15 +172,28 @@
     "matrix": "pass; 195 plugins, 146 partial, 49 missing, 0 accepted; callbacks remains missing",
     "build_offline_doctor": "pass; final local build and offline readiness report; release acceptance remains false"
   },
-  "artifacts": {
-    "pkg/wincallbacks/testdata/index-oracle.json": "1d81984f197b616933477cfd8ffc7eeff35a84abda649bab1bbf8acb8e0a082f",
-    "internal/plugins/testdata/windows-callback-pool-oracle.json": "5b86e934e0f14ada4b84905c5e8277f7d6c712349c1e69e7360b48ec1d0bac06"
+  "implementation_checks": {
+    "focused_race": "pass",
+    "full_make_check": "pass; Go vet, full race suite, 43 Python tests and 428 argument fixtures; additional newly added three-architecture engine tests passed separately under race",
+    "matrix": "pass; 195 plugins, 147 partial, 48 missing, 0 accepted",
+    "build_offline_doctor": "pass; development preview and acceptance false",
+    "object_oracle_python312": "pass; uv Python 3.12 pinned pefile",
+    "additional_engine_vet": "pass"
   },
-  "remaining": [
-    "Pool callback object validity and decoding, shutdown/PnP name handling",
-    "Module/symbol attribution and complete unmodified generator comparisons",
-    "CLI/TUI registration and sealed engine storage/cache",
-    "Real corpus, Windows/architecture breadth and false-positive validation",
-    "Timeline/investigation, complete rendering/export, performance and release acceptance"
-  ]
+  "native_paged_pipeline": {
+    "architectures": [
+      "x86",
+      "pae",
+      "x64"
+    ],
+    "index_rows_per_arch": 6,
+    "pool_rows_per_arch": 1,
+    "scope": "Composed native pipeline; not complete original synthetic generator parity",
+    "original_index_projections": "pass",
+    "sealed_sqlite_storage": "pass",
+    "byte_identical_success_cache": "pass",
+    "two_failed_tasks_per_arch_not_cached": "pass",
+    "race": "pass",
+    "read_byte_row_node_budgets_cancel_output": "pass"
+  }
 }

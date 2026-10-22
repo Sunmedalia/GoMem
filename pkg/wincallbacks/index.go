@@ -180,7 +180,8 @@ func (x *Index) bugcheck(ctx context.Context, reason bool, emit Emit) error {
 			// only its reason-callback path treats Component as absolute.
 			component, err = memory.Add(x.KernelBase, component)
 			if err != nil {
-				return err
+				x.failed(err)
+				return emit(Entry{Type: name, Route: "bugcheck", Source: at, Callback: callback, Detail: evidence.Missing("unreadable", err)})
 			}
 		}
 		detail, err := x.component(ctx, component)

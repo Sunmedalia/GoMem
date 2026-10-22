@@ -5657,19 +5657,22 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Native Windows Intel callback indexes and pool objects with exact kernel symbols and SHA-pinned auxiliary callback layouts. Allocation fields remain in the source layer while pointer targets use the native kernel layer. Bounded reads, candidates and output preserve explicit errors and failed completeness.",
+      "native": "windows.callbacks",
+      "status": "partial",
       "accepted": false,
       "corpora": [
         "pinned-1984-callback-pool-header-controls",
-        "pinned-88-callback-index-controls-352-original-method-runs"
+        "pinned-88-callback-index-controls-352-original-method-runs",
+        "pinned-360-callback-object-processor-controls",
+        "official-windows-10-19041-204-callback-partial-control"
       ],
-      "comparison": "native_dependency_controls_only;index_order_fields_and_original_bytes_checked_with_explicit_damaged_input_differences;not_a_complete_Callbacks_generator_comparison",
+      "comparison": "360_actual_object_processors_and_x86_validity_controls;three_architecture_paged_pipeline_sealed_storage_cache_failed_retry_and_projection_controls;real_204_type_address_module_symbol_rows_match_but_156_details_retain_read_errors_instead_of_reference_null;107302_original_reads_and_107509_seals_verified;full_five_column_differential_intentionally_fails",
       "gaps": [
-        "The CLI analysis plugin remains missing. Native bounded notification, bugcheck and registry index readers are dependencies, not complete callback acquisition",
-        "Pool callback object decoding/validity, module/symbol attribution, complete original generator comparison, engine storage/cache, real corpus and release acceptance remain pending",
-        "Eight damaged notification controls abort the baseline method; native preserves the independent process notification with a failed result. Four unreadable-altitude controls retain typed missing data instead of the baseline display string"
+        "Development preview; complete synthetic generator/paged pipeline, broader paged fault controls and Windows/architecture/version acceptance remain pending",
+        "Real 204 callback identities match; an output-only typed reference renderer also confirms all five values and missing classes. Native retains 156 unreadable detail errors beyond ordinary JSON reference null. Failed task retains 280 failure observations; parity does not establish complete acquisition",
+        "Eight damaged notification controls abort the baseline method; native preserves independent process notification with a failed result. Four unreadable-altitude controls retain typed missing data instead of the baseline display string",
+        "Broader positive/negative corpus, investigation rules, renderer/export, performance and release acceptance remain pending"
       ],
       "validation_record": "docs/windows-callbacks.md"
     },
