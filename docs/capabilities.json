@@ -9483,15 +9483,24 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Independent native plugin over all fifteen built-in Windows pool tag constraints. Symbol/version-dependent physical or kernel-virtual scanning, alignment, allocation filtering, optional-header carving and object-type checks share the existing native object consumers. Official header offsets and separate recovered object offsets, type names, tag bytes, names and source-layer coordinates are retained. Small metadata/page-table captures and large-read digests preserve original-source traceability. Task read/byte/output bounds, cancellation, explicit read failures and final completeness prevent failed tasks from becoming successful cache entries.",
+      "native": "windows.poolscanner",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-15-constraints-1440-pool-headers",
+        "pinned-36-complete-nonexecutive-pool-generators-56-rows",
+        "native-file-object-capture-and-fault-controls",
+        "official-windows-10-19041-pool-8090-object-partial-control"
+      ],
+      "comparison": "all_builtin_constraints_and_1440_actual_header_filters_match;36_actual_nonexecutive_generators_and_56_rows_match;native_file_header_object_name_digest_and_fault_controls_pass;36_engine_storage_cache_and_failed_retry_controls_pass;real_8090_selected_type_header_name_rows_match_with_441271_original_reads_and_449363_seals_independently_verified",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Development preview; complete executive-object differential fixtures and full real-image acceptance are pending",
+        "Real Windows 10 selected rows match, but 5702 failure observations (including nested reads/name callbacks, not unique pages) retain failed/incomplete coverage; recovered-row parity is not complete acquisition",
+        "GUI constraints, broad Windows/architecture/version coverage, swap/prototype pages and arbitrary malformed layouts remain outstanding",
+        "All renderer/export and release performance acceptance remain pending; finite synthetic coverage is not full capability acceptance"
+      ],
+      "validation_record": "docs/windows-poolscanner.md"
     },
     {
       "id": "windows.privileges.Privs",

@@ -71,6 +71,7 @@ jobs:
       - run: python3 tools/build_regex_oracle.py --check
       - run: python3 tools/build_windows_regex_oracle.py --check
       - run: python3 tools/build_pool_header_oracle.py --check
+      - run: python3 tools/build_poolscanner_oracle.py --check
       - run: python3 tools/build_windows_strings_oracle.py --check
       - run: python3 tools/build_windows_malfind_oracle.py --check
       - run: python3 tools/build_iat_oracle.py --check
@@ -145,6 +146,7 @@ jobs:
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxMalfindDisassembly -fuzztime 42000x
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzRegexPluginPipeline -fuzztime 20000x
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsVADRegexPipeline -fuzztime 50000x
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzPoolScannerOriginalCaptures -fuzztime 50000x
       - run: go test ./pkg/memoryscan -run '^$' -fuzz FuzzAcquireCorrespondence -fuzztime 89000x
       - run: go test ./pkg/memoryscan -run '^$' -fuzz FuzzMemoryScanPipeline -fuzztime 443000x
       - run: go test ./pkg/memory -run '^$' -fuzz FuzzScanPlan -fuzztime 452000x

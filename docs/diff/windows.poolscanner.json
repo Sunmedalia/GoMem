@@ -1,0 +1,12 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "pool_object",
+    "excluded_values": ["memory_read", "summary", "diagnostic", "task_summary"]
+  },
+  "fields": {
+    "Type": {"native": "Type", "reference": "Tag", "kind": "symbol_type_name"},
+    "Offset": {"native": "Offset", "reference": "Offset", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Name": {"native": "Name", "reference": "Name", "kind": "string", "missing_reasons": ["not_applicable"]}
+  }
+}

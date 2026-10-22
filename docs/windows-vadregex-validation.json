@@ -26,7 +26,7 @@
   },
   "checks": {
     "targeted_engine_race": "pass; 57 generator cases and 10 failure modes",
-    "full_make_check": "running; not established yet for this milestone",
+    "full_make_check": "pass; full Go vet/race suite, 40 Python unit tests and 428 argument fixtures. This run predates standalone poolscanner production changes.",
     "build": "pass",
     "final_go_vet": "pass",
     "matrix": "pass; 195 official plugins, 143 partial, 52 missing, 0 accepted",

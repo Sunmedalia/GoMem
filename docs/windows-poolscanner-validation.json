@@ -1,0 +1,122 @@
+{
+  "schema": "gomem.windows-poolscanner-validation/v1",
+  "status": "partial",
+  "release": "development-preview",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "synthetic": {
+    "actual_builtin_constraints": 15,
+    "actual_header_cases": 1440,
+    "complete_official_nonexecutive_generator_runs": 36,
+    "nonexecutive_reference_rows": 56,
+    "native_comparison": "pass; widths 4/8, pre-Vista/Vista, pool types 0/1/2, size thresholds below/at/above minimum",
+    "executive_file_integration": "pass; header/object addresses, type, name, original captures and digests",
+    "faults": "pass; metadata hole, byte/read/row budgets, cancellation and output errors",
+    "engine_persistence": "pass; 36 cases with matching PE/PDB identity, sealed SQLite readback, byte-identical successful cache replay and two failed-budget retries each"
+  },
+  "checks": {
+    "targeted_plugin_race": "pass",
+    "verifier_race": "pass",
+    "full_make_check": "initial poolscanner snapshot passed full Go vet/race suite (engine 1344.452s), 40 Python tests and 428 argument fixtures. Final callback failure accounting, new engine persistence cases and provenance-offset verifier passed targeted race tests; exact final-source full make check is running.",
+    "python_unit_tests": 40,
+    "targeted_engine_race": "pass; 36 storage/cache cases and 72 failed-budget executions",
+    "go_vet": "pass",
+    "local_build": "pass; macOS arm64 binary and offline doctor",
+    "matrix": "pass; 195 plugins, 144 partial, 51 missing, none accepted",
+    "inode_mode_oracle": "pass",
+    "pool_header_oracle": "pass; 1440 cases",
+    "poolscanner_oracle": "pass; 36 complete pinned generators",
+    "argument_fixtures": 428,
+    "cross_builds": "pass; Windows amd64 and Linux amd64 (compile only; runtime portability is verified separately by CI)"
+  },
+  "fuzz": {
+    "target": "FuzzPoolScannerOriginalCaptures",
+    "executions": 50000,
+    "result": "pass"
+  },
+  "real_control": {
+    "status": "pass for selected fields and original-source captures; task coverage remains incomplete",
+    "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+    "reference_rows": 8090,
+    "scope": "All 8090 selected Type/Offset/Name rows match the unmodified reference after explicit namespace/address normalization. All 441271 original read captures and 449363 row seals pass independent rereading, including provenance offsets. All entity rows use the expected kernel layer and symbol digest; native symbol bytes equal the reference archive member. The final-source run includes callback error accounting. The task remains failed/incomplete; 5702 failure observations include nested reads and three name callbacks and are not unique missing pages. Initial verbose run canceled and excluded.",
+    "native_rows": 8090,
+    "selected_fields": [
+      "Type",
+      "Offset",
+      "Name"
+    ],
+    "matched": true,
+    "native_input_rows": 449363,
+    "original_reads": 441271,
+    "read_failure_observations": 5702,
+    "task_completed": false,
+    "source_layer": "kernel:x64:dtb=0x6d4000",
+    "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+    "type_counts": {
+      "_EPROCESS": 121,
+      "_ETHREAD": 1752,
+      "_FILE_OBJECT": 4866,
+      "_KMUTANT": 742,
+      "_DRIVER_OBJECT": 142,
+      "_LDR_DATA_TABLE_ENTRY": 177,
+      "_CMHIVE": 34,
+      "_OBJECT_SYMBOLIC_LINK": 233,
+      "_RTL_ATOM_TABLE": 23
+    },
+    "engine_build_sha256": "e3f5049c7dbf5a64f1fdd4306f8a41602034cdaffa961f22093f0d86ee24e049",
+    "source_symbol_bytes_equal_reference_archive": true,
+    "artifacts_sha256": {
+      "reference.json": "f0512cedf8848a0029835048ba5d5c2436d3e8f07d64e79a991e39f5ffe993f2",
+      "reference.config.json": "5cb2f2bb2d022f51b2e551aaccd82d46ecb765a56e7c00a0cfe5cd8c152cbc75",
+      "reference.manifest.json": "2c73a8b8c1557711fce4186bbc2450815e14832bafdc75fb03e776cc06400ee1",
+      "native-final.jsonl": "9e693a745893aeed5fb37d8536be8d9148bc6eacf18b50ea446ea8dbc6119a06",
+      "diff-final.json": "20c7c6db22e158da8970e4de77c2e2befbae1ac8109d72582ff8c92710380134",
+      "audit-final.json": "7cefe427e2d054fc6b72485c051c44d9b18ae2cefe06b0210dc42aa50a0d4aff"
+    },
+    "selected_comparison": {
+      "scope": "selected fields only; full capability acceptance remains pending",
+      "fields": [
+        "Type",
+        "Offset",
+        "Name"
+      ],
+      "native_rows": 8090,
+      "reference_rows": 8090,
+      "matched": true,
+      "missing": [],
+      "extra": [],
+      "sha256": {
+        "native": "9e693a745893aeed5fb37d8536be8d9148bc6eacf18b50ea446ea8dbc6119a06",
+        "reference": "f0512cedf8848a0029835048ba5d5c2436d3e8f07d64e79a991e39f5ffe993f2",
+        "mapping": "9ec19aec40394f57768b8cbb02f54c708831f4f2cdb30b6b5bbe0cc3225be059"
+      },
+      "native_input_rows": 449363,
+      "native_non_entity_records": {
+        "memory_read": 441271,
+        "summary": 1,
+        "task_summary": 1
+      },
+      "entity_selection": {
+        "field": "RecordType",
+        "value": "pool_object",
+        "excluded_values": [
+          "memory_read",
+          "summary",
+          "diagnostic",
+          "task_summary"
+        ]
+      }
+    },
+    "original_capture_audit": {
+      "OriginalReads": 441271,
+      "PoolObjects": 8090,
+      "Scope": "Original captured bytes, digests, read lengths/completeness and seals only; object recovery is validated separately",
+      "SealedRows": 449363
+    }
+  },
+  "limitations": [
+    "Finite nonexecutive synthetic generators do not establish complete executive-object recovery",
+    "GUI pool constraints and broader real architecture/version coverage remain outstanding",
+    "Missing swap/prototype data and malformed layouts remain incomplete coverage",
+    "Full renderer/export and performance acceptance remain outstanding"
+  ]
+}

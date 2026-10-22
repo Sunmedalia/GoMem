@@ -33,6 +33,12 @@ def normalized(value, kind, mask=None, missing_reasons=()):
         value = value.get("value")
     if value is None:
         return {"missing": "reference-null"}
+    if kind == "symbol_type_name":
+        # ISF table namespaces are runtime identifiers. Compare the declared
+        # structure name; symbol-table identity is verified separately.
+        if not isinstance(value, str) or not re.fullmatch(r"(?:[A-Za-z_][A-Za-z_0-9]*!)?[A-Za-z_][A-Za-z_0-9]*", value):
+            raise ValueError("symbol_type_name requires an optional namespace and declared type")
+        return value.rsplit("!", 1)[-1]
     if kind == "string_set":
         if not isinstance(value, str):
             raise ValueError("string_set requires a comma-space separated string")

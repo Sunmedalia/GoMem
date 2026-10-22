@@ -13,6 +13,14 @@ from compare_extractions import compare as compare_extractions
 
 
 class DifferentialTests(unittest.TestCase):
+    def test_symbol_type_namespace_only_is_normalized(self):
+        self.assertEqual(normalized_result("kernel!_EPROCESS", "symbol_type_name"), "_EPROCESS")
+        self.assertEqual(normalized_result({"kind": "string", "value": "_EPROCESS"}, "symbol_type_name"), "_EPROCESS")
+        self.assertNotEqual(normalized_result("kernel!_ETHREAD", "symbol_type_name"), "_EPROCESS")
+        for value in ("!_EPROCESS", "a!b!_EPROCESS", "kernel!", "_EPROCESS[]", 1):
+            with self.assertRaises(ValueError):
+                normalized_result(value, "symbol_type_name")
+
     def test_selected_native_evidence_stream_does_not_load_raw_file(self):
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
