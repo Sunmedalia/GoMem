@@ -40,3 +40,6 @@ This is synthetic pool acquisition only. Session rebinding, complete station and
 desktop/thread generators, positive real native pool comparisons, raw acquisition
 sealing, failed-task retry and cache behavior still require integration tests.
 The capability matrix remains 149 partial, 46 missing and zero accepted plugins.
+
+Subsequent integration: [WindowStations](windows-windowstations.md) registers the
+native station plugin with full generator, storage and real source controls.

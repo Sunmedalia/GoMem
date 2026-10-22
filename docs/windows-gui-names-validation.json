@@ -58,8 +58,8 @@
     "complete_package_race": "pass;24.246s final snapshot; optional real name corpus extension passes4.327s",
     "fuzz": "pass;10000 inputs",
     "vet_windows_linux_compile": "pass; final snapshot",
-    "full_make_check": "running on earlier session-map snapshot; not yet a passing result",
-    "remote_ci": "wired; not yet run for this milestone",
+    "full_make_check": "pass on earlier session-map snapshot; subsequent implementation covered by targeted whole-package race and its green CI",
+    "remote_ci": "pass;https://github.com/Sunmedalia/GoMem/actions/runs/39855688782",
     "matrix_inode_python_arguments": "pass;195 inventoried;32768 modes;43 Python tests;428 argument fixtures",
     "build_offline_doctor": "pass; development preview"
   },

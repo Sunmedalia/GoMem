@@ -9552,7 +9552,7 @@
       "gaps": [
         "Development preview; complete executive-object differential fixtures and full real-image acceptance are pending",
         "Real Windows 10 selected rows match, but 5702 failure observations (including nested reads/name callbacks, not unique pages) retain failed/incomplete coverage; recovered-row parity is not complete acquisition",
-        "GUI constraints, broad Windows/architecture/version coverage, swap/prototype pages and arbitrary malformed layouts remain outstanding",
+        "GUI constraint/carving helpers have separate synthetic controls, but broad Windows/architecture/version coverage, swap/prototype pages and arbitrary malformed layouts remain outstanding",
         "All renderer/export and release performance acceptance remain pending; finite synthetic coverage is not full capability acceptance"
       ],
       "validation_record": "docs/windows-poolscanner.md"
@@ -12255,15 +12255,28 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Native x64 Windows GUI layout selection and pinned acquisition, kernel pool carving, original first-process-per-session translation, session rebinding, repeated-root station traversal and Unicode executive names. Read, byte, output and traversal bounds; raw metadata and page-table captures, large-read digests and explicit failed partial tasks.",
+      "native": "windows.windowstations",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-749-GUI-layout-selections",
+        "pinned-384-GUI-object-controls",
+        "pinned-75-translated-session-controls",
+        "pinned-768-GUI-executive-name-controls-512-codec-vectors",
+        "pinned-480-GUI-pool-carving-controls",
+        "pinned-16-complete-WindowStations-generators",
+        "official-windows-10-19041-13-stations-partial-control"
+      ],
+      "comparison": "16_actual_full_generators_match_ordered_offset_name_session;14_engine_sealed_stream_fresh_symbol_retry_controls;real_13_ordered_stations_match_with_187015_seals_and_183503_original_reads_verified",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Development preview; one full-generator synthetic GUI layout and one positive real Windows 10 x64 dump, no full version or malformed-layout acceptance",
+        "Real run retains 3723 failed read observations and 194 semantic failure observations; these overlap/nest and are not unique missing pages. Task remains failed/incomplete despite matching selected rows",
+        "Pinned repeated-root traversal, null target behavior and unusual original names are preserved; recovered names do not independently prove live objects",
+        "GUI symbol dependencies force fresh execution; safe successful task reuse/resume remains pending",
+        "Desktop/thread generators, swap/prototype pages, ARM64 virtual GUI scanning, independent PDB parity and full renderer/export/performance acceptance remain pending"
+      ],
+      "validation_record": "docs/windows-windowstations.md"
     },
     {
       "id": "yarascan.YaraScan",

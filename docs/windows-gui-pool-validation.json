@@ -21,8 +21,8 @@
     "targeted_pool_race": "pass;4.126s",
     "original_oracle": "pass; final deterministic check after explicit padded-hole handling",
     "complete_plugin_package_race": "pass;46.435s; shared scanner implementation snapshot",
-    "full_make_check": "running on earlier session snapshot, not this shared scanner snapshot",
-    "remote_ci": "wired;not yet executed",
+    "full_make_check": "pass on earlier session-map snapshot; subsequent implementation covered by targeted whole-package race and its green CI",
+    "remote_ci": "pass;https://github.com/Sunmedalia/GoMem/actions/runs/39856724433",
     "vet_windows_linux_compile": "pass",
     "matrix_build_offline_doctor": "pass; development preview; no capability promotion"
   },

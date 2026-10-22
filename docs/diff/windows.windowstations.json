@@ -1,0 +1,12 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "windowstation",
+    "excluded_values": ["memory_read", "summary", "diagnostic", "task_summary", "gui_symbols", "gui_session", "gui_candidate"]
+  },
+  "fields": {
+    "Offset": {"native": "Offset", "reference": "Offset", "kind": "address", "mask": "0x0000ffffffffffff"},
+    "Name": {"native": "Name", "reference": "Name", "kind": "string"},
+    "SessionId": {"native": "SessionId", "reference": "SessionId", "kind": "uint64"}
+  }
+}

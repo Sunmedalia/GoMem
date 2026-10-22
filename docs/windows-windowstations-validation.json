@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "status": "partial",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "plugin": "windows.windowstations",
+  "synthetic": {
+    "complete_original_generators": 16,
+    "full_generator_GUI_layout": "gui-win10-19041-x64",
+    "actual_pool_session_Intel_and_name_methods_unmodified": true,
+    "ordered_fields": [
+      "Offset",
+      "Name",
+      "SessionId"
+    ],
+    "engine_sealed_fresh_symbols_failed_retry_controls": 14,
+    "fuzz_executions": 1119,
+    "fuzz_seconds": 10.485,
+    "component_layouts_are_not_full_generator_acceptance": true
+  },
+  "real_control": {
+    "diff": {
+      "scope": "selected fields only; full capability acceptance remains pending",
+      "fields": [
+        "Offset",
+        "Name",
+        "SessionId"
+      ],
+      "native_rows": 13,
+      "reference_rows": 13,
+      "matched": true,
+      "missing": [],
+      "extra": [],
+      "sha256": {
+        "native": "47ca31a4327b98423e5b7bcf8f872a94aa6976ad89aeba0d9951cc5c2dadf51b",
+        "reference": "7c8970823b42bca23e8671daecc3aeafdb5df2dc1f1b6b1f7f160739a4e1bfdd",
+        "mapping": "678bcaf15517389edc0cb352c1fc949280efaa7eee9eca311d95af6e9ca774f3"
+      },
+      "native_input_rows": 187015,
+      "native_non_entity_records": {
+        "gui_symbols": 1,
+        "memory_read": 183503,
+        "gui_session": 3,
+        "gui_candidate": 3493,
+        "summary": 1,
+        "task_summary": 1
+      },
+      "entity_selection": {
+        "field": "RecordType",
+        "value": "windowstation",
+        "excluded_values": [
+          "memory_read",
+          "summary",
+          "diagnostic",
+          "task_summary",
+          "gui_symbols",
+          "gui_session",
+          "gui_candidate"
+        ]
+      }
+    },
+    "audit": {
+      "captured_bytes_verified": 805546216,
+      "coverage": {
+        "Completed": {
+          "kind": "bool",
+          "value": false
+        },
+        "EvidenceRows": {
+          "kind": "uint64",
+          "value": "187014"
+        },
+        "PoolCandidates": {
+          "kind": "uint64",
+          "value": "3322"
+        },
+        "ReadFailures": {
+          "kind": "uint64",
+          "value": "3723"
+        },
+        "Reads": {
+          "kind": "uint64",
+          "value": "183503"
+        },
+        "RequestedBytes": {
+          "kind": "uint64",
+          "value": "805927480"
+        },
+        "Sessions": {
+          "kind": "uint64",
+          "value": "3"
+        },
+        "Stations": {
+          "kind": "uint64",
+          "value": "13"
+        },
+        "UnboundCandidates": {
+          "kind": "uint64",
+          "value": "22"
+        }
+      },
+      "failed_reads_verified": 3723,
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "ordered_rows": 13,
+      "raw_captures_verified": 89487,
+      "record_counts": {
+        "gui_candidate": 3493,
+        "gui_session": 3,
+        "gui_symbols": 1,
+        "memory_read": 183503,
+        "summary": 1,
+        "task_summary": 1,
+        "windowstation": 13
+      },
+      "reference_sha256": "7c8970823b42bca23e8671daecc3aeafdb5df2dc1f1b6b1f7f160739a4e1bfdd",
+      "scope": "Same ISF and original-selected acquisition; native full station scan, stored stream and every captured read audited; no independent PDB or full OS acceptance",
+      "seals_verified": 187015,
+      "source_reads_verified": 183503,
+      "state": "failed",
+      "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+      "task": "6f254f5afb7e0b4dec2a086c1283aee0"
+    },
+    "audit_scope": "Native independent pool discovery; same kernel ISF archive member; selected ordered fields, sealed stream and all captured source reads verified",
+    "semantic_failure_observations": 194,
+    "failure_counts_are_not_unique_missing_pages": true,
+    "limits": [
+      "Only one positive real Windows10 x64 dump",
+      "Read failures retain failed/incomplete state despite selected-row parity",
+      "Same ISF; no independent PDB parity",
+      "No full supported OS/version/parameter/malformed/export/performance acceptance"
+    ]
+  },
+  "checks": {
+    "complete_plugin_package_race": "pass;58.053s",
+    "targeted_plugin_race": "pass;8.603s before added fuzz; all-package race includes final fuzz seeds",
+    "targeted_engine_race": "pass;30.629s;14 sealed/fresh/retry cases",
+    "real_seal_source_audit": "pass;197.901s race run includes original config digest and original symbol archive member equality",
+    "oracle_check": "pass;16 complete original generators",
+    "fuzz": "pass;1119 inputs",
+    "vet_windows_linux_compile": "pass before optional corpus configuration/member verification",
+    "full_make_check": "running on this plugin snapshot; no passing result yet",
+    "prior_GUI_names_and_pool_CI": "pass;39855688782 and39856724433",
+    "remote_ci": "wired;not yet run for plugin milestone",
+    "additional_terminal_race": "pass;2.489s; midstream cancellation/output, root-only traversal, offline missing layout and unsupported architecture",
+    "matrix_inode_python_arguments_build_doctor": "pass;195 inventoried/150 partial/45 missing/0 accepted;32768 modes;43 Python tests;428 fixtures;native build and offline doctor"
+  },
+  "remaining": [
+    "Full plugin supported-OS/layout/malformed acceptance",
+    "Desktop/thread integration",
+    "Successful task cache/resume with runtime dependency revalidation",
+    "Independent PDB parity and all renderer/export/performance acceptance"
+  ]
+}
