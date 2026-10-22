@@ -190,9 +190,21 @@ def generate(source):
                     'task_struct':extensions.task_struct,'mm_struct':extensions.mm_struct,'vm_area_struct':extensions.vm_area_struct}))
                 context.module('kernel','kernel',0)
                 task = context.object('kernel!task_struct',layer_name='kernel',offset=0x1000)
+                sections,mappings,chunks = [],[],[]
+                if task.mm:
+                    process_name = task.add_process_layer()
+                    process = context.layers[process_name]
+                    sections = list(process._coalesce_sections(task.get_process_memory_sections()))
+                    for start,length in sections:
+                        mappings += [[int(offset),int(size),int(physical),int(physical_size)]
+                            for offset,size,physical,physical_size,_ in process.mapping(start,length,ignore_errors=True)]
+                    # Planning uses the actual scanner's fixed shape. Invalid
+                    # regex cases still record the acquisition plan separately.
+                    chunks = [dict(end=int(end),parts=[[int(at),int(length)] for _,at,length in parts])
+                        for parts,end in process._scan_iterator(RegExScanner(b'MATCH'),sections)]
                 runner = SimpleNamespace(context=context,config={'maxsize':4},MAXSIZE_DEFAULT=VmaRegExScan.MAXSIZE_DEFAULT,_progress_callback=lambda *_:None)
                 expected = rows(VmaRegExScan._generator(runner,pattern,[task]))
-            vmas.append(dict(name=name,arch=arch,pattern=pattern,configured_maxsize=4,isf=isf,size=len(data),writes=sparse(data),**expected))
+            vmas.append(dict(name=name,arch=arch,pattern=pattern,configured_maxsize=4,isf=isf,size=len(data),writes=sparse(data),sections=sections,mappings=mappings,chunks=chunks,**expected))
     # Fail generation if the fixture stops reaching the methods it intends to
     # exercise. These are reference expectations, not native acceptance claims.
     for arch in ('x86','pae','x64'):
@@ -218,6 +230,59 @@ def generate(source):
         result = rows(RegExScan._generator(runner,context,'physical','MATCH',128))
         assert result['error'] is None
         windows.append(dict(name=name,pattern='MATCH',maxsize=128,size=size,writes=sparse(data),**result))
+    plans = []
+    # Drive the actual translation iterator over hardware page tables. Small
+    # chunks expose packing across physically disjoint adjacent virtual runs;
+    # large-page cases exercise the default 16 MiB boundary without huge JSON.
+    for arch, layer_class in [('x86',Intel),('pae',IntelPAE),('x64',Intel32e)]:
+        for scenario in ('adjacent-disjoint', 'contiguous', 'gap', 'empty', 'overlap-sections'):
+            _, original = linux_fixture(arch,b'MATCH','literal')
+            data = bytearray(original)
+            table = {'x86':0x9000,'pae':0xa000,'x64':0xb000}[arch]
+            width = 4 if arch == 'x86' else 8
+            if scenario == 'adjacent-disjoint':
+                struct.pack_into('<I' if width == 4 else '<Q',data,table+17*width,0x15003)
+            if scenario == 'gap':
+                struct.pack_into('<I' if width == 4 else '<Q',data,table+17*width,0)
+            sections = [(0x10000,3*4096)]
+            if scenario == 'empty':
+                sections = [(0x30000,4096)]
+            if scenario == 'overlap-sections':
+                sections = [(0x10000,4096),(0x10800,4096),(0x11800,4096)]
+            context = contexts.Context()
+            context.layers.add_layer(BufferDataLayer(context,'physical','physical',bytes(data)))
+            context.config['kernel.memory_layer'] = 'physical'
+            context.config['kernel.page_map_offset'] = 0x8000
+            layer = layer_class(context,'kernel','kernel')
+            context.layers.add_layer(layer)
+            sections = list(layer._coalesce_sections(sections))
+            scanner = RegExScanner(b'MATCH')
+            scanner.chunk_size, scanner.overlap = 4096, 512
+            plans.append(dict(name=scenario,arch=arch,size=len(data),writes=sparse(data),sections=sections,
+                chunk_size=scanner.chunk_size,overlap=scanner.overlap,
+                mappings=[[int(a),int(b),int(c),int(d)] for start,length in sections
+                    for a,b,c,d,_ in layer.mapping(start,length,ignore_errors=True)],
+                chunks=[dict(end=int(end),parts=[[int(at),int(length)] for _,at,length in parts])
+                    for parts,end in layer._scan_iterator(scanner,sections)]))
+    for name,length in [('full-overlap',(16<<20)+8192),('partial-window',(16<<20)+1000)]:
+        data = bytearray(22<<20)
+        struct.pack_into('<Q',data,0x8000,0x9003)
+        struct.pack_into('<Q',data,0x9000,0xa003)
+        for page in range(10):
+            struct.pack_into('<Q',data,0xa000+page*8,((page+1)<<21)|0x83)
+        context = contexts.Context()
+        context.layers.add_layer(BufferDataLayer(context,'physical','physical',bytes(data)))
+        context.config['kernel.memory_layer'] = 'physical'
+        context.config['kernel.page_map_offset'] = 0x8000
+        layer = Intel32e(context,'kernel','kernel')
+        context.layers.add_layer(layer)
+        scanner = RegExScanner(b'MATCH')
+        sections = [(0,length)]
+        plans.append(dict(name=name,arch='x64',size=len(data),writes=sparse(data),sections=sections,
+            chunk_size=scanner.chunk_size,overlap=scanner.overlap,
+            mappings=[[int(a),int(b),int(c),int(d)] for a,b,c,d,_ in layer.mapping(0,length,ignore_errors=True)],
+            chunks=[dict(end=int(end),parts=[[int(at),int(size)] for _,at,size in parts])
+                for parts,end in layer._scan_iterator(scanner,sections)]))
     semantic_patterns = [p for _,p,_ in samples] + [
         r'(a?)*\1', r'(?:|a)*b', r'(?:|a)+b', r'(a(b)?)+\2', r'(a|ab)*b',
         r'(?=(a|ab))\1c', r'(?i:(a))\1', r'(a)(?<=\1)b', r'(?<=(a)\1)b',
@@ -275,7 +340,7 @@ def generate(source):
                 semantic.append(dict(pattern=pattern,data=data.hex(),dotall=dotall,matches=matches,error=error))
     semantic_text = ''.join(json.dumps(case,ensure_ascii=True,separators=(',',':'))+'\n' for case in semantic)
     manifest = dict(path=SEMANTICS.name,cases=len(semantic),patterns=len(set(c['pattern'] for c in semantic)),sha256=hashlib.sha256(semantic_text.encode()).hexdigest(),scope='Python 3.12 byte finditer; complete match start/end positions')
-    reference = json.dumps(dict(commit=COMMIT,python='3.12',scope='Actual unmodified scanner and generic generator; VMA generator with real ISF task/mm/VMA and Intel process translation; no method mocks',cases=cases,vmas=vmas,windows=windows,semantics=manifest),indent=2,ensure_ascii=True)+'\n'
+    reference = json.dumps(dict(commit=COMMIT,python='3.12',scope='Actual unmodified scanner and generic generator; VMA generator with real ISF task/mm/VMA and Intel process translation; no method mocks',cases=cases,vmas=vmas,windows=windows,plans=plans,semantics=manifest),indent=2,ensure_ascii=True)+'\n'
     return reference,semantic_text
 
 
@@ -292,7 +357,7 @@ def main():
         OUTPUT.write_text(result)
         SEMANTICS.write_text(semantic)
     doc = json.loads(result)
-    print(f'{len(doc["cases"])} actual byte-scanner cases, {len(doc["vmas"])} paged VMA generators and {doc["semantics"]["cases"]} byte-regex semantics cases verified')
+    print(f'{len(doc["cases"])} actual byte-scanner cases, {len(doc["vmas"])} paged VMA generators, {len(doc["plans"])} Intel iterator plans and {doc["semantics"]["cases"]} byte-regex semantics cases verified')
 
 
 if __name__ == '__main__':

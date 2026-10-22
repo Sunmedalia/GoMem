@@ -7,7 +7,9 @@ The source tree digest is checked before execution. The fixtures are
 `byte-regex-semantics.jsonl`. This is implementation reference
 evidence; both plugin classes remain **missing** in the capability matrix.
 The [native matching core](byte-regex.md) is implemented separately; acquisition
-and plugin integration remain pending.
+and plugin integration remain pending. The selected-range page walker and
+Intel chunk planner are now implemented as acquisition foundations; neither
+executes a regex plugin.
 
 Run with Python 3.12, matching CI:
 
@@ -41,6 +43,12 @@ Python and Volatility remain development dependencies only.
   larger than 16 MiB revisits a preceding match, so that case emits its address
   twice. Fixed scanner offset suppression alone does not eliminate this
   iterator behavior.
+- 17 additional actual Intel iterator plans cover x86/PAE/x64 physical
+  discontinuities, virtual gaps, contiguous mappings, coalesced overlapping
+  sections, empty mappings and default 16 MiB full/partial final windows.
+  Unlike the DataLayer cases above, the Intel iterator advances by the fixed
+  chunk size. Parts refer to physical addresses while chunk ends use virtual
+  coordinates.
 - 12,580 Python 3.12 byte `finditer` configurations compare complete match spans
   across 622 distinct patterns. These include deterministic generated grammar
   cases, capture-dependent backtracking and conditional/reference syntax. The
@@ -76,3 +84,30 @@ acquisitions, original page-table provenance, sealed storage/cache checks,
 failure tests, real-corpus comparisons and full renderer/export validation are
 still required. These reference cases do not justify a status upgrade or an
 acceptance claim.
+
+## Native acquisition foundations
+
+`pkg/memory.PageMapOptions.Sections` restricts the table traversal before child
+reads. Explicit intervals are clipped before physical availability checks;
+missing tables outside the selected intervals do not contaminate their coverage.
+Nil retains the default whole-space final-byte exclusion, while an explicit
+empty selection performs no reads. Explicit ranges may include the final byte.
+x64 canonical addresses and flat 48-bit coordinates select the same bytes.
+
+`pkg/memory.ScanPlanner` takes coalesced, ordered physical/virtual mappings for
+one coalesced section. It streams bounded chunks with separate physical read
+addresses and virtual scan coordinates, preserving the initial empty chunk for
+a nonzero first mapping. Callers must flatten x64 starts before planning and
+create a new planner per section. The planner performs no reads, buffering of
+image data, or regex matching. Chunk size plus overlap is bounded to 32 MiB;
+individual memory reads remain bounded to 16 MiB. Future acquisition must split
+larger parts into bounded reads and retain whole-part failure semantics.
+
+Native tests compare 42 VMA and 17 additional iterator plans against the actual
+baseline, including independent hardware translation of each planned read.
+Selected-table tests prove exclusion of an unrelated missing child and clipping
+of a partially available physical page. Tests cover cancellation, emitter errors,
+chunk bounds, invalid/overflowing/unordered intervals and closed-planner reuse.
+The planner fuzz invariant checks every chunk's source correspondence and exact
+coverage/overlap count. These tests establish planning only; acquisition errors,
+scan digests and plugin results remain to be integrated and verified.

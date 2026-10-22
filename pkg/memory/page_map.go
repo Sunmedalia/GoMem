@@ -24,8 +24,13 @@ type pageSpan struct {
 // PageMapOptions bounds the table walk independently of the number of merged
 // output runs. Fault callbacks may retain source errors or stop the walk.
 type PageMapOptions struct {
-	MaxTables            uint64
-	MaxEntries           uint64
+	MaxTables  uint64
+	MaxEntries uint64
+	// Sections restricts traversal to virtual byte intervals. Nil selects the
+	// baseline's default whole-space range (which excludes its final byte).
+	// A non-nil empty slice selects nothing. Explicit intervals can include the
+	// final byte and are clipped before physical availability is checked.
+	Sections             []Range
 	OnReadError          func(uint64, error) error
 	OnUnavailableMapping func(PageMapping) error
 }
@@ -52,16 +57,62 @@ func (i *Intel) PageMappings(ctx context.Context) ([]PageMapping, error) {
 }
 
 type pageMapWalk struct {
-	intel   *Intel
-	ctx     context.Context
-	options PageMapOptions
-	stats   PageMapStats
-	ranges  []Range
-	limit   uint64
-	levels  []mappedLevel
-	width   int
-	pending *pageSpan
-	out     func(PageMapping) error
+	intel    *Intel
+	ctx      context.Context
+	options  PageMapOptions
+	stats    PageMapStats
+	ranges   []Range
+	limit    uint64
+	levels   []mappedLevel
+	width    int
+	pending  *pageSpan
+	out      func(PageMapping) error
+	sections []flatSection
+}
+type flatSection struct{ start, end uint64 }
+
+func pageMapSections(mode string, domain uint64, ranges []Range) ([]flatSection, error) {
+	if ranges == nil {
+		return nil, nil
+	}
+	if len(ranges) > 1000000 {
+		return nil, fmt.Errorf("page map section limit exceeds 1000000")
+	}
+	sections := make([]flatSection, 0, len(ranges))
+	for _, r := range ranges {
+		start := r.Start
+		if mode == "x64" && start>>48 != 0 {
+			if start>>48 != 0xffff || start&(uint64(1)<<47) == 0 {
+				return nil, fmt.Errorf("invalid x64 section address %#x", start)
+			}
+			start &= (uint64(1) << 48) - 1
+		}
+		if start >= domain || r.Length == 0 || r.Length > domain-start {
+			return nil, fmt.Errorf("invalid page map section %#x+%#x", r.Start, r.Length)
+		}
+		sections = append(sections, flatSection{start, start + r.Length})
+	}
+	sort.Slice(sections, func(a, b int) bool { return sections[a].start < sections[b].start })
+	merged := sections[:0]
+	for _, s := range sections {
+		if len(merged) > 0 && s.start <= merged[len(merged)-1].end {
+			merged[len(merged)-1].end = max(merged[len(merged)-1].end, s.end)
+		} else {
+			merged = append(merged, s)
+		}
+	}
+	return merged, nil
+}
+
+func (w *pageMapWalk) firstSection(virtual uint64) int {
+	return sort.Search(len(w.sections), func(n int) bool { return w.sections[n].end > virtual })
+}
+func (w *pageMapWalk) selected(virtual, length uint64) bool {
+	if w.sections == nil {
+		return true
+	}
+	n := w.firstSection(virtual)
+	return n < len(w.sections) && w.sections[n].start < virtual+length
 }
 
 // VisitPageMappings yields coalesced runs in the pinned Windows layer order,
@@ -80,9 +131,22 @@ func (i *Intel) VisitPageMappings(ctx context.Context, options PageMapOptions, o
 	if err != nil {
 		return PageMapStats{}, err
 	}
+	if err := ctx.Err(); err != nil {
+		return PageMapStats{}, err
+	}
+	sections, err := pageMapSections(i.mode, limit+1, options.Sections)
+	if err != nil {
+		return PageMapStats{}, err
+	}
+	if sections != nil && len(sections) == 0 {
+		return PageMapStats{}, nil
+	}
+	if sections != nil {
+		limit++
+	}
 	ranges := append([]Range(nil), i.physical.Ranges()...)
 	sort.Slice(ranges, func(a, b int) bool { return ranges[a].Start < ranges[b].Start })
-	w := pageMapWalk{intel: i, ctx: ctx, options: options, ranges: ranges, limit: limit, levels: levels, width: width, out: out}
+	w := pageMapWalk{intel: i, ctx: ctx, options: options, ranges: ranges, limit: limit, levels: levels, width: width, out: out, sections: sections}
 	root, err := w.read(i.root)
 	if err == nil && root != nil && !uniformEntries(root, width) {
 		err = w.walk(0, root, 0)
@@ -180,19 +244,22 @@ func (w *pageMapWalk) walk(depth int, table []byte, base uint64) error {
 		if err := w.ctx.Err(); err != nil {
 			return err
 		}
-		if w.stats.Entries >= w.options.MaxEntries {
-			return fmt.Errorf("page map entry limit exhausted")
-		}
-		w.stats.Entries++
 		virtual := base | uint64(index)<<level.shift
 		if virtual >= w.limit {
 			continue
 		}
+		full := uint64(1) << level.shift
+		if !w.selected(virtual, min(full, w.limit-virtual)) {
+			continue
+		}
+		if w.stats.Entries >= w.options.MaxEntries {
+			return fmt.Errorf("page map entry limit exhausted")
+		}
+		w.stats.Entries++
 		entry := tableEntry(table, index, w.width)
 		if _, ok := w.intel.entryMapped(entry); !ok {
 			continue
 		}
-		full := uint64(1) << level.shift
 		large := level.large && entry&128 != 0
 		if !large && !last {
 			child, err := w.read(w.intel.mapFrame(entry, false, full))
@@ -212,23 +279,41 @@ func (w *pageMapWalk) walk(depth int, table []byte, base uint64) error {
 			span = remain
 		}
 		phys := w.intel.mapFrame(entry, large, full)
-		if !rangeCovers(w.ranges, phys, span) {
-			w.stats.Unavailable++
-			if w.options.OnUnavailableMapping != nil {
-				if w.intel.mode == "x64" && virtual&(uint64(1)<<47) != 0 {
-					virtual |= 0xffff000000000000
+		if w.sections == nil {
+			if err := w.leaf(virtual, phys, span); err != nil {
+				return err
+			}
+		} else {
+			end := virtual + span
+			for n := w.firstSection(virtual); n < len(w.sections) && w.sections[n].start < end; n++ {
+				lo, hi := max(virtual, w.sections[n].start), min(end, w.sections[n].end)
+				at, err := Add(phys, lo-virtual)
+				if err != nil {
+					return err
 				}
-				if err := w.options.OnUnavailableMapping(PageMapping{Virtual: virtual, Physical: phys, Length: span}); err != nil {
+				if err := w.leaf(lo, at, hi-lo); err != nil {
 					return err
 				}
 			}
-			continue
-		}
-		if err := w.span(virtual, phys, span); err != nil {
-			return err
 		}
 	}
 	return nil
+}
+
+func (w *pageMapWalk) leaf(virtual, phys, span uint64) error {
+	if !rangeCovers(w.ranges, phys, span) {
+		w.stats.Unavailable++
+		if w.options.OnUnavailableMapping != nil {
+			if w.intel.mode == "x64" && virtual&(uint64(1)<<47) != 0 {
+				virtual |= 0xffff000000000000
+			}
+			if err := w.options.OnUnavailableMapping(PageMapping{Virtual: virtual, Physical: phys, Length: span}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	return w.span(virtual, phys, span)
 }
 
 // mapFrame matches the pinned WindowsIntel32e mask: bits 12..44, including
