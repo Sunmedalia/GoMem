@@ -3,7 +3,8 @@
   "status": "development_dependency",
   "accepted": false,
   "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
-  "scope": "Window field readers; windows.windows remains unregistered and missing",
+  "scope": "Window field and traversal components; windows.windows is now a separate partial integration",
+  "plugin_validation": "docs/windows-windowlist-validation.json",
   "original_controls": {
     "layouts": 12,
     "scenarios_per_layout": 26,
@@ -18,7 +19,7 @@
     "gui_package_race": "pass; 34.407s",
     "field_fuzz": "pass; 20000 executions; old and modern layouts",
     "build": "pass",
-    "matrix": "195 plugins; 152 partial; 43 missing; 0 accepted",
+    "matrix": "195 plugins; 153 partial; 42 missing; 0 accepted",
     "inode_oracle": "32768 modes passed",
     "ci": "oracle regeneration and field fuzz wired; final commit not yet executed"
   },
@@ -42,10 +43,8 @@
   },
   "remaining": [
     "Truncated/cyclic multi-branch behavior when original child set iteration order changes",
-    "Paged traversal controls and complete original plugin integration",
-    "Paged original control for direct-name contiguous prefixes after a later mapping gap",
-    "Full generator integration and parameter bounds",
-    "Sealed session-layer read/provenance audit",
-    "Real-image differential and full OS/version/architecture acceptance"
+    "Broad paged traversal and supported-version controls beyond the selected full-generator layout",
+    "Positive real window recovery; selected real image is a zero-row negative partial control",
+    "Full OS/version/architecture acceptance"
   ]
 }

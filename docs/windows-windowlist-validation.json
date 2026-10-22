@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "status": "partial",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "plugin": "windows.windows",
+  "upstream": "windows.windows.Windows",
+  "synthetic": {
+    "complete_original_generators": 16,
+    "original_methods_unmodified": true,
+    "full_generator_layout": "gui-win10-19041-x64",
+    "ordered_output_fields": 8,
+    "paged_translation": "actual original Intel32e and native x64",
+    "direct_name_prefix_after_mapping_gap": true,
+    "display_offset_and_target_separate": true,
+    "source_read_captures_independently_verified": true,
+    "sealed_storage_fresh_symbols_failed_retry_corrupt_cache_cases": 16,
+    "component_field_controls": 312,
+    "component_traversal_controls": 168,
+    "component_layouts": 12
+  },
+  "real_control": {
+    "classification": "negative_partial_only",
+    "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+    "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+    "same_original_symbol_archive_member_verified": true,
+    "task": "89241d782c401a4a553ba49e6a718ff2",
+    "state": "failed",
+    "original_windows": 0,
+    "native_windows": 0,
+    "seals_verified": 195233,
+    "source_reads_verified": 191179,
+    "captured_bytes_verified": 805863444,
+    "raw_captures_verified": 97163,
+    "failed_read_observations": 4725,
+    "gui_candidates": 4022,
+    "stations": 13,
+    "desktops": 13,
+    "scope": "Zero output does not prove clean absence or positive recovery; failures overlap and are not unique missing pages"
+  },
+  "checks": {
+    "all_plugin_package_race": "pass; 88.009s",
+    "final_window_plugin_race": "pass; 10.732s",
+    "engine_seal_store_retry_race": "pass; 56.023s",
+    "real_existing_task_full_audit": "pass; 15.230s",
+    "paged_pipeline_fuzz": "pass; 2066 executions; 34.687s",
+    "full_generator_oracle_regeneration": "pass; independent Python 3.12 process",
+    "vet_build_doctor": "pass",
+    "cli_and_acceptance_race": "pass",
+    "cross_compile": "Windows amd64 plugin tests and Linux amd64 engine tests passed",
+    "python_and_arguments": "43 tool tests, 428 argument cases and 32768 inode modes passed",
+    "matrix": "195 plugins; 153 partial; 42 missing; 0 accepted",
+    "remote_ci": "oracle regeneration and fuzz wired; final commit not yet executed"
+  },
+  "remaining": [
+    "Positive real window recovery and full version/architecture/malformed-layout acceptance",
+    "Unstable original child order with bounded or cyclic multiple branches",
+    "Runtime dependency-aware successful cache reuse and resume",
+    "Independent PDB parity, swap/prototype pages and ARM64 virtual GUI scanning",
+    "All renderer/export behavior and release performance acceptance"
+  ]
+}

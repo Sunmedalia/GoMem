@@ -25,9 +25,10 @@ func windowsWindowStationsPlugins() []builtin {
 }
 
 type guiScanOptions struct {
-	maxProcesses, maxSessions, maxStations uint64
-	maxDesktops, maxThreads                uint64
-	mode                                   string
+	maxProcesses, maxSessions, maxStations     uint64
+	maxDesktops, maxThreads                    uint64
+	maxWindows, maxWindowSteps, maxWindowDepth uint64
+	mode                                       string
 }
 
 func windowsWindowStations(ctx context.Context, e plugin.Environment, p map[string]string, out plugin.Emit) error {
@@ -62,12 +63,32 @@ func windowsGUIRun(ctx context.Context, e plugin.Environment, p map[string]strin
 			name   string
 			target *uint64
 			zero   bool
-		}{{"max-desktops", &opts.maxDesktops, true}, {"max-threads", &opts.maxThreads, false}} {
+		}{{"max-desktops", &opts.maxDesktops, true}} {
 			n, err := strconv.ParseUint(p[bound.name], 0, 64)
 			if err != nil || n > 1000000 || !bound.zero && n == 0 {
 				return fmt.Errorf("invalid %s bound", bound.name)
 			}
 			*bound.target = n
+		}
+	}
+	if mode == "desktops" || mode == "deskscan" {
+		n, err := strconv.ParseUint(p["max-threads"], 0, 64)
+		if err != nil || n == 0 || n > 1000000 {
+			return fmt.Errorf("invalid max-threads bound")
+		}
+		opts.maxThreads = n
+	}
+	if mode == "windows" {
+		for _, b := range []struct {
+			name   string
+			target *uint64
+			limit  uint64
+		}{{"max-windows", &opts.maxWindows, 1000000}, {"max-window-steps", &opts.maxWindowSteps, 10000000}, {"max-window-depth", &opts.maxWindowDepth, 256}} {
+			n, err := strconv.ParseUint(p[b.name], 0, 64)
+			if err != nil || n == 0 || n > b.limit {
+				return fmt.Errorf("invalid %s bound", b.name)
+			}
+			*b.target = n
 		}
 	}
 	selection, err := wingui.Select(e.Symbols)
@@ -81,6 +102,12 @@ func windowsGUIRun(ctx context.Context, e plugin.Environment, p map[string]strin
 	catalog, err := wingui.Load(ctx, cache, selection.Name, e.Offline)
 	if err != nil {
 		return err
+	}
+	if mode == "windows" {
+		catalog.Layout, err = wingui.ParseWindowLayout(catalog.Data)
+		if err != nil {
+			return err
+		}
 	}
 	symbolRow := poolScannerRow("", 0)
 	symbolRow.Cells["RecordType"] = evidence.Text("gui_symbols")
@@ -197,13 +224,19 @@ func runWindowStations(ctx context.Context, e plugin.Environment, layout *wingui
 			if cause != nil {
 				row.Cells["Error"] = evidence.Missing("gui_name_read_failed", cause)
 			}
-			if opts.mode == "desktops" && info.Name != nil && info.Session != nil {
+			if (opts.mode == "desktops" || opts.mode == "windows") && info.Name != nil && info.Session != nil {
 				row.Cells["RecordType"] = evidence.Text("gui_station")
 				if err := a.emit(row); err != nil {
 					return err
 				}
 				return reader.Desktops(ctx, at, opts.maxDesktops, func(desktop uint64, name wingui.Name) error {
-					rows, err := emitGUIDesktopOwners(ctx, reader, desktop, at, *info.Name, *info.Session, name, opts, a)
+					var rows uint64
+					var err error
+					if opts.mode == "windows" {
+						rows, err = emitGUIDesktopWindows(ctx, reader, desktop, at, *info.Name, name, opts, a)
+					} else {
+						rows, err = emitGUIDesktopOwners(ctx, reader, desktop, at, *info.Name, *info.Session, name, opts, a)
+					}
 					desktopRows += rows
 					return err
 				})
@@ -223,6 +256,11 @@ func runWindowStations(ctx context.Context, e plugin.Environment, layout *wingui
 	summary := poolScannerRow("", 0)
 	summary.Cells["RecordType"] = evidence.Text("task_summary")
 	summary.Cells["Coverage"] = evidence.Value{Kind: "structure", Data: map[string]evidence.Value{"Sessions": evidence.Number(uint64(len(spaces))), "PoolCandidates": evidence.Number(candidates), "Stations": evidence.Number(stations), "DesktopOwners": evidence.Number(desktopRows), "UnboundCandidates": evidence.Number(unbound), "ReadFailures": evidence.Number(uint64(a.failures.count)), "Reads": evidence.Number(a.reads), "RequestedBytes": evidence.Number(a.requested), "EvidenceRows": evidence.Number(a.rows), "Completed": evidence.Bool(cause == nil)}}
+	if opts.mode == "windows" {
+		coverage := summary.Cells["Coverage"].Data.(map[string]evidence.Value)
+		delete(coverage, "DesktopOwners")
+		coverage["Windows"] = evidence.Number(desktopRows)
+	}
 	if cause != nil {
 		summary.Cells["Error"] = evidence.Missing("gui_scan_incomplete", cause)
 	}

@@ -24,6 +24,7 @@ fuzz:
 	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUINames$$' -fuzztime 20000x
 	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUIWindowFields$$' -fuzztime 20000x
 	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUIWindowTraversal$$' -fuzztime 20000x
+	$(GO) test ./internal/plugins -run '^$$' -fuzz '^FuzzWindowListPagedPipeline$$' -fuzztime 2000x
 	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUISessions$$' -fuzztime 20000x
 	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUIObjects$$' -fuzztime 20000x
 	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUILayout$$' -fuzztime 2000x

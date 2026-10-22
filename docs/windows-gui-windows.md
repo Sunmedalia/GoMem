@@ -1,8 +1,10 @@
 # Window inspection foundation
 
 Development component for the pinned Volatility 3 v2.28.2 baseline
-`881e970121c16f0932fb9d16fbd5fb258cbcbf75`. This does not register or complete
-`windows.windows`; the capability matrix remains unchanged.
+`881e970121c16f0932fb9d16fbd5fb258cbcbf75`.
+`windows.windows` is registered separately as a partial plugin; see
+[plugin validation](windows-windowlist.md). These component controls do not
+establish full capability acceptance.
 
 `wingui.ParseWindowLayout` extends the station layout with a bounded projection
 of the desktop-info, window, thread-desktop header and large Unicode string
@@ -42,10 +44,10 @@ unused MaximumLength faults, direct-name fallback and differing inline versus
 indirect procedure addresses. Regeneration is wired into CI. A bounded field
 fuzz target covers both old and modern layouts; 20000 local executions passed.
 
-The oracle currently uses a physical byte buffer. Translation-layer contiguous
-prefix behavior across a later missing page has not yet been differentially
-verified. Native direct-name partial reads retain the acquired prefix and read
-error. These component controls do not establish full plugin or OS acceptance.
+The field-method oracle uses a physical byte buffer. The complete plugin oracle
+now additionally verifies a translated direct-name prefix ending at a later
+missing page. Native partial reads retain both the prefix and read error. These
+finite controls do not establish full plugin or OS acceptance.
 
 ## Adjacent and child traversal
 
@@ -83,7 +85,8 @@ replaced. Native tests independently verify every captured source byte and
 check emitter failure, cancellation before/after output, and invalid/depth/step
 bounds. The traversal fuzz target patches image bytes and missing regions.
 
-Remaining work includes complete original-plugin generator integration, paged
-walk controls, sealed source-read auditing, a real-image differential, and
+The partial plugin has complete original-generator controls on one paged layout
+and a sealed/read-audited real-image negative partial control. Remaining work
+includes broad paged/version coverage, positive real window recovery, and
 analysis of how unstable child order interacts with truncated/cyclic multi-branch
-results. No Windows window-enumeration acceptance is claimed.
+results. No full Windows window-enumeration acceptance is claimed.

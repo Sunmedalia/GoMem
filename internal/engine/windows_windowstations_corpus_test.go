@@ -13,6 +13,7 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"slices"
 	"strings"
 	"testing"
 
@@ -32,10 +33,20 @@ func TestDesktopsCorpusSealedOriginalAndReadAudit(t *testing.T) {
 	if name == "" {
 		t.Skip("set GOMEM_GUI_PLUGIN=windows.desktops or windows.deskscan and GOMEM_GUI_* corpus inputs")
 	}
+	if name == "windows.windows" {
+		t.Skip("window corpus is audited by TestWindowListCorpusSealedOriginalAndReadAudit")
+	}
 	if name != "windows.desktops" && name != "windows.deskscan" {
 		t.Fatal("unsupported desktop corpus plugin")
 	}
 	auditWindowsGUICorpus(t, name, "desktop", "GOMEM_GUI_")
+}
+
+func TestWindowListCorpusSealedOriginalAndReadAudit(t *testing.T) {
+	if os.Getenv("GOMEM_GUI_PLUGIN") != "windows.windows" {
+		t.Skip("set GOMEM_GUI_PLUGIN=windows.windows and GOMEM_GUI_* corpus inputs")
+	}
+	auditWindowsGUICorpus(t, "windows.windows", "window", "GOMEM_GUI_")
 }
 
 type guiCorpusEntity struct {
@@ -47,6 +58,9 @@ type guiCorpusEntity struct {
 	Desktop       *string
 	Process       string
 	PID           uint64
+	Station       string
+	Window        *string
+	Procedure     *uint64
 }
 
 func auditWindowsGUICorpus(t *testing.T, pluginName, recordType, prefix string) {
@@ -64,7 +78,7 @@ func auditWindowsGUICorpus(t *testing.T, pluginName, recordType, prefix string) 
 	if err = json.Unmarshal(raw, &reference); err != nil {
 		t.Fatal(err)
 	}
-	if len(reference) == 0 {
+	if len(reference) == 0 && recordType != "window" {
 		t.Fatal("requires positive original GUI control")
 	}
 	var manifest struct {
@@ -82,7 +96,11 @@ func auditWindowsGUICorpus(t *testing.T, pluginName, recordType, prefix string) 
 		t.Fatal(err)
 	}
 	digest := sha256.Sum256(raw)
-	if manifest.Baseline.Commit != "881e970121c16f0932fb9d16fbd5fb258cbcbf75" || manifest.Plugin != pluginName || manifest.OutputSHA256 != hex.EncodeToString(digest[:]) {
+	referencePlugin := pluginName
+	if pluginName == "windows.windows" {
+		referencePlugin = "windows.windows.Windows"
+	}
+	if manifest.Baseline.Commit != "881e970121c16f0932fb9d16fbd5fb258cbcbf75" || manifest.Plugin != referencePlugin || manifest.OutputSHA256 != hex.EncodeToString(digest[:]) {
 		t.Fatal("original GUI reference identity differs")
 	}
 	e, err := engine.Open(context.Background(), engine.Config{Image: image, Symbols: symbol, OS: "windows", Arch: "x64", DTB: "0x6d4000", KernelBase: 0xfffff8043601f000, CaseDir: caseDir, Offline: true})
@@ -249,7 +267,23 @@ func auditWindowsGUICorpus(t *testing.T, pluginName, recordType, prefix string) 
 					entity.Name = row.Cells["Name"].String()
 					entity.SessionID, _ = row.Cells["SessionId"].Uint()
 				} else {
-					entity.WindowStation = row.Cells["WindowStation"].String()
+					if recordType == "window" {
+						entity.Station = row.Cells["Station"].String()
+						if row.Cells["Window"].Kind != "missing" {
+							s := row.Cells["Window"].String()
+							entity.Window = &s
+						}
+						if row.Cells["Procedure"].Kind != "missing" {
+							n, err := row.Cells["Procedure"].Uint()
+							if err != nil {
+								t.Fatal(err)
+							}
+							n &= 0x0000ffffffffffff
+							entity.Procedure = &n
+						}
+					} else {
+						entity.WindowStation = row.Cells["WindowStation"].String()
+					}
 					entity.Session, _ = row.Cells["Session"].Uint()
 					entity.Process = row.Cells["Process"].String()
 					entity.PID, _ = row.Cells["PID"].Uint()
@@ -274,8 +308,27 @@ func auditWindowsGUICorpus(t *testing.T, pluginName, recordType, prefix string) 
 	if err = decoder.Decode(&extra); err != io.EOF {
 		t.Fatal("wire has trailing evidence or error", err)
 	}
+	if recordType == "window" {
+		for i := range reference {
+			reference[i].Offset &= 0x0000ffffffffffff
+			if reference[i].Procedure != nil {
+				n := *reference[i].Procedure & 0x0000ffffffffffff
+				reference[i].Procedure = &n
+			}
+		}
+		compare := func(a, b guiCorpusEntity) int {
+			x, _ := json.Marshal(a)
+			y, _ := json.Marshal(b)
+			return bytes.Compare(x, y)
+		}
+		slices.SortFunc(got, compare)
+		slices.SortFunc(reference, compare)
+	}
 	if !reflect.DeepEqual(got, reference) {
 		t.Fatal("original/native GUI rows differ", got, reference)
+	}
+	if recordType == "window" && len(reference) == 0 && (state != "failed" || readFailures == 0 || counts["gui_candidate"] == 0) {
+		t.Fatal("zero-window control requires explicit failed partial acquisition and candidate evidence")
 	}
 	complete, _ := summary["Completed"].Data.(bool)
 	if complete != (state == "completed") {
@@ -285,6 +338,14 @@ func auditWindowsGUICorpus(t *testing.T, pluginName, recordType, prefix string) 
 		t.Fatal("GUI read failures presented as successful")
 	}
 	audit := map[string]any{"image_sha256": e.Env.ImageHash, "symbols_sha256": e.Env.Symbols.Digest(), "reference_sha256": manifest.OutputSHA256, "task": taskID, "state": state, "ordered_rows": len(got), "seals_verified": seals, "source_reads_verified": reads, "captured_bytes_verified": captured, "raw_captures_verified": rawRows, "failed_reads_verified": readFailures, "record_counts": counts, "coverage": summary, "plugin": pluginName, "scope": "Same ISF archive member; independent native full GUI scan, ordered fields, stored stream and every captured read audited; no independent PDB or full OS acceptance"}
+	if recordType == "window" {
+		delete(audit, "ordered_rows")
+		audit["entity_rows"] = len(got)
+		audit["scope"] = "Same ISF archive member; eight-field window entity multiset with duplicate counts and masked addresses, child order normalized because original identity-set order is unstable; every seal and captured read audited; no independent PDB or full OS acceptance"
+		if len(reference) == 0 {
+			audit["scope"] = "Negative partial control only: both tools emit zero windows, native retains failed candidate/read evidence; every seal and captured source read audited; this does not establish clean absence or positive real-image recovery"
+		}
+	}
 	data, err := json.MarshalIndent(audit, "", "  ")
 	if err != nil {
 		t.Fatal(err)
