@@ -77,6 +77,16 @@ def fixture(width, scenario):
         path = r'C:\Windows\workfoldersshell.dll'
     if scenario == 'relative-name':
         path = 'module.dll'
+    database = 'fixture.pdb'
+    if scenario == 'sharp-s-name':
+        path = 'C:\\Windows\\ß.dll'
+        database = 'SS.pdb'
+    if scenario == 'short-unicode-name':
+        path = 'C:\\Windows\\éé'
+        database = 'pdb'
+    if scenario == 'unc-share-only':
+        path = r'\\server\share'
+        database = 'pdb'
     encoded = path.encode('utf-16le')
     struct.pack_into('<HH', data, 0x4000, len(encoded), len(encoded)+2)
     put(0x4008, 0x5000)
@@ -97,11 +107,13 @@ def fixture(width, scenario):
     guid = bytes([0x12])*16
     debug = 0x98 + (112 if width == 8 else 96) + 6*8
     struct.pack_into('<II', module, debug, 0x1880, 28)
-    struct.pack_into('<III', module, 0x1880+12, 2, 36, 0x1900)
-    module[0x1900:0x1900+36] = b'RSDS'+guid+(1).to_bytes(4,'little')+b'fixture.pdb\0'
+    record = b'RSDS'+guid+(1).to_bytes(4,'little')+database.encode('utf-8')+b'\0'
+    struct.pack_into('<III', module, 0x1880+12, 2, len(record), 0x1900)
+    module[0x1900:0x1900+len(record)] = record
     data[0x100000:0x100000+len(module)] = module
-    pdb = dict(metadata=dict(format='6.2.0', windows=dict(pdb=dict(database='fixture.pdb', GUID=guid.hex().upper(), age=1, machine_type=0x8664 if width == 8 else 0x14c))), base_types=bases, user_types={}, enums={}, symbols={'AlphaPDB':dict(address=0x1200)})
+    pdb = dict(metadata=dict(format='6.2.0', windows=dict(pdb=dict(database=database, GUID=guid.hex().upper(), age=1, machine_type=0x8664 if width == 8 else 0x14c))), base_types=bases, user_types={}, enums={}, symbols={'AlphaPDB':dict(address=0x1200)})
     kernel_image = bytearray(module)
+    struct.pack_into('<I', kernel_image, 0x1880+16, 36)
     kernel_image[0x1904:0x1914] = bytes([0x13])*16
     kernel_image[0x1918:0x1924] = b'kernel.pdb\0\0'
     data[0x10000:0x10000+len(kernel_image)] = kernel_image
@@ -124,7 +136,7 @@ def generate(source):
     cases = []
     try:
         for width in (4, 8):
-            for scenario in ('normal', 'running', 'terminated', 'different-owner', 'cid-mismatch', 'xp-owner', 'exited-suspended', 'no-vads', 'relative-name', 'unmapped', 'exact-end', 'exception', 'lowercase-exception', 'export-fallback', 'nearest-not-exact'):
+            for scenario in ('normal', 'running', 'terminated', 'different-owner', 'cid-mismatch', 'xp-owner', 'exited-suspended', 'no-vads', 'relative-name', 'unmapped', 'exact-end', 'exception', 'lowercase-exception', 'export-fallback', 'nearest-not-exact', 'sharp-s-name', 'short-unicode-name', 'unc-share-only'):
                 kernel, pdb, data = fixture(width, scenario)
                 ctx = contexts.Context()
                 ctx.layers.add_layer(BufferDataLayer(ctx, 'physical', 'physical', bytes(data)))
@@ -140,7 +152,7 @@ def generate(source):
                     cachepath = str(directory/constants.IDENTIFIERS_FILENAME)
                     SqliteCache(cachepath)
                     with sqlite3.connect(cachepath) as db:
-                        db.execute('INSERT INTO cache(location, identifier, operating_system, local) VALUES(?,?,?,1)',(pp.as_uri(), WindowsIdentifier.generate('fixture.pdb', '12'*16, 1), 'windows'))
+                        db.execute('INSERT INTO cache(location, identifier, operating_system, local) VALUES(?,?,?,1)',(pp.as_uri(), WindowsIdentifier.generate(pdb['metadata']['windows']['pdb']['database'], '12'*16, 1), 'windows'))
                     classes = {name:getattr(extensions,name.lstrip('_')) for name in ('_EPROCESS','_ETHREAD','_LIST_ENTRY','_MMVAD','_MMVAD_SHORT','_EX_FAST_REF','_UNICODE_STRING')}
                     classes['_RTL_BALANCED_NODE'] = extensions.MMVAD_SHORT
                     ctx.symbol_space.append(IntermediateSymbolTable(ctx, 'symbols', 'kernel', kp.as_uri(), class_types=classes))

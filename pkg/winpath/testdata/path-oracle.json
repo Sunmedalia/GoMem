@@ -1,0 +1,9336 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "cases": [
+    {
+      "path": "",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "x",
+      "name": "x",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "x\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "x/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "x\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "xy",
+      "name": "xy",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "xy\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "xy/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "xy\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "abc",
+      "name": "abc",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "abc\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "abc/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "abc\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "fixture.dll",
+      "name": "fixture.dll",
+      "candidates": [
+        "fixture.pdb",
+        "Fixture.pdb"
+      ]
+    },
+    {
+      "path": "fixture.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "fixture.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "fixture.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "NTOSKRNL.EXE",
+      "name": "ntoskrnl.exe",
+      "candidates": [
+        "ntkrnlmp.pdb",
+        "ntkrnlpa.pdb",
+        "ntkrpamp.pdb",
+        "ntoskrnl.pdb"
+      ]
+    },
+    {
+      "path": "NTOSKRNL.EXE\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "NTOSKRNL.EXE/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "NTOSKRNL.EXE\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\u0130.dll",
+      "name": "i\u0307.dll",
+      "candidates": [
+        "i\u0307.pdb",
+        "I\u0307.pdb"
+      ]
+    },
+    {
+      "path": "\u0130.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\u0130.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\u0130.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\u00df.dll",
+      "name": "\u00df.dll",
+      "candidates": [
+        "\u00df.pdb",
+        "SS.pdb"
+      ]
+    },
+    {
+      "path": "\u00df.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\u00df.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\u00df.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\u039f\u03a3.dll",
+      "name": "\u03bf\u03c3.dll",
+      "candidates": [
+        "\u03bf\u03c3.pdb",
+        "\u039f\u03c3.pdb"
+      ]
+    },
+    {
+      "path": "\u039f\u03a3.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\u039f\u03a3.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\u039f\u03a3.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\u039f\u03a3",
+      "name": "\u03bf\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\u039f\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\u039f\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\u039f\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\u03a3",
+      "name": "\u03c3",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\u03a3\u03a3",
+      "name": "\u03c3\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\u03a3\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\u03a3\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\u03a3\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3",
+      "name": "a\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u0301",
+      "name": "a\u03c2\u0301",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u0301\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u0301/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u0301\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u0301A",
+      "name": "a\u03c3\u0301a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u0301A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u0301A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u0301A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u200d",
+      "name": "a\u03c2\u200d",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u200d\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u200d/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u200d\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u200dA",
+      "name": "a\u03c3\u200da",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u200dA\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u200dA/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u200dA\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3.A",
+      "name": "a\u03c3.a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "A\u03a3.A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3.A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3.A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u0345",
+      "name": "a\u03c2\u0345",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u0345\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u0345/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "A\u03a3\u0345\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ufb03.dll",
+      "name": "\ufb03.dll",
+      "candidates": [
+        "\ufb03.pdb",
+        "FFI.pdb"
+      ]
+    },
+    {
+      "path": "\ufb03.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ufb03.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ufb03.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\u01f0.dll",
+      "name": "\u01f0.dll",
+      "candidates": [
+        "\u01f0.pdb",
+        "J\u030c.pdb"
+      ]
+    },
+    {
+      "path": "\u01f0.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\u01f0.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\u01f0.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud801\udc00.dll",
+      "name": "\ud801\udc28.dll",
+      "candidates": [
+        "\ud801\udc28.pdb",
+        "\ud801\udc00.pdb"
+      ]
+    },
+    {
+      "path": "\ud801\udc00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud801\udc00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud801\udc00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00.dll",
+      "name": "\ud83d\ude00.dll",
+      "candidates": [
+        "\ud83d\ude00.pdb",
+        "\ud83d\ude00.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\u4e2d\u6587.dll",
+      "name": "\u4e2d\u6587.dll",
+      "candidates": [
+        "\u4e2d\u6587.pdb",
+        "\u4e2d\u6587.pdb"
+      ]
+    },
+    {
+      "path": "\u4e2d\u6587.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\u4e2d\u6587.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\u4e2d\u6587.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "x:y.dll",
+      "name": "y.dll",
+      "candidates": [
+        "y.pdb",
+        "Y.pdb"
+      ]
+    },
+    {
+      "path": "x:y.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "x:y.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "x:y.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:x",
+      "name": "x",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:x\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:x/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:x\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:xy",
+      "name": "xy",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:xy\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:xy/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:xy\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:abc",
+      "name": "abc",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:abc\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:abc/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:abc\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:fixture.dll",
+      "name": "fixture.dll",
+      "candidates": [
+        "fixture.pdb",
+        "Fixture.pdb"
+      ]
+    },
+    {
+      "path": "C:fixture.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:fixture.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:fixture.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:NTOSKRNL.EXE",
+      "name": "ntoskrnl.exe",
+      "candidates": [
+        "ntkrnlmp.pdb",
+        "ntkrnlpa.pdb",
+        "ntkrpamp.pdb",
+        "ntoskrnl.pdb"
+      ]
+    },
+    {
+      "path": "C:NTOSKRNL.EXE\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:NTOSKRNL.EXE/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:NTOSKRNL.EXE\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\u0130.dll",
+      "name": "i\u0307.dll",
+      "candidates": [
+        "i\u0307.pdb",
+        "I\u0307.pdb"
+      ]
+    },
+    {
+      "path": "C:\u0130.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\u0130.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\u0130.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\u00df.dll",
+      "name": "\u00df.dll",
+      "candidates": [
+        "\u00df.pdb",
+        "SS.pdb"
+      ]
+    },
+    {
+      "path": "C:\u00df.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\u00df.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\u00df.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\u039f\u03a3.dll",
+      "name": "\u03bf\u03c3.dll",
+      "candidates": [
+        "\u03bf\u03c3.pdb",
+        "\u039f\u03c3.pdb"
+      ]
+    },
+    {
+      "path": "C:\u039f\u03a3.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\u039f\u03a3.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\u039f\u03a3.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\u039f\u03a3",
+      "name": "\u03bf\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\u039f\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\u039f\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\u039f\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\u03a3",
+      "name": "\u03c3",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\u03a3\u03a3",
+      "name": "\u03c3\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\u03a3\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\u03a3\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\u03a3\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3",
+      "name": "a\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u0301",
+      "name": "a\u03c2\u0301",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u0301\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u0301/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u0301\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u0301A",
+      "name": "a\u03c3\u0301a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u0301A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u0301A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u0301A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u200d",
+      "name": "a\u03c2\u200d",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u200d\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u200d/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u200d\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u200dA",
+      "name": "a\u03c3\u200da",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u200dA\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u200dA/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u200dA\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3.A",
+      "name": "a\u03c3.a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3.A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3.A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3.A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u0345",
+      "name": "a\u03c2\u0345",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u0345\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u0345/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:A\u03a3\u0345\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\ufb03.dll",
+      "name": "\ufb03.dll",
+      "candidates": [
+        "\ufb03.pdb",
+        "FFI.pdb"
+      ]
+    },
+    {
+      "path": "C:\ufb03.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\ufb03.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\ufb03.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\u01f0.dll",
+      "name": "\u01f0.dll",
+      "candidates": [
+        "\u01f0.pdb",
+        "J\u030c.pdb"
+      ]
+    },
+    {
+      "path": "C:\u01f0.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\u01f0.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\u01f0.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\ud801\udc00.dll",
+      "name": "\ud801\udc28.dll",
+      "candidates": [
+        "\ud801\udc28.pdb",
+        "\ud801\udc00.pdb"
+      ]
+    },
+    {
+      "path": "C:\ud801\udc00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\ud801\udc00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\ud801\udc00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\ud83d\ude00.dll",
+      "name": "\ud83d\ude00.dll",
+      "candidates": [
+        "\ud83d\ude00.pdb",
+        "\ud83d\ude00.pdb"
+      ]
+    },
+    {
+      "path": "C:\ud83d\ude00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\ud83d\ude00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\ud83d\ude00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\u4e2d\u6587.dll",
+      "name": "\u4e2d\u6587.dll",
+      "candidates": [
+        "\u4e2d\u6587.pdb",
+        "\u4e2d\u6587.pdb"
+      ]
+    },
+    {
+      "path": "C:\u4e2d\u6587.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\u4e2d\u6587.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\u4e2d\u6587.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:x:y.dll",
+      "name": "x:y.dll",
+      "candidates": [
+        "x:y.pdb",
+        "X:y.pdb"
+      ]
+    },
+    {
+      "path": "C:x:y.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:x:y.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:x:y.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\x",
+      "name": "x",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\x\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\x/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\x\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\xy",
+      "name": "xy",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\xy\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\xy/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\xy\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\abc",
+      "name": "abc",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\abc\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\abc/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\abc\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\fixture.dll",
+      "name": "fixture.dll",
+      "candidates": [
+        "fixture.pdb",
+        "Fixture.pdb"
+      ]
+    },
+    {
+      "path": "C:\\fixture.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\fixture.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\fixture.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\NTOSKRNL.EXE",
+      "name": "ntoskrnl.exe",
+      "candidates": [
+        "ntkrnlmp.pdb",
+        "ntkrnlpa.pdb",
+        "ntkrpamp.pdb",
+        "ntoskrnl.pdb"
+      ]
+    },
+    {
+      "path": "C:\\NTOSKRNL.EXE\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\NTOSKRNL.EXE/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\NTOSKRNL.EXE\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u0130.dll",
+      "name": "i\u0307.dll",
+      "candidates": [
+        "i\u0307.pdb",
+        "I\u0307.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u0130.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u0130.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u0130.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u00df.dll",
+      "name": "\u00df.dll",
+      "candidates": [
+        "\u00df.pdb",
+        "SS.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u00df.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u00df.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u00df.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u039f\u03a3.dll",
+      "name": "\u03bf\u03c3.dll",
+      "candidates": [
+        "\u03bf\u03c3.pdb",
+        "\u039f\u03c3.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u039f\u03a3.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u039f\u03a3.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u039f\u03a3.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u039f\u03a3",
+      "name": "\u03bf\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u039f\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u039f\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u039f\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u03a3",
+      "name": "\u03c3",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u03a3\u03a3",
+      "name": "\u03c3\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u03a3\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u03a3\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u03a3\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3",
+      "name": "a\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u0301",
+      "name": "a\u03c2\u0301",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u0301\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u0301/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u0301\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u0301A",
+      "name": "a\u03c3\u0301a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u0301A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u0301A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u0301A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u200d",
+      "name": "a\u03c2\u200d",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u200d\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u200d/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u200d\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u200dA",
+      "name": "a\u03c3\u200da",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u200dA\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u200dA/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u200dA\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3.A",
+      "name": "a\u03c3.a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3.A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3.A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3.A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u0345",
+      "name": "a\u03c2\u0345",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u0345\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u0345/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\A\u03a3\u0345\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\ufb03.dll",
+      "name": "\ufb03.dll",
+      "candidates": [
+        "\ufb03.pdb",
+        "FFI.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\ufb03.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\ufb03.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\ufb03.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u01f0.dll",
+      "name": "\u01f0.dll",
+      "candidates": [
+        "\u01f0.pdb",
+        "J\u030c.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u01f0.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u01f0.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u01f0.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\ud801\udc00.dll",
+      "name": "\ud801\udc28.dll",
+      "candidates": [
+        "\ud801\udc28.pdb",
+        "\ud801\udc00.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\ud801\udc00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\ud801\udc00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\ud801\udc00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\ud83d\ude00.dll",
+      "name": "\ud83d\ude00.dll",
+      "candidates": [
+        "\ud83d\ude00.pdb",
+        "\ud83d\ude00.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\ud83d\ude00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\ud83d\ude00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\ud83d\ude00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u4e2d\u6587.dll",
+      "name": "\u4e2d\u6587.dll",
+      "candidates": [
+        "\u4e2d\u6587.pdb",
+        "\u4e2d\u6587.pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u4e2d\u6587.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u4e2d\u6587.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\\u4e2d\u6587.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\x:y.dll",
+      "name": "x:y.dll",
+      "candidates": [
+        "x:y.pdb",
+        "X:y.pdb"
+      ]
+    },
+    {
+      "path": "C:\\x:y.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\x:y.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\x:y.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\tail.DLL",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\x",
+      "name": "x",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\x\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\x/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\x\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\xy",
+      "name": "xy",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\xy\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\xy/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\xy\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\abc",
+      "name": "abc",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\abc\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\abc/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\abc\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\fixture.dll",
+      "name": "fixture.dll",
+      "candidates": [
+        "fixture.pdb",
+        "Fixture.pdb"
+      ]
+    },
+    {
+      "path": "\\fixture.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\fixture.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\fixture.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\NTOSKRNL.EXE",
+      "name": "ntoskrnl.exe",
+      "candidates": [
+        "ntkrnlmp.pdb",
+        "ntkrnlpa.pdb",
+        "ntkrpamp.pdb",
+        "ntoskrnl.pdb"
+      ]
+    },
+    {
+      "path": "\\NTOSKRNL.EXE\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\NTOSKRNL.EXE/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\NTOSKRNL.EXE\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\u0130.dll",
+      "name": "i\u0307.dll",
+      "candidates": [
+        "i\u0307.pdb",
+        "I\u0307.pdb"
+      ]
+    },
+    {
+      "path": "\\\u0130.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\u0130.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\u0130.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\u00df.dll",
+      "name": "\u00df.dll",
+      "candidates": [
+        "\u00df.pdb",
+        "SS.pdb"
+      ]
+    },
+    {
+      "path": "\\\u00df.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\u00df.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\u00df.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\u039f\u03a3.dll",
+      "name": "\u03bf\u03c3.dll",
+      "candidates": [
+        "\u03bf\u03c3.pdb",
+        "\u039f\u03c3.pdb"
+      ]
+    },
+    {
+      "path": "\\\u039f\u03a3.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\u039f\u03a3.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\u039f\u03a3.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\u039f\u03a3",
+      "name": "\u03bf\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\u039f\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\u039f\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\u039f\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\u03a3",
+      "name": "\u03c3",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\u03a3\u03a3",
+      "name": "\u03c3\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\u03a3\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\u03a3\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\u03a3\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3",
+      "name": "a\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u0301",
+      "name": "a\u03c2\u0301",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u0301\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u0301/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u0301\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u0301A",
+      "name": "a\u03c3\u0301a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u0301A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u0301A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u0301A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u200d",
+      "name": "a\u03c2\u200d",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u200d\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u200d/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u200d\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u200dA",
+      "name": "a\u03c3\u200da",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u200dA\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u200dA/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u200dA\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3.A",
+      "name": "a\u03c3.a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3.A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3.A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3.A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u0345",
+      "name": "a\u03c2\u0345",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u0345\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u0345/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\A\u03a3\u0345\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\ufb03.dll",
+      "name": "\ufb03.dll",
+      "candidates": [
+        "\ufb03.pdb",
+        "FFI.pdb"
+      ]
+    },
+    {
+      "path": "\\\ufb03.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\ufb03.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\ufb03.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\u01f0.dll",
+      "name": "\u01f0.dll",
+      "candidates": [
+        "\u01f0.pdb",
+        "J\u030c.pdb"
+      ]
+    },
+    {
+      "path": "\\\u01f0.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\u01f0.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\u01f0.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\ud801\udc00.dll",
+      "name": "\ud801\udc28.dll",
+      "candidates": [
+        "\ud801\udc28.pdb",
+        "\ud801\udc00.pdb"
+      ]
+    },
+    {
+      "path": "\\\ud801\udc00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\ud801\udc00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\ud801\udc00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\ud83d\ude00.dll",
+      "name": "\ud83d\ude00.dll",
+      "candidates": [
+        "\ud83d\ude00.pdb",
+        "\ud83d\ude00.pdb"
+      ]
+    },
+    {
+      "path": "\\\ud83d\ude00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\ud83d\ude00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\ud83d\ude00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\u4e2d\u6587.dll",
+      "name": "\u4e2d\u6587.dll",
+      "candidates": [
+        "\u4e2d\u6587.pdb",
+        "\u4e2d\u6587.pdb"
+      ]
+    },
+    {
+      "path": "\\\u4e2d\u6587.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\u4e2d\u6587.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\u4e2d\u6587.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\x:y.dll",
+      "name": "x:y.dll",
+      "candidates": [
+        "x:y.pdb",
+        "X:y.pdb"
+      ]
+    },
+    {
+      "path": "\\x:y.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\x:y.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\x:y.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\x",
+      "name": "x",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\x\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\x/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\x\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\xy",
+      "name": "xy",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\xy\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\xy/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\xy\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\abc",
+      "name": "abc",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\abc\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\abc/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\abc\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\fixture.dll",
+      "name": "fixture.dll",
+      "candidates": [
+        "fixture.pdb",
+        "Fixture.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\fixture.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\fixture.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\fixture.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\NTOSKRNL.EXE",
+      "name": "ntoskrnl.exe",
+      "candidates": [
+        "ntkrnlmp.pdb",
+        "ntkrnlpa.pdb",
+        "ntkrpamp.pdb",
+        "ntoskrnl.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\NTOSKRNL.EXE\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\NTOSKRNL.EXE/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\NTOSKRNL.EXE\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u0130.dll",
+      "name": "i\u0307.dll",
+      "candidates": [
+        "i\u0307.pdb",
+        "I\u0307.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u0130.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u0130.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u0130.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u00df.dll",
+      "name": "\u00df.dll",
+      "candidates": [
+        "\u00df.pdb",
+        "SS.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u00df.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u00df.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u00df.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u039f\u03a3.dll",
+      "name": "\u03bf\u03c3.dll",
+      "candidates": [
+        "\u03bf\u03c3.pdb",
+        "\u039f\u03c3.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u039f\u03a3.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u039f\u03a3.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u039f\u03a3.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u039f\u03a3",
+      "name": "\u03bf\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u039f\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u039f\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u039f\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u03a3",
+      "name": "\u03c3",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u03a3\u03a3",
+      "name": "\u03c3\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u03a3\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u03a3\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u03a3\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3",
+      "name": "a\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u0301",
+      "name": "a\u03c2\u0301",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u0301\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u0301/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u0301\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u0301A",
+      "name": "a\u03c3\u0301a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u0301A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u0301A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u0301A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u200d",
+      "name": "a\u03c2\u200d",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u200d\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u200d/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u200d\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u200dA",
+      "name": "a\u03c3\u200da",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u200dA\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u200dA/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u200dA\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3.A",
+      "name": "a\u03c3.a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3.A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3.A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3.A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u0345",
+      "name": "a\u03c2\u0345",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u0345\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u0345/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\A\u03a3\u0345\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\ufb03.dll",
+      "name": "\ufb03.dll",
+      "candidates": [
+        "\ufb03.pdb",
+        "FFI.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\ufb03.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\ufb03.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\ufb03.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u01f0.dll",
+      "name": "\u01f0.dll",
+      "candidates": [
+        "\u01f0.pdb",
+        "J\u030c.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u01f0.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u01f0.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u01f0.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\ud801\udc00.dll",
+      "name": "\ud801\udc28.dll",
+      "candidates": [
+        "\ud801\udc28.pdb",
+        "\ud801\udc00.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\ud801\udc00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\ud801\udc00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\ud801\udc00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\ud83d\ude00.dll",
+      "name": "\ud83d\ude00.dll",
+      "candidates": [
+        "\ud83d\ude00.pdb",
+        "\ud83d\ude00.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\ud83d\ude00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\ud83d\ude00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\ud83d\ude00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u4e2d\u6587.dll",
+      "name": "\u4e2d\u6587.dll",
+      "candidates": [
+        "\u4e2d\u6587.pdb",
+        "\u4e2d\u6587.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u4e2d\u6587.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u4e2d\u6587.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\\u4e2d\u6587.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\x:y.dll",
+      "name": "x:y.dll",
+      "candidates": [
+        "x:y.pdb",
+        "X:y.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\x:y.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\x:y.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share\\x:y.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share//",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/x",
+      "name": "x",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/x\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/x/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/x\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/xy",
+      "name": "xy",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/xy\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/xy/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/xy\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/abc",
+      "name": "abc",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/abc\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/abc/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/abc\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/fixture.dll",
+      "name": "fixture.dll",
+      "candidates": [
+        "fixture.pdb",
+        "Fixture.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/fixture.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/fixture.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/fixture.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/NTOSKRNL.EXE",
+      "name": "ntoskrnl.exe",
+      "candidates": [
+        "ntkrnlmp.pdb",
+        "ntkrnlpa.pdb",
+        "ntkrpamp.pdb",
+        "ntoskrnl.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/NTOSKRNL.EXE\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/NTOSKRNL.EXE/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/NTOSKRNL.EXE\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u0130.dll",
+      "name": "i\u0307.dll",
+      "candidates": [
+        "i\u0307.pdb",
+        "I\u0307.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u0130.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u0130.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u0130.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u00df.dll",
+      "name": "\u00df.dll",
+      "candidates": [
+        "\u00df.pdb",
+        "SS.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u00df.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u00df.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u00df.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u039f\u03a3.dll",
+      "name": "\u03bf\u03c3.dll",
+      "candidates": [
+        "\u03bf\u03c3.pdb",
+        "\u039f\u03c3.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u039f\u03a3.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u039f\u03a3.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u039f\u03a3.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u039f\u03a3",
+      "name": "\u03bf\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u039f\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u039f\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u039f\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u03a3",
+      "name": "\u03c3",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u03a3\u03a3",
+      "name": "\u03c3\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u03a3\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u03a3\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u03a3\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3",
+      "name": "a\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u0301",
+      "name": "a\u03c2\u0301",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u0301\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u0301/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u0301\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u0301A",
+      "name": "a\u03c3\u0301a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u0301A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u0301A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u0301A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u200d",
+      "name": "a\u03c2\u200d",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u200d\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u200d/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u200d\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u200dA",
+      "name": "a\u03c3\u200da",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u200dA\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u200dA/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u200dA\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3.A",
+      "name": "a\u03c3.a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3.A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3.A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3.A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u0345",
+      "name": "a\u03c2\u0345",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u0345\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u0345/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/A\u03a3\u0345\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\ufb03.dll",
+      "name": "\ufb03.dll",
+      "candidates": [
+        "\ufb03.pdb",
+        "FFI.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\ufb03.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\ufb03.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\ufb03.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u01f0.dll",
+      "name": "\u01f0.dll",
+      "candidates": [
+        "\u01f0.pdb",
+        "J\u030c.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u01f0.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u01f0.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u01f0.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\ud801\udc00.dll",
+      "name": "\ud801\udc28.dll",
+      "candidates": [
+        "\ud801\udc28.pdb",
+        "\ud801\udc00.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\ud801\udc00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\ud801\udc00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\ud801\udc00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\ud83d\ude00.dll",
+      "name": "\ud83d\ude00.dll",
+      "candidates": [
+        "\ud83d\ude00.pdb",
+        "\ud83d\ude00.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\ud83d\ude00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\ud83d\ude00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\ud83d\ude00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u4e2d\u6587.dll",
+      "name": "\u4e2d\u6587.dll",
+      "candidates": [
+        "\u4e2d\u6587.pdb",
+        "\u4e2d\u6587.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u4e2d\u6587.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u4e2d\u6587.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/\u4e2d\u6587.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/x:y.dll",
+      "name": "x:y.dll",
+      "candidates": [
+        "x:y.pdb",
+        "X:y.pdb"
+      ]
+    },
+    {
+      "path": "//server/share/x:y.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/x:y.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share/x:y.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\x",
+      "name": "x",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\x\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\x/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\x\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\xy",
+      "name": "xy",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\xy\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\xy/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\xy\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\abc",
+      "name": "abc",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\abc\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\abc/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\abc\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\fixture.dll",
+      "name": "fixture.dll",
+      "candidates": [
+        "fixture.pdb",
+        "Fixture.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\fixture.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\fixture.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\fixture.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\NTOSKRNL.EXE",
+      "name": "ntoskrnl.exe",
+      "candidates": [
+        "ntkrnlmp.pdb",
+        "ntkrnlpa.pdb",
+        "ntkrpamp.pdb",
+        "ntoskrnl.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\NTOSKRNL.EXE\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\NTOSKRNL.EXE/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\NTOSKRNL.EXE\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u0130.dll",
+      "name": "i\u0307.dll",
+      "candidates": [
+        "i\u0307.pdb",
+        "I\u0307.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u0130.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u0130.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u0130.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u00df.dll",
+      "name": "\u00df.dll",
+      "candidates": [
+        "\u00df.pdb",
+        "SS.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u00df.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u00df.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u00df.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u039f\u03a3.dll",
+      "name": "\u03bf\u03c3.dll",
+      "candidates": [
+        "\u03bf\u03c3.pdb",
+        "\u039f\u03c3.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u039f\u03a3.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u039f\u03a3.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u039f\u03a3.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u039f\u03a3",
+      "name": "\u03bf\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u039f\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u039f\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u039f\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u03a3",
+      "name": "\u03c3",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u03a3\u03a3",
+      "name": "\u03c3\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u03a3\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u03a3\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u03a3\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3",
+      "name": "a\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u0301",
+      "name": "a\u03c2\u0301",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u0301\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u0301/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u0301\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u0301A",
+      "name": "a\u03c3\u0301a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u0301A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u0301A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u0301A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u200d",
+      "name": "a\u03c2\u200d",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u200d\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u200d/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u200d\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u200dA",
+      "name": "a\u03c3\u200da",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u200dA\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u200dA/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u200dA\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3.A",
+      "name": "a\u03c3.a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3.A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3.A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3.A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u0345",
+      "name": "a\u03c2\u0345",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u0345\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u0345/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\A\u03a3\u0345\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\ufb03.dll",
+      "name": "\ufb03.dll",
+      "candidates": [
+        "\ufb03.pdb",
+        "FFI.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\ufb03.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\ufb03.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\ufb03.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u01f0.dll",
+      "name": "\u01f0.dll",
+      "candidates": [
+        "\u01f0.pdb",
+        "J\u030c.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u01f0.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u01f0.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u01f0.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\ud801\udc00.dll",
+      "name": "\ud801\udc28.dll",
+      "candidates": [
+        "\ud801\udc28.pdb",
+        "\ud801\udc00.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\ud801\udc00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\ud801\udc00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\ud801\udc00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\ud83d\ude00.dll",
+      "name": "\ud83d\ude00.dll",
+      "candidates": [
+        "\ud83d\ude00.pdb",
+        "\ud83d\ude00.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\ud83d\ude00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\ud83d\ude00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\ud83d\ude00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u4e2d\u6587.dll",
+      "name": "\u4e2d\u6587.dll",
+      "candidates": [
+        "\u4e2d\u6587.pdb",
+        "\u4e2d\u6587.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u4e2d\u6587.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u4e2d\u6587.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\\u4e2d\u6587.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\x:y.dll",
+      "name": "x:y.dll",
+      "candidates": [
+        "x:y.pdb",
+        "X:y.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\x:y.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\x:y.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share\\x:y.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\x",
+      "name": "x",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\x\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\x/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\x\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\xy",
+      "name": "xy",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\xy\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\xy/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\xy\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\abc",
+      "name": "abc",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\abc\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\abc/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\abc\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\fixture.dll",
+      "name": "fixture.dll",
+      "candidates": [
+        "fixture.pdb",
+        "Fixture.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\fixture.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\fixture.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\fixture.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\NTOSKRNL.EXE",
+      "name": "ntoskrnl.exe",
+      "candidates": [
+        "ntkrnlmp.pdb",
+        "ntkrnlpa.pdb",
+        "ntkrpamp.pdb",
+        "ntoskrnl.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\NTOSKRNL.EXE\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\NTOSKRNL.EXE/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\NTOSKRNL.EXE\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u0130.dll",
+      "name": "i\u0307.dll",
+      "candidates": [
+        "i\u0307.pdb",
+        "I\u0307.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u0130.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u0130.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u0130.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u00df.dll",
+      "name": "\u00df.dll",
+      "candidates": [
+        "\u00df.pdb",
+        "SS.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u00df.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u00df.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u00df.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u039f\u03a3.dll",
+      "name": "\u03bf\u03c3.dll",
+      "candidates": [
+        "\u03bf\u03c3.pdb",
+        "\u039f\u03c3.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u039f\u03a3.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u039f\u03a3.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u039f\u03a3.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u039f\u03a3",
+      "name": "\u03bf\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u039f\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u039f\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u039f\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u03a3",
+      "name": "\u03c3",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u03a3\u03a3",
+      "name": "\u03c3\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u03a3\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u03a3\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u03a3\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3",
+      "name": "a\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u0301",
+      "name": "a\u03c2\u0301",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u0301\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u0301/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u0301\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u0301A",
+      "name": "a\u03c3\u0301a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u0301A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u0301A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u0301A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u200d",
+      "name": "a\u03c2\u200d",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u200d\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u200d/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u200d\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u200dA",
+      "name": "a\u03c3\u200da",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u200dA\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u200dA/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u200dA\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3.A",
+      "name": "a\u03c3.a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3.A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3.A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3.A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u0345",
+      "name": "a\u03c2\u0345",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u0345\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u0345/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\A\u03a3\u0345\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\ufb03.dll",
+      "name": "\ufb03.dll",
+      "candidates": [
+        "\ufb03.pdb",
+        "FFI.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\ufb03.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\ufb03.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\ufb03.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u01f0.dll",
+      "name": "\u01f0.dll",
+      "candidates": [
+        "\u01f0.pdb",
+        "J\u030c.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u01f0.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u01f0.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u01f0.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\ud801\udc00.dll",
+      "name": "\ud801\udc28.dll",
+      "candidates": [
+        "\ud801\udc28.pdb",
+        "\ud801\udc00.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\ud801\udc00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\ud801\udc00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\ud801\udc00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\ud83d\ude00.dll",
+      "name": "\ud83d\ude00.dll",
+      "candidates": [
+        "\ud83d\ude00.pdb",
+        "\ud83d\ude00.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\ud83d\ude00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\ud83d\ude00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\ud83d\ude00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u4e2d\u6587.dll",
+      "name": "\u4e2d\u6587.dll",
+      "candidates": [
+        "\u4e2d\u6587.pdb",
+        "\u4e2d\u6587.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u4e2d\u6587.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u4e2d\u6587.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\\u4e2d\u6587.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\x:y.dll",
+      "name": "x:y.dll",
+      "candidates": [
+        "x:y.pdb",
+        "X:y.pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\x:y.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\x:y.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:\\x:y.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\x",
+      "name": "x",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\x\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\x/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\x\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\xy",
+      "name": "xy",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\xy\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\xy/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\xy\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\abc",
+      "name": "abc",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\abc\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\abc/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\abc\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\fixture.dll",
+      "name": "fixture.dll",
+      "candidates": [
+        "fixture.pdb",
+        "Fixture.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\fixture.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\fixture.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\fixture.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\NTOSKRNL.EXE",
+      "name": "ntoskrnl.exe",
+      "candidates": [
+        "ntkrnlmp.pdb",
+        "ntkrnlpa.pdb",
+        "ntkrpamp.pdb",
+        "ntoskrnl.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\NTOSKRNL.EXE\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\NTOSKRNL.EXE/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\NTOSKRNL.EXE\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u0130.dll",
+      "name": "i\u0307.dll",
+      "candidates": [
+        "i\u0307.pdb",
+        "I\u0307.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u0130.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u0130.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u0130.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u00df.dll",
+      "name": "\u00df.dll",
+      "candidates": [
+        "\u00df.pdb",
+        "SS.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u00df.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u00df.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u00df.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u039f\u03a3.dll",
+      "name": "\u03bf\u03c3.dll",
+      "candidates": [
+        "\u03bf\u03c3.pdb",
+        "\u039f\u03c3.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u039f\u03a3.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u039f\u03a3.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u039f\u03a3.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u039f\u03a3",
+      "name": "\u03bf\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u039f\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u039f\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u039f\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u03a3",
+      "name": "\u03c3",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u03a3\u03a3",
+      "name": "\u03c3\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u03a3\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u03a3\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u03a3\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3",
+      "name": "a\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u0301",
+      "name": "a\u03c2\u0301",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u0301\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u0301/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u0301\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u0301A",
+      "name": "a\u03c3\u0301a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u0301A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u0301A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u0301A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u200d",
+      "name": "a\u03c2\u200d",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u200d\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u200d/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u200d\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u200dA",
+      "name": "a\u03c3\u200da",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u200dA\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u200dA/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u200dA\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3.A",
+      "name": "a\u03c3.a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3.A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3.A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3.A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u0345",
+      "name": "a\u03c2\u0345",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u0345\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u0345/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\A\u03a3\u0345\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\ufb03.dll",
+      "name": "\ufb03.dll",
+      "candidates": [
+        "\ufb03.pdb",
+        "FFI.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\ufb03.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\ufb03.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\ufb03.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u01f0.dll",
+      "name": "\u01f0.dll",
+      "candidates": [
+        "\u01f0.pdb",
+        "J\u030c.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u01f0.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u01f0.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u01f0.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\ud801\udc00.dll",
+      "name": "\ud801\udc28.dll",
+      "candidates": [
+        "\ud801\udc28.pdb",
+        "\ud801\udc00.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\ud801\udc00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\ud801\udc00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\ud801\udc00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\ud83d\ude00.dll",
+      "name": "\ud83d\ude00.dll",
+      "candidates": [
+        "\ud83d\ude00.pdb",
+        "\ud83d\ude00.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\ud83d\ude00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\ud83d\ude00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\ud83d\ude00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u4e2d\u6587.dll",
+      "name": "\u4e2d\u6587.dll",
+      "candidates": [
+        "\u4e2d\u6587.pdb",
+        "\u4e2d\u6587.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u4e2d\u6587.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u4e2d\u6587.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\\u4e2d\u6587.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\x:y.dll",
+      "name": "x:y.dll",
+      "candidates": [
+        "x:y.pdb",
+        "X:y.pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\x:y.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\x:y.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\.\\device\\x:y.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed//",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/x",
+      "name": "x",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/x\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/x/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/x\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/xy",
+      "name": "xy",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/xy\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/xy/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/xy\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/abc",
+      "name": "abc",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/abc\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/abc/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/abc\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/fixture.dll",
+      "name": "fixture.dll",
+      "candidates": [
+        "fixture.pdb",
+        "Fixture.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/fixture.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/fixture.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/fixture.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/NTOSKRNL.EXE",
+      "name": "ntoskrnl.exe",
+      "candidates": [
+        "ntkrnlmp.pdb",
+        "ntkrnlpa.pdb",
+        "ntkrpamp.pdb",
+        "ntoskrnl.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/NTOSKRNL.EXE\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/NTOSKRNL.EXE/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/NTOSKRNL.EXE\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u0130.dll",
+      "name": "i\u0307.dll",
+      "candidates": [
+        "i\u0307.pdb",
+        "I\u0307.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u0130.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u0130.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u0130.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u00df.dll",
+      "name": "\u00df.dll",
+      "candidates": [
+        "\u00df.pdb",
+        "SS.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u00df.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u00df.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u00df.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u039f\u03a3.dll",
+      "name": "\u03bf\u03c3.dll",
+      "candidates": [
+        "\u03bf\u03c3.pdb",
+        "\u039f\u03c3.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u039f\u03a3.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u039f\u03a3.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u039f\u03a3.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u039f\u03a3",
+      "name": "\u03bf\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u039f\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u039f\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u039f\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u03a3",
+      "name": "\u03c3",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u03a3\u03a3",
+      "name": "\u03c3\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u03a3\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u03a3\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u03a3\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3",
+      "name": "a\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u0301",
+      "name": "a\u03c2\u0301",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u0301\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u0301/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u0301\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u0301A",
+      "name": "a\u03c3\u0301a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u0301A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u0301A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u0301A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u200d",
+      "name": "a\u03c2\u200d",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u200d\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u200d/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u200d\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u200dA",
+      "name": "a\u03c3\u200da",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u200dA\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u200dA/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u200dA\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3.A",
+      "name": "a\u03c3.a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3.A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3.A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3.A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u0345",
+      "name": "a\u03c2\u0345",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u0345\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u0345/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/A\u03a3\u0345\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\ufb03.dll",
+      "name": "\ufb03.dll",
+      "candidates": [
+        "\ufb03.pdb",
+        "FFI.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\ufb03.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\ufb03.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\ufb03.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u01f0.dll",
+      "name": "\u01f0.dll",
+      "candidates": [
+        "\u01f0.pdb",
+        "J\u030c.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u01f0.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u01f0.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u01f0.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\ud801\udc00.dll",
+      "name": "\ud801\udc28.dll",
+      "candidates": [
+        "\ud801\udc28.pdb",
+        "\ud801\udc00.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\ud801\udc00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\ud801\udc00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\ud801\udc00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\ud83d\ude00.dll",
+      "name": "\ud83d\ude00.dll",
+      "candidates": [
+        "\ud83d\ude00.pdb",
+        "\ud83d\ude00.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\ud83d\ude00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\ud83d\ude00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\ud83d\ude00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u4e2d\u6587.dll",
+      "name": "\u4e2d\u6587.dll",
+      "candidates": [
+        "\u4e2d\u6587.pdb",
+        "\u4e2d\u6587.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u4e2d\u6587.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u4e2d\u6587.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/\u4e2d\u6587.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/x:y.dll",
+      "name": "x:y.dll",
+      "candidates": [
+        "x:y.pdb",
+        "X:y.pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/x:y.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/x:y.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:\\Windows/mixed/x:y.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:x",
+      "name": "x",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:x\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:x/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:x\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:xy",
+      "name": "xy",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:xy\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:xy/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:xy\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:abc",
+      "name": "abc",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:abc\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:abc/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:abc\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:fixture.dll",
+      "name": "fixture.dll",
+      "candidates": [
+        "fixture.pdb",
+        "Fixture.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:fixture.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:fixture.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:fixture.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:NTOSKRNL.EXE",
+      "name": "ntoskrnl.exe",
+      "candidates": [
+        "ntkrnlmp.pdb",
+        "ntkrnlpa.pdb",
+        "ntkrpamp.pdb",
+        "ntoskrnl.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:NTOSKRNL.EXE\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:NTOSKRNL.EXE/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:NTOSKRNL.EXE\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u0130.dll",
+      "name": "i\u0307.dll",
+      "candidates": [
+        "i\u0307.pdb",
+        "I\u0307.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u0130.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u0130.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u0130.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u00df.dll",
+      "name": "\u00df.dll",
+      "candidates": [
+        "\u00df.pdb",
+        "SS.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u00df.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u00df.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u00df.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u039f\u03a3.dll",
+      "name": "\u03bf\u03c3.dll",
+      "candidates": [
+        "\u03bf\u03c3.pdb",
+        "\u039f\u03c3.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u039f\u03a3.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u039f\u03a3.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u039f\u03a3.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u039f\u03a3",
+      "name": "\u03bf\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u039f\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u039f\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u039f\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u03a3",
+      "name": "\u03c3",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u03a3\u03a3",
+      "name": "\u03c3\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u03a3\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u03a3\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u03a3\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3",
+      "name": "a\u03c2",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u0301",
+      "name": "a\u03c2\u0301",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u0301\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u0301/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u0301\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u0301A",
+      "name": "a\u03c3\u0301a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u0301A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u0301A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u0301A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u200d",
+      "name": "a\u03c2\u200d",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u200d\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u200d/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u200d\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u200dA",
+      "name": "a\u03c3\u200da",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u200dA\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u200dA/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u200dA\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3.A",
+      "name": "a\u03c3.a",
+      "candidates": [
+        "apdb",
+        "Apdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3.A\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3.A/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3.A\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u0345",
+      "name": "a\u03c2\u0345",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u0345\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u0345/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:A\u03a3\u0345\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\ufb03.dll",
+      "name": "\ufb03.dll",
+      "candidates": [
+        "\ufb03.pdb",
+        "FFI.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\ufb03.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\ufb03.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\ufb03.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u01f0.dll",
+      "name": "\u01f0.dll",
+      "candidates": [
+        "\u01f0.pdb",
+        "J\u030c.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u01f0.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u01f0.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u01f0.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\ud801\udc00.dll",
+      "name": "\ud801\udc28.dll",
+      "candidates": [
+        "\ud801\udc28.pdb",
+        "\ud801\udc00.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\ud801\udc00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\ud801\udc00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\ud801\udc00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\ud83d\ude00.dll",
+      "name": "\ud83d\ude00.dll",
+      "candidates": [
+        "\ud83d\ude00.pdb",
+        "\ud83d\ude00.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\ud83d\ude00.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\ud83d\ude00.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\ud83d\ude00.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u4e2d\u6587.dll",
+      "name": "\u4e2d\u6587.dll",
+      "candidates": [
+        "\u4e2d\u6587.pdb",
+        "\u4e2d\u6587.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u4e2d\u6587.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u4e2d\u6587.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:\u4e2d\u6587.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:x:y.dll",
+      "name": "x:y.dll",
+      "candidates": [
+        "x:y.pdb",
+        "X:y.pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:x:y.dll\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:x:y.dll/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\ud83d\ude00:x:y.dll\\tail.DLL",
+      "name": "tail.dll",
+      "candidates": [
+        "tail.pdb",
+        "Tail.pdb"
+      ]
+    },
+    {
+      "path": "\\\\server",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\server\\share",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "//server/share",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC\\server\\share",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\UNC",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\\\?\\C:",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "C:",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "\\",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "/",
+      "name": "",
+      "candidates": [
+        "pdb",
+        "Pdb"
+      ]
+    },
+    {
+      "path": "::tail",
+      "name": "tail",
+      "candidates": [
+        "tpdb",
+        "Tpdb"
+      ]
+    },
+    {
+      "path": "C:\\x\\D:tail",
+      "name": "d:tail",
+      "candidates": [
+        "d:tpdb",
+        "D:tpdb"
+      ]
+    }
+  ],
+  "casing": [
+    {
+      "input": "",
+      "lower": "",
+      "upper_initial": ""
+    },
+    {
+      "input": "x",
+      "lower": "x",
+      "upper_initial": "X"
+    },
+    {
+      "input": "xy",
+      "lower": "xy",
+      "upper_initial": "Xy"
+    },
+    {
+      "input": "abc",
+      "lower": "abc",
+      "upper_initial": "Abc"
+    },
+    {
+      "input": "fixture.dll",
+      "lower": "fixture.dll",
+      "upper_initial": "Fixture.dll"
+    },
+    {
+      "input": "NTOSKRNL.EXE",
+      "lower": "ntoskrnl.exe",
+      "upper_initial": "NTOSKRNL.EXE"
+    },
+    {
+      "input": "\u0130.dll",
+      "lower": "i\u0307.dll",
+      "upper_initial": "\u0130.dll"
+    },
+    {
+      "input": "\u00df.dll",
+      "lower": "\u00df.dll",
+      "upper_initial": "SS.dll"
+    },
+    {
+      "input": "\u039f\u03a3.dll",
+      "lower": "\u03bf\u03c3.dll",
+      "upper_initial": "\u039f\u03a3.dll"
+    },
+    {
+      "input": "\u039f\u03a3",
+      "lower": "\u03bf\u03c2",
+      "upper_initial": "\u039f\u03a3"
+    },
+    {
+      "input": "\u03a3",
+      "lower": "\u03c3",
+      "upper_initial": "\u03a3"
+    },
+    {
+      "input": "\u03a3\u03a3",
+      "lower": "\u03c3\u03c2",
+      "upper_initial": "\u03a3\u03a3"
+    },
+    {
+      "input": "A\u03a3",
+      "lower": "a\u03c2",
+      "upper_initial": "A\u03a3"
+    },
+    {
+      "input": "A\u03a3\u0301",
+      "lower": "a\u03c2\u0301",
+      "upper_initial": "A\u03a3\u0301"
+    },
+    {
+      "input": "A\u03a3\u0301A",
+      "lower": "a\u03c3\u0301a",
+      "upper_initial": "A\u03a3\u0301A"
+    },
+    {
+      "input": "A\u03a3\u200d",
+      "lower": "a\u03c2\u200d",
+      "upper_initial": "A\u03a3\u200d"
+    },
+    {
+      "input": "A\u03a3\u200dA",
+      "lower": "a\u03c3\u200da",
+      "upper_initial": "A\u03a3\u200dA"
+    },
+    {
+      "input": "A\u03a3.A",
+      "lower": "a\u03c3.a",
+      "upper_initial": "A\u03a3.A"
+    },
+    {
+      "input": "A\u03a3\u0345",
+      "lower": "a\u03c2\u0345",
+      "upper_initial": "A\u03a3\u0345"
+    },
+    {
+      "input": "\ufb03.dll",
+      "lower": "\ufb03.dll",
+      "upper_initial": "FFI.dll"
+    },
+    {
+      "input": "\u01f0.dll",
+      "lower": "\u01f0.dll",
+      "upper_initial": "J\u030c.dll"
+    },
+    {
+      "input": "\ud801\udc00.dll",
+      "lower": "\ud801\udc28.dll",
+      "upper_initial": "\ud801\udc00.dll"
+    },
+    {
+      "input": "\ud83d\ude00.dll",
+      "lower": "\ud83d\ude00.dll",
+      "upper_initial": "\ud83d\ude00.dll"
+    },
+    {
+      "input": "\u4e2d\u6587.dll",
+      "lower": "\u4e2d\u6587.dll",
+      "upper_initial": "\u4e2d\u6587.dll"
+    },
+    {
+      "input": "x:y.dll",
+      "lower": "x:y.dll",
+      "upper_initial": "X:y.dll"
+    },
+    {
+      "input": "\u03a3A",
+      "lower": "\u03c3a",
+      "upper_initial": "\u03a3A"
+    },
+    {
+      "input": "\u03a31",
+      "lower": "\u03c31",
+      "upper_initial": "\u03a31"
+    },
+    {
+      "input": "\u03a3\u0301",
+      "lower": "\u03c3\u0301",
+      "upper_initial": "\u03a3\u0301"
+    },
+    {
+      "input": "\u03a3\u200d",
+      "lower": "\u03c3\u200d",
+      "upper_initial": "\u03a3\u200d"
+    },
+    {
+      "input": "\u03a3\u0345",
+      "lower": "\u03c3\u0345",
+      "upper_initial": "\u03a3\u0345"
+    },
+    {
+      "input": "\u03a3'A",
+      "lower": "\u03c3'a",
+      "upper_initial": "\u03a3'A"
+    },
+    {
+      "input": "\u03a3.A",
+      "lower": "\u03c3.a",
+      "upper_initial": "\u03a3.A"
+    },
+    {
+      "input": "\u03a3\u0301A",
+      "lower": "\u03c3\u0301a",
+      "upper_initial": "\u03a3\u0301A"
+    },
+    {
+      "input": "\u03a3\u200dA",
+      "lower": "\u03c3\u200da",
+      "upper_initial": "\u03a3\u200dA"
+    },
+    {
+      "input": "A\u03a3A",
+      "lower": "a\u03c3a",
+      "upper_initial": "A\u03a3A"
+    },
+    {
+      "input": "A\u03a31",
+      "lower": "a\u03c21",
+      "upper_initial": "A\u03a31"
+    },
+    {
+      "input": "A\u03a3'A",
+      "lower": "a\u03c3'a",
+      "upper_initial": "A\u03a3'A"
+    },
+    {
+      "input": "1\u03a3",
+      "lower": "1\u03c3",
+      "upper_initial": "1\u03a3"
+    },
+    {
+      "input": "1\u03a3A",
+      "lower": "1\u03c3a",
+      "upper_initial": "1\u03a3A"
+    },
+    {
+      "input": "1\u03a31",
+      "lower": "1\u03c31",
+      "upper_initial": "1\u03a31"
+    },
+    {
+      "input": "1\u03a3\u0301",
+      "lower": "1\u03c3\u0301",
+      "upper_initial": "1\u03a3\u0301"
+    },
+    {
+      "input": "1\u03a3\u200d",
+      "lower": "1\u03c3\u200d",
+      "upper_initial": "1\u03a3\u200d"
+    },
+    {
+      "input": "1\u03a3\u0345",
+      "lower": "1\u03c3\u0345",
+      "upper_initial": "1\u03a3\u0345"
+    },
+    {
+      "input": "1\u03a3'A",
+      "lower": "1\u03c3'a",
+      "upper_initial": "1\u03a3'A"
+    },
+    {
+      "input": "1\u03a3.A",
+      "lower": "1\u03c3.a",
+      "upper_initial": "1\u03a3.A"
+    },
+    {
+      "input": "1\u03a3\u0301A",
+      "lower": "1\u03c3\u0301a",
+      "upper_initial": "1\u03a3\u0301A"
+    },
+    {
+      "input": "1\u03a3\u200dA",
+      "lower": "1\u03c3\u200da",
+      "upper_initial": "1\u03a3\u200dA"
+    },
+    {
+      "input": "a\u0301\u03a3",
+      "lower": "a\u0301\u03c2",
+      "upper_initial": "A\u0301\u03a3"
+    },
+    {
+      "input": "a\u0301\u03a3A",
+      "lower": "a\u0301\u03c3a",
+      "upper_initial": "A\u0301\u03a3A"
+    },
+    {
+      "input": "a\u0301\u03a31",
+      "lower": "a\u0301\u03c21",
+      "upper_initial": "A\u0301\u03a31"
+    },
+    {
+      "input": "a\u0301\u03a3\u0301",
+      "lower": "a\u0301\u03c2\u0301",
+      "upper_initial": "A\u0301\u03a3\u0301"
+    },
+    {
+      "input": "a\u0301\u03a3\u200d",
+      "lower": "a\u0301\u03c2\u200d",
+      "upper_initial": "A\u0301\u03a3\u200d"
+    },
+    {
+      "input": "a\u0301\u03a3\u0345",
+      "lower": "a\u0301\u03c2\u0345",
+      "upper_initial": "A\u0301\u03a3\u0345"
+    },
+    {
+      "input": "a\u0301\u03a3'A",
+      "lower": "a\u0301\u03c3'a",
+      "upper_initial": "A\u0301\u03a3'A"
+    },
+    {
+      "input": "a\u0301\u03a3.A",
+      "lower": "a\u0301\u03c3.a",
+      "upper_initial": "A\u0301\u03a3.A"
+    },
+    {
+      "input": "a\u0301\u03a3\u0301A",
+      "lower": "a\u0301\u03c3\u0301a",
+      "upper_initial": "A\u0301\u03a3\u0301A"
+    },
+    {
+      "input": "a\u0301\u03a3\u200dA",
+      "lower": "a\u0301\u03c3\u200da",
+      "upper_initial": "A\u0301\u03a3\u200dA"
+    },
+    {
+      "input": "a\u200d\u03a3",
+      "lower": "a\u200d\u03c2",
+      "upper_initial": "A\u200d\u03a3"
+    },
+    {
+      "input": "a\u200d\u03a3A",
+      "lower": "a\u200d\u03c3a",
+      "upper_initial": "A\u200d\u03a3A"
+    },
+    {
+      "input": "a\u200d\u03a31",
+      "lower": "a\u200d\u03c21",
+      "upper_initial": "A\u200d\u03a31"
+    },
+    {
+      "input": "a\u200d\u03a3\u0301",
+      "lower": "a\u200d\u03c2\u0301",
+      "upper_initial": "A\u200d\u03a3\u0301"
+    },
+    {
+      "input": "a\u200d\u03a3\u200d",
+      "lower": "a\u200d\u03c2\u200d",
+      "upper_initial": "A\u200d\u03a3\u200d"
+    },
+    {
+      "input": "a\u200d\u03a3\u0345",
+      "lower": "a\u200d\u03c2\u0345",
+      "upper_initial": "A\u200d\u03a3\u0345"
+    },
+    {
+      "input": "a\u200d\u03a3'A",
+      "lower": "a\u200d\u03c3'a",
+      "upper_initial": "A\u200d\u03a3'A"
+    },
+    {
+      "input": "a\u200d\u03a3.A",
+      "lower": "a\u200d\u03c3.a",
+      "upper_initial": "A\u200d\u03a3.A"
+    },
+    {
+      "input": "a\u200d\u03a3\u0301A",
+      "lower": "a\u200d\u03c3\u0301a",
+      "upper_initial": "A\u200d\u03a3\u0301A"
+    },
+    {
+      "input": "a\u200d\u03a3\u200dA",
+      "lower": "a\u200d\u03c3\u200da",
+      "upper_initial": "A\u200d\u03a3\u200dA"
+    },
+    {
+      "input": "a\u0345\u03a3",
+      "lower": "a\u0345\u03c2",
+      "upper_initial": "A\u0345\u03a3"
+    },
+    {
+      "input": "a\u0345\u03a3A",
+      "lower": "a\u0345\u03c3a",
+      "upper_initial": "A\u0345\u03a3A"
+    },
+    {
+      "input": "a\u0345\u03a31",
+      "lower": "a\u0345\u03c21",
+      "upper_initial": "A\u0345\u03a31"
+    },
+    {
+      "input": "a\u0345\u03a3\u0301",
+      "lower": "a\u0345\u03c2\u0301",
+      "upper_initial": "A\u0345\u03a3\u0301"
+    },
+    {
+      "input": "a\u0345\u03a3\u200d",
+      "lower": "a\u0345\u03c2\u200d",
+      "upper_initial": "A\u0345\u03a3\u200d"
+    },
+    {
+      "input": "a\u0345\u03a3\u0345",
+      "lower": "a\u0345\u03c2\u0345",
+      "upper_initial": "A\u0345\u03a3\u0345"
+    },
+    {
+      "input": "a\u0345\u03a3'A",
+      "lower": "a\u0345\u03c3'a",
+      "upper_initial": "A\u0345\u03a3'A"
+    },
+    {
+      "input": "a\u0345\u03a3.A",
+      "lower": "a\u0345\u03c3.a",
+      "upper_initial": "A\u0345\u03a3.A"
+    },
+    {
+      "input": "a\u0345\u03a3\u0301A",
+      "lower": "a\u0345\u03c3\u0301a",
+      "upper_initial": "A\u0345\u03a3\u0301A"
+    },
+    {
+      "input": "a\u0345\u03a3\u200dA",
+      "lower": "a\u0345\u03c3\u200da",
+      "upper_initial": "A\u0345\u03a3\u200dA"
+    },
+    {
+      "input": "\u0345\u03a3",
+      "lower": "\u0345\u03c3",
+      "upper_initial": "\u0399\u03a3"
+    },
+    {
+      "input": "\u0345\u03a3A",
+      "lower": "\u0345\u03c3a",
+      "upper_initial": "\u0399\u03a3A"
+    },
+    {
+      "input": "\u0345\u03a31",
+      "lower": "\u0345\u03c31",
+      "upper_initial": "\u0399\u03a31"
+    },
+    {
+      "input": "\u0345\u03a3\u0301",
+      "lower": "\u0345\u03c3\u0301",
+      "upper_initial": "\u0399\u03a3\u0301"
+    },
+    {
+      "input": "\u0345\u03a3\u200d",
+      "lower": "\u0345\u03c3\u200d",
+      "upper_initial": "\u0399\u03a3\u200d"
+    },
+    {
+      "input": "\u0345\u03a3\u0345",
+      "lower": "\u0345\u03c3\u0345",
+      "upper_initial": "\u0399\u03a3\u0345"
+    },
+    {
+      "input": "\u0345\u03a3'A",
+      "lower": "\u0345\u03c3'a",
+      "upper_initial": "\u0399\u03a3'A"
+    },
+    {
+      "input": "\u0345\u03a3.A",
+      "lower": "\u0345\u03c3.a",
+      "upper_initial": "\u0399\u03a3.A"
+    },
+    {
+      "input": "\u0345\u03a3\u0301A",
+      "lower": "\u0345\u03c3\u0301a",
+      "upper_initial": "\u0399\u03a3\u0301A"
+    },
+    {
+      "input": "\u0345\u03a3\u200dA",
+      "lower": "\u0345\u03c3\u200da",
+      "upper_initial": "\u0399\u03a3\u200dA"
+    }
+  ]
+}

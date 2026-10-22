@@ -13,6 +13,7 @@ import (
 	"github.com/Sunmedalia/GoMem/pkg/pe"
 	"github.com/Sunmedalia/GoMem/pkg/pesymbols"
 	"github.com/Sunmedalia/GoMem/pkg/plugin"
+	"github.com/Sunmedalia/GoMem/pkg/winpath"
 )
 
 func windowsSuspendedThreadPlugins() []builtin {
@@ -85,18 +86,8 @@ func suspendedFileAt(regions []windowsVADPath, address uint64) evidence.Value {
 	}
 	return evidence.Missing("not_mapped_in_file_vad", nil)
 }
-func suspendedModuleName(path string) string {
-	parts := strings.Split(strings.ReplaceAll(path, "/", `\`), `\`)
-	return strings.ToLower(parts[len(parts)-1])
-}
-
-func suspendedPDBNames(name string) []string {
-	if name == "ntoskrnl.exe" {
-		return []string{"ntkrnlmp.pdb", "ntkrnlpa.pdb", "ntkrpamp.pdb", "ntoskrnl.pdb"}
-	}
-	name = name[:max(0, len(name)-3)] + "pdb"
-	return []string{name, strings.ToUpper(name[:1]) + name[1:]}
-}
+func suspendedModuleName(path string) string { return winpath.ModuleName(path) }
+func suspendedPDBNames(name string) []string { return winpath.PDBCandidates(name) }
 
 func (a *suspendedAnalysis) failure(err error) {
 	if err == nil {

@@ -6,7 +6,7 @@ Go 原生、只读的内存取证引擎与交互式 TUI。当前版本 **0.1.0-d
 
 固定基线为 [Volatility 3 v2.28.2](https://github.com/volatilityfoundation/volatility3/releases/tag/v2.28.2)，提交 `881e970121c16f0932fb9d16fbd5fb258cbcbf75`。已经盘点 **195 个官方插件类**（包含旧名称入口），完整验收通过 **0 项**。原生进程、模块和 banner 能力已有指定字段对照，仍缺少参数、场景及全部字段验收。[能力矩阵](docs/capabilities.json)、[验证记录](docs/validation.json)、[剩余工作](docs/roadmap.md) 是发布依据。
 
-`windows.suspended_threads` 已实现挂起线程与起始地址归属分析。30 组固定上游生成器对照、45 组原生分页组合通过；真实 Windows 镜像仅建立 1,752 个线程的零挂起阴性对照。真实阳性、版本覆盖和动态符号缓存仍待验收。[挂起线程验证](docs/windows-suspended-threads.md)
+`windows.suspended_threads` 已实现挂起线程与起始地址归属分析。36 组固定上游生成器对照、54 组原生分页组合通过；真实 Windows 镜像仅建立 1,752 个线程的零挂起阴性对照。真实阳性、版本覆盖和动态符号缓存仍待验收。[挂起线程验证](docs/windows-suspended-threads.md)
 
 `linux.pidhashtable` 已支持旧式 PID 哈希及命名空间 IDR，提供排序任务、名称装饰和逐次读取证据。Debian 样本的 316 条任务通过五字段双模式对照；现代内核真实语料和完整验收仍待补齐。[PID 索引验证](docs/linux-pidhashtable.md)
 
@@ -367,4 +367,4 @@ make dist
 
 ## 许可证
 
-本项目原生代码采用 [MIT 许可证](LICENSE)。外部依赖、Volatility 基线及测试语料受各自许可证约束；基线源码、镜像与案件数据不随本仓库分发。
+本项目原生代码采用 [MIT 许可证](LICENSE)。生成的 Unicode 16 数据表另遵循 [Unicode License V3](LICENSES/Unicode-3.0.txt)，其来源和独立验证见 [Windows 路径规则](docs/windows-paths.md)。外部依赖、Volatility 基线及测试语料受各自许可证约束；基线源码、镜像与案件数据不随本仓库分发。

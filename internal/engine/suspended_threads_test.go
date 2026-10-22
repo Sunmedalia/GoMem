@@ -45,7 +45,7 @@ func suspendedOracleCases(t *testing.T) []suspendedOracleCase {
 	if err = json.Unmarshal(raw, &fixture); err != nil {
 		t.Fatal(err)
 	}
-	if fixture.Commit != "881e970121c16f0932fb9d16fbd5fb258cbcbf75" || len(fixture.Cases) != 30 {
+	if fixture.Commit != "881e970121c16f0932fb9d16fbd5fb258cbcbf75" || len(fixture.Cases) != 36 {
 		t.Fatal("fixture drift")
 	}
 	return fixture.Cases
@@ -220,7 +220,8 @@ func (l suspendedHoleLayer) ReadAt(ctx context.Context, p []byte, at uint64) (in
 	return l.MemoryLayer.ReadAt(ctx, p, at)
 }
 func TestSuspendedThreadsFaultsBoundsAndCancellation(t *testing.T) {
-	base := suspendedOracleCases(t)[15]
+	all := suspendedOracleCases(t)
+	base := all[len(all)/2]
 	for _, mode := range []string{"thread-cycle", "thread-limit", "vad-cycle", "region-limit", "owner-hole", "suspend-hole", "budget", "symbol-limit", "provider-error", "offline-fallback", "emit-error", "cancel"} {
 		t.Run(mode, func(t *testing.T) {
 			c := base

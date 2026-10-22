@@ -1,0 +1,47 @@
+{
+  "schema": "gomem.windows-path-validation/v1",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "unicode_version": "16.0.0",
+  "helper_oracle": {
+    "windows_paths": 1109,
+    "context_strings": 87,
+    "candidate_scope": "unmodified helper with acquisition boundary returning unavailable"
+  },
+  "full_reference": {
+    "scalar_values": 1112064,
+    "runtime": "Python 3.14 / Unicode 16.0.0",
+    "checks": [
+      "lowercase",
+      "uppercase first character",
+      "case-ignorable context",
+      "effective cased context"
+    ]
+  },
+  "integration": {
+    "actual_generator_cases": 36,
+    "native_paging_combinations": 54,
+    "architectures": [
+      "x86",
+      "pae",
+      "x64"
+    ]
+  },
+  "fuzz": {
+    "target": "FuzzWindowsModulePath",
+    "requested_seconds": 10,
+    "executions": 395704,
+    "result": "pass"
+  },
+  "benchmark": {
+    "cpu": "Apple M4",
+    "os_arch": "darwin/arm64",
+    "target": "BenchmarkWindowsModulePath",
+    "ns_per_op": 572.9,
+    "scope": "single representative module path, not TUI latency"
+  },
+  "limitations": [
+    "Other Unicode versions and real Unicode-module corpora pending",
+    "Baseline Latin-1 PDB scan limitation remains",
+    "Unusual RSDS discovery and dependency-aware symbol cache validation pending"
+  ]
+}

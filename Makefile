@@ -18,6 +18,7 @@ baseline:
 matrix:
 	python3 tools/baseline_matrix.py --source $(BASELINE) --check
 fuzz:
+	$(GO) test ./pkg/winpath -run '^$$' -fuzz FuzzWindowsModulePath -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzSuspendedThreadPipeline -fuzztime 10s
 	$(GO) test ./pkg/pesymbols -run '^$$' -fuzz FuzzModuleSymbolRequests -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxSockscan -fuzztime 10s

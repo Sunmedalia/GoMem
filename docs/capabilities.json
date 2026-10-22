@@ -10880,8 +10880,8 @@
       "status": "partial",
       "accepted": false,
       "corpora": [
-        "pinned-suspended-generator-30-paged-object-cases",
-        "synthetic-x86-pae-x64-45-cases",
+        "pinned-suspended-generator-36-paged-object-cases",
+        "synthetic-x86-pae-x64-54-cases",
         "official-windows-10-19041-negative-control"
       ],
       "comparison": "nine_columns_order_missing_values_and_raw_captures_match;real_1752_threads_0_suspended_6098_reads_reread",
@@ -10889,7 +10889,7 @@
         "Development preview; real positive suspended-thread samples and broad Windows versions pending",
         "Runtime PDB dependency validation for cache replay pending; fresh execution avoids stale evidence",
         "Native list/VAD corruption and read failures are explicit task errors rather than silently skipped baseline objects",
-        "Unicode filename case-conversion parity beyond ordinary Windows module names remains pending"
+        "Unicode 16 casing/candidate and Windows path helpers verified against all scalar values and 1109 paths; real Unicode-module corpora, other Unicode versions and the baseline Latin-1 scan boundary remain pending"
       ],
       "validation_record": "docs/windows-suspended-threads.md"
     },

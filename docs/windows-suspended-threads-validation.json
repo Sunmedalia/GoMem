@@ -3,8 +3,8 @@
   "release": "development-preview",
   "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
   "oracle": {
-    "actual_unmodified_generator_cases": 30,
-    "native_paging_combinations": 45,
+    "actual_unmodified_generator_cases": 36,
+    "native_paging_combinations": 54,
     "architectures": [
       "x86",
       "pae",
@@ -48,5 +48,12 @@
       "reference": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
       "mapping": "f899200b59e6092739c5f90e1eb37af713233c6afd62a1acc1f302b3c2c3b8c7"
     }
+  },
+  "path_helpers": {
+    "record": "docs/windows-paths.md",
+    "unicode_version": "16.0.0",
+    "paths": 1109,
+    "context_strings": 87,
+    "scalar_values": 1112064
   }
 }
