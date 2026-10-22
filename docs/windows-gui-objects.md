@@ -81,3 +81,6 @@ claiming plugin parity or release acceptance. The 195-plugin matrix stays at
 149 partial, 46 missing, zero accepted.
 
 Machine-readable scope and checks: [validation record](windows-gui-objects-validation.json).
+
+The subsequent [session-map producer](windows-gui-sessions.md) discovers native
+process address spaces. GUI pool and name integration remains pending.

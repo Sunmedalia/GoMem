@@ -1,0 +1,139 @@
+{
+  "schema": 1,
+  "status": "development_dependency",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Native x64 GUI session-map producer; no GUI plugin registration",
+  "synthetic": {
+    "controls": 75,
+    "layouts": [
+      "typed",
+      "opaque-type",
+      "opaque-member"
+    ],
+    "scenarios_per_layout": 25,
+    "original_method": "Modules._do_get_session_layers",
+    "original_methods_unmodified": true,
+    "hardware": "Actual x64 process page tables, private probe mappings and conflicting kernel/process session-ID pages",
+    "fuzz_executions": 10000,
+    "fuzz_seconds": 0.909
+  },
+  "real_control": {
+    "reference": {
+      "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+      "reference_manifest_sha256": "6069ac958ba8ef53acf5505c52afc28866abb7a4dbb565c71c4ca63bcfc2478d",
+      "config_sha256": "b125722b99ad6e26af971cc3f0ec1f6f56a61102a176fc994e64fc5de6f9cf12",
+      "kernel_dtb": "0x6d4000",
+      "kernel_base": "0xfffff8043601f000",
+      "probe_address": "0xfffff8043601f000",
+      "rows": [
+        {
+          "session": 0,
+          "cr3": "0x4c50002",
+          "probe": "4d5a90000300000004000000ffff0000"
+        },
+        {
+          "session": 1,
+          "cr3": "0x10aedb002",
+          "probe": "4d5a90000300000004000000ffff0000"
+        },
+        {
+          "session": 2,
+          "cr3": "0x1274f002",
+          "probe": "4d5a90000300000004000000ffff0000"
+        }
+      ],
+      "error": null,
+      "scope": "Original session map and 16-byte shared kernel probe only; same ISF, no GUI object/plugin or independent PDB acceptance"
+    },
+    "reference_sha256": "38bfdef241391379ac5ae4acd417c11f321067a5d1fe761aa8a64f5d95f37b61",
+    "native_audit": {
+      "format": "crash",
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "kernel_read_failures": 4,
+      "kernel_reads_verified": 1206,
+      "native_error": "GUI session acquisition: 4 failures; first: gui-session:ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460:kernel: read 0x8 (4 bytes): unmapped memory: nonpresent page-table entry 0x0 at 0x100b07000 (prototype/swap or unsupported software encoding)",
+      "physical_bytes_verified": 211396,
+      "physical_read_failures": 0,
+      "physical_reads_verified": 2457,
+      "reference_error": "",
+      "rows": [
+        {
+          "session": 0,
+          "cr3": "0x4c50002",
+          "probe": "4d5a90000300000004000000ffff0000"
+        },
+        {
+          "session": 1,
+          "cr3": "0x10aedb002",
+          "probe": "4d5a90000300000004000000ffff0000"
+        },
+        {
+          "session": 2,
+          "cr3": "0x1274f002",
+          "probe": "4d5a90000300000004000000ffff0000"
+        }
+      ],
+      "scope": "Session selection and shared kernel probes; no GUI object or sealed store acceptance",
+      "selected": [
+        {
+          "layer": "gui-session:gui-session:ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460:kernel:0xffff840f6a20e140:488",
+          "method": "typed",
+          "normalized_cr3": "0x4c50000",
+          "pid": 488,
+          "process": "0xffff840f6a20e140",
+          "raw_cr3": "0x4c50002",
+          "session": 0,
+          "session_pointer": "0xffffd901cf634000"
+        },
+        {
+          "layer": "gui-session:gui-session:ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460:kernel:0xffff840f6a38d140:556",
+          "method": "typed",
+          "normalized_cr3": "0x10aedb000",
+          "pid": 556,
+          "process": "0xffff840f6a38d140",
+          "raw_cr3": "0x10aedb002",
+          "session": 1,
+          "session_pointer": "0xffffd901dc17e000"
+        },
+        {
+          "layer": "gui-session:gui-session:ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460:kernel:0xffff840f6be5b080:3576",
+          "method": "typed",
+          "normalized_cr3": "0x1274f000",
+          "pid": 3576,
+          "process": "0xffff840f6be5b080",
+          "raw_cr3": "0x1274f002",
+          "session": 2,
+          "session_pointer": "0xffffd901ec6ff000"
+        }
+      ],
+      "sessions": 3,
+      "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce"
+    },
+    "comparison": "Same ordered session IDs, raw CR3 and 16-byte shared kernel probes. Native retains 4 original silent session-read failures; acquisition is incomplete.",
+    "limits": [
+      "Same ISF; no independent PDB parity",
+      "Shared kernel probes only on real image; private session pages covered only by synthetic controls",
+      "Audit counters include nested rereads/cache activity, not sealed row counts",
+      "No GUI pool/object/plugin or store/cache/retry validation"
+    ]
+  },
+  "checks": {
+    "package_race_with_catalog_and_real_corpus": "pass;18.980s before additional exact-limit test assertions",
+    "additional_exact_limit_guards": "pass;1.861s; exact four-process/three-session limit and duplicate-session one-slot limit",
+    "oracle_generate_check": "pass;75 original translated controls",
+    "fuzz": "10000 executions passed",
+    "matrix_inode_python_arguments": "pass;149 partial46 missing0 accepted;32768 modes;43 tests;428 fixtures",
+    "build_vet_offline_doctor": "pass; development preview",
+    "full_make_check": "running on this session-map snapshot; not yet a passing result",
+    "remote_ci": "wired; not yet executed for this milestone"
+  },
+  "remaining": [
+    "GUI pool scan and object-header names",
+    "Desktop/window enumeration and complete original plugin generators",
+    "Evidence sealing, failed-task retry and cache integration",
+    "Positive real session-private GUI recovery and supported OS acceptance"
+  ]
+}
