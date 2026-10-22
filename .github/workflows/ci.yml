@@ -57,7 +57,7 @@ jobs:
       - run: python3 tools/build_argument_fixtures.py --check
       - run: python3 tools/build_inode_mode_oracle.py --check
       - run: python3 tools/fetch_baseline.py
-      - run: python3 -m pip install pefile==2024.8.26 Pillow==12.2.0
+      - run: python3 -m pip install pefile==2024.8.26 Pillow==12.2.0 yara-x==1.9.0
       - run: python3 tools/build_service_oracle.py --check
       - run: python3 tools/build_vad_oracle.py --check
       - run: python3 tools/build_suspicious_thread_oracle.py --check
@@ -65,6 +65,7 @@ jobs:
       - run: python3 tools/build_pe_symbols_oracle.py --check
       - run: python3 tools/build_debugregisters_oracle.py --check
       - run: python3 tools/build_etwpatch_oracle.py --check
+      - run: python3 tools/build_mft_oracle.py --check
       - run: python3 tools/build_windows_strings_oracle.py --check
       - run: python3 tools/build_windows_malfind_oracle.py --check
       - run: python3 tools/build_iat_oracle.py --check
@@ -145,6 +146,8 @@ jobs:
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzSuspendedThreadPipeline -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzDebugRegisterPipeline -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzETWPatchPipeline -fuzztime 5s
+      - run: go test ./internal/plugins -run '^$' -fuzz FuzzMFTPipeline -fuzztime 5s
+      - run: go test ./pkg/ntfs -run '^$' -fuzz FuzzMFTRecord -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsStringsPipeline -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsMalfindPipeline -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzIATPipeline -fuzztime 5s

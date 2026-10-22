@@ -1,0 +1,137 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "result",
+    "excluded_values": [
+      "scan_read",
+      "candidate",
+      "memory_read",
+      "diagnostic",
+      "attribute",
+      "summary"
+    ]
+  },
+  "tree_key": "Offset",
+  "fields": {
+    "Offset": {
+      "native": "Offset",
+      "reference": "Offset",
+      "kind": "address",
+      "missing_reasons": [
+        "not_applicable",
+        "not_available",
+        "unparsable_filetime"
+      ]
+    },
+    "RecordSignature": {
+      "native": "RecordSignature",
+      "reference": "Record Type",
+      "kind": "string",
+      "missing_reasons": [
+        "not_applicable",
+        "not_available",
+        "unparsable_filetime"
+      ]
+    },
+    "RecordNumber": {
+      "native": "RecordNumber",
+      "reference": "Record Number",
+      "kind": "uint64",
+      "missing_reasons": [
+        "not_applicable",
+        "not_available",
+        "unparsable_filetime"
+      ]
+    },
+    "LinkCount": {
+      "native": "LinkCount",
+      "reference": "Link Count",
+      "kind": "uint64",
+      "missing_reasons": [
+        "not_applicable",
+        "not_available",
+        "unparsable_filetime"
+      ]
+    },
+    "MFTType": {
+      "native": "MFTType",
+      "reference": "MFT Type",
+      "kind": "string",
+      "missing_reasons": [
+        "not_applicable",
+        "not_available",
+        "unparsable_filetime"
+      ]
+    },
+    "Permissions": {
+      "native": "Permissions",
+      "reference": "Permissions",
+      "kind": "string",
+      "missing_reasons": [
+        "not_applicable",
+        "not_available",
+        "unparsable_filetime"
+      ]
+    },
+    "AttributeType": {
+      "native": "AttributeType",
+      "reference": "Attribute Type",
+      "kind": "string",
+      "missing_reasons": [
+        "not_applicable",
+        "not_available",
+        "unparsable_filetime"
+      ]
+    },
+    "Created": {
+      "native": "Created",
+      "reference": "Created",
+      "kind": "timestamp_seconds",
+      "missing_reasons": [
+        "not_applicable",
+        "not_available",
+        "unparsable_filetime"
+      ]
+    },
+    "Modified": {
+      "native": "Modified",
+      "reference": "Modified",
+      "kind": "timestamp_seconds",
+      "missing_reasons": [
+        "not_applicable",
+        "not_available",
+        "unparsable_filetime"
+      ]
+    },
+    "Updated": {
+      "native": "Updated",
+      "reference": "Updated",
+      "kind": "timestamp_seconds",
+      "missing_reasons": [
+        "not_applicable",
+        "not_available",
+        "unparsable_filetime"
+      ]
+    },
+    "Accessed": {
+      "native": "Accessed",
+      "reference": "Accessed",
+      "kind": "timestamp_seconds",
+      "missing_reasons": [
+        "not_applicable",
+        "not_available",
+        "unparsable_filetime"
+      ]
+    },
+    "Filename": {
+      "native": "Filename",
+      "reference": "Filename",
+      "kind": "string",
+      "missing_reasons": [
+        "not_applicable",
+        "not_available",
+        "unparsable_filetime"
+      ]
+    }
+  }
+}

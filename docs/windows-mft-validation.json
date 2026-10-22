@@ -1,0 +1,326 @@
+{
+  "schema": "gomem.windows-mft-validation/v1",
+  "release": "development-preview",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "oracle": {
+    "actual_unmodified_generator_cases_per_command": 70,
+    "commands": 3,
+    "scanner": "actual pinned YARA scanner; development yara-x==1.9.0",
+    "native_runtime": "Go exact signature scanner; no YARA dependency"
+  },
+  "checks": {
+    "make_check": "pass; engine race 1295.707s; 39 Python tests; 428 argument cases",
+    "matrix": "pass; no capability certified complete",
+    "inode_oracle": 32768,
+    "additional_race": [
+      "pkg/ntfs",
+      "tools/verify_mft"
+    ],
+    "sparse_physical_ranges": "adjacent unsorted ranges join; holes break signatures without unmapped reads"
+  },
+  "fuzz": [
+    {
+      "target": "FuzzMFTPipeline",
+      "duration_seconds": 10,
+      "executions": 311786,
+      "result": "pass"
+    },
+    {
+      "target": "FuzzMFTRecord",
+      "duration_seconds": 10,
+      "executions": 4189889,
+      "result": "pass"
+    }
+  ],
+  "real_partial": {
+    "windows.mftscan": {
+      "task": "2ba4b63bfdada4bbaf6ac73e6346ae78",
+      "task_status": "failed",
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "parameters": {
+        "engine.arch": "x64",
+        "engine.dtb": "0x112c98000",
+        "engine.kernel-base": "0x0",
+        "engine.kernel-slide": "0x0",
+        "engine.os": "windows",
+        "max-attributes": "1000000",
+        "max-read-bytes": "536870912",
+        "max-records": "100000",
+        "max-scan-bytes": "68719476736"
+      },
+      "coverage": {
+        "Attributes": 23232,
+        "Bytes": 2122574,
+        "Candidates": 5585,
+        "Complete": false,
+        "Errors": 18,
+        "Reads": 85112,
+        "Rows": 16370,
+        "ScanBytes": 2094338048,
+        "ScanReads": 251
+      },
+      "comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "RecordSignature",
+          "RecordNumber",
+          "LinkCount",
+          "MFTType",
+          "Permissions",
+          "AttributeType",
+          "Created",
+          "Modified",
+          "Updated",
+          "Accessed",
+          "Filename"
+        ],
+        "native_rows": 16370,
+        "reference_rows": 16370,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "205e681b2dbb4a7b6b4e097c44d28dad65c3c608f01415f67629b32e12a3e780",
+          "reference": "20c43d439d03c19a75827079a7fd84c0ea78302a8b587ed455654b7d95d7f01d",
+          "mapping": "e7c05af32fdb958cad41559e9268e54d48ce2a70f0b2d7bf6e23fb90132eb93c"
+        },
+        "native_input_rows": 130562,
+        "native_non_entity_records": {
+          "scan_read": 251,
+          "candidate": 5585,
+          "memory_read": 85112,
+          "attribute": 23232,
+          "diagnostic": 11,
+          "summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "result",
+          "excluded_values": [
+            "scan_read",
+            "candidate",
+            "memory_read",
+            "diagnostic",
+            "attribute",
+            "summary"
+          ]
+        }
+      },
+      "independent_verifier": {
+        "all_captures_independently_reread": true,
+        "all_seals_and_provenance_verified": true,
+        "baseline_result_fields_and_resident_bytes_verified": true,
+        "captured_bytes": 2122574,
+        "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+        "jsonl_sha256": "205e681b2dbb4a7b6b4e097c44d28dad65c3c608f01415f67629b32e12a3e780",
+        "layout_sha256": "12b8ede2f1c5c43ba2af1f7c550153bd3afd8bac90d36014c05155c51534da36",
+        "plugin": "windows.mftscan",
+        "records": {
+          "attribute": 23232,
+          "candidate": 5585,
+          "diagnostic": 11,
+          "memory_read": 85112,
+          "result": 16370,
+          "scan_read": 251,
+          "summary": 1
+        },
+        "scanned_bytes": 2094338048,
+        "scope": "original captures, resident payloads, typed result fields and hierarchy; not exhaustive filesystem reconstruction"
+      }
+    },
+    "windows.ads": {
+      "task": "5fbdc164a880060f9d028edd30eb5bb5",
+      "task_status": "failed",
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "parameters": {
+        "engine.arch": "x64",
+        "engine.dtb": "0x112c98000",
+        "engine.kernel-base": "0x0",
+        "engine.kernel-slide": "0x0",
+        "engine.os": "windows",
+        "max-attributes": "1000000",
+        "max-read-bytes": "536870912",
+        "max-records": "100000",
+        "max-scan-bytes": "68719476736"
+      },
+      "coverage": {
+        "Attributes": 23232,
+        "Bytes": 1954540,
+        "Candidates": 5585,
+        "Complete": false,
+        "Errors": 18,
+        "Reads": 79864,
+        "Rows": 5,
+        "ScanBytes": 2094338048,
+        "ScanReads": 251
+      },
+      "comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "RecordSignature",
+          "RecordNumber",
+          "AttributeType",
+          "Filename",
+          "Hexdump",
+          "ADSFilename"
+        ],
+        "native_rows": 5,
+        "reference_rows": 5,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "1c4915c5273813833c47608415982f3bd70cb3a3b9fbd881e88c1b1a91a96aff",
+          "reference": "c35e8a5b0310efb561bc701f361e0e99731573be1b8ced9dc8fe74fb1b7d42ec",
+          "mapping": "3101136795c7c004489f7058ffeb163450a1e2cf48c664de8450c375e0b56e8a"
+        },
+        "native_input_rows": 108949,
+        "native_non_entity_records": {
+          "scan_read": 251,
+          "candidate": 5585,
+          "memory_read": 79864,
+          "attribute": 23232,
+          "diagnostic": 11,
+          "summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "result",
+          "excluded_values": [
+            "scan_read",
+            "candidate",
+            "memory_read",
+            "diagnostic",
+            "attribute",
+            "summary"
+          ]
+        }
+      },
+      "independent_verifier": {
+        "all_captures_independently_reread": true,
+        "all_seals_and_provenance_verified": true,
+        "baseline_result_fields_and_resident_bytes_verified": true,
+        "captured_bytes": 1954540,
+        "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+        "jsonl_sha256": "1c4915c5273813833c47608415982f3bd70cb3a3b9fbd881e88c1b1a91a96aff",
+        "layout_sha256": "12b8ede2f1c5c43ba2af1f7c550153bd3afd8bac90d36014c05155c51534da36",
+        "plugin": "windows.ads",
+        "records": {
+          "attribute": 23232,
+          "candidate": 5585,
+          "diagnostic": 11,
+          "memory_read": 79864,
+          "result": 5,
+          "scan_read": 251,
+          "summary": 1
+        },
+        "scanned_bytes": 2094338048,
+        "scope": "original captures, resident payloads, typed result fields and hierarchy; not exhaustive filesystem reconstruction"
+      }
+    },
+    "windows.residentdata": {
+      "task": "0569ddd041927dc061df9793464285f9",
+      "task_status": "failed",
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "parameters": {
+        "engine.arch": "x64",
+        "engine.dtb": "0x112c98000",
+        "engine.kernel-base": "0x0",
+        "engine.kernel-slide": "0x0",
+        "engine.os": "windows",
+        "max-attributes": "1000000",
+        "max-read-bytes": "536870912",
+        "max-records": "100000",
+        "max-scan-bytes": "68719476736"
+      },
+      "coverage": {
+        "Attributes": 23232,
+        "Bytes": 2069478,
+        "Candidates": 5585,
+        "Complete": false,
+        "Errors": 18,
+        "Reads": 80387,
+        "Rows": 925,
+        "ScanBytes": 2094338048,
+        "ScanReads": 251
+      },
+      "comparison": {
+        "scope": "selected fields only; full capability acceptance remains pending",
+        "fields": [
+          "Offset",
+          "RecordSignature",
+          "RecordNumber",
+          "AttributeType",
+          "Filename",
+          "Hexdump"
+        ],
+        "native_rows": 925,
+        "reference_rows": 925,
+        "matched": true,
+        "missing": [],
+        "extra": [],
+        "sha256": {
+          "native": "83e6dc3c54d869ff4a774d65628104a8ffea096ab6130eff2c7b6917b61d2707",
+          "reference": "d6376935640bd00959df5034cc340885c4b0803a0b9c4e4c2dabd808d1ff354d",
+          "mapping": "92136aaf5b20cc6766086b439416cad9aec3c95085e4f142321ffc5407a15b31"
+        },
+        "native_input_rows": 110392,
+        "native_non_entity_records": {
+          "scan_read": 251,
+          "candidate": 5585,
+          "memory_read": 80387,
+          "attribute": 23232,
+          "diagnostic": 11,
+          "summary": 1
+        },
+        "entity_selection": {
+          "field": "RecordType",
+          "value": "result",
+          "excluded_values": [
+            "scan_read",
+            "candidate",
+            "memory_read",
+            "diagnostic",
+            "attribute",
+            "summary"
+          ]
+        },
+        "reference_absent_values": {
+          "Hexdump": [
+            "N/A"
+          ]
+        }
+      },
+      "independent_verifier": {
+        "all_captures_independently_reread": true,
+        "all_seals_and_provenance_verified": true,
+        "baseline_result_fields_and_resident_bytes_verified": true,
+        "captured_bytes": 2069478,
+        "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+        "jsonl_sha256": "83e6dc3c54d869ff4a774d65628104a8ffea096ab6130eff2c7b6917b61d2707",
+        "layout_sha256": "12b8ede2f1c5c43ba2af1f7c550153bd3afd8bac90d36014c05155c51534da36",
+        "plugin": "windows.residentdata",
+        "records": {
+          "attribute": 23232,
+          "candidate": 5585,
+          "diagnostic": 11,
+          "memory_read": 80387,
+          "result": 925,
+          "scan_read": 251,
+          "summary": 1
+        },
+        "scanned_bytes": 2094338048,
+        "scope": "original captures, resident payloads, typed result fields and hierarchy; not exhaustive filesystem reconstruction"
+      }
+    }
+  },
+  "limitations": [
+    "All three real tasks are failed/partial, not clean exhaustive scans",
+    "Seven source read faults plus eleven candidate diagnostics produce eighteen error events, not eighteen distinct missing pages",
+    "Carved physical candidates do not establish current filesystem membership or malicious intent",
+    "Nonresident recovery and NTFS fixup validation are not provided by these commands",
+    "Real x86/PAE, broader Windows versions/formats, timeline integration, complete renderers/exports and investigative positive/normal controls remain pending"
+  ]
+}

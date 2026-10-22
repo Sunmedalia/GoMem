@@ -340,5 +340,27 @@ class EvidenceParentProjectionTests(unittest.TestCase):
                 compare(native, reference, mapping)
 
 
+class ReferenceAbsentTokenTests(unittest.TestCase):
+    def test_explicit_na_token_does_not_hide_other_values(self):
+        from diff_results import compare
+        with tempfile.TemporaryDirectory() as temp:
+            root = pathlib.Path(temp)
+            native, reference, mapping = [root / n for n in ("native", "reference", "mapping")]
+            native.write_text(json.dumps({"cells": {"Hex": {"kind": "missing", "reason": "not_available"}}}) + "\n")
+            profile = {"fields": {"Hex": {"native": "Hex", "reference": "Hex", "kind": "hex_bytes", "missing_reasons": ["not_available"], "reference_absent_values": ["N/A"]}}}
+            mapping.write_text(json.dumps(profile))
+            reference.write_text(json.dumps([{"Hex": "N/A"}]))
+            self.assertTrue(compare(native, reference, mapping)["matched"])
+            reference.write_text(json.dumps([{"Hex": "00"}]))
+            self.assertFalse(compare(native, reference, mapping)["matched"])
+            reference.write_text(json.dumps([{"Hex": "other"}]))
+            with self.assertRaises(ValueError):
+                compare(native, reference, mapping)
+            profile["fields"]["Hex"]["reference_absent_values"] = ["N/A", "N/A"]
+            mapping.write_text(json.dumps(profile))
+            with self.assertRaisesRegex(ValueError, "invalid reference absent"):
+                compare(native, reference, mapping)
+
+
 if __name__ == "__main__":
     unittest.main()

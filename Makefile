@@ -18,6 +18,8 @@ baseline:
 matrix:
 	python3 tools/baseline_matrix.py --source $(BASELINE) --check
 fuzz:
+	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzMFTPipeline -fuzztime 10s
+	$(GO) test ./pkg/ntfs -run '^$$' -fuzz FuzzMFTRecord -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzWindowsStringsPipeline -fuzztime 10s
 	$(GO) test ./pkg/winpath -run '^$$' -fuzz FuzzWindowsModulePath -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzWindowsMalfindPipeline -fuzztime 10s

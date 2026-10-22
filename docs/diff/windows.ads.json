@@ -1,0 +1,72 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "result",
+    "excluded_values": [
+      "scan_read",
+      "candidate",
+      "memory_read",
+      "diagnostic",
+      "attribute",
+      "summary"
+    ]
+  },
+  "fields": {
+    "Offset": {
+      "native": "Offset",
+      "reference": "Offset",
+      "kind": "address",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "RecordSignature": {
+      "native": "RecordSignature",
+      "reference": "Record Type",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "RecordNumber": {
+      "native": "RecordNumber",
+      "reference": "Record Number",
+      "kind": "uint64",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "AttributeType": {
+      "native": "AttributeType",
+      "reference": "MFT Type",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "Filename": {
+      "native": "Filename",
+      "reference": "Filename",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "Hexdump": {
+      "native": "Hexdump",
+      "reference": "Hexdump",
+      "kind": "hex_bytes",
+      "missing_reasons": [
+        "not_available"
+      ]
+    },
+    "ADSFilename": {
+      "native": "ADSFilename",
+      "reference": "ADS Filename",
+      "kind": "string",
+      "missing_reasons": [
+        "not_available"
+      ]
+    }
+  }
+}

@@ -96,6 +96,13 @@ def compare(native_path, reference_path, mapping_path):
     native = [] if "native_record_type" in mapping else load_rows(native_path, True)
     reference = load_rows(reference_path, False)
     fields = mapping["fields"]
+    absent_values = {}
+    for name, field in fields.items():
+        if "reference_absent_values" in field:
+            values = field["reference_absent_values"]
+            if not isinstance(values, list) or not values or any(not isinstance(v, str) for v in values) or len(values) != len(set(values)):
+                raise ValueError("invalid reference absent tokens")
+            absent_values[name] = values
 
     # Some native plugins retain diagnostic records that the reference silently
     # skips. Entity profiles must declare those record types and report their
@@ -161,7 +168,10 @@ def compare(native_path, reference_path, mapping_path):
             key = field["native" if native else "reference"]
             if key not in source:
                 raise ValueError(f"missing mapped column {key}")
-            result[name] = normalized(source[key], field["kind"], field.get("mask"), field.get("missing_reasons", ()))
+            value = source[key]
+            if not native and isinstance(value, str) and value in absent_values.get(name, ()):
+                value = None
+            result[name] = normalized(value, field["kind"], field.get("mask"), field.get("missing_reasons", ()))
         return result
 
     tree_key = mapping.get("tree_key")
@@ -239,6 +249,8 @@ def compare(native_path, reference_path, mapping_path):
     if "native_record_type" in mapping:
         report.update(native_input_rows=input_rows, native_non_entity_records=dict(excluded),
                       entity_selection=mapping["native_record_type"])
+    if absent_values:
+        report["reference_absent_values"] = absent_values
     if parent_types:
         report.update(native_evidence_parent_types=parent_types, projected_evidence_parents=projected_parents)
     return report

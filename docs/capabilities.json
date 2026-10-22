@@ -8610,15 +8610,23 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Windows physical ranges; kernel symbols and translation are unnecessary. Native exact FILE0/FILE*/BAAD matching preserves actual pinned YARA chunk/overlap repeats. Bounded attribute chains retain byte-width enum quirks, fixed SI/FILENAME payload coordinates, declared resident DATA offsets, longest names and first unnamed stream semantics. Original parse reads, scan-window hashes, raw field values, typed missing reasons, source coordinates, hierarchy, task limits and cancellation remain evidence. Nonresident data is excluded.",
+      "native": "windows.ads",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-mft-70-actual-yara-generators-per-command",
+        "official-windows-10-19041-partial-control"
+      ],
+      "comparison": "real_16370_mft_5_ads_925_resident_rows_match_baseline_columns_hierarchy_and_payloads;original_captures_and_result_fields_independently_verified_with_locked_typed_ISF",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Development preview; one real x64 Windows build, broader image/container and OS-version coverage pending",
+        "Each real task retains seven source read faults and eleven candidate diagnostics, including four zero-length attributes; 18 error events do not mean 18 distinct missing pages",
+        "Carved physical candidates do not prove live filesystem membership, complete file recovery or malicious ADS; nonresident run recovery, fixup validation and full filesystem reconstruction are outside these three commands",
+        "MFT timeline integration and complete renderer/export acceptance remain pending",
+        "Full release acceptance, all parameter bounds on large corpora and investigative positive/normal controls remain pending"
+      ],
+      "validation_record": "docs/windows-mft.md"
     },
     {
       "id": "windows.mftscan.MFTScan",
@@ -8673,15 +8681,23 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Windows physical ranges; kernel symbols and translation are unnecessary. Native exact FILE0/FILE*/BAAD matching preserves actual pinned YARA chunk/overlap repeats. Bounded attribute chains retain byte-width enum quirks, fixed SI/FILENAME payload coordinates, declared resident DATA offsets, longest names and first unnamed stream semantics. Original parse reads, scan-window hashes, raw field values, typed missing reasons, source coordinates, hierarchy, task limits and cancellation remain evidence. Nonresident data is excluded.",
+      "native": "windows.mftscan",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-mft-70-actual-yara-generators-per-command",
+        "official-windows-10-19041-partial-control"
+      ],
+      "comparison": "real_16370_mft_5_ads_925_resident_rows_match_baseline_columns_hierarchy_and_payloads;original_captures_and_result_fields_independently_verified_with_locked_typed_ISF",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Development preview; one real x64 Windows build, broader image/container and OS-version coverage pending",
+        "Each real task retains seven source read faults and eleven candidate diagnostics, including four zero-length attributes; 18 error events do not mean 18 distinct missing pages",
+        "Carved physical candidates do not prove live filesystem membership, complete file recovery or malicious ADS; nonresident run recovery, fixup validation and full filesystem reconstruction are outside these three commands",
+        "MFT timeline integration and complete renderer/export acceptance remain pending",
+        "Full release acceptance, all parameter bounds on large corpora and investigative positive/normal controls remain pending"
+      ],
+      "validation_record": "docs/windows-mft.md"
     },
     {
       "id": "windows.mftscan.ResidentData",
@@ -8724,15 +8740,23 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Windows physical ranges; kernel symbols and translation are unnecessary. Native exact FILE0/FILE*/BAAD matching preserves actual pinned YARA chunk/overlap repeats. Bounded attribute chains retain byte-width enum quirks, fixed SI/FILENAME payload coordinates, declared resident DATA offsets, longest names and first unnamed stream semantics. Original parse reads, scan-window hashes, raw field values, typed missing reasons, source coordinates, hierarchy, task limits and cancellation remain evidence. Nonresident data is excluded.",
+      "native": "windows.residentdata",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-mft-70-actual-yara-generators-per-command",
+        "official-windows-10-19041-partial-control"
+      ],
+      "comparison": "real_16370_mft_5_ads_925_resident_rows_match_baseline_columns_hierarchy_and_payloads;original_captures_and_result_fields_independently_verified_with_locked_typed_ISF",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Development preview; one real x64 Windows build, broader image/container and OS-version coverage pending",
+        "Each real task retains seven source read faults and eleven candidate diagnostics, including four zero-length attributes; 18 error events do not mean 18 distinct missing pages",
+        "Carved physical candidates do not prove live filesystem membership, complete file recovery or malicious ADS; nonresident run recovery, fixup validation and full filesystem reconstruction are outside these three commands",
+        "MFT timeline integration and complete renderer/export acceptance remain pending",
+        "Full release acceptance, all parameter bounds on large corpora and investigative positive/normal controls remain pending"
+      ],
+      "validation_record": "docs/windows-mft.md"
     },
     {
       "id": "windows.modscan.ModScan",
