@@ -20,6 +20,7 @@ matrix:
 fuzz:
 	$(GO) test ./pkg/winpath -run '^$$' -fuzz FuzzWindowsModulePath -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzSuspendedThreadPipeline -fuzztime 10s
+	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzDebugRegisterPipeline -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzPESymbolRequest -fuzztime 10s
 	$(GO) test ./pkg/pesymbols -run '^$$' -fuzz FuzzModuleSymbolRequests -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxSockscan -fuzztime 10s

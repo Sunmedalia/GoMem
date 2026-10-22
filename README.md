@@ -96,6 +96,7 @@ bin/gomem analyze windows.pslist \
 | `windows.verinfo` | 列出内核模块和进程加载顺序 DLL 的 PE 产品版本；内核基址按 48 位截断后读取，缺页的下一链表项结束当前链表；[说明](docs/windows-verinfo.md) |
 | `windows.ldrmodules` | 对照 MZ 开头的 VAD 与 PEB 三条加载链表；页表建不起来则任务失败，文件名错误留在 `PathError`；[说明](docs/windows-ldrmodules.md) |
 | `windows.pe_symbols` | 进程/内核模块精确名称和地址查询、PDB 优先、原始读取证据及明确的部分失败；[说明](docs/windows-pe-symbols.md) |
+| `windows.debugregisters` | 保存的 Dr0–Dr3/Dr7、所属进程、文件映射及精确符号；缺页保留部分失败；[说明](docs/windows-debugregisters.md) |
 | `windows.suspended_threads` | 挂起且未终止的线程、跨进程文件映射、PDB 优先的精确符号与读取证据；动态符号任务重新执行；[说明](docs/windows-suspended-threads.md) |
 | `windows.suspicious_threads` | 检查活动线程入口所在 VAD 的文件映射、保护和 EXE 路径，保留线程及 VAD 证据；[说明](docs/windows-suspicious-threads.md) |
 | `windows.hollowprocesses` | 检查 PEB 映像基址与 EXE/DLL VAD 初始保护，保留不可读数据的诊断；[说明](docs/windows-hollowprocesses.md) |

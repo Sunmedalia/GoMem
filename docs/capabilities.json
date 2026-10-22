@@ -5990,15 +5990,24 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active Windows Intel thread lists with typed Tcb.TrapFrame, Dr7, Dr0..Dr3, state, owner, VAD and process page-root symbols. Any nonzero saved Dr7 and nonterminated state select candidates; all-zero address registers and addresses outside file VADs are skipped. Owner object PID, not CID PID, is displayed. File ranges use inclusive preorder and exact PDB-first symbol lookup. No WorkFoldersShell exclusion. Lossless addresses, identities, trap-frame coordinates, raw reads and acquisition errors remain evidence. Individual unreadable threads fail coverage while later threads continue. Dynamic symbol dependencies execute fresh.",
+      "native": "windows.debugregisters",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-debugregister-generator-66-paged-cases",
+        "native-x86-pae-x64-99-combinations",
+        "official-windows-10-19041-negative-partial-control"
+      ],
+      "comparison": "seventeen_columns_order_missing_values_raw_captures_and_sealed_storage_match;real_1752_threads_zero_rows_with_615_read_faults_explicit",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Development preview; real positive debug-register samples and broad Windows version coverage pending",
+        "One real Windows 10 19041 negative control has 615 read faults; it is partial coverage, not clean absence of hardware breakpoints",
+        "Saved trap-frame values do not establish live CPU register state or malicious intent; Dr7 enable/type bits are not decoded by this baseline",
+        "Native read/list/VAD errors remain explicit task failures rather than silent baseline skips",
+        "Runtime PDB dependency cache validation and real Unicode module acquisition remain pending"
+      ],
+      "validation_record": "docs/windows-debugregisters.md"
     },
     {
       "id": "windows.deskscan.DeskScan",

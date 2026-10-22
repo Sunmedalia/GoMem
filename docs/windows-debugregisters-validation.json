@@ -1,0 +1,87 @@
+{
+  "schema": "gomem.windows-debugregisters-validation/v1",
+  "release": "development-preview",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "oracle": {
+    "actual_unmodified_generator_cases": 66,
+    "native_paging_combinations": 99,
+    "architectures": [
+      "x86",
+      "pae",
+      "x64"
+    ],
+    "comparison": "all seventeen columns, order, missing values, independent capture rereads and sealed store JSONL"
+  },
+  "fuzz": {
+    "target": "FuzzDebugRegisterPipeline",
+    "duration_seconds": 10,
+    "executions": 229591,
+    "result": "pass"
+  },
+  "real_negative": {
+    "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+    "threads": 1752,
+    "findings": 0,
+    "reads": 20932,
+    "captured_bytes": 162441,
+    "read_faults": 615,
+    "errors": 1228,
+    "complete": false,
+    "state": "failed",
+    "all_captures_independently_reread": true
+  },
+  "cli_diff": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "Process",
+      "PID",
+      "TID",
+      "State",
+      "Dr7",
+      "Dr0",
+      "Range0",
+      "Symbol0",
+      "Dr1",
+      "Range1",
+      "Symbol1",
+      "Dr2",
+      "Range2",
+      "Symbol2",
+      "Dr3",
+      "Range3",
+      "Symbol3"
+    ],
+    "native_rows": 0,
+    "reference_rows": 0,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "2ff6bd6d114fd61e2dfb43574d3edb48bd3fed85828339b4116b681addbf9443",
+      "reference": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
+      "mapping": "67c88677746a45dfed7975f15a7cd213fe1151dd4e3c7c0d4a27e135098a77da"
+    },
+    "native_input_rows": 20933,
+    "native_non_entity_records": {
+      "memory_read": 20932,
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "values": [
+        "thread"
+      ],
+      "excluded_values": [
+        "memory_read",
+        "summary"
+      ]
+    }
+  },
+  "remaining": [
+    "real positive samples",
+    "broad Windows version coverage",
+    "real Unicode module acquisition",
+    "runtime PDB dependency cache validation",
+    "complete failure/parameter and investigative acceptance"
+  ]
+}

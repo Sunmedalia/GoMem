@@ -1,0 +1,139 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "values": [
+      "thread"
+    ],
+    "excluded_values": [
+      "memory_read",
+      "summary"
+    ]
+  },
+  "fields": {
+    "Process": {
+      "native": "Process",
+      "reference": "Process",
+      "kind": "string"
+    },
+    "PID": {
+      "native": "PID",
+      "reference": "PID",
+      "kind": "uint64"
+    },
+    "TID": {
+      "native": "TID",
+      "reference": "TID",
+      "kind": "uint64"
+    },
+    "State": {
+      "native": "State",
+      "reference": "State",
+      "kind": "uint64"
+    },
+    "Dr7": {
+      "native": "Dr7",
+      "reference": "Dr7",
+      "kind": "address"
+    },
+    "Dr0": {
+      "native": "Dr0",
+      "reference": "Dr0",
+      "kind": "address"
+    },
+    "Range0": {
+      "native": "Range0",
+      "reference": "Range0",
+      "kind": "string",
+      "missing_reasons": [
+        "not_set",
+        "not_mapped_in_file_vad",
+        "symbol_not_found"
+      ]
+    },
+    "Symbol0": {
+      "native": "Symbol0",
+      "reference": "Symbol0",
+      "kind": "string",
+      "missing_reasons": [
+        "not_set",
+        "not_mapped_in_file_vad",
+        "symbol_not_found"
+      ]
+    },
+    "Dr1": {
+      "native": "Dr1",
+      "reference": "Dr1",
+      "kind": "address"
+    },
+    "Range1": {
+      "native": "Range1",
+      "reference": "Range1",
+      "kind": "string",
+      "missing_reasons": [
+        "not_set",
+        "not_mapped_in_file_vad",
+        "symbol_not_found"
+      ]
+    },
+    "Symbol1": {
+      "native": "Symbol1",
+      "reference": "Symbol1",
+      "kind": "string",
+      "missing_reasons": [
+        "not_set",
+        "not_mapped_in_file_vad",
+        "symbol_not_found"
+      ]
+    },
+    "Dr2": {
+      "native": "Dr2",
+      "reference": "Dr2",
+      "kind": "address"
+    },
+    "Range2": {
+      "native": "Range2",
+      "reference": "Range2",
+      "kind": "string",
+      "missing_reasons": [
+        "not_set",
+        "not_mapped_in_file_vad",
+        "symbol_not_found"
+      ]
+    },
+    "Symbol2": {
+      "native": "Symbol2",
+      "reference": "Symbol2",
+      "kind": "string",
+      "missing_reasons": [
+        "not_set",
+        "not_mapped_in_file_vad",
+        "symbol_not_found"
+      ]
+    },
+    "Dr3": {
+      "native": "Dr3",
+      "reference": "Dr3",
+      "kind": "address"
+    },
+    "Range3": {
+      "native": "Range3",
+      "reference": "Range3",
+      "kind": "string",
+      "missing_reasons": [
+        "not_set",
+        "not_mapped_in_file_vad",
+        "symbol_not_found"
+      ]
+    },
+    "Symbol3": {
+      "native": "Symbol3",
+      "reference": "Symbol3",
+      "kind": "string",
+      "missing_reasons": [
+        "not_set",
+        "not_mapped_in_file_vad",
+        "symbol_not_found"
+      ]
+    }
+  }
+}

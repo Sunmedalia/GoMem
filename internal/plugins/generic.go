@@ -37,6 +37,7 @@ func Register(r *plugin.Registry) error {
 	specs = append(specs, linuxNetfilterPlugins()...)
 	specs = append(specs, threadPlugins()...)
 	specs = append(specs, windowsSuspendedThreadPlugins()...)
+	specs = append(specs, windowsDebugRegisterPlugins()...)
 	specs = append(specs, windowsPESymbolPlugins()...)
 	specs = append(specs, vadPlugins()...)
 	specs = append(specs, linuxMapPlugins()...)
