@@ -175,11 +175,12 @@
   },
   "implementation_checks": {
     "focused_race": "pass; all callback plugin tests with pinned baseline environment, including 144 complete generators",
-    "full_make_check": "running for generator verification milestone",
+    "full_make_check": "pass; Go vet, full Go race suite, 43 Python tests and 428 argument fixtures; pinned 144-case engine and plugin tests also passed separately under race",
     "matrix": "pass; 195 plugins, 147 partial, 48 missing, 0 accepted",
     "build_offline_doctor": "pass; development preview and acceptance false",
     "object_oracle_python312": "pass; uv Python 3.12 pinned pefile",
-    "additional_engine_vet": "pass"
+    "additional_engine_vet": "pass",
+    "previous_analysis_commit_ci": "pass; 6aebe4dc0215a7d20f2697f972d8ceb3a5717fc8; https://github.com/Sunmedalia/GoMem/actions/runs/39797203340"
   },
   "native_paged_pipeline": {
     "architectures": [
