@@ -135,11 +135,29 @@ negative result.
 Tests compare 35 actual scanner cases and the scan offsets of 42 actual paged
 VMA generator cases, independently rereading original bytes for scan digests.
 These establish the scan stage; VMA traversal in the plugin, padded context
-acquisition, Python replacement decoding, result extraction, evidence storage,
-cache behavior and real-image differential validation are not covered yet.
+acquisition, evidence storage,
+cache behavior and real-image differential validation are not covered by these scan-stage comparisons yet.
 Additional tests exercise a 16 MiB-plus part, failed prefixes, a fault on the
 second bounded read, cancellation, malformed reader counts, whole-plan
 validation, source attribution across discarded parts and match/output bounds.
 Fuzz targets check physical acquisition correspondence and the acquisition-to-
 matching pipeline, including explicit partial coverage and every emitted source
 span. Neither regex plugin's matrix status is upgraded by these foundations.
+
+## Result selection and text decoding
+
+`memoryscan.Extract` reapplies a separately compiled non-DOTALL regex to already
+acquired context. It supports generic search and VMA anchoring at the context
+start, falling back to the entire context if no match fits. It returns original
+byte indices and display text, leaving raw context/read provenance with the
+caller. Tests compare 2,506 padded generic and 75 VMA result selections against
+actual baseline generator rows. These tests use the recorded context bytes;
+they do not establish padded virtual-read semantics or complete plugin output.
+
+`memoryscan.DisplayUTF8` implements Python UTF-8 replacement decoding. It consumes
+a valid truncated sequence prefix as one replacement and treats invalid leading
+bytes or constrained second-byte failures separately. The actual Python oracle
+locks length-framed outputs for 80,093 inputs: empty input, every single byte,
+every byte pair and selected three/four-byte boundary combinations. Both count
+and SHA256 are checked by Go tests. This is display conversion only: original
+bytes are retained independently and never replaced in evidence.

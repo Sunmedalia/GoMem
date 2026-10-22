@@ -35758,6 +35758,11 @@
       ]
     }
   ],
+  "decoding": {
+    "cases": 80093,
+    "sha256": "13f173c75e27253333aa6fc183d48f318768db279dbe0fc8cf17a21d1005c3cf",
+    "scope": "Python UTF-8 replacement decoding; empty, exhaustive single/pair bytes, selected triple/quad boundary bytes; uint32 LE length-framed UTF-8 outputs"
+  },
   "semantics": {
     "path": "byte-regex-semantics.jsonl",
     "cases": 12580,

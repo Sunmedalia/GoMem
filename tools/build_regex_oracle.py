@@ -283,6 +283,30 @@ def generate(source):
             mappings=[[int(a),int(b),int(c),int(d)] for a,b,c,d,_ in layer.mapping(0,length,ignore_errors=True)],
             chunks=[dict(end=int(end),parts=[[int(at),int(size)] for _,at,size in parts])
                 for parts,end in layer._scan_iterator(scanner,sections)]))
+    # Lock Python replacement decoding without storing all short byte strings.
+    # Length-framed output makes this digest an unambiguous sequence oracle.
+    def decoding_inputs():
+        yield b''
+        for first in range(256):
+            yield bytes([first])
+            for second in range(256):
+                yield bytes([first,second])
+        edges = [0,0x7f,0x80,0x8f,0x90,0x9f,0xa0,0xbf,0xc0,0xff]
+        for first in [0xc0,0xc1,0xc2,0xdf,0xe0,0xe1,0xed,0xef,0xf0,0xf1,0xf4,0xf5,0xff]:
+            for second in edges:
+                for third in edges:
+                    yield bytes([first,second,third])
+                    for fourth in edges:
+                        yield bytes([first,second,third,fourth])
+    decoding_hash = hashlib.sha256()
+    decoding_count = 0
+    for data in decoding_inputs():
+        decoded = data.decode('utf-8',errors='replace').encode('utf-8')
+        decoding_hash.update(struct.pack('<I',len(decoded)))
+        decoding_hash.update(decoded)
+        decoding_count += 1
+    decoding = dict(cases=decoding_count,sha256=decoding_hash.hexdigest(),
+        scope='Python UTF-8 replacement decoding; empty, exhaustive single/pair bytes, selected triple/quad boundary bytes; uint32 LE length-framed UTF-8 outputs')
     semantic_patterns = [p for _,p,_ in samples] + [
         r'(a?)*\1', r'(?:|a)*b', r'(?:|a)+b', r'(a(b)?)+\2', r'(a|ab)*b',
         r'(?=(a|ab))\1c', r'(?i:(a))\1', r'(a)(?<=\1)b', r'(?<=(a)\1)b',
@@ -340,7 +364,7 @@ def generate(source):
                 semantic.append(dict(pattern=pattern,data=data.hex(),dotall=dotall,matches=matches,error=error))
     semantic_text = ''.join(json.dumps(case,ensure_ascii=True,separators=(',',':'))+'\n' for case in semantic)
     manifest = dict(path=SEMANTICS.name,cases=len(semantic),patterns=len(set(c['pattern'] for c in semantic)),sha256=hashlib.sha256(semantic_text.encode()).hexdigest(),scope='Python 3.12 byte finditer; complete match start/end positions')
-    reference = json.dumps(dict(commit=COMMIT,python='3.12',scope='Actual unmodified scanner and generic generator; VMA generator with real ISF task/mm/VMA and Intel process translation; no method mocks',cases=cases,vmas=vmas,windows=windows,plans=plans,semantics=manifest),indent=2,ensure_ascii=True)+'\n'
+    reference = json.dumps(dict(commit=COMMIT,python='3.12',scope='Actual unmodified scanner and generic generator; VMA generator with real ISF task/mm/VMA and Intel process translation; no method mocks',cases=cases,vmas=vmas,windows=windows,plans=plans,decoding=decoding,semantics=manifest),indent=2,ensure_ascii=True)+'\n'
     return reference,semantic_text
 
 
