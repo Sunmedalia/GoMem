@@ -18,3 +18,18 @@ python3 tools/test_engine_shard.py --other-packages
 ```
 
 Python tests verify exact/disjoint coverage, inclusion of examples and fuzz seeds, stable membership when another test is added, and rejection of invalid inventories/counts. A local singleton-shard smoke run executes the real Go runner; the full `make check` command remains available unchanged.
+
+## Baseline-enabled callback checks
+
+Run `39837201584` passed every native OS job and all four engine shards, but
+its separate baseline-enabled callback invocation exceeded the shared 30-minute
+Go test deadline. The timeout occurred in mapped control 88 of 90, while SQLite
+was indexing captured evidence; the mapped top-level test had run for 15m36s.
+The invocation combined paged, complete-generator and mapped-generator suites.
+
+These three suites now run as separate, fully anchored `go test -race -count=1`
+steps, each with its own 30-minute deadline and the same `GOMEM_BASELINE_DIR`.
+Every original subtest and baseline-dependent assertion remains enabled. This
+removes the combined deadline; success still requires all three steps, all
+engine shards and the rest of acceptance. The updated workflow needs a completed
+CI run before this timeout correction can be considered remotely verified.

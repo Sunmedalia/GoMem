@@ -89,7 +89,15 @@ jobs:
       - run: go test -race ./internal/plugins -run Callback -count=1
         env:
           GOMEM_BASELINE_DIR: ${{ github.workspace }}/.cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75
-      - run: go test -race -timeout 30m ./internal/engine -run '^TestWindowsCallbacks(Paged|Complete|Mapped)' -count=1
+      # Keep the baseline-enabled callback suites separate: together they can
+      # exceed one 30-minute go test deadline on hosted runners.
+      - run: go test -race -timeout 30m ./internal/engine -run '^TestWindowsCallbacksPagedStorageCacheAndFailedRetry$' -count=1
+        env:
+          GOMEM_BASELINE_DIR: ${{ github.workspace }}/.cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75
+      - run: go test -race -timeout 30m ./internal/engine -run '^TestWindowsCallbacksCompleteGeneratorStorageCacheAndRetry$' -count=1
+        env:
+          GOMEM_BASELINE_DIR: ${{ github.workspace }}/.cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75
+      - run: go test -race -timeout 30m ./internal/engine -run '^TestWindowsCallbacksMappedGeneratorStorageCacheAndRetry$' -count=1
         env:
           GOMEM_BASELINE_DIR: ${{ github.workspace }}/.cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75
       - run: go test -race ./pkg/wincallbacks -count=1
