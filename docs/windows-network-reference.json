@@ -1,6 +1,6 @@
 {
   "schema": "gomem.windows-network-reference/v1",
-  "status": "reference-preparation-only",
+  "status": "native-field-decoder-and-reference-preparation",
   "native_netscan": "missing",
   "native_netstat": "missing",
   "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
@@ -12,7 +12,7 @@
     "invalid_tcp_state_exceptions": 50,
     "unselected_x86_udp_class_exceptions": 14,
     "fixture_sha256": "6a1d782de188ec9d99fbe3e95fb66490709247ef5aca687718d31d28ac3d6304",
-    "scope": "Actual unmodified network extension methods; original bytes, architectural address mask, source layout digests and failed read coordinates. No native or complete-generator parity claim."
+    "scope": "Actual unmodified network extension methods; original bytes, architectural address mask, source layout digests and failed read coordinates. Reference observations alone do not establish native or complete-generator parity."
   },
   "real_control": {
     "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
@@ -48,11 +48,40 @@
   },
   "checks": {
     "oracle_python_3_14": "pass",
-    "oracle_python_3_12": "pass"
+    "oracle_python_3_12": "pass",
+    "native_codec_race": "pass; all 1200 selected original-layout cases plus malformed/bounds tests",
+    "native_codec_vet": "pass",
+    "full_make_check": "pass; Go vet/race suite, 40 Python tests and 428 argument fixtures; unchanged engine tests reused the verified final poolscanner cache",
+    "matrix": "pass; network plugins remain missing",
+    "inode_mode_oracle": "pass",
+    "native_layout_comparison": "pass with GOMEM_BASELINE_DIR explicitly set; no skipped original-layout cases"
   },
   "limitations": [
     "Object methods only; version factory and pool carving are not synthetic differential controls",
-    "Native decoding, acquisition, symbol selection and error evidence remain unimplemented",
+    "Native field decoding has selected controls; full acquisition, symbol selection and plugin error evidence remain unimplemented",
     "NetStat traversal, include-corrupt, timelines, renderers and export acceptance remain open"
-  ]
+  ],
+  "native_decoder": {
+    "package": "pkg/winnet",
+    "actual_layout_selected_comparisons": 1200,
+    "result": "pass under Go race detector",
+    "fields": [
+      "address family or explicit read failure",
+      "big-endian ports",
+      "TCP enum state or invalid-state error",
+      "TCP local/remote IPs",
+      "listener/UDP socket expansion or class-extension error"
+    ],
+    "original_byte_controls": [
+      "owner object pointer",
+      "raw creation counter"
+    ],
+    "fault_controls": "pass; malformed schemas, truncation, unknown fields, nesting/array bounds, cancellation, field/end-address overflow and nil object guards",
+    "fuzz": {
+      "target": "FuzzNetworkLayout",
+      "executions": 100000,
+      "result": "pass"
+    },
+    "scope": "Field decoding only; no acquisition, owner validity, kernel attribution, timestamp conversion, network validity or complete plugin parity claim"
+  }
 }

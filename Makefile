@@ -18,6 +18,7 @@ baseline:
 matrix:
 	python3 tools/baseline_matrix.py --source $(BASELINE) --check
 fuzz:
+	$(GO) test ./pkg/winnet -run '^$$' -fuzz FuzzNetworkLayout -fuzztime 200000x
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzPoolScannerOriginalCaptures -fuzztime 100000x
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzWindowsVADRegexPipeline -fuzztime 100000x
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzRegexPluginPipeline -fuzztime 40000x

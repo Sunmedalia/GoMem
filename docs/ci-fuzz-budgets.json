@@ -6,7 +6,7 @@
     39757034756,
     39763243861
   ],
-  "calibration": "Maximum observed executions in the prior successful 5-second CI run and later run through ftrace; round upward to 1000, or 10 for slow targets. New regex targets calibrated from local paged plugin fuzzing. Count budgets specify inputs, not deterministic generated corpus contents. Pool scanner capture fuzzing: 50000 inputs passed locally in 2.69 seconds.",
+  "calibration": "Maximum observed executions in the prior successful 5-second CI run and later run through ftrace; round upward to 1000, or 10 for slow targets. New regex targets calibrated from local paged plugin fuzzing. Count budgets specify inputs, not deterministic generated corpus contents. Pool scanner capture fuzzing: 50000 inputs passed locally in 2.69 seconds. Native network layout fuzzing: 100000 inputs passed locally in 0.832 seconds.",
   "ci_executions": {
     "FuzzAVML": 629000,
     "FuzzAcquireCorrespondence": 89000,
@@ -59,6 +59,7 @@
     "FuzzModuleLookup": 6000,
     "FuzzModuleRSDS": 33000,
     "FuzzModuleSymbolRequests": 229000,
+    "FuzzNetworkLayout": 100000,
     "FuzzPESymbolRequest": 40000,
     "FuzzPageCacheTree": 263000,
     "FuzzPointerScan": 142000,

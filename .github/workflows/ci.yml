@@ -73,6 +73,9 @@ jobs:
       - run: python3 tools/build_pool_header_oracle.py --check
       - run: python3 tools/build_poolscanner_oracle.py --check
       - run: python3 tools/build_windows_network_oracle.py --check
+      - run: go test -race ./pkg/winnet -count=1
+        env:
+          GOMEM_BASELINE_DIR: ${{ github.workspace }}/.cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75
       - run: python3 tools/build_windows_strings_oracle.py --check
       - run: python3 tools/build_windows_malfind_oracle.py --check
       - run: python3 tools/build_iat_oracle.py --check
@@ -148,6 +151,7 @@ jobs:
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzRegexPluginPipeline -fuzztime 20000x
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsVADRegexPipeline -fuzztime 50000x
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzPoolScannerOriginalCaptures -fuzztime 50000x
+      - run: go test ./pkg/winnet -run '^$' -fuzz FuzzNetworkLayout -fuzztime 100000x
       - run: go test ./pkg/memoryscan -run '^$' -fuzz FuzzAcquireCorrespondence -fuzztime 89000x
       - run: go test ./pkg/memoryscan -run '^$' -fuzz FuzzMemoryScanPipeline -fuzztime 443000x
       - run: go test ./pkg/memory -run '^$' -fuzz FuzzScanPlan -fuzztime 452000x

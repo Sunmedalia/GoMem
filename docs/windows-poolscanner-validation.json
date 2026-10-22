@@ -16,7 +16,7 @@
   "checks": {
     "targeted_plugin_race": "pass",
     "verifier_race": "pass",
-    "full_make_check": "initial poolscanner snapshot passed full Go vet/race suite (engine 1344.452s), 40 Python tests and 428 argument fixtures. Final callback failure accounting, new engine persistence cases and provenance-offset verifier passed targeted race tests; exact final-source full make check is running.",
+    "full_make_check": "pass for final poolscanner source; full Go vet/race suite (engine 1340.498s), 40 Python tests and 428 argument fixtures",
     "python_unit_tests": 40,
     "targeted_engine_race": "pass; 36 storage/cache cases and 72 failed-budget executions",
     "go_vet": "pass",
@@ -26,7 +26,13 @@
     "pool_header_oracle": "pass; 1440 cases",
     "poolscanner_oracle": "pass; 36 complete pinned generators",
     "argument_fixtures": 428,
-    "cross_builds": "pass; Windows amd64 and Linux amd64 (compile only; runtime portability is verified separately by CI)"
+    "cross_builds": "pass; Windows amd64 and Linux amd64 (compile only; runtime portability is verified separately by CI)",
+    "remote_ci": {
+      "commit": "013cc73c9545db7e159d196ce2dc48c97980745b",
+      "run": 39770400805,
+      "result": "success",
+      "url": "https://github.com/Sunmedalia/GoMem/actions/runs/39770400805"
+    }
   },
   "fuzz": {
     "target": "FuzzPoolScannerOriginalCaptures",

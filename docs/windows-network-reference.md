@@ -1,8 +1,9 @@
 # Windows network reference preparation
 
 `windows.netscan` and `windows.netstat` remain **missing** in the capability
-matrix. These reference artifacts prepare their native implementation; they
-do not constitute native recovery, acquisition parity or release acceptance.
+matrix. These reference artifacts and the native `pkg/winnet` field decoder
+prepare their plugin implementations; they do not constitute native network
+acquisition, complete plugin parity or release acceptance.
 
 `tools/build_windows_network_oracle.py` runs the unmodified network extension
 methods from the locked Volatility 3 v2.28.2 tree. All 25 shipped network ISF
@@ -27,6 +28,31 @@ All 150 normal cases have no failed source reads; all 300 unavailable-address
 cases have recorded actual source read failures. The generator is checked under
 Python 3.12 (CI) and Python 3.14 locally. See the [validation record](windows-network-reference.json).
 
+The native decoder passes selected decoding comparisons across all 1,200
+cases using the original layout files, each checked against its reference
+digest. Comparisons cover family, ports, TCP state, local/remote IPs and socket
+expansion, including missing data and class-extension failures. Raw owner
+addresses and creation counters are checked against the original fixture
+bytes. Kernel process validity, owner PID/name attribution, timestamp conversion
+and network `is_valid()` are not implemented by this component.
+
+Declared sizes remain unchanged. The dedicated network layout reader permits
+outlying members with independent bounded offsets, lengths and original-source
+reads; the general ISF/object reader keeps its existing bounds. Layout input is
+limited to 4 MiB, field extents to 1 MiB and nesting to 64 levels. End-address
+overflow, truncated reads and cancellation remain errors. Wildcard fallback
+results retain actual read errors instead of becoming successful absence.
+Malformed/bounds tests and a 100,000-input layout fuzz run pass locally.
+
+```sh
+GOMEM_BASELINE_DIR="$PWD/.cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75" \
+  go test -race ./pkg/winnet -count=1
+```
+
+The original-layout comparison skips when this variable is absent. CI sets it
+explicitly after fetching the pinned tree; an optional local skip does not
+establish acceptance.
+
 The catalog contains important conditions a native implementation must retain:
 
 - Some field extents exceed the declared type size, including Windows 10 TCP
@@ -48,6 +74,6 @@ python3 tools/build_windows_network_oracle.py --check
 A separate unmodified `windows.netscan.NetScan` run on the official Windows 10
 19041 control produced 108 rows: 40 TCPv4, 10 TCPv6, 42 UDPv4 and 16 UDPv6.
 The ignored output/config/manifest are under `.cache/netscan-validation`.
-There is no native comparison yet. Version selection, TCP/IP symbol acquisition,
+There is no native full-image comparison yet. Version selection, TCP/IP symbol acquisition,
 pool carving, owner provenance, read failures, `include-corrupt`, timeline/export
 semantics, NetStat traversal and native malformed-input controls remain open.
