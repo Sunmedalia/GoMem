@@ -1,7 +1,7 @@
 {
   "schema": "gomem.windows-network-reference/v1",
-  "status": "native-fields-version-selection-and-symbol-catalog",
-  "native_netscan": "missing",
+  "status": "native-netscan-partial-with-fields-version-catalog-controls",
+  "native_netscan": "partial",
   "native_netstat": "missing",
   "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
   "object_methods": {
@@ -11,8 +11,8 @@
     "cases_with_actual_source_read_faults": 300,
     "invalid_tcp_state_exceptions": 50,
     "unselected_x86_udp_class_exceptions": 14,
-    "fixture_sha256": "6a1d782de188ec9d99fbe3e95fb66490709247ef5aca687718d31d28ac3d6304",
-    "scope": "Actual unmodified network extension methods; original bytes, architectural address mask, source layout digests and failed read coordinates. Reference observations alone do not establish native or complete-generator parity."
+    "fixture_sha256": "b1d4a6b4f7142eefe88e995d167175009f7576cb80506843650f9c5c35fdd53d",
+    "scope": "Actual unmodified network methods, original bytes, masks and read fault coordinates. Selected observations now compare native validity/owner/time/addresses; complete NetScan generator controls are recorded separately."
   },
   "real_control": {
     "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
@@ -44,7 +44,7 @@
       "reference.config.json": "041060805b2f676423a6889b6efaea6404314fcbe789c2896baeb952e2f0c8f3",
       "reference.manifest.json": "f9564ffe9144615a59bd74374f013b6eb56bc6476e1157d6d2935a5ee45abd27"
     },
-    "native_comparison": "not implemented"
+    "native_comparison": "108 selected default rows match; native read failures retained; see docs/windows-netscan-validation.json"
   },
   "checks": {
     "oracle_python_3_14": "pass",
@@ -52,7 +52,7 @@
     "native_codec_race": "pass; all 1200 selected original-layout cases plus malformed/bounds tests",
     "native_codec_vet": "pass",
     "full_make_check": "pass; Go vet/race suite, 40 Python tests and 428 argument fixtures; unchanged engine tests reused the verified final poolscanner cache",
-    "matrix": "pass; network plugins remain missing",
+    "matrix": "pass; native NetScan partial, NetStat missing; see acquisition validation",
     "inode_mode_oracle": "pass",
     "native_layout_comparison": "pass with GOMEM_BASELINE_DIR explicitly set; no skipped original-layout cases",
     "catalog_and_separate_pointer_layer_race": "pass; full pkg/winnet with GOMEM_BASELINE_DIR explicitly set",
@@ -60,9 +60,8 @@
     "catalog_build_and_offline_doctor": "pass"
   },
   "limitations": [
-    "Object methods and version factory have synthetic differential controls; complete pool acquisition and generator parity remain unverified",
-    "Native fields, version selection and catalog controls pass; complete acquisition, plugin integration and complete plugin error evidence remain open",
-    "NetStat traversal, include-corrupt, timelines, renderers and export acceptance remain open"
+    "Full capability/version acquisition acceptance remains pending; selected field and complete-generator controls do not establish complete coverage.",
+    "NetStat, timelines, full renderer/export and release acceptance remain open."
   ],
   "native_decoder": {
     "package": "pkg/winnet",
@@ -85,7 +84,7 @@
       "executions": 100000,
       "result": "pass"
     },
-    "scope": "Field decoding only; no acquisition, owner validity, kernel attribution, timestamp conversion, network validity or complete plugin parity claim",
+    "scope": "Field decoder used by the partial native NetScan plugin; complete acceptance remains open.",
     "separate_pointer_address_space": "pass; physical allocation with relocated native virtual family/address targets"
   },
   "version_factory": {
@@ -106,6 +105,6 @@
     "network_limit_bytes": 4194304,
     "local_http_controls": "pass; fetch/offline replay, repair, concurrent loads, malformed responses, cancellation and bounded cache reads",
     "live_official_url_control": "pass; pinned 19041 x64 fetch and subsequent offline replay",
-    "scope": "Data-only fixed-commit JSON; not runtime Python/Volatility. CLI integration remains open."
+    "scope": "Data-only fixed-commit JSON; CLI offline/cache integration implemented, no runtime Python/Volatility."
   }
 }

@@ -74,7 +74,7 @@ def generate(source):
                               'ExitTime': field(32, dict(kind='struct', name='_LARGE_INTEGER')),
                               'Pcb': field(40, dict(kind='struct', name='_KPROCESS')),
                               'ThreadListHead': field(48, dict(kind='struct', name='_LIST_ENTRY'))})})
-        layouts.append(dict(name=path.stem, source_sha256=hashlib.sha256(raw).hexdigest(), width=width,
+        layouts.append(dict(name=path.stem, kernel_isf=kernel, source_sha256=hashlib.sha256(raw).hexdigest(), width=width,
                             declared_sizes={n: t['size'] for n, t in schema['user_types'].items()}))
         for typ in ('_TCP_LISTENER', '_TCP_ENDPOINT', '_UDP_ENDPOINT'):
             for family in (2, 23):

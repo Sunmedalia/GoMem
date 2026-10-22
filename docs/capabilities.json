@@ -9067,15 +9067,26 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Native Intel x86/PAE/x64 Windows pool acquisition with matching kernel symbols. Measured KUSER/debug inputs select fixed-commit SHA-pinned TCP/IP ISF layouts; automatic data-only downloads honor offline/cache settings. Physical pre-Windows-10 allocations and kernel-virtual Windows-10 allocations resolve pointer targets in the native kernel layer. Network validity, include-corrupt, process attribution, dual-stack sockets, ports, state and creation counters retain typed absent/error evidence. Bounded allocation/native/page-table reads, raw captures/digests and final completeness prevent read failures from being cached as success.",
+      "native": "windows.netscan",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-25-layouts-1200-network-object-cases",
+        "pinned-99-Intel-PAE-x64-version-factories-and-constraints",
+        "pinned-144-allocations-288-complete-netscan-generators",
+        "native-9-three-architecture-acquisition-controls",
+        "official-windows-10-19041-108-network-partial-control"
+      ],
+      "comparison": "1200_selected_object_validity_owner_time_and_address_cases_match;99_measured_version_and_constraint_cases_match;288_complete_x86_PAE_x64_generators_match_all_ten_columns;three_architecture_sealed_storage_cache_and_failed_retry_controls_pass;real_108_selected_network_rows_match_all_ten_baseline_columns_with_106321_original_reads_and_106483_seals_independently_verified",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Development preview; complete synthetic generators cover Windows 7 x86/PAE/x64, while other layouts have selected object/factory controls; broader acquisition acceptance remains pending",
+        "The real Windows 10 control retains 115 failure observations including nested/callback reads, not unique missing pages; selected row parity does not establish complete acquisition",
+        "Broad real positive/negative, Windows version and real x86/PAE corpus coverage remain pending",
+        "NetStat traversal, network timeline integration, full renderer/export, performance and release acceptance remain open",
+        "Swapped/prototype pages and ARM64 virtual translation remain unsupported; selected unknown builds visibly use the baseline fallback rather than proving compatibility"
+      ],
+      "validation_record": "docs/windows-netscan.md"
     },
     {
       "id": "windows.netstat.NetStat",

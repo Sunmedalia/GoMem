@@ -59,6 +59,7 @@
     "FuzzModuleLookup": 6000,
     "FuzzModuleRSDS": 33000,
     "FuzzModuleSymbolRequests": 229000,
+    "FuzzNetworkAcquisition": 10000,
     "FuzzNetworkLayout": 100000,
     "FuzzPESymbolRequest": 40000,
     "FuzzPageCacheTree": 263000,

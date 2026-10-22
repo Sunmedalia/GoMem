@@ -1,4 +1,4 @@
-// Development-only verifier for sealed pool scanner source captures.
+// Development-only verifier for sealed Windows pool and network source captures.
 package main
 
 import (
@@ -84,10 +84,14 @@ func capture(row evidence.Row, layers map[string]memory.MemoryLayer) error {
 
 func run() error {
 	image := flag.String("image", "", "Original image")
-	rows := flag.String("rows", "", "Sealed pool scanner JSONL")
+	rows := flag.String("rows", "", "Sealed pool scanner or network JSONL")
+	plugin := flag.String("plugin", "windows.poolscanner", "windows.poolscanner or windows.netscan")
 	dtb := flag.String("dtb", "", "Kernel page root")
 	arch := flag.String("arch", "x64", "Intel architecture")
 	flag.Parse()
+	if *plugin != "windows.poolscanner" && *plugin != "windows.netscan" {
+		return fmt.Errorf("unsupported audit plugin")
+	}
 	if *image == "" || *rows == "" || *dtb == "" {
 		return fmt.Errorf("--image, --rows and --dtb are required")
 	}
@@ -120,7 +124,7 @@ func run() error {
 		if err := row.Verify(); err != nil {
 			return err
 		}
-		if row.Provenance.ImageSHA256 != eng.Hash || row.Provenance.Plugin != "windows.poolscanner" {
+		if row.Provenance.ImageSHA256 != eng.Hash || row.Provenance.Plugin != *plugin {
 			return fmt.Errorf("source provenance differs")
 		}
 		switch row.Cells["RecordType"].String() {
@@ -129,14 +133,18 @@ func run() error {
 				return fmt.Errorf("row %d: %w", count, err)
 			}
 			reads++
-		case "pool_object":
+		case "pool_object", "network":
 			objects++
 		case "summary", "diagnostic", "task_summary":
+		case "network_candidate", "network_symbols":
+			if *plugin != "windows.netscan" {
+				return fmt.Errorf("unexpected network record")
+			}
 		default:
 			return fmt.Errorf("unknown pool record type")
 		}
 	}
-	return json.NewEncoder(os.Stdout).Encode(map[string]any{"SealedRows": count, "OriginalReads": reads, "PoolObjects": objects, "Scope": "Original captured bytes, digests, read lengths/completeness and seals only; object recovery is validated separately"})
+	return json.NewEncoder(os.Stdout).Encode(map[string]any{"SealedRows": count, "OriginalReads": reads, "EntityRows": objects, "Plugin": *plugin, "Scope": "Original captured bytes, digests, read lengths/completeness and seals only; object recovery is validated separately"})
 }
 
 func main() {

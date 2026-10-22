@@ -294,29 +294,37 @@ func (o Object) ip(ctx context.Context, at, family uint64) (string, error) {
 	return netip.AddrFrom16([16]byte(buf)).String(), nil
 }
 
-func (o Object) TCPAddresses(ctx context.Context) (string, string, error) {
+// TCPAddress reads only the requested endpoint. Validity checks must not probe
+// remote memory as a side effect of validating the local address.
+func (o Object) TCPAddress(ctx context.Context, remote bool) (string, error) {
 	family, familyErr := o.Family(ctx)
 	info, err := o.Scalar(ctx, "AddrInfo")
 	if err != nil {
-		return "", "", errors.Join(familyErr, err)
+		return "", errors.Join(familyErr, err)
 	}
-	local, localErr := o.Layout.uint(ctx, o.native(), info, "_ADDRINFO", "Local")
-	if localErr == nil {
-		local, localErr = o.Layout.uint(ctx, o.native(), local, "_LOCAL_ADDRESS", "pData")
+	var address uint64
+	if remote {
+		address, err = o.Layout.uint(ctx, o.native(), info, "_ADDRINFO", "Remote")
+	} else {
+		address, err = o.Layout.uint(ctx, o.native(), info, "_ADDRINFO", "Local")
+		if err == nil {
+			address, err = o.Layout.uint(ctx, o.native(), address, "_LOCAL_ADDRESS", "pData")
+		}
+		if err == nil {
+			address, err = o.pointerAt(ctx, address)
+		}
 	}
-	if localErr == nil {
-		local, localErr = o.pointerAt(ctx, local)
+	if err != nil {
+		return "", errors.Join(familyErr, err)
 	}
-	var localIP string
-	if localErr == nil {
-		localIP, localErr = o.ip(ctx, local, family)
-	}
-	remote, remoteErr := o.Layout.uint(ctx, o.native(), info, "_ADDRINFO", "Remote")
-	var remoteIP string
-	if remoteErr == nil {
-		remoteIP, remoteErr = o.ip(ctx, remote, family)
-	}
-	return localIP, remoteIP, errors.Join(familyErr, localErr, remoteErr)
+	ip, err := o.ip(ctx, address, family)
+	return ip, errors.Join(familyErr, err)
+}
+
+func (o Object) TCPAddresses(ctx context.Context) (string, string, error) {
+	local, localErr := o.TCPAddress(ctx, false)
+	remote, remoteErr := o.TCPAddress(ctx, true)
+	return local, remote, errors.Join(localErr, remoteErr)
 }
 
 type Socket struct{ Version, Local, Remote string }

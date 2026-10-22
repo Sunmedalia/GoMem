@@ -119,36 +119,10 @@ func windowsPoolScanner(ctx context.Context, e plugin.Environment, p map[string]
 		}
 		*target = n
 	}
-	if e.Physical == nil || e.Kernel == nil || e.Objects == nil || e.Symbols == nil {
-		return fmt.Errorf("pool scanner requires physical memory, kernel translation and Windows symbols")
+	env, err := poolScannerEnvironment(ctx, e, a)
+	if err != nil {
+		return err
 	}
-	physical := poolScannerLayer{MemoryLayer: e.Physical, a: a, ranges: e.Physical.Ranges(), rawLimit: 256}
-	kernel := e.Kernel
-	if virtual, ok := kernel.(*memory.Virtual); ok {
-		intel, ok := virtual.Translator.(*memory.Intel)
-		if !ok {
-			return fmt.Errorf("pool scanner supports native Intel translation")
-		}
-		tables := physical
-		tables.rawLimit = 4096
-		traced, err := memory.NewIntelForOS(tables, intel.Root(), e.Architecture, e.OS, 1024)
-		if err != nil {
-			return err
-		}
-		kernel = &memory.Virtual{Physical: physical, Translator: traced, ID: kernel.Name()}
-	}
-	var ranges []memory.Range
-	if windows10OrLater(e.Symbols) {
-		var err error
-		ranges, err = layerRanges(ctx, kernel)
-		if err != nil {
-			return errors.Join(err, a.stop, a.failures.err("pool enumeration"))
-		}
-	}
-	env := e
-	env.Physical = physical
-	env.Kernel = poolScannerLayer{MemoryLayer: kernel, a: a, ranges: ranges, rawLimit: 256}
-	env.Objects = &object.Reader{Layer: env.Kernel, Symbols: e.Symbols}
 	constraints, err := builtinPoolConstraints()
 	if err != nil {
 		return err
@@ -188,4 +162,39 @@ func windowsPoolScanner(ctx context.Context, e plugin.Environment, p map[string]
 		summary.Cells["Error"] = evidence.Missing("pool_scan_incomplete", cause)
 	}
 	return errors.Join(cause, a.emit(summary))
+}
+
+// poolScannerEnvironment traces allocation, native pointer and page-table reads.
+func poolScannerEnvironment(ctx context.Context, e plugin.Environment, a *poolScannerAnalysis) (plugin.Environment, error) {
+	if e.Physical == nil || e.Kernel == nil || e.Objects == nil || e.Symbols == nil {
+		return e, fmt.Errorf("pool scanner requires physical memory, kernel translation and Windows symbols")
+	}
+	physical := poolScannerLayer{MemoryLayer: e.Physical, a: a, ranges: e.Physical.Ranges(), rawLimit: 256}
+	kernel := e.Kernel
+	if virtual, ok := kernel.(*memory.Virtual); ok {
+		intel, ok := virtual.Translator.(*memory.Intel)
+		if !ok {
+			return e, fmt.Errorf("pool scanner supports native Intel translation")
+		}
+		tables := physical
+		tables.rawLimit = 4096
+		traced, err := memory.NewIntelForOS(tables, intel.Root(), e.Architecture, e.OS, 1024)
+		if err != nil {
+			return e, err
+		}
+		kernel = &memory.Virtual{Physical: physical, Translator: traced, ID: kernel.Name()}
+	}
+	var ranges []memory.Range
+	if windows10OrLater(e.Symbols) {
+		var err error
+		ranges, err = layerRanges(ctx, kernel)
+		if err != nil {
+			return e, errors.Join(err, a.stop, a.failures.err("pool enumeration"))
+		}
+	}
+	env := e
+	env.Physical = physical
+	env.Kernel = poolScannerLayer{MemoryLayer: kernel, a: a, ranges: ranges, rawLimit: 256}
+	env.Objects = &object.Reader{Layer: env.Kernel, Symbols: e.Symbols}
+	return env, nil
 }

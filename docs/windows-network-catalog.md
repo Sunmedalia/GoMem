@@ -1,7 +1,7 @@
 # Native TCP/IP version selection and symbol catalog
 
-This component prepares `windows.netscan`; the CLI plugin and end-to-end native
-network acquisition remain **missing**. It is not release acceptance.
+This component supplies the partial native [`windows.netscan`](windows-netscan.md)
+plugin. Full version/platform acquisition acceptance remains open.
 
 `pkg/winnet.Select` takes measured NT major/minor, debug build, pointer width,
 the kernel 18363 distinguisher and, when applicable, the TCP/IP file revision.
@@ -57,7 +57,7 @@ virtual structures. A separate nonidentity-address-space control verifies
 family, TCP addresses and listener expansion; same-layer fixtures alone do not
 establish this behavior.
 
-Reading measured version inputs in the plugin, connecting the cache/offline
-settings to the CLI, immutable custom layout inputs, network validity, kernel
-owner attribution, pool acquisition and full-image differential controls remain
-open. See the [network preparation record](windows-network-reference.json).
+The CLI plugin now reads version inputs, honors cache/offline settings, validates
+network/owner objects and scans pools. Full acquisition/version acceptance,
+custom layout overrides and NetStat remain open. See the
+[network validation record](windows-netscan-validation.json).

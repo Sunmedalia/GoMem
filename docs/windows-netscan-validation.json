@@ -1,0 +1,150 @@
+{
+  "schema": "gomem.windows-netscan-validation/v1",
+  "status": "partial-development-preview",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "synthetic": {
+    "object_layouts": 25,
+    "object_cases": 1200,
+    "version_factories": 99,
+    "complete_generator_allocations": 144,
+    "complete_generators": 288,
+    "architectures": [
+      "x86",
+      "pae",
+      "x64"
+    ],
+    "complete_generator_columns": 10,
+    "race": "pass",
+    "storage_cache_failed_retry_architectures": 3,
+    "original_read_controls": 9,
+    "fault_bounds_cancel_emitter_controls": "pass",
+    "fuzz": {
+      "target": "FuzzNetworkAcquisition",
+      "executions": 10000,
+      "result": "pass"
+    }
+  },
+  "real_control": {
+    "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+    "native_binary_sha256": "21ca59d772626a6b3f88c9d00b7de84505e18322fa07548d9d2d5a53048fdaaa",
+    "default": {
+      "entities": 108,
+      "failure_observations": 115,
+      "task_state": "failed",
+      "strict_selected_columns_match": true,
+      "original_source_audit": {
+        "EntityRows": 108,
+        "OriginalReads": 106321,
+        "Plugin": "windows.netscan",
+        "Scope": "Original captured bytes, digests, read lengths/completeness and seals only; object recovery is validated separately",
+        "SealedRows": 106483
+      },
+      "sqlite_export": {
+        "identical_rows": 106483,
+        "task_state": "failed"
+      },
+      "provenance": {
+        "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+        "engine": "0.1.0-dev",
+        "engine_build": "21ca59d772626a6b3f88c9d00b7de84505e18322fa07548d9d2d5a53048fdaaa",
+        "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+        "plugin": "windows.netscan",
+        "parameters": {
+          "engine.arch": "x64",
+          "engine.dtb": "0x6d4000",
+          "engine.kernel-base": "0xfffff8043601f000",
+          "engine.kernel-slide": "0x0",
+          "engine.os": "windows",
+          "include-corrupt": "false",
+          "max-read-bytes": "17179869184",
+          "max-reads": "4000000",
+          "max-rows": "1000000"
+        },
+        "layer": "physical:crash",
+        "offset": "0x6d4000"
+      }
+    },
+    "include_corrupt": {
+      "entities": 159,
+      "failure_observations": 261,
+      "task_state": "failed",
+      "strict_selected_columns_match": false,
+      "explained_differences": {
+        "rows": 159,
+        "selected_values_and_absence_equal": true,
+        "strict_evidence_equal": false,
+        "explained_rows": 51,
+        "explained_fields": {
+          "LocalAddr": 49,
+          "PID": 34,
+          "Owner": 34,
+          "ForeignAddr": 3,
+          "State": 3
+        },
+        "difference": "Native retains address/owner read errors and invalid state reasons where reference emits null. Strict differences remain; no errors are removed from evidence."
+      },
+      "original_source_audit": {
+        "EntityRows": 159,
+        "OriginalReads": 107376,
+        "Plugin": "windows.netscan",
+        "Scope": "Original captured bytes, digests, read lengths/completeness and seals only; object recovery is validated separately",
+        "SealedRows": 107538
+      },
+      "provenance": {
+        "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+        "engine": "0.1.0-dev",
+        "engine_build": "21ca59d772626a6b3f88c9d00b7de84505e18322fa07548d9d2d5a53048fdaaa",
+        "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+        "plugin": "windows.netscan",
+        "parameters": {
+          "engine.arch": "x64",
+          "engine.dtb": "0x6d4000",
+          "engine.kernel-base": "0xfffff8043601f000",
+          "engine.kernel-slide": "0x0",
+          "engine.os": "windows",
+          "include-corrupt": "true",
+          "max-read-bytes": "17179869184",
+          "max-reads": "4000000",
+          "max-rows": "1000000"
+        },
+        "layer": "physical:crash",
+        "offset": "0x6d4000"
+      }
+    },
+    "artifacts_sha256": {
+      "reference.json": "028b910fce766b7367e0e0dade874ba855039d70e2158c09136ca07b089104b2",
+      "reference.config.json": "041060805b2f676423a6889b6efaea6404314fcbe789c2896baeb952e2f0c8f3",
+      "reference.manifest.json": "f9564ffe9144615a59bd74374f013b6eb56bc6476e1157d6d2935a5ee45abd27",
+      "reference-corrupt.json": "52e130a9afb0a0e5348ce8de20ea840a0321aacc6ee8dba115864eaae8d478b7",
+      "reference-corrupt.config.json": "ea32d879f95457d5c79eeb9448b0a9be59763743e67b41fd5545731dd1e04f5f",
+      "reference-corrupt.manifest.json": "c5156bcffa2d5039c025cafb30b829dd932bcb5bf2a927ad2a2d44880e70c639",
+      "native-owner.jsonl": "ee7a64f8feddb020a92d0262c46f0f3c1ca2c2dc2abceb8be64a278721a250ca",
+      "native-owner-corrupt.jsonl": "d1a0cb8bac83e2278a6316c374a659d01e7e1026094617ee27849d78c6570ae3",
+      "diff-owner.json": "26352599f20bc920f5cf28c14692eb988a39ee4c8119ae4e93c33f559daf2ce9",
+      "diff-owner-corrupt.json": "4db0edb0fc750390d4f30ab450661ed6215eefe61565d4cbca765a76753e5b6d",
+      "corrupt-owner-difference-audit.json": "b74ee909b2aadfdd83bbe865de292d41a88ab500bde2fac8d418e2971c9e5b04",
+      "audit-owner.json": "dcb8e691d418c24b23e1c81d82ee4f2572dc32aac921d31fe7707d04aa246d40",
+      "audit-owner-corrupt.json": "624fde237d52ebbf041ffd69f9e77362e781c2f8895b85d38d95851cdce17bc1",
+      "storage-owner-audit.json": "7d3c2af33650dcb57a27e47b138972ec6268efb01f519f64a9e7c279363555eb"
+    }
+  },
+  "checks": {
+    "complete_generator_python_3_12": "pass",
+    "complete_generator_python_3_14": "pass",
+    "targeted_race": "pass",
+    "full_make_check": "pass; Go vet, full race suite, 40 Python tests and 428 argument controls. Subsequent owner error-classification/schema and new network/storage tests also passed targeted race/vet; original long-running engine suite was not restarted.",
+    "matrix": "pass; 195 plugins, 145 partial, 50 missing, none accepted",
+    "inode_mode_oracle": "pass; 32768 modes",
+    "final_vet": "pass",
+    "offline_doctor": "pass",
+    "final_build": "pass",
+    "owner_schema_and_read_failure": "pass; wrong schema fails explicitly; unavailable owner fields retain read-failed reasons",
+    "object_oracle_python_3_12": "pass; 25 layouts and 1200 cases"
+  },
+  "limitations": [
+    "Synthetic complete generators cover Windows 7 layouts; other layouts have object/version controls, plus one real Windows 10 x64 image.",
+    "Read failure counts include nested and callback observations, not unique unavailable pages.",
+    "Recovered-row parity is not complete acquisition; every real run remains failed/incomplete and cannot be reused as successful cache.",
+    "Broad version/platform/positive/normal corpus, NetStat traversal, timeline, renderer/export, performance and release acceptance remain pending."
+  ]
+}

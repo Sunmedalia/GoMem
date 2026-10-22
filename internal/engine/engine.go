@@ -144,7 +144,7 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 		return nil, err
 	}
 	eng.imageInfo = initialStat
-	eng.Env = plugin.Environment{Physical: physical, OS: c.OS, Architecture: c.Arch, KernelBase: c.KernelBase, KernelSlide: c.KernelSlide, ImageHash: hash}
+	eng.Env = plugin.Environment{Offline: c.Offline, SymbolCache: c.SymbolCache, Physical: physical, OS: c.OS, Architecture: c.Arch, KernelBase: c.KernelBase, KernelSlide: c.KernelSlide, ImageHash: hash}
 	if c.Symbols != "" {
 		table, e := symbols.LoadContext(ctx, c.Symbols)
 		if e != nil {

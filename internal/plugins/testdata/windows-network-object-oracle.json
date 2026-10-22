@@ -4,6 +4,139 @@
   "layouts": [
     {
       "name": "netscan-vista-sp12-x64",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 8,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "e74f540a9df2f24917ca666e0a398a210ff12b1ba66ad016e52af646d012a9a9",
       "width": 8,
       "declared_sizes": {
@@ -22,6 +155,139 @@
     },
     {
       "name": "netscan-vista-x64",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 8,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "300d8d03db2c6e422ec2d49115c6ea4d1e3ef0dd21ecad97b18c2cb62a94f11b",
       "width": 8,
       "declared_sizes": {
@@ -40,6 +306,139 @@
     },
     {
       "name": "netscan-vista-x86",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 4,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "54c23c206d2cf8dd551a2f552715917df03431d5f6be8f131aa6fd7addceaf54",
       "width": 4,
       "declared_sizes": {
@@ -58,6 +457,139 @@
     },
     {
       "name": "netscan-win10-10240-x86",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 4,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "fdc692553db42a805b251f021c039dea1f46b6340eaa347ddfd4316027e77441",
       "width": 4,
       "declared_sizes": {
@@ -85,6 +617,139 @@
     },
     {
       "name": "netscan-win10-10586-x86",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 4,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "c7dab68ed2e66e9236d5523864786787187f599a408fc4d73eee67487a47522b",
       "width": 4,
       "declared_sizes": {
@@ -112,6 +777,139 @@
     },
     {
       "name": "netscan-win10-14393-x86",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 4,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "bbb0835d7663085db699e5744128e76e8f2316db9ad922b0dbb7bdb114650a00",
       "width": 4,
       "declared_sizes": {
@@ -130,6 +928,139 @@
     },
     {
       "name": "netscan-win10-15063-x64",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 8,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "23008f542015e4e3a2d7428114a2517e3cdadde0ffa56b22019d1eca32a6a4f9",
       "width": 8,
       "declared_sizes": {
@@ -155,6 +1086,139 @@
     },
     {
       "name": "netscan-win10-15063-x86",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 4,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "dcf5a61c9eb06e80c96605099e1a8cb6862c0a4181e7a2453b04bfe9e47ac78e",
       "width": 4,
       "declared_sizes": {
@@ -182,6 +1246,139 @@
     },
     {
       "name": "netscan-win10-16299-x64",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 8,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "ff38f9c9e5634246b6ba91c4beee37a00442171bb4a67a03a7db920f7ef94b37",
       "width": 8,
       "declared_sizes": {
@@ -207,6 +1404,139 @@
     },
     {
       "name": "netscan-win10-17134-x64",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 8,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "9b34bf236f99d9b1d214b828110f3cf681ec965c6d1870aab89ffe8724ca1308",
       "width": 8,
       "declared_sizes": {
@@ -232,6 +1562,139 @@
     },
     {
       "name": "netscan-win10-17134-x86",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 4,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "54d69b1fb2d03efc8c146680b1945745e139b2052fb6dc77301cc229d8c66ebc",
       "width": 4,
       "declared_sizes": {
@@ -250,6 +1713,139 @@
     },
     {
       "name": "netscan-win10-17763-x64",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 8,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "4fcf4dd602dac3351fde707951293db88f278c4cb3c0d576ed8da4c0dd90dd0e",
       "width": 8,
       "declared_sizes": {
@@ -275,6 +1871,139 @@
     },
     {
       "name": "netscan-win10-18362-x64",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 8,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "45377ef57466e0e2793c9e5ce0cabd84ebbe30b9b6142ed61652a942d79cba1a",
       "width": 8,
       "declared_sizes": {
@@ -300,6 +2029,139 @@
     },
     {
       "name": "netscan-win10-18363-x64",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 8,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "94e33494a78c759f5695b1604e67f6303760b12b0e3181e2374353618238d4d6",
       "width": 8,
       "declared_sizes": {
@@ -325,6 +2187,139 @@
     },
     {
       "name": "netscan-win10-19041-x64",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 8,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "bffcb47d0591d1f17592f997aa34a1717eac2bfe71fa6253ca334287733b2b79",
       "width": 8,
       "declared_sizes": {
@@ -350,6 +2345,139 @@
     },
     {
       "name": "netscan-win10-19041-x86",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 4,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "edf5b8777e0e224529c8bbae46db5929d4f754ff3fd3859870dc2e223ba00c30",
       "width": 4,
       "declared_sizes": {
@@ -366,6 +2494,139 @@
     },
     {
       "name": "netscan-win10-20348-x64",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 8,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "ba65993432fb1c88543acfffb8a5d5be843d4911a3b6e3f79f17a17b38e63946",
       "width": 8,
       "declared_sizes": {
@@ -391,6 +2652,139 @@
     },
     {
       "name": "netscan-win10-x64",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 8,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "6c239adf810b43b53e126a30a931498398b40075f76fe7a2fb12a7d9b2710c4b",
       "width": 8,
       "declared_sizes": {
@@ -407,6 +2801,139 @@
     },
     {
       "name": "netscan-win7-x64",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 8,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "72bf57f96f7e5299728b3a7f109d6b497e027acf461e1c14c1a49c49387b54e2",
       "width": 8,
       "declared_sizes": {
@@ -434,6 +2961,139 @@
     },
     {
       "name": "netscan-win7-x86",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 4,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "1603d998af20b84134f17cbc5d236f2ff021ada15e361fe9d1c1d2308bb031fc",
       "width": 4,
       "declared_sizes": {
@@ -461,6 +3121,139 @@
     },
     {
       "name": "netscan-win8-x64",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 8,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "0c5243afa4b98e766d74d637922cfd039500c5a4557f428d0bdaa86a0dd10061",
       "width": 8,
       "declared_sizes": {
@@ -488,6 +3281,139 @@
     },
     {
       "name": "netscan-win8-x86",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 4,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "87cdacb9f167566abca985fd201ea5622cd86a4147b4956f7f936ba01730ce98",
       "width": 4,
       "declared_sizes": {
@@ -506,6 +3432,139 @@
     },
     {
       "name": "netscan-win81-19935-x64",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 8,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "0afad4fe47b1b09cedf19602645b273a97b68b6c4ebf35257cac9260e758cf53",
       "width": 8,
       "declared_sizes": {
@@ -533,6 +3592,139 @@
     },
     {
       "name": "netscan-win81-x64",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 16,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 8,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "110ed8e4bb05c9d0280bf1a6d7a227ddb0656b86dc450cc80429e309571093b7",
       "width": 8,
       "declared_sizes": {
@@ -560,6 +3752,139 @@
     },
     {
       "name": "netscan-win81-x86",
+      "kernel_isf": {
+        "metadata": {
+          "format": "6.2.0"
+        },
+        "symbols": {},
+        "enums": {},
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "uptr": {
+            "kind": "int",
+            "size": 4,
+            "signed": false,
+            "endian": "little"
+          },
+          "u8": {
+            "kind": "int",
+            "size": 1,
+            "signed": false,
+            "endian": "little"
+          },
+          "u64": {
+            "kind": "int",
+            "size": 8,
+            "signed": false,
+            "endian": "little"
+          }
+        },
+        "user_types": {
+          "_LARGE_INTEGER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "QuadPart": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "u64"
+                }
+              }
+            }
+          },
+          "_LIST_ENTRY": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "Flink": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "Blink": {
+                "offset": 4,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_KPROCESS": {
+            "kind": "struct",
+            "size": 4,
+            "fields": {
+              "DirectoryTableBase": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              }
+            }
+          },
+          "_EPROCESS": {
+            "kind": "struct",
+            "size": 128,
+            "fields": {
+              "UniqueProcessId": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "uptr"
+                }
+              },
+              "ImageFileName": {
+                "offset": 8,
+                "type": {
+                  "kind": "array",
+                  "count": 16,
+                  "subtype": {
+                    "kind": "base",
+                    "name": "u8"
+                  }
+                }
+              },
+              "CreateTime": {
+                "offset": 24,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "ExitTime": {
+                "offset": 32,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LARGE_INTEGER"
+                }
+              },
+              "Pcb": {
+                "offset": 40,
+                "type": {
+                  "kind": "struct",
+                  "name": "_KPROCESS"
+                }
+              },
+              "ThreadListHead": {
+                "offset": 48,
+                "type": {
+                  "kind": "struct",
+                  "name": "_LIST_ENTRY"
+                }
+              }
+            }
+          }
+        }
+      },
       "source_sha256": "7b516694476ff2132096054ff807b912fb682ed83b0c2b14bb3d7e314ee1a692",
       "width": 4,
       "declared_sizes": {

@@ -1,11 +1,10 @@
 # Windows network reference preparation
 
-`windows.netscan` and `windows.netstat` remain **missing** in the capability
-matrix. These reference artifacts and the native `pkg/winnet` field decoder
-prepare their plugin implementations; they do not constitute native network
-acquisition, complete plugin parity or release acceptance.
+`windows.netscan` now has a [partial native acquisition implementation](windows-netscan.md).
+`windows.netstat` remains missing. These object/factory controls support that
+implementation; full capability and release acceptance remain open.
 The [native version selector and verified symbol catalog](windows-network-catalog.md)
-add separate factory/download controls without changing that plugin status.
+provide separate factory/download controls.
 
 `tools/build_windows_network_oracle.py` runs the unmodified network extension
 methods from the locked Volatility 3 v2.28.2 tree. All 25 shipped network ISF
@@ -35,8 +34,8 @@ cases using the original layout files, each checked against its reference
 digest. Comparisons cover family, ports, TCP state, local/remote IPs and socket
 expansion, including missing data and class-extension failures. Raw owner
 addresses and creation counters are checked against the original fixture
-bytes. Kernel process validity, owner PID/name attribution, timestamp conversion
-and network `is_valid()` are not implemented by this component.
+bytes. The plugin additionally compares kernel process validity, owner PID/name,
+timestamp conversion and network validity against these same observations.
 
 Declared sizes remain unchanged. The dedicated network layout reader permits
 outlying members with independent bounded offsets, lengths and original-source
@@ -76,6 +75,7 @@ python3 tools/build_windows_network_oracle.py --check
 A separate unmodified `windows.netscan.NetScan` run on the official Windows 10
 19041 control produced 108 rows: 40 TCPv4, 10 TCPv6, 42 UDPv4 and 16 UDPv6.
 The ignored output/config/manifest are under `.cache/netscan-validation`.
-There is no native full-image comparison yet. Version selection, TCP/IP symbol acquisition,
-pool carving, owner provenance, read failures, `include-corrupt`, timeline/export
-semantics, NetStat traversal and native malformed-input controls remain open.
+The native default scan now matches those 108 selected rows, with read failures
+and incomplete coverage retained. Complete synthetic generators, corrupt-mode
+comparisons, storage/cache and independent original-image verification are
+recorded in [the acquisition notes](windows-netscan.md).

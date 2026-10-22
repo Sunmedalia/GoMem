@@ -53,6 +53,9 @@ type Input struct {
 	Reader io.ReaderAt
 }
 type Environment struct {
+	// Offline forbids automatic symbol downloads. SymbolCache is the configured cache root.
+	Offline        bool
+	SymbolCache    string
 	Inputs         map[string]Input
 	ModulePDB      pesymbols.Provider
 	Artifacts      evidence.ArtifactSink
