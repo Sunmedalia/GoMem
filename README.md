@@ -64,6 +64,7 @@ bin/gomem analyze windows.pslist \
 
 | 原生命令 | 当前适用条件 |
 | --- | --- |
+| `regexscan` / `linux.vmaregexscan` | 原生字节正则扫描；通用扫描仅需 Intel 页表，Linux VMA 需精确符号；保留原始匹配、上下文、页表和缺页诊断；[验证](docs/regex-scanning.md) |
 | `generic.info` | 物理段、大小与文件偏移 |
 | `banners` | ASCII Linux/Darwin 内核 banner、Windows 内核 RSDS 身份 |
 | `generic.strings` | ASCII 可打印字符串；`--param min=8`；长字符串明确标记截断 |

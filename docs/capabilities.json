@@ -3974,15 +3974,25 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Native Intel x86/PAE/x64 translated scan. Generic scanning needs a kernel translation layer without symbols; Linux VMA scanning requires exact kernel symbols and active process lists. UTF-8 patterns use native bounded Python-compatible byte matching, DOTALL scan and separate non-DOTALL extraction. Actual pinned physical/virtual chunk planning, VMA coalescing, PID=tgid and fixed 128-byte VMA context are preserved. Required pattern distinguishes omission from explicit empty text. Original match/context bytes, page-table and metadata reads, scan digests, identities and hardware correspondence remain evidence. Missing selected VMAs, failed reads and native mapping disagreements fail coverage, and failed tasks cannot be cached. Global read/table/entry/mapping/chunk/match/proof budgets and bounded diagnostic detail are explicit.",
+      "native": "linux.vmaregexscan",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-regex-35-scanner-42-vma-42-kernel-paged-cases",
+        "pinned-17-intel-plans-12580-match-span-80093-decoding-cases",
+        "official-debian-3.2-init-elf-and-kernel-banner-partial-controls",
+        "official-windows-10-19041-kernel-DOS-stub-partial-control"
+      ],
+      "comparison": "84_paged_plugin_runs_match_actual_generators;real_init_8_ELF_linux_kernel_4_banner_and_Windows_kernel_200_DOS_stub_matches_equal_reference_with_original_source_reverification_and_incomplete_coverage_explicit",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Development preview; full parameter/platform/version/renderer and performance acceptance remain pending",
+        "Real Debian controls contain 44 unmapped VMA spans and 33351 unavailable Linux kernel mappings; Windows has 660 unavailable mappings; selected matches are equal, but coverage is partial",
+        "ARM64 virtual scanning is unsupported; macOS corpus acceptance, Windows x86/PAE and broader Windows versions remain pending",
+        "Locale-dependent byte flags are explicitly unsupported; finite regex execution and input-size limits can terminate complex patterns with explicit errors",
+        "Synthetic x86/PAE/x64, cancellation, budgets, original reads and sealed store/cache checks do not replace broader real positive/negative corpus acceptance"
+      ],
+      "validation_record": "docs/regex-scanning.md"
     },
     {
       "id": "linux.vmayarascan.VmaYaraScan",
@@ -5308,15 +5318,25 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Native Intel x86/PAE/x64 translated scan. Generic scanning needs a kernel translation layer without symbols; Linux VMA scanning requires exact kernel symbols and active process lists. UTF-8 patterns use native bounded Python-compatible byte matching, DOTALL scan and separate non-DOTALL extraction. Actual pinned physical/virtual chunk planning, VMA coalescing, PID=tgid and fixed 128-byte VMA context are preserved. Required pattern distinguishes omission from explicit empty text. Original match/context bytes, page-table and metadata reads, scan digests, identities and hardware correspondence remain evidence. Missing selected VMAs, failed reads and native mapping disagreements fail coverage, and failed tasks cannot be cached. Global read/table/entry/mapping/chunk/match/proof budgets and bounded diagnostic detail are explicit.",
+      "native": "regexscan",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-regex-35-scanner-42-vma-42-kernel-paged-cases",
+        "pinned-17-intel-plans-12580-match-span-80093-decoding-cases",
+        "official-debian-3.2-init-elf-and-kernel-banner-partial-controls",
+        "official-windows-10-19041-kernel-DOS-stub-partial-control"
+      ],
+      "comparison": "84_paged_plugin_runs_match_actual_generators;real_init_8_ELF_linux_kernel_4_banner_and_Windows_kernel_200_DOS_stub_matches_equal_reference_with_original_source_reverification_and_incomplete_coverage_explicit",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Development preview; full parameter/platform/version/renderer and performance acceptance remain pending",
+        "Real Debian controls contain 44 unmapped VMA spans and 33351 unavailable Linux kernel mappings; Windows has 660 unavailable mappings; selected matches are equal, but coverage is partial",
+        "ARM64 virtual scanning is unsupported; macOS corpus acceptance, Windows x86/PAE and broader Windows versions remain pending",
+        "Locale-dependent byte flags are explicitly unsupported; finite regex execution and input-size limits can terminate complex patterns with explicit errors",
+        "Synthetic x86/PAE/x64, cancellation, budgets, original reads and sealed store/cache checks do not replace broader real positive/negative corpus acceptance"
+      ],
+      "validation_record": "docs/regex-scanning.md"
     },
     {
       "id": "timeliner.Timeliner",

@@ -6,6 +6,7 @@ scanner, object-field, VMA traversal or process-layer method is mocked. This is
 reference evidence for native implementation, not capability acceptance.
 """
 import argparse
+import base64
 import hashlib
 import json
 import logging
@@ -36,8 +37,10 @@ def linux_fixture(arch, payload, scenario):
     pointer = lambda name: dict(kind='pointer', subtype=dict(kind='struct', name=name))
     field = lambda offset, typ: dict(offset=offset, type=typ)
     types = {
-        'task_struct': record(40, dict(pid=field(0, base('u32')), tgid=field(4, base('u32')),
-            comm=field(8, dict(kind='array', count=16, subtype=base('u8'))), mm=field(24, pointer('mm_struct')))),
+        'task_struct': record(64, dict(pid=field(0, base('u32')), tgid=field(4, base('u32')),
+            comm=field(8, dict(kind='array', count=16, subtype=base('u8'))), mm=field(24, pointer('mm_struct')),
+            tasks=field(40,dict(kind='struct',name='list_head')))),
+        'list_head':record(2*width,dict(next=field(0,pointer('list_head')),prev=field(width,pointer('list_head')))),
         'mm_struct': record(32, dict(pgd=field(0, pointer('void_stub')), mmap=field(8, pointer('vm_area_struct')),
             start_brk=field(16, base('uptr')), brk=field(24, base('uptr')))),
         'vm_area_struct': record(48, dict(vm_start=field(0, base('uptr')), vm_end=field(8, base('uptr')),
@@ -79,6 +82,14 @@ def linux_fixture(arch, payload, scenario):
     if scenario == 'missing-page':
         # A valid VMA whose process translation has an unavailable page.
         data[table+16*(4 if arch == 'x86' else 8):table+17*(4 if arch == 'x86' else 8)] = bytes(4 if arch == 'x86' else 8)
+    # A real init_task sentinel and list make the same byte-backed task usable
+    # for full native/plugin orchestration, without substituting a task walker.
+    for at,nxt,prev in [(0x5028,0x1028,0x1028),(0x1028,0x5028,0x5028)]:
+        word(at,nxt);word(at+width,prev)
+    banner = b'Linux version gomem-regex-oracle\n'
+    data[0x6000:0x6000+len(banner)] = banner
+    isf['symbols'] = dict(init_task=dict(address=0x5000),linux_banner=dict(address=0x6000,
+        constant_data=base64.b64encode(banner+b'\0').decode()))
     return isf, bytes(data)
 
 
@@ -204,7 +215,9 @@ def generate(source):
                         for parts,end in process._scan_iterator(RegExScanner(b'MATCH'),sections)]
                 runner = SimpleNamespace(context=context,config={'maxsize':4},MAXSIZE_DEFAULT=VmaRegExScan.MAXSIZE_DEFAULT,_progress_callback=lambda *_:None)
                 expected = rows(VmaRegExScan._generator(runner,pattern,[task]))
-            vmas.append(dict(name=name,arch=arch,pattern=pattern,configured_maxsize=4,isf=isf,size=len(data),writes=sparse(data),sections=sections,mappings=mappings,chunks=chunks,**expected))
+            kernel_runner = SimpleNamespace(context=context)
+            kernel_generic = rows(RegExScan._generator(kernel_runner,context,'kernel',pattern,4))
+            vmas.append(dict(name=name,arch=arch,pattern=pattern,configured_maxsize=4,isf=isf,size=len(data),writes=sparse(data),sections=sections,mappings=mappings,chunks=chunks,kernel_generic=kernel_generic,**expected))
     # Fail generation if the fixture stops reaching the methods it intends to
     # exercise. These are reference expectations, not native acceptance claims.
     for arch in ('x86','pae','x64'):

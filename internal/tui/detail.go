@@ -187,6 +187,7 @@ func specView(st styles, spec plugin.Spec, width int) string {
 		f.add("upstream", spec.Upstream)
 	}
 	f.add("needs kernel", fmt.Sprint(spec.NeedsKernel))
+	f.add("needs translation", fmt.Sprint(spec.NeedsTranslation || spec.NeedsKernel))
 	if len(spec.Dependencies) > 0 {
 		f.add("depends on", strings.Join(spec.Dependencies, "\n"))
 	}

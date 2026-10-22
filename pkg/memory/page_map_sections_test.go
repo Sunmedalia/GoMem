@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"os"
 	"reflect"
 	"testing"
@@ -102,5 +103,27 @@ func TestPageMapSectionCanonicalTailAndValidation(t *testing.T) {
 		if err == nil {
 			t.Fatal("invalid section accepted", section)
 		}
+	}
+}
+
+func TestPageMapSharedProgressStopsBeforeTableAcquisition(t *testing.T) {
+	data := make([]byte, 0x5000)
+	installX64(data, 0x1000, 0x4000, 3)
+	reader := &mappingCountingLayer{MemoryLayer: raw(t, data)}
+	intel, _ := NewIntelForOS(reader, 0, "x64", "linux", 1)
+	sentinel := errors.New("shared table budget")
+	var last PageMapStats
+	_, err := intel.VisitPageMappings(context.Background(), PageMapOptions{MaxTables: 10, MaxEntries: 100, Sections: []Range{{Start: 0x1000, Length: 16}}, OnProgress: func(stats PageMapStats) error {
+		if stats.Tables < last.Tables || stats.Entries < last.Entries {
+			t.Fatal("nonmonotonic progress")
+		}
+		last = stats
+		if stats.Tables == 2 {
+			return sentinel
+		}
+		return nil
+	}}, func(PageMapping) error { t.Fatal("emitted after progress stop"); return nil })
+	if !errors.Is(err, sentinel) || reader.calls != 1 {
+		t.Fatal("acquired table after shared budget stop", reader.calls, err)
 	}
 }

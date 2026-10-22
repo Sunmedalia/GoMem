@@ -1,10 +1,10 @@
 # Native byte regex core (development preview)
 
-`pkg/byteregex` provides the native matching core for the pending generic and
-Linux VMA regex commands. It has no external regex dependency and does not use
+`pkg/byteregex` provides the native matching core for the generic and Linux VMA
+regex commands. It has no external regex dependency and does not use
 Python at runtime. This package alone does not implement either plugin or
-establish full Python `re` compatibility. Both commands remain missing in the
-capability matrix until their acquisition pipelines are implemented and tested.
+establish full Python `re` compatibility. The commands are partial, with their
+separate [acquisition/plugin validation](regex-scanning.md).
 
 ## Matching semantics
 
@@ -65,7 +65,8 @@ caller deadlines, cumulative iteration budgets, concurrent reuse of a compiled
 program, emitter failure and cancellation on emission. Fuzzing covers parser
 entry and execution under bounded input and work, checking match bounds,
 ordering and empty-match progression. These checks validate this core's tested
-semantics; real-image plugin comparisons and release acceptance remain pending.
+semantics; selected real-image plugin comparisons are recorded separately, and
+release acceptance remains pending.
 See the [machine-readable validation record](byte-regex-validation.json).
 
 ```sh

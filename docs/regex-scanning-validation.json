@@ -1,0 +1,248 @@
+{
+  "schema": "gomem.regex-scanning-validation/v1",
+  "release": "development-preview",
+  "status": "partial",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "plugins": [
+    "regexscan",
+    "linux.vmaregexscan"
+  ],
+  "synthetic": {
+    "reference_python": "3.12",
+    "scanner_cases": 35,
+    "paged_vma_cases": 42,
+    "paged_kernel_cases": 42,
+    "vma_rows": 75,
+    "kernel_rows": 147,
+    "intel_iterator_plans": 17,
+    "complete_span_cases": 12580,
+    "utf8_decoding_inputs": 80093,
+    "scope": "Actual pinned generators compared with native engine, selected fields and order; original bytes, seals, storage and cache verified. Finite cases do not establish full compatibility."
+  },
+  "real_controls": [
+    {
+      "name": "linux-vma-elf",
+      "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "dtb": "0x1605000",
+      "plugin": "linux.vmaregexscan.VmaRegExScan",
+      "reference_parameters": [
+        "--pid",
+        "1",
+        "--pattern",
+        "\\x7fELF",
+        "--maxsize",
+        "4"
+      ],
+      "reference_python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]",
+      "task_status": "failed-partial",
+      "coverage_failures": 44,
+      "failure_unit": "unmapped VMA spans",
+      "selected_fields": [
+        "PID",
+        "Process",
+        "Offset",
+        "Text",
+        "Hex"
+      ],
+      "native_rows": 8,
+      "reference_rows": 8,
+      "matched": true,
+      "native_input_rows": 983,
+      "original_image_audit": {
+        "Reads": 651,
+        "Chunks": 128,
+        "Matches": 8,
+        "ContextParts": 8,
+        "HardwareProofs": 8,
+        "Disagreements": 0,
+        "UnavailableProofs": 0
+      },
+      "local_artifact_directory": ".cache/regexscan-validation",
+      "artifact_sha256": {
+        "native-linux-vma-elf.jsonl": "ce7ba855c7789654d4c8b5ede5ed0f740e2bbd3efe0c1db7043c185b4cc3ba0c",
+        "reference-linux-vma-elf.json": "c0539795132445c5dc8e4dc0c34e421c827d56781d81a7c4b261d5f24ed765e2",
+        "reference-linux-vma-elf.config.json": "9f47c33c32328372fb0dd0140f9ae4bb28dc74b23db4ad0d3d9370e88e07fc5c",
+        "reference-linux-vma-elf.manifest.json": "a143216c086b75a623d75f6e1031658bf66db449d52c026aa2322bde9ad492da",
+        "diff-linux-vma-elf.json": "f9ce5803567d60ffe9fd067f0fdaa12f9fa682c74d13e02120ae6a46ea49584e",
+        "audit-linux-vma-elf.json": "6fa66e130dc44383e53b7e96e8681c920150200ca07e0bbc622656917f1069e2"
+      },
+      "native_parameters": {
+        "pattern": "\\x7fELF",
+        "maxsize": "4",
+        "pid": "1"
+      },
+      "native_coverage": {
+        "Chunks": 128,
+        "Completed": false,
+        "DetailedDiagnostics": 44,
+        "Diagnostics": 44,
+        "Entries": 2184,
+        "Mappings": 129,
+        "Matches": 8,
+        "OmittedDiagnostics": 0,
+        "PhysicalRequestedBytes": 1119032,
+        "ProofPages": 8,
+        "Spaces": 1,
+        "Tables": 68,
+        "UnavailableMappings": 0
+      }
+    },
+    {
+      "name": "linux-kernel",
+      "image_sha256": "8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc",
+      "dtb": "0x1605000",
+      "plugin": "regexscan.RegExScan",
+      "reference_parameters": [
+        "--pattern",
+        "Linux version 3\\.2\\.0-4-amd64",
+        "--maxsize",
+        "32"
+      ],
+      "reference_python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]",
+      "task_status": "failed-partial",
+      "coverage_failures": 33351,
+      "failure_unit": "unavailable physical mapping observations; not missing-page count",
+      "selected_fields": [
+        "Offset",
+        "Text",
+        "Hex"
+      ],
+      "native_rows": 4,
+      "reference_rows": 4,
+      "matched": true,
+      "native_input_rows": 5675,
+      "original_image_audit": {
+        "Reads": 129,
+        "Chunks": 738,
+        "Matches": 4,
+        "ContextParts": 4,
+        "HardwareProofs": 4,
+        "Disagreements": 0,
+        "UnavailableProofs": 0
+      },
+      "local_artifact_directory": ".cache/regexscan-validation",
+      "artifact_sha256": {
+        "native-linux-kernel.jsonl": "021a83384bb44ff985377b59e1b6d47ce981fba59714dca26b2a8298c65d7974",
+        "reference-linux-kernel.json": "43a6fdd33346850032804e559a98f93d3d34a78e799336f341d6a62245a7a004",
+        "reference-linux-kernel.config.json": "f2fca4b279e9c1fe8cf911b559274f865240c5855c77d3be2b5d9fbf23a1ac76",
+        "reference-linux-kernel.manifest.json": "de5d33706dd8053e183cd048fa1e3d2d8e7c2934e5f8fbaa299abff47a09ab89",
+        "diff-linux-kernel.json": "4995ec08027a5b11c9b9ec5632f594e6d82c85a6b05a7d11eb2f7add81793bca",
+        "audit-linux-kernel.json": "377f98a782256f91fb652e694d6a32a2bfcb270cbf58e08f96a2a00a795c91a6"
+      },
+      "native_parameters": {
+        "pattern": "Linux version 3\\.2\\.0-4-amd64",
+        "maxsize": "32"
+      },
+      "native_coverage": {
+        "Chunks": 738,
+        "Completed": false,
+        "DetailedDiagnostics": 4096,
+        "Diagnostics": 33351,
+        "Entries": 54798,
+        "Mappings": 710,
+        "Matches": 4,
+        "OmittedDiagnostics": 29255,
+        "PhysicalRequestedBytes": 562790528,
+        "ProofPages": 4,
+        "Spaces": 1,
+        "Tables": 122,
+        "UnavailableMappings": 33351
+      }
+    },
+    {
+      "name": "windows-kernel",
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "dtb": "0x6d4000",
+      "plugin": "regexscan.RegExScan",
+      "reference_parameters": [
+        "--pattern",
+        "This program cannot be run in DOS mode",
+        "--maxsize",
+        "64"
+      ],
+      "reference_python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]",
+      "task_status": "failed-partial",
+      "coverage_failures": 660,
+      "failure_unit": "unavailable physical mapping observations; not missing-page count",
+      "selected_fields": [
+        "Offset",
+        "Text",
+        "Hex"
+      ],
+      "native_rows": 200,
+      "reference_rows": 200,
+      "matched": true,
+      "native_input_rows": 144718,
+      "original_image_audit": {
+        "Reads": 7131,
+        "Chunks": 68363,
+        "Matches": 200,
+        "ContextParts": 200,
+        "HardwareProofs": 200,
+        "Disagreements": 0,
+        "UnavailableProofs": 0
+      },
+      "local_artifact_directory": ".cache/regexscan-validation",
+      "artifact_sha256": {
+        "native-windows-kernel.jsonl": "bd5ab30ccf94dcc4118d63a8b68da583028e716e38653a7cebb3556ed7848ec1",
+        "reference-windows-kernel.json": "3cc8a6ce53172b088282bc76ee64165088fbf39f80f49c8a6e40ed7f21286095",
+        "reference-windows-kernel.config.json": "de40f0fdcc3df0489e4f4cd9c9dca2fdc82ae7e801016b2e6b37d416d2a6ebe7",
+        "reference-windows-kernel.manifest.json": "7135f5e8ea4b1b0638df51c172ec062683497e3aed34d4645c9536b0d9bff4a3",
+        "diff-windows-kernel.json": "0ad6389d35d37a8b2af0165dfeb5fc0f68bafc238c3dc116c067375c5dda7aab",
+        "audit-windows-kernel.json": "07755238b5a014c7a2e49bbe095936df25fb279b1078e6ecad6281dc93f2c4ad"
+      },
+      "native_parameters": {
+        "pattern": "This program cannot be run in DOS mode",
+        "maxsize": "64"
+      },
+      "native_coverage": {
+        "Chunks": 68363,
+        "Completed": false,
+        "DetailedDiagnostics": 660,
+        "Diagnostics": 660,
+        "Entries": 562975,
+        "Mappings": 68562,
+        "Matches": 200,
+        "OmittedDiagnostics": 0,
+        "PhysicalRequestedBytes": 416764416,
+        "ProofPages": 200,
+        "Spaces": 1,
+        "Tables": 7064,
+        "UnavailableMappings": 660
+      }
+    }
+  ],
+  "checks": {
+    "targeted_engine_race": "pass",
+    "plugin_and_foundation_race": "pass",
+    "verifier_race": "pass",
+    "matrix": "pass",
+    "inode_mode_oracle_cases": 32768,
+    "regex_oracle": "pass",
+    "full_make_check": "pass; Go vet, full Go race suite, 39 Python unit tests and 428 UTF-8/argument fixtures",
+    "build": "pass; make build, Go 1.26.2",
+    "doctor_offline": "pass; release readiness remains false"
+  },
+  "fuzz": {
+    "target": "FuzzRegexPluginPipeline",
+    "seconds": 15,
+    "executions": 297229,
+    "result": "pass",
+    "scope": "Final production tree; bounded paged plugin pipeline and original-match byte checks"
+  },
+  "limitations": [
+    "All real regex tasks failed coverage and are not successful cache entries",
+    "Full OS/version and parameter coverage remains outstanding",
+    "ARM64 virtual scanning unsupported",
+    "Real macOS and Windows x86/PAE controls remain outstanding",
+    "Swap/prototype pages, locale flags, all exports and release performance acceptance remain outstanding"
+  ],
+  "physical_arm64_smoke": {
+    "image": "images/kali.raw",
+    "plugin": "linux.vmcoreinfo",
+    "entry_rows": 111,
+    "total_rows": 115,
+    "status": "completed",
+    "scope": "Physical metadata only; not ARM64 virtual regex support"
+  }
+}

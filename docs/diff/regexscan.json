@@ -1,0 +1,43 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "value": "regex_match",
+    "excluded_values": [
+      "address_space",
+      "scan_chunk",
+      "scan_mapping",
+      "metadata_read",
+      "metadata_page_table_read",
+      "page_table_read",
+      "translation_table_read",
+      "vma_section",
+      "process_skipped",
+      "process_unavailable",
+      "vma_unavailable",
+      "section_gap",
+      "mapping_unavailable",
+      "scan_summary"
+    ]
+  },
+  "native_evidence_parent_types": [
+    "scan_chunk"
+  ],
+  "fields": {
+    "Offset": {
+      "native": "Offset",
+      "reference": "Offset",
+      "kind": "address",
+      "mask": "0x0000ffffffffffff"
+    },
+    "Text": {
+      "native": "Text",
+      "reference": "Text",
+      "kind": "string"
+    },
+    "Hex": {
+      "native": "Hex",
+      "reference": "Hex",
+      "kind": "hex_bytes"
+    }
+  }
+}

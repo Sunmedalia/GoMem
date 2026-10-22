@@ -1,15 +1,14 @@
-# Byte-regex scanning reference (native implementation pending)
+# Byte-regex scanning reference
 
 `tools/build_regex_oracle.py` locks the unmodified v2.28.2 `RegExScanner`,
 `regexscan.RegExScan` generator and `linux.vmaregexscan.VmaRegExScan` generator.
 The source tree digest is checked before execution. The fixtures are
 `internal/engine/testdata/regex-oracle.json` and its digest-bound
 `byte-regex-semantics.jsonl`. This is implementation reference
-evidence; both plugin classes remain **missing** in the capability matrix.
-The [native matching core](byte-regex.md) is implemented separately; acquisition
-and plugin integration remain pending. The selected-range page walker,
-Intel chunk planner and native acquisition/matching stages are implemented
-as foundations; neither command is registered yet.
+evidence. Both native plugins are now **partial**; their integration and real
+controls are documented in [regex scanning](regex-scanning.md). The
+[native matching core](byte-regex.md), selected-range page walker, Intel chunk
+planner and acquisition/matching stages remain independently testable.
 
 Run with Python 3.12, matching CI:
 
@@ -79,11 +78,10 @@ compiled when all tasks are skipped. Mapped pages outside selected VMAs must
 not contribute scan matches. Upstream silently skips unavailable scan mappings;
 native analysis must additionally retain explicit incomplete-coverage evidence.
 
-Native plugin implementation, result-context
-acquisition, persistence of scan/page-table provenance, sealed storage/cache checks,
-failure tests, real-corpus comparisons and full renderer/export validation are
-still required. These reference cases do not justify a status upgrade or an
-acceptance claim.
+The plugin integration record separately covers context acquisition, original
+page-table provenance, sealed storage/cache checks, failures and selected real
+comparisons. These reference cases alone do not establish plugin or renderer/
+export acceptance.
 
 ## Native acquisition foundations
 
@@ -100,8 +98,8 @@ addresses and virtual scan coordinates, preserving the initial empty chunk for
 a nonzero first mapping. Callers must flatten x64 starts before planning and
 create a new planner per section. The planner performs no reads, buffering of
 image data, or regex matching. Chunk size plus overlap is bounded to 32 MiB;
-individual memory reads remain bounded to 16 MiB. Future acquisition must split
-larger parts into bounded reads and retain whole-part failure semantics.
+individual memory reads remain bounded to 16 MiB. Native acquisition splits
+larger parts into bounded reads and retains whole-part failure semantics.
 
 Native tests compare 42 VMA and 17 additional iterator plans against the actual
 baseline, including independent hardware translation of each planned read.
@@ -109,8 +107,8 @@ Selected-table tests prove exclusion of an unrelated missing child and clipping
 of a partially available physical page. Tests cover cancellation, emitter errors,
 chunk bounds, invalid/overflowing/unordered intervals and closed-planner reuse.
 The planner fuzz invariant checks every chunk's source correspondence and exact
-coverage/overlap count. These tests establish planning only; acquisition errors,
-scan digests and plugin results remain to be integrated and verified.
+coverage/overlap count. These tests establish planning only; acquisition and
+plugin results are covered by their separate integration tests.
 
 ## Native scan acquisition and matching
 
@@ -134,15 +132,15 @@ negative result.
 
 Tests compare 35 actual scanner cases and the scan offsets of 42 actual paged
 VMA generator cases, independently rereading original bytes for scan digests.
-These establish the scan stage; VMA traversal in the plugin, padded context
-acquisition, evidence storage,
-cache behavior and real-image differential validation are not covered by these scan-stage comparisons yet.
+These comparisons establish the scan stage. VMA traversal, padded context
+acquisition, evidence storage/cache and real controls are tested separately in
+the plugin integration record.
 Additional tests exercise a 16 MiB-plus part, failed prefixes, a fault on the
 second bounded read, cancellation, malformed reader counts, whole-plan
 validation, source attribution across discarded parts and match/output bounds.
 Fuzz targets check physical acquisition correspondence and the acquisition-to-
 matching pipeline, including explicit partial coverage and every emitted source
-span. Neither regex plugin's matrix status is upgraded by these foundations.
+span. These foundations alone do not establish plugin acceptance.
 
 ## Result selection and text decoding
 

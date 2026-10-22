@@ -17,6 +17,7 @@ import (
 )
 
 type Parameter struct {
+	Required    bool   `json:"required,omitempty"`
 	Name        string `json:"name"`
 	Kind        string `json:"kind"`
 	Default     string `json:"default,omitempty"`
@@ -24,16 +25,17 @@ type Parameter struct {
 }
 type Spec struct {
 	// ExternalSymbols requires fresh execution until all runtime symbol dependencies can be revalidated.
-	ExternalSymbols bool              `json:"external_symbols,omitempty"`
-	Name            string            `json:"name"`
-	Description     string            `json:"description"`
-	Upstream        string            `json:"upstream,omitempty"`
-	Platform        string            `json:"platform,omitempty"`
-	Parameters      []Parameter       `json:"parameters,omitempty"`
-	Columns         []evidence.Column `json:"columns"`
-	NeedsKernel     bool              `json:"needs_kernel"`
-	Dependencies    []string          `json:"dependencies,omitempty"`
-	InputFiles      []FileInput       `json:"input_files,omitempty"`
+	ExternalSymbols  bool              `json:"external_symbols,omitempty"`
+	Name             string            `json:"name"`
+	Description      string            `json:"description"`
+	Upstream         string            `json:"upstream,omitempty"`
+	Platform         string            `json:"platform,omitempty"`
+	Parameters       []Parameter       `json:"parameters,omitempty"`
+	Columns          []evidence.Column `json:"columns"`
+	NeedsTranslation bool              `json:"needs_translation,omitempty"`
+	NeedsKernel      bool              `json:"needs_kernel"`
+	Dependencies     []string          `json:"dependencies,omitempty"`
+	InputFiles       []FileInput       `json:"input_files,omitempty"`
 }
 
 // FileInput names a path/URI parameter whose immutable contents are part of the
@@ -116,6 +118,9 @@ func Parameters(s Spec, in map[string]string) (map[string]string, error) {
 	out := make(map[string]string)
 	defs := make(map[string]Parameter)
 	for _, d := range s.Parameters {
+		if _, supplied := in[d.Name]; d.Required && !supplied {
+			return nil, fmt.Errorf("%s requires parameter %s", s.Name, d.Name)
+		}
 		defs[d.Name] = d
 		out[d.Name] = d.Default
 	}

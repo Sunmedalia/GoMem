@@ -30,7 +30,10 @@ type PageMapOptions struct {
 	// baseline's default whole-space range (which excludes its final byte).
 	// A non-nil empty slice selects nothing. Explicit intervals can include the
 	// final byte and are clipped before physical availability is checked.
-	Sections             []Range
+	Sections []Range
+	// OnProgress observes table/entry counters before the corresponding work.
+	// It can enforce a shared budget across nested walks and stop immediately.
+	OnProgress           func(PageMapStats) error
 	OnReadError          func(uint64, error) error
 	OnUnavailableMapping func(PageMapping) error
 }
@@ -165,6 +168,11 @@ func (w *pageMapWalk) read(at uint64) ([]byte, error) {
 		return nil, fmt.Errorf("page map table limit exhausted")
 	}
 	w.stats.Tables++
+	if w.options.OnProgress != nil {
+		if err := w.options.OnProgress(w.stats); err != nil {
+			return nil, err
+		}
+	}
 	raw, err := Read(w.ctx, w.intel.physical, at, 4096)
 	if err == nil {
 		return raw, nil
@@ -256,6 +264,11 @@ func (w *pageMapWalk) walk(depth int, table []byte, base uint64) error {
 			return fmt.Errorf("page map entry limit exhausted")
 		}
 		w.stats.Entries++
+		if w.options.OnProgress != nil {
+			if err := w.options.OnProgress(w.stats); err != nil {
+				return err
+			}
+		}
 		entry := tableEntry(table, index, w.width)
 		if _, ok := w.intel.entryMapped(entry); !ok {
 			continue

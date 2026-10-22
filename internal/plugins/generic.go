@@ -30,6 +30,8 @@ func Register(r *plugin.Registry) error {
 		{plugin.Spec{Name: "generic.strings", Description: "Bounded printable ASCII strings with physical offsets", Parameters: []plugin.Parameter{{Name: "min", Kind: "uint", Default: "8", Description: "Minimum length, 1..4096"}}, Columns: []evidence.Column{{Name: "Offset", Kind: "address"}, {Name: "Text", Kind: "string"}, {Name: "Truncated", Kind: "string"}}}, ascii},
 		{plugin.Spec{Name: "generic.ioc", Description: "Exact literal byte search; overlap-safe, no regex or YARA", Parameters: []plugin.Parameter{{Name: "needle", Kind: "string", Description: "Nonempty UTF-8 literal, at most 4096 bytes"}}, Columns: []evidence.Column{{Name: "Offset", Kind: "address"}, {Name: "Match", Kind: "bytes"}}}, ioc},
 	}
+	specs = append(specs, regexPlugins()...)
+	specs = append(specs, linuxVMARegexPlugins()...)
 	specs = append(specs, processPlugins()...)
 	specs = append(specs, modulePlugins()...)
 	specs = append(specs, linuxModuleExtractPlugins()...)

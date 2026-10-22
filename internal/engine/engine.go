@@ -327,6 +327,9 @@ func (e *Engine) Check(ctx context.Context, s plugin.Spec) error {
 		return err
 	}
 	if !s.NeedsKernel {
+		if s.NeedsTranslation && e.Env.Kernel == nil {
+			return fmt.Errorf("%s needs --dtb or a discovered translation layer", s.Name)
+		}
 		return nil
 	}
 	if e.WindowsDiscoveryError != nil {
@@ -485,7 +488,7 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 	for k, v := range map[string]string{"arch": e.Config.Arch, "dtb": e.Config.DTB, "kernel-base": fmt.Sprintf("%#x", e.Config.KernelBase), "kernel-slide": fmt.Sprintf("%#x", e.Config.KernelSlide), "os": e.Env.OS} {
 		provenance.Parameters["engine."+k] = v
 	}
-	if spec.NeedsKernel {
+	if spec.NeedsKernel || spec.NeedsTranslation {
 		provenance.Layer = e.Env.Kernel.Name()
 	}
 	if e.Env.Symbols != nil {

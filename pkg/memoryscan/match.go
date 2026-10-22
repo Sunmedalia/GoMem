@@ -54,6 +54,9 @@ func Find(ctx context.Context, re *byteregex.Regexp, b Buffer, maxStart int, lim
 		return out(Hit{Offset: at, Length: uint64(m.End - m.Start), Sources: sources, CoordinatesMatchSource: same})
 	})
 	if !b.Complete {
+		if err == nil {
+			return ErrIncomplete
+		}
 		return errors.Join(err, ErrIncomplete)
 	}
 	return err
