@@ -1,0 +1,51 @@
+{
+  "schema": "gomem.windows-rsds-validation/v1",
+  "release": "development-preview",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "oracle": {
+    "actual_generator_cases": 52,
+    "new_discovery_cases": 16,
+    "native_paging_combinations": 78,
+    "comparison": "nine columns, order, typed missing values, independently reread captures and sealed JSONL"
+  },
+  "fuzz": {
+    "target": "FuzzModuleRSDS",
+    "duration_seconds": 10,
+    "executions": 209299,
+    "result": "pass"
+  },
+  "bounds": {
+    "read_bytes": 4096,
+    "max_carry_bytes": 280,
+    "max_candidates": 16,
+    "max_candidate_utf8_bytes": 256,
+    "budget": "caller's shared cumulative acquisition limit"
+  },
+  "remaining": [
+    "real positive suspended-thread and unusual RSDS corpora",
+    "broad Windows version and arbitrary Unicode PDB coverage",
+    "runtime symbol dependency cache revalidation",
+    "full plugin acceptance"
+  ],
+  "real_negative": {
+    "threads": 1752,
+    "findings": 0,
+    "independently_reread_reads": 6098,
+    "captured_bytes": 37360,
+    "errors": 0,
+    "complete": true
+  },
+  "compiled_cli_recheck": {
+    "cases": 6,
+    "matched": true,
+    "exit_codes": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "scope": "original directory-absent/different-name/no-MZ/cross-page/exact-end/past-end reproductions"
+  }
+}

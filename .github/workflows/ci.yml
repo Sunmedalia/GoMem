@@ -133,6 +133,7 @@ jobs:
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxModuleELFSymbols -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxInodeTimestamp -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzLinuxUnixEndpoint -fuzztime 5s
+      - run: go test ./internal/engine -run '^$' -fuzz FuzzModuleRSDS -fuzztime 5s
       - run: go test ./internal/engine -run '^$' -fuzz FuzzMappedPE -fuzztime 5s
       - run: go test ./pkg/symbols -run '^$' -fuzz FuzzISF -fuzztime 5s
       - run: go test ./pkg/symbols -run '^$' -fuzz FuzzDWARF -fuzztime 5s

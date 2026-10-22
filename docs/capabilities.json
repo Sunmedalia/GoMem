@@ -10875,13 +10875,13 @@
           ]
         }
       ],
-      "applicability": "Active Windows Intel process/thread lists with readable owner objects, VADs, process page roots and exact kernel symbols. Nonzero Tcb.SuspendCount and Tcb.State != 4 select candidates; ExitTime is not a filter. Owner process fields and displayed CID PID remain distinct. File VAD lookup is inclusive and preserves preorder; module instances retain active process/preorder order. PDB-name candidates, exact GUID/Age and all-instance PDB-first lookup precede export fallback. WorkFoldersShell.dll exclusion is case-sensitive. Raw reads, acquisition errors, module/table digests and coverage are retained. Tasks with dynamic module symbols execute fresh until dependency-aware cache revalidation is implemented.",
+      "applicability": "Active Windows Intel process/thread lists with readable owner objects, VADs, process page roots and exact kernel symbols. Nonzero Tcb.SuspendCount and Tcb.State != 4 select candidates; ExitTime is not a filter. Owner process fields and displayed CID PID remain distinct. File VAD lookup is inclusive and preserves preorder; module instances retain active process/preorder order. PDB-name candidates, bounded module-range RSDS scans, first GUID per candidate, exact GUID/Age and all-instance PDB-first lookup precede export fallback. WorkFoldersShell.dll exclusion is case-sensitive. Raw reads, acquisition errors, module/table digests and coverage are retained. Tasks with dynamic module symbols execute fresh until dependency-aware cache revalidation is implemented.",
       "native": "windows.suspended_threads",
       "status": "partial",
       "accepted": false,
       "corpora": [
-        "pinned-suspended-generator-36-paged-object-cases",
-        "synthetic-x86-pae-x64-54-cases",
+        "pinned-suspended-generator-52-paged-object-cases",
+        "synthetic-x86-pae-x64-78-cases",
         "official-windows-10-19041-negative-control"
       ],
       "comparison": "nine_columns_order_missing_values_and_raw_captures_match;real_1752_threads_0_suspended_6098_reads_reread",

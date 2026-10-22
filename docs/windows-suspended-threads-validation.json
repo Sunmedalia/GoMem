@@ -3,8 +3,8 @@
   "release": "development-preview",
   "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
   "oracle": {
-    "actual_unmodified_generator_cases": 36,
-    "native_paging_combinations": 54,
+    "actual_unmodified_generator_cases": 52,
+    "native_paging_combinations": 78,
     "architectures": [
       "x86",
       "pae",
@@ -55,5 +55,19 @@
     "paths": 1109,
     "context_strings": 87,
     "scalar_values": 1112064
+  },
+  "rsds_discovery": {
+    "record": "docs/windows-rsds.md",
+    "additional_actual_generator_cases": 16,
+    "boundaries": [
+      "absent directory",
+      "different directory name",
+      "absent MZ",
+      "cross-page record",
+      "exact module end",
+      "one byte past end",
+      "first GUID only",
+      "candidate priority"
+    ]
   }
 }

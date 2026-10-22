@@ -59,6 +59,7 @@ fuzz:
 	$(GO) test ./pkg/memory -run '^$$' -fuzz FuzzDetect -fuzztime 10s
 	$(GO) test ./pkg/memory -run '^$$' -fuzz FuzzAVML -fuzztime 10s
 	$(GO) test ./pkg/memory -run '^$$' -fuzz FuzzSnappyBlock -fuzztime 10s
+	$(GO) test ./internal/engine -run '^$$' -fuzz FuzzModuleRSDS -fuzztime 10s
 	$(GO) test ./internal/engine -run '^$$' -fuzz FuzzMappedPE -fuzztime 10s
 	$(GO) test ./pkg/symbols -run '^$$' -fuzz FuzzISF -fuzztime 10s
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzLinuxIDTDescriptor -fuzztime 10s

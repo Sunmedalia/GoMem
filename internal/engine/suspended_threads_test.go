@@ -45,7 +45,7 @@ func suspendedOracleCases(t *testing.T) []suspendedOracleCase {
 	if err = json.Unmarshal(raw, &fixture); err != nil {
 		t.Fatal(err)
 	}
-	if fixture.Commit != "881e970121c16f0932fb9d16fbd5fb258cbcbf75" || len(fixture.Cases) != 36 {
+	if fixture.Commit != "881e970121c16f0932fb9d16fbd5fb258cbcbf75" || len(fixture.Cases) != 52 {
 		t.Fatal("fixture drift")
 	}
 	return fixture.Cases

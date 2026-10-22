@@ -118,6 +118,29 @@ def fixture(width, scenario):
     kernel_image[0x1918:0x1924] = b'kernel.pdb\0\0'
     data[0x10000:0x10000+len(kernel_image)] = kernel_image
     kernel = dict(metadata=dict(format='6.2.0', windows=dict(pdb=dict(database='kernel.pdb', GUID='13'*16, age=1, machine_type=0x8664 if width == 8 else 0x14c))), base_types=bases, user_types=types, enums={}, symbols={'PsActiveProcessHead':dict(address=0x8080)})
+    # Alter only the collected user module; kernel identity stays independently
+    # verifiable, including the control with no resident user-module PE header.
+    base = 0x100000
+    if scenario == 'rsds-directory-absent':
+        data[base+debug:base+debug+8] = bytes(8)
+    elif scenario == 'rsds-different-directory-name':
+        data[base+0x1918:base+0x1924] = b'other.pdb\0\0\0'
+        data[base+0x1b00:base+0x1b00+len(record)] = record
+    elif scenario == 'rsds-no-mz':
+        data[base:base+2] = b'ZZ'
+    elif scenario in ('rsds-cross-page', 'rsds-exact-end', 'rsds-past-end'):
+        data[base+0x1900:base+0x1900+len(record)] = bytes(len(record))
+        relative = {'rsds-cross-page': 0x1ff0, 'rsds-exact-end': 0x4000-len(record), 'rsds-past-end': 0x4001-len(record)}[scenario]
+        data[base+relative:base+relative+len(record)] = record
+    elif scenario == 'rsds-first-guid-only':
+        wrong = bytearray(record)
+        wrong[4:20] = bytes([0x14])*16
+        data[base+0x1800:base+0x1800+len(wrong)] = wrong
+    elif scenario == 'rsds-candidate-priority':
+        data[base+0x1904:base+0x1914] = bytes([0x14])*16
+        upper = b'RSDS'+guid+(1).to_bytes(4,'little')+b'Fixture.pdb\0'
+        data[base+0x1b00:base+0x1b00+len(upper)] = upper
+        pdb['metadata']['windows']['pdb']['database'] = 'Fixture.pdb'
     return kernel, pdb, data
 
 
@@ -136,7 +159,7 @@ def generate(source):
     cases = []
     try:
         for width in (4, 8):
-            for scenario in ('normal', 'running', 'terminated', 'different-owner', 'cid-mismatch', 'xp-owner', 'exited-suspended', 'no-vads', 'relative-name', 'unmapped', 'exact-end', 'exception', 'lowercase-exception', 'export-fallback', 'nearest-not-exact', 'sharp-s-name', 'short-unicode-name', 'unc-share-only'):
+            for scenario in ('normal', 'running', 'terminated', 'different-owner', 'cid-mismatch', 'xp-owner', 'exited-suspended', 'no-vads', 'relative-name', 'unmapped', 'exact-end', 'exception', 'lowercase-exception', 'export-fallback', 'nearest-not-exact', 'sharp-s-name', 'short-unicode-name', 'unc-share-only', 'rsds-directory-absent', 'rsds-different-directory-name', 'rsds-no-mz', 'rsds-cross-page', 'rsds-exact-end', 'rsds-past-end', 'rsds-first-guid-only', 'rsds-candidate-priority'):
                 kernel, pdb, data = fixture(width, scenario)
                 ctx = contexts.Context()
                 ctx.layers.add_layer(BufferDataLayer(ctx, 'physical', 'physical', bytes(data)))
