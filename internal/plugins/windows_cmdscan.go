@@ -42,6 +42,7 @@ type cmdScan struct {
 	owner                                         map[string]evidence.Value
 	catalog                                       *winconsole.CatalogData
 	selected                                      winconsole.Selection
+	console                                       *consoleScanOptions
 	maxNodes, maxRegions, maxCandidates, maxSlots uint64
 	regions, candidates, histories                uint64
 	mapTables, mapEntries, maxTables, maxEntries  uint64
@@ -60,9 +61,15 @@ func (s *cmdScan) emit(row evidence.Row) error {
 	}
 	return s.a.emit(row)
 }
+func (s *cmdScan) name() string {
+	if s.console != nil {
+		return "consoles"
+	}
+	return "cmdscan"
+}
 func (s *cmdScan) diagnostic(kind string, at uint64, err error) error {
 	s.a.failures.add(err)
-	return s.emit(evidence.Row{Cells: map[string]evidence.Value{"RecordType": evidence.Text(kind), "Offset": evidence.Address(at), "Error": evidence.Missing("cmdscan_incomplete", err)}})
+	return s.emit(evidence.Row{Cells: map[string]evidence.Value{"RecordType": evidence.Text(kind), "Offset": evidence.Address(at), "Error": evidence.Missing(s.name()+"_incomplete", err)}})
 }
 func (s *cmdScan) traced(layer memory.MemoryLayer, raw int) memory.MemoryLayer {
 	return poolScannerLayer{MemoryLayer: layer, a: s.a, ranges: layer.Ranges(), rawLimit: raw}
@@ -70,11 +77,11 @@ func (s *cmdScan) traced(layer memory.MemoryLayer, raw int) memory.MemoryLayer {
 func (s *cmdScan) environment(e plugin.Environment) (plugin.Environment, error) {
 	v, ok := e.Kernel.(*memory.Virtual)
 	if !ok {
-		return e, fmt.Errorf("cmdscan requires native Intel kernel translation")
+		return e, fmt.Errorf("%s requires native Intel kernel translation", s.name())
 	}
 	original, ok := v.Translator.(*memory.Intel)
 	if !ok {
-		return e, fmt.Errorf("cmdscan requires Intel translation")
+		return e, fmt.Errorf("%s requires Intel translation", s.name())
 	}
 	physical := s.traced(e.Physical, 4096)
 	paging, err := memory.NewIntelForOS(physical, original.Root(), e.Architecture, e.OS, 1024)
@@ -103,8 +110,11 @@ func parseCmdHistory(text string) ([]uint64, error) {
 	return out, nil
 }
 func windowsCmdScan(ctx context.Context, e plugin.Environment, p map[string]string, out plugin.Emit) error {
+	return windowsConhostRun(ctx, e, p, out, nil)
+}
+func windowsConhostRun(ctx context.Context, e plugin.Environment, p map[string]string, out plugin.Emit, console *consoleScanOptions) error {
 	a := &poolScannerAnalysis{ctx: ctx}
-	s := &cmdScan{a: a}
+	s := &cmdScan{a: a, console: console}
 	a.out = out
 	// Read captures pass through the same owner/layout enrichment as properties.
 	originalOut := out
@@ -145,7 +155,7 @@ func windowsCmdScan(ctx context.Context, e plugin.Environment, p map[string]stri
 		return err
 	}
 	if e.Physical == nil || e.Objects == nil || e.Symbols == nil {
-		return fmt.Errorf("cmdscan requires physical memory and kernel symbols")
+		return fmt.Errorf("%s requires physical memory and kernel symbols", s.name())
 	}
 	s.env, err = s.environment(e)
 	if err != nil {
@@ -159,15 +169,28 @@ func windowsCmdScan(ctx context.Context, e plugin.Environment, p map[string]stri
 			}
 		}
 	}
+	if !noRegistry && s.console != nil {
+		s.console.buffers, err = s.registrySetting(ctx, s.console.buffers, "NumberOfHistoryBuffers", "registry_buffer_count")
+		if err != nil {
+			if stop := s.diagnostic("registry_unavailable", 0, err); stop != nil {
+				return stop
+			}
+		}
+	}
+
 	err = visitWindowsProcesses(ctx, s.env, int(s.maxNodes), nil, func(process, pid uint64, name string, created evidence.Value) error {
 		// CmdScan.run's original process filter is case sensitive.
-		if name != "conhost.exe" {
+		if (s.console == nil && name != "conhost.exe") || (s.console != nil && !strings.EqualFold(name, "conhost.exe")) {
 			return nil
 		}
 		identity := evidence.ProcessID(e.ImageHash, e.Kernel.Name(), process, pid, identityTime(created))
 		s.owner = map[string]evidence.Value{"PID": evidence.Number(pid), "Process": evidence.Text(name), "ProcessOffset": evidence.Address(process), "ProcessIdentity": evidence.Text(identity)}
 		defer func() { s.owner = nil }()
-		if err := s.process(ctx, process, identity, histories); err != nil {
+		run := s.process
+		if s.console != nil {
+			run = s.consoleProcess
+		}
+		if err := run(ctx, process, identity, histories); err != nil {
 			if a.stop != nil || ctx.Err() != nil {
 				return err
 			}
@@ -175,17 +198,26 @@ func windowsCmdScan(ctx context.Context, e plugin.Environment, p map[string]stri
 		}
 		return nil
 	})
-	cause := errors.Join(err, a.stop, a.failures.err("cmdscan reads and coverage"))
+	cause := errors.Join(err, a.stop, a.failures.err(s.name()+" reads and coverage"))
 	if a.stop != nil || ctx.Err() != nil {
 		return errors.Join(cause, ctx.Err())
 	}
-	row := evidence.Row{Cells: map[string]evidence.Value{"RecordType": evidence.Text("task_summary"), "Coverage": {Kind: "structure", Data: map[string]evidence.Value{"Regions": evidence.Number(s.regions), "Candidates": evidence.Number(s.candidates), "Histories": evidence.Number(s.histories), "Reads": evidence.Number(a.reads), "RequestedBytes": evidence.Number(a.requested), "Completed": evidence.Bool(cause == nil)}}}}
+	coverage := map[string]evidence.Value{"Regions": evidence.Number(s.regions), "Candidates": evidence.Number(s.candidates), "Reads": evidence.Number(a.reads), "RequestedBytes": evidence.Number(a.requested), "Completed": evidence.Bool(cause == nil)}
+	countName := "Histories"
+	if s.console != nil {
+		countName = "Consoles"
+	}
+	coverage[countName] = evidence.Number(s.histories)
+	row := evidence.Row{Cells: map[string]evidence.Value{"RecordType": evidence.Text("task_summary"), "Coverage": {Kind: "structure", Data: coverage}}}
 	if cause != nil {
-		row.Cells["Error"] = evidence.Missing("cmdscan_incomplete", cause)
+		row.Cells["Error"] = evidence.Missing(s.name()+"_incomplete", cause)
 	}
 	return errors.Join(cause, s.emit(row))
 }
 func (s *cmdScan) registry(ctx context.Context, values []uint64) ([]uint64, error) {
+	return s.registrySetting(ctx, values, "HistoryBufferSize", "registry_history_size")
+}
+func (s *cmdScan) registrySetting(ctx context.Context, values []uint64, setting, record string) ([]uint64, error) {
 	layout, err := windowsHiveLayout(s.env)
 	if err != nil {
 		return values, err
@@ -226,7 +258,7 @@ func (s *cmdScan) registry(ctx context.Context, values []uint64) ([]uint64, erro
 			entries, err := h.Values(ctx, key)
 			failures.add(err)
 			for _, v := range entries {
-				if v.Name != "HistoryBufferSize" {
+				if v.Name != setting {
 					continue
 				}
 				if v.DataErr != nil {
@@ -242,7 +274,7 @@ func (s *cmdScan) registry(ctx context.Context, values []uint64) ([]uint64, erro
 				case v.Type == 11 && len(v.Data) == 8:
 					n = binary.LittleEndian.Uint64(v.Data)
 				default:
-					failures.add(fmt.Errorf("unsupported Console HistoryBufferSize registry type/length %d/%d", v.Type, len(v.Data)))
+					failures.add(fmt.Errorf("unsupported Console %s registry type/length %d/%d", setting, v.Type, len(v.Data)))
 					continue
 				}
 				if n > 65535 {
@@ -250,7 +282,7 @@ func (s *cmdScan) registry(ctx context.Context, values []uint64) ([]uint64, erro
 					continue
 				}
 				set[n] = true
-				if err := s.emit(evidence.Row{Cells: map[string]evidence.Value{"RecordType": evidence.Text("registry_history_size"), "Offset": evidence.Address(v.Address), "Data": evidence.Text(strconv.FormatUint(n, 10)), "Raw": evidence.Bytes(v.Data), "HiveOffset": evidence.Address(item.Address), "RegistryCellIndex": evidence.Number(uint64(v.Index))}, Provenance: evidence.Provenance{Layer: s.env.Kernel.Name(), Offset: fmt.Sprintf("0x%x", item.Address)}}); err != nil {
+				if err := s.emit(evidence.Row{Cells: map[string]evidence.Value{"RecordType": evidence.Text(record), "Offset": evidence.Address(v.Address), "Data": evidence.Text(strconv.FormatUint(n, 10)), "Raw": evidence.Bytes(v.Data), "HiveOffset": evidence.Address(item.Address), "RegistryCellIndex": evidence.Number(uint64(v.Index))}, Provenance: evidence.Provenance{Layer: s.env.Kernel.Name(), Offset: fmt.Sprintf("0x%x", item.Address)}}); err != nil {
 					return values, err
 				}
 			}

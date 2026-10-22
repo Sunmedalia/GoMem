@@ -38,6 +38,7 @@ func Register(r *plugin.Registry) error {
 	specs = append(specs, windowsNetStatPlugins()...)
 	specs = append(specs, windowsCallbackPlugins()...)
 	specs = append(specs, windowsCmdScanPlugins()...)
+	specs = append(specs, windowsConsolesPlugins()...)
 	specs = append(specs, processPlugins()...)
 	specs = append(specs, modulePlugins()...)
 	specs = append(specs, linuxModuleExtractPlugins()...)

@@ -1,0 +1,185 @@
+{
+  "schema": 1,
+  "status": "partial",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "native": "windows.consoles",
+  "scope": "Native measured conhost layout, first-executable VAD acquisition, registry history/buffer discovery, console candidate validation and complete console/process/alias/active-history/screen property trees; no full capability acceptance",
+  "matrix": {
+    "plugins": 195,
+    "partial": 149,
+    "missing": 46,
+    "accepted": 0
+  },
+  "synthetic": {
+    "complete_original_generators": 156,
+    "selected_layouts": 10,
+    "measured_build_revision_selections": 12,
+    "scenarios": [
+      "command-hole",
+      "empty-commands",
+      "empty-histories",
+      "empty-title",
+      "history-cycle",
+      "normal",
+      "screen-cells-hole",
+      "title-hole",
+      "unused-command",
+      "uppercase-process",
+      "zero-count",
+      "zero-last",
+      "zero-screen"
+    ],
+    "comparison": "Six display fields, missing reasons, depth and full emitted parent paths match original complete generators",
+    "fixture_sha256": "06f2980bee9ed31f8723382c986a4a4ff16d6dfaf8bc902a9a0249852a9520ec",
+    "original_methods_unmodified": true,
+    "actual_process_vad_and_intel_paging": true,
+    "raw_reads_independently_reread": true,
+    "bounds_cancel_emitter_and_failed_registry_controls": "pass",
+    "engine_storage_controls": 24,
+    "wire_and_store_rows_identical_and_sealed": true,
+    "fresh_success_and_failure_retry": "pass; auxiliary layout dependencies prohibit task replay",
+    "legacy_exename": "Original pointer/String layouts raise AttributeError; native emits the same display prefix and continues histories/screens with an explicit failure"
+  },
+  "real_control": {
+    "image": "win-10_19041-2025_03.dmp",
+    "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+    "kernel_symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+    "dtb": "0x6d4000",
+    "kernel_base": "0xfffff8043601f000",
+    "layout": "consoles-win10-19041-x64",
+    "positive_console_recovery": false,
+    "modes": [
+      {
+        "mode": "no_registry",
+        "state": "failed",
+        "not_found_rows": 3,
+        "matched_display_tree": true,
+        "record_counts": {
+          "memory_read": 6827,
+          "layout_selection": 1,
+          "process_scan_coverage": 3,
+          "vad_acquisition_incomplete": 3,
+          "console_not_found": 3,
+          "task_summary": 1
+        },
+        "coverage": [
+          {
+            "pid": "4424",
+            "requested_vad_bytes": "897024",
+            "mapped_vad_bytes": "245760",
+            "complete": false
+          },
+          {
+            "pid": "3896",
+            "requested_vad_bytes": "897024",
+            "mapped_vad_bytes": "4096",
+            "complete": false
+          },
+          {
+            "pid": "2044",
+            "requested_vad_bytes": "897024",
+            "mapped_vad_bytes": "266240",
+            "complete": false
+          }
+        ],
+        "registry_observations": [],
+        "read_audit": {
+          "EntityRows": 0,
+          "OriginalReads": 6827,
+          "Plugin": "windows.consoles",
+          "Scope": "Original captured bytes, digests, read lengths/completeness and seals only; object recovery is validated separately",
+          "SealedRows": 6838
+        },
+        "sha256": {
+          "native": "05cf6d4f4bd6eaae4505e6b8a205168e56539cfdc92a0e3e5aefa377b353ac7f",
+          "reference": "e7929ed61c3499ce036d705eda90a57d67cc9b160d7cbf235616282eb492871b",
+          "mapping": "3136f651c7b3a360ec0675f20dfa6afcc07b44123b273acdcf3146c09c07715c"
+        }
+      },
+      {
+        "mode": "default_registry",
+        "state": "failed",
+        "not_found_rows": 3,
+        "matched_display_tree": true,
+        "record_counts": {
+          "memory_read": 20358,
+          "registry_history_size": 1,
+          "registry_unavailable": 2,
+          "registry_buffer_count": 1,
+          "layout_selection": 1,
+          "process_scan_coverage": 3,
+          "vad_acquisition_incomplete": 3,
+          "console_not_found": 3,
+          "task_summary": 1
+        },
+        "coverage": [
+          {
+            "pid": "4424",
+            "requested_vad_bytes": "897024",
+            "mapped_vad_bytes": "245760",
+            "complete": false
+          },
+          {
+            "pid": "3896",
+            "requested_vad_bytes": "897024",
+            "mapped_vad_bytes": "4096",
+            "complete": false
+          },
+          {
+            "pid": "2044",
+            "requested_vad_bytes": "897024",
+            "mapped_vad_bytes": "266240",
+            "complete": false
+          }
+        ],
+        "registry_observations": [
+          {
+            "record_type": "registry_history_size",
+            "value": "50",
+            "hive": "0xffffc20424895000",
+            "cell_index": "57944"
+          },
+          {
+            "record_type": "registry_buffer_count",
+            "value": "4",
+            "hive": "0xffffc20424895000",
+            "cell_index": "58184"
+          }
+        ],
+        "read_audit": {
+          "EntityRows": 0,
+          "OriginalReads": 20358,
+          "Plugin": "windows.consoles",
+          "Scope": "Original captured bytes, digests, read lengths/completeness and seals only; object recovery is validated separately",
+          "SealedRows": 20373
+        },
+        "sha256": {
+          "native": "bcf8e0855f75c8c99e11a030b79e6e2878770070ae8b94dc990e90669b6dc31b",
+          "reference": "e7929ed61c3499ce036d705eda90a57d67cc9b160d7cbf235616282eb492871b",
+          "mapping": "3136f651c7b3a360ec0675f20dfa6afcc07b44123b273acdcf3146c09c07715c"
+        }
+      }
+    ]
+  },
+  "checks": {
+    "plugin_race": "pass; 156 complete original controls, shared CmdScan regression, bounds/registry/cancel/output controls and accurate console summary (18.179s)",
+    "engine_race": "pass; 24 storage/fresh-retry controls (137.491s), plus four final summary-label storage/fresh-retry guards across legacy 19041 and modern 22621 (24.928s)",
+    "oracle_python312": "pass; 156 original full generators regenerated with pefile 2024.8.26",
+    "pipeline_fuzz": "pass; 1052 local executions in 1.665s; CI budget 1000",
+    "auditor_race": "pass (1.428s)",
+    "vet_matrix_inode": "pass; focused final vet, matrix and 32768 inode modes",
+    "python_and_arguments": "43 Python tests and 428 UTF-8/argument fixtures pass",
+    "build_offline_doctor": "pass; native binary built, doctor reports development preview with zero accepted plugins",
+    "cross_compile": "pass; Windows and Linux amd64 final builds",
+    "full_make_check": "running on integration snapshot; predates final summary counter-label change. Earlier console-object snapshot passed with engine race 1540.760s, 43 Python tests and 428 argument fixtures. Do not claim final-tree full-suite success.",
+    "ci": "new plugin workflow includes original-generator regeneration and bounded fuzz; final pushed snapshot requires terminal success"
+  },
+  "remaining": [
+    "Positive real console, screen, alias and command recovery plus normal controls",
+    "Registry-positive complete original-generator controls and broader integer/value semantics",
+    "Broader real conhost versions, pointer-chain/property interactions, damaged VAD/hive/PE data and all parameter semantics",
+    "Swap/prototype pages, ARM64 virtual scanning and baseline unsupported x86 conhost layouts",
+    "Dependency-aware task cache/resume, all renderer/export behavior and release performance/acceptance"
+  ]
+}

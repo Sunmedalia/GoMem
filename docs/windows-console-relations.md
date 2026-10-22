@@ -2,8 +2,9 @@
 
 `ConsoleReader.WalkScreens`, `CommandText` and `ExeName` extend the native
 console components against Volatility 3 v2.28.2 commit
-`881e970121c16f0932fb9d16fbd5fb258cbcbf75`. They are dependencies of the planned
-`windows.consoles` plugin, which remains missing and unregistered.
+`881e970121c16f0932fb9d16fbd5fb258cbcbf75`. They are dependencies of the
+[partial native `windows.consoles` plugin](windows-consoles.md). Component checks
+alone do not establish complete scanner or release acceptance.
 
 `WalkScreens` reads both current and alternate roots before enumeration, omits
 the alternate when both pointer values are equal, then follows each Next chain.

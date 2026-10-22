@@ -111,7 +111,7 @@
     "cmdscan_oracle_python312": "132 original generators pass regeneration",
     "matrix": "pass; 195 plugins, 148 partial, 47 missing, 0 accepted",
     "local_build_offline_doctor": "pass; development preview",
-    "windows_catalog_ci_regression": "Fixed: all three native OS jobs and all four engine race shards in run 39835965131 passed. The Windows native job includes five repetitions of ConsoleCatalog, full tests, build and offline doctor. Acceptance job is still running.",
+    "windows_catalog_ci_regression": "Fixed: completed CI run 39835965131 passed, including all three native OS jobs, all four engine race shards and acceptance. Later CI snapshots are tracked separately.",
     "expanded_full_make_check": "pass; expanded cmdscan snapshot, engine race 1547.894s, 43 Python tests, 428 argument fixtures. Started before screen and console object components; those have separate focused checks.",
     "expanded_cmdscan_fuzz": "pass; 1000 executions after adding 132-layout controls",
     "shared_conhost_acquisition": {
@@ -119,7 +119,7 @@
       "engine_race": "pass; 24 sealed-storage/fresh-retry controls (200.117s)",
       "fuzz": "pass; 1000 CmdScan pipeline mutations (1.330s)",
       "vet_matrix_inode_build_doctor": "pass; native build, development-preview offline doctor, matrix and 32768 inode modes",
-      "full_suite_scope": "Earlier console-object make check remains running and predates shared acquisition; do not interpret it as full-suite coverage of this change.",
+      "full_suite_scope": "Earlier console-object make check passed (engine race 1540.760s), predating shared acquisition. The complete Consoles snapshot has a new running full suite; focused shared acquisition checks passed as recorded.",
       "consoles_registration": "pending; shared acquisition does not change the capability matrix"
     }
   },

@@ -24,6 +24,7 @@ fuzz:
 	$(GO) test ./pkg/winconsole -run '^$$' -fuzz '^FuzzConsoleScreen$$' -fuzztime 20000x
 	$(GO) test ./pkg/winconsole -run '^$$' -fuzz '^FuzzConsoleScreenLayout$$' -fuzztime 2000x
 	$(GO) test ./internal/plugins -run '^$$' -fuzz FuzzCmdScanPipeline -fuzztime 2000x
+	$(GO) test ./internal/plugins -run '^$$' -fuzz '^FuzzConsolesPipeline$$' -fuzztime 2000x
 	$(GO) test ./pkg/winconsole -run '^$$' -fuzz FuzzConsoleHistoryLayout -fuzztime 20000x
 	$(GO) test ./pkg/winconsole -run '^$$' -fuzz FuzzHistoryBucket -fuzztime 20000x
 	GOMEM_BASELINE_DIR="$(CURDIR)/$(BASELINE)" $(GO) test ./internal/plugins -run '^$$' -fuzz FuzzCallbacksPermutedPagePipeline -fuzztime 20000x

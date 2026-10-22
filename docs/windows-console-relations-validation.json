@@ -3,7 +3,7 @@
   "status": "development_dependency",
   "accepted": false,
   "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
-  "scope": "Native console screen chain pointer/target enumeration and embedded alias/executable text; no registered windows.consoles plugin",
+  "scope": "Native console screen chain pointer/target enumeration and embedded alias/executable text; component validation only; integrated partial plugin is tracked in docs/windows-consoles-validation.json",
   "synthetic": {
     "layouts": 11,
     "cases": 264,
@@ -39,7 +39,7 @@
     "argument_fixtures": "428 pass",
     "build_offline_doctor": "pass; development preview",
     "cross_compile": "Windows amd64 and Linux amd64 package test executables built; latest runtime CI pending",
-    "full_make_check": "console object snapshot is still running; it predates relations and shared partial-text read change. These changes have focused package/plugin/engine race tests. Do not claim full-suite validation for newest snapshot."
+    "full_make_check": "pass on earlier console-object snapshot: engine race 1540.760s, 43 Python tests and 428 argument fixtures. It predates relations, shared acquisition and complete Consoles; focused checks and the current running full suite are recorded separately."
   },
   "remaining": [
     "Full windows.consoles plugin candidate/registry scanning",

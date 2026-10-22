@@ -86,13 +86,13 @@ func capture(row evidence.Row, layers map[string]memory.MemoryLayer) error {
 func run() error {
 	image := flag.String("image", "", "Original image")
 	rows := flag.String("rows", "", "Sealed pool scanner or network JSONL")
-	plugin := flag.String("plugin", "windows.poolscanner", "windows.poolscanner, windows.netscan, windows.netstat, windows.callbacks or windows.cmdscan")
-	symbols := flag.String("symbols", "", "Matching kernel ISF, required for cmdscan process-space auditing")
+	plugin := flag.String("plugin", "windows.poolscanner", "windows.poolscanner, windows.netscan, windows.netstat, windows.callbacks, windows.cmdscan or windows.consoles")
+	symbols := flag.String("symbols", "", "Matching kernel ISF, required for conhost process-space auditing")
 	kernelBase := flag.Uint64("kernel-base", 0, "Kernel virtual base")
 	dtb := flag.String("dtb", "", "Kernel page root")
 	arch := flag.String("arch", "x64", "Intel architecture")
 	flag.Parse()
-	if *plugin != "windows.poolscanner" && *plugin != "windows.netscan" && *plugin != "windows.netstat" && *plugin != "windows.callbacks" && *plugin != "windows.cmdscan" {
+	if *plugin != "windows.poolscanner" && *plugin != "windows.netscan" && *plugin != "windows.netstat" && *plugin != "windows.callbacks" && *plugin != "windows.cmdscan" && *plugin != "windows.consoles" {
 		return fmt.Errorf("unsupported audit plugin")
 	}
 	if *image == "" || *rows == "" || *dtb == "" {
@@ -132,9 +132,9 @@ func run() error {
 		}
 		switch row.Cells["RecordType"].String() {
 		case "memory_read":
-			if *plugin == "windows.cmdscan" && layers[row.Provenance.Layer] == nil {
+			if (*plugin == "windows.cmdscan" || *plugin == "windows.consoles") && layers[row.Provenance.Layer] == nil {
 				if eng.Env.Objects == nil || !strings.HasPrefix(row.Provenance.Layer, "process:") || row.Provenance.Layer != "process:"+row.Cells["ProcessIdentity"].String() {
-					return fmt.Errorf("unknown cmdscan process space")
+					return fmt.Errorf("unknown conhost process space")
 				}
 				process, err := row.Cells["ProcessOffset"].Uint()
 				if err != nil {
@@ -193,8 +193,17 @@ func run() error {
 				return fmt.Errorf("unexpected history property")
 			}
 			objects++
+		case "console_property":
+			if *plugin != "windows.consoles" {
+				return fmt.Errorf("unexpected console property")
+			}
+			objects++
+		case "console_not_found", "registry_buffer_count", "console_incomplete", "console_processes_incomplete", "console_aliases_incomplete", "console_alias_incomplete", "console_histories_incomplete", "console_history_incomplete", "console_command_incomplete", "console_screens_incomplete", "console_screen_incomplete":
+			if *plugin != "windows.consoles" {
+				return fmt.Errorf("unexpected console metadata")
+			}
 		case "history_not_found", "layout_selection", "registry_history_size", "process_scan_coverage", "vad_acquisition_incomplete", "page_map_unavailable", "mapping_unavailable", "candidate_underflow", "candidate_unreadable", "history_incomplete", "command_unreadable", "process_unavailable", "conhost_image_unavailable", "registry_unavailable", "conhost_version_unavailable":
-			if *plugin != "windows.cmdscan" {
+			if *plugin != "windows.cmdscan" && *plugin != "windows.consoles" {
 				return fmt.Errorf("unexpected console metadata")
 			}
 		case "summary", "diagnostic", "task_summary":

@@ -48,8 +48,8 @@ VADs strictly smaller than `0x40000000` are scanned for each history size's
 little endian unsigned short signature. Process-layer acquisition and measured
 layout selection now live in a shared conhost component. Its separate console
 scope selects only the first executable VAD, without the CmdScan size cutoff;
-CmdScan continues to use all eligible VADs. This prepares Consoles integration
-but does not register or establish acceptance of `windows.consoles`. Hardware page-map enumeration restricts
+CmdScan continues to use all eligible VADs. The [Consoles scanner](windows-consoles.md) now uses that console scope;
+shared acquisition checks alone do not establish its acceptance. Hardware page-map enumeration restricts
 scanning to acquired mappings inside those VADs. Adjacent acquired intervals can
 share a boundary match; holes never join and are never zero-filled. Mapped and
 requested VAD byte totals are emitted. A difference fails task completeness,

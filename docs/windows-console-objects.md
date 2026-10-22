@@ -1,10 +1,10 @@
 # Native console objects (development dependency)
 
 `pkg/winconsole.ConsoleReader` adds title, scalar and list primitives for the
-planned `windows.consoles` plugin. It uses Volatility 3 v2.28.2, commit
-`881e970121c16f0932fb9d16fbd5fb258cbcbf75`, as its fixed reference. The plugin
-remains missing and unregistered. This component does not discover candidates
-or produce a complete console property tree.
+[partial native `windows.consoles` plugin](windows-consoles.md). It uses Volatility 3 v2.28.2, commit
+`881e970121c16f0932fb9d16fbd5fb258cbcbf75`, as its fixed reference. This component alone does not discover candidates
+or produce a complete console property tree; the integrated scanner has its own
+full-generator and storage checks.
 
 `ParseConsoleLayout` retains the exact source SHA-256 and validates x64 pointers,
 consumed integer widths and signed offsets. Console metadata can precede the
@@ -71,10 +71,9 @@ layout parsing passes 1,000; CI regenerates the oracle and runs both targets.
 See [validation record](windows-console-objects-validation.json) and the
 [screen buffer component](windows-console-screen.md).
 
-Remaining work includes full console candidate scanning, screen-chain behavior,
-executable/alias strings, command/property trees, registry settings, real-image
-positive controls, task/store/export/cache/resume integration and performance
-acceptance. Component controls do not advance `windows.consoles` to partial.
-
-The subsequent [relation reader](windows-console-relations.md) adds screen
-chains and alias text controls. Full plugin integration remains pending.
+The integrated [console scanner](windows-consoles.md) now supplies candidate
+scanning, property/history trees and store controls; its own validation record
+tracks remaining real positive recovery, registry differential, cache/resume,
+renderer/export and performance gaps. Component controls alone do not certify
+the integrated plugin. The [relation reader](windows-console-relations.md) adds
+screen-chain and alias text controls.

@@ -3,7 +3,7 @@
   "status": "development_dependency",
   "accepted": false,
   "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
-  "scope": "Signed native console scalar/title metadata and history/process/executable-alias/alias list primitives; no registered windows.consoles plugin",
+  "scope": "Signed native console scalar/title metadata and history/process/executable-alias/alias list primitives; component validation only; integrated partial plugin is tracked in docs/windows-consoles-validation.json",
   "synthetic": {
     "layouts": 11,
     "cases": 319,
@@ -35,7 +35,7 @@
     "object_fuzz": "pass; 10000 executions in 2.956s",
     "layout_fuzz": "pass; 1000 executions in 0.917s",
     "oracle_python312": "pass; all 319 controls regenerate identically",
-    "full_make_check": "running for console component snapshot; prior expanded cmdscan snapshot passed with engine race 1547.894s, 43 Python tests and 428 argument fixtures",
+    "full_make_check": "pass on earlier console-object snapshot: engine race 1540.760s, 43 Python tests and 428 argument fixtures. It predates relations, shared acquisition and complete Consoles; focused checks and the current running full suite are recorded separately.",
     "vet": "pass; go vet ./...",
     "matrix": "pass; 195 plugins, 148 partial, 47 missing, 0 accepted",
     "inode_oracle": "32768 pass",

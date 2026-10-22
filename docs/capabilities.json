@@ -5933,22 +5933,26 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Native Intel Windows process translation and x64 conhost layouts selected from measured KUSER/debug/PE versions. Case-insensitive conhost filter, first executable VAD only, registry history/buffer settings, bounded console candidate validation and full property trees. Missing acquisition remains failed evidence.",
+      "native": "windows.consoles",
+      "status": "partial",
       "accepted": false,
       "corpora": [
+        "pinned-156-complete-consoles-generators-10-layouts",
         "pinned-209-console-screen-component-controls-11-layouts",
         "pinned-319-console-object-component-controls-11-layouts",
-        "pinned-264-console-relation-component-controls-11-layouts"
+        "pinned-264-console-relation-component-controls-11-layouts",
+        "official-windows-10-19041-consoles-negative-partial-control"
       ],
-      "comparison": "screen_title_scalar_list_chain_and_alias_text_components_only;not_a_registered_native_plugin",
+      "comparison": "156_actual_full_generator_selected_fields_depth_and_parent_paths_match;24_sealed_storage_and_fresh_retry_controls;real_three_not_found_rows_match_reference_with_incomplete_VAD_coverage_and_original_read_audit",
       "gaps": [
-        "Native screen rows, signed layout offsets, titles, scalar fields, console lists, screen chains and alias text have component controls only; no windows.consoles plugin is registered",
-        "Full console candidate discovery, property/history trees, evidence-store integration and real-image console differential remain pending; legacy pointer ExeName reproduces baseline unsupported decoding as an explicit error",
-        "Original malformed lengths, title-error swallowing and silent list/chain truncation are explicit native errors; finite component fixtures are not plugin or release acceptance"
+        "Development preview; no positive real console/screen/alias recovery acceptance and no full version/corpus/parameter acceptance",
+        "Original legacy pointer ExeName raises AttributeError; native preserves the same property prefix and marks the unsupported decoding as an explicit failure",
+        "Native title/read/list/cycle errors remain failed partial evidence where the original may swallow faults or stop silently",
+        "Registry-positive full-generator differential, damaged VAD/hive behavior, swap/prototype pages and ARM64 virtual scanning remain pending",
+        "Auxiliary symbol dependencies force fresh tasks; validated resume/cache reuse and full renderer/export/performance/release acceptance remain pending"
       ],
-      "validation_record": "docs/windows-console-objects.md"
+      "validation_record": "docs/windows-consoles.md"
     },
     {
       "id": "windows.crashinfo.Crashinfo",

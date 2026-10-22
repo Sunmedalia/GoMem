@@ -83,6 +83,7 @@ jobs:
       - run: python3 tools/build_console_relations_oracle.py --check
       - run: python3 tools/build_console_version_oracle.py --check
       - run: python3 tools/build_cmdscan_oracle.py --check
+      - run: python3 tools/build_consoles_oracle.py --check
       - run: go test -race ./pkg/winconsole
         env:
           GOMEM_BASELINE_DIR: ${{ github.workspace }}/.cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75
@@ -197,6 +198,7 @@ jobs:
       - run: go test ./pkg/wincallbacks -run '^$' -fuzz FuzzCallbackIndexes -fuzztime 10000x
       - run: go test ./pkg/winconsole -run '^$' -fuzz FuzzHistoryBucket -fuzztime 10000x
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzCmdScanPipeline -fuzztime 1000x
+      - run: go test ./internal/plugins -run '^$' -fuzz '^FuzzConsolesPipeline$' -fuzztime 1000x
       - run: go test ./pkg/winconsole -run '^$' -fuzz FuzzConsoleHistoryLayout -fuzztime 10000x
       - run: go test ./pkg/winconsole -run '^$' -fuzz '^FuzzConsoleScreen$' -fuzztime 10000x
       - run: go test ./pkg/winconsole -run '^$' -fuzz '^FuzzConsoleScreenLayout$' -fuzztime 1000x

@@ -2,11 +2,10 @@
 
 `pkg/winconsole.ScreenReader` reads `_ROW` character cells and circular
 `_SCREEN_INFORMATION` buffers using the fixed Volatility 3 v2.28.2 source,
-commit `881e970121c16f0932fb9d16fbd5fb258cbcbf75`. It is a component for the
-planned `windows.consoles` plugin. That plugin remains missing in the capability
-matrix: process discovery, console candidate scanning, titles, aliases, attached
-processes, full property trees and real screen recovery are not established by
-this component.
+commit `881e970121c16f0932fb9d16fbd5fb258cbcbf75`. It is a component used by the
+[partial native `windows.consoles` plugin](windows-consoles.md). Component
+controls alone do not establish full plugin, real screen recovery or release
+acceptance.
 
 `ParseScreenLayout` consumes the screen fields from an original data-only ISF
 and keeps its exact SHA-256. Newer `_ROW` definitions include negative offsets;
