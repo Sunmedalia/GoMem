@@ -34,6 +34,18 @@ func (e *Engine) modulePDBProvider() pesymbols.Provider {
 			return result, fmt.Errorf("PDB PE image exceeds collected module extent")
 		}
 		result.Identity = image.Identity
+		if module.PDBNames != nil {
+			matched := false
+			for _, name := range module.PDBNames {
+				if name == image.Identity.Database {
+					matched = true
+					break
+				}
+			}
+			if !matched {
+				return result, fmt.Errorf("%w: resident PDB name is outside requested candidates", pesymbols.ErrUnavailable)
+			}
+		}
 		verify := func(table *symbols.ISF) (pesymbols.PDB, error) {
 			if err := table.MatchPDB(image.Identity.Database, image.Identity.GUID, image.Identity.Age); err != nil {
 				return result, err

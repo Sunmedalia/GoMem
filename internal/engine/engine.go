@@ -481,13 +481,19 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 	if e.Env.Symbols != nil {
 		provenance.SymbolsSHA256 = e.Env.Symbols.Digest()
 	}
+	if spec.ExternalSymbols {
+		provenance.Parameters["engine.symbols-offline"] = strconv.FormatBool(e.Config.Offline)
+		server := sha256.Sum256([]byte(e.Config.SymbolServer))
+		provenance.Parameters["engine.symbol-server-sha256"] = hex.EncodeToString(server[:])
+		provenance.Parameters["engine.symbol-cache-policy"] = "fresh-runtime-dependencies"
+	}
 	b, err := json.Marshal(provenance)
 	if err != nil {
 		return result, err
 	}
 	keySum := sha256.Sum256(b)
 	key := hex.EncodeToString(keySum[:])
-	if !opts.Fresh {
+	if !opts.Fresh && !spec.ExternalSymbols {
 		t, ok, err := e.Store.Cached(ctx, key)
 		if err != nil {
 			return result, err

@@ -57,7 +57,7 @@ func fixture(t testing.TB) (Module, *layer) {
 		t.Fatal(err)
 	}
 	l := &layer{base: f.Cases[0].Base, data: f.Cases[0].Data}
-	return Module{l, l.base, uint64(len(l.data))}, l
+	return Module{l, l.base, uint64(len(l.data)), nil}, l
 }
 func pdb(t testing.TB, values map[string]uint64) PDB {
 	t.Helper()
@@ -97,7 +97,7 @@ func TestPDBFirstAcrossAllInstancesAndExactFallback(t *testing.T) {
 		}
 		return first, nil
 	}
-	otherModule := Module{namedLayer{&other, "second"}, m.Base, m.Size}
+	otherModule := Module{namedLayer{&other, "second"}, m.Base, m.Size, nil}
 	r, err := New([]Module{m, otherModule}, opts)
 	if err != nil {
 		t.Fatal(err)
@@ -242,7 +242,7 @@ func TestSymbolAndAcquisitionBudgetsAndIdentity(t *testing.T) {
 func TestInvalidResolverInputs(t *testing.T) {
 	m, _ := fixture(t)
 	opts := options()
-	for _, modules := range [][]Module{{{nil, 0, 1}}, {{m.Layer, 0, 0}}, {{m.Layer, ^uint64(0), 2}}, make([]Module, 10001)} {
+	for _, modules := range [][]Module{{{nil, 0, 1, nil}}, {{m.Layer, 0, 0, nil}}, {{m.Layer, ^uint64(0), 2, nil}}, make([]Module, 10001)} {
 		if _, err := New(modules, opts); err == nil {
 			t.Fatal("invalid module accepted")
 		}
@@ -304,7 +304,7 @@ func TestUnmodifiedPinnedModuleResolution(t *testing.T) {
 			var modules []Module
 			for _, i := range c.Order {
 				l := &layer{base: f.Base, data: f.Images[i]}
-				modules = append(modules, Module{namedLayer{l, string(rune('0' + i))}, f.Base, uint64(len(l.data))})
+				modules = append(modules, Module{namedLayer{l, string(rune('0' + i))}, f.Base, uint64(len(l.data)), nil})
 			}
 			opts := options()
 			opts.PDB = func(ctx context.Context, m Module) (PDB, error) {
@@ -456,5 +456,28 @@ func TestExportReadsStayInsideCollectedModule(t *testing.T) {
 	_, err = resolver.Resolve(context.Background(), Request{Names: []string{"Alpha"}})
 	if err == nil || l.calls != 0 {
 		t.Fatal(err, l.calls)
+	}
+}
+
+func TestPDBNameCandidatesAreValidatedAndOwned(t *testing.T) {
+	m, _ := fixture(t)
+	opts := options()
+	p := pdb(t, map[string]uint64{"private": 0x1300})
+	opts.PDB = func(context.Context, Module) (PDB, error) { return p, nil }
+	for _, names := range [][]string{{""}, {"a/b.pdb"}, make([]string, 17)} {
+		m.PDBNames = names
+		if _, err := New([]Module{m}, opts); err == nil {
+			t.Fatal(names)
+		}
+	}
+	m.PDBNames = []string{"unrelated.pdb"}
+	r, err := New([]Module{m}, opts)
+	if err != nil {
+		t.Fatal(err)
+	}
+	m.PDBNames[0] = "fixture.pdb"
+	result, err := r.Resolve(context.Background(), Request{Names: []string{"private"}})
+	if err != nil || len(result.Found) != 0 || !result.Attempts[0].Unavailable {
+		t.Fatal(result, err)
 	}
 }

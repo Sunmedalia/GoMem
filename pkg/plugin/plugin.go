@@ -22,14 +22,16 @@ type Parameter struct {
 	Description string `json:"description"`
 }
 type Spec struct {
-	Name         string            `json:"name"`
-	Description  string            `json:"description"`
-	Upstream     string            `json:"upstream,omitempty"`
-	Platform     string            `json:"platform,omitempty"`
-	Parameters   []Parameter       `json:"parameters,omitempty"`
-	Columns      []evidence.Column `json:"columns"`
-	NeedsKernel  bool              `json:"needs_kernel"`
-	Dependencies []string          `json:"dependencies,omitempty"`
+	// ExternalSymbols requires fresh execution until all runtime symbol dependencies can be revalidated.
+	ExternalSymbols bool              `json:"external_symbols,omitempty"`
+	Name            string            `json:"name"`
+	Description     string            `json:"description"`
+	Upstream        string            `json:"upstream,omitempty"`
+	Platform        string            `json:"platform,omitempty"`
+	Parameters      []Parameter       `json:"parameters,omitempty"`
+	Columns         []evidence.Column `json:"columns"`
+	NeedsKernel     bool              `json:"needs_kernel"`
+	Dependencies    []string          `json:"dependencies,omitempty"`
 }
 type Environment struct {
 	ModulePDB      pesymbols.Provider

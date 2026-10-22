@@ -61,7 +61,7 @@ func TestSuspiciousThreadNoteOracle(t *testing.T) {
 	}
 }
 
-func suspiciousThreadFixture(t *testing.T) (plugin.Environment, flatMemory) {
+func suspiciousThreadFixture(t testing.TB) (plugin.Environment, flatMemory) {
 	t.Helper()
 	mem := make(flatMemory, 0x10000)
 	b := func(name string) symbols.TypeRef { return symbols.TypeRef{Kind: "base", Name: name} }

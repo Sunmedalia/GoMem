@@ -200,3 +200,21 @@ func TestModulePDBUnavailableIdentityAndIndexFailures(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func TestModulePDBNameCandidatesPrecedeAcquisition(t *testing.T) {
+	m, table, _ := nativeModuleFixture(t, "x64")
+	e := &Engine{Config: Config{Offline: true, SymbolCache: t.TempDir()}}
+	e.Env.Symbols = table
+	m.PDBNames = []string{"unrelated.pdb"}
+	if _, err := e.modulePDBProvider()(context.Background(), m); !errors.Is(err, pesymbols.ErrUnavailable) {
+		t.Fatal("unrequested resident identity accepted", err)
+	}
+	id, err := table.PDBIdentity()
+	if err != nil {
+		t.Fatal(err)
+	}
+	m.PDBNames = []string{id.Database}
+	if _, err = e.modulePDBProvider()(context.Background(), m); err != nil {
+		t.Fatal(err)
+	}
+}

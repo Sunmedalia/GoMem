@@ -1,0 +1,52 @@
+{
+  "schema": "gomem.windows-suspended-threads-validation/v1",
+  "release": "development-preview",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "oracle": {
+    "actual_unmodified_generator_cases": 30,
+    "native_paging_combinations": 45,
+    "architectures": [
+      "x86",
+      "pae",
+      "x64"
+    ],
+    "comparison": "nine columns, order, missing values, independently reread raw captures, sealed JSONL"
+  },
+  "fuzz": {
+    "target": "FuzzSuspendedThreadPipeline",
+    "duration_seconds": 10,
+    "executions": 189919,
+    "result": "pass"
+  },
+  "real_negative": {
+    "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+    "reference_sha256": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
+    "threads": 1752,
+    "suspended": 0,
+    "findings": 0,
+    "reads": 6098,
+    "captured_bytes": 37360,
+    "errors": 0,
+    "complete": true
+  },
+  "remaining": [
+    "real positive samples",
+    "broad Windows version/Unicode/RSDS/PDB coverage",
+    "runtime symbol dependency cache validation"
+  ],
+  "cli_diff": {
+    "native_rows": 0,
+    "reference_rows": 0,
+    "matched": true,
+    "native_input_rows": 6099,
+    "native_non_entity_records": {
+      "memory_read": 6098,
+      "summary": 1
+    },
+    "sha256": {
+      "native": "408471ab46612949feffcc79cd7c51d55028a258207a7d8bada503fe0a8464d0",
+      "reference": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
+      "mapping": "f899200b59e6092739c5f90e1eb37af713233c6afd62a1acc1f302b3c2c3b8c7"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # PDB-first module symbols (development preview)
 
-`pkg/pesymbols` resolves exact names or addresses across an explicitly ordered list of mapped PE instances. It tries every instance's matching PDB before trying any instance's export table. The engine supplies `Environment.ModulePDB` on Windows, using the configured offline, cache, index and symbol-server policy. This is a shared component; it does not implement `windows.pe_symbols`, `windows.suspended_threads` or automatic cross-process module collection.
+`pkg/pesymbols` resolves exact names or addresses across an explicitly ordered list of mapped PE instances. It tries every instance's matching PDB before trying any instance's export table. The engine supplies `Environment.ModulePDB` on Windows, using the configured offline, cache, index and symbol-server policy. This is a shared component; the [suspended-thread plugin](windows-suspended-threads.md) now uses it with cross-process file-VAD collection. `windows.pe_symbols` remains pending.
 
 ## Resolution and evidence
 
@@ -31,4 +31,4 @@ make matrix
 python3 tools/build_inode_mode_oracle.py --check
 ```
 
-CI checks the deterministic oracle with pinned pefile and exercises the fuzz target. Optional corpus tests remain optional and do not establish release acceptance. Before a plugin uses dynamically acquired module tables, its case task/cache identity must incorporate resolution policy and symbol dependencies, with provenance for all used digests. No existing plugin consumes this hook in this milestone. Automatic VAD/module collection, process-instance attribution, positive suspended-thread validation, broader Windows versions and complete upstream parameter/extension coverage remain pending. No plugin is newly accepted.
+CI checks the deterministic oracle with pinned pefile and exercises the fuzz target. Optional corpus tests remain optional and do not establish release acceptance. Before a plugin uses dynamically acquired module tables, its case task/cache identity must incorporate resolution policy and symbol dependencies, with provenance for all used digests. The suspended-thread plugin records those dependencies and forces fresh execution until cache revalidation is implemented. Positive real suspended-thread validation, broader Windows versions and complete upstream parameter/extension coverage remain pending. No plugin is newly accepted.

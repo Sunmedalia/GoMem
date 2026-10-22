@@ -1,0 +1,59 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "values": [
+      "thread"
+    ],
+    "excluded_values": [
+      "memory_read",
+      "summary"
+    ]
+  },
+  "fields": {
+    "Process": {
+      "native": "Process",
+      "reference": "Process",
+      "kind": "string"
+    },
+    "PID": {
+      "native": "PID",
+      "reference": "PID",
+      "kind": "uint64"
+    },
+    "TID": {
+      "native": "TID",
+      "reference": "TID",
+      "kind": "uint64"
+    },
+    "StartFile": {
+      "native": "StartFile",
+      "reference": "StartFile",
+      "kind": "string"
+    },
+    "StartSymbol": {
+      "native": "StartSymbol",
+      "reference": "StartSymbol",
+      "kind": "string"
+    },
+    "StartAddress": {
+      "native": "StartAddress",
+      "reference": "StartAddress",
+      "kind": "address"
+    },
+    "Win32StartFile": {
+      "native": "Win32StartFile",
+      "reference": "Win32StartFile",
+      "kind": "string"
+    },
+    "Win32StartSymbol": {
+      "native": "Win32StartSymbol",
+      "reference": "Win32StartSymbol",
+      "kind": "string"
+    },
+    "Win32StartAddress": {
+      "native": "Win32StartAddress",
+      "reference": "Win32StartAddress",
+      "kind": "address"
+    }
+  }
+}

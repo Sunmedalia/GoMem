@@ -21,6 +21,8 @@ var ErrUnavailable = errors.New("matching module PDB is unavailable")
 type Module struct {
 	Layer      memory.MemoryLayer
 	Base, Size uint64
+	// PDBNames optionally restricts resident identities to the caller's baseline candidates.
+	PDBNames []string
 }
 type PDB struct {
 	Table        symbols.SymbolTable
@@ -95,11 +97,25 @@ func New(modules []Module, options Options) (*Resolver, error) {
 		return nil, fmt.Errorf("use resolver Observe to retain module and method identity")
 	}
 	for _, m := range modules {
+		if len(m.PDBNames) > 16 {
+			return nil, fmt.Errorf("too many module PDB candidates")
+		}
+		for _, name := range m.PDBNames {
+			if name == "" || len(name) > 256 || strings.ContainsAny(name, "\x00/\\") {
+				return nil, fmt.Errorf("invalid module PDB candidate")
+			}
+		}
 		if m.Layer == nil || m.Size == 0 || m.Size > pe.MaxImageSize || m.Size-1 > ^uint64(0)-m.Base {
 			return nil, fmt.Errorf("invalid mapped PE module extent")
 		}
 	}
-	return &Resolver{modules: append([]Module(nil), modules...), options: options, cache: make([]loaded, len(modules))}, nil
+	owned := append([]Module(nil), modules...)
+	for i := range owned {
+		if modules[i].PDBNames != nil {
+			owned[i].PDBNames = append([]string{}, modules[i].PDBNames...)
+		}
+	}
+	return &Resolver{modules: owned, options: options, cache: make([]loaded, len(modules))}, nil
 }
 
 type traceLayer struct {
@@ -185,6 +201,19 @@ func (r *Resolver) loadPDB(ctx context.Context, index int) *loaded {
 	if validGUID != nil || len(guid) != 16 || c.pdb.Identity.Database == "" || strings.ContainsAny(c.pdb.Identity.Database, "\x00/\\") {
 		c.pdbErr = fmt.Errorf("invalid provider PDB identity")
 		return c
+	}
+	if m.PDBNames != nil {
+		matched := false
+		for _, name := range m.PDBNames {
+			if name == c.pdb.Identity.Database {
+				matched = true
+				break
+			}
+		}
+		if !matched {
+			c.pdbErr = ErrUnavailable
+			return c
+		}
 	}
 	names := c.pdb.Table.Names()
 	if uint64(len(names)) > r.options.MaxSymbols-r.indexed {
