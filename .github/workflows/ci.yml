@@ -72,6 +72,7 @@ jobs:
       - run: python3 tools/build_windows_regex_oracle.py --check
       - run: python3 tools/build_pool_header_oracle.py --check
       - run: python3 tools/build_poolscanner_oracle.py --check
+      - run: python3 tools/build_windows_network_oracle.py --check
       - run: python3 tools/build_windows_strings_oracle.py --check
       - run: python3 tools/build_windows_malfind_oracle.py --check
       - run: python3 tools/build_iat_oracle.py --check
