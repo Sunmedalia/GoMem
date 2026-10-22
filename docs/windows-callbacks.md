@@ -113,6 +113,54 @@ terminal. `PoolHeader`, source offsets, layout pins, original read bytes/digests
 and final completeness remain evidence. Read, byte, row and node budgets are
 finite. Missing symbol layouts respect `--offline`.
 
+## Complete generator controls
+
+`tools/build_callbacks_oracle.py` executes the unmodified complete
+`Callbacks._generator` on 144 byte-backed Intel x86/PAE/x64 cases. It uses actual
+page tables, module lists, object-type maps, callback schema creation, index
+walkers, pool scanning and object extensions. No analysis method or field
+reader is replaced. The synthetic combinations select pre-Vista/Vista factory
+branches and legacy/new registry roots; they do not prove that all layouts
+correspond to real released kernels.
+
+Twelve scenarios cover normal/empty acquisition, duplicate notifications, zero
+pool callback addresses, unreadable driver targets, invalid PnP categories,
+missing NameInfo, overlapping modules with symbol aliases, wrong pool indices,
+undersized allocations, paged pools and free pools. Pre-Vista controls use legacy
+object headers and `ObpObjectTypes`; Vista controls use index headers and
+`ObTypeIndexTable`. All five callback structures and all seven applicable tags
+are exercised. The wrong-index controls also preserve the baseline decision
+that zero shutdown index endpoints impose no constraint.
+
+138 generators finish and their five selected columns (including absent-value
+classes and duplicate multiplicity) match native output. Six Vista NameInfo
+controls abort the original generator after 11 rows. Native retains those rows
+and three readable PnP callbacks with explicit detail errors; these are
+intentional partial-result differences, not parity. All twelve unreadable-driver
+controls fail native completeness even where the reference catches an exception
+or silently rejects an allocation. Across all cases, native tests independently
+reread 69,646 captured reads and verify source coordinates, lengths, raw bytes,
+digests and completeness; 1,630 native callback projections are checked against
+1,612 reference rows plus the 18 explicitly retained PnP rows.
+
+The same fixtures are also driven through kernel identity validation and the
+case engine with a separately validated PE identity added outside all indexes
+and allocations. All 144 cases pass sealed SQLite storage and retry checks under race. The 126
+complete native cases replay byte-identical successful caches; the 18 incomplete
+cases rerun as fresh failed tasks. Storage validation does not turn the six
+original generator exceptions into parity. An additional bounded whole-pipeline fuzz target mutates image bytes
+while retaining real hardware translation and fixed source ranges.
+
+```sh
+python3 tools/build_callbacks_oracle.py --check
+GOMEM_BASELINE_DIR="$PWD/.cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75" \
+  go test -race ./internal/plugins -run '^TestCallbacksCompletePinnedGenerators$' -count=1
+GOMEM_BASELINE_DIR="$PWD/.cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75" \
+  go test -race -timeout 30m ./internal/engine -run '^TestWindowsCallbacksCompleteGeneratorStorageCacheAndRetry$' -count=1
+GOMEM_BASELINE_DIR="$PWD/.cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75" \
+  go test ./internal/plugins -run '^$' -fuzz FuzzCallbacksGeneratorPipeline -fuzztime 10000x
+```
+
 ## Real Windows control
 
 The Windows 10 19041 image with SHA256
@@ -163,11 +211,12 @@ The composed native engine controls exercise real x86, PAE and x64 page tables,
 six original-method index rows and one pool allocation per architecture. They
 compare projected values, sealed SQLite storage and byte-identical successful
 cache replay; two bounded failures per architecture each create fresh failed
-tasks. These controls compose dependencies and do not replace a complete
-unmodified synthetic generator comparison. The real failed task also exported
+tasks. These earlier composed controls complement the complete generator cases
+above. The real failed task also exported
 107,509 rows identical to emitted evidence; two real budget failures were
 re-executed without a cache hit.
 
-Complete synthetic generator controls, broader real Windows/x86/PAE coverage, investigation
-rules, renderer/export and performance acceptance remain open. See
+Broader real Windows/x86/PAE coverage, nonidentity/high-canonical complete generator
+controls, acquisition holes/cycles, investigation rules, renderer/export and
+performance acceptance remain open. See
 [the validation record](windows-callbacks-validation.json).

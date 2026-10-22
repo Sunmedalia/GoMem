@@ -81,12 +81,13 @@
     "internal/plugins/testdata/windows-callback-pool-oracle.json": "5b86e934e0f14ada4b84905c5e8277f7d6c712349c1e69e7360b48ec1d0bac06",
     "internal/plugins/testdata/windows-callback-object-oracle.json": "3837ccb95267ace6fed9d7232fce55bf1c568d923a535dda55b8586bb9e56f5b",
     "docs/diff/windows.callbacks.json": "1cc4b4788ffa84a7568a04c5da647fbf16da10fa1d422f172354ca675fff8564",
-    "docs/diff/windows.callbacks-identity.json": "fc098e4cc0e6852d32a9581d85a9cb7228febdd73d6d99297940b9ca6163ef6f"
+    "docs/diff/windows.callbacks-identity.json": "fc098e4cc0e6852d32a9581d85a9cb7228febdd73d6d99297940b9ca6163ef6f",
+    "internal/plugins/testdata/windows-callbacks-oracle.json": "f1e4730fa5c3366bb2a9a5b02b3b8b9e83ebf4d75b04ab29e04c838f783db7da"
   },
   "remaining": [
-    "Complete unmodified synthetic generators; broader paged layouts and faulty acquisition cases",
+    "Complete generator nonidentity/high-canonical and damaged hardware acquisition controls",
     "Broader real positive/negative Windows and architecture coverage",
-    "Resolve or explicitly validate unreadable detail differences and incomplete acquisition",
+    "Unavailable page resolution and incomplete acquisition",
     "Timeline/investigation, complete rendering/export, performance and release acceptance"
   ],
   "object_controls": {
@@ -173,8 +174,8 @@
     "build_offline_doctor": "pass; final local build and offline readiness report; release acceptance remains false"
   },
   "implementation_checks": {
-    "focused_race": "pass",
-    "full_make_check": "pass; Go vet, full race suite, 43 Python tests and 428 argument fixtures; additional newly added three-architecture engine tests passed separately under race",
+    "focused_race": "pass; all callback plugin tests with pinned baseline environment, including 144 complete generators",
+    "full_make_check": "running for generator verification milestone",
     "matrix": "pass; 195 plugins, 147 partial, 48 missing, 0 accepted",
     "build_offline_doctor": "pass; development preview and acceptance false",
     "object_oracle_python312": "pass; uv Python 3.12 pinned pefile",
@@ -195,5 +196,69 @@
     "two_failed_tasks_per_arch_not_cached": "pass",
     "race": "pass",
     "read_byte_row_node_budgets_cancel_output": "pass"
+  },
+  "complete_generators": {
+    "cases": 144,
+    "baseline_completed": 138,
+    "baseline_completed_rows": 1546,
+    "baseline_partial_rows": 66,
+    "native_projections": 1630,
+    "original_captured_reads_verified": 69646,
+    "architectures": [
+      "x86",
+      "pae",
+      "x64"
+    ],
+    "factory_modes": [
+      "pre-Vista",
+      "Vista-and-later"
+    ],
+    "registry_roots": [
+      "legacy-vector",
+      "new-list"
+    ],
+    "object_headers": [
+      "legacy-type",
+      "index"
+    ],
+    "scenarios": [
+      "normal",
+      "empty",
+      "duplicate",
+      "zero-callback",
+      "bad-driver",
+      "invalid-category",
+      "no-name-info",
+      "overlap",
+      "bad-pool-index",
+      "undersized",
+      "paged-pool",
+      "free-pool"
+    ],
+    "selected_fields": [
+      "Type",
+      "Callback",
+      "Module",
+      "Symbol",
+      "Detail"
+    ],
+    "absent_classes_preserved": true,
+    "scope": "Unmodified full original generator, actual hardware layers and extensions; synthetic low-address identity mappings and selected branch schemas, not broad released OS coverage",
+    "intentional_differences": {
+      "baseline_ValueError_NameInfo_cases": 6,
+      "native_extra_failed_partial_PnP_rows": 18,
+      "native_failed_bad_driver_cases": 12
+    },
+    "native_race": "pass",
+    "python312_oracle_check": "pass",
+    "engine_storage_cache_retry": "pass; all 144 cases under race; sealed storage, byte-identical successful cache replay and fresh failed retry",
+    "pipeline_fuzz": {
+      "target": "FuzzCallbacksGeneratorPipeline",
+      "executions": 10000,
+      "result": "pass"
+    },
+    "engine_race_seconds": 550.61,
+    "native_success_cases": 126,
+    "native_failed_cases": 18
   }
 }

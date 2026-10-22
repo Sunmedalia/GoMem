@@ -5665,11 +5665,12 @@
         "pinned-1984-callback-pool-header-controls",
         "pinned-88-callback-index-controls-352-original-method-runs",
         "pinned-360-callback-object-processor-controls",
+        "pinned-144-complete-paged-callback-generators",
         "official-windows-10-19041-204-callback-partial-control"
       ],
-      "comparison": "360_actual_object_processors_and_x86_validity_controls;three_architecture_paged_pipeline_sealed_storage_cache_failed_retry_and_projection_controls;real_204_type_address_module_symbol_rows_match_but_156_details_retain_read_errors_instead_of_reference_null;107302_original_reads_and_107509_seals_verified;full_five_column_differential_intentionally_fails",
+      "comparison": "144_complete_original_generators_with_138_five_column_matches_and_6_explicit_NameInfo_abort_continuations;69646_original_reads_and_1630_native_callback_projections_checked;360_actual_object_processors_and_x86_validity_controls;three_architecture_paged_pipeline_sealed_storage_cache_failed_retry_and_projection_controls;real_204_type_address_module_symbol_rows_match_but_156_details_retain_read_errors_instead_of_reference_null;107302_original_reads_and_107509_seals_verified;full_five_column_differential_intentionally_fails",
       "gaps": [
-        "Development preview; complete synthetic generator/paged pipeline, broader paged fault controls and Windows/architecture/version acceptance remain pending",
+        "Development preview; complete generator controls use synthetic low-address identity mappings and selected factory branches. Nonidentity/high-canonical controls, broader paged faults and real Windows/architecture/version acceptance remain pending",
         "Real 204 callback identities match; an output-only typed reference renderer also confirms all five values and missing classes. Native retains 156 unreadable detail errors beyond ordinary JSON reference null. Failed task retains 280 failure observations; parity does not establish complete acquisition",
         "Eight damaged notification controls abort the baseline method; native preserves independent process notification with a failed result. Four unreadable-altitude controls retain typed missing data instead of the baseline display string",
         "Broader positive/negative corpus, investigation rules, renderer/export, performance and release acceptance remain pending"
