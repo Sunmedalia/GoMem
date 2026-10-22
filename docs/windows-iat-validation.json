@@ -1,0 +1,254 @@
+{
+  "schema": "gomem.windows-iat-validation/v1",
+  "release": "development-preview",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "oracle": {
+    "actual_unmodified_generator_cases": 90,
+    "native_paging_combinations": 135,
+    "architectures": [
+      "x86",
+      "pae",
+      "x64"
+    ],
+    "comparison": "all six columns, order, missing values, independent raw captures, separate process mappings and sealed store/cache JSONL"
+  },
+  "fuzz": [
+    {
+      "target": "FuzzIATPipeline",
+      "duration_seconds": 10,
+      "executions": 107687,
+      "result": "pass"
+    },
+    {
+      "target": "FuzzMappedPEImports",
+      "requested_duration_seconds": 10,
+      "executions": 23710,
+      "result": "pass"
+    }
+  ],
+  "real_partial": {
+    "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+    "processes": 120,
+    "images": 103,
+    "null_pebs": 3,
+    "descriptors": 877,
+    "thunks": 14154,
+    "imports": 6404,
+    "diagnostics": 95,
+    "read_faults": 209,
+    "coverage_errors": 301,
+    "state": "failed",
+    "complete": false,
+    "independent_verifier": {
+      "acquisition_calls": 184362,
+      "all_captures_independently_reread": true,
+      "all_iat_coordinates_and_available_pointers_verified": true,
+      "all_seals_and_provenance_verified": true,
+      "captured_bytes": 364773,
+      "captures": 184362,
+      "diagnostics": 95,
+      "findings": 0,
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "imports": 6404,
+      "jsonl_sha256": "6b890283ccf121924a975385ee6a900c30f858028d99f783d0504d0c633651a2",
+      "opcode_probes": 0,
+      "plugin": "windows.iat",
+      "process_layers": 120,
+      "read_faults": 209,
+      "rows": 190862,
+      "symbols": 0
+    }
+  },
+  "cli_diff": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "PID",
+      "Name",
+      "Library",
+      "Bound",
+      "Function",
+      "Address"
+    ],
+    "native_rows": 6404,
+    "reference_rows": 6406,
+    "matched": false,
+    "missing": [
+      {
+        "Address": "281400283509120",
+        "Bound": "false",
+        "Function": "HeapSetInformation",
+        "Library": "api-ms",
+        "Name": "dllhost.exe",
+        "PID": "1968",
+        "parent": null
+      },
+      {
+        "Address": "281400283509120",
+        "Bound": "false",
+        "Function": "HeapSetInformation",
+        "Library": "api-ms",
+        "Name": "dllhost.exe",
+        "PID": "2348",
+        "parent": null
+      }
+    ],
+    "extra": [],
+    "sha256": {
+      "native": "6b890283ccf121924a975385ee6a900c30f858028d99f783d0504d0c633651a2",
+      "reference": "7f303908ced0078443810e399b7ca0acee323bc32a5a1f80bbd6c88a38f85341",
+      "mapping": "0e3bd0419b9914614dcfdcbbd4353444ca5353ec86fd7bd19b93a2e83d9e1f3e"
+    },
+    "native_input_rows": 190862,
+    "native_non_entity_records": {
+      "memory_read": 184362,
+      "diagnostic": 95,
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "values": [
+        "import"
+      ],
+      "excluded_values": [
+        "memory_read",
+        "diagnostic",
+        "summary"
+      ]
+    }
+  },
+  "source_backed_difference_explanations": {
+    "schema": "gomem.iat-padded-name-differences/v1",
+    "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+    "native_sha256": "6b890283ccf121924a975385ee6a900c30f858028d99f783d0504d0c633651a2",
+    "reference_sha256": "7f303908ced0078443810e399b7ca0acee323bc32a5a1f80bbd6c88a38f85341",
+    "full_differential_matched": false,
+    "reference_only_rows": 2,
+    "explained_rows": 2,
+    "unexplained_rows": 0,
+    "explanations": [
+      {
+        "reference": {
+          "Address": "281400283509120",
+          "Bound": "false",
+          "Function": "HeapSetInformation",
+          "Library": "api-ms",
+          "Name": "dllhost.exe",
+          "PID": "1968",
+          "parent": null
+        },
+        "process": {
+          "layer": "process:e9166290c47f3a9a1e89cd112033bae72cd75824efff6ed0c068dfc5482f2b39",
+          "base": 140700141748224,
+          "process_offset": "0xffff840f6b61c2c0",
+          "identity": "e9166290c47f3a9a1e89cd112033bae72cd75824efff6ed0c068dfc5482f2b39"
+        },
+        "descriptor_address": "0x7ff74df838d8",
+        "descriptor_evidence": "11d268a03bfcbac7514e8d21134fff6adeb79dbb530234dc6ae081e319c08f41",
+        "lookup_evidence": "dcb3108f7d3cf8a13b5558ef2fd7c998907ed5442acc6e2751076f40bb7ca568",
+        "dll_name_address": "0x7ff74df83ffa",
+        "readable_prefix": "api-ms",
+        "first_unavailable_address": "0x7ff74df84000",
+        "first_unavailable_error": "process:e9166290c47f3a9a1e89cd112033bae72cd75824efff6ed0c068dfc5482f2b39: read 0x7ff74df84000 (1 bytes): unmapped memory: nonpresent page-table entry 0xc2043f0fe9e00400 at 0x11899fc20 (prototype/swap or unsupported software encoding)",
+        "prefix_and_fault_evidence": [
+          "021836025a97b97131876a1161d8f4c8b551a0c58ed80cc03224ad4e667ed389",
+          "011afe60c79cca83893add1752d32379ca7e602330be13b4d332dbd4380318dd",
+          "6cf4deac6800e52b25bd1da5e379d0df3fbb4df0e3a6ae81375376d30dbfaa81",
+          "40ac7e194823c46572e74ea7c336981c12e38578c6828a6918f63a8c508d9a19",
+          "46269f998d286e26f229d8752f8cca2fbcedc0868cc84606d6c669940754e670",
+          "078ecc3a8edb36313ed2a78d321ec79680b5e11287aaf0fb9e8cb5cf9413c233",
+          "fa6c132b27199c6967497df36a02aabb4a9a9bad317ec5a349bbf0ba3a5e81a1"
+        ],
+        "explanation": "reference reconstruction padding supplies a zero terminator after the readable prefix; native output does not invent the missing byte"
+      },
+      {
+        "reference": {
+          "Address": "281400283509120",
+          "Bound": "false",
+          "Function": "HeapSetInformation",
+          "Library": "api-ms",
+          "Name": "dllhost.exe",
+          "PID": "2348",
+          "parent": null
+        },
+        "process": {
+          "layer": "process:2bac8c1d7bde6467cb1d2cb9e3ddc100aa58a2e89a936e435391534873188979",
+          "base": 140700141748224,
+          "process_offset": "0xffff840f6b8152c0",
+          "identity": "2bac8c1d7bde6467cb1d2cb9e3ddc100aa58a2e89a936e435391534873188979"
+        },
+        "descriptor_address": "0x7ff74df838d8",
+        "descriptor_evidence": "5f43fef9b69cf3932138eec4402cde8e8c774b0fd5a70f1f6f3b13d0d4e5a766",
+        "lookup_evidence": "beb0136a5d570ec285d49fcf6f98b6ec9ebade09b594efa60e8914b90ed735b0",
+        "dll_name_address": "0x7ff74df83ffa",
+        "readable_prefix": "api-ms",
+        "first_unavailable_address": "0x7ff74df84000",
+        "first_unavailable_error": "process:2bac8c1d7bde6467cb1d2cb9e3ddc100aa58a2e89a936e435391534873188979: read 0x7ff74df84000 (1 bytes): unmapped memory: nonpresent page-table entry 0xc2043f0fe9e00400 at 0x11cf2bc20 (prototype/swap or unsupported software encoding)",
+        "prefix_and_fault_evidence": [
+          "1d64fc80d95059a30a6b15aae53237c65afc0c8579e16bc38547caba4804baf0",
+          "9c7caf87505c073aa7990554e8d6ffeef3d12ab807afa27713033c06550fa7fb",
+          "009e378fb93373a429120de16e947a111aa2b1acfe681f2e52c3299e2d186fd0",
+          "e323e776a0deece0b130d58b249ba727340f0ec4a11841a1e1a3382f98ebe99f",
+          "f17dc8b19b248807e2c75e6cad525b555176698dfb15acf4f196f26a4aa58b5d",
+          "d4172dc4c6cf50743ff99d32e6870093ebb221b697d141a15b274fb7053b7ce6",
+          "3532ec0a08840818916aa7fce281669770f0d7fd398dd47b85d8655d7ce4967e"
+        ],
+        "explanation": "reference reconstruction padding supplies a zero terminator after the readable prefix; native output does not invent the missing byte"
+      }
+    ],
+    "scope": "explains source-backed differences only; full acceptance remains pending"
+  },
+  "remaining": [
+    "real x86 and WoW64 images",
+    "broad Windows builds",
+    "complete malformed reconstruction/pefile semantics",
+    "comprehensive parameter/failure and investigative acceptance",
+    "pinned pefile descriptor-error and all-invalid-name pathological stopping thresholds"
+  ],
+  "verifier_regression": {
+    "pe_symbols": {
+      "acquisition_calls": 6009,
+      "all_captures_independently_reread": true,
+      "all_iat_coordinates_and_available_pointers_verified": false,
+      "all_seals_and_provenance_verified": true,
+      "captured_bytes": 8732737,
+      "captures": 6009,
+      "diagnostics": 0,
+      "findings": 0,
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "imports": 0,
+      "jsonl_sha256": "8839d05b24467ed937105a51b876d15f45ed170f5afac324f7b5507b0db32a3d",
+      "opcode_probes": 0,
+      "plugin": "windows.pe_symbols",
+      "process_layers": 120,
+      "read_faults": 2038,
+      "rows": 6011,
+      "symbols": 1
+    },
+    "etwpatch": {
+      "acquisition_calls": 3957291,
+      "all_captures_independently_reread": true,
+      "all_iat_coordinates_and_available_pointers_verified": false,
+      "all_seals_and_provenance_verified": true,
+      "captured_bytes": 113532887,
+      "captures": 358840,
+      "diagnostics": 0,
+      "findings": 0,
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "imports": 0,
+      "jsonl_sha256": "900ba380f25544f06658cec430d6894d956788d8d3b892534da33fcd15b389cb",
+      "opcode_probes": 960,
+      "plugin": "windows.etwpatch",
+      "process_layers": 120,
+      "read_faults": 52402,
+      "rows": 358841,
+      "symbols": 0
+    }
+  },
+  "ordinal_data": {
+    "source": "pefile==2024.8.26 ordlookup",
+    "names": 696,
+    "license": "LICENSES/pefile-MIT.txt",
+    "sha256": "be85eb9bd847a0ae118e89d7564273530e6a56a5e1de22d618fd35732a752eba",
+    "generator": "tools/build_iat_ordinal_names.py --check"
+  }
+}

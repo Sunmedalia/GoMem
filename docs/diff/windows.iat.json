@@ -1,0 +1,48 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "values": [
+      "import"
+    ],
+    "excluded_values": [
+      "memory_read",
+      "diagnostic",
+      "summary"
+    ]
+  },
+  "fields": {
+    "PID": {
+      "native": "PID",
+      "reference": "PID",
+      "kind": "uint64"
+    },
+    "Name": {
+      "native": "Name",
+      "reference": "Name",
+      "kind": "string"
+    },
+    "Library": {
+      "native": "Library",
+      "reference": "Library",
+      "kind": "string"
+    },
+    "Bound": {
+      "native": "Bound",
+      "reference": "Bound",
+      "kind": "bool"
+    },
+    "Function": {
+      "native": "Function",
+      "reference": "Function",
+      "kind": "string",
+      "missing_reasons": [
+        "ordinal_unresolved"
+      ]
+    },
+    "Address": {
+      "native": "Address",
+      "reference": "Address",
+      "kind": "address"
+    }
+  }
+}

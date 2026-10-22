@@ -7152,15 +7152,24 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active Intel Windows processes and native PEB main images with exact kernel symbols. Bounded mapped PE imports preserve descriptor/thunk order, PID filtering, duplicates, named/ordinal imports and timestamp Bound semantics. Baseline Address adds the mapped base twice; actual IATSlot and available captured pointer, including zero, remain separate. MIT pefile ordinal-name data is native compiled data. Exact unpadded source acquisitions, process identities, missing values, capped prefixes and failures are retained. Independent readable descriptors continue after errors. Successful results replay sealed storage; failed tasks execute fresh.",
+      "native": "windows.iat",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-iat-generator-90-paged-cases",
+        "native-x86-pae-x64-135-combinations",
+        "official-windows-10-19041-partial-control"
+      ],
+      "comparison": "six_columns_order_missing_values_raw_captures_and_sealed_cache_match_synthetic;real_6404_native_6406_reference_two_capture_explained_padded_names_full_diff_unmatched",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Development preview; broad Windows builds and real x86/WoW64 images remain pending",
+        "Real complete differential remains unmatched: two reference-only DLL names are truncated api-ms prefixes terminated by reconstruction padding after source faults. All 6404 native imports match, with no extra rows; exceptions retain independent descriptor/name/fault evidence",
+        "Real task has 209 read faults, 95 diagnostics and 301 coverage errors. Missing image pages and native strict header/list/byte bounds remain explicit failed coverage, not silent skips or padded values",
+        "Baseline Address is not the actual IAT slot or called target; Bound is timestamp nonzero, not hook detection",
+        "Full malformed reconstruction/pefile behavior, including descriptor-error and all-invalid-name stopping thresholds, parameter/failure coverage and investigative acceptance remain pending"
+      ],
+      "validation_record": "docs/windows-iat.md"
     },
     {
       "id": "windows.indirect_system_calls.IndirectSystemCalls",

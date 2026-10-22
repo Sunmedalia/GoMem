@@ -98,6 +98,7 @@ bin/gomem analyze windows.pslist \
 | `windows.pe_symbols` | 进程/内核模块精确名称和地址查询、PDB 优先、原始读取证据及明确的部分失败；[说明](docs/windows-pe-symbols.md) |
 | `windows.debugregisters` | 保存的 Dr0–Dr3/Dr7、所属进程、文件映射及精确符号；缺页保留部分失败；[说明](docs/windows-debugregisters.md) |
 | `windows.etwpatch` | ETW 函数首字节 RET/JMP 观察、逐进程地址空间及原始采集证据；缺页明确标记不完整；[说明](docs/windows-etwpatch.md) |
+| `windows.iat` | 主映像导入表、实际槽位/指针及基线地址分列；读取失败保留证据；[说明](docs/windows-iat.md) |
 | `windows.suspended_threads` | 挂起且未终止的线程、跨进程文件映射、PDB 优先的精确符号与读取证据；动态符号任务重新执行；[说明](docs/windows-suspended-threads.md) |
 | `windows.suspicious_threads` | 检查活动线程入口所在 VAD 的文件映射、保护和 EXE 路径，保留线程及 VAD 证据；[说明](docs/windows-suspicious-threads.md) |
 | `windows.hollowprocesses` | 检查 PEB 映像基址与 EXE/DLL VAD 初始保护，保留不可读数据的诊断；[说明](docs/windows-hollowprocesses.md) |
@@ -372,4 +373,4 @@ make dist
 
 ## 许可证
 
-本项目原生代码采用 [MIT 许可证](LICENSE)。生成的 Unicode 16 数据表另遵循 [Unicode License V3](LICENSES/Unicode-3.0.txt)，其来源和独立验证见 [Windows 路径规则](docs/windows-paths.md)。外部依赖、Volatility 基线及测试语料受各自许可证约束；基线源码、镜像与案件数据不随本仓库分发。
+本项目原生代码采用 [MIT 许可证](LICENSE)。生成的 Unicode 16 数据表另遵循 [Unicode License V3](LICENSES/Unicode-3.0.txt)，其来源和独立验证见 [Windows 路径规则](docs/windows-paths.md)。IAT 的 696 个序号名称数据来自 pefile 2024.8.26，保留其 [MIT 版权与许可](LICENSES/pefile-MIT.txt)。外部依赖、Volatility 基线及测试语料受各自许可证约束；基线源码、镜像与案件数据不随本仓库分发。
