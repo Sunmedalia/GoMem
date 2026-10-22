@@ -602,7 +602,9 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 	})
 	err = errors.Join(err, ctx.Err(), e.unchanged())
 	// Commit partial evidence and terminal state even after user cancellation.
-	cleanup, cancel := context.WithTimeout(context.WithoutCancel(ctx), 10*time.Second)
+	// Slow case storage (notably Windows with filesystem scanning) must not
+	// exhaust a tiny shared deadline before the terminal-state write starts.
+	cleanup, cancel := context.WithTimeout(context.WithoutCancel(ctx), time.Minute)
 	defer cancel()
 	err = errors.Join(err, artifacts.Finalize(cleanup))
 	err = errors.Join(err, flush(cleanup))
@@ -613,7 +615,14 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 			state = "canceled"
 		}
 	}
-	err = errors.Join(err, e.Store.Finish(cleanup, task.ID, state, err))
+	finishContext, finishCancel := context.WithTimeout(context.WithoutCancel(ctx), time.Minute)
+	defer finishCancel()
+	if finishErr := e.Store.Finish(finishContext, task.ID, state, err); finishErr != nil {
+		err = errors.Join(err, fmt.Errorf("persist terminal task state: %w", finishErr))
+		// A failed terminal write is not a successfully completed task, even
+		// if the plugin and evidence flush themselves succeeded.
+		state = "failed"
+	}
 	result.Task.State = state
 	result.Task.Rows = count
 	finished := time.Now().UTC()
