@@ -78,7 +78,7 @@ def normalized(value, kind, mask=None, missing_reasons=()):
 
 def compare(native_path, reference_path, mapping_path):
     mapping = json.loads(mapping_path.read_text())
-    native = load_rows(native_path, True)
+    native = [] if "native_record_type" in mapping else load_rows(native_path, True)
     reference = load_rows(reference_path, False)
     fields = mapping["fields"]
 
@@ -95,7 +95,13 @@ def compare(native_path, reference_path, mapping_path):
         if not isinstance(values, list) or not values or any(not isinstance(v, str) for v in values) or len(values) != len(set(values)) or set(values) & set(selector["excluded_values"]):
             raise ValueError("invalid record-type selection values")
         selected = []
-        for row in native:
+        def native_records():
+            with native_path.open(encoding="utf-8") as source:
+                for line in source:
+                    if line.strip():
+                        yield json.loads(line)
+        for row in native_records():
+            input_rows += 1
             cell = row["cells"][selector["field"]]
             if cell["kind"] != "string":
                 raise ValueError("invalid native record-type selector")
@@ -191,7 +197,8 @@ def compare(native_path, reference_path, mapping_path):
     extra = list((a - b).elements())
     hashes = {}
     for key, path in (("native", native_path), ("reference", reference_path), ("mapping", mapping_path)):
-        hashes[key] = hashlib.sha256(path.read_bytes()).hexdigest()
+        with path.open("rb") as source:
+            hashes[key] = hashlib.file_digest(source, "sha256").hexdigest()
     report = {"scope": "selected fields only; full capability acceptance remains pending", "fields": list(fields),
             "native_rows": sum(a.values()), "reference_rows": sum(b.values()), "matched": not missing and not extra,
             "missing": [json.loads(s) for s in missing], "extra": [json.loads(s) for s in extra], "sha256": hashes}

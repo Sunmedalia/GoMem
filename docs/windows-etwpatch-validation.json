@@ -1,0 +1,107 @@
+{
+  "schema": "gomem.windows-etwpatch-validation/v1",
+  "release": "development-preview",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "oracle": {
+    "actual_unmodified_generator_cases": 56,
+    "native_paging_combinations": 84,
+    "architectures": [
+      "x86",
+      "pae",
+      "x64"
+    ],
+    "comparison": "all six columns, order, missing values, separate process mappings, independent capture rereads and sealed store JSONL"
+  },
+  "fuzz": {
+    "target": "FuzzETWPatchPipeline",
+    "duration_seconds": 10,
+    "executions": 70743,
+    "result": "pass"
+  },
+  "real_negative": {
+    "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+    "processes": 120,
+    "module_instances": 226,
+    "vads": 19999,
+    "resolved_functions": 8,
+    "missing_functions": [
+      "ntdll.dll!EtwpEventWriteFull"
+    ],
+    "opcode_probes": 960,
+    "findings": 0,
+    "original_acquisition_calls": 3957291,
+    "stored_memory_read_rows": 358840,
+    "captured_bytes": 113532887,
+    "read_faults": 52402,
+    "errors": 52443,
+    "max_read_bytes": 536870912,
+    "complete": false,
+    "state": "failed",
+    "independent_verifier": {
+      "acquisition_calls": 3957291,
+      "all_captures_independently_reread": true,
+      "all_seals_and_provenance_verified": true,
+      "captured_bytes": 113532887,
+      "captures": 358840,
+      "findings": 0,
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "opcode_probes": 960,
+      "plugin": "windows.etwpatch",
+      "process_layers": 120,
+      "read_faults": 52402,
+      "rows": 358841,
+      "symbols": 0
+    }
+  },
+  "cli_diff": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "PID",
+      "Process",
+      "DLL",
+      "Function",
+      "Offset",
+      "Opcode"
+    ],
+    "native_rows": 0,
+    "reference_rows": 0,
+    "matched": true,
+    "missing": [],
+    "extra": [],
+    "sha256": {
+      "native": "900ba380f25544f06658cec430d6894d956788d8d3b892534da33fcd15b389cb",
+      "reference": "a3cbe01dad52836a7ac8efc91954cf64867f4dee8a6f046c4bb0838d11f48589",
+      "mapping": "5ed62e8b9376543ae7815fc7a0404bc53b3454ee150e76541e149a8046c34f64"
+    },
+    "native_input_rows": 358841,
+    "native_non_entity_records": {
+      "memory_read": 358840,
+      "summary": 1
+    },
+    "entity_selection": {
+      "field": "RecordType",
+      "values": [
+        "finding"
+      ],
+      "excluded_values": [
+        "memory_read",
+        "summary"
+      ]
+    }
+  },
+  "remaining": [
+    "real positive samples",
+    "broad Windows version coverage",
+    "matching private symbols and unavailable functions",
+    "real Unicode module acquisition",
+    "runtime PDB dependency cache validation",
+    "complete failure/parameter and investigative acceptance"
+  ],
+  "differential_tool_measurement": {
+    "scope": "single local macOS negative-control run; not a general performance acceptance benchmark",
+    "native_jsonl_bytes": 853151125,
+    "elapsed_seconds": 3.23,
+    "peak_rss_bytes": 42762240,
+    "behavior": "stream and validate every native record, retain selected entity rows only, hash input files incrementally"
+  }
+}

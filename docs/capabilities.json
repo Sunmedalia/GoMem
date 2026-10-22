@@ -6753,15 +6753,24 @@
           "optional": true
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Active Windows Intel processes. Global file-VAD collection and PDB-first/all-instance export fallback precede PID filtering. Each selected process reads its own byte at globally resolved ETW addresses, including processes without matching VADs. Only C3 RET and E9 JMP are findings. Six baseline columns, process identity, source layer, symbol provenance and exact acquisition evidence are retained. Consecutive successful export reads may share a bounded storage span preserving all original call boundaries. Read/list/symbol failures remain explicit failed coverage; later useful observations continue. Dynamic module symbols execute fresh.",
+      "native": "windows.etwpatch",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-etwpatch-generator-56-paged-cases",
+        "native-x86-pae-x64-84-combinations",
+        "official-windows-10-19041-negative-partial-control"
+      ],
+      "comparison": "six_columns_order_missing_values_raw_captures_and_sealed_storage_match;real_120_processes_960_probes_zero_findings_with_52402_read_faults_explicit",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Development preview; real positive samples and broad Windows version coverage pending",
+        "One real Windows 10 control resolves eight functions; EtwpEventWriteFull remains unavailable. Zero findings with 52402 read faults is partial coverage, not clean absence of ETW patching",
+        "Opcode observations do not establish malicious intent or disabled ETW; other instructions are outside the pinned selection",
+        "Native failures and bounds are explicit rather than silent baseline skips. The real run used a 512 MiB bound; the default 64 MiB can stop before probing",
+        "Dynamic symbol dependency cache replay, matching private symbols and real Unicode module corpora remain pending"
+      ],
+      "validation_record": "docs/windows-etwpatch.md"
     },
     {
       "id": "windows.filescan.FileScan",

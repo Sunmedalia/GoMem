@@ -1,0 +1,44 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "values": [
+      "finding"
+    ],
+    "excluded_values": [
+      "memory_read",
+      "summary"
+    ]
+  },
+  "fields": {
+    "PID": {
+      "native": "PID",
+      "reference": "PID",
+      "kind": "uint64"
+    },
+    "Process": {
+      "native": "Process",
+      "reference": "Process",
+      "kind": "string"
+    },
+    "DLL": {
+      "native": "DLL",
+      "reference": "DLL",
+      "kind": "string"
+    },
+    "Function": {
+      "native": "Function",
+      "reference": "Function",
+      "kind": "string"
+    },
+    "Offset": {
+      "native": "Offset",
+      "reference": "Offset",
+      "kind": "address"
+    },
+    "Opcode": {
+      "native": "Opcode",
+      "reference": "Opcode",
+      "kind": "string"
+    }
+  }
+}

@@ -28,8 +28,12 @@ func main() {
 func run() error {
 	image := flag.String("image", "", "Original image")
 	table := flag.String("symbols", "", "Exact kernel ISF")
-	rows := flag.String("jsonl", "", "Saved PE-symbol evidence JSONL")
+	rows := flag.String("jsonl", "", "Saved Windows symbol or ETW evidence JSONL")
+	expectedPlugin := flag.String("plugin", "windows.pe_symbols", "Expected command: windows.pe_symbols or windows.etwpatch")
 	flag.Parse()
+	if *expectedPlugin != "windows.pe_symbols" && *expectedPlugin != "windows.etwpatch" {
+		return fmt.Errorf("unsupported verification command %s", *expectedPlugin)
+	}
 	if *image == "" || *table == "" || *rows == "" {
 		return fmt.Errorf("image, symbols and jsonl are required")
 	}
@@ -71,6 +75,7 @@ func run() error {
 	defer file.Close()
 	decode := json.NewDecoder(bufio.NewReaderSize(file, 64<<10))
 	var captures, failed, symbols, count, bytesRead uint64
+	var findings, probes, acquisitions, summaries, expectedReads uint64
 	for {
 		var row evidence.Row
 		if err := decode.Decode(&row); err == io.EOF {
@@ -81,14 +86,37 @@ func run() error {
 		if err := row.Verify(); err != nil {
 			return fmt.Errorf("row %d seal: %w", count, err)
 		}
+		if summaries > 0 {
+			return fmt.Errorf("records follow terminal summary")
+		}
 		count++
-		if row.Provenance.ImageSHA256 != e.Hash || row.Provenance.Plugin != "windows.pe_symbols" || row.Provenance.SymbolsSHA256 != e.Env.Symbols.Digest() {
+		if row.Provenance.ImageSHA256 != e.Hash || row.Provenance.Plugin != *expectedPlugin || row.Provenance.SymbolsSHA256 != e.Env.Symbols.Digest() {
 			return fmt.Errorf("row %d provenance mismatch", count)
 		}
 		switch row.Cells["RecordType"].String() {
 		case "symbol":
+			if *expectedPlugin != "windows.pe_symbols" {
+				return fmt.Errorf("unexpected symbol record")
+			}
 			symbols++
+		case "finding":
+			if *expectedPlugin != "windows.etwpatch" {
+				return fmt.Errorf("unexpected finding record")
+			}
+			findings++
 		case "summary":
+			summaries++
+			if *expectedPlugin == "windows.etwpatch" {
+				var coverage struct{ Acquisition struct{ Reads uint64 } }
+				encoded, cause := json.Marshal(row.Cells["Coverage"].Data)
+				if cause != nil {
+					return cause
+				}
+				if cause = json.Unmarshal(encoded, &coverage); cause != nil {
+					return cause
+				}
+				expectedReads = coverage.Acquisition.Reads
+			}
 		case "memory_read":
 			layer, ok := layers[row.Provenance.Layer]
 			if !ok {
@@ -117,29 +145,93 @@ func run() error {
 			if cause != nil || captured != uint64(len(raw)) {
 				return fmt.Errorf("captured byte count mismatch")
 			}
-			actual := make([]byte, int(requested))
-			n, cause := layer.ReadAt(ctx, actual, at)
-			if n < 0 || n > len(actual) {
-				return fmt.Errorf("invalid original read count")
+
+			calls, method, cause := readCalls(row.Cells["Resolution"].Data, at, requested, captured, row.Cells["Error"].Kind == "missing")
+			if cause != nil {
+				return cause
 			}
-			if cause == nil && n != len(actual) {
-				cause = io.ErrUnexpectedEOF
+			cursor := uint64(0)
+			for _, call := range calls {
+				actual := make([]byte, int(call.Requested))
+				n, readErr := layer.ReadAt(ctx, actual, call.Offset)
+				if n < 0 || n > len(actual) {
+					return fmt.Errorf("invalid original read count")
+				}
+				if readErr == nil && n != len(actual) {
+					readErr = io.ErrUnexpectedEOF
+				}
+				if uint64(n) != call.Captured || !bytes.Equal(actual[:n], raw[cursor:cursor+call.Captured]) || (readErr == nil) != (row.Cells["Error"].Kind == "missing") {
+					return fmt.Errorf("original acquisition mismatch at %s/%#x: %v", layer.Name(), call.Offset, readErr)
+				}
+				if readErr != nil {
+					failed++
+				}
+				cursor += call.Captured
+				acquisitions++
 			}
-			actual = actual[:n]
-			if !bytes.Equal(actual, raw) || (cause == nil) != (row.Cells["Error"].Kind == "missing") {
-				return fmt.Errorf("original read mismatch at %s/%#x: %v", layer.Name(), at, cause)
+			if cursor != captured {
+				return fmt.Errorf("unverified captured bytes")
+			}
+			if method == "opcode" {
+				probes++
 			}
 			captures++
 			bytesRead += captured
-			if cause != nil {
-				failed++
-			}
 		default:
 			return fmt.Errorf("unknown PE-symbol record type")
 		}
 	}
+	if summaries != 1 {
+		return fmt.Errorf("missing terminal summary; input may be incomplete")
+	}
+	if *expectedPlugin == "windows.etwpatch" && acquisitions != expectedReads {
+		return fmt.Errorf("summary/acquisition count mismatch: %d/%d", expectedReads, acquisitions)
+	}
 	if captures == 0 {
 		return fmt.Errorf("no read captures in input")
 	}
-	return json.NewEncoder(os.Stdout).Encode(map[string]any{"image_sha256": e.Hash, "rows": count, "captures": captures, "read_faults": failed, "captured_bytes": bytesRead, "symbols": symbols, "process_layers": len(layers) - 1, "all_seals_and_provenance_verified": true, "all_captures_independently_reread": true})
+	return json.NewEncoder(os.Stdout).Encode(map[string]any{"image_sha256": e.Hash, "rows": count, "captures": captures, "acquisition_calls": acquisitions, "read_faults": failed, "captured_bytes": bytesRead, "symbols": symbols, "findings": findings, "opcode_probes": probes, "plugin": *expectedPlugin, "process_layers": len(layers) - 1, "all_seals_and_provenance_verified": true, "all_captures_independently_reread": true})
+}
+
+type acquisitionCall struct{ Offset, Requested, Captured uint64 }
+
+func readCalls(value any, at, requested, captured uint64, success bool) ([]acquisitionCall, string, error) {
+	var detail struct {
+		Method       string
+		Grouped      bool
+		Acquisitions []struct {
+			Offset              string
+			Requested, Captured uint64
+		}
+	}
+	encoded, err := json.Marshal(value)
+	if err != nil {
+		return nil, "", err
+	}
+	if err = json.Unmarshal(encoded, &detail); err != nil {
+		return nil, "", err
+	}
+	if !detail.Grouped {
+		if len(detail.Acquisitions) > 0 {
+			return nil, "", fmt.Errorf("ungrouped read has acquisition boundaries")
+		}
+		return []acquisitionCall{{at, requested, captured}}, detail.Method, nil
+	}
+	if detail.Method != "exports" || !success || requested != captured || requested > 4096 || len(detail.Acquisitions) < 2 || len(detail.Acquisitions) > 64 {
+		return nil, "", fmt.Errorf("invalid grouped export acquisition")
+	}
+	var calls []acquisitionCall
+	var total uint64
+	for _, call := range detail.Acquisitions {
+		offset, err := (evidence.Value{Kind: "address", Data: call.Offset}).Uint()
+		if err != nil || total > ^uint64(0)-at || offset != at+total || call.Requested == 0 || call.Requested != call.Captured || call.Captured > captured-total {
+			return nil, "", fmt.Errorf("invalid original export acquisition boundary")
+		}
+		calls = append(calls, acquisitionCall{offset, call.Requested, call.Captured})
+		total += call.Captured
+	}
+	if total != captured {
+		return nil, "", fmt.Errorf("grouped acquisition omitted bytes")
+	}
+	return calls, detail.Method, nil
 }

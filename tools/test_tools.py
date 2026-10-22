@@ -2,6 +2,7 @@ import json
 import pathlib
 import tempfile
 import unittest
+from unittest import mock
 import hashlib
 import zipfile
 
@@ -12,6 +13,27 @@ from compare_extractions import compare as compare_extractions
 
 
 class DifferentialTests(unittest.TestCase):
+    def test_selected_native_evidence_stream_does_not_load_raw_file(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            native, reference, mapping = root / "native", root / "reference", root / "mapping"
+            with native.open("w") as output:
+                for kind in ["memory_read"] * 1000 + ["finding", "finding", "summary"]:
+                    output.write(json.dumps({"cells": {"RecordType": {"kind": "string", "value": kind}, "PID": {"kind": "uint64", "value": "1"}}}) + "\n")
+            reference.write_text(json.dumps([{"PID": 1}, {"PID": 1}]))
+            mapping.write_text(json.dumps({"native_record_type": {"field": "RecordType", "values": ["finding"], "excluded_values": ["memory_read", "summary"]}, "fields": {"PID": {"native": "PID", "reference": "PID", "kind": "uint64"}}}))
+            read_text = pathlib.Path.read_text
+            def guarded(path, *args, **kwargs):
+                if path == native:
+                    raise AssertionError("native raw evidence loaded as one string")
+                return read_text(path, *args, **kwargs)
+            with mock.patch.object(pathlib.Path, "read_text", guarded), mock.patch.object(pathlib.Path, "read_bytes", side_effect=AssertionError("whole artifact loaded for hashing")):
+                result = compare(native, reference, mapping)
+            self.assertTrue(result["matched"])
+            self.assertEqual(result["native_rows"], 2)
+            self.assertEqual(result["native_input_rows"], 1003)
+            self.assertEqual(result["native_non_entity_records"], {"memory_read": 1000, "summary": 1})
+
     def test_artifact_filename_profile_keeps_errors_distinct(self):
         artifact = {"kind": "artifact", "value": {"name": "module.elf", "state": "completed_with_gaps", "sha256": "other-check"}}
         self.assertEqual(normalized_result(artifact, "artifact_name"), "module.elf")
