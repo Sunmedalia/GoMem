@@ -47,6 +47,43 @@ prefix behavior across a later missing page has not yet been differentially
 verified. Native direct-name partial reads retain the acquired prefix and read
 error. These component controls do not establish full plugin or OS acceptance.
 
-Remaining work includes bounded adjacent/child traversal with the original ordering and
-duplicate semantics, plugin integration, sealed source-read auditing, and a
-real-image differential. No Windows window-enumeration acceptance is claimed.
+## Adjacent and child traversal
+
+`Reader.Windows` adds bounded traversal from the desktop-info's `spwnd` field.
+`WindowRef.Offset` preserves the original displayed offset, while
+`WindowRef.Address` identifies the actual window whose fields are read. The
+initial window and recursively visited children are pointer objects in the
+original; their displayed offsets identify pointer storage. Adjacent windows
+are dereferenced structures and display the target address. These two locations
+must not be silently conflated in evidence or owner/session lookup.
+
+The original mixes pointer values and structure identity hashes in its local
+sets. Its sibling-cycle check recognizes a return to the first pointer's target,
+but a cycle between other siblings runs to the local window bound. Its child
+null check examines the pointer-field offset, so a zero-valued child can still
+yield an entry with a nonzero displayed offset before reads at zero fail. Native
+controls preserve these behaviors rather than replacing them with a conventional
+address-only tree walk. Pointer member/dereference caches are modeled locally.
+
+Original child-parent iteration uses an identity-hashed Python set and has no
+stable cross-process order. Native traversal uses parent discovery order;
+complete child entities are normalized for comparison, and the stable adjacent
+prefix is compared in order. A native active-child-cycle check and explicit
+depth/step bounds stop recursive corruption with an error. The original can
+instead raise RecursionError. Previously emitted rows and raw source reads are
+retained. A bound hit is an explicit incomplete result, not silent exhaustion.
+The original max-windows bound applies within frames and to outer unique
+display offsets; both are retained. Native bounds require positive values.
+
+`tools/build_gui_window_walk_oracle.py` runs 168 actual original generator
+controls (14 scenarios over 12 layouts), covering sibling and child links,
+shared children, null targets, cycles, faults and small bounds. A test-harness
+recursion limit of 128 bounds the original's child-cycle case; no method is
+replaced. Native tests independently verify every captured source byte and
+check emitter failure, cancellation before/after output, and invalid/depth/step
+bounds. The traversal fuzz target patches image bytes and missing regions.
+
+Remaining work includes complete original-plugin generator integration, paged
+walk controls, sealed source-read auditing, a real-image differential, and
+analysis of how unstable child order interacts with truncated/cyclic multi-branch
+results. No Windows window-enumeration acceptance is claimed.

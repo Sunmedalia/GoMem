@@ -22,8 +22,27 @@
     "inode_oracle": "32768 modes passed",
     "ci": "oracle regeneration and field fuzz wired; final commit not yet executed"
   },
+  "traversal": {
+    "original_generator_controls": 168,
+    "layouts": 12,
+    "scenarios_per_layout": 14,
+    "methods_unmodified": true,
+    "original_method": "tagDESKTOP.windows and _do_get_windows",
+    "test_harness_recursion_limit": 128,
+    "display_offset_and_target_compared_separately": true,
+    "adjacent_prefix_ordered": true,
+    "complete_child_entities_normalized": true,
+    "original_child_order": "Unstable identity-hashed Python set iteration; native uses discovery order",
+    "original_recursive_cycle": "RecursionError; native retains prefix and reports an active-child-cycle error",
+    "captured_source_bytes_independently_rechecked": true,
+    "package_race": "pass; 38.125s",
+    "fuzz_executions": 20000,
+    "oracle_regeneration": "pass in a separate process",
+    "ci": "generator check and fuzz wired; final commit not yet executed"
+  },
   "remaining": [
-    "Original traversal ordering, adjacent and child window cycles and duplicate semantics",
+    "Truncated/cyclic multi-branch behavior when original child set iteration order changes",
+    "Paged traversal controls and complete original plugin integration",
     "Paged original control for direct-name contiguous prefixes after a later mapping gap",
     "Full generator integration and parameter bounds",
     "Sealed session-layer read/provenance audit",
