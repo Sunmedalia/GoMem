@@ -140,3 +140,8 @@ revision-probe and cache-lock changes passed focused race tests. The cache-lock
 regression also passed five repetitions on the actual Windows CI runner in
 run 39835965131; the full remote workflow remains in progress. Expanded layout
 controls have separate local checks. The capability matrix remains partial.
+
+The expanded cmdscan layout snapshot subsequently passed the complete local
+`make check`: engine race 1547.894 seconds, 43 Python tests and 428 argument
+fixtures. It predates the later screen/object components, whose validation is
+recorded separately.

@@ -69,3 +69,7 @@ establish real-image, plugin, renderer/export or performance acceptance.
 See [machine-readable validation](windows-console-screen-validation.json),
 [command history scanning](windows-cmdscan.md) and
 [layout acquisition](windows-console-layout.md).
+
+The subsequent [console object reader](windows-console-objects.md) adds titles,
+validity, scalar metadata and list primitives; full plugin integration remains
+pending.

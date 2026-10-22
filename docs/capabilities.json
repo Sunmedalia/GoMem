@@ -5938,15 +5938,16 @@
       "status": "missing",
       "accepted": false,
       "corpora": [
-        "pinned-209-console-screen-component-controls-11-layouts"
+        "pinned-209-console-screen-component-controls-11-layouts",
+        "pinned-319-console-object-component-controls-11-layouts"
       ],
-      "comparison": "screen_component_only;not_a_registered_native_plugin",
+      "comparison": "screen_title_scalar_and_list_components_only;not_a_registered_native_plugin",
       "gaps": [
-        "Native screen rows, signed layout offsets and circular buffers have component controls only; no windows.consoles plugin is registered",
-        "Full console candidate discovery, titles, aliases, attached processes, history trees, evidence-store integration and real-image screen differential remain pending",
-        "Original negative row lengths and silent row-read truncation are explicit native errors; finite component fixtures are not plugin or release acceptance"
+        "Native screen rows, signed layout offsets, titles, scalar fields and console lists have component controls only; no windows.consoles plugin is registered",
+        "Full console candidate discovery, alias texts, screen-chain selection, property/history trees, evidence-store integration and real-image console differential remain pending",
+        "Original malformed lengths, title-error swallowing and silent list truncation are explicit native errors; finite component fixtures are not plugin or release acceptance"
       ],
-      "validation_record": "docs/windows-console-screen.md"
+      "validation_record": "docs/windows-console-objects.md"
     },
     {
       "id": "windows.crashinfo.Crashinfo",

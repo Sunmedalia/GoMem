@@ -112,7 +112,7 @@
     "matrix": "pass; 195 plugins, 148 partial, 47 missing, 0 accepted",
     "local_build_offline_doctor": "pass; development preview",
     "windows_catalog_ci_regression": "Fixed: all three native OS jobs and all four engine race shards in run 39835965131 passed. The Windows native job includes five repetitions of ConsoleCatalog, full tests, build and offline doctor. Acceptance job is still running.",
-    "expanded_full_make_check": "running on expanded-layout snapshot; previous initial registered-scanner full check passed",
+    "expanded_full_make_check": "pass; expanded cmdscan snapshot, engine race 1547.894s, 43 Python tests, 428 argument fixtures. Started before screen and console object components; those have separate focused checks.",
     "expanded_cmdscan_fuzz": "pass; 1000 executions after adding 132-layout controls"
   },
   "remaining": [

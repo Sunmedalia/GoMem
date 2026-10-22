@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "status": "development_dependency",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Signed native console scalar/title metadata and history/process/executable-alias/alias list primitives; no registered windows.consoles plugin",
+  "synthetic": {
+    "layouts": 11,
+    "cases": 319,
+    "original_result_projections": 2871,
+    "original_analysis_methods_unmodified": true,
+    "source_sha256_matches_compiled_catalog": true,
+    "kernel_list_layout": "actual external _LIST_ENTRY table supplied independently of the console ISF",
+    "successful_scalar_title_process_bytes_independently_reread": true,
+    "partial_title_bytes_and_coordinates_retained": true,
+    "validity_boolean_matches_original_when_original_completes": true,
+    "candidate_valid_with_title_read_error_controls": 22,
+    "list_cycle_null_read_errors_retained": true,
+    "unused_backlink_fault_keeps_readable_nodes": true,
+    "bounds_cancel_emitter_controls": "pass",
+    "limits": [
+      "Finite physical byte-backed objects, not complete plugin or hardware page-table controls",
+      "No executable/alias text or screen-chain method acceptance",
+      "Original swallowed title/list errors remain explicit native failures"
+    ],
+    "list_iterator_abort_controls": {
+      "history-link-hole": 11,
+      "alias-node-hole": 11,
+      "native_behavior": "requires readable container byte, returns preceding node and explicit read error; original iterator yields unreadable node then aborts its forward-link read"
+    }
+  },
+  "checks": {
+    "focused_original_object_race": "pass; 319 controls and native guards, 4.126s",
+    "package_race": "pass; all winconsole components, 7.842s",
+    "object_fuzz": "pass; 10000 executions in 2.956s",
+    "layout_fuzz": "pass; 1000 executions in 0.917s",
+    "oracle_python312": "pass; all 319 controls regenerate identically",
+    "full_make_check": "running for console component snapshot; prior expanded cmdscan snapshot passed with engine race 1547.894s, 43 Python tests and 428 argument fixtures",
+    "vet": "pass; go vet ./...",
+    "matrix": "pass; 195 plugins, 148 partial, 47 missing, 0 accepted",
+    "inode_oracle": "32768 pass",
+    "python_tests": "43 pass",
+    "argument_fixtures": "428 pass",
+    "build_offline_doctor": "pass; development preview",
+    "cross_compile": "Windows amd64 and Linux amd64 package test executables built; latest runtime CI pending"
+  },
+  "remaining": [
+    "Full windows.consoles candidate scanning and property tree",
+    "Screen chain selection and executable/alias strings",
+    "Command histories, registry settings and evidence linkage",
+    "Real positive console corpus and complete version/parameter/failure matrix",
+    "Sealed task storage, export, cache/resume and release performance acceptance"
+  ]
+}
