@@ -34,6 +34,10 @@ type poolConstraint struct {
 	maxIndex   uint64
 	skipType   bool
 	additional []string
+	// External executive types use their own table for body sizes and validity;
+	// pool and executive headers continue to use the matching kernel table.
+	objectTable symbols.SymbolTable
+	valid       func(context.Context, *object.Reader, uint64) (bool, error)
 }
 
 type poolLayout struct {
@@ -356,6 +360,9 @@ func poolScanLayout(e plugin.Environment, constraints []poolConstraint) (poolLay
 		layout.optional, layout.padding = optionalHeaderSizes(e.Symbols)
 	}
 	for _, constraint := range constraints {
+		if constraint.objectTable != nil && constraint.objectTable.PointerSize() != e.Symbols.PointerSize() {
+			return poolLayout{}, fmt.Errorf("pool object/kernel pointer widths differ")
+		}
 		if constraint.minIndex != 0 || constraint.maxIndex != 0 {
 			field, err := e.Objects.Field("_POOL_HEADER", "PoolIndex")
 			if err != nil {
@@ -365,7 +372,7 @@ func poolScanLayout(e plugin.Environment, constraints []poolConstraint) (poolLay
 				return poolLayout{}, fmt.Errorf("pool index schema: %w", err)
 			}
 		}
-		if constraint.objectType != "" && constraint.typeName != "_FILE_OBJECT" && constraint.typeName != "_EPROCESS" && constraint.typeName != "_ETHREAD" && constraint.typeName != "_KMUTANT" && constraint.typeName != "_DRIVER_OBJECT" && constraint.typeName != "_OBJECT_SYMBOLIC_LINK" {
+		if constraint.objectType != "" && constraint.valid == nil && constraint.typeName != "_FILE_OBJECT" && constraint.typeName != "_EPROCESS" && constraint.typeName != "_ETHREAD" && constraint.typeName != "_KMUTANT" && constraint.typeName != "_DRIVER_OBJECT" && constraint.typeName != "_OBJECT_SYMBOLIC_LINK" {
 			return poolLayout{}, fmt.Errorf("pool validity for %s is not implemented", constraint.typeName)
 		}
 	}
@@ -603,13 +610,17 @@ func carveTopDown(ctx context.Context, layout poolLayout, constraint poolConstra
 }
 
 func carveBottomUp(ctx context.Context, layout poolLayout, constraint poolConstraint, header, blockBytes uint64, scan *object.Reader, native memory.MemoryLayer) ([]uint64, error) {
-	typ, err := scan.Symbols.Type(constraint.typeName)
+	table := scan.Symbols
+	if constraint.objectTable != nil {
+		table = constraint.objectTable
+	}
+	typ, err := table.Type(constraint.typeName)
 	if err != nil {
 		return nil, err
 	}
 	size := typ.Size
 	for _, name := range constraint.additional {
-		extra, err := scan.Symbols.Type(name)
+		extra, err := table.Type(name)
 		if err != nil {
 			return nil, err
 		}
@@ -633,6 +644,9 @@ func carveBottomUp(ctx context.Context, layout poolLayout, constraint poolConstr
 }
 
 func poolObjectValid(ctx context.Context, constraint poolConstraint, object uint64, scan *object.Reader, native memory.MemoryLayer) (bool, error) {
+	if constraint.valid != nil {
+		return constraint.valid(ctx, scan, object)
+	}
 	switch constraint.typeName {
 	case "_FILE_OBJECT":
 		return fileObjectValid(ctx, scan, native, object)

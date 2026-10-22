@@ -90,3 +90,6 @@ Export the variables or prefix the test invocation. The optional extension
 requires positive original rows, verifies manifest baseline/image/output hashes,
 and compares every supplied row. Without explicit corpus inputs no real-image
 acceptance is established.
+
+Subsequent development: [external GUI pool carving](windows-gui-pool.md)
+adds synthetic constraint and candidate validation without registering GUI plugins.

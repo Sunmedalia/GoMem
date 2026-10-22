@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "status": "development_dependency",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "External GUI executive constraint/filter/carving support in shared scanner; no plugin registration",
+  "synthetic": {
+    "controls": 480,
+    "layouts": 12,
+    "directions": 2,
+    "object_tags": [
+      "Wind",
+      "Desk"
+    ],
+    "scenarios": 10,
+    "original_methods_unmodified": true,
+    "fuzz_executions": 10000,
+    "fuzz_seconds": 1.753
+  },
+  "checks": {
+    "targeted_pool_race": "pass;4.126s",
+    "original_oracle": "pass; final deterministic check after explicit padded-hole handling",
+    "complete_plugin_package_race": "pass;46.435s; shared scanner implementation snapshot",
+    "full_make_check": "running on earlier session snapshot, not this shared scanner snapshot",
+    "remote_ci": "wired;not yet executed",
+    "vet_windows_linux_compile": "pass",
+    "matrix_build_offline_doctor": "pass; development preview; no capability promotion"
+  },
+  "remaining": [
+    "Complete GUI plugin generators and session rebinding",
+    "Real native pool discovery vs original",
+    "Sealed raw evidence, failed-task retry and cache validation",
+    "Supported OS acceptance"
+  ]
+}
