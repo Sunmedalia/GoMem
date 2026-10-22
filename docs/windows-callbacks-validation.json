@@ -181,7 +181,8 @@
     "build_offline_doctor": "pass; development preview and acceptance false",
     "object_oracle_python312": "pass; uv Python 3.12 pinned pefile",
     "additional_engine_vet": "pass",
-    "previous_analysis_commit_ci": "pass; 6aebe4dc0215a7d20f2697f972d8ceb3a5717fc8; https://github.com/Sunmedalia/GoMem/actions/runs/39797203340"
+    "previous_analysis_commit_ci": "pass; 6aebe4dc0215a7d20f2697f972d8ceb3a5717fc8; https://github.com/Sunmedalia/GoMem/actions/runs/39797203340",
+    "mapped_acquisition_commit_ci": "pass; dc3730330a935d980792ffd7e31d1867a448bde6; https://github.com/Sunmedalia/GoMem/actions/runs/39826811605"
   },
   "native_paged_pipeline": {
     "architectures": [

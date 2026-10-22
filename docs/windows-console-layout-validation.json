@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "status": "development_dependency",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Measured kernel version, pure conhost selection and pinned history-layout acquisition; no cmdscan/consoles plugin implementation claim",
+  "synthetic": {
+    "version_controls": 663,
+    "history_controls": 385,
+    "original_layouts": 11,
+    "architectures": [
+      "x86",
+      "pae",
+      "x64"
+    ],
+    "original_methods_unmodified": true,
+    "revision_path": "invalid direct PE access followed by original physical file-version fallback; successful direct PE reconstruction not covered",
+    "native_measured_kernel_reads": true,
+    "catalog_fixture": "Exact original bytes and compiled SHA256 pins tested on every native CI platform; optional source-checkout comparison",
+    "concurrent_resolvers_per_layout": 4,
+    "layout_fuzz_executions": 10000
+  },
+  "real_control": {
+    "image": ".cache/corpus/win-10_19041-2025_03.dmp",
+    "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+    "kernel_symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+    "dtb": "0x6d4000",
+    "kernel_base": "0xfffff8043601f000",
+    "native": {
+      "format": "crash",
+      "selection": {
+        "Name": "consoles-win10-19041-x64",
+        "Exact": true,
+        "Windows10X64": true,
+        "MatchedBuild": 19041,
+        "MatchedRevision": 0,
+        "EffectiveRevision": 0
+      },
+      "version": {
+        "Width": 8,
+        "Major": 10,
+        "Minor": 0,
+        "Build": 19041,
+        "Revision": 0
+      }
+    },
+    "reference": {
+      "name": "consoles-win10-19041-x64",
+      "conhost_version_read_required": false
+    },
+    "comparison": "selection_name_exact",
+    "limits": [
+      "Same kernel ISF; no independent PDB parser parity",
+      "Kernel-version/layout selection only; conhost revision not needed for this build",
+      "No process discovery, candidate scanning, recovered commands or evidence-store control"
+    ]
+  },
+  "checks": {
+    "full_make_check": "pass; Go vet, full race suite, 43 Python tests, 428 argument fixtures",
+    "original_catalog_race": "pass; 11 original files",
+    "oracle_python312": "pass; 663 unmodified selections",
+    "matrix": "195 plugins; 147 partial, 48 missing, 0 accepted",
+    "build_offline_doctor": "pass; development preview"
+  },
+  "remaining": [
+    "Measure conhost product revision from mapped PE and integrate physical fallback",
+    "Registry history settings and bounded VAD/candidate scanning",
+    "Full CmdScan generator, tree, raw evidence and store/cache/retry validation",
+    "Console screen and other console object parsing"
+  ]
+}

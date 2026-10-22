@@ -42,7 +42,8 @@ negative synthetic offsets unsupported by the general native ISF reader. This
 adapter does not expose or claim support for those types. Its table digest
 identifies the projection: integration must also retain the original file hash
 and matched conhost identity in provenance/cache keys. Layout selection,
-downloading and cache verification are not implemented here.
+downloading and cache verification are supplied by the separate
+[layout acquisition component](windows-console-layout.md).
 
 ## Validation
 
