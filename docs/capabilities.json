@@ -10861,15 +10861,24 @@
           "description": "Strings file"
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "External local/file-URI strings output, exact Windows Intel symbols and active process page roots. Immutable input snapshots are content-hashed before cache lookup. Pinned byte regex, Latin1 text, kernel run-base coordinates and swapped process run-base coordinates are preserved. Claimed physical associations additionally require native hardware translation. Query-page evidence links original input bytes, process identities, page-table captures and summary coverage. Bounded streaming page walks, PID filtering, cancellation and explicit failed coverage are supported.",
+      "native": "windows.strings",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-windows-strings-24-generators-1038-parser-cases",
+        "native-x86-pae-x64-36-combinations",
+        "official-windows-10-19041-154-query-partial-control"
+      ],
+      "comparison": "all_154_real_String_PhysicalAddress_Result_sets_match;14143_original_reads_and_claimed_physical_associations_independently_verified;synthetic_store_cache_bounds_cancel_and_input_mutation_checks_pass",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Development preview; real x86/PAE and broader Windows builds remain pending",
+        "Real control has 1320 unavailable mappings, with 64 detailed diagnostics and full summary count; task fails coverage",
+        "External string text is unverified. Physical candidates are native-translation-checked but enumeration inherits pinned omissions and is not exhaustive native reverse mapping",
+        "Input is limited to 64 MiB local/file URI snapshots; uint64-overflow and invalid lines explicitly fail coverage instead of silent baseline behavior",
+        "Full parameters, remote URI sources, renderers and capability acceptance remain pending"
+      ],
+      "validation_record": "docs/windows-strings.md"
     },
     {
       "id": "windows.suspended_threads.SuspendedThreads",

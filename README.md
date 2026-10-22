@@ -98,6 +98,7 @@ bin/gomem analyze windows.pslist \
 | `windows.pe_symbols` | 进程/内核模块精确名称和地址查询、PDB 优先、原始读取证据及明确的部分失败；[说明](docs/windows-pe-symbols.md) |
 | `windows.debugregisters` | 保存的 Dr0–Dr3/Dr7、所属进程、文件映射及精确符号；缺页保留部分失败；[说明](docs/windows-debugregisters.md) |
 | `windows.etwpatch` | ETW 函数首字节 RET/JMP 观察、逐进程地址空间及原始采集证据；缺页明确标记不完整；[说明](docs/windows-etwpatch.md) |
+| `windows.strings` | 外部字符串偏移关联、输入快照与原始分页证据，区分基线坐标和原生翻译候选；[说明](docs/windows-strings.md) |
 | `windows.malfind` | 可执行 VAD、脏页与非零页筛选，保留原始字节、反汇编输入和提取空洞；[说明](docs/windows-malfind.md) |
 | `windows.iat` | 主映像导入表、实际槽位/指针及基线地址分列；读取失败保留证据；[说明](docs/windows-iat.md) |
 | `windows.suspended_threads` | 挂起且未终止的线程、跨进程文件映射、PDB 优先的精确符号与读取证据；动态符号任务重新执行；[说明](docs/windows-suspended-threads.md) |

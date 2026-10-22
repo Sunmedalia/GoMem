@@ -3,6 +3,7 @@ package memory
 import (
 	"context"
 	"encoding/binary"
+	"errors"
 	"testing"
 )
 
@@ -204,3 +205,77 @@ var errShort = errString("short source")
 type errString string
 
 func (e errString) Error() string { return string(e) }
+
+func TestVisitPageMappingsLimitsCallbacksAndPartialTables(t *testing.T) {
+	data := make([]byte, 0x8000)
+	installX64(data, 0x1000, 0x4000, 3)
+	installX64(data, 0x2000, 0x6000, 3)
+	// A second PDPT entry references a missing page-table page.
+	put64(data, 0x1008, 0x9003)
+	for _, mode := range []string{"normal", "stop", "cancel", "tables", "entries", "read-stop"} {
+		t.Run(mode, func(t *testing.T) {
+			layer := &mappingCountingLayer{MemoryLayer: raw(t, data)}
+			tr, err := NewIntelForOS(layer, 0, "x64", "windows", 8)
+			if err != nil {
+				t.Fatal(err)
+			}
+			ctx, cancel := context.WithCancel(context.Background())
+			defer cancel()
+			stopped := errors.New("emitter stopped")
+			options := PageMapOptions{MaxTables: 100, MaxEntries: 10000}
+			faults, emitted, callsAtStop := 0, 0, 0
+			options.OnReadError = func(at uint64, cause error) error {
+				if at != 0x9000 || cause == nil {
+					t.Fatal(at, cause)
+				}
+				faults++
+				if mode == "read-stop" {
+					callsAtStop = layer.calls
+					return stopped
+				}
+				return nil
+			}
+			if mode == "tables" {
+				options.MaxTables = 2
+			}
+			if mode == "entries" {
+				options.MaxEntries = 2
+			}
+			stats, err := tr.VisitPageMappings(ctx, options, func(m PageMapping) error {
+				emitted++
+				if m.Virtual != uint64(emitted)*0x1000 || m.Length != 0x1000 {
+					t.Fatal(m)
+				}
+				if mode == "stop" || mode == "cancel" {
+					callsAtStop = layer.calls
+					if mode == "cancel" {
+						cancel()
+						return nil
+					}
+					return stopped
+				}
+				return nil
+			})
+			if mode == "normal" {
+				if err != nil || emitted != 2 || stats.Mappings != 2 || faults != 1 {
+					t.Fatal(stats, emitted, faults, err)
+				}
+			} else if err == nil {
+				t.Fatal("stop or budget ignored", mode, stats)
+			}
+			if callsAtStop > 0 && callsAtStop != layer.calls {
+				t.Fatal("source read after stop", callsAtStop, layer.calls)
+			}
+		})
+	}
+}
+
+type mappingCountingLayer struct {
+	MemoryLayer
+	calls int
+}
+
+func (m *mappingCountingLayer) ReadAt(ctx context.Context, p []byte, at uint64) (int, error) {
+	m.calls++
+	return m.MemoryLayer.ReadAt(ctx, p, at)
+}

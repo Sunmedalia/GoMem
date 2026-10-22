@@ -33,6 +33,13 @@ def normalized(value, kind, mask=None, missing_reasons=()):
         value = value.get("value")
     if value is None:
         return {"missing": "reference-null"}
+    if kind == "string_set":
+        if not isinstance(value, str):
+            raise ValueError("string_set requires a comma-space separated string")
+        parts = value.split(", ")
+        if any(not part for part in parts) or len(parts) != len(set(parts)):
+            raise ValueError("string_set contains empty or duplicate members")
+        return sorted(parts)
     if kind == "hex_bytes":
         if source_kind == "bytes" and isinstance(value, str):
             return base64.b64decode(value, validate=True).hex()
@@ -95,6 +102,16 @@ def compare(native_path, reference_path, mapping_path):
     # counts. Never discard rows with an unrecognized type or missing selector.
     input_rows = len(native)
     excluded = collections.Counter()
+    excluded_parents = {}
+    projected_parents = 0
+    parent_types = mapping.get("native_evidence_parent_types", [])
+    if (not isinstance(parent_types, list) or not parent_types or
+            any(not isinstance(v, str) for v in parent_types) or len(parent_types) != len(set(parent_types))):
+        if "native_evidence_parent_types" in mapping:
+            raise ValueError("invalid native evidence parent types")
+    if parent_types and ("native_record_type" not in mapping or "tree_key" in mapping or
+                         not set(parent_types) <= set(mapping["native_record_type"]["excluded_values"])):
+        raise ValueError("evidence parents must be explicitly excluded record types")
     if "native_record_type" in mapping:
         selector = mapping["native_record_type"]
         if "value" in selector and "values" in selector:
@@ -117,6 +134,10 @@ def compare(native_path, reference_path, mapping_path):
                 selected.append(row)
             elif cell["value"] in selector["excluded_values"]:
                 excluded[cell["value"]] += 1
+                if cell["value"] in parent_types and row.get("id"):
+                    if row["id"] in excluded_parents:
+                        raise ValueError("duplicate native evidence parent ID")
+                    excluded_parents[row["id"]] = cell["value"]
             else:
                 raise ValueError("unexpected native record type")
         native = selected
@@ -176,8 +197,13 @@ def compare(native_path, reference_path, mapping_path):
         return list(reversed(path)) if path else None
 
     def record(row, native, parent=None, depth=0):
+        nonlocal projected_parents
         result = field_values(row, native, depth)
-        if native and row.get("parent_id"):
+        if native and row.get("parent_id") and parent_types:
+            if row["parent_id"] not in excluded_parents:
+                raise ValueError("native evidence parent is absent or not explicitly excluded")
+            projected_parents += 1
+        elif native and row.get("parent_id"):
             if "tree_key" not in mapping:
                 raise ValueError("hierarchical output requires an explicit tree_key profile")
             parent = native_parent(row)
@@ -213,6 +239,8 @@ def compare(native_path, reference_path, mapping_path):
     if "native_record_type" in mapping:
         report.update(native_input_rows=input_rows, native_non_entity_records=dict(excluded),
                       entity_selection=mapping["native_record_type"])
+    if parent_types:
+        report.update(native_evidence_parent_types=parent_types, projected_evidence_parents=projected_parents)
     return report
 
 

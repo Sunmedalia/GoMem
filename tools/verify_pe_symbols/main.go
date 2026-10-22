@@ -31,13 +31,22 @@ func run() error {
 	image := flag.String("image", "", "Original image")
 	table := flag.String("symbols", "", "Exact kernel ISF")
 	rows := flag.String("jsonl", "", "Saved Windows symbol, ETW or IAT evidence JSONL")
-	expectedPlugin := flag.String("plugin", "windows.pe_symbols", "Expected command: windows.pe_symbols, windows.etwpatch, windows.iat or windows.malfind")
+	stringsFile := flag.String("input", "", "Original strings file for windows.strings verification")
+	expectedPlugin := flag.String("plugin", "windows.pe_symbols", "Expected command: windows.pe_symbols, windows.etwpatch, windows.iat, windows.malfind or windows.strings")
 	flag.Parse()
-	if *expectedPlugin != "windows.pe_symbols" && *expectedPlugin != "windows.etwpatch" && *expectedPlugin != "windows.iat" && *expectedPlugin != "windows.malfind" {
+	if *expectedPlugin != "windows.pe_symbols" && *expectedPlugin != "windows.etwpatch" && *expectedPlugin != "windows.iat" && *expectedPlugin != "windows.malfind" && *expectedPlugin != "windows.strings" {
 		return fmt.Errorf("unsupported verification command %s", *expectedPlugin)
 	}
 	if *image == "" || *table == "" || *rows == "" {
 		return fmt.Errorf("image, symbols and jsonl are required")
+	}
+	var stringInput *stringsInputVerifier
+	if *expectedPlugin == "windows.strings" {
+		var cause error
+		stringInput, cause = openStringsInput(*stringsFile)
+		if cause != nil {
+			return cause
+		}
 	}
 	ctx := context.Background()
 	e, err := engine.Open(ctx, engine.Config{Image: *image, Symbols: *table, Offline: true})
@@ -45,6 +54,7 @@ func run() error {
 		return err
 	}
 	defer e.Close()
+	owners := map[string]stringsOwner{}
 	layers := map[string]memory.MemoryLayer{e.Env.Kernel.Name(): e.Env.Kernel, e.Env.Physical.Name(): e.Env.Physical}
 	ps, err := e.Registry.Get("windows.pslist")
 	if err != nil {
@@ -59,6 +69,15 @@ func run() error {
 		if cause != nil || root == 0 {
 			return nil
 		}
+		pid, cause := row.Cells["PID"].Uint()
+		if cause != nil {
+			return cause
+		}
+		offset, cause := row.Cells["Offset"].Uint()
+		if cause != nil {
+			return cause
+		}
+		owners[row.Cells["Identity"].String()] = stringsOwner{pid, offset}
 		id := "process:" + row.Cells["Identity"].String()
 		translator, cause := memory.NewTranslatorForOS(e.Env.Physical, root, e.Env.Architecture, e.Env.OS, 1024)
 		if cause != nil {
@@ -80,6 +99,7 @@ func run() error {
 	var captures, failed, symbols, count, bytesRead uint64
 	var findings, probes, acquisitions, summaries, expectedReads, imports, diagnostics, expectedImports, expectedFindings uint64
 	widths := map[string]int{}
+	var stringRows, inputRecords uint64
 	for {
 		var row evidence.Row
 		if err := decode.Decode(&row); err == io.EOF {
@@ -97,7 +117,47 @@ func run() error {
 		if row.Provenance.ImageSHA256 != e.Hash || row.Provenance.Plugin != *expectedPlugin || row.Provenance.SymbolsSHA256 != e.Env.Symbols.Digest() {
 			return fmt.Errorf("row %d provenance mismatch", count)
 		}
+		if stringInput != nil {
+			if cause := stringInput.provenance(row); cause != nil {
+				return cause
+			}
+			if cause := stringInput.hierarchy(row); cause != nil {
+				return cause
+			}
+		}
 		switch row.Cells["RecordType"].String() {
+		case "input", "input_error", "query_page", "association", "string", "mapping_unavailable", "process_unavailable":
+			if stringInput == nil {
+				return fmt.Errorf("unexpected strings record")
+			}
+			var cause error
+			switch row.Cells["RecordType"].String() {
+			case "input":
+				inputRecords++
+				cause = stringInput.input(row)
+			case "input_error":
+				cause = stringInput.invalidLine(row)
+			case "association":
+				cause = verifyStringsAssociation(ctx, row, layers, owners, e.Env.Kernel, e.Env.Architecture)
+			case "string":
+				stringRows++
+				cause = stringInput.stringRow(ctx, row, layers, owners, e.Env.Kernel, e.Env.Architecture)
+			case "mapping_unavailable":
+				cause = verifyUnavailableStringMapping(row, e.Env.Physical)
+			case "process_unavailable":
+				at, fail := row.Cells["Offset"].Uint()
+				if fail != nil {
+					return fail
+				}
+				root, fail := e.Env.Objects.Uint(ctx, at, "_EPROCESS", "Pcb.DirectoryTableBase")
+				if fail == nil && root != 0 {
+					return fmt.Errorf("invented unavailable process root")
+				}
+			}
+			if cause != nil {
+				return cause
+			}
+
 		case "symbol":
 			if *expectedPlugin != "windows.pe_symbols" {
 				return fmt.Errorf("unexpected symbol record")
@@ -128,7 +188,7 @@ func run() error {
 			diagnostics++
 		case "summary":
 			summaries++
-			if *expectedPlugin == "windows.etwpatch" || *expectedPlugin == "windows.iat" || *expectedPlugin == "windows.malfind" {
+			if *expectedPlugin == "windows.etwpatch" || *expectedPlugin == "windows.iat" || *expectedPlugin == "windows.malfind" || stringInput != nil {
 				var coverage struct {
 					Acquisition struct{ Reads uint64 }
 					Imports     uint64
@@ -212,7 +272,7 @@ func run() error {
 	if summaries != 1 {
 		return fmt.Errorf("missing terminal summary; input may be incomplete")
 	}
-	if (*expectedPlugin == "windows.etwpatch" || *expectedPlugin == "windows.iat" || *expectedPlugin == "windows.malfind") && acquisitions != expectedReads {
+	if (*expectedPlugin == "windows.etwpatch" || *expectedPlugin == "windows.iat" || *expectedPlugin == "windows.malfind" || stringInput != nil) && acquisitions != expectedReads {
 		return fmt.Errorf("summary/acquisition count mismatch: %d/%d", expectedReads, acquisitions)
 	}
 	if *expectedPlugin == "windows.iat" && expectedImports != imports {
@@ -221,10 +281,13 @@ func run() error {
 	if (*expectedPlugin == "windows.malfind" || *expectedPlugin == "windows.etwpatch") && findings != expectedFindings {
 		return fmt.Errorf("summary/finding count mismatch")
 	}
-	if captures == 0 {
+	if stringInput != nil && (inputRecords != 1 || len(stringInput.seen) != len(stringInput.lines) || len(stringInput.seenInvalid) != len(stringInput.invalid)) {
+		return fmt.Errorf("original input or strings output coverage differs")
+	}
+	if captures == 0 && (stringInput == nil || len(stringInput.lines) > 0) {
 		return fmt.Errorf("no read captures in input")
 	}
-	return json.NewEncoder(os.Stdout).Encode(map[string]any{"image_sha256": e.Hash, "jsonl_sha256": fmt.Sprintf("%x", streamHash.Sum(nil)), "imports": imports, "diagnostics": diagnostics, "all_iat_coordinates_and_available_pointers_verified": *expectedPlugin == "windows.iat", "rows": count, "captures": captures, "acquisition_calls": acquisitions, "read_faults": failed, "captured_bytes": bytesRead, "symbols": symbols, "findings": findings, "opcode_probes": probes, "plugin": *expectedPlugin, "process_layers": len(layers) - 2, "all_seals_and_provenance_verified": true, "all_captures_independently_reread": true})
+	return json.NewEncoder(os.Stdout).Encode(map[string]any{"strings": stringRows, "external_input_and_claimed_physical_associations_verified": stringInput != nil, "image_sha256": e.Hash, "jsonl_sha256": fmt.Sprintf("%x", streamHash.Sum(nil)), "imports": imports, "diagnostics": diagnostics, "all_iat_coordinates_and_available_pointers_verified": *expectedPlugin == "windows.iat", "rows": count, "captures": captures, "acquisition_calls": acquisitions, "read_faults": failed, "captured_bytes": bytesRead, "symbols": symbols, "findings": findings, "opcode_probes": probes, "plugin": *expectedPlugin, "process_layers": len(layers) - 2, "all_seals_and_provenance_verified": true, "all_captures_independently_reread": true})
 }
 
 type acquisitionCall struct{ Offset, Requested, Captured uint64 }

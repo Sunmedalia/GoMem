@@ -1,0 +1,127 @@
+{
+  "schema": "gomem.windows-strings-validation/v1",
+  "release": "development-preview",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "oracle": {
+    "actual_unmodified_generator_cases": 24,
+    "native_paging_combinations": 36,
+    "parser_cases": 1038,
+    "architectures": [
+      "x86",
+      "pae",
+      "x64"
+    ]
+  },
+  "fuzz": {
+    "target": "FuzzWindowsStringsPipeline",
+    "duration_seconds": 10,
+    "executions": 60122,
+    "result": "pass"
+  },
+  "real_partial": {
+    "task": "91e4ceee2aa55f4e5a5324323d443855",
+    "parameters": {
+      "pid": "2968",
+      "strings_file": "local 154-line control input"
+    },
+    "coverage": {
+      "acquisition": {
+        "Bytes": 56437615,
+        "Complete": false,
+        "Errors": 1320,
+        "Excluded": 0,
+        "Modules": 0,
+        "NoFileVADs": 0,
+        "Reads": 14143,
+        "Regions": 0,
+        "Reported": 0,
+        "Suspended": 0,
+        "Terminated": 0,
+        "Threads": 0
+      },
+      "associations": 274,
+      "invalid_lines": 0,
+      "lines": 154,
+      "mappings": 143331,
+      "page_entries": 1245184,
+      "page_tables": 12768,
+      "processes": 1,
+      "unavailable_mappings": 1320
+    },
+    "comparison": {
+      "scope": "selected fields only; full capability acceptance remains pending",
+      "fields": [
+        "String",
+        "PhysicalAddress",
+        "Result"
+      ],
+      "native_rows": 154,
+      "reference_rows": 154,
+      "matched": true,
+      "missing": [],
+      "extra": [],
+      "sha256": {
+        "native": "ae38a728f19733c9af53089a06233dc63cb5df6d09ea378dbdb888ae2e7c11f9",
+        "reference": "7b56155a041b16fc5d883909bd4b6b65ec8c6f7c06ff0615a91d279d456e978c",
+        "mapping": "b088fe8fedb8ec6daf532fd4434aa123a5dd88307d576e95a30bc11c3d7e2663"
+      },
+      "native_input_rows": 14791,
+      "native_non_entity_records": {
+        "input": 1,
+        "query_page": 154,
+        "memory_read": 14143,
+        "association": 274,
+        "mapping_unavailable": 64,
+        "summary": 1
+      },
+      "entity_selection": {
+        "field": "RecordType",
+        "values": [
+          "string"
+        ],
+        "excluded_values": [
+          "input",
+          "input_error",
+          "query_page",
+          "association",
+          "mapping_unavailable",
+          "process_unavailable",
+          "memory_read",
+          "summary"
+        ]
+      },
+      "native_evidence_parent_types": [
+        "query_page"
+      ],
+      "projected_evidence_parents": 154
+    },
+    "independent_verifier": {
+      "acquisition_calls": 14143,
+      "all_captures_independently_reread": true,
+      "all_iat_coordinates_and_available_pointers_verified": false,
+      "all_seals_and_provenance_verified": true,
+      "captured_bytes": 56437615,
+      "captures": 14143,
+      "diagnostics": 0,
+      "external_input_and_claimed_physical_associations_verified": true,
+      "findings": 0,
+      "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+      "imports": 0,
+      "jsonl_sha256": "ae38a728f19733c9af53089a06233dc63cb5df6d09ea378dbdb888ae2e7c11f9",
+      "opcode_probes": 0,
+      "plugin": "windows.strings",
+      "process_layers": 120,
+      "read_faults": 0,
+      "rows": 14791,
+      "strings": 154,
+      "symbols": 0
+    }
+  },
+  "limitations": [
+    "External text is not verified against memory bytes",
+    "Physical candidates inherit pinned page-enumeration omissions; native translation verifies claims, not exhaustive reverse mapping",
+    "1320 unavailable mappings fail coverage; only first 64 have dedicated detail records",
+    "Local/file input only, 64 MiB bound; uint64 overflow and invalid lines are explicit errors",
+    "Real x86/PAE, broader Windows versions and full acceptance pending"
+  ]
+}

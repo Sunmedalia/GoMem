@@ -1,0 +1,38 @@
+{
+  "native_record_type": {
+    "field": "RecordType",
+    "values": [
+      "string"
+    ],
+    "excluded_values": [
+      "input",
+      "input_error",
+      "query_page",
+      "association",
+      "mapping_unavailable",
+      "process_unavailable",
+      "memory_read",
+      "summary"
+    ]
+  },
+  "fields": {
+    "String": {
+      "native": "String",
+      "reference": "String",
+      "kind": "string"
+    },
+    "PhysicalAddress": {
+      "native": "PhysicalAddress",
+      "reference": "Physical Address",
+      "kind": "address"
+    },
+    "Result": {
+      "native": "Result",
+      "reference": "Result",
+      "kind": "string_set"
+    }
+  },
+  "native_evidence_parent_types": [
+    "query_page"
+  ]
+}

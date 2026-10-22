@@ -21,35 +21,143 @@ type pageSpan struct {
 	length uint64
 }
 
-// PageMappings walks the Intel page tables the way the pinned Windows layer
-// mapping does. A table whose entries are all identical is absent. Windows x64
-// physical addresses keep bits 12..44 only. The walk stops one byte before the
-// architecture maximum, and a large page with any physical hole is omitted.
+// PageMapOptions bounds the table walk independently of the number of merged
+// output runs. Fault callbacks may retain source errors or stop the walk.
+type PageMapOptions struct {
+	MaxTables            uint64
+	MaxEntries           uint64
+	OnReadError          func(uint64, error) error
+	OnUnavailableMapping func(PageMapping) error
+}
+
+type PageMapStats struct {
+	Tables      uint64
+	Entries     uint64
+	Mappings    uint64
+	Unavailable uint64
+}
+
+// PageMappings preserves the original collecting API. Streaming consumers
+// should use VisitPageMappings with explicit task limits.
 func (i *Intel) PageMappings(ctx context.Context) ([]PageMapping, error) {
+	var out []PageMapping
+	_, err := i.VisitPageMappings(ctx, PageMapOptions{MaxTables: ^uint64(0), MaxEntries: ^uint64(0)}, func(m PageMapping) error {
+		out = append(out, m)
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return out, err
+}
+
+type pageMapWalk struct {
+	intel   *Intel
+	ctx     context.Context
+	options PageMapOptions
+	stats   PageMapStats
+	ranges  []Range
+	limit   uint64
+	levels  []mappedLevel
+	width   int
+	pending *pageSpan
+	out     func(PageMapping) error
+}
+
+// VisitPageMappings yields coalesced runs in the pinned Windows layer order,
+// retaining only one pending run and the bounded page-table recursion stack.
+// Uniform tables, final-byte clipping, physical masks and whole-large-page
+// availability follow PageMappings. Cancellation or any callback error stops
+// acquisition. An aborted walk can leave its final pending run unreported.
+func (i *Intel) VisitPageMappings(ctx context.Context, options PageMapOptions, out func(PageMapping) error) (PageMapStats, error) {
 	if i == nil || i.physical == nil {
-		return nil, fmt.Errorf("page table is not initialized")
+		return PageMapStats{}, fmt.Errorf("page table is not initialized")
+	}
+	if options.MaxTables == 0 || options.MaxEntries == 0 || out == nil {
+		return PageMapStats{}, fmt.Errorf("page map walk needs positive table/entry bounds and an emitter")
 	}
 	levels, width, limit, err := i.mapShape()
 	if err != nil {
-		return nil, err
-	}
-	root, err := Read(ctx, i.physical, i.root, 4096)
-	if err != nil {
-		if ctx.Err() != nil {
-			return nil, ctx.Err()
-		}
-		return nil, nil
-	}
-	if uniformEntries(root, width) {
-		return nil, nil
+		return PageMapStats{}, err
 	}
 	ranges := append([]Range(nil), i.physical.Ranges()...)
 	sort.Slice(ranges, func(a, b int) bool { return ranges[a].Start < ranges[b].Start })
-	var spans []pageSpan
-	if err = i.walkPageMaps(ctx, 0, root, 0, levels, width, ranges, limit, &spans); err != nil {
+	w := pageMapWalk{intel: i, ctx: ctx, options: options, ranges: ranges, limit: limit, levels: levels, width: width, out: out}
+	root, err := w.read(i.root)
+	if err == nil && root != nil && !uniformEntries(root, width) {
+		err = w.walk(0, root, 0)
+	}
+	if err == nil {
+		err = w.flush()
+	}
+	return w.stats, err
+}
+
+func (w *pageMapWalk) read(at uint64) ([]byte, error) {
+	if err := w.ctx.Err(); err != nil {
 		return nil, err
 	}
-	return finishPageMappings(spans, i.mode == "x64"), nil
+	if w.stats.Tables >= w.options.MaxTables {
+		return nil, fmt.Errorf("page map table limit exhausted")
+	}
+	w.stats.Tables++
+	raw, err := Read(w.ctx, w.intel.physical, at, 4096)
+	if err == nil {
+		return raw, nil
+	}
+	if w.ctx.Err() != nil {
+		return nil, w.ctx.Err()
+	}
+	if w.options.OnReadError != nil {
+		return nil, w.options.OnReadError(at, err)
+	}
+	return nil, nil
+}
+
+func (w *pageMapWalk) flush() error {
+	if w.pending == nil {
+		return nil
+	}
+	if err := w.ctx.Err(); err != nil {
+		return err
+	}
+	p := w.pending
+	virtual := p.virt
+	if w.intel.mode == "x64" && virtual&(uint64(1)<<47) != 0 {
+		virtual |= 0xffff000000000000
+	}
+	if err := w.out(PageMapping{Virtual: virtual, Physical: p.phys, Length: p.length}); err != nil {
+		return err
+	}
+	w.stats.Mappings++
+	w.pending = nil
+	return nil
+}
+
+func (w *pageMapWalk) span(virt, phys, length uint64) error {
+	if _, err := Add(virt, length); err != nil {
+		return err
+	}
+	if _, err := Add(phys, length); err != nil {
+		return err
+	}
+	if p := w.pending; p != nil {
+		if virt == p.virt+p.length && phys == p.phys+p.length {
+			if _, err := Add(p.length, length); err != nil {
+				return err
+			}
+			p.length += length
+			return nil
+		}
+		if virt < p.virt+p.length {
+			return fmt.Errorf("mapped virtual ranges are not ordered at %#x", virt)
+		}
+		if err := w.flush(); err != nil {
+			return err
+		}
+	}
+	w.pending = &pageSpan{virt: virt, phys: phys, length: length}
+	return nil
 }
 
 func (i *Intel) mapShape() ([]mappedLevel, int, uint64, error) {
@@ -65,47 +173,58 @@ func (i *Intel) mapShape() ([]mappedLevel, int, uint64, error) {
 	}
 }
 
-func (i *Intel) walkPageMaps(ctx context.Context, depth int, table []byte, base uint64, levels []mappedLevel, width int, ranges []Range, limit uint64, out *[]pageSpan) error {
-	level := levels[depth]
-	last := depth+1 == len(levels)
+func (w *pageMapWalk) walk(depth int, table []byte, base uint64) error {
+	level := w.levels[depth]
+	last := depth+1 == len(w.levels)
 	for index := 0; index < level.entries; index++ {
-		if err := ctx.Err(); err != nil {
+		if err := w.ctx.Err(); err != nil {
 			return err
 		}
-		shift := level.shift
-		virtual := base | uint64(index)<<shift
-		if virtual >= limit {
+		if w.stats.Entries >= w.options.MaxEntries {
+			return fmt.Errorf("page map entry limit exhausted")
+		}
+		w.stats.Entries++
+		virtual := base | uint64(index)<<level.shift
+		if virtual >= w.limit {
 			continue
 		}
-		entry := tableEntry(table, index, width)
-		if _, ok := i.entryMapped(entry); !ok {
+		entry := tableEntry(table, index, w.width)
+		if _, ok := w.intel.entryMapped(entry); !ok {
 			continue
 		}
-		full := uint64(1) << shift
+		full := uint64(1) << level.shift
 		large := level.large && entry&128 != 0
 		if !large && !last {
-			next := i.mapFrame(entry, false, full)
-			child, err := Read(ctx, i.physical, next, 4096)
-			if err != nil || uniformEntries(child, width) {
-				if err = ctx.Err(); err != nil {
-					return err
-				}
+			child, err := w.read(w.intel.mapFrame(entry, false, full))
+			if err != nil {
+				return err
+			}
+			if child == nil || uniformEntries(child, w.width) {
 				continue
 			}
-			if err = i.walkPageMaps(ctx, depth+1, child, virtual, levels, width, ranges, limit, out); err != nil {
+			if err = w.walk(depth+1, child, virtual); err != nil {
 				return err
 			}
 			continue
 		}
 		span := full
-		if remain := limit - virtual; span > remain {
+		if remain := w.limit - virtual; span > remain {
 			span = remain
 		}
-		phys := i.mapFrame(entry, large, full)
-		if !rangeCovers(ranges, phys, span) {
+		phys := w.intel.mapFrame(entry, large, full)
+		if !rangeCovers(w.ranges, phys, span) {
+			w.stats.Unavailable++
+			if w.options.OnUnavailableMapping != nil {
+				if w.intel.mode == "x64" && virtual&(uint64(1)<<47) != 0 {
+					virtual |= 0xffff000000000000
+				}
+				if err := w.options.OnUnavailableMapping(PageMapping{Virtual: virtual, Physical: phys, Length: span}); err != nil {
+					return err
+				}
+			}
 			continue
 		}
-		if err := addPageSpan(out, virtual, phys, span); err != nil {
+		if err := w.span(virtual, phys, span); err != nil {
 			return err
 		}
 	}
@@ -139,53 +258,6 @@ func (i *Intel) mapFrame(entry uint64, large bool, page uint64) uint64 {
 		}
 	}
 	return frame
-}
-
-func addPageSpan(out *[]pageSpan, virt, phys, length uint64) error {
-	if length == 0 {
-		return nil
-	}
-	if _, err := Add(virt, length); err != nil {
-		return err
-	}
-	if _, err := Add(phys, length); err != nil {
-		return err
-	}
-	if spans := *out; len(spans) > 0 {
-		last := &spans[len(spans)-1]
-		vend, err := Add(last.virt, last.length)
-		if err != nil {
-			return err
-		}
-		pend, err := Add(last.phys, last.length)
-		if err != nil {
-			return err
-		}
-		if virt == vend && phys == pend {
-			if _, err = Add(last.length, length); err != nil {
-				return err
-			}
-			last.length += length
-			return nil
-		}
-		if virt < vend {
-			return fmt.Errorf("mapped virtual ranges are not ordered at %#x", virt)
-		}
-	}
-	*out = append(*out, pageSpan{virt: virt, phys: phys, length: length})
-	return nil
-}
-
-func finishPageMappings(spans []pageSpan, canonical bool) []PageMapping {
-	out := make([]PageMapping, len(spans))
-	for n, span := range spans {
-		virtual := span.virt
-		if canonical && virtual&(uint64(1)<<47) != 0 {
-			virtual |= 0xffff000000000000
-		}
-		out[n] = PageMapping{Virtual: virtual, Physical: span.phys, Length: span.length}
-	}
-	return out
 }
 
 func rangeCovers(ranges []Range, phys, size uint64) bool {

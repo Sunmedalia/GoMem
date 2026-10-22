@@ -5,6 +5,7 @@ package plugin
 import (
 	"context"
 	"fmt"
+	"io"
 	"sort"
 	"strconv"
 
@@ -32,8 +33,25 @@ type Spec struct {
 	Columns         []evidence.Column `json:"columns"`
 	NeedsKernel     bool              `json:"needs_kernel"`
 	Dependencies    []string          `json:"dependencies,omitempty"`
+	InputFiles      []FileInput       `json:"input_files,omitempty"`
+}
+
+// FileInput names a path/URI parameter whose immutable contents are part of the
+// task cache key. MaxBytes bounds snapshot disk usage before a task starts.
+type FileInput struct {
+	Name     string `json:"name"`
+	MaxBytes uint64 `json:"max_bytes"`
+}
+
+// Input is a read-only snapshot, hashed before cache lookup. Its lifetime is the
+// plugin run; the engine closes and removes it on every exit path.
+type Input struct {
+	SHA256 string
+	Size   int64
+	Reader io.ReaderAt
 }
 type Environment struct {
+	Inputs         map[string]Input
 	ModulePDB      pesymbols.Provider
 	Artifacts      evidence.ArtifactSink
 	Physical       memory.MemoryLayer

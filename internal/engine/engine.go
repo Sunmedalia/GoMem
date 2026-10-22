@@ -463,6 +463,11 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 	if err = e.Check(ctx, spec); err != nil {
 		return result, err
 	}
+	inputs, releaseInputs, err := snapshotInputs(ctx, spec, params)
+	if err != nil {
+		return result, err
+	}
+	defer releaseInputs()
 	for _, dep := range spec.Dependencies {
 		if _, err = e.run(ctx, dep, nil, RunOptions{Fresh: opts.Fresh}, stack); err != nil {
 			return result, fmt.Errorf("dependency %s: %w", dep, err)
@@ -472,6 +477,10 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 	provenance.EngineBuild = e.Build
 	for k, v := range params {
 		provenance.Parameters[k] = v
+	}
+	for key, input := range inputs {
+		provenance.Parameters["engine.input."+key+".sha256"] = input.SHA256
+		provenance.Parameters["engine.input."+key+".size"] = strconv.FormatInt(input.Size, 10)
 	}
 	for k, v := range map[string]string{"arch": e.Config.Arch, "dtb": e.Config.DTB, "kernel-base": fmt.Sprintf("%#x", e.Config.KernelBase), "kernel-slide": fmt.Sprintf("%#x", e.Config.KernelSlide), "os": e.Env.OS} {
 		provenance.Parameters["engine."+k] = v
@@ -548,6 +557,7 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 		return nil
 	}
 	env := e.Env
+	env.Inputs = inputs
 	artifacts := e.Store.TaskArtifacts(task)
 	env.Artifacts = artifacts
 	// A plugin may set ID to a local token and ParentID to its parent's token.

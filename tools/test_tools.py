@@ -294,5 +294,51 @@ class HexByteDifferentialTests(unittest.TestCase):
                 normalized(value, "hex_bytes")
 
 
+class StringSetDifferentialTests(unittest.TestCase):
+    def test_unordered_members_preserve_values_and_reject_duplicates(self):
+        from diff_results import normalized
+        self.assertEqual(normalized("kernel:0x0, Process 104:0x1000", "string_set"),
+                         normalized("Process 104:0x1000, kernel:0x0", "string_set"))
+        self.assertNotEqual(normalized("kernel:0x0", "string_set"),
+                            normalized("kernel:0x1", "string_set"))
+        for bad in ("", "a, a", "a, ", 0):
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                normalized(bad, "string_set")
+
+
+class EvidenceParentProjectionTests(unittest.TestCase):
+    def test_projection_requires_declared_present_parent(self):
+        from diff_results import compare
+        with tempfile.TemporaryDirectory() as temp:
+            root = pathlib.Path(temp)
+            native, reference, mapping = [root / n for n in ("native", "reference", "mapping")]
+            profile = {"native_record_type": {"field": "RecordType", "values": ["string"], "excluded_values": ["query_page", "summary"]},
+                       "native_evidence_parent_types": ["query_page"],
+                       "fields": {"String": {"native": "String", "reference": "String", "kind": "string"}}}
+            parent = {"id": "p", "cells": {"RecordType": {"kind": "string", "value": "query_page"}}}
+            child = {"id": "c", "parent_id": "p", "cells": {"RecordType": {"kind": "string", "value": "string"}, "String": {"kind": "string", "value": "text"}}}
+            def write():
+                native.write_text(json.dumps(parent) + "\n" + json.dumps(child) + "\n")
+                mapping.write_text(json.dumps(profile))
+            reference.write_text(json.dumps([{"String": "text", "__children": []}]))
+            write()
+            report = compare(native, reference, mapping)
+            self.assertTrue(report["matched"])
+            self.assertEqual(report["projected_evidence_parents"], 1)
+            child["parent_id"] = "absent"
+            write()
+            with self.assertRaisesRegex(ValueError, "parent is absent"):
+                compare(native, reference, mapping)
+            child["parent_id"] = "p"
+            parent["cells"]["RecordType"]["value"] = "summary"
+            write()
+            with self.assertRaisesRegex(ValueError, "parent is absent"):
+                compare(native, reference, mapping)
+            profile["native_evidence_parent_types"] = ["string"]
+            write()
+            with self.assertRaisesRegex(ValueError, "explicitly excluded"):
+                compare(native, reference, mapping)
+
+
 if __name__ == "__main__":
     unittest.main()
