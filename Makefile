@@ -18,6 +18,7 @@ baseline:
 matrix:
 	python3 tools/baseline_matrix.py --source $(BASELINE) --check
 fuzz:
+	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUILayout$$' -fuzztime 2000x
 	$(GO) test ./pkg/winconsole -run '^$$' -fuzz '^FuzzConsoleRelations$$' -fuzztime 20000x
 	$(GO) test ./pkg/winconsole -run '^$$' -fuzz '^FuzzConsoleObjects$$' -fuzztime 20000x
 	$(GO) test ./pkg/winconsole -run '^$$' -fuzz '^FuzzConsoleObjectLayout$$' -fuzztime 2000x

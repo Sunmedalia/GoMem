@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "status": "development_dependency",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Native x64 GUI layout selection, four-type projection and pinned data-only acquisition; no GUI plugin registration or recovery claim",
+  "synthetic": {
+    "selector_controls": 749,
+    "original_method": "WindowStations.create_gui_table",
+    "original_methods_unmodified": true,
+    "metadata_schema_validation": false,
+    "selection_provenance_compared": true,
+    "original_layouts": 12,
+    "automatic_selection_rules": 11,
+    "projected_types": 4,
+    "mixed_fallback_vectors": 512,
+    "concurrent_resolvers_per_layout": 4,
+    "layout_fuzz_executions": 1000,
+    "original_data": "Exact original gzip/base64 bytes, SHA256 pins and optional source-checkout equality"
+  },
+  "checks": {
+    "oracle_regeneration": "pass; independent Python 3.12 generate/check processes after deterministic ordering fix",
+    "package_race_with_baseline": "pass; all 12 original layouts and 749 selectors",
+    "fuzz": "pass; 1000 executions in 0.821s",
+    "matrix": "195 plugins;149 partial;46 missing;0 accepted",
+    "inode_oracle": "32768 modes passed",
+    "remote_ci": "wired; not yet executed for this milestone"
+  },
+  "remaining": [
+    "GUI session layer acquisition and matching kernel external types",
+    "Native GUI pool scanning, object-header names and station/desktop/thread/window readers",
+    "Complete pinned plugin generator comparisons through translated images and sealed evidence",
+    "Cancellation/error prefixes and failed task retry/cache integration",
+    "Positive real-image controls and supported OS/architecture acceptance"
+  ]
+}
