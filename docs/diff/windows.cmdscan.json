@@ -1,0 +1,78 @@
+{
+  "tree_key": [
+    "PID",
+    "ConsoleInfo",
+    "Property",
+    "Address"
+  ],
+  "tree_path": true,
+  "native_record_type": {
+    "field": "RecordType",
+    "values": [
+      "history_property",
+      "history_not_found"
+    ],
+    "excluded_values": [
+      "memory_read",
+      "layout_selection",
+      "registry_history_size",
+      "process_scan_coverage",
+      "vad_acquisition_incomplete",
+      "page_map_unavailable",
+      "mapping_unavailable",
+      "candidate_underflow",
+      "candidate_unreadable",
+      "history_incomplete",
+      "command_unreadable",
+      "process_unavailable",
+      "conhost_image_unavailable",
+      "registry_unavailable",
+      "task_summary",
+      "conhost_version_unavailable"
+    ]
+  },
+  "fields": {
+    "PID": {
+      "native": "PID",
+      "reference": "PID",
+      "kind": "uint64"
+    },
+    "Process": {
+      "native": "Process",
+      "reference": "Process",
+      "kind": "string"
+    },
+    "ConsoleInfo": {
+      "native": "ConsoleInfo",
+      "reference": "ConsoleInfo",
+      "kind": "address",
+      "mask": "0x0000ffffffffffff",
+      "missing_reasons": [
+        "not_applicable"
+      ]
+    },
+    "Property": {
+      "native": "Property",
+      "reference": "Property",
+      "kind": "string"
+    },
+    "Address": {
+      "native": "Address",
+      "reference": "Address",
+      "kind": "address",
+      "mask": "0x0000ffffffffffff",
+      "missing_reasons": [
+        "not_applicable"
+      ]
+    },
+    "Data": {
+      "native": "Data",
+      "reference": "Data",
+      "kind": "string"
+    },
+    "Depth": {
+      "native": "Depth",
+      "kind": "tree_depth"
+    }
+  }
+}

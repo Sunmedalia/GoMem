@@ -100,7 +100,9 @@ func TestConsoleCatalogOriginalPinnedLayouts(t *testing.T) {
 			if hex.EncodeToString(hash[:]) != pin.sha256 {
 				t.Fatal("source pin drift")
 			}
+			var requests atomic.Int32
 			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				requests.Add(1)
 				if r.URL.Path != "/"+name+".json" {
 					t.Error("wrong layout URL", r.URL.Path)
 				}
@@ -123,6 +125,9 @@ func TestConsoleCatalogOriginalPinnedLayouts(t *testing.T) {
 				})
 			}
 			wg.Wait()
+			if requests.Load() != 1 {
+				t.Fatal("concurrent layout downloads not coalesced", requests.Load())
+			}
 			got, err := load(ctx, dir, name, true, "http://127.0.0.1:1/", server.Client())
 			if err != nil {
 				t.Fatal(err)
@@ -160,4 +165,30 @@ func FuzzConsoleHistoryLayout(f *testing.F) {
 		_, _ = r.CommandCount(context.Background(), 0)
 		_ = r.WalkBucket(context.Background(), History{Begin: 0, Capacity: 4096, Maximum: 1}, nil, 32, func(uint64, Command) error { return nil })
 	})
+}
+
+func TestConsoleCatalogLockCancellationAndCleanup(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "layout.json")
+	release, err := acquireCatalog(context.Background(), path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	if _, err = acquireCatalog(ctx, path); !errors.Is(err, context.Canceled) {
+		release()
+		t.Fatal(err)
+	}
+	release()
+	catalogLocks.Lock()
+	remaining := len(catalogLocks.entries)
+	catalogLocks.Unlock()
+	if remaining != 0 {
+		t.Fatal("inactive catalog lock retained", remaining)
+	}
+	release, err = acquireCatalog(context.Background(), path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	release()
 }

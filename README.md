@@ -96,6 +96,7 @@ bin/gomem analyze windows.pslist \
 | `windows.memmap` | 列出活动进程的虚拟地址、物理地址和长度；相同条目的页表整段跳过，物理空洞的大页整段丢掉；[说明](docs/windows-memmap.md) |
 | `windows.mbrscan` | 在物理内存中扫描 `55 AA` 并解析主引导记录和四个分区项；全零引导代码丢弃，分区字段缺页则任务失败；[说明](docs/windows-mbrscan.md) |
 | `windows.truecrypt` | 在 `truecrypt.sys` 的 `.data` 段寻找缓存口令；没有该模块时不输出口令；长度不是 4 的倍数则任务失败；[说明](docs/windows-truecrypt.md) |
+| `windows.cmdscan` | 原生 conhost VAD 命令历史扫描、固定布局校验、属性树和读取证据；默认读取注册表历史大小，缺页保留失败状态；[说明](docs/windows-cmdscan.md) |
 | `windows.verinfo` | 列出内核模块和进程加载顺序 DLL 的 PE 产品版本；内核基址按 48 位截断后读取，缺页的下一链表项结束当前链表；[说明](docs/windows-verinfo.md) |
 | `windows.ldrmodules` | 对照 MZ 开头的 VAD 与 PEB 三条加载链表；页表建不起来则任务失败，文件名错误留在 `PathError`；[说明](docs/windows-ldrmodules.md) |
 | `windows.pe_symbols` | 进程/内核模块精确名称和地址查询、PDB 优先、原始读取证据及明确的部分失败；[说明](docs/windows-pe-symbols.md) |

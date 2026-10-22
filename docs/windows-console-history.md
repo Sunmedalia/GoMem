@@ -2,8 +2,8 @@
 
 `pkg/winconsole` provides native, bounded readers for `_COMMAND` and
 `_COMMAND_HISTORY`. This is a dependency for future `windows.cmdscan` and
-`windows.consoles`; neither plugin is registered or counted as implemented by
-this milestone. It does not scan conhost processes or accept a kernel version
+`windows.consoles`; neither plugin was registered or counted as implemented by
+this dependency milestone. See the subsequent [cmdscan integration](windows-cmdscan.md). It does not scan conhost processes or accept a kernel version
 as proof of a conhost layout match.
 
 The fixed Volatility 3 v2.28.2 commit is

@@ -50,6 +50,11 @@ func load(ctx context.Context, cacheDir string, name string, offline bool, baseU
 		cacheDir = filepath.Join(root, "gomem", "console-symbols")
 	}
 	path := filepath.Join(cacheDir, name+"-"+pin.sha256+".json")
+	release, err := acquireCatalog(ctx, path)
+	if err != nil {
+		return nil, err
+	}
+	defer release()
 	result := &CatalogData{Name: name, SHA256: pin.sha256, URL: baseURL + name + ".json", CachePath: path}
 	validate := func(data []byte) error {
 		sum := sha256.Sum256(data)

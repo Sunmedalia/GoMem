@@ -2,8 +2,10 @@
 
 Development support for `windows.cmdscan` / `windows.consoles`, against Volatility
 3 v2.28.2 commit `881e970121c16f0932fb9d16fbd5fb258cbcbf75`.
-Neither plugin is registered by this component milestone. The capability matrix
-remains 195 plugins: 147 partial, 48 missing, zero accepted.
+At this component milestone neither plugin was registered (195 matrix entries:
+147 partial, 48 missing, zero accepted). The subsequent
+[native cmdscan milestone](windows-cmdscan.md) registers command-history scanning;
+console enumeration remains pending.
 
 ## Native behavior
 
@@ -35,7 +37,13 @@ explicit errors. Writes use complete temporary files, then rename. On Windows,
 an invalid regular cache entry can be removed only after its replacement is
 verified; concurrent resolvers accept an identical verified winner. A transient
 cache miss during repair is possible, but partially written symbol data is never
-published. No Python or executable extensions are downloaded at runtime.
+published. Same-process check/read/download/publish transactions are now
+serialized per cache path with cancellable waits and reference-counted lock
+cleanup. This fixes the Windows file-sharing failures observed in CI run
+39831630600 when four resolvers read and replaced the same entry concurrently.
+Tests verify one initial download across four resolvers and no retained idle
+locks. External-process file locks can still produce explicit acquisition errors.
+No Python or executable extensions are downloaded at runtime.
 
 The loaded native table remains the four-type history projection documented in
 [the command/history reader](windows-console-history.md). Its digest differs

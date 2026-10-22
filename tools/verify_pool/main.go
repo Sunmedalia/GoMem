@@ -13,6 +13,7 @@ import (
 	"io"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/Sunmedalia/GoMem/internal/engine"
 	"github.com/Sunmedalia/GoMem/pkg/evidence"
@@ -85,11 +86,13 @@ func capture(row evidence.Row, layers map[string]memory.MemoryLayer) error {
 func run() error {
 	image := flag.String("image", "", "Original image")
 	rows := flag.String("rows", "", "Sealed pool scanner or network JSONL")
-	plugin := flag.String("plugin", "windows.poolscanner", "windows.poolscanner, windows.netscan, windows.netstat or windows.callbacks")
+	plugin := flag.String("plugin", "windows.poolscanner", "windows.poolscanner, windows.netscan, windows.netstat, windows.callbacks or windows.cmdscan")
+	symbols := flag.String("symbols", "", "Matching kernel ISF, required for cmdscan process-space auditing")
+	kernelBase := flag.Uint64("kernel-base", 0, "Kernel virtual base")
 	dtb := flag.String("dtb", "", "Kernel page root")
 	arch := flag.String("arch", "x64", "Intel architecture")
 	flag.Parse()
-	if *plugin != "windows.poolscanner" && *plugin != "windows.netscan" && *plugin != "windows.netstat" && *plugin != "windows.callbacks" {
+	if *plugin != "windows.poolscanner" && *plugin != "windows.netscan" && *plugin != "windows.netstat" && *plugin != "windows.callbacks" && *plugin != "windows.cmdscan" {
 		return fmt.Errorf("unsupported audit plugin")
 	}
 	if *image == "" || *rows == "" || *dtb == "" {
@@ -100,7 +103,7 @@ func run() error {
 		return err
 	}
 	defer os.RemoveAll(dir)
-	eng, err := engine.Open(context.Background(), engine.Config{Image: *image, DTB: *dtb, Arch: *arch, OS: "windows", Offline: true, CaseDir: dir})
+	eng, err := engine.Open(context.Background(), engine.Config{Image: *image, DTB: *dtb, Arch: *arch, OS: "windows", Offline: true, CaseDir: dir, Symbols: *symbols, KernelBase: *kernelBase})
 	if err != nil {
 		return err
 	}
@@ -129,6 +132,47 @@ func run() error {
 		}
 		switch row.Cells["RecordType"].String() {
 		case "memory_read":
+			if *plugin == "windows.cmdscan" && layers[row.Provenance.Layer] == nil {
+				if eng.Env.Objects == nil || !strings.HasPrefix(row.Provenance.Layer, "process:") || row.Provenance.Layer != "process:"+row.Cells["ProcessIdentity"].String() {
+					return fmt.Errorf("unknown cmdscan process space")
+				}
+				process, err := row.Cells["ProcessOffset"].Uint()
+				if err != nil {
+					return err
+				}
+				pid, err := eng.Env.Objects.Uint(context.Background(), process, "_EPROCESS", "UniqueProcessId")
+				if err != nil {
+					return err
+				}
+				expectedPID, err := row.Cells["PID"].Uint()
+				if err != nil || pid != expectedPID {
+					return fmt.Errorf("process PID differs")
+				}
+				field, err := eng.Env.Objects.Field("_EPROCESS", "Pcb.DirectoryTableBase")
+				if err != nil {
+					return err
+				}
+				at, err := memory.Add(process, field.Offset)
+				if err != nil {
+					return err
+				}
+				ref := field.Type
+				if ref.Kind == "array" {
+					if ref.Subtype == nil || ref.Count == 0 {
+						return fmt.Errorf("invalid process root array")
+					}
+					ref = *ref.Subtype
+				}
+				root, err := eng.Env.Objects.Scalar(context.Background(), at, ref)
+				if err != nil {
+					return err
+				}
+				translator, err := memory.NewIntelForOS(eng.Env.Physical, root, *arch, "windows", 1024)
+				if err != nil {
+					return err
+				}
+				layers[row.Provenance.Layer] = &memory.Virtual{Physical: eng.Env.Physical, Translator: translator, ID: row.Provenance.Layer}
+			}
 			if err := capture(row, layers); err != nil {
 				return fmt.Errorf("row %d: %w", count, err)
 			}
@@ -143,6 +187,15 @@ func run() error {
 		case "callback_candidate", "callback_symbols":
 			if *plugin != "windows.callbacks" {
 				return fmt.Errorf("unexpected callback metadata")
+			}
+		case "history_property":
+			if *plugin != "windows.cmdscan" {
+				return fmt.Errorf("unexpected history property")
+			}
+			objects++
+		case "history_not_found", "layout_selection", "registry_history_size", "process_scan_coverage", "vad_acquisition_incomplete", "page_map_unavailable", "mapping_unavailable", "candidate_underflow", "candidate_unreadable", "history_incomplete", "command_unreadable", "process_unavailable", "conhost_image_unavailable", "registry_unavailable", "conhost_version_unavailable":
+			if *plugin != "windows.cmdscan" {
+				return fmt.Errorf("unexpected console metadata")
 			}
 		case "summary", "diagnostic", "task_summary":
 		case "network_candidate", "network_symbols", "tcpip_symbols":

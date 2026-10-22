@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "status": "partial",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "native": "windows.cmdscan",
+  "scope": "Native process/VAD discovery, measured pinned conhost layout, registry history sizes, bounded candidate and unused-slot scanning, property-tree evidence; no full capability acceptance",
+  "matrix": {
+    "plugins": 195,
+    "partial": 148,
+    "missing": 47,
+    "accepted": 0
+  },
+  "synthetic": {
+    "complete_original_generators": 11,
+    "exact_matching_property_generators": 10,
+    "original_exception_controls": [
+      {
+        "scenario": "missing-vad-page",
+        "original": "UnboundLocalError",
+        "native": "explicit incomplete mapped acquisition and not-found observation; failed task"
+      }
+    ],
+    "component_history_controls": 385,
+    "component_version_controls": 663,
+    "full_generator_layout": "19041 x64 only",
+    "read_bytes_and_digests_independently_verified": true,
+    "bounds_cancel_emitter_tests": "pass",
+    "registry_failure_preserves_independent_history": "pass",
+    "native_revision_fallback_guard": "pass; bad direct PE parse remains explicit failure while physical file revision 1 selects 17763 layout and preserves 9 properties; native damaged-PE continuation is not baseline parity",
+    "engine_storage_controls": 2,
+    "sealed_parent_and_sqlite_wire_checks": "pass",
+    "fresh_retries": "successful and failed controls rerun; external symbol dependencies intentionally disable reuse",
+    "fuzz_minimum_executions": 1000
+  },
+  "real": {
+    "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+    "kernel_isf_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+    "dtb": "0x6d4000",
+    "kernel_base": "0xfffff8043601f000",
+    "controls": [
+      {
+        "mode": "no-registry=true",
+        "task_id": "1bed050cb6d8fbf8523abc974ef75e65",
+        "state": "failed",
+        "failure_observations": 167,
+        "native_jsonl": ".cache/cmdscan-validation/native.jsonl",
+        "native_jsonl_sha256": "f19dab3acb7a3873a5c577b04ff87c96558de10dcd5f7e656547cd84f9b890c1",
+        "reference_json": ".cache/cmdscan-validation/reference.json",
+        "reference_sha256": "24999f12e90b13c5e9527e81a6bc74091576ee0ed44428b191854c52e338fb9c",
+        "source_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "displayed_rows": 15,
+        "comparison": "six display fields, depth and complete parent paths match exact multisets",
+        "history_property_rows": 14,
+        "history_not_found_rows": 1,
+        "positive_real_command_strings": false,
+        "original_reads_independently_verified": 41128,
+        "sealed_rows_verified": 41233,
+        "sqlite_export_equals_wire": true,
+        "runtime_engine_build": "39560c3be2e588aa933ff986c23d80cc0b5de666ebcd6dcd1bb7cd95305638b3",
+        "registry_observations": []
+      },
+      {
+        "mode": "default-registry",
+        "task_id": "dc75852f8fb8eb9ecc01db4c1a751e40",
+        "state": "failed",
+        "failure_observations": 196,
+        "native_jsonl": ".cache/cmdscan-validation/registry-final.jsonl",
+        "native_jsonl_sha256": "ac68f3ed689fc07ac1b5b491c7a2cd8c8a7d8337baf9855d334dfb234a1e1e56",
+        "reference_json": ".cache/cmdscan-validation/registry-reference.json",
+        "reference_sha256": "24999f12e90b13c5e9527e81a6bc74091576ee0ed44428b191854c52e338fb9c",
+        "source_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+        "displayed_rows": 15,
+        "comparison": "six display fields, depth and complete parent paths match exact multisets",
+        "history_property_rows": 14,
+        "history_not_found_rows": 1,
+        "positive_real_command_strings": false,
+        "original_reads_independently_verified": 47905,
+        "sealed_rows_verified": 48012,
+        "sqlite_export_equals_wire": true,
+        "runtime_engine_build": "088baceb64140ccfd4e519690a32a4298e3cd5eeb116c3ad6a8d9d5770f35e56",
+        "registry_observations": [
+          {
+            "name": "HistoryBufferSize",
+            "value": 50,
+            "raw_hex": "32000000",
+            "hive_and_value_cell_coordinates_retained": true
+          }
+        ]
+      }
+    ],
+    "limits": [
+      "Same kernel ISF; no independent PDB parser acceptance",
+      "Two partial histories and a not-found observation; no positive real command-string recovery",
+      "Nonresident VAD bytes and candidate faults remain failed acquisition",
+      "Registry default mode adds explicit unreadable-hive failures even though displayed rows match"
+    ]
+  },
+  "checks": {
+    "focused_plugin_race": "pass; final native guards and all original generator controls",
+    "focused_engine_race": "pass; 2 sealed-storage controls with fresh successful/failed retries",
+    "full_make_check": "running on registered-scanner snapshot; subsequent registry provenance enrichment and revision-probe failure guard separately pass focused race tests",
+    "go_vet": "pass; plugins and source verifier",
+    "python_tests": "43 pass",
+    "argument_fixtures": "428 pass",
+    "inode_oracle": "32768 pass",
+    "cmdscan_oracle_python312": "11 original generators pass regeneration",
+    "matrix": "pass; 195 plugins, 148 partial, 47 missing, 0 accepted",
+    "local_build_offline_doctor": "pass; development preview",
+    "windows_catalog_ci_regression": "Windows native job in run 39831630600 exposed concurrent cache read/rename/delete sharing violations. Fixed by cancellable per-path transaction locks; local race and single-download/cleanup regressions pass. Windows runtime revalidation pending new CI."
+  },
+  "remaining": [
+    "Positive real command recovery and broader conhost/OS/version corpus",
+    "Registry-positive full synthetic original-generator controls and non-DWORD semantics",
+    "Successful direct PE revision and all damaged PE/PTE/swap behavior",
+    "Strict native VAD/hive recovery versus original partial walks",
+    "Validated external-symbol cache reuse and resumed tasks",
+    "Full parameter, investigation, renderer/export, performance and release acceptance"
+  ]
+}
