@@ -96,6 +96,7 @@ jobs:
       - run: python3 tools/build_desktops_oracle.py --check
       - run: python3 tools/build_windows_oracle.py --check
       - run: python3 tools/build_shimcache_avl_oracle.py --check
+      - run: python3 tools/build_shimcache_resource_oracle.py --check
       - run: go test -race ./pkg/wingui
         env:
           GOMEM_BASELINE_DIR: ${{ github.workspace }}/.cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75
@@ -219,6 +220,7 @@ jobs:
       - run: go test ./pkg/wingui -run '^$' -fuzz '^FuzzGUIWindowTraversal$' -fuzztime 10000x
       - run: go test ./pkg/winshimcache -run '^$' -fuzz '^FuzzShimcacheAVL$' -fuzztime 10000x
       - run: go test ./pkg/winshimcache -run '^$' -fuzz '^FuzzShimcacheAVLLayout$' -fuzztime 1000x
+      - run: go test ./pkg/winshimcache -run '^$' -fuzz '^FuzzShimcacheResource$' -fuzztime 10000x
       - run: go test ./internal/plugins -run '^$' -fuzz '^FuzzWindowListPagedPipeline$' -fuzztime 1000x
       - run: go test ./internal/plugins -run '^$' -fuzz '^FuzzGUIPoolCarving$' -fuzztime 10000x
       - run: go test ./internal/plugins -run '^$' -fuzz '^FuzzWindowStationsPagedPipeline$' -fuzztime 1000x

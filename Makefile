@@ -27,6 +27,7 @@ fuzz:
 	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUIWindowTraversal$$' -fuzztime 20000x
 	$(GO) test ./pkg/winshimcache -run '^$$' -fuzz '^FuzzShimcacheAVL$$' -fuzztime 20000x
 	$(GO) test ./pkg/winshimcache -run '^$$' -fuzz '^FuzzShimcacheAVLLayout$$' -fuzztime 2000x
+	$(GO) test ./pkg/winshimcache -run '^$$' -fuzz '^FuzzShimcacheResource$$' -fuzztime 20000x
 	$(GO) test ./internal/plugins -run '^$$' -fuzz '^FuzzWindowListPagedPipeline$$' -fuzztime 2000x
 	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUISessions$$' -fuzztime 20000x
 	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUIObjects$$' -fuzztime 20000x

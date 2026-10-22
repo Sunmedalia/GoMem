@@ -56,7 +56,10 @@ audit includes every test/example/fuzz seed exactly once and retains the
 execution. A complete run of that updated command is still pending.
 
 Remaining work includes version selection and pinned runtime layout acquisition,
-ERESOURCE/handle/entry validation, modern and legacy cache discovery, XP VAD
+handle/entry validation, modern and legacy cache discovery, XP VAD
 discovery, path/time/size/flag fields, bounded list walking, plugin/timeline
 integration, sealed source audits and positive real-image comparisons. No real
 image or full original-plugin generator has been validated by this component.
+
+Kernel ERESOURCE validation now has a separate [native component and original
+method controls](windows-shimcache-resource.md); it does not register the plugin.

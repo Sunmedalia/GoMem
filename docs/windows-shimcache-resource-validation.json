@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "status": "development_dependency",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Native kernel ERESOURCE validation for Shimcache discovery; plugin remains missing",
+  "original": {
+    "method": "ERESOURCE.is_valid",
+    "method_unmodified": true,
+    "synthetic_kernel_layouts": 4,
+    "controls": 84,
+    "architectures": ["x86", "x64"],
+    "waiter_declarations": ["_KSEMAPHORE*", "void*"],
+    "predicate_results_compared": true,
+    "captured_bytes_rechecked_against_source": true,
+    "read_sequence_identical": false,
+    "read_sequence_note": "Native mapping probes perform bounded reads; the original uses is_valid. Native failures stay explicit errors."
+  },
+  "checks": {
+    "package_race": "pass including actual Windows 10 kernel metadata constructor",
+    "resource_fuzz": "pass; 20000 executions",
+    "oracle_regeneration": "pass in independent Python 3.12 process",
+    "vet_build_matrix_doctor": "pass",
+    "inode_oracle": "32768 modes verified",
+    "full_check": "Frozen previous commit 18bd23a running in detached worktree; not claimed complete",
+    "remote_ci": "oracle and fuzz wired; final commit execution pending"
+  },
+  "actual_kernel_metadata": {
+    "pdb_identifier": "167FE94B5641C005AC3036212A01F8DC-1",
+    "isf_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+    "scope": "Constructor schema validation only; no resource address or image bytes analyzed"
+  },
+  "remaining": [
+    "Handle and entry validation and decoding",
+    "Kernel/layout matching and acquisition",
+    "Modern, legacy and XP cache discovery",
+    "Bounded entry traversal and full plugin integration",
+    "Sealed source audit and positive real-image differential verification"
+  ]
+}
