@@ -91,9 +91,16 @@ func TestExecutionBudgetCancellationAndEmitter(t *testing.T) {
 	if !errors.Is(err, context.Canceled) || calls != 1 {
 		t.Fatal(err, calls)
 	}
-	_, err = r.Search(context.Background(), []byte("a"), 0, false, Limits{Timeout: time.Nanosecond})
-	if !errors.Is(err, ErrBudget) {
+	// Windows monotonic clocks may not advance between two tiny searches.
+	// Force an expired execution deadline instead of assuming nanosecond
+	// wall-clock resolution, while exercising the real VM timeout check.
+	execution, err := newExecution(context.Background(), []byte("a"), Limits{Timeout: time.Second})
+	if err != nil {
 		t.Fatal(err)
+	}
+	execution.deadline = time.Now().Add(-time.Second)
+	if execution.step() || !errors.Is(execution.err, ErrBudget) {
+		t.Fatal("expired VM deadline was ignored", execution.err)
 	}
 }
 
