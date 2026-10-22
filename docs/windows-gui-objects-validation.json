@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "status": "development_dependency",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Station/desktop sessions, pinned station traversal and desktop thread ownership; no GUI plugin registration",
+  "synthetic": {
+    "original_layouts": 12,
+    "scenarios_per_layout": 32,
+    "controls": 384,
+    "methods_unmodified": true,
+    "memory": "byte-backed upstream and native layers with identical field holes; no Intel translation claim",
+    "compared": [
+      "station session/validity",
+      "desktop session/parent/validity",
+      "traversal order/duplicates with default/one/zero limits",
+      "thread address/name/PID"
+    ],
+    "raw_reads": "All successful native captures checked against original fixture bytes",
+    "additional_guards": [
+      "bounds and retained prefixes",
+      "pre-cancellation and callback cancellation",
+      "emitter termination",
+      "overflow and absent inputs",
+      "malformed kernel list/name types"
+    ],
+    "fuzz_executions": 10000
+  },
+  "checks": {
+    "object_oracle": "384 original controls; generate and independent check passed",
+    "package_race": "pass; final complete package with original catalog equality, 384 object cases, cancellation and malformed kernel guards;16.505s",
+    "fuzz": "10000 executions passed in 0.847s",
+    "existing_full_make_check": "pass on prior consoles snapshot; engine race 1687.436s, 43 Python tests, 428 argument fixtures; does not cover this new package",
+    "remote_ci": "wired; pending for this milestone",
+    "build_vet_offline_doctor": "pass; development preview",
+    "matrix_inode_python_arguments": "pass; matrix unchanged,32768 modes,43 tests,428 fixtures"
+  },
+  "remaining": [
+    "Native session-map discovery, GUI pool acquisition and object-header names",
+    "Desktop name and window traversal",
+    "Full original plugin generators and translated/malformed mapping controls",
+    "Sealed evidence, cache and failed-task retry integration",
+    "Positive real-image controls and supported OS acceptance"
+  ]
+}

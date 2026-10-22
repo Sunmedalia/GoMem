@@ -70,3 +70,7 @@ remain unfinished. See [the validation record](windows-gui-layout-validation.jso
 Exact original GUI layout data in `pkg/wingui/testdata/version-oracle.json` is
 Copyright Volatility Foundation and remains subject to the
 [Volatility Software License 1.0](../LICENSES/Volatility-Software-License-1.0.txt).
+
+The subsequent [GUI object reader](windows-gui-objects.md) implements station and
+desktop sessions, pinned station traversal and desktop thread ownership. Pool
+scanning, session discovery and full GUI plugins remain unfinished.
