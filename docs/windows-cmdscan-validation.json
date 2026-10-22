@@ -113,7 +113,15 @@
     "local_build_offline_doctor": "pass; development preview",
     "windows_catalog_ci_regression": "Fixed: all three native OS jobs and all four engine race shards in run 39835965131 passed. The Windows native job includes five repetitions of ConsoleCatalog, full tests, build and offline doctor. Acceptance job is still running.",
     "expanded_full_make_check": "pass; expanded cmdscan snapshot, engine race 1547.894s, 43 Python tests, 428 argument fixtures. Started before screen and console object components; those have separate focused checks.",
-    "expanded_cmdscan_fuzz": "pass; 1000 executions after adding 132-layout controls"
+    "expanded_cmdscan_fuzz": "pass; 1000 executions after adding 132-layout controls",
+    "shared_conhost_acquisition": {
+      "plugin_race": "pass; 132 original CmdScan controls plus first-executable-only scan, malformed ranges, PTE hole, cancellation and read-emitter failure (7.508s)",
+      "engine_race": "pass; 24 sealed-storage/fresh-retry controls (200.117s)",
+      "fuzz": "pass; 1000 CmdScan pipeline mutations (1.330s)",
+      "vet_matrix_inode_build_doctor": "pass; native build, development-preview offline doctor, matrix and 32768 inode modes",
+      "full_suite_scope": "Earlier console-object make check remains running and predates shared acquisition; do not interpret it as full-suite coverage of this change.",
+      "consoles_registration": "pending; shared acquisition does not change the capability matrix"
+    }
   },
   "remaining": [
     "Positive real command recovery and broader conhost/OS/version corpus",

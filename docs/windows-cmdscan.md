@@ -45,7 +45,11 @@ validated, de-duplicated and sorted; zero is allowed, but can produce many
 candidates in cleared memory. The default is 50.
 
 VADs strictly smaller than `0x40000000` are scanned for each history size's
-little endian unsigned short signature. Hardware page-map enumeration restricts
+little endian unsigned short signature. Process-layer acquisition and measured
+layout selection now live in a shared conhost component. Its separate console
+scope selects only the first executable VAD, without the CmdScan size cutoff;
+CmdScan continues to use all eligible VADs. This prepares Consoles integration
+but does not register or establish acceptance of `windows.consoles`. Hardware page-map enumeration restricts
 scanning to acquired mappings inside those VADs. Adjacent acquired intervals can
 share a boundary match; holes never join and are never zero-filled. Mapped and
 requested VAD byte totals are emitted. A difference fails task completeness,
@@ -145,3 +149,15 @@ The expanded cmdscan layout snapshot subsequently passed the complete local
 `make check`: engine race 1547.894 seconds, 43 Python tests and 428 argument
 fixtures. It predates the later screen/object components, whose validation is
 recorded separately.
+
+## Shared acquisition regression checks
+
+The shared component is checked against the same 132 original CmdScan controls.
+Additional paged fixtures add a second mapped VAD named conhost.exe and place a
+signature only in that mapping: history scanning finds it, while console scope
+cannot leave the first executable mapping. The checks cover the exact 1 GiB
+cutoff, original VAD discovery order, case-insensitive filename matching,
+reversed/overflowed ranges, explicit acquisition gaps, cancellation and capture
+emitter errors. A missing PTE keeps two separate acquired ranges and records
+incomplete coverage; no zero fill joins the hole. These are acquisition checks;
+complete Consoles properties and full-generator differential remain pending.
