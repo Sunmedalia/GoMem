@@ -21,6 +21,27 @@ jobs:
       - run: go test -timeout 30m ./...
       - run: go build -trimpath ./cmd/gomem
       - run: go run ./cmd/gomem doctor --offline
+  engine-race:
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 tools/test_engine_shard.py --shard ${{ matrix.shard }} --manifest engine-tests-${{ matrix.shard }}.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: engine-tests-${{ matrix.shard }}
+          path: engine-tests-${{ matrix.shard }}.json
+          if-no-files-found: error
   acceptance:
     runs-on: ubuntu-latest
     steps:
@@ -31,7 +52,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: go test -race -timeout 30m ./...
+      - run: python3 tools/test_engine_shard.py --other-packages
       - run: python3 -m unittest discover -s tools -p 'test_*.py'
       - run: python3 tools/build_argument_fixtures.py --check
       - run: python3 tools/build_inode_mode_oracle.py --check
