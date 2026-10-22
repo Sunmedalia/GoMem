@@ -18,10 +18,15 @@ import (
 
 type callbackGeneratorCase struct {
 	Arch, Scenario string
-	Vista, Legacy  bool
-	Width, Size    int
-	ISF            json.RawMessage
-	Writes         []struct {
+	Version        string
+	PageMap        []struct {
+		Virtual, Physical uint64
+		Present           bool
+	} `json:"page_map"`
+	Vista, Legacy bool
+	Width, Size   int
+	ISF           json.RawMessage
+	Writes        []struct {
 		Offset int
 		Data   string
 	}
@@ -70,11 +75,17 @@ func callbackGeneratorExpected(t testing.TB, rows [][]json.RawMessage) map[strin
 	return result
 }
 func TestWindowsCallbacksCompleteGeneratorStorageCacheAndRetry(t *testing.T) {
+	runCallbackGeneratorStorage(t, "windows-callbacks-oracle.json", 144)
+}
+func TestWindowsCallbacksMappedGeneratorStorageCacheAndRetry(t *testing.T) {
+	runCallbackGeneratorStorage(t, "windows-callbacks-mapping-oracle.json", 90)
+}
+func runCallbackGeneratorStorage(t *testing.T, fixtureName string, count int) {
 	baseline := os.Getenv("GOMEM_BASELINE_DIR")
 	if baseline == "" {
 		t.Skip("set GOMEM_BASELINE_DIR for complete callback generator case storage")
 	}
-	raw, err := os.ReadFile("../plugins/testdata/windows-callbacks-oracle.json")
+	raw, err := os.ReadFile(filepath.Join("../plugins/testdata", fixtureName))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -85,7 +96,7 @@ func TestWindowsCallbacksCompleteGeneratorStorageCacheAndRetry(t *testing.T) {
 	if err := json.Unmarshal(raw, &fixture); err != nil {
 		t.Fatal(err)
 	}
-	if fixture.Commit != "881e970121c16f0932fb9d16fbd5fb258cbcbf75" || len(fixture.Cases) != 144 {
+	if fixture.Commit != "881e970121c16f0932fb9d16fbd5fb258cbcbf75" || len(fixture.Cases) != count {
 		t.Fatal("callback generator fixture drift")
 	}
 	identities := map[string]windowsRegexCase{}
@@ -116,7 +127,21 @@ func TestWindowsCallbacksCompleteGeneratorStorageCacheAndRetry(t *testing.T) {
 					if err != nil || w.Offset+len(b) > 0x12000 {
 						t.Fatal("invalid PE bytes")
 					}
-					copy(data[w.Offset:], b)
+					physical := uint64(w.Offset)
+					if len(c.PageMap) > 0 {
+						found := false
+						for _, m := range c.PageMap {
+							if uint64(w.Offset)&^uint64(4095) == m.Virtual && m.Present {
+								physical = m.Physical + uint64(w.Offset)%4096
+								found = true
+								break
+							}
+						}
+						if !found || physical+uint64(len(b)) > uint64(len(data)) {
+							t.Fatal("PE identity has no hardware backing")
+						}
+					}
+					copy(data[physical:], b)
 				}
 			}
 			var table, source, meta, other, windows, pdb map[string]json.RawMessage
@@ -186,7 +211,7 @@ func TestWindowsCallbacksCompleteGeneratorStorageCacheAndRetry(t *testing.T) {
 				}
 				return json.NewEncoder(&wire).Encode(row)
 			}})
-			failed := c.Scenario == "bad-driver" || c.Scenario == "no-name-info" && c.Vista
+			failed := c.Scenario == "bad-driver" || c.Scenario == "no-name-info" && c.Vista || c.Scenario == "driver-hole" || c.Scenario == "component-hole" || c.Scenario == "module-hole"
 			if (runErr != nil) != failed || result.Reused {
 				t.Fatal("callback task completeness", runErr, result.Reused)
 			}

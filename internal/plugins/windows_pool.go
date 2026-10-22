@@ -331,7 +331,13 @@ func poolScanLayout(e plugin.Environment, constraints []poolConstraint) (poolLay
 		vista: windowsVistaOrLater(e.Symbols), topDown: windows8OrLater(e.Symbols), windows10: windows10OrLater(e.Symbols),
 		padding: -1,
 	}
-	if layout.topDown {
+	executive := false
+	for _, constraint := range constraints {
+		executive = executive || constraint.objectType != ""
+	}
+	// Nonexecutive allocations start directly after the pool header. The
+	// original scanner does not inspect executive optional-header metadata.
+	if layout.topDown && executive {
 		info, err := e.Objects.Field("_OBJECT_HEADER", "InfoMask")
 		if err != nil {
 			return poolLayout{}, err

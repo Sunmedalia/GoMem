@@ -161,6 +161,49 @@ GOMEM_BASELINE_DIR="$PWD/.cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbc
   go test ./internal/plugins -run '^$' -fuzz FuzzCallbacksGeneratorPipeline -fuzztime 10000x
 ```
 
+## Permuted mappings and page holes
+
+`tools/build_callbacks_mapping_oracle.py` drives the original complete generator
+on 90 additional x86/PAE/x64 cases. Each of the 64 virtual pages maps to a
+separate physical frame above `0x40000`, in reverse order. Tests independently
+translate every declared page and check original read captures, so a virtual
+address cannot accidentally work as a physical allocation offset. The selected
+branches cover pre-Vista, Vista and Windows 10, each with legacy/new registry
+roots. They are synthetic branch controls, not proof of real kernel layouts for
+all those combinations.
+
+All 90 five-column multisets, absent classes and duplicates match the original.
+The same cases pass engine validation and sealed SQLite storage under race.
+The 36 successful tasks replay byte-identical caches; the 54 failed tasks rerun
+with new task IDs instead of reusing success.
+Tests verify 55,094 original source reads and 1,104 callback projections,
+including 90 explicit unreadable requests. Driver, component and module-name
+PTE holes make 54 native tasks fail with partial evidence. Normal and pool-page
+hole scenarios finish their selected work in 36 cases. On old systems pool
+scanning sees physical allocations even if their virtual page is unmapped. On
+Windows 10 it scans mapped virtual ranges; the unmapped PnP allocation is outside
+that scan and is omitted by both engines. Completion of scheduled reads is not
+proof that all original allocations were acquired, or that an unmapped span is
+clean. No placeholder row or zero-filled read is substituted for a referenced
+object that cannot be read.
+
+This comparison exposed an acquisition bug: nonexecutive callbacks on Windows 10
+were incorrectly required to provide executive optional-header fields.
+`poolScanLayout` now requires `InfoMask` and `PointerCount` only when an actual
+executive-object constraint needs carving. A regression checks that callback
+constraints work without those fields and File constraints still fail if they
+are missing. Shared pool, network and callback race tests cover the change.
+
+```sh
+python3 tools/build_callbacks_mapping_oracle.py --check
+GOMEM_BASELINE_DIR="$PWD/.cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75" \
+  go test -race ./internal/plugins -run 'Callback|Pool|Network|NetStat' -count=1
+GOMEM_BASELINE_DIR="$PWD/.cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75" \
+  go test -race -timeout 30m ./internal/engine -run '^TestWindowsCallbacksMappedGeneratorStorageCacheAndRetry$' -count=1
+GOMEM_BASELINE_DIR="$PWD/.cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75" \
+  go test ./internal/plugins -run '^$' -fuzz FuzzCallbacksPermutedPagePipeline -fuzztime 10000x
+```
+
 ## Real Windows control
 
 The Windows 10 19041 image with SHA256
@@ -216,7 +259,7 @@ above. The real failed task also exported
 107,509 rows identical to emitted evidence; two real budget failures were
 re-executed without a cache hit.
 
-Broader real Windows/x86/PAE coverage, nonidentity/high-canonical complete generator
-controls, acquisition holes/cycles, investigation rules, renderer/export and
+Broader real Windows/x86/PAE coverage, high-canonical complete synthetic generator
+controls, broader acquisition holes/cycles, investigation rules, renderer/export and
 performance acceptance remain open. See
 [the validation record](windows-callbacks-validation.json).

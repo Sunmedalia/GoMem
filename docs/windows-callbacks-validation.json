@@ -82,10 +82,11 @@
     "internal/plugins/testdata/windows-callback-object-oracle.json": "3837ccb95267ace6fed9d7232fce55bf1c568d923a535dda55b8586bb9e56f5b",
     "docs/diff/windows.callbacks.json": "1cc4b4788ffa84a7568a04c5da647fbf16da10fa1d422f172354ca675fff8564",
     "docs/diff/windows.callbacks-identity.json": "fc098e4cc0e6852d32a9581d85a9cb7228febdd73d6d99297940b9ca6163ef6f",
-    "internal/plugins/testdata/windows-callbacks-oracle.json": "f1e4730fa5c3366bb2a9a5b02b3b8b9e83ebf4d75b04ab29e04c838f783db7da"
+    "internal/plugins/testdata/windows-callbacks-oracle.json": "f1e4730fa5c3366bb2a9a5b02b3b8b9e83ebf4d75b04ab29e04c838f783db7da",
+    "internal/plugins/testdata/windows-callbacks-mapping-oracle.json": "7475da33d983873ce59cfcd568f2b3ca54dab79e9e9ef79b5eb7fd5847b6b10e"
   },
   "remaining": [
-    "Complete generator nonidentity/high-canonical and damaged hardware acquisition controls",
+    "High-canonical complete synthetic generator coverage and broader damaged hardware acquisition controls",
     "Broader real positive/negative Windows and architecture coverage",
     "Unavailable page resolution and incomplete acquisition",
     "Timeline/investigation, complete rendering/export, performance and release acceptance"
@@ -175,7 +176,7 @@
   },
   "implementation_checks": {
     "focused_race": "pass; all callback plugin tests with pinned baseline environment, including 144 complete generators",
-    "full_make_check": "pass; Go vet, full Go race suite, 43 Python tests and 428 argument fixtures; pinned 144-case engine and plugin tests also passed separately under race",
+    "full_make_check": "running for mapped acquisition milestone",
     "matrix": "pass; 195 plugins, 147 partial, 48 missing, 0 accepted",
     "build_offline_doctor": "pass; development preview and acceptance false",
     "object_oracle_python312": "pass; uv Python 3.12 pinned pefile",
@@ -261,5 +262,61 @@
     "engine_race_seconds": 550.61,
     "native_success_cases": 126,
     "native_failed_cases": 18
+  },
+  "permuted_mapping_generators": {
+    "cases": 90,
+    "architectures": [
+      "x86",
+      "pae",
+      "x64"
+    ],
+    "versions": [
+      "pre-Vista",
+      "Vista",
+      "Windows10"
+    ],
+    "registry_roots": [
+      "legacy-vector",
+      "new-list"
+    ],
+    "mapping": "64 descending nonidentity physical frames above 0x40000, actual 4-KiB Intel page tables",
+    "scenarios": [
+      "normal",
+      "driver-hole",
+      "component-hole",
+      "module-hole",
+      "pool-hole"
+    ],
+    "reference_generator_errors": 0,
+    "native_rows": 1104,
+    "all_five_values_and_absent_classes": "matched",
+    "original_reads_verified": 55094,
+    "explicit_failed_reads": 90,
+    "native_failed_tasks": 54,
+    "native_complete_scheduled_work": 36,
+    "acquisition_scope": "Old physical scan retains unmapped physical pool allocations; Windows10 scans only mapped virtual ranges. Complete scheduled work does not establish complete image acquisition. Referenced object read holes fail tasks.",
+    "shared_pool_header_regression": "pass; nonexecutive constraints omit executive InfoMask/PointerCount dependency, executive File retains mandatory checks",
+    "shared_pool_callback_network_race": "pass",
+    "python312_oracle_check": "pass",
+    "pipeline_fuzz": {
+      "executions": 10000,
+      "result": "pass",
+      "target": "FuzzCallbacksPermutedPagePipeline"
+    },
+    "engine_storage_cache_retry": "pass; all 90 cases under race; 36 successful tasks replay byte-identical cached rows; 54 failed tasks rerun with fresh IDs; sealed SQLite rows equal emitted evidence",
+    "real_image_regression": {
+      "task": "39f2c1a7dee06a9a409e82f8185f4ef4",
+      "engine_build_sha256": "e9504c530d518f6a6124109d2c28c42a800274636a67d2f7e9e02c8d9d0b7437",
+      "binary_sha256": "e9504c530d518f6a6124109d2c28c42a800274636a67d2f7e9e02c8d9d0b7437",
+      "native_jsonl_sha256": "e24cca72bd7c3b3b479fcac06d7ff469d2fba96d4769665511e5cbe22ff532d4",
+      "typed_five_column_rows_matched": 204,
+      "original_reads_verified": 107302,
+      "sealed_rows_verified": 107509,
+      "storage_export_rows_equal_emitted": 107509,
+      "task_state": "failed",
+      "failure_observations": 280,
+      "scope": "Regression of existing same-symbol Windows 10 control; still incomplete acquisition"
+    },
+    "engine_race_seconds": 528.211
   }
 }
