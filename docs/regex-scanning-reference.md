@@ -2,9 +2,12 @@
 
 `tools/build_regex_oracle.py` locks the unmodified v2.28.2 `RegExScanner`,
 `regexscan.RegExScan` generator and `linux.vmaregexscan.VmaRegExScan` generator.
-The source tree digest is checked before execution. The fixture is
-`internal/engine/testdata/regex-oracle.json`. This is implementation reference
+The source tree digest is checked before execution. The fixtures are
+`internal/engine/testdata/regex-oracle.json` and its digest-bound
+`byte-regex-semantics.jsonl`. This is implementation reference
 evidence; both plugin classes remain **missing** in the capability matrix.
+The [native matching core](byte-regex.md) is implemented separately; acquisition
+and plugin integration remain pending.
 
 Run with Python 3.12, matching CI:
 
@@ -38,6 +41,10 @@ Python and Volatility remain development dependencies only.
   larger than 16 MiB revisits a preceding match, so that case emits its address
   twice. Fixed scanner offset suppression alone does not eliminate this
   iterator behavior.
+- 12,580 Python 3.12 byte `finditer` configurations compare complete match spans
+  across 622 distinct patterns. These include deterministic generated grammar
+  cases, capture-dependent backtracking and conditional/reference syntax. The
+  JSONL file is checked against its SHA256 and case count before native tests.
 
 ## Required native semantics
 
@@ -64,7 +71,7 @@ compiled when all tasks are skipped. Mapped pages outside selected VMAs must
 not contribute scan matches. Upstream silently skips unavailable scan mappings;
 native analysis must additionally retain explicit incomplete-coverage evidence.
 
-Native implementation, bounded/cancellable regex execution, raw scan and result
+Native plugin implementation, raw scan and result
 acquisitions, original page-table provenance, sealed storage/cache checks,
 failure tests, real-corpus comparisons and full renderer/export validation are
 still required. These reference cases do not justify a status upgrade or an

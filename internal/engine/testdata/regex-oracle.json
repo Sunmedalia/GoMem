@@ -32522,5 +32522,12 @@
       ],
       "error": null
     }
-  ]
+  ],
+  "semantics": {
+    "path": "byte-regex-semantics.jsonl",
+    "cases": 12580,
+    "patterns": 622,
+    "sha256": "a637175c82585b3eaf47354fda5356850fd0e5f139329de42f68bd708f561497",
+    "scope": "Python 3.12 byte finditer; complete match start/end positions"
+  }
 }

@@ -149,6 +149,7 @@ jobs:
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzETWPatchPipeline -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzMFTPipeline -fuzztime 5s
       - run: go test ./pkg/ntfs -run '^$' -fuzz FuzzMFTRecord -fuzztime 5s
+      - run: go test ./pkg/byteregex -run '^$' -fuzz FuzzByteRegex -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsStringsPipeline -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzWindowsMalfindPipeline -fuzztime 5s
       - run: go test ./internal/plugins -run '^$' -fuzz FuzzIATPipeline -fuzztime 5s

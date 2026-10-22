@@ -6,10 +6,12 @@ scanner, object-field, VMA traversal or process-layer method is mocked. This is
 reference evidence for native implementation, not capability acceptance.
 """
 import argparse
+import hashlib
 import json
 import logging
 from pathlib import Path
 import re
+import random
 import struct
 import sys
 import tempfile
@@ -19,6 +21,7 @@ from baseline_matrix import ROOT, tree_digest
 
 COMMIT = '881e970121c16f0932fb9d16fbd5fb258cbcbf75'
 OUTPUT = ROOT / 'internal/engine/testdata/regex-oracle.json'
+SEMANTICS = ROOT / 'internal/engine/testdata/byte-regex-semantics.jsonl'
 
 
 def sparse(data):
@@ -215,7 +218,65 @@ def generate(source):
         result = rows(RegExScan._generator(runner,context,'physical','MATCH',128))
         assert result['error'] is None
         windows.append(dict(name=name,pattern='MATCH',maxsize=128,size=size,writes=sparse(data),**result))
-    return json.dumps(dict(commit=COMMIT,python='3.12',scope='Actual unmodified scanner and generic generator; VMA generator with real ISF task/mm/VMA and Intel process translation; no method mocks',cases=cases,vmas=vmas,windows=windows),indent=2,ensure_ascii=True)+'\n'
+    semantic_patterns = [p for _,p,_ in samples] + [
+        r'(a?)*\1', r'(?:|a)*b', r'(?:|a)+b', r'(a(b)?)+\2', r'(a|ab)*b',
+        r'(?=(a|ab))\1c', r'(?i:(a))\1', r'(a)(?<=\1)b', r'(?<=(a)\1)b',
+        r'(a)?(?(1)b|c)', r'(?(1)b|c)(a)', r'(?(99)b|c)', r'(?P<n>a)?(?(n)b|c)',
+        r'(?i:a)(?-i:b)', r'(?i)a|b', r'a|(?i)b', r'(?i-m:a)', r'(?i-:a)',
+        r'[\s\xff]', r'[^\W_]', r'[\b]', r'[\8]', r'\123', r'\400',
+        r'[a-z]', r'(?i)[^a-z]', r'[]a]', r'[-a]', r'[a-]', r'[z-a]',
+        r'a{,}', r'a{,2}', r'a{0}', r'a{2,1}', r'a{2}', r'{2}', r'a{b}',
+        r'a{2}*', r'a{1,2}+', r'a{1,2}?', r'(?#comment)(?i)a',
+        r'(?m:a$)', r'(?-s:a.b)', r'\A.*\Z', r'(?<=a|bc)d',
+        r'(a)?\1', r'(a*)\1', r'(?P<a>a)(b)\1\2', r'(?P<a>a)(?P=a)',
+        r'(?aa)a', r'a(?#c)*', r'a(?#foo\)bar)*', r'(?(+1)a|b)(a)',
+        r'(a(?(1)b|c))', r'(?<=(a)(?(1)b|c))d', r'(a?){2,}\1',
+        r'|(?i)a', r'(?#a)(?i)a', r'(?i)(?#a)(?m)a', r'(?x) a (?#c) *',
+        r'(a?)*?', r'(?:a?)*a', r'((?:|a)*)\1', r'(a|b)\1',
+        r'(?i)([a-z]+)\1', r'(a)?(?(1)(b|c)|(d|e))\2', r'(a|ab)++b',
+        r'(?<=ab|cd)e', r'(?>(a|ab))b', r'(?=(a|ab))\1b',
+        r'(a(b)?)+\2', r'(a|b){0,2}?\1', r'(?P<a>a)(?P<a>b)',
+        r'(a\1)', r'(?a-i:a)', r'(?-i:a)', r'(?i-ii:a)',
+    ]
+    atoms = ['a','b','.',r'\d',r'\w',r'\s','[ab]','[^a]','(a)','(?:a|b)','(?:|a)']
+    for atom in atoms:
+        for quant in ['', '?', '*', '+', '*?', '++', '{1,2}', '{0,2}?']:
+            semantic_patterns.extend([atom+quant, '('+atom+quant+')b', atom+quant+'a'])
+    rng = random.Random(20261022)
+    def grammar(depth):
+        if depth == 0:
+            return rng.choice(['a','b','.',r'\w',r'\xff','[ab]','[^b]',''])
+        choice = rng.randrange(7)
+        if choice == 0:
+            return grammar(depth-1)+grammar(depth-1)
+        if choice == 1:
+            return '(?:'+grammar(depth-1)+'|'+grammar(depth-1)+')'
+        if choice == 2:
+            return '(?:'+grammar(depth-1)+')'+rng.choice(['?','{0,2}','{1,3}?','{0,2}+'])
+        if choice == 3:
+            return '(?>'+grammar(depth-1)+')'
+        if choice == 4:
+            return '(?='+grammar(depth-1)+')'+grammar(depth-1)
+        if choice == 5:
+            return '(?!'+grammar(depth-1)+')'+grammar(depth-1)
+        return '(?i:'+grammar(depth-1)+')'
+    semantic_patterns += [grammar(3) for _ in range(256)]
+    semantic = []
+    for pattern in semantic_patterns:
+        inputs = [b'',b'a',b'ab',b'aaaab',b'a\nb',b'\xffa\xc3\xa9']
+        inputs += [bytes(rng.choice(b'ab01_\n\x00\xff') for _ in range(rng.randrange(13))) for _ in range(4)]
+        for data in inputs:
+            for dotall in (False,True):
+                try:
+                    matches = [[m.start(),m.end()] for m in re.finditer(pattern.encode('utf-8'),data,re.DOTALL if dotall else 0)]
+                    error = None
+                except re.error:
+                    matches,error = [],'invalid_pattern'
+                semantic.append(dict(pattern=pattern,data=data.hex(),dotall=dotall,matches=matches,error=error))
+    semantic_text = ''.join(json.dumps(case,ensure_ascii=True,separators=(',',':'))+'\n' for case in semantic)
+    manifest = dict(path=SEMANTICS.name,cases=len(semantic),patterns=len(set(c['pattern'] for c in semantic)),sha256=hashlib.sha256(semantic_text.encode()).hexdigest(),scope='Python 3.12 byte finditer; complete match start/end positions')
+    reference = json.dumps(dict(commit=COMMIT,python='3.12',scope='Actual unmodified scanner and generic generator; VMA generator with real ISF task/mm/VMA and Intel process translation; no method mocks',cases=cases,vmas=vmas,windows=windows,semantics=manifest),indent=2,ensure_ascii=True)+'\n'
+    return reference,semantic_text
 
 
 def main():
@@ -223,14 +284,15 @@ def main():
     parser.add_argument('--source',type=Path,default=ROOT/('.cache/volatility3-'+COMMIT))
     parser.add_argument('--check',action='store_true')
     args = parser.parse_args()
-    result = generate(args.source)
+    result,semantic = generate(args.source)
     if args.check:
-        if OUTPUT.read_text() != result:
+        if OUTPUT.read_text() != result or SEMANTICS.read_text() != semantic:
             raise ValueError('regex oracle differs')
     else:
         OUTPUT.write_text(result)
+        SEMANTICS.write_text(semantic)
     doc = json.loads(result)
-    print(f'{len(doc["cases"])} actual byte-scanner cases and {len(doc["vmas"])} paged VMA generators verified')
+    print(f'{len(doc["cases"])} actual byte-scanner cases, {len(doc["vmas"])} paged VMA generators and {doc["semantics"]["cases"]} byte-regex semantics cases verified')
 
 
 if __name__ == '__main__':

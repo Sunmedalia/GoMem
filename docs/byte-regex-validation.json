@@ -1,0 +1,54 @@
+{
+  "schema": "gomem.byte-regex-core-validation/v1",
+  "release": "development-preview",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Native matching core only; generic and Linux VMA acquisition plugins remain missing",
+  "oracle": {
+    "scanner_cases": 35,
+    "full_span_semantics": {
+      "path": "byte-regex-semantics.jsonl",
+      "cases": 12580,
+      "patterns": 622,
+      "sha256": "a637175c82585b3eaf47354fda5356850fd0e5f139329de42f68bd708f561497",
+      "scope": "Python 3.12 byte finditer; complete match start/end positions"
+    },
+    "reference_python": "3.12",
+    "paged_vma_generator_reference_cases": 42,
+    "vma_native_pipeline_verified": false
+  },
+  "checks": {
+    "make_check": "pass; Go vet, race tests, 39 Python unit tests, 428 argument cases",
+    "new_package_race_seconds": 2.401,
+    "unchanged_engine_race": "cached from previously passing complete checks",
+    "oracle_check": "pass",
+    "matrix": "pass; no acceptance status upgraded",
+    "inode_modes_oracle": 32768,
+    "lazy_resource_order": "minimum match attempted before scanning further candidate repetitions"
+  },
+  "fuzz": {
+    "target": "FuzzByteRegex",
+    "duration_seconds": 15,
+    "executions": 105502,
+    "result": "pass"
+  },
+  "microbenchmarks": {
+    "hardware": "Apple M4",
+    "os": "darwin",
+    "arch": "arm64",
+    "buffer_bytes": 16777216,
+    "iterations_per_pattern": 3,
+    "scope": "warm in-memory prefix scanning only; excludes acquisition, page translation, storage and TUI; not release performance acceptance",
+    "ns_per_op": {
+      "MATCH": 1162986,
+      "(MATCH)\\1": 584097,
+      "NEVER": 566208
+    }
+  },
+  "limitations": [
+    "Locale-sensitive patterns require an explicit adapter and currently return an error",
+    "Compile/input limits and bounded execution may reject valid but expensive Python expressions",
+    "Nonlinear evaluation depth is limited to 4096; arbitrary long backtracking patterns are not guaranteed to finish",
+    "Finite differential cases do not establish complete Python re compatibility",
+    "Native regexscan and linux.vmaregexscan plugin acquisition, provenance, storage, cache, real-image comparison and renderer/export acceptance remain pending"
+  ]
+}
