@@ -16,6 +16,7 @@ import (
 )
 
 type ImageSourceOptions struct {
+	LeechCore         LeechCoreOptions
 	GCS               GCSOptions
 	S3                S3Options
 	SnapshotDirectory string
@@ -26,6 +27,20 @@ type ImageSourceOptions struct {
 // OpenImageSource assembles acquisition members; OpenSource opens one stream.
 // The returned source owns every opened member and exposes the VMEM bytes.
 func OpenImageSource(ctx context.Context, location string, options ImageSourceOptions) (source MemorySource, err error) {
+	if strings.HasPrefix(strings.ToLower(location), "leechcore://") {
+		if options.Offline {
+			return nil, fmt.Errorf("remote image unavailable in offline mode")
+		}
+		lc := options.LeechCore
+		if lc.Directory == "" {
+			lc.Directory = options.SnapshotDirectory
+		}
+		source, err := OpenLeechCore(ctx, location, lc)
+		if err != nil {
+			return nil, err
+		}
+		return source, nil
+	}
 	openMember := func(location string) (MemorySource, error) {
 		if strings.HasPrefix(strings.ToLower(location), "gs://") {
 			if options.Offline {

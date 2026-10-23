@@ -339,3 +339,33 @@ jobs:
         with:
           python-version: '3.14'
       - run: python3 tools/build_windows_path_oracle.py --full --check
+  leechcore-native:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 tools/fetch_leechcore.py
+      - if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libusb-1.0-0-dev pkg-config
+      - if: runner.os == 'Linux'
+        run: make -C .cache/LeechCore-7436c5e9720c7bc816260f29c705332197ea286d/leechcore
+      - if: runner.os == 'macOS'
+        run: make -C .cache/LeechCore-7436c5e9720c7bc816260f29c705332197ea286d/leechcore -f Makefile.macos
+      - shell: bash
+        run: |
+          if [ "$RUNNER_OS" = "Linux" ]; then
+            export GOMEM_LEECHCORE_LIBRARY="$GITHUB_WORKSPACE/.cache/LeechCore-7436c5e9720c7bc816260f29c705332197ea286d/files/leechcore.so"
+          else
+            export GOMEM_LEECHCORE_LIBRARY="$GITHUB_WORKSPACE/.cache/LeechCore-7436c5e9720c7bc816260f29c705332197ea286d/files/leechcore.dylib"
+          fi
+          go test -race ./pkg/memory ./internal/engine -run LeechCore -count=1 -v
+      - run: go test ./pkg/memory -run '^$' -fuzz '^FuzzLeechCoreURI$' -fuzztime 10000x

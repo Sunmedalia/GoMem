@@ -25,6 +25,7 @@ import (
 )
 
 type Config struct {
+	LeechCore                              memory.LeechCoreOptions
 	GCS                                    memory.GCSOptions
 	S3                                     memory.S3Options
 	VMwareMetadata                         string
@@ -75,7 +76,7 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 	if c.CaseDir != "" {
 		snapshotDirectory = filepath.Join(c.CaseDir, "sources")
 	}
-	src, err := memory.OpenImageSource(ctx, c.Image, memory.ImageSourceOptions{Offline: c.Offline, VMwareMetadata: c.VMwareMetadata, SnapshotDirectory: snapshotDirectory, S3: c.S3, GCS: c.GCS})
+	src, err := memory.OpenImageSource(ctx, c.Image, memory.ImageSourceOptions{Offline: c.Offline, VMwareMetadata: c.VMwareMetadata, SnapshotDirectory: snapshotDirectory, S3: c.S3, GCS: c.GCS, LeechCore: c.LeechCore})
 	if err != nil {
 		return nil, err
 	}

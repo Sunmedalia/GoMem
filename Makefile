@@ -25,6 +25,7 @@ audit-v01:
 fuzz:
 	$(GO) test ./pkg/memory -run '^$$' -fuzz '^FuzzS3URI$$' -fuzztime 10000x
 	$(GO) test ./pkg/memory -run '^$$' -fuzz '^FuzzGCSURI$$' -fuzztime 10000x
+	$(GO) test ./pkg/memory -run '^$$' -fuzz '^FuzzLeechCoreURI$$' -fuzztime 10000x
 	$(GO) test ./pkg/memory -run '^$$' -fuzz '^FuzzFTPURI$$' -fuzztime 10000x
 	$(GO) test ./pkg/memory -run '^$$' -fuzz '^FuzzQEMUSuspend$$' -fuzztime 10000x
 	$(GO) test ./pkg/memory -run '^$$' -fuzz '^FuzzVMwareMetadata$$' -fuzztime 10000x

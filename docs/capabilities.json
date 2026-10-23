@@ -12421,11 +12421,20 @@
       "id": "volatility3.framework.layers.leechcore",
       "category": "layers",
       "source": "volatility3/framework/layers/leechcore.py",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
       "applicability": "See locked source; source-module inventory includes support modules.",
-      "corpora": [],
-      "comparison": "not_run"
+      "corpora": [
+        "native-leechcore-sparse-lime",
+        "native-leechcore-windows-linux-processes",
+        "official-linux-sample-1-through-leechcore-file"
+      ],
+      "comparison": "native_read_only_acquisition_selected_file_provider_controls",
+      "validation_record": "docs/leechcore-sources.md",
+      "gaps": [
+        "Live/remote providers, full upstream handler parity and Windows actual-library controls pending",
+        "No writes or zero padding; native blocking calls cannot be forcibly interrupted"
+      ]
     },
     {
       "id": "volatility3.framework.layers.lime",
@@ -13160,11 +13169,24 @@
     {
       "id": "source.leechcore",
       "category": "acceptance",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "Optional cgo dynamic LeechCore v2 ABI on Windows/Linux/macOS; explicit library and device/remote configuration; read-only map acquisition into private local LiME snapshots. Failed declared ranges abort without padding.",
+      "corpora": [
+        "native-leechcore-sparse-lime",
+        "synthetic-leechcore-read-fault-bounds-cancel",
+        "native-leechcore-windows-linux-processes",
+        "official-linux-sample-1-through-leechcore-file"
+      ],
+      "comparison": "actual_pinned_native_library_sparse_ranges_and_512MiB_physical_SHA_133_ordered_process_fields",
+      "validation_record": "docs/leechcore-sources.md",
+      "gaps": [
+        "No live hardware, driver, LeechAgent or remote transport/auth acceptance; actual library file provider only",
+        "Native calls cannot be forcibly canceled in process; cancellation is checked before/after calls",
+        "Range capture is not an atomic live snapshot; requires local disk and cooperative cleanup",
+        "Python LeechCoreFile padding/write behavior deliberately excluded; full handler differential pending",
+        "Windows native library positive control and full optional-extension distribution acceptance pending"
+      ]
     },
     {
       "id": "symbols.pdb-msf",

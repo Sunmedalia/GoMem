@@ -322,3 +322,13 @@ func TestGCSDoctorAndOffline(t *testing.T) {
 		t.Fatal("offline GCS contacted endpoint")
 	}
 }
+
+func TestLeechCoreOfflineBeforeLibraryLoad(t *testing.T) {
+	output, stderr, err := run(t, "", "doctor", "--image", "leechcore://secret-device", "--leechcore-library", "/secret/native-library", "--leechcore-remote", "secret-remote", "--offline")
+	if err == nil {
+		t.Fatal("offline device accepted")
+	}
+	if strings.Contains(output+stderr+err.Error(), "secret-") {
+		t.Fatal("device configuration leaked")
+	}
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "https://github.com/ufrisk/LeechCore",
+  "commit": "7436c5e9720c7bc816260f29c705332197ea286d",
+  "archive_sha256": "4f254cc55eba79e9e990f204ff323585129cb3a7eabd2a3693f6113c7be2cb29",
+  "license": "GPL-3.0",
+  "header_abi": "LC_CONFIG_VERSION=0xc0fd0002"
+}
