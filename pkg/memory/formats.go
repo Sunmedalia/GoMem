@@ -39,6 +39,9 @@ func Detect(ctx context.Context, s MemorySource) (MemoryLayer, string, error) {
 	}
 	h = h[:n]
 	switch {
+	case bytes.HasPrefix(h, []byte("QEVM")):
+		layer, err := qemuImage(ctx, s)
+		return layer, "qemu", err
 	case len(h) >= 4 && binary.LittleEndian.Uint32(h) == 0x4c694d45:
 		return lime(ctx, s)
 	case bytes.HasPrefix(h, []byte("\x7fELF")):
@@ -51,7 +54,7 @@ func Detect(ctx context.Context, s MemorySource) (MemoryLayer, string, error) {
 			return nil, "avml", err
 		}
 		return l, "avml", err
-	case bytes.HasPrefix(h, []byte("QEVM")), bytes.HasPrefix(h, []byte{0xd2, 0xbe, 0xd2, 0xbe}), bytes.HasPrefix(h, []byte{0xd0, 0xbe, 0xd2, 0xbe}), bytes.HasPrefix(h, []byte{0xd1, 0xba, 0xd1, 0xba}), bytes.HasPrefix(h, []byte{0xd3, 0xbe, 0xd3, 0xbe}):
+	case bytes.HasPrefix(h, []byte{0xd2, 0xbe, 0xd2, 0xbe}), bytes.HasPrefix(h, []byte{0xd0, 0xbe, 0xd2, 0xbe}), bytes.HasPrefix(h, []byte{0xd1, 0xba, 0xd1, 0xba}), bytes.HasPrefix(h, []byte{0xd3, 0xbe, 0xd3, 0xbe}):
 		return nil, "virtual-machine", fmt.Errorf("%w: QEMU/VMware saved state", ErrUnsupported)
 	case bytes.HasPrefix(h, []byte{0x1f, 0x8b}), bytes.HasPrefix(h, []byte{0xfd, 0x37, 0x7a, 0x58, 0x5a, 0}), bytes.HasPrefix(h, []byte("PK\x03\x04")):
 		return nil, "compressed", fmt.Errorf("%w: compressed image; decompress into the case directory first", ErrUnsupported)

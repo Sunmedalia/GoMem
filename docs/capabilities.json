@@ -12466,11 +12466,25 @@
       "id": "volatility3.framework.layers.qemu",
       "category": "layers",
       "source": "volatility3/framework/layers/qemu.py",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "See locked source; source-module inventory includes support modules.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "QEMU v3 RAM-v4 streams, fill/raw pages, section continuations, captured VM device layouts and default PC PCI-hole maps; bounded parsing and source reads.",
+      "corpora": [
+        "pinned-qemu-20-controls",
+        "qemu-v9.2.0-analyzer-20-controls",
+        "synthetic-windows-linux-qemu",
+        "synthetic-http-qemu",
+        "official-linux-sample-1-reencoded-qemu"
+      ],
+      "comparison": "14_actual_pinned_controls_match_6_documented_divergences_all_20_QEMU_analyzer_page_digests_match_plus_reencoded_physical_hash",
+      "validation_record": "docs/qemu.md",
+      "gaps": [
+        "No actual QEMU producer corpus or complete architecture/version acceptance",
+        "XBZRLE, mapped RAM, hooks, unknown custom device layouts and custom PCI holes remain unsupported",
+        "VM description tail is limited to 16MiB; explicit index, field, nesting and record budgets",
+        "Updated pages and described devices diverge from fixed parser; QEMU analyzer needs a documented Python 3 ord compatibility shim",
+        "CPU state, modern configuration capabilities and complete guest automagic remain pending"
+      ]
     },
     {
       "id": "volatility3.framework.layers.registry",
