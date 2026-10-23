@@ -46,7 +46,8 @@ and schema/field fuzz targets. The synthetic Unicode descriptor types are method
 controls, not version acceptance.
 
 The original data-only layouts are shared with the [AVL fixtures](windows-shimcache-avl.md)
-and retain their upstream VSL license. Remaining work includes time and execution
-fields, XP validation, kernel/layout selection, modern/legacy/XP discovery,
+and retain their upstream VSL license. Timestamp and execution fields are covered separately in
+[windows-shimcache-temporal.md](windows-shimcache-temporal.md). Remaining work
+includes XP validation, kernel/layout selection, modern/legacy/XP discovery,
 bounded cache traversal, plugin/timeline integration, sealed persistence and
 positive real-image full-plugin differential comparison.

@@ -119,3 +119,5 @@
 2026-10-22：新增原生 `windows.mftscan`、`windows.ads`、`windows.residentdata`。70 个真实上游 YARA/生成器案例覆盖扫描重叠、类型表字节宽度、驻留流和损坏输入；真实 Windows 的 16,370 / 5 / 925 行与基线字段、树形及内容匹配。每项保留 7 次缺页和 11 条候选诊断，仍为部分覆盖。插件矩阵 140 项部分实现、55 项未实现、0 项完整验收。[详情](windows-mft.md)
 
 2026-10-22：新增原生 Go 字节正则匹配核心，支持回溯引用、固定宽度后向断言、条件、原子组、空匹配推进及取消/资源边界。12,580 组 Python 3.12 匹配区间完成差分；通用及 Linux VMA 取证扫描管线尚未接入，矩阵仍为 140 partial / 55 missing / 0 accepted。[详情](byte-regex.md)
+
+2026-10-23：Shimcache 底座新增固定基线 `last_modified`、`last_update` 和 `exec_flag` 解码，保留时间缺失/不可解析/不可读分类、detail 指针掩码、原始读取证据及原版成功执行标记最终归为 N/A 的控制流。595 个上游对象案例覆盖 12 个布局、x86/x64、48 位/全宽掩码、负时间和 blob 故障；`windows.shimcachemem` 仍缺少版本选择、缓存发现/遍历、插件与时间线集成，保持 missing。[详情](windows-shimcache-temporal.md)

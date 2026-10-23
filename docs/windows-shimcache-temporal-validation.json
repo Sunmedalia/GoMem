@@ -1,0 +1,10 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "oracle": "temporal-oracle.json",
+  "sha256": "ed3febe1c1e9cefdd88586572164e8392b5829b784a25e9331e599d9a109b66e",
+  "cases": 595,
+  "layouts": 12,
+  "native_tests": "all three properties, captures, errors, cancellation, overflow, short reads, malformed schema and fuzz",
+  "status": "partial",
+  "accepted": false
+}
