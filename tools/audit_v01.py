@@ -75,12 +75,12 @@ def main():
     mode.add_argument('--write', action='store_true', help='Explicitly update the reviewed inventory')
     mode.add_argument('--check', action='store_true', help='Fail on registration, schema, scope or record drift')
     args = parser.parse_args()
-    matrix = json.loads((ROOT / 'docs/capabilities.json').read_text())
-    result = inventory(json.loads(args.plugins.read_text()), matrix, ROOT)
+    matrix = json.loads((ROOT / 'docs/capabilities.json').read_text(encoding='utf-8'))
+    result = inventory(json.loads(args.plugins.read_text(encoding='utf-8')), matrix, ROOT)
     rendered = json.dumps(result, ensure_ascii=False, indent=2) + '\n'
     if args.write:
-        args.output.write_text(rendered)
-    elif not args.output.is_file() or args.output.read_text() != rendered:
+        args.output.write_text(rendered, encoding='utf-8')
+    elif not args.output.is_file() or args.output.read_text(encoding='utf-8') != rendered:
         raise SystemExit('v0.1 inventory drift: review support/validation and explicitly update --write')
     print(f"{result['native_plugins']} native commands / {result['mapped_upstream_classes']} upstream classes audited; behavioral acceptance remains pending")
 

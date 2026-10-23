@@ -6,6 +6,8 @@ Go 原生、只读的内存取证引擎与交互式 TUI。当前版本 **0.1.0-d
 
 当前从 **v0.1 开发验收**开始：冻结新增插件，审计现有 133 个原生命令，优先完善案件与调查工作流。[v0.1 范围和验收](docs/v0.1-acceptance.md)。
 
+`gomem case verify --case CASE` 分页核对案件证据摘要、任务归属、父子/分诊引用和提取文件，并独立展示失败分析任务的状态。[案件验证](docs/case-verification.md)。
+
 固定基线为 [Volatility 3 v2.28.2](https://github.com/volatilityfoundation/volatility3/releases/tag/v2.28.2)，提交 `881e970121c16f0932fb9d16fbd5fb258cbcbf75`。已经盘点 **195 个官方插件类**（包含旧名称入口），完整验收通过 **0 项**。原生进程、模块和 banner 能力已有指定字段对照，仍缺少参数、场景及全部字段验收。[能力矩阵](docs/capabilities.json)、[验证记录](docs/validation.json)、[剩余工作](docs/roadmap.md) 是发布依据。
 
 `windows.pe_symbols` 提供进程/内核模块的 PDB 优先精确符号查询，保留缺页诊断和部分结果；36 个固定分页语料、240 个上游命令查询及 360 组原生组合对照通过。[PE 符号命令](docs/windows-pe-symbols.md)

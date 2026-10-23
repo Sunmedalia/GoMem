@@ -368,6 +368,18 @@ func caseCommands(c *engine.Config, out io.Writer) *cobra.Command {
 	}}
 	verify.Flags().StringVar(&verifyTask, "task", "", "Owner task ID; otherwise all tasks")
 	cmd.AddCommand(verify)
+	var integrityTask string
+	integrity := &cobra.Command{Use: "verify", Short: "Verify stored evidence, task/reference links and extraction integrity", Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
+		s, err := open()
+		if err != nil {
+			return err
+		}
+		defer s.Close()
+		report, verifyErr := s.VerifyCase(cmd.Context(), integrityTask)
+		return errors.Join(jsonOut(out, report), verifyErr)
+	}}
+	integrity.Flags().StringVar(&integrityTask, "task", "", "Verify one task and its referenced evidence; otherwise all tasks")
+	cmd.AddCommand(integrity)
 	cmd.AddCommand(&cobra.Command{Use: "notes", Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
 		s, err := open()
 		if err != nil {

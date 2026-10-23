@@ -32,6 +32,15 @@ func TestArtifactVerificationDoesNotCreateAnAbsentCase(t *testing.T) {
 		t.Fatal("inspection created an empty case", err)
 	}
 }
+func TestCaseVerificationDoesNotCreateAnAbsentCase(t *testing.T) {
+	dir := filepath.Join(t.TempDir(), "absent")
+	if _, _, err := run(t, "", "case", "verify", "--case", dir); err == nil {
+		t.Fatal("absent case verified")
+	}
+	if _, err := os.Stat(dir); !os.IsNotExist(err) {
+		t.Fatal("inspection created an empty case", err)
+	}
+}
 func TestCommandsEndToEnd(t *testing.T) {
 	f, err := testfixture.Write(t.TempDir(), "linux")
 	if err != nil {
@@ -59,6 +68,9 @@ func TestCommandsEndToEnd(t *testing.T) {
 	if _, _, err = run(t, "", "export", "--case", caseDir, "--format", "bundle", "--output", "evidence.zip"); err != nil {
 		t.Fatal(err)
 	}
+	if checked, _, err := run(t, "", "case", "verify", "--case", caseDir); err != nil || !strings.Contains(checked, `"verified": true`) {
+		t.Fatal(checked, err)
+	}
 	out, _, err = run(t, "use kernel\nhex 0x8000 32\nuse process "+first.ID+"\nhex 0x8000 16\nquit\n", "shell", "--image", f.Image, "--symbols", f.Symbols, "--dtb", f.DTB, "--case", caseDir)
 	if err != nil || !strings.Contains(out, "Linux version") {
 		t.Fatal(out, err)
@@ -66,6 +78,9 @@ func TestCommandsEndToEnd(t *testing.T) {
 	out, _, err = run(t, "", "triage", "--image", f.Image, "--case", caseDir, "--os", "linux", "--symbols", f.Symbols, "--dtb", f.DTB, "--ioc", "gomem-test-ioc")
 	if err == nil || !strings.Contains(out, `"unavailable"`) {
 		t.Fatal(out, err)
+	}
+	if checked, _, err := run(t, "", "case", "verify", "--case", caseDir); err != nil || !strings.Contains(checked, `"verified": true`) {
+		t.Fatal("triage case failed consistency verification", checked, err)
 	}
 	after, _ := os.ReadFile(f.Image)
 	if !bytes.Equal(before, after) {

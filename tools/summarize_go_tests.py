@@ -54,11 +54,11 @@ def main():
     parser.add_argument('log', type=Path)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
-    with args.log.open() as stream:
+    with args.log.open(encoding='utf-8') as stream:
         result = summarize(stream)
     with args.log.open('rb') as stream:
         result['log_sha256'] = hashlib.file_digest(stream, 'sha256').hexdigest()
-    args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
+    args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(dict(state=result['state'], **result['top_level'])))
     if result['state'] == 'failed':
         raise SystemExit(1)
