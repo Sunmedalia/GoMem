@@ -226,3 +226,43 @@ func TestWindowsCrashDiscoveryCommand(t *testing.T) {
 		t.Fatal(out, stderr, err)
 	}
 }
+
+func TestFTPDoctorSnapshotAndOffline(t *testing.T) {
+	data := []byte("captured binary FTP image\x00\xff")
+	server := testfixture.StartFTPServer(t, testfixture.FTPServerOptions{Files: map[string][]byte{"memory.raw": data}})
+	location := strings.Replace(server.URL(), "ftp://", "ftp://secret-user:secret-password@", 1) + "/memory.raw"
+	caseDir := t.TempDir()
+	output, stderr, err := run(t, "", "doctor", "--image", location, "--case", caseDir)
+	if err != nil {
+		t.Fatal(stderr, err)
+	}
+	if strings.Contains(output+stderr, "secret-") {
+		t.Fatal("credentials in diagnostics")
+	}
+	var result struct {
+		Hash     string `json:"image_sha256"`
+		Format   string `json:"image_format"`
+		Snapshot struct {
+			Protocol, SHA256 string
+			Size             uint64
+		} `json:"remote_snapshot"`
+	}
+	if err := json.Unmarshal([]byte(output), &result); err != nil {
+		t.Fatal(err)
+	}
+	if result.Format != "raw" || result.Snapshot.Protocol != "ftp" || result.Snapshot.Size != uint64(len(data)) || result.Hash != result.Snapshot.SHA256 {
+		t.Fatal("snapshot diagnostics mismatch")
+	}
+	entries, err := os.ReadDir(filepath.Join(caseDir, "sources"))
+	if err != nil || len(entries) != 0 {
+		t.Fatal("CLI snapshot leaked", entries, err)
+	}
+	before := len(server.Commands())
+	output, stderr, err = run(t, "", "doctor", "--offline", "--image", location)
+	if err == nil || len(server.Commands()) != before {
+		t.Fatal("offline FTP accessed network")
+	}
+	if strings.Contains(output+stderr+err.Error(), "secret-") {
+		t.Fatal("credentials in offline error")
+	}
+}

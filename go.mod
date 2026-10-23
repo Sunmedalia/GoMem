@@ -9,6 +9,7 @@ require (
 	github.com/charmbracelet/x/ansi v0.11.9
 	github.com/dsnet/compress v0.0.1
 	github.com/gofrs/flock v0.13.1
+	github.com/jlaffaye/ftp v0.2.4
 	github.com/spf13/cobra v1.10.2
 	github.com/ulikunitz/xz v0.5.17
 	golang.org/x/arch v0.32.0

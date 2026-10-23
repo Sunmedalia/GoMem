@@ -69,7 +69,11 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 	if c.OS != "" && c.OS != "linux" && c.OS != "windows" && c.OS != "mac" {
 		return nil, fmt.Errorf("--os must be linux, windows or mac")
 	}
-	src, err := memory.OpenImageSource(ctx, c.Image, memory.ImageSourceOptions{Offline: c.Offline, VMwareMetadata: c.VMwareMetadata})
+	snapshotDirectory := ""
+	if c.CaseDir != "" {
+		snapshotDirectory = filepath.Join(c.CaseDir, "sources")
+	}
+	src, err := memory.OpenImageSource(ctx, c.Image, memory.ImageSourceOptions{Offline: c.Offline, VMwareMetadata: c.VMwareMetadata, SnapshotDirectory: snapshotDirectory})
 	if err != nil {
 		return nil, err
 	}
@@ -124,6 +128,13 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 		}
 		if initialStat.Size() != finalStat.Size() || !initialStat.ModTime().Equal(finalStat.ModTime()) {
 			return nil, fmt.Errorf("image changed while hashing; use an immutable acquisition")
+		}
+	}
+	if snapshot, ok := src.(interface {
+		SnapshotInfo() memory.RemoteSnapshotInfo
+	}); ok {
+		if hash != snapshot.SnapshotInfo().SHA256 {
+			return nil, fmt.Errorf("acquired snapshot hash changed before analysis")
 		}
 	}
 	var acquisition *memory.VMwareAcquisition
@@ -543,6 +554,21 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 		provenance.Parameters["engine.acquisition.metadata.sha256"] = members.MetadataSHA256
 		provenance.Parameters["engine.acquisition.memory.size"] = strconv.FormatUint(members.MemorySize, 10)
 		provenance.Parameters["engine.acquisition.metadata.size"] = strconv.FormatUint(members.MetadataSize, 10)
+	}
+	if snapshot, ok := e.Source.(interface {
+		SnapshotInfo() memory.RemoteSnapshotInfo
+	}); ok {
+		info := snapshot.SnapshotInfo()
+		provenance.Parameters["engine.source.schema"] = info.Schema
+		provenance.Parameters["engine.source.protocol"] = info.Protocol
+		provenance.Parameters["engine.source.sha256"] = info.SHA256
+		provenance.Parameters["engine.source.size"] = strconv.FormatUint(info.Size, 10)
+		if info.RemoteSize != nil {
+			provenance.Parameters["engine.source.remote.size"] = strconv.FormatUint(*info.RemoteSize, 10)
+		}
+		if info.RemoteModified != "" {
+			provenance.Parameters["engine.source.remote.modified"] = info.RemoteModified
+		}
 	}
 	for k, v := range params {
 		provenance.Parameters[k] = v

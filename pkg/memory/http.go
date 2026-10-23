@@ -26,9 +26,22 @@ type HTTPSource struct {
 	cancel   context.CancelFunc
 }
 
-// OpenSource opens a local image or an HTTP(S) image. Offline forbids remote I/O.
+// OpenSource opens a local, HTTP(S), or captured FTP image. Offline forbids remote I/O.
 func OpenSource(ctx context.Context, location string, offline bool) (MemorySource, error) {
+	return openSource(ctx, location, offline, "")
+}
+func openSource(ctx context.Context, location string, offline bool, snapshotDirectory string) (MemorySource, error) {
 	lower := strings.ToLower(location)
+	if strings.HasPrefix(lower, "ftp://") {
+		if offline {
+			return nil, fmt.Errorf("remote image unavailable in offline mode")
+		}
+		source, err := OpenFTP(ctx, location, FTPOptions{Directory: snapshotDirectory})
+		if err != nil {
+			return nil, err
+		}
+		return source, nil
+	}
 	if strings.HasPrefix(lower, "http://") || strings.HasPrefix(lower, "https://") {
 		if offline {
 			return nil, fmt.Errorf("remote image unavailable in offline mode")

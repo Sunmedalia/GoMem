@@ -16,14 +16,15 @@ import (
 )
 
 type ImageSourceOptions struct {
-	Offline        bool
-	VMwareMetadata string
+	SnapshotDirectory string
+	Offline           bool
+	VMwareMetadata    string
 }
 
 // OpenImageSource assembles acquisition members; OpenSource opens one stream.
 // The returned source owns every opened member and exposes the VMEM bytes.
 func OpenImageSource(ctx context.Context, location string, options ImageSourceOptions) (source MemorySource, err error) {
-	source, err = OpenSource(ctx, location, options.Offline)
+	source, err = openSource(ctx, location, options.Offline, options.SnapshotDirectory)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +44,7 @@ func OpenImageSource(ctx context.Context, location string, options ImageSourceOp
 		if options.VMwareMetadata != "" {
 			return nil, fmt.Errorf("--vmware-metadata requires a VMEM input")
 		}
-		extra, err = OpenSource(ctx, replaceSourceExtension(location, ".vmem"), options.Offline)
+		extra, err = openSource(ctx, replaceSourceExtension(location, ".vmem"), options.Offline, options.SnapshotDirectory)
 		if err != nil {
 			return nil, fmt.Errorf("VMware VMEM companion: %w", err)
 		}
@@ -54,7 +55,7 @@ func OpenImageSource(ctx context.Context, location string, options ImageSourceOp
 			candidates = []string{replaceSourceExtension(location, ".vmss"), replaceSourceExtension(location, ".vmsn")}
 		}
 		for _, candidate := range candidates {
-			extra, err = OpenSource(ctx, candidate, options.Offline)
+			extra, err = openSource(ctx, candidate, options.Offline, options.SnapshotDirectory)
 			if err == nil {
 				metadataSource = extra
 				break
@@ -78,7 +79,11 @@ func OpenImageSource(ctx context.Context, location string, options ImageSourceOp
 func sourceExtension(location string) string {
 	if strings.Contains(location, "://") {
 		if u, err := url.Parse(location); err == nil {
-			return strings.ToLower(filepath.Ext(u.Path))
+			path := u.Path
+			if strings.EqualFold(u.Scheme, "ftp") && strings.HasSuffix(strings.ToLower(u.EscapedPath()), ";type=i") {
+				path = path[:len(path)-7]
+			}
+			return strings.ToLower(filepath.Ext(path))
 		}
 	}
 	return strings.ToLower(filepath.Ext(location))
@@ -86,7 +91,12 @@ func sourceExtension(location string) string {
 func replaceSourceExtension(location, extension string) string {
 	if strings.Contains(location, "://") {
 		if u, err := url.Parse(location); err == nil {
-			u.Path = strings.TrimSuffix(u.Path, filepath.Ext(u.Path)) + extension
+			suffix := ""
+			if strings.EqualFold(u.Scheme, "ftp") && strings.HasSuffix(strings.ToLower(u.EscapedPath()), ";type=i") {
+				suffix = u.Path[len(u.Path)-7:]
+				u.Path = u.Path[:len(u.Path)-7]
+			}
+			u.Path = strings.TrimSuffix(u.Path, filepath.Ext(u.Path)) + extension + suffix
 			u.RawPath = ""
 			return u.String()
 		}
@@ -148,6 +158,27 @@ func NewVMwareSource(memorySource, metadataSource MemorySource) (*VMwareSource, 
 			}{file, info})
 		}
 	}
+	var seen []os.FileInfo
+	for _, member := range []MemorySource{memorySource, metadataSource} {
+		var infos []os.FileInfo
+		if file, ok := member.(*FileSource); ok {
+			info, err := file.Stat()
+			if err != nil {
+				return nil, err
+			}
+			infos = append(infos, info)
+		} else if files, ok := member.(interface{ FileInfos() []os.FileInfo }); ok {
+			infos = files.FileInfos()
+		}
+		for _, info := range infos {
+			for _, other := range seen {
+				if os.SameFile(info, other) {
+					return nil, fmt.Errorf("VMware members alias the same acquisition file")
+				}
+			}
+			seen = append(seen, info)
+		}
+	}
 	if memoryHTTP, ok := memorySource.(*HTTPSource); ok {
 		if metadataHTTP, ok := metadataSource.(*HTTPSource); ok && memoryHTTP.location == metadataHTTP.location {
 			return nil, fmt.Errorf("VMware members alias the same HTTP resource")
@@ -168,6 +199,11 @@ func (s *VMwareSource) FileInfos() []os.FileInfo {
 	result := make([]os.FileInfo, 0, len(s.files))
 	for _, file := range s.files {
 		result = append(result, file.info)
+	}
+	for _, member := range []MemorySource{s.memory, s.metadata} {
+		if files, ok := member.(interface{ FileInfos() []os.FileInfo }); ok {
+			result = append(result, files.FileInfos()...)
+		}
 	}
 	return result
 }

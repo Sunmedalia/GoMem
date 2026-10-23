@@ -13085,11 +13085,24 @@
     {
       "id": "source.ftp",
       "category": "acceptance",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "Binary FTP acquisitions into private local read-only snapshots; login-relative/escaped-root URI paths, EPSV/PASV, optional SIZE/MDTM consistency, cancellation and content-hashed evidence.",
+      "corpora": [
+        "synthetic-ftp-epsv-pasv-snapshot",
+        "pinned-ftp-resource-accessor",
+        "synthetic-windows-linux-ftp",
+        "synthetic-ftp-vmware-pair",
+        "official-linux-sample-1-over-local-ftp"
+      ],
+      "comparison": "actual_pinned_accessor_full_sha_and_seek_reads_match_selected_controls_plus_512MiB_RAW_and_133_ordered_process_columns",
+      "validation_record": "docs/ftp-sources.md",
+      "gaps": [
+        "No public-server/platform matrix, proxies, FTPS or active-mode acceptance",
+        "SIZE/MDTM do not prove remote atomicity; captured stream is fixed locally and always reacquired on a new open",
+        "Snapshots are temporary, removed on close, and require free local disk; no persistent/resumable download cache",
+        "Actual process termination can leave snapshots requiring local cleanup; cooperative cancellation is covered"
+      ]
     },
     {
       "id": "source.s3",
