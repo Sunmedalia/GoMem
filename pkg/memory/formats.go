@@ -86,12 +86,18 @@ func lime(ctx context.Context, s MemorySource) (MemoryLayer, string, error) {
 	return m, "lime", e
 }
 func elfImage(ctx context.Context, s MemorySource) (MemoryLayer, string, error) {
+	if err := boundELF(ctx, s); err != nil {
+		return nil, "elf", err
+	}
 	f, e := elf.NewFile(sourceReader{ctx, s})
 	if e != nil {
 		return nil, "elf", e
 	}
 	if f.Type != elf.ET_CORE {
 		return nil, "elf", fmt.Errorf("ELF is not a memory core")
+	}
+	if layer, matched, err := xenImage(ctx, s, f); matched {
+		return layer, "xen", err
 	}
 	var runs []Range
 	for _, p := range f.Progs {

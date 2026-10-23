@@ -12526,11 +12526,22 @@
       "id": "volatility3.framework.layers.xen",
       "category": "layers",
       "source": "volatility3/framework/layers/xen.py",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "See locked source; source-module inventory includes support modules.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "Native ELF64 Xen guest-physical PFN/P2M mappings, endian-aware indices, bounded notes and streamed reads; source remains read-only.",
+      "corpora": [
+        "pinned-xen-core-11-controls",
+        "synthetic-windows-linux-xen-pfn-p2m",
+        "official-linux-sample-1-reencoded-xen-pfn-p2m"
+      ],
+      "comparison": "3_selected_pfn_controls_match_actual_upstream_bytes_8_documented_divergences_and_full_reencoded_physical_digest",
+      "validation_record": "docs/xen-core.md",
+      "gaps": [
+        "No real Xen producer PV/HVM corpus or complete platform/version acceptance",
+        "PFN zero, 64-bit sentinel, P2M, page-size, endian and name-table divergences retained explicitly",
+        "CPU contexts, complete Xen version-note interpretation and automatic guest setup remain pending",
+        "ELF metadata/page/range budgets and unsupported compression are explicit limits"
+      ]
     },
     {
       "id": "volatility3.framework.symbols.intermed",

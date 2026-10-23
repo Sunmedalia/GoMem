@@ -133,3 +133,5 @@ v0.1 增量：`case verify` 现已核对存储 Seal、任务来源、父子关�
 2026-10-23：shell 新增 `dis/disasm ADDRESS [LENGTH] [ARCH]`，在当前物理/内核/进程空间进行原生 x86/x64/ARM/ARM64 反汇编，输出层、地址、机器码与指令，验证源身份并保留读取和解码失败。所选层、架构、跳转目标、取消与输出失败均有控制测试；完整 volshell、Capstone 与指令集差分验收仍待完成。[详情](shell-disassembly.md)
 
 2026-10-23：新增 `analyze --format mermaid` 原生流式树图，以证据父链接连线，保留每条结果和列顺序，标签转义并明确报告写出失败。6 组真实固定 TreeGrid/MermaidRenderer 输出逐字节一致，另有父链接、重复 PID、缺失值和注入控制；报告导出、复杂值与浏览器/大图验收待补齐。[详情](mermaid-renderer.md)
+
+2026-10-23：新增原生 Xen ELF64 Core 的 PFN/P2M 来宾物理层及有界 ELF 元数据校验。11 组真实固定层对照保留 3 组字节一致和 8 组明确差异；Windows/Linux 合成分页、封存和缓存通过，Debian 512MiB RAW 的两种流式重编码保留完整物理散列与 133 条指定进程列。重编码不是实际 Xen 采集器语料，完整验收保持未完成。[详情](xen-core.md)
