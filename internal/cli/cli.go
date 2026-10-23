@@ -42,6 +42,7 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 	f := root.PersistentFlags()
 	f.StringVar(&libraryRoot, "library-dir", ".", "Library root containing images/ and sysmbols/")
 	f.StringVar(&cfg.Image, "image", "", "Read-only local image or HTTP(S) URL")
+	f.StringVar(&cfg.VMwareMetadata, "vmware-metadata", "", "VMware VMSS/VMSN companion; otherwise discover beside VMEM")
 	f.StringVar(&cfg.CaseDir, "case", "", "Case directory (SQLite, symbols, exports)")
 	f.StringVar(&cfg.Symbols, "symbols", "", "Matching ISF, PDB/MSF 7.0 or ELF/Mach-O with DWARF")
 	f.StringVar(&cfg.SymbolIndex, "symbol-index", "", "Local symbol index; otherwise use CASE/symbols/index.json when DTB is given")
@@ -144,7 +145,7 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 		if err != nil {
 			return err
 		}
-		diagnostic := map[string]any{"engine": version.Version, "release": "development-preview", "baseline": version.Baseline, "baseline_commit": version.BaselineCommit, "native_plugins": registry.List(), "upstream_plugin_classes": matrix.PluginCount, "accepted_plugins": matrix.Accepted, "release_ready": false, "extensions": map[string]bool{"yara": false, "capstone": false, "leechcore": false}, "formats": []string{"raw", "lime-v1", "avml-v2-snappy-framed", "elf-core-physical-pt_load", "xen-core-elf64-pfn-p2m", "windows-complete-32/64", "windows-bitmap-32/64"}, "symbol_inputs": []string{"isf-json/gzip/xz/zip", "elf-dwarf", "macho-dwarf", "pdb-msf7-codeview"}, "missing": []string{"complete image/kernel/DTB discovery (partial Linux x64/ARM64 and Windows crash only)", "macOS automatic symbol acquisition, CAB PDB transport and fully automatic Linux address-space setup", "full PDB/CodeView and legacy MSF validation", "full DWARF/kernel-version validation", "macOS analysis", "swap resolution", "VMware/QEMU and full format/version acceptance (Xen core has selected synthetic validation)", "FTP/S3/GCS/LeechCore sources and HTTP servers without strong ETags/ranges", "full plugin parameter parity", "official-corpus differential acceptance", "full renderers and extraction"}}
+		diagnostic := map[string]any{"engine": version.Version, "release": "development-preview", "baseline": version.Baseline, "baseline_commit": version.BaselineCommit, "native_plugins": registry.List(), "upstream_plugin_classes": matrix.PluginCount, "accepted_plugins": matrix.Accepted, "release_ready": false, "extensions": map[string]bool{"yara": false, "capstone": false, "leechcore": false}, "formats": []string{"raw", "lime-v1", "avml-v2-snappy-framed", "elf-core-physical-pt_load", "xen-core-elf64-pfn-p2m", "vmware-vmem-with-vmss-vmsn", "windows-complete-32/64", "windows-bitmap-32/64"}, "symbol_inputs": []string{"isf-json/gzip/xz/zip", "elf-dwarf", "macho-dwarf", "pdb-msf7-codeview"}, "missing": []string{"complete image/kernel/DTB discovery (partial Linux x64/ARM64 and Windows crash only)", "macOS automatic symbol acquisition, CAB PDB transport and fully automatic Linux address-space setup", "full PDB/CodeView and legacy MSF validation", "full DWARF/kernel-version validation", "macOS analysis", "swap resolution", "QEMU and full format/version acceptance (VMware/Xen have selected validation)", "FTP/S3/GCS/LeechCore sources and HTTP servers without strong ETags/ranges", "full plugin parameter parity", "official-corpus differential acceptance", "full renderers and extraction"}}
 		diagnostic["release_ready"] = gate.Ready
 		diagnostic["symbol_lookup"] = "explicit table, local identity index, interactive Linux banner matching or exact Windows PDB acquisition (known DTB/kernel base required)"
 		diagnostic["acceptance"] = gate
@@ -156,6 +157,10 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 			}
 			diagnostic["image_sha256"] = eng.Hash
 			diagnostic["image_format"] = eng.Format
+			if vmware, ok := eng.Env.Physical.(interface{ VMwareHeader() memory.VMwareHeader }); ok {
+				diagnostic["vmware_header"] = vmware.VMwareHeader()
+				diagnostic["vmware_acquisition"] = eng.VMwareAcquisition
+			}
 			if xen, ok := eng.Env.Physical.(interface{ XenHeader() memory.XenHeader }); ok {
 				diagnostic["xen_core"] = xen.XenHeader()
 			}

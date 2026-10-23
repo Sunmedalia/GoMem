@@ -109,6 +109,7 @@ jobs:
       - run: python3 tools/build_shimcache_selection_oracle.py --check
       - run: python3 tools/build_mermaid_oracle.py --check
       - run: python3 tools/build_xen_oracle.py --check
+      - run: python3 tools/build_vmware_oracle.py --check
       - run: go test -race ./pkg/wingui
         env:
           GOMEM_BASELINE_DIR: ${{ github.workspace }}/.cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75
@@ -274,6 +275,7 @@ jobs:
       - run: go test ./pkg/memoryscan -run '^$' -fuzz FuzzMemoryScanPipeline -fuzztime 443000x
       - run: go test ./pkg/memory -run '^$' -fuzz '^FuzzHTTPContentRange$' -fuzztime 10000x
       - run: go test ./pkg/memory -run '^$' -fuzz '^FuzzXenCore$' -fuzztime 10000x
+      - run: go test ./pkg/memory -run '^$' -fuzz '^FuzzVMwareMetadata$' -fuzztime 10000x
       - run: go test ./pkg/memory -run '^$' -fuzz FuzzScanPlan -fuzztime 452000x
       - run: go test ./pkg/memory -run '^$' -fuzz FuzzDetect -fuzztime 29000x
       - run: go test ./pkg/memory -run '^$' -fuzz FuzzAVML -fuzztime 629000x

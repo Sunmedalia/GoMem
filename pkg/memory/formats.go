@@ -24,6 +24,14 @@ func (r sourceReader) ReadAt(p []byte, o int64) (int, error) {
 
 // Detect refuses recognizable unsupported containers instead of treating their headers as RAM.
 func Detect(ctx context.Context, s MemorySource) (MemoryLayer, string, error) {
+	if source, ok := s.(*VMwareSource); ok {
+		layer, err := vmwareImage(ctx, source)
+		return layer, "vmware", err
+	}
+	switch sourceExtension(s.Name()) {
+	case ".vmem", ".vmss", ".vmsn":
+		return nil, "vmware", fmt.Errorf("%w: VMware pair requires OpenImageSource", ErrUnsupported)
+	}
 	h := make([]byte, min(s.Size(), 4096))
 	n, e := s.ReadAt(ctx, h, 0)
 	if e != nil && e != io.EOF && n == 0 {

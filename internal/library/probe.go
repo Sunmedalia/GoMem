@@ -27,7 +27,7 @@ type Probe struct {
 }
 
 func ProbeFile(ctx context.Context, path string) (Probe, error) {
-	src, err := memory.OpenFile(path)
+	src, err := memory.OpenImageSource(ctx, path, memory.ImageSourceOptions{Offline: true})
 	if err != nil {
 		return Probe{}, err
 	}

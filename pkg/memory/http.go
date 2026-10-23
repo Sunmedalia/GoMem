@@ -33,12 +33,20 @@ func OpenSource(ctx context.Context, location string, offline bool) (MemorySourc
 		if offline {
 			return nil, fmt.Errorf("remote image unavailable in offline mode")
 		}
-		return OpenHTTP(ctx, location, nil)
+		source, err := OpenHTTP(ctx, location, nil)
+		if err != nil {
+			return nil, err
+		}
+		return source, nil
 	}
 	if strings.Contains(location, "://") {
 		return nil, fmt.Errorf("unsupported image source scheme")
 	}
-	return OpenFile(location)
+	source, err := OpenFile(location)
+	if err != nil {
+		return nil, err
+	}
+	return source, nil
 }
 
 // OpenHTTP accepts a custom client for transports/authentication. It clones the

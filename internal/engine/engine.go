@@ -25,6 +25,7 @@ import (
 )
 
 type Config struct {
+	VMwareMetadata                         string
 	Image, CaseDir, Symbols, OS, Arch, DTB string
 	SymbolIndex                            string
 	SymbolCache, SymbolServer              string
@@ -32,6 +33,7 @@ type Config struct {
 	Offline                                bool
 }
 type Engine struct {
+	VMwareAcquisition     *memory.VMwareAcquisition
 	Config                Config
 	Source                memory.MemorySource
 	Format                string
@@ -67,7 +69,7 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 	if c.OS != "" && c.OS != "linux" && c.OS != "windows" && c.OS != "mac" {
 		return nil, fmt.Errorf("--os must be linux, windows or mac")
 	}
-	src, err := memory.OpenSource(ctx, c.Image, c.Offline)
+	src, err := memory.OpenImageSource(ctx, c.Image, memory.ImageSourceOptions{Offline: c.Offline, VMwareMetadata: c.VMwareMetadata})
 	if err != nil {
 		return nil, err
 	}
@@ -124,11 +126,31 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 			return nil, fmt.Errorf("image changed while hashing; use an immutable acquisition")
 		}
 	}
+	var acquisition *memory.VMwareAcquisition
+	if vmware, ok := src.(*memory.VMwareSource); ok {
+		var manifest memory.VMwareAcquisition
+		hash, manifest, err = vmware.AcquisitionIdentity(ctx, hash)
+		if err != nil {
+			return nil, err
+		}
+		acquisition = &manifest
+	}
+	var inputFiles []os.FileInfo
+	if initialStat != nil {
+		inputFiles = append(inputFiles, initialStat)
+	}
+	if members, ok := src.(interface{ FileInfos() []os.FileInfo }); ok {
+		inputFiles = append(inputFiles, members.FileInfos()...)
+	}
 	if c.CaseDir != "" {
 		for _, name := range []string{"case.db", "case.db-wal", "case.db-shm", "case.db-journal", "case.lock"} {
 			info, statErr := os.Stat(filepath.Join(c.CaseDir, name))
-			if statErr == nil && initialStat != nil && os.SameFile(initialStat, info) {
-				return nil, fmt.Errorf("case database or journal aliases the input image: %s", name)
+			if statErr == nil {
+				for _, member := range inputFiles {
+					if os.SameFile(member, info) {
+						return nil, fmt.Errorf("case database or journal aliases an acquisition member: %s", name)
+					}
+				}
 			}
 			if statErr != nil && !os.IsNotExist(statErr) {
 				return nil, statErr
@@ -143,7 +165,7 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 	if err = plugins.Register(r); err != nil {
 		return nil, err
 	}
-	eng = &Engine{rootFromCrash: rootFromCrash, CrashHeader: crashHeader, Config: c, Source: src, Format: format, Hash: hash, Store: st, Registry: r}
+	eng = &Engine{VMwareAcquisition: acquisition, rootFromCrash: rootFromCrash, CrashHeader: crashHeader, Config: c, Source: src, Format: format, Hash: hash, Store: st, Registry: r}
 	eng.Build, err = version.Identity()
 	if err != nil {
 		return nil, err
@@ -514,6 +536,14 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 	}
 	provenance := evidence.Provenance{ImageSHA256: e.Hash, Engine: version.Version, Plugin: requested, Parameters: make(map[string]string), Layer: e.Env.Physical.Name()}
 	provenance.EngineBuild = e.Build
+	if e.VMwareAcquisition != nil {
+		members := e.VMwareAcquisition
+		provenance.Parameters["engine.acquisition.schema"] = members.Schema
+		provenance.Parameters["engine.acquisition.memory.sha256"] = members.MemorySHA256
+		provenance.Parameters["engine.acquisition.metadata.sha256"] = members.MetadataSHA256
+		provenance.Parameters["engine.acquisition.memory.size"] = strconv.FormatUint(members.MemorySize, 10)
+		provenance.Parameters["engine.acquisition.metadata.size"] = strconv.FormatUint(members.MetadataSize, 10)
+	}
 	for k, v := range params {
 		provenance.Parameters[k] = v
 	}

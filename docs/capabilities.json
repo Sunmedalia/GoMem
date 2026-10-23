@@ -12516,11 +12516,23 @@
       "id": "volatility3.framework.layers.vmware",
       "category": "layers",
       "source": "volatility3/framework/layers/vmware.py",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "See locked source; source-module inventory includes support modules.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "Read-only VMEM with companion VMSS/VMSN, four metadata signatures, bounded region-tag parsing and acquisition identity binding both members.",
+      "corpora": [
+        "pinned-vmware-26-controls",
+        "synthetic-windows-linux-vmware",
+        "synthetic-http-vmware-pair",
+        "official-linux-sample-1-reencoded-vmware"
+      ],
+      "comparison": "18_valid_controls_match_actual_upstream_reads_one_unordered_control_diverges_and_7_invalid_controls_rejected",
+      "validation_record": "docs/vmware.md",
+      "gaps": [
+        "No actual VMware producer corpus or complete version/platform acceptance",
+        "Unordered upstream lookup, duplicate tags, overlap and overflow divergences are explicit",
+        "Only companion VMEM acquisitions; embedded-memory snapshots and complete CPU state are unsupported",
+        "TUI library import requires both members to be placed together; no transactional pair import"
+      ]
     },
     {
       "id": "volatility3.framework.layers.xen",
