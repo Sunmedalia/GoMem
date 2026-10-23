@@ -7,7 +7,14 @@
 #include <string.h>
 #ifdef _WIN32
 #include <windows.h>
-#define CS_LOAD(path) LoadLibraryExA(path,NULL,LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR|LOAD_LIBRARY_SEARCH_DEFAULT_DIRS)
+static void *gomem_cs_load(const char *path){
+ int n=MultiByteToWideChar(CP_UTF8,MB_ERR_INVALID_CHARS,path,-1,NULL,0);if(!n)return NULL;
+ wchar_t *wide=calloc((size_t)n,sizeof(wchar_t));if(!wide)return NULL;
+ if(!MultiByteToWideChar(CP_UTF8,MB_ERR_INVALID_CHARS,path,-1,wide,n)){free(wide);return NULL;}
+ HMODULE library=LoadLibraryExW(wide,NULL,LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR|LOAD_LIBRARY_SEARCH_DEFAULT_DIRS);
+ free(wide);return library;
+}
+#define CS_LOAD(path) gomem_cs_load(path)
 #define CS_SYMBOL(h,name) GetProcAddress((HMODULE)h,name)
 #define CS_UNLOAD(h) FreeLibrary((HMODULE)h)
 #else

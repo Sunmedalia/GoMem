@@ -5,7 +5,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"os"
+	"path/filepath"
 	"reflect"
 	"strings"
 	"testing"
@@ -215,6 +217,37 @@ func TestCapstoneActualArchitectures(t *testing.T) {
 	}
 	if err := d.Decode(context.Background(), nil, 0, func(Instruction) error { return nil }); err != nil {
 		t.Fatal(err)
+	}
+}
+
+func TestCapstoneUnicodeLibraryPath(t *testing.T) {
+	library := os.Getenv("GOMEM_CAPSTONE_LIBRARY")
+	if library == "" || !Supported() {
+		t.Skip("set GOMEM_CAPSTONE_LIBRARY for Unicode native library loading")
+	}
+	source, err := os.Open(library)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer source.Close()
+	path := filepath.Join(t.TempDir(), "原生 decoder "+filepath.Base(library))
+	dest, err := os.Create(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, copyErr := io.Copy(dest, source)
+	closeErr := dest.Close()
+	if err := errors.Join(copyErr, closeErr); err != nil {
+		t.Fatal(err)
+	}
+	d, err := Open(context.Background(), path, "x64")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer d.Close()
+	var text string
+	if err := d.Decode(context.Background(), []byte{0x90}, 0x1000, func(i Instruction) error { text = i.Text(); return nil }); err != nil || text != "nop" {
+		t.Fatal(text, err)
 	}
 }
 func FuzzCapstoneDecode(f *testing.F) {

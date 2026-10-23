@@ -346,6 +346,8 @@ jobs:
           python-version: '3.14'
       - run: python3 tools/build_windows_path_oracle.py --full --check
   capstone-native:
+    env:
+      CGO_ENABLED: '1'
     strategy:
       fail-fast: false
       matrix:
