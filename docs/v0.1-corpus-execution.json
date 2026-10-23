@@ -1,17 +1,22 @@
 {
   "schema": "gomem.test-execution/v1",
-  "state": "completed_with_skips",
+  "state": "passed",
   "scope": "Executed test assertions only; no full capability acceptance implied",
   "top_level": {
-    "pass": 101,
+    "pass": 118,
     "fail": 0,
-    "skip": 16
+    "skip": 0
   },
-  "all_test_events": 141,
+  "all_test_events": 149,
   "packages": {
     "github.com/Sunmedalia/GoMem/internal/engine": "pass"
   },
   "tests": [
+    {
+      "package": "github.com/Sunmedalia/GoMem/internal/engine",
+      "test": "TestKaliARM64FbdevPositiveAcquisitionExportAndCache",
+      "state": "pass"
+    },
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
       "test": "TestOfficialCorpus",
@@ -65,8 +70,7 @@
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
       "test": "TestOfficialLinuxFbdevEmptyControlEvidenceAndCache",
-      "state": "skip",
-      "reason": "linux_fbdev_corpus_test.go:25: requires optional corpus and pinned fbdev reference; skipped test is not acceptance"
+      "state": "pass"
     },
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
@@ -76,14 +80,12 @@
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
       "test": "TestOfficialLinuxFtraceUnsupportedKernel",
-      "state": "skip",
-      "reason": "linux_ftrace_corpus_test.go:20: requires optional Debian corpus and pinned ftrace reference; not acceptance"
+      "state": "pass"
     },
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
       "test": "TestOfficialLinuxHiddenModules",
-      "state": "skip",
-      "reason": "linux_hidden_modules_corpus_test.go:20: optional hidden-module corpus requires GOMEM_CORPUS_DIR and GOMEM_HIDDEN_MODULES_REFERENCE; not full acceptance"
+      "state": "pass"
     },
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
@@ -108,8 +110,7 @@
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
       "test": "TestOfficialLinuxKallsymsSourcesPartialControl",
-      "state": "skip",
-      "reason": "linux_kallsyms_corpus_test.go:21: requires optional corpus and pinned full kallsyms reference; not acceptance"
+      "state": "pass"
     },
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
@@ -119,8 +120,7 @@
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
       "test": "TestOfficialLinuxKmsgDifferentialEvidenceAndCache",
-      "state": "skip",
-      "reason": "linux_kmsg_corpus_test.go:21: requires optional corpus and pinned kmsg reference; skipped test is not acceptance"
+      "state": "pass"
     },
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
@@ -130,8 +130,7 @@
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
       "test": "TestOfficialLinuxLibraryListDifferentialAndRawCaptures",
-      "state": "skip",
-      "reason": "linux_library_list_corpus_test.go:23: requires optional corpus and pinned reference prefix; skipped test is not acceptance"
+      "state": "pass"
     },
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
@@ -146,8 +145,7 @@
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
       "test": "TestOfficialLinuxMalfindNegativeWithPageCoverage",
-      "state": "skip",
-      "reason": "linux_malfind_corpus_test.go:21: requires corpus and both unmodified and delegated reference prefixes; not acceptance"
+      "state": "pass"
     },
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
@@ -157,14 +155,12 @@
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
       "test": "TestOfficialLinuxModuleELFExports",
-      "state": "skip",
-      "reason": "linux_module_export_corpus_test.go:21: optional Debian module ELF differential requires GOMEM_CORPUS_DIR and GOMEM_MODULE_ELF_REFERENCE_DIR; not full acceptance"
+      "state": "pass"
     },
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
       "test": "TestOfficialLinuxModuleExtract",
-      "state": "skip",
-      "reason": "linux_module_extract_corpus_test.go:22: optional direct module extraction requires GOMEM_CORPUS_DIR and GOMEM_MODULE_EXTRACT_REFERENCE_DIR; not full acceptance"
+      "state": "pass"
     },
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
@@ -179,20 +175,17 @@
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
       "test": "TestOfficialLinuxNetfilter",
-      "state": "skip",
-      "reason": "linux_netfilter_corpus_test.go:20: requires GOMEM_CORPUS_DIR and GOMEM_NETFILTER_REFERENCE; not acceptance"
+      "state": "pass"
     },
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
       "test": "TestOfficialLinuxPIDHashDifferentialEvidenceAndCache",
-      "state": "skip",
-      "reason": "linux_pidhashtable_corpus_test.go:22: requires corpus and pinned PID reference prefix; skipped test is not acceptance"
+      "state": "pass"
     },
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
       "test": "TestOfficialLinuxPerfEventsEmptyControlEvidenceAndCache",
-      "state": "skip",
-      "reason": "linux_perf_events_corpus_test.go:22: requires optional corpus and pinned perf-events reference; skipped test is not acceptance"
+      "state": "pass"
     },
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
@@ -212,8 +205,7 @@
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
       "test": "TestOfficialLinuxPsCallStack",
-      "state": "skip",
-      "reason": "linux_pscallstack_corpus_test.go:21: requires optional Debian corpus and pinned PID 1/2 callstack reference; not acceptance"
+      "state": "pass"
     },
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
@@ -238,8 +230,7 @@
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
       "test": "TestOfficialLinuxSockscan",
-      "state": "skip",
-      "reason": "linux_sockscan_corpus_test.go:87: requires optional Debian corpus and pinned Linux sockscan reference; not acceptance"
+      "state": "pass"
     },
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
@@ -264,8 +255,7 @@
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
       "test": "TestOfficialLinuxTracepointsEmptyControlEvidenceAndCache",
-      "state": "skip",
-      "reason": "linux_tracepoints_corpus_test.go:22: requires optional corpus and pinned tracepoints reference; skipped test is not acceptance"
+      "state": "pass"
     },
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
@@ -410,8 +400,7 @@
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
       "test": "TestOfficialWindowsKernelPEExports",
-      "state": "skip",
-      "reason": "pe_exports_corpus_test.go:22: requires official Windows corpus, pinned PE-export reference and mapped reconstruction; not full acceptance"
+      "state": "pass"
     },
     {
       "package": "github.com/Sunmedalia/GoMem/internal/engine",
@@ -614,12 +603,19 @@
       "state": "pass"
     }
   ],
-  "skipped_subtests": [
-    {
-      "package": "github.com/Sunmedalia/GoMem/internal/engine",
-      "test": "TestOfficialVMCoreInfo/kali",
-      "reason": "linux_vmcoreinfo_corpus_test.go:32: set GOMEM_KALI_IMAGE for the ARM64 LiME physical scan"
-    }
+  "skipped_subtests": [],
+  "command": [
+    "go",
+    "test",
+    "-json",
+    "-count=1",
+    "-timeout",
+    "60m",
+    "./internal/engine",
+    "-run",
+    "^(TestOfficial|TestKaliARM64Fbdev)"
   ],
-  "log_sha256": "b955807344f824f776349375b31af16d94103fb4112339e32e7a162bcbe395cb"
+  "inputs_sha256": "fb8603c3bf9a67920adfc56e3b19e15bfc3675c74ee4fbf57a441ae2064320fe",
+  "log_sha256": "d6e7dc2e85134f490075ddc26dcbbba98159b7587ba3f5918c4ce041ce38b42d",
+  "exit_code": 0
 }
