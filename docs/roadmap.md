@@ -149,3 +149,5 @@ v0.1 增量：`case verify` 现已核对存储 Seal、任务来源、父子关�
 2026-10-23：LeechCore 新增 cgo 动态 ABI 与只读范围采集，生成本地 LiME 并保留空洞和失败。真实固定库的稀疏 LiME、Windows/Linux 指定进程字段、官方 512MiB RAW 物理哈希和 133 条进程字段通过。硬件、驱动、远程传输、强制取消和完整基线 handler 对照未验收。[详情](leechcore-sources.md)
 
 2026-10-23：Arrow 接入原生 IPC 流和分页案件导出，保留完整封存证据、无损地址、类型投影、任务状态和父链接；6 组实际固定 ArrowRenderer、独立 PyArrow、130 行异构案件和真实 Windows/Linux 120/133 条证据通过。格式提示、Parquet 和全量性能仍待补齐。[详情](arrow-renderer.md)
+
+2026-10-23：shell 新增显式 Capstone v5 动态库适配，包含 x86/x64/ARM/ARM64/Thumb。270 个真实解码控制核对原始字节、地址和文本，216 个来自固定上游渲染、54 个为直接 Thumb 对照；截断指令保留有效前缀并明确失败。全指令集、插件级集成和真实平台语料仍待验收。[详情](capstone.md)

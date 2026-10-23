@@ -849,7 +849,7 @@ def generate(source):
                 infrastructure[-1].update(status="partial", corpora=["synthetic-shell-x86-x64-pae-arm-arm64"],
                                           applicability="Native shell address-space selection, bounded hex/type display, literal scan, plugin execution and Go instruction decoding; not Python runtime compatibility.",
                                           comparison="selected_native_shell_controls_only", validation_record="docs/shell-disassembly.md",
-                                          gaps=["Full object/type traversal, generic layer/module context management and volshell helper parity remain pending", "Capstone integration and complete instruction-set differential acceptance remain pending"])
+                                          gaps=["Full object/type traversal, generic layer/module context management and volshell helper parity remain pending", "Complete instruction-set differential acceptance and plugin integration remain pending"])
             if module == "volatility3.framework.automagic.linux":
                 infrastructure[-1].update(status="partial", corpora=["synthetic-linux-x64", "official-linux-sample-1"],
                                           comparison="selected_kernel_identity_only", validation_record="docs/linux-discovery.md")
@@ -930,11 +930,16 @@ def generate(source):
                                       applicability="HTTP(S) immutable representations with strong ETags and exact byte-range support; bounded conditional reads and full streamed image SHA-256. Offline forbids remote I/O.",
                                       comparison="native_transport_and_engine_evidence_cache_controls_only", validation_record="docs/http-sources.md",
                                       gaps=["No local snapshot fallback for servers without strong ETags or ranges", "No remote block cache, resumable acquisition or dedicated credential providers", "Public-network/proxy compatibility and full upstream resource acceptance remain pending"])
+        if identifier == "extension.capstone":
+            infrastructure[-1].update(status="partial", corpora=["pinned-capstone-disassembly-270-controls", "synthetic-capstone-shell-current-layer-errors"],
+                                      applicability="Optional explicit Capstone v5 dynamic library in cgo Windows/Linux/macOS shell; bounded x86/x64/ARM/ARM64/Thumb instruction decoding, raw bytes, source checks and explicit failures.",
+                                      comparison="216_actual_pinned_display_controls_and_54_direct_thumb_controls", validation_record="docs/capstone.md",
+                                      gaps=["All instruction sets, modes, symbolized output and real platform corpus acceptance remain pending", "Analysis plugins still use their existing decoding/sizing paths; full plugin integration remains pending"])
         if identifier == "exploration.disassembly":
-            infrastructure[-1].update(status="partial", corpora=["synthetic-shell-x86-x64-pae-arm-arm64"],
-                                      applicability="Current-space bounded interactive dis/disasm using native Go x/arch; Intel 32/64 and little-endian ARM/ARM64, explicit mode override and source identity validation.",
-                                      comparison="known_instruction_current_layer_branch_and_failure_controls_only", validation_record="docs/shell-disassembly.md",
-                                      gaps=["No Capstone adapter, Thumb mode or symbolized instruction output", "No complete instruction-set or real-corpus differential acceptance"])
+            infrastructure[-1].update(status="partial", corpora=["synthetic-shell-x86-x64-pae-arm-arm64", "pinned-capstone-disassembly-270-controls"],
+                                      applicability="Current-space bounded dis/disasm using Go x/arch by default or explicit native Capstone v5; Intel 32/64, ARM/ARM64 and native-only Thumb with source validation.",
+                                      comparison="selected_actual_pinned_instructions_text_and_native_shell_failure_controls", validation_record="docs/shell-disassembly.md",
+                                      gaps=["Symbolized instruction output and complete instruction-set/real-corpus differential acceptance remain pending"])
         if identifier == "renderer.mermaid":
             infrastructure[-1].update(status="partial", corpora=["pinned-mermaid-treegrid-6-controls", "synthetic-mermaid-evidence-trees-and-labels"],
                                       applicability="Analyze streams Mermaid graph TD with declared columns and explicit evidence ParentID edges, per-record node IDs and escaped labels.",

@@ -22,4 +22,4 @@ TLS 使用系统可信根；不提供跳过证书校验选项。允许最多十�
 - `FuzzHTTPContentRange`：范围头的整数、格式和边界解析，10,000 次执行通过。
 - `GOMEM_CORPUS_DIR="$PWD/.cache/corpus" go test ./internal/engine -run '^TestOfficialHTTPSource$' -count=1 -v`：真实 Debian 3.2 的 512MiB RAW（SHA-256 `8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc`）经本地 HTTP 服务读取，全镜像哈希、133 条进程的全部单元格与顺序和本地读取一致；缓存与案件封存验证通过。此项是传输等价性对照，不是新增上游插件验收。
 
-当前是部分实现：不支持无 Range/强 ETag 服务端的本地快照回退；还没有远程请求块缓存、断点下载、专用凭据接口或真实公网/代理兼容性验收。FTP、S3、Google Cloud Storage、LeechCore 尚未接入。没有以这些限定测试代替完整上游资源访问能力验收。
+当前是部分实现：不支持无 Range/强 ETag 服务端的本地快照回退；还没有远程请求块缓存、断点下载、专用凭据接口或真实公网/代理兼容性验收。FTP、S3、Google Cloud Storage 和 LeechCore 已有独立适配，适用条件见各自说明。没有以这些限定测试代替完整上游资源访问能力验收。

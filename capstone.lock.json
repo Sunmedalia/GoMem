@@ -1,0 +1,8 @@
+{
+  "repository": "https://github.com/capstone-engine/capstone",
+  "version": "5.0.9",
+  "commit": "022575848782a4801fd150fdbc927effcbca0864",
+  "archive_sha256": "1b0d7efa450e766c120a8dfcf9b539f1e120925fc1478fbe125d6d52bae0c506",
+  "license": "BSD-3-Clause",
+  "instruction_abi_major": 5
+}

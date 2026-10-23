@@ -12916,7 +12916,7 @@
       "validation_record": "docs/shell-disassembly.md",
       "gaps": [
         "Full object/type traversal, generic layer/module context management and volshell helper parity remain pending",
-        "Capstone integration and complete instruction-set differential acceptance remain pending"
+        "Complete instruction-set differential acceptance and plugin integration remain pending"
       ]
     },
     {
@@ -13326,15 +13326,15 @@
       "category": "acceptance",
       "status": "partial",
       "accepted": false,
-      "applicability": "Current-space bounded interactive dis/disasm using native Go x/arch; Intel 32/64 and little-endian ARM/ARM64, explicit mode override and source identity validation.",
+      "applicability": "Current-space bounded dis/disasm using Go x/arch by default or explicit native Capstone v5; Intel 32/64, ARM/ARM64 and native-only Thumb with source validation.",
       "corpora": [
-        "synthetic-shell-x86-x64-pae-arm-arm64"
+        "synthetic-shell-x86-x64-pae-arm-arm64",
+        "pinned-capstone-disassembly-270-controls"
       ],
-      "comparison": "known_instruction_current_layer_branch_and_failure_controls_only",
+      "comparison": "selected_actual_pinned_instructions_text_and_native_shell_failure_controls",
       "validation_record": "docs/shell-disassembly.md",
       "gaps": [
-        "No Capstone adapter, Thumb mode or symbolized instruction output",
-        "No complete instruction-set or real-corpus differential acceptance"
+        "Symbolized instruction output and complete instruction-set/real-corpus differential acceptance remain pending"
       ]
     },
     {
@@ -13385,11 +13385,19 @@
     {
       "id": "extension.capstone",
       "category": "acceptance",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "Optional explicit Capstone v5 dynamic library in cgo Windows/Linux/macOS shell; bounded x86/x64/ARM/ARM64/Thumb instruction decoding, raw bytes, source checks and explicit failures.",
+      "corpora": [
+        "pinned-capstone-disassembly-270-controls",
+        "synthetic-capstone-shell-current-layer-errors"
+      ],
+      "comparison": "216_actual_pinned_display_controls_and_54_direct_thumb_controls",
+      "validation_record": "docs/capstone.md",
+      "gaps": [
+        "All instruction sets, modes, symbolized output and real platform corpus acceptance remain pending",
+        "Analysis plugins still use their existing decoding/sizing paths; full plugin integration remains pending"
+      ]
     },
     {
       "id": "renderer.arrow",

@@ -6,6 +6,7 @@ import (
 	"io"
 	"strconv"
 
+	"github.com/Sunmedalia/GoMem/pkg/disasm"
 	"github.com/Sunmedalia/GoMem/pkg/memory"
 	"golang.org/x/arch/arm/armasm"
 	"golang.org/x/arch/arm64/arm64asm"
@@ -14,7 +15,7 @@ import (
 
 func (s *Session) disassemble(ctx context.Context, args []string, w io.Writer) error {
 	if len(args) < 2 || len(args) > 4 {
-		return fmt.Errorf("dis ADDRESS [LENGTH] [x86|x64|arm|arm64]")
+		return fmt.Errorf("dis ADDRESS [LENGTH] [x86|x64|arm|arm64|thumb]")
 	}
 	address, err := strconv.ParseUint(args[1], 0, 64)
 	if err != nil {
@@ -43,11 +44,14 @@ func (s *Session) disassemble(ctx context.Context, args []string, w io.Writer) e
 	if arch == "pae" {
 		arch = "x86"
 	}
-	if arch != "x86" && arch != "x64" && arch != "arm" && arch != "arm64" {
-		return fmt.Errorf("dis requires x86, x64, arm or arm64 architecture")
+	if arch != "x86" && arch != "x64" && arch != "arm" && arch != "arm64" && (arch != "thumb" || s.Engine.Config.CapstoneLibrary == "") {
+		return fmt.Errorf("dis requires x86, x64, arm, arm64; thumb requires --capstone-library")
 	}
 	if (arch == "arm" || arch == "arm64") && (address%4 != 0 || length%4 != 0) {
 		return fmt.Errorf("ARM disassembly requires aligned address and length")
+	}
+	if arch == "thumb" && (address%2 != 0 || length%2 != 0) {
+		return fmt.Errorf("Thumb disassembly requires two-byte aligned address and length")
 	}
 	if _, err = memory.Add(address, length); err != nil {
 		return err
@@ -59,6 +63,23 @@ func (s *Session) disassemble(ctx context.Context, args []string, w io.Writer) e
 	data, err := memory.Read(ctx, s.Layer, address, int(length))
 	if err != nil {
 		return err
+	}
+	if s.Engine.Config.CapstoneLibrary != "" {
+		decoder, err := disasm.Open(ctx, s.Engine.Config.CapstoneLibrary, arch)
+		if err != nil {
+			return err
+		}
+		defer decoder.Close()
+		if _, err := fmt.Fprintf(w, "%s @ %#x (%s; Capstone %s)\n", s.Layer.Name(), address, arch, decoder.Version()); err != nil {
+			return err
+		}
+		if err := decoder.Decode(ctx, data, address, func(inst disasm.Instruction) error {
+			_, err := fmt.Fprintf(w, "%#016x  %-30x %s\n", inst.Address, inst.Bytes, inst.Text())
+			return err
+		}); err != nil {
+			return err
+		}
+		return s.Engine.ValidateSource(ctx)
 	}
 	if _, err = fmt.Fprintf(w, "%s @ %#x (%s)\n", s.Layer.Name(), address, arch); err != nil {
 		return err

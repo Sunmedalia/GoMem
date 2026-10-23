@@ -25,6 +25,7 @@ import (
 )
 
 type Config struct {
+	CapstoneLibrary                        string
 	LeechCore                              memory.LeechCoreOptions
 	GCS                                    memory.GCSOptions
 	S3                                     memory.S3Options

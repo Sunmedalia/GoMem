@@ -13,8 +13,73 @@ import (
 
 	"github.com/Sunmedalia/GoMem/internal/engine"
 	"github.com/Sunmedalia/GoMem/internal/explore"
+	"github.com/Sunmedalia/GoMem/pkg/disasm"
 	"github.com/Sunmedalia/GoMem/pkg/memory"
 )
+
+func TestDisassemblyCapstoneSelectedLayerAndFailures(t *testing.T) {
+	library := os.Getenv("GOMEM_CAPSTONE_LIBRARY")
+	if library == "" || !disasm.Supported() {
+		t.Skip("set GOMEM_CAPSTONE_LIBRARY for native shell tests")
+	}
+	for _, tc := range []struct {
+		code          []byte
+		command, want string
+	}{
+		{[]byte{0xe8, 0xfb, 0xff, 0xff, 0xff}, "dis 0x8100 5 x64", "call 0x8100"},
+		{[]byte{0x70, 0x47}, "dis 0x8100 2 thumb", "bx lr"},
+	} {
+		s := disSession(t, tc.code, "x64")
+		s.Engine.Config.CapstoneLibrary = library
+		layer, err := memory.NewMapped(s.Engine.Source, "native-selected-process", []memory.Range{{Start: 0x8000, Length: 4096}})
+		if err != nil {
+			t.Fatal(err)
+		}
+		s.Layer = layer
+		var out bytes.Buffer
+		if err := s.Execute(context.Background(), tc.command, &out); err != nil {
+			t.Fatal(err)
+		}
+		for _, want := range []string{tc.want, "native-selected-process @ 0x8100", "Capstone 5.", "0x0000000000008100"} {
+			if !strings.Contains(out.String(), want) {
+				t.Fatalf("missing %q: %s", want, &out)
+			}
+		}
+	}
+	s := disSession(t, []byte{0x90, 0x0f}, "x64")
+	s.Engine.Config.CapstoneLibrary = library
+	var out bytes.Buffer
+	if err := s.Execute(context.Background(), "dis 0x100 2", &out); err == nil || !strings.Contains(err.Error(), "0x101") || !strings.Contains(out.String(), "nop") {
+		t.Fatal(&out, err)
+	}
+	for _, command := range []string{"dis 0x101 2 thumb", "dis 0x100 1 thumb"} {
+		if err := s.Execute(context.Background(), command, io.Discard); err == nil {
+			t.Fatal("unaligned Thumb accepted")
+		}
+	}
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	if err := s.Execute(ctx, "dis 0x100 1", disWriter{cancel: cancel}); !errors.Is(err, context.Canceled) {
+		t.Fatal(err)
+	}
+	sentinel := errors.New("native output stopped")
+	if err := s.Execute(context.Background(), "dis 0x100 1", disWriter{fail: sentinel}); !errors.Is(err, sentinel) {
+		t.Fatal(err)
+	}
+	s.Engine.Config.CapstoneLibrary = filepath.Join(t.TempDir(), "missing-capstone")
+	out.Reset()
+	if err := s.Execute(context.Background(), "dis 0x100 1", &out); err == nil || out.Len() != 0 {
+		t.Fatal("silently fell back", &out, err)
+	}
+	s.Engine.Config.CapstoneLibrary = library
+	future := time.Now().Add(time.Hour)
+	if err := os.Chtimes(s.Engine.Config.Image, future, future); err != nil {
+		t.Fatal(err)
+	}
+	if err := s.Execute(context.Background(), "dis 0x100 1", io.Discard); err == nil {
+		t.Fatal("disassembled changed source")
+	}
+}
 
 func disSession(t *testing.T, code []byte, arch string) *explore.Session {
 	t.Helper()

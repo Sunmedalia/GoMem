@@ -26,6 +26,7 @@ import (
 	"github.com/Sunmedalia/GoMem/internal/triage"
 	"github.com/Sunmedalia/GoMem/internal/tui"
 	"github.com/Sunmedalia/GoMem/internal/version"
+	"github.com/Sunmedalia/GoMem/pkg/disasm"
 	"github.com/Sunmedalia/GoMem/pkg/memory"
 	"github.com/Sunmedalia/GoMem/pkg/plugin"
 	"github.com/Sunmedalia/GoMem/pkg/symbols"
@@ -42,6 +43,7 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 	f := root.PersistentFlags()
 	f.StringVar(&libraryRoot, "library-dir", ".", "Library root containing images/ and sysmbols/")
 	f.StringVar(&cfg.Image, "image", "", "Read-only local image, HTTP(S) URL or FTP snapshot URL or S3/GCS/LeechCore URI")
+	f.StringVar(&cfg.CapstoneLibrary, "capstone-library", "", "Absolute optional Capstone v5 library path; selects native shell disassembly")
 	f.StringVar(&cfg.LeechCore.Library, "leechcore-library", "", "Absolute path to optional native LeechCore library")
 	f.StringVar(&cfg.LeechCore.Remote, "leechcore-remote", "", "LeechCore remote configuration (kept out of evidence)")
 	f.Uint64Var(&cfg.LeechCore.MaxBytes, "leechcore-max-bytes", 0, "Maximum LiME snapshot size, including headers (0: available disk)")
@@ -154,7 +156,7 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 		if err != nil {
 			return err
 		}
-		diagnostic := map[string]any{"engine": version.Version, "release": "development-preview", "baseline": version.Baseline, "baseline_commit": version.BaselineCommit, "native_plugins": registry.List(), "upstream_plugin_classes": matrix.PluginCount, "accepted_plugins": matrix.Accepted, "release_ready": false, "extensions": map[string]bool{"yara": false, "capstone": false, "leechcore": memory.LeechCoreSupported()}, "formats": []string{"raw", "lime-v1", "avml-v2-snappy-framed", "elf-core-physical-pt_load", "xen-core-elf64-pfn-p2m", "vmware-vmem-with-vmss-vmsn", "qemu-migration-v3-ram-v4", "windows-complete-32/64", "windows-bitmap-32/64"}, "symbol_inputs": []string{"isf-json/gzip/xz/zip", "elf-dwarf", "macho-dwarf", "pdb-msf7-codeview"}, "missing": []string{"complete image/kernel/DTB discovery (partial Linux x64/ARM64 and Windows crash only)", "macOS automatic symbol acquisition, CAB PDB transport and fully automatic Linux address-space setup", "full PDB/CodeView and legacy MSF validation", "full DWARF/kernel-version validation", "macOS analysis", "swap resolution", "full virtual-machine format/version acceptance (VMware/Xen/QEMU have selected validation)", "full LeechCore/S3/GCS/FTP acceptance and HTTP servers without strong ETags/ranges", "full plugin parameter parity", "official-corpus differential acceptance", "full renderers and extraction"}}
+		diagnostic := map[string]any{"engine": version.Version, "release": "development-preview", "baseline": version.Baseline, "baseline_commit": version.BaselineCommit, "native_plugins": registry.List(), "upstream_plugin_classes": matrix.PluginCount, "accepted_plugins": matrix.Accepted, "release_ready": false, "extensions": map[string]bool{"yara": false, "capstone": disasm.Supported(), "leechcore": memory.LeechCoreSupported()}, "formats": []string{"raw", "lime-v1", "avml-v2-snappy-framed", "elf-core-physical-pt_load", "xen-core-elf64-pfn-p2m", "vmware-vmem-with-vmss-vmsn", "qemu-migration-v3-ram-v4", "windows-complete-32/64", "windows-bitmap-32/64"}, "symbol_inputs": []string{"isf-json/gzip/xz/zip", "elf-dwarf", "macho-dwarf", "pdb-msf7-codeview"}, "missing": []string{"complete image/kernel/DTB discovery (partial Linux x64/ARM64 and Windows crash only)", "macOS automatic symbol acquisition, CAB PDB transport and fully automatic Linux address-space setup", "full PDB/CodeView and legacy MSF validation", "full DWARF/kernel-version validation", "macOS analysis", "swap resolution", "full virtual-machine format/version acceptance (VMware/Xen/QEMU have selected validation)", "full LeechCore/S3/GCS/FTP acceptance and HTTP servers without strong ETags/ranges", "full plugin parameter parity", "official-corpus differential acceptance", "full renderers and extraction"}}
 		diagnostic["output_formats"] = []string{"table", "jsonl", "json", "csv", "mermaid", "arrow"}
 		diagnostic["export_formats"] = []string{"html", "jsonl", "bundle", "arrow"}
 		diagnostic["release_ready"] = gate.Ready
