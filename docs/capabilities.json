@@ -13399,11 +13399,21 @@
     {
       "id": "extension.yara",
       "category": "acceptance",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "Optional explicit YARA-X 1.9 C API in cgo Windows/Linux/macOS builds. UTF-8 source compilation, bounded whole-buffer scans, namespace/rule/pattern instances and raw bytes; shell current-space integration preserves RAM/pagefile sources.",
+      "corpora": [
+        "pinned-yarax-scanner-75-controls",
+        "native-yarax-timeout-errors-budgets",
+        "synthetic-yarax-shell-pagefile"
+      ],
+      "comparison": "75_actual_fixed_YaraScanner_controls_plus_rule_level_matches_and_native_failure_controls",
+      "validation_record": "docs/yara-x.md",
+      "gaps": [
+        "Official YARA plugins, compiled rules, include/global/namespace options, multi-block semantics and full module acceptance remain pending",
+        "Synchronous compile/scan cannot be forcibly canceled; native timeout is best effort",
+        "No real malicious-memory/platform corpus or full performance acceptance; successful runtime libraries remain loaded for Wasmtime signal-handler safety"
+      ]
     },
     {
       "id": "extension.capstone",

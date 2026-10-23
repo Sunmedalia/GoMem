@@ -1,0 +1,929 @@
+{
+  "schema": "gomem.yarax-oracle/v1",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "yara_x": "1.9.0",
+  "cases": [
+    {
+      "source": "rule r_literal {strings:$a=\"AbCd\" condition:$a}",
+      "data": "",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_literal {strings:$a=\"AbCd\" condition:$a}",
+      "data": "eHhBQkNEeXlhYmNkQUJDRA==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_literal {strings:$a=\"AbCd\" condition:$a}",
+      "data": "QWJDZABBAGIAQwBkAA==",
+      "matches": [
+        {
+          "offset": 0,
+          "rule": "default.r_literal",
+          "pattern": "$a",
+          "bytes": "QWJDZA=="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_literal"
+        }
+      ]
+    },
+    {
+      "source": "rule r_literal {strings:$a=\"AbCd\" condition:$a}",
+      "data": "YWFhYWEgYWJiYmMgQUIgMTIgQ0QgUVVKRFJBPT0=",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_literal {strings:$a=\"AbCd\" condition:$a}",
+      "data": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_nocase {strings:$a=\"AbCd\" nocase condition:$a}",
+      "data": "",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_nocase {strings:$a=\"AbCd\" nocase condition:$a}",
+      "data": "eHhBQkNEeXlhYmNkQUJDRA==",
+      "matches": [
+        {
+          "offset": 2,
+          "rule": "default.r_nocase",
+          "pattern": "$a",
+          "bytes": "QUJDRA=="
+        },
+        {
+          "offset": 8,
+          "rule": "default.r_nocase",
+          "pattern": "$a",
+          "bytes": "YWJjZA=="
+        },
+        {
+          "offset": 12,
+          "rule": "default.r_nocase",
+          "pattern": "$a",
+          "bytes": "QUJDRA=="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_nocase"
+        }
+      ]
+    },
+    {
+      "source": "rule r_nocase {strings:$a=\"AbCd\" nocase condition:$a}",
+      "data": "QWJDZABBAGIAQwBkAA==",
+      "matches": [
+        {
+          "offset": 0,
+          "rule": "default.r_nocase",
+          "pattern": "$a",
+          "bytes": "QWJDZA=="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_nocase"
+        }
+      ]
+    },
+    {
+      "source": "rule r_nocase {strings:$a=\"AbCd\" nocase condition:$a}",
+      "data": "YWFhYWEgYWJiYmMgQUIgMTIgQ0QgUVVKRFJBPT0=",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_nocase {strings:$a=\"AbCd\" nocase condition:$a}",
+      "data": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==",
+      "matches": [
+        {
+          "offset": 65,
+          "rule": "default.r_nocase",
+          "pattern": "$a",
+          "bytes": "QUJDRA=="
+        },
+        {
+          "offset": 97,
+          "rule": "default.r_nocase",
+          "pattern": "$a",
+          "bytes": "YWJjZA=="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_nocase"
+        }
+      ]
+    },
+    {
+      "source": "rule r_wide {strings:$a=\"AbCd\" wide ascii condition:$a}",
+      "data": "",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_wide {strings:$a=\"AbCd\" wide ascii condition:$a}",
+      "data": "eHhBQkNEeXlhYmNkQUJDRA==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_wide {strings:$a=\"AbCd\" wide ascii condition:$a}",
+      "data": "QWJDZABBAGIAQwBkAA==",
+      "matches": [
+        {
+          "offset": 0,
+          "rule": "default.r_wide",
+          "pattern": "$a",
+          "bytes": "QWJDZA=="
+        },
+        {
+          "offset": 5,
+          "rule": "default.r_wide",
+          "pattern": "$a",
+          "bytes": "QQBiAEMAZAA="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_wide"
+        }
+      ]
+    },
+    {
+      "source": "rule r_wide {strings:$a=\"AbCd\" wide ascii condition:$a}",
+      "data": "YWFhYWEgYWJiYmMgQUIgMTIgQ0QgUVVKRFJBPT0=",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_wide {strings:$a=\"AbCd\" wide ascii condition:$a}",
+      "data": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_hex_jump {strings:$a={41 ?? [1-4] 44} condition:$a}",
+      "data": "",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_hex_jump {strings:$a={41 ?? [1-4] 44} condition:$a}",
+      "data": "eHhBQkNEeXlhYmNkQUJDRA==",
+      "matches": [
+        {
+          "offset": 2,
+          "rule": "default.r_hex_jump",
+          "pattern": "$a",
+          "bytes": "QUJDRA=="
+        },
+        {
+          "offset": 12,
+          "rule": "default.r_hex_jump",
+          "pattern": "$a",
+          "bytes": "QUJDRA=="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_hex_jump"
+        }
+      ]
+    },
+    {
+      "source": "rule r_hex_jump {strings:$a={41 ?? [1-4] 44} condition:$a}",
+      "data": "QWJDZABBAGIAQwBkAA==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_hex_jump {strings:$a={41 ?? [1-4] 44} condition:$a}",
+      "data": "YWFhYWEgYWJiYmMgQUIgMTIgQ0QgUVVKRFJBPT0=",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_hex_jump {strings:$a={41 ?? [1-4] 44} condition:$a}",
+      "data": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==",
+      "matches": [
+        {
+          "offset": 65,
+          "rule": "default.r_hex_jump",
+          "pattern": "$a",
+          "bytes": "QUJDRA=="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_hex_jump"
+        }
+      ]
+    },
+    {
+      "source": "rule r_regex {strings:$a=/ab+c/i condition:$a}",
+      "data": "",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_regex {strings:$a=/ab+c/i condition:$a}",
+      "data": "eHhBQkNEeXlhYmNkQUJDRA==",
+      "matches": [
+        {
+          "offset": 2,
+          "rule": "default.r_regex",
+          "pattern": "$a",
+          "bytes": "QUJD"
+        },
+        {
+          "offset": 8,
+          "rule": "default.r_regex",
+          "pattern": "$a",
+          "bytes": "YWJj"
+        },
+        {
+          "offset": 12,
+          "rule": "default.r_regex",
+          "pattern": "$a",
+          "bytes": "QUJD"
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_regex"
+        }
+      ]
+    },
+    {
+      "source": "rule r_regex {strings:$a=/ab+c/i condition:$a}",
+      "data": "QWJDZABBAGIAQwBkAA==",
+      "matches": [
+        {
+          "offset": 0,
+          "rule": "default.r_regex",
+          "pattern": "$a",
+          "bytes": "QWJD"
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_regex"
+        }
+      ]
+    },
+    {
+      "source": "rule r_regex {strings:$a=/ab+c/i condition:$a}",
+      "data": "YWFhYWEgYWJiYmMgQUIgMTIgQ0QgUVVKRFJBPT0=",
+      "matches": [
+        {
+          "offset": 6,
+          "rule": "default.r_regex",
+          "pattern": "$a",
+          "bytes": "YWJiYmM="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_regex"
+        }
+      ]
+    },
+    {
+      "source": "rule r_regex {strings:$a=/ab+c/i condition:$a}",
+      "data": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==",
+      "matches": [
+        {
+          "offset": 65,
+          "rule": "default.r_regex",
+          "pattern": "$a",
+          "bytes": "QUJD"
+        },
+        {
+          "offset": 97,
+          "rule": "default.r_regex",
+          "pattern": "$a",
+          "bytes": "YWJj"
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_regex"
+        }
+      ]
+    },
+    {
+      "source": "rule r_overlap {strings:$a=\"aaa\" condition:$a}",
+      "data": "",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_overlap {strings:$a=\"aaa\" condition:$a}",
+      "data": "eHhBQkNEeXlhYmNkQUJDRA==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_overlap {strings:$a=\"aaa\" condition:$a}",
+      "data": "QWJDZABBAGIAQwBkAA==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_overlap {strings:$a=\"aaa\" condition:$a}",
+      "data": "YWFhYWEgYWJiYmMgQUIgMTIgQ0QgUVVKRFJBPT0=",
+      "matches": [
+        {
+          "offset": 0,
+          "rule": "default.r_overlap",
+          "pattern": "$a",
+          "bytes": "YWFh"
+        },
+        {
+          "offset": 1,
+          "rule": "default.r_overlap",
+          "pattern": "$a",
+          "bytes": "YWFh"
+        },
+        {
+          "offset": 2,
+          "rule": "default.r_overlap",
+          "pattern": "$a",
+          "bytes": "YWFh"
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_overlap"
+        }
+      ]
+    },
+    {
+      "source": "rule r_overlap {strings:$a=\"aaa\" condition:$a}",
+      "data": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_multi {strings:$a=\"AB\" $b=\"CD\" condition:all of them}",
+      "data": "",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_multi {strings:$a=\"AB\" $b=\"CD\" condition:all of them}",
+      "data": "eHhBQkNEeXlhYmNkQUJDRA==",
+      "matches": [
+        {
+          "offset": 2,
+          "rule": "default.r_multi",
+          "pattern": "$a",
+          "bytes": "QUI="
+        },
+        {
+          "offset": 12,
+          "rule": "default.r_multi",
+          "pattern": "$a",
+          "bytes": "QUI="
+        },
+        {
+          "offset": 4,
+          "rule": "default.r_multi",
+          "pattern": "$b",
+          "bytes": "Q0Q="
+        },
+        {
+          "offset": 14,
+          "rule": "default.r_multi",
+          "pattern": "$b",
+          "bytes": "Q0Q="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_multi"
+        }
+      ]
+    },
+    {
+      "source": "rule r_multi {strings:$a=\"AB\" $b=\"CD\" condition:all of them}",
+      "data": "QWJDZABBAGIAQwBkAA==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_multi {strings:$a=\"AB\" $b=\"CD\" condition:all of them}",
+      "data": "YWFhYWEgYWJiYmMgQUIgMTIgQ0QgUVVKRFJBPT0=",
+      "matches": [
+        {
+          "offset": 12,
+          "rule": "default.r_multi",
+          "pattern": "$a",
+          "bytes": "QUI="
+        },
+        {
+          "offset": 18,
+          "rule": "default.r_multi",
+          "pattern": "$b",
+          "bytes": "Q0Q="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_multi"
+        }
+      ]
+    },
+    {
+      "source": "rule r_multi {strings:$a=\"AB\" $b=\"CD\" condition:all of them}",
+      "data": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==",
+      "matches": [
+        {
+          "offset": 65,
+          "rule": "default.r_multi",
+          "pattern": "$a",
+          "bytes": "QUI="
+        },
+        {
+          "offset": 67,
+          "rule": "default.r_multi",
+          "pattern": "$b",
+          "bytes": "Q0Q="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_multi"
+        }
+      ]
+    },
+    {
+      "source": "rule r_count {strings:$a=\"AB\" condition:#a>=2}",
+      "data": "",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_count {strings:$a=\"AB\" condition:#a>=2}",
+      "data": "eHhBQkNEeXlhYmNkQUJDRA==",
+      "matches": [
+        {
+          "offset": 2,
+          "rule": "default.r_count",
+          "pattern": "$a",
+          "bytes": "QUI="
+        },
+        {
+          "offset": 12,
+          "rule": "default.r_count",
+          "pattern": "$a",
+          "bytes": "QUI="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_count"
+        }
+      ]
+    },
+    {
+      "source": "rule r_count {strings:$a=\"AB\" condition:#a>=2}",
+      "data": "QWJDZABBAGIAQwBkAA==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_count {strings:$a=\"AB\" condition:#a>=2}",
+      "data": "YWFhYWEgYWJiYmMgQUIgMTIgQ0QgUVVKRFJBPT0=",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_count {strings:$a=\"AB\" condition:#a>=2}",
+      "data": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_filesize {strings:$a=\"AB\" condition:$a and filesize>8}",
+      "data": "",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_filesize {strings:$a=\"AB\" condition:$a and filesize>8}",
+      "data": "eHhBQkNEeXlhYmNkQUJDRA==",
+      "matches": [
+        {
+          "offset": 2,
+          "rule": "default.r_filesize",
+          "pattern": "$a",
+          "bytes": "QUI="
+        },
+        {
+          "offset": 12,
+          "rule": "default.r_filesize",
+          "pattern": "$a",
+          "bytes": "QUI="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_filesize"
+        }
+      ]
+    },
+    {
+      "source": "rule r_filesize {strings:$a=\"AB\" condition:$a and filesize>8}",
+      "data": "QWJDZABBAGIAQwBkAA==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_filesize {strings:$a=\"AB\" condition:$a and filesize>8}",
+      "data": "YWFhYWEgYWJiYmMgQUIgMTIgQ0QgUVVKRFJBPT0=",
+      "matches": [
+        {
+          "offset": 12,
+          "rule": "default.r_filesize",
+          "pattern": "$a",
+          "bytes": "QUI="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_filesize"
+        }
+      ]
+    },
+    {
+      "source": "rule r_filesize {strings:$a=\"AB\" condition:$a and filesize>8}",
+      "data": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==",
+      "matches": [
+        {
+          "offset": 65,
+          "rule": "default.r_filesize",
+          "pattern": "$a",
+          "bytes": "QUI="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_filesize"
+        }
+      ]
+    },
+    {
+      "source": "rule r_offset {strings:$a=\"AB\" condition:$a at 2}",
+      "data": "",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_offset {strings:$a=\"AB\" condition:$a at 2}",
+      "data": "eHhBQkNEeXlhYmNkQUJDRA==",
+      "matches": [
+        {
+          "offset": 2,
+          "rule": "default.r_offset",
+          "pattern": "$a",
+          "bytes": "QUI="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_offset"
+        }
+      ]
+    },
+    {
+      "source": "rule r_offset {strings:$a=\"AB\" condition:$a at 2}",
+      "data": "QWJDZABBAGIAQwBkAA==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_offset {strings:$a=\"AB\" condition:$a at 2}",
+      "data": "YWFhYWEgYWJiYmMgQUIgMTIgQ0QgUVVKRFJBPT0=",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_offset {strings:$a=\"AB\" condition:$a at 2}",
+      "data": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_xor_string {strings:$a=\"AbCd\" xor condition:$a}",
+      "data": "",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_xor_string {strings:$a=\"AbCd\" xor condition:$a}",
+      "data": "eHhBQkNEeXlhYmNkQUJDRA==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_xor_string {strings:$a=\"AbCd\" xor condition:$a}",
+      "data": "QWJDZABBAGIAQwBkAA==",
+      "matches": [
+        {
+          "offset": 0,
+          "rule": "default.r_xor_string",
+          "pattern": "$a",
+          "bytes": "QWJDZA=="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_xor_string"
+        }
+      ]
+    },
+    {
+      "source": "rule r_xor_string {strings:$a=\"AbCd\" xor condition:$a}",
+      "data": "YWFhYWEgYWJiYmMgQUIgMTIgQ0QgUVVKRFJBPT0=",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_xor_string {strings:$a=\"AbCd\" xor condition:$a}",
+      "data": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_encoded {strings:$a=\"AbCd\" base64 condition:$a}",
+      "data": "",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_encoded {strings:$a=\"AbCd\" base64 condition:$a}",
+      "data": "eHhBQkNEeXlhYmNkQUJDRA==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_encoded {strings:$a=\"AbCd\" base64 condition:$a}",
+      "data": "QWJDZABBAGIAQwBkAA==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_encoded {strings:$a=\"AbCd\" base64 condition:$a}",
+      "data": "YWFhYWEgYWJiYmMgQUIgMTIgQ0QgUVVKRFJBPT0=",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_encoded {strings:$a=\"AbCd\" base64 condition:$a}",
+      "data": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_no_strings {condition:true}",
+      "data": "",
+      "matches": [],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_no_strings"
+        }
+      ]
+    },
+    {
+      "source": "rule r_no_strings {condition:true}",
+      "data": "eHhBQkNEeXlhYmNkQUJDRA==",
+      "matches": [],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_no_strings"
+        }
+      ]
+    },
+    {
+      "source": "rule r_no_strings {condition:true}",
+      "data": "QWJDZABBAGIAQwBkAA==",
+      "matches": [],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_no_strings"
+        }
+      ]
+    },
+    {
+      "source": "rule r_no_strings {condition:true}",
+      "data": "YWFhYWEgYWJiYmMgQUIgMTIgQ0QgUVVKRFJBPT0=",
+      "matches": [],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_no_strings"
+        }
+      ]
+    },
+    {
+      "source": "rule r_no_strings {condition:true}",
+      "data": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==",
+      "matches": [],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_no_strings"
+        }
+      ]
+    },
+    {
+      "source": "private rule helper {strings:$a=\"AB\" condition:$a} rule public_rule {condition:helper}",
+      "data": "",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "private rule helper {strings:$a=\"AB\" condition:$a} rule public_rule {condition:helper}",
+      "data": "eHhBQkNEeXlhYmNkQUJDRA==",
+      "matches": [],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "public_rule"
+        }
+      ]
+    },
+    {
+      "source": "private rule helper {strings:$a=\"AB\" condition:$a} rule public_rule {condition:helper}",
+      "data": "QWJDZABBAGIAQwBkAA==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "private rule helper {strings:$a=\"AB\" condition:$a} rule public_rule {condition:helper}",
+      "data": "YWFhYWEgYWJiYmMgQUIgMTIgQ0QgUVVKRFJBPT0=",
+      "matches": [],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "public_rule"
+        }
+      ]
+    },
+    {
+      "source": "private rule helper {strings:$a=\"AB\" condition:$a} rule public_rule {condition:helper}",
+      "data": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==",
+      "matches": [],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "public_rule"
+        }
+      ]
+    },
+    {
+      "source": "rule r_first {strings:$a=\"AB\" condition:$a} rule r_second {strings:$b=\"CD\" condition:$b}",
+      "data": "",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_first {strings:$a=\"AB\" condition:$a} rule r_second {strings:$b=\"CD\" condition:$b}",
+      "data": "eHhBQkNEeXlhYmNkQUJDRA==",
+      "matches": [
+        {
+          "offset": 2,
+          "rule": "default.r_first",
+          "pattern": "$a",
+          "bytes": "QUI="
+        },
+        {
+          "offset": 12,
+          "rule": "default.r_first",
+          "pattern": "$a",
+          "bytes": "QUI="
+        },
+        {
+          "offset": 4,
+          "rule": "default.r_second",
+          "pattern": "$b",
+          "bytes": "Q0Q="
+        },
+        {
+          "offset": 14,
+          "rule": "default.r_second",
+          "pattern": "$b",
+          "bytes": "Q0Q="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_first"
+        },
+        {
+          "namespace": "default",
+          "rule": "r_second"
+        }
+      ]
+    },
+    {
+      "source": "rule r_first {strings:$a=\"AB\" condition:$a} rule r_second {strings:$b=\"CD\" condition:$b}",
+      "data": "QWJDZABBAGIAQwBkAA==",
+      "matches": [],
+      "matching_rules": []
+    },
+    {
+      "source": "rule r_first {strings:$a=\"AB\" condition:$a} rule r_second {strings:$b=\"CD\" condition:$b}",
+      "data": "YWFhYWEgYWJiYmMgQUIgMTIgQ0QgUVVKRFJBPT0=",
+      "matches": [
+        {
+          "offset": 12,
+          "rule": "default.r_first",
+          "pattern": "$a",
+          "bytes": "QUI="
+        },
+        {
+          "offset": 18,
+          "rule": "default.r_second",
+          "pattern": "$b",
+          "bytes": "Q0Q="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_first"
+        },
+        {
+          "namespace": "default",
+          "rule": "r_second"
+        }
+      ]
+    },
+    {
+      "source": "rule r_first {strings:$a=\"AB\" condition:$a} rule r_second {strings:$b=\"CD\" condition:$b}",
+      "data": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/w==",
+      "matches": [
+        {
+          "offset": 65,
+          "rule": "default.r_first",
+          "pattern": "$a",
+          "bytes": "QUI="
+        },
+        {
+          "offset": 67,
+          "rule": "default.r_second",
+          "pattern": "$b",
+          "bytes": "Q0Q="
+        }
+      ],
+      "matching_rules": [
+        {
+          "namespace": "default",
+          "rule": "r_first"
+        },
+        {
+          "namespace": "default",
+          "rule": "r_second"
+        }
+      ]
+    }
+  ]
+}

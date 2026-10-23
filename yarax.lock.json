@@ -1,0 +1,8 @@
+{
+  "repository": "https://github.com/VirusTotal/yara-x",
+  "version": "1.9.0",
+  "commit": "01ef5e2bc57c112448682ce6a5e6b66c4da6d6c9",
+  "archive_sha256": "6207e0bc69b240a8bb98193849ca067d9b189b149eec136a56bed1adc109f875",
+  "license": "BSD-3-Clause",
+  "api": "YARA-X 1.9.0 C opaque handles, YRX_MATCH and YRX_BUFFER"
+}

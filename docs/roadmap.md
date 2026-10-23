@@ -159,3 +159,5 @@ v0.1 增量：`case verify` 现已核对存储 Seal、任务来源、父子关�
 2026-10-23：shell 新增当前 Intel 虚拟空间 find ADDRESS LENGTH LITERAL，使用带来源的分块扫描输出原始命中字节/哈希、逐段 RAM/pagefile 偏移和完整性摘要。跨来源、缺外部文件、取消、输出错误、源变化和命中上限测试通过；当前为交互输出，封存任务及完整 volshell 搜索仍待实现。[详情](shell-find.md)
 
 2026-10-23：shell 增加 db/dw/dd/dq 及长名称，支持当前物理/虚拟层的 1/2/4/8 字节整数和显式字节序。288 个真实上游显示控制逐字节一致，尾部字节另行保留；零长度上游异常为已记录差异。取消、当前层、读取故障和 pagefile CLI 验证通过；完整 volshell 仍待补齐。[详情](shell-integers.md)
+
+2026-10-23：可选 YARA-X C API 和 shell yara 接入原生规则编译/完整缓冲扫描，保留规则哈希、原始匹配字节、跨 RAM/pagefile 来源、结构化警告/错误；75 个真实固定 YaraScanner 对照及实际超时、预算、并发与 fuzz 通过。插件、完整参数/模块、多块全局语义及真实恶意内存验收仍待实现。[详情](yara-x.md)

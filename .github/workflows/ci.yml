@@ -70,6 +70,7 @@ jobs:
       - run: python3 tools/build_capstone_oracle.py --check
       - run: python3 tools/build_swap_oracle.py --check
       - run: python3 tools/build_shell_integers_oracle.py --check
+      - run: python3 tools/build_yarax_oracle.py --check
       - run: python3 tools/build_service_oracle.py --check
       - run: python3 tools/build_vad_oracle.py --check
       - run: python3 tools/build_suspicious_thread_oracle.py --check
@@ -349,6 +350,40 @@ jobs:
         with:
           python-version: '3.14'
       - run: python3 tools/build_windows_path_oracle.py --full --check
+  yarax-native:
+    env:
+      CGO_ENABLED: '1'
+      CARGO_TARGET_DIR: target/yarax
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python3 tools/fetch_yarax.py
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: .cache/yara-x-01ef5e2bc57c112448682ce6a5e6b66c4da6d6c9 -> ../../target/yarax
+          cache-on-failure: true
+      - run: cargo build --release --locked --manifest-path .cache/yara-x-01ef5e2bc57c112448682ce6a5e6b66c4da6d6c9/Cargo.toml -p yara-x-capi -j 4
+      - shell: python
+        run: |
+          import os, pathlib
+          names = {'Windows': 'yara_x_capi.dll', 'Linux': 'libyara_x_capi.so', 'macOS': 'libyara_x_capi.dylib'}
+          library = pathlib.Path('target/yarax/release') / names[os.environ['RUNNER_OS']]
+          assert library.is_file(), library
+          with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as out:
+              out.write('GOMEM_YARAX_LIBRARY=' + library.resolve().as_posix() + '\n')
+      - run: go test -race ./pkg/yara ./internal/explore ./internal/cli -run Yara -count=1 -timeout 5m -v
+      - run: go test ./pkg/yara -run '^$' -fuzz '^FuzzYaraNativeScan$' -fuzztime 1000x
   capstone-native:
     env:
       CGO_ENABLED: '1'

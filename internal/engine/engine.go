@@ -25,6 +25,7 @@ import (
 )
 
 type Config struct {
+	YaraXLibrary                           string
 	Pagefiles                              []string
 	CapstoneLibrary                        string
 	LeechCore                              memory.LeechCoreOptions

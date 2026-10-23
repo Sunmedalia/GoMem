@@ -1,0 +1,10 @@
+//go:build !cgo || (!windows && !darwin && !linux)
+
+package yara
+
+import "fmt"
+
+func Supported() bool { return false }
+func compileNative(string, []byte) (nativeRules, error) {
+	return nil, fmt.Errorf("YARA-X native adapter requires cgo on Windows, Linux or macOS")
+}
