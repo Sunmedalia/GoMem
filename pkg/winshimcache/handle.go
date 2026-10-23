@@ -86,7 +86,11 @@ func (r *HandleReader) pointer(ctx context.Context, at, offset uint64) (uint64, 
 	if r.width == 4 {
 		return uint64(binary.LittleEndian.Uint32(raw)) & r.mask, nil
 	}
-	return binary.LittleEndian.Uint64(raw) & r.mask, nil
+	value := binary.LittleEndian.Uint64(raw) & r.mask
+	if r.mask == 0x0000ffffffffffff {
+		value = canonicalizePointer(value, r.width)
+	}
+	return value, nil
 }
 
 // Head mirrors the original property: it validates the resource, probes the AVL

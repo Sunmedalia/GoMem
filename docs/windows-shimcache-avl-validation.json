@@ -3,7 +3,7 @@
   "status": "development_dependency",
   "accepted": false,
   "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
-  "scope": "Native bounded AVL candidate predicate; windows.shimcachemem remains missing",
+  "scope": "Native bounded AVL candidate predicate for the partial windows.shimcachemem Windows 8+ route",
   "original": {
     "method": "RTL_AVL_TABLE.is_valid",
     "method_unmodified": true,

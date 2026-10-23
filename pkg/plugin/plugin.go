@@ -58,6 +58,7 @@ type Environment struct {
 	SymbolCache    string
 	Inputs         map[string]Input
 	ModulePDB      pesymbols.Provider
+	PointerMask    uint64
 	Artifacts      evidence.ArtifactSink
 	Physical       memory.MemoryLayer
 	Kernel         memory.MemoryLayer

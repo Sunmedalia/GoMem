@@ -1,6 +1,6 @@
 # Shimcache path and file-size fields
 
-Development dependency for `windows.shimcachemem`; the plugin remains missing and
+Development dependency for the partial `windows.shimcachemem` Windows 8+ route;
 no full capability acceptance is claimed. This component decodes two properties
 from an explicitly supplied entry and selected layout. It does not discover an
 entry, validate the complete cache, or prove that a layout matches the kernel.
@@ -48,6 +48,5 @@ controls, not version acceptance.
 The original data-only layouts are shared with the [AVL fixtures](windows-shimcache-avl.md)
 and retain their upstream VSL license. Timestamp and execution fields are covered separately in
 [windows-shimcache-temporal.md](windows-shimcache-temporal.md). Remaining work
-includes XP validation, kernel/layout selection, modern/legacy/XP discovery,
-bounded cache traversal, plugin/timeline integration, sealed persistence and
-positive real-image full-plugin differential comparison.
+includes XP validation, legacy/XP discovery, real x86/PAE acquisition,
+timeline integration and complete failure/parameter acceptance.

@@ -194,6 +194,9 @@ func (r *EntryFieldsReader) FilePath(ctx context.Context, at uint64) (result Pat
 		// does not constrain the original read and is deliberately not consulted.
 		result.Address, err = r.reader.Uint(ctx, at, "SHIM_CACHE_ENTRY", "Path.Buffer")
 		result.Address &= r.mask
+		if r.mask == 0x0000ffffffffffff {
+			result.Address = canonicalizePointer(result.Address, r.reader.Symbols.PointerSize())
+		}
 		if err != nil {
 			return result, err
 		}

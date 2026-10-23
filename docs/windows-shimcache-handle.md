@@ -1,8 +1,8 @@
 # Shimcache cache handle validation
 
-Development dependency for `windows.shimcachemem`, which remains missing in the
-capability matrix. This component validates explicitly supplied candidates; it
-does not discover caches or establish positive real-image plugin acceptance.
+Development dependency for the partial `windows.shimcachemem` Windows 8+ route.
+This component validates candidates; its controls do not establish complete
+real-image plugin acceptance.
 
 `winshimcache.NewHandleReader` composes the kernel resource, Shimcache AVL and
 non-XP linked-entry readers using the selected layout, image kernel ISF, explicit
@@ -56,7 +56,6 @@ Windows 10 kernel ISF. That last test checks metadata only, not memory discovery
 
 The original data-only layout bytes are shared with the [AVL fixtures](windows-shimcache-avl.md)
 and retain their upstream VSL license. CI regenerates the oracle and runs the
-handle and handle-layout fuzz targets. Full entry decoding, kernel/layout
-selection and acquisition, modern/legacy/XP discovery, bounded cache walking,
-plugin/timeline integration, sealed persistence and positive real-image
-original-plugin comparisons remain outstanding.
+handle and handle-layout fuzz targets. Legacy/XP discovery, real x86/PAE
+acquisition, timeline integration and complete failure/parameter acceptance
+remain outstanding.

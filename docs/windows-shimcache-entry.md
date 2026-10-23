@@ -1,7 +1,7 @@
 # Shimcache linked entry predicate
 
-Development dependency for `windows.shimcachemem`; the plugin remains missing
-and no full capability acceptance is claimed. XP uses a separate timestamp/size
+Development dependency for the partial `windows.shimcachemem` Windows 8+ route;
+no full capability acceptance is claimed. XP uses a separate timestamp/size
 predicate and is explicitly outside this reader.
 
 `winshimcache.NewLinkedEntryReader` takes an explicit memory layer, data-only
@@ -46,8 +46,8 @@ Additional tests cover malformed layouts, kernel width mismatch, external type
 mismatch, bounds, cancellation and missing environments. Scalar and layout fuzz
 targets are included in Makefile and CI. No memory-image discovery or extracted
 entry has been validated by this component. Handles, full entry fields, version
-selection, modern/legacy/XP discovery, bounded traversal, sealed persistence and
-positive real-image original-plugin comparisons remain outstanding.
+selection, legacy/XP discovery, real x86/PAE acquisition, timeline integration
+and complete failure/parameter acceptance remain outstanding.
 
 The [native handle component](windows-shimcache-handle.md) now composes the
 entry, resource and AVL predicates for explicitly supplied cache candidates.

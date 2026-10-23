@@ -3,7 +3,7 @@
   "status": "development_dependency",
   "accepted": false,
   "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
-  "scope": "Native non-XP Shimcache entry predicate; plugin remains missing",
+  "scope": "Native non-XP Shimcache entry predicate; plugin remains partial",
   "original": {
     "method": "SHIM_CACHE_ENTRY.is_valid",
     "method_unmodified": true,

@@ -10799,15 +10799,22 @@
           ]
         }
       ],
-      "applicability": "All declared module, architecture, version and optional-library requirements must be satisfied; parameter semantics require differential acceptance.",
-      "native": null,
-      "status": "missing",
+      "applicability": "Windows 8 and later Intel kernels with exact native ISF symbols and kernel translation. Pinned version and fallback layout selection, loaded-module .data/PAGE discovery, two-handle validation, bidirectional list traversal, entry predicates and path/size/time projection. Canonical 48-bit pointers remain native; null, noncanonical and unmapped candidates are counted before object reads. Original acquisitions, typed missing fields, bounds, cancellation and failed-task retry are retained.",
+      "native": "windows.shimcachemem",
+      "status": "partial",
       "accepted": false,
-      "corpora": [],
-      "comparison": "not_run",
+      "corpora": [
+        "pinned-34-shimcache-version-selection-controls",
+        "official-windows-10-19041-partial-control"
+      ],
+      "comparison": "selected_six_columns_order_missing_classes_and_three_paths_match;fourth_reference_null_retains_native_missing_page_error",
       "gaps": [
-        "Native implementation and validation pending"
-      ]
+        "Development preview; only the Windows 8+ route is implemented. Windows XP through Windows 7 discovery and traversal remain unsupported",
+        "One Windows 10 x64 crash dump is the only real-plugin differential. It emits four entries and retains 343 object or field read failures, so four matched rows do not establish complete coverage",
+        "The fourth path is reference null while native retains an explicit prototype/swap page error. Three path values, four timestamps, order and missing classes match",
+        "Real x86/PAE, broader versions, timeline integration, renderer/export and investigative positive/normal acceptance remain pending"
+      ],
+      "validation_record": "docs/windows-shimcache.md"
     },
     {
       "id": "windows.skeleton_key_check.Skeleton_Key_Check",

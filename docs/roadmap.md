@@ -120,4 +120,6 @@
 
 2026-10-22：新增原生 Go 字节正则匹配核心，支持回溯引用、固定宽度后向断言、条件、原子组、空匹配推进及取消/资源边界。12,580 组 Python 3.12 匹配区间完成差分；通用及 Linux VMA 取证扫描管线尚未接入，矩阵仍为 140 partial / 55 missing / 0 accepted。[详情](byte-regex.md)
 
-2026-10-23：Shimcache 底座新增固定基线 `last_modified`、`last_update` 和 `exec_flag` 解码，保留时间缺失/不可解析/不可读分类、detail 指针掩码、原始读取证据及原版成功执行标记最终归为 N/A 的控制流。595 个上游对象案例覆盖 12 个布局、x86/x64、48 位/全宽掩码、负时间和 blob 故障；`windows.shimcachemem` 仍缺少版本选择、缓存发现/遍历、插件与时间线集成，保持 missing。[详情](windows-shimcache-temporal.md)
+2026-10-23：Shimcache 底座新增固定基线 `last_modified`、`last_update` 和 `exec_flag` 解码，保留时间缺失/不可解析/不可读分类、detail 指针掩码、原始读取证据及原版成功执行标记最终归为 N/A 的控制流。595 个上游对象案例覆盖 12 个布局、x86/x64、48 位/全宽掩码、负时间和 blob 故障。[详情](windows-shimcache-temporal.md)
+
+2026-10-23：`windows.shimcachemem` 新增 Windows 8+ 原生路径：34 个固定版本选择控制、模块 `.data`/`PAGE` 定位、双 handle 校验、链表遍历及路径/大小/时间投影。Windows 10 样本输出 4 条，前三路径和全部可读字段与固定基线一致；第 4 条缺页在基线为 `null`，原生保留错误并明确令任务失败。XP 至 Windows 7、真实 x86/PAE、时间线和完整验收仍待补齐，插件保持 partial。[详情](windows-shimcache.md)

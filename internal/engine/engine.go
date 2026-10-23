@@ -145,6 +145,7 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 	}
 	eng.imageInfo = initialStat
 	eng.Env = plugin.Environment{Offline: c.Offline, SymbolCache: c.SymbolCache, Physical: physical, OS: c.OS, Architecture: c.Arch, KernelBase: c.KernelBase, KernelSlide: c.KernelSlide, ImageHash: hash}
+	eng.Env.PointerMask = enginePointerMask(c.Arch, c.OS)
 	if c.Symbols != "" {
 		table, e := symbols.LoadContext(ctx, c.Symbols)
 		if e != nil {
@@ -263,6 +264,9 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 			}
 		}
 		eng.Env.Objects = &object.Reader{Layer: eng.Env.Kernel, Symbols: eng.Env.Symbols}
+		// Symbol/PDB discovery may identify Windows after the bootstrap layer
+		// was created. Recompute the native pointer mask from the final OS.
+		eng.Env.PointerMask = enginePointerMask(c.Arch, eng.Env.OS)
 		if eng.rootFromCrash && eng.Env.OS == "windows" && eng.Config.KernelBase != 0 && eng.WindowsDiscoveryError == nil {
 			if e := eng.preferWindowsSystemRoot(ctx); e != nil {
 				if ctx.Err() != nil {
@@ -290,6 +294,18 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 		eng.Env.ModulePDB = eng.modulePDBProvider()
 	}
 	return eng, nil
+}
+
+func enginePointerMask(arch, os string) uint64 {
+	switch arch {
+	case "x86", "pae":
+		return 0xffffffff
+	case "x64":
+		if os == "windows" {
+			return 0x0000ffffffffffff
+		}
+	}
+	return ^uint64(0)
 }
 func Hash(ctx context.Context, s memory.MemorySource) (string, error) {
 	h := sha256.New()

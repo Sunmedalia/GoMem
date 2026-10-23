@@ -1,10 +1,8 @@
 # Shimcache timestamps and execution flag
 
-Development dependency for `windows.shimcachemem`; the plugin remains missing and
-no full capability acceptance is claimed. This component decodes three more
-properties from an explicitly supplied entry and selected layout. It does not
-discover an entry, validate cache membership, select a Windows-version layout,
-or establish a positive real-image plugin comparison.
+Development dependency for the partial `windows.shimcachemem` Windows 8+ route;
+no full capability acceptance is claimed. This component decodes three
+properties from an explicitly supplied entry and selected layout.
 
 `winshimcache.NewTemporalReader` takes the memory layer, data-only layout,
 kernel ISF and native address mask. It validates the selected entry and optional
@@ -53,6 +51,5 @@ read captures and error classification, then add cancellation, overflow,
 short-read, malformed-schema, real kernel metadata and field/schema fuzz targets.
 
 The original data-only layouts retain their upstream VSL license. Remaining work
-includes XP validation, version-to-layout selection, modern/legacy/XP discovery,
-bounded cache traversal, plugin/timeline integration, sealed persistence and a
-positive real-image full-plugin differential comparison.
+includes XP validation, legacy/XP discovery, real x86/PAE acquisition, timeline
+integration and complete failure/parameter acceptance.

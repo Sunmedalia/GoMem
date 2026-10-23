@@ -55,6 +55,7 @@ func Register(r *plugin.Registry) error {
 	specs = append(specs, windowsMalfindPlugins()...)
 	specs = append(specs, windowsStringsPlugins()...)
 	specs = append(specs, windowsMFTPlugins()...)
+	specs = append(specs, windowsShimcachePlugins()...)
 	specs = append(specs, windowsPESymbolPlugins()...)
 	specs = append(specs, vadPlugins()...)
 	specs = append(specs, linuxMapPlugins()...)

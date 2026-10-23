@@ -100,6 +100,9 @@ func (r *LinkedEntryReader) Valid(ctx context.Context, at uint64) (bool, error) 
 	}
 	flink, err := r.reader.Uint(ctx, listAt, "_LIST_ENTRY", "Flink")
 	flink &= r.mask
+	if r.mask == 0x0000ffffffffffff {
+		flink = canonicalizePointer(flink, r.reader.Symbols.PointerSize())
+	}
 	if err != nil || flink == 0 {
 		return false, err
 	}

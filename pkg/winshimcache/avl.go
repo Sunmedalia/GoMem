@@ -128,7 +128,11 @@ func (r Reader) avlValidMasked(ctx context.Context, at, pageStart, pageEnd, mask
 	if err != nil {
 		return false, err
 	}
-	if parent&mask != rootAt {
+	parent &= mask
+	if mask == 0x0000ffffffffffff {
+		parent = canonicalizePointer(parent, r.Layout.Types.PointerSize())
+	}
+	if parent != rootAt {
 		return false, nil
 	}
 	var storage [3]uint64
@@ -143,6 +147,9 @@ func (r Reader) avlValidMasked(ctx context.Context, at, pageStart, pageEnd, mask
 		}
 		value, err := o.Uint(ctx, at, "_RTL_AVL_TABLE", member)
 		value &= mask
+		if mask == 0x0000ffffffffffff {
+			value = canonicalizePointer(value, r.Layout.Types.PointerSize())
+		}
 		if err != nil {
 			return false, err
 		}

@@ -96,6 +96,9 @@ func (r *ResourceReader) validMasked(ctx context.Context, at, mask uint64) (bool
 	}
 	waiters, err := r.reader.Uint(ctx, at, "_ERESOURCE", "SharedWaiters")
 	waiters &= mask
+	if mask == 0x0000ffffffffffff {
+		waiters = canonicalizePointer(waiters, r.reader.Symbols.PointerSize())
+	}
 	if err != nil {
 		return false, err
 	}
@@ -114,11 +117,17 @@ func (r *ResourceReader) validMasked(ctx context.Context, at, mask uint64) (bool
 	}
 	flink, err := r.reader.Uint(ctx, at, "_ERESOURCE", "SystemResourcesList.Flink")
 	flink &= mask
+	if mask == 0x0000ffffffffffff {
+		flink = canonicalizePointer(flink, r.reader.Symbols.PointerSize())
+	}
 	if err != nil {
 		return false, err
 	}
 	blink, err := r.reader.Uint(ctx, at, "_ERESOURCE", "SystemResourcesList.Blink")
 	blink &= mask
+	if mask == 0x0000ffffffffffff {
+		blink = canonicalizePointer(blink, r.reader.Symbols.PointerSize())
+	}
 	if err != nil {
 		return false, err
 	}
@@ -126,11 +135,19 @@ func (r *ResourceReader) validMasked(ctx context.Context, at, mask uint64) (bool
 		return false, nil
 	}
 	back, err := r.reader.Uint(ctx, flink, "_LIST_ENTRY", "Blink")
-	if err != nil || back&mask != at {
+	back &= mask
+	if mask == 0x0000ffffffffffff {
+		back = canonicalizePointer(back, r.reader.Symbols.PointerSize())
+	}
+	if err != nil || back != at {
 		return false, err
 	}
 	forward, err := r.reader.Uint(ctx, blink, "_LIST_ENTRY", "Flink")
-	if err != nil || forward&mask != at {
+	forward &= mask
+	if mask == 0x0000ffffffffffff {
+		forward = canonicalizePointer(forward, r.reader.Symbols.PointerSize())
+	}
+	if err != nil || forward != at {
 		return false, err
 	}
 	count, err := r.reader.Uint(ctx, at, "_ERESOURCE", "NumberOfSharedWaiters")

@@ -1,0 +1,2525 @@
+{
+  "commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Unmodified Volatility OsDistinguisher functions and the ShimcacheMem newest-to-oldest layout table over synthetic ISF presence controls.",
+  "cases": [
+    {
+      "name": "xp-x86",
+      "width": 4,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {
+            "pe": {
+              "major": 5,
+              "minor": 1,
+              "revision": 2600,
+              "build": 1
+            }
+          },
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": false,
+        "is_2003": false,
+        "is_windows_xp_sp3": true,
+        "is_windows_xp_sp2": true,
+        "is_xp_or_2003": true
+      },
+      "selected": "shimcache-xp-sp3-x86",
+      "route": "xp",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "2003-x86",
+      "width": 4,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {
+            "pe": {
+              "major": 5,
+              "minor": 2,
+              "revision": 3790,
+              "build": 1
+            }
+          },
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": false,
+        "is_2003": true,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": true
+      },
+      "selected": "shimcache-2003-x86",
+      "route": "2003-to-7",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "2003-x64",
+      "width": 8,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {
+            "pe": {
+              "major": 5,
+              "minor": 2,
+              "revision": 3790,
+              "build": 1
+            }
+          },
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": false,
+        "is_2003": true,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": true
+      },
+      "selected": "shimcache-2003-x64",
+      "route": "2003-to-7",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "vista-x86",
+      "width": 4,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {
+            "pe": {
+              "major": 6,
+              "minor": 0,
+              "revision": 6002,
+              "build": 1
+            }
+          },
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": true,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": false
+      },
+      "selected": "shimcache-vista-x86",
+      "route": "2003-to-7",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "vista-x64",
+      "width": 8,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {
+            "pe": {
+              "major": 6,
+              "minor": 0,
+              "revision": 6002,
+              "build": 1
+            }
+          },
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": true,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": false
+      },
+      "selected": "shimcache-vista-x64",
+      "route": "2003-to-7",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "win7-x86",
+      "width": 4,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {
+            "pe": {
+              "major": 6,
+              "minor": 1,
+              "revision": 7600,
+              "build": 1
+            }
+          },
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": true,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": false
+      },
+      "selected": "shimcache-vista-x86",
+      "route": "2003-to-7",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "win7-x64",
+      "width": 8,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {
+            "pe": {
+              "major": 6,
+              "minor": 1,
+              "revision": 7601,
+              "build": 1
+            }
+          },
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": true,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": false
+      },
+      "selected": "shimcache-vista-x64",
+      "route": "2003-to-7",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "win8-x86",
+      "width": 4,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {
+            "pe": {
+              "major": 6,
+              "minor": 2,
+              "revision": 9200,
+              "build": 1
+            }
+          },
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": true,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": true,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": false
+      },
+      "selected": "shimcache-win8-x86",
+      "route": "modern",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "win8-x64",
+      "width": 8,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {
+            "pe": {
+              "major": 6,
+              "minor": 2,
+              "revision": 9200,
+              "build": 1
+            }
+          },
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": true,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": true,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": false
+      },
+      "selected": "shimcache-win8-x64",
+      "route": "modern",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "win81-x86",
+      "width": 4,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {
+            "pe": {
+              "major": 6,
+              "minor": 3,
+              "revision": 9600,
+              "build": 1
+            }
+          },
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": true,
+        "is_windows_8_1_or_later": true,
+        "is_windows_7": false,
+        "is_vista_or_later": true,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": false
+      },
+      "selected": "shimcache-win8-x86",
+      "route": "modern",
+      "is_8_1_or_later": true
+    },
+    {
+      "name": "win81-x64",
+      "width": 8,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {
+            "pe": {
+              "major": 6,
+              "minor": 3,
+              "revision": 9600,
+              "build": 1
+            }
+          },
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": true,
+        "is_windows_8_1_or_later": true,
+        "is_windows_7": false,
+        "is_vista_or_later": true,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": false
+      },
+      "selected": "shimcache-win8-x64",
+      "route": "modern",
+      "is_8_1_or_later": true
+    },
+    {
+      "name": "win10-x86",
+      "width": 4,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {
+            "pe": {
+              "major": 10,
+              "minor": 0,
+              "revision": 19041,
+              "build": 1
+            }
+          },
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": true,
+        "is_windows_8_or_later": true,
+        "is_windows_8_1_or_later": true,
+        "is_windows_7": false,
+        "is_vista_or_later": true,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": false
+      },
+      "selected": "shimcache-win10-x86",
+      "route": "modern",
+      "is_8_1_or_later": true
+    },
+    {
+      "name": "win10-x64",
+      "width": 8,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {
+            "pe": {
+              "major": 10,
+              "minor": 0,
+              "revision": 19041,
+              "build": 1
+            }
+          },
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": true,
+        "is_windows_8_or_later": true,
+        "is_windows_8_1_or_later": true,
+        "is_windows_7": false,
+        "is_vista_or_later": true,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": false
+      },
+      "selected": "shimcache-win10-x64",
+      "route": "modern",
+      "is_8_1_or_later": true
+    },
+    {
+      "name": "xp-three-x86",
+      "width": 4,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {
+            "pe": {
+              "major": 5,
+              "minor": 1,
+              "revision": 2600
+            }
+          },
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "HandleCount": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {
+          "_MMFREE_POOL_ENTRY": {
+            "address": 4096
+          }
+        },
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": false,
+        "is_2003": false,
+        "is_windows_xp_sp3": true,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": true
+      },
+      "selected": "shimcache-xp-sp3-x86",
+      "route": "xp",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "win7-three-x86",
+      "width": 4,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {
+            "pe": {
+              "major": 6,
+              "minor": 1,
+              "revision": 7600
+            }
+          },
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "HandleCount": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "TypeIndex": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": true,
+        "is_vista_or_later": false,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": true,
+        "is_xp_or_2003": true
+      },
+      "selected": "shimcache-win7-x86",
+      "route": "2003-to-7",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "win7-three-x64",
+      "width": 8,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {
+            "pe": {
+              "major": 6,
+              "minor": 1,
+              "revision": 7601
+            }
+          },
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "HandleCount": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "TypeIndex": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": true,
+        "is_vista_or_later": false,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": true,
+        "is_xp_or_2003": true
+      },
+      "selected": "shimcache-win7-x64",
+      "route": "2003-to-7",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "win8-three-x64",
+      "width": 8,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {
+            "pe": {
+              "major": 6,
+              "minor": 2,
+              "revision": 9200
+            }
+          },
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "TypeIndex": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {
+          "KdCopyDataBlock": {
+            "address": 4096
+          }
+        },
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": true,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": true,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": false
+      },
+      "selected": "shimcache-win8-x64",
+      "route": "modern",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "fallback-win10-x64",
+      "width": 8,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {},
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "HandleCount": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {
+          "ObHeaderCookie": {
+            "address": 4096
+          }
+        },
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": false,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": true,
+        "is_xp_or_2003": true
+      },
+      "selected": "shimcache-xp-2003-x64",
+      "route": "xp",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "fallback-win10-x86",
+      "width": 4,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {},
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "HandleCount": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {
+          "ObHeaderCookie": {
+            "address": 4096
+          }
+        },
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": false,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": true,
+        "is_xp_or_2003": true
+      },
+      "selected": "shimcache-xp-sp2-x86",
+      "route": "xp",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "fallback-win8-x64",
+      "width": 8,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {},
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "HandleCount": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "TypeIndex": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "PendingTickFlags": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          }
+        },
+        "symbols": {
+          "KdCopyDataBlock": {
+            "address": 4096
+          }
+        },
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": true,
+        "is_windows_7": true,
+        "is_vista_or_later": true,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": false
+      },
+      "selected": "shimcache-win7-x64",
+      "route": "2003-to-7",
+      "is_8_1_or_later": true
+    },
+    {
+      "name": "fallback-win8-x86",
+      "width": 4,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {},
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "HandleCount": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "TypeIndex": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "PendingTickFlags": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          }
+        },
+        "symbols": {
+          "KdCopyDataBlock": {
+            "address": 4096
+          }
+        },
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": true,
+        "is_windows_7": true,
+        "is_vista_or_later": true,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": false
+      },
+      "selected": "shimcache-win7-x86",
+      "route": "2003-to-7",
+      "is_8_1_or_later": true
+    },
+    {
+      "name": "fallback-win7-x64",
+      "width": 8,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {},
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "HandleCount": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "TypeIndex": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": true,
+        "is_vista_or_later": false,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": true,
+        "is_xp_or_2003": true
+      },
+      "selected": "shimcache-win7-x64",
+      "route": "2003-to-7",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "fallback-win7-x86",
+      "width": 4,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {},
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "HandleCount": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "TypeIndex": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": true,
+        "is_vista_or_later": false,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": true,
+        "is_xp_or_2003": true
+      },
+      "selected": "shimcache-win7-x86",
+      "route": "2003-to-7",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "fallback-vista-x64",
+      "width": 8,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {},
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "HandleCount": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "TypeIndex": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {
+          "KdCopyDataBlock": {
+            "address": 4096
+          }
+        },
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": true,
+        "is_vista_or_later": true,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": false
+      },
+      "selected": "shimcache-win7-x64",
+      "route": "2003-to-7",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "fallback-vista-x86",
+      "width": 4,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {},
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "HandleCount": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "TypeIndex": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {
+          "KdCopyDataBlock": {
+            "address": 4096
+          }
+        },
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": true,
+        "is_vista_or_later": true,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": false
+      },
+      "selected": "shimcache-win7-x86",
+      "route": "2003-to-7",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "fallback-2003-x64",
+      "width": 8,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {},
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "HandleCount": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "TypeIndex": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {
+          "_MM_AVL_TABLE": {
+            "address": 4096
+          }
+        },
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": true,
+        "is_vista_or_later": false,
+        "is_2003": true,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": true,
+        "is_xp_or_2003": true
+      },
+      "selected": "shimcache-win7-x64",
+      "route": "2003-to-7",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "fallback-2003-x86",
+      "width": 4,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {},
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "HandleCount": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "TypeIndex": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {
+          "_MM_AVL_TABLE": {
+            "address": 4096
+          }
+        },
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": true,
+        "is_vista_or_later": false,
+        "is_2003": true,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": true,
+        "is_xp_or_2003": true
+      },
+      "selected": "shimcache-win7-x86",
+      "route": "2003-to-7",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "fallback-xp-sp3-x86",
+      "width": 4,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {},
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "HandleCount": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {
+          "_MMFREE_POOL_ENTRY": {
+            "address": 4096
+          }
+        },
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": false,
+        "is_2003": false,
+        "is_windows_xp_sp3": true,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": true
+      },
+      "selected": "shimcache-xp-sp3-x86",
+      "route": "xp",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "fallback-xp-sp2-x86",
+      "width": 4,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {},
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "HandleCount": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": false,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": true,
+        "is_xp_or_2003": true
+      },
+      "selected": "shimcache-xp-sp2-x86",
+      "route": "xp",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "fallback-xp-or-2003-x86",
+      "width": 4,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {},
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 4,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "HandleCount": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": false,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": true,
+        "is_xp_or_2003": true
+      },
+      "selected": "shimcache-xp-sp2-x86",
+      "route": "xp",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "fallback-win10-short-circuit",
+      "width": 8,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {},
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {
+          "ObHeaderCookie": {
+            "address": 4096
+          }
+        },
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": true,
+        "is_windows_8_or_later": true,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": false,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": false
+      },
+      "selected": "shimcache-win10-x64",
+      "route": "modern",
+      "is_8_1_or_later": true
+    },
+    {
+      "name": "fallback-win7-short-circuit",
+      "width": 8,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {},
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "TypeIndex": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": true,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": false,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": false
+      },
+      "selected": "shimcache-win8-x64",
+      "route": "modern",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "fallback-vista-short-circuit",
+      "width": 8,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {},
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {
+              "HandleCount": {
+                "offset": 0,
+                "type": {
+                  "kind": "base",
+                  "name": "unsigned char"
+                }
+              }
+            }
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": false,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": false,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": true,
+        "is_xp_or_2003": true
+      },
+      "selected": "shimcache-xp-2003-x64",
+      "route": "xp",
+      "is_8_1_or_later": false
+    },
+    {
+      "name": "fallback-none",
+      "width": 8,
+      "isf": {
+        "metadata": {
+          "format": "6.2.0",
+          "windows": {},
+          "producer": {
+            "name": "GoMem synthetic Windows version control",
+            "version": "1.0.0",
+            "datetime": "2026-10-23T00:00:00Z"
+          }
+        },
+        "base_types": {
+          "pointer": {
+            "kind": "int",
+            "size": 8,
+            "endian": "little",
+            "signed": false
+          },
+          "unsigned char": {
+            "kind": "int",
+            "size": 1,
+            "endian": "little",
+            "signed": false
+          }
+        },
+        "user_types": {
+          "_HANDLE_TABLE": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_OBJECT_HEADER": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          },
+          "_KPRCB": {
+            "kind": "struct",
+            "size": 8,
+            "fields": {}
+          }
+        },
+        "symbols": {},
+        "enums": {}
+      },
+      "checks": {
+        "is_win10": false,
+        "is_windows_8_or_later": true,
+        "is_windows_8_1_or_later": false,
+        "is_windows_7": false,
+        "is_vista_or_later": false,
+        "is_2003": false,
+        "is_windows_xp_sp3": false,
+        "is_windows_xp_sp2": false,
+        "is_xp_or_2003": false
+      },
+      "selected": "shimcache-win8-x64",
+      "route": "modern",
+      "is_8_1_or_later": false
+    }
+  ]
+}

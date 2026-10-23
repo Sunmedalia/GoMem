@@ -1,0 +1,67 @@
+{
+  "schema": "gomem.windows-shimcachemem-validation/v1",
+  "date": "2026-10-23",
+  "release": "development-preview",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "status": "partial",
+  "accepted": false,
+  "selection": {
+    "actual_unmodified_controls": 34,
+    "comparison": "version checks, newest-to-oldest layout, route, pointer width and fallback state",
+    "result": "pass"
+  },
+  "real_partial": {
+    "image_sha256": "ef92b50aa2ba2f830e3f816eb55ed8d15b0658fdfff0ab7af8adb68f2c8da460",
+    "symbols_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+    "engine_build_sha256": "c956a94208bec882c19c45e7f0e35e0ebcdddd3da862affe5a6478d0293b8a43",
+    "native_jsonl_sha256": "2bff4f8aa6c106ad34cb93c08286487a8f9c6d7e0cc60477e3a538871cf33f31",
+    "reference_output_sha256": "88c9acbfc36a51cedcf07180427127dd178bd3e4b923a8769a947494c742023e",
+    "modules_examined": 117,
+    "modules_matched": 1,
+    "module": "ahcache.sys",
+    "layout": "shimcache-win10-x64",
+    "pointers_scanned": 886,
+    "null_pointers": 77,
+    "noncanonical_rejected": 37,
+    "unmapped_rejected": 425,
+    "discovery_candidates": 347,
+    "heads_found": 2,
+    "entries_emitted": 4,
+    "entries_rejected": 1,
+    "reads": 2468,
+    "captured_bytes": 24297,
+    "read_failures": 343,
+    "state": "failed",
+    "completed": false
+  },
+  "differential": {
+    "scope": "selected fields only; full capability acceptance remains pending",
+    "fields": [
+      "Order",
+      "Last Modified",
+      "Last Update",
+      "Exec Flag",
+      "File Size",
+      "File Path"
+    ],
+    "native_rows": 4,
+    "reference_rows": 4,
+    "matched": false,
+    "missing_rows": 1,
+    "extra_rows": 1,
+    "difference": "The fourth reference File Path is null after a prototype/swap page fault. Native retains the typed unreadable error and all other mapped cells remain equal.",
+    "native_input_rows": 2473,
+    "native_non_entity_records": {
+      "memory_read": 2468,
+      "summary": 1
+    }
+  },
+  "pending": [
+    "Windows XP through Windows 7 discovery and traversal",
+    "Real x86/PAE acquisition and broader Windows version corpus",
+    "Timeline integration",
+    "Complete renderer/export and parameter/failure equivalence",
+    "Investigative positive and normal controls",
+    "Full capability acceptance"
+  ]
+}

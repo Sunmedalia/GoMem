@@ -471,7 +471,11 @@ func (r *TemporalReader) detail(ctx context.Context, at uint64) (uint64, Tempora
 	if err != nil {
 		return 0, result, err
 	}
-	return readUnsigned(raw) & r.mask, TemporalField{}, nil
+	value := readUnsigned(raw) & r.mask
+	if r.mask == 0x0000ffffffffffff {
+		value = canonicalizePointer(value, r.width)
+	}
+	return value, TemporalField{}, nil
 }
 
 func (r *TemporalReader) readTime(ctx context.Context, base, offset uint64) (result TemporalField, err error) {

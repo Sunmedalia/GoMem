@@ -1,7 +1,7 @@
 # Shimcache kernel resource validation
 
-Development dependency for `windows.shimcachemem`, which remains missing in the
-capability matrix. No full plugin or real-image acceptance is established here.
+Development dependency for the partial `windows.shimcachemem` Windows 8+ route.
+No full plugin or real-image acceptance is established by this component alone.
 
 `winshimcache.NewResourceReader` takes an explicit memory layer and the parsed
 kernel ISF. It validates the `_ERESOURCE`, `_LIST_ENTRY`, `_KSEMAPHORE` types,
@@ -40,13 +40,11 @@ tests compare booleans and independently verify every captured byte. They also
 check malformed kernel metadata, cancellation and overflow. The oracle records
 original uncaught waiter-read exceptions separately from false predicates.
 
-Handle/entry validation, kernel/layout matching, cache discovery, full entry
-fields, bounded traversal, plugin integration, sealed persistence and positive
-real-image differential tests remain outstanding.
+Legacy/XP discovery, real x86/PAE acquisition, timeline integration and complete
+failure/parameter acceptance remain outstanding.
 
-The [non-XP linked entry predicate](windows-shimcache-entry.md) now has a
-separate native reader and original method controls; full entry decoding and
-cache traversal remain outstanding.
+The [non-XP linked entry predicate](windows-shimcache-entry.md) has a separate
+native reader and original method controls.
 
 The [native handle component](windows-shimcache-handle.md) supplies the native
 layer mask when validating resource pointers reached from a cache handle.

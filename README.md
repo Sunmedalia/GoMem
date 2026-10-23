@@ -12,6 +12,8 @@ Go 原生、只读的内存取证引擎与交互式 TUI。当前版本 **0.1.0-d
 
 `linux.pidhashtable` 已支持旧式 PID 哈希及命名空间 IDR，提供排序任务、名称装饰和逐次读取证据。Debian 样本的 316 条任务通过五字段双模式对照；现代内核真实语料和完整验收仍待补齐。[PID 索引验证](docs/linux-pidhashtable.md)
 
+`windows.shimcachemem` 已实现 Windows 8+ 的版本选择、`ahcache.sys`/`shimcache.sys` 缓存发现、双 handle 校验、链表遍历及路径/大小/时间输出。Windows 10 样本的 4 条条目中，3 条路径和全部可读字段与固定基线一致；第 4 条缺页在基线被静默输出为 `null`，原生保留真实错误，任务因此明确失败。XP 至 Windows 7、真实 x86/PAE 和完整验收仍待补齐。[Shimcache 验证](docs/windows-shimcache.md)
+
 `linux.kmsg` 已支持四类内核日志缓冲区，保留读取证据、描述符状态及有界失败。Debian 样本的 1,445 条日志通过五字段对照；真实现代内核日志与完整验收仍待补齐。[内核日志验证](docs/linux-kmsg.md)
 
 `linux.kallsyms` 已接入核心、模块、ftrace 和 BPF 符号源。Debian 的 34,472 个实体八列匹配，但保留 65 次部分读取并标记任务失败；完整验收仍待补齐。[符号验证](docs/linux-kallsyms.md)
