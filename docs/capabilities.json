@@ -13394,11 +13394,23 @@
     {
       "id": "renderer.arrow",
       "category": "acceptance",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "Native Apache Arrow Go IPC streams with bounded batches, typed declared projections, lossless canonical evidence payloads, stable tree IDs and case task manifests. Addresses remain hexadecimal strings; timestamps preserve source text.",
+      "corpora": [
+        "pinned-arrow-renderer-6-cases",
+        "independent-pyarrow-reader",
+        "synthetic-multi-task-arrow-export",
+        "official-windows-linux-pslist-arrow"
+      ],
+      "comparison": "selected_actual_pinned_typed_scalars_nulls_tree_links_plus_independent_PyArrow_and_120_133_real_process_evidence_rows",
+      "validation_record": "docs/arrow-renderer.md",
+      "gaps": [
+        "Full upstream datetime, floating point, Disassembly, LayerData and MultiTypeData hint parity remains pending",
+        "Addresses deliberately use lossless hexadecimal strings instead of upstream uint64; source timestamps remain strings rather than millisecond rounding",
+        "Parquet renderer and extracted artifact payload export use separate capabilities; not included in Arrow evidence table",
+        "No complete plugin/corpus/version or release-scale memory/performance acceptance; schema/row/metadata budgets are explicit"
+      ]
     },
     {
       "id": "renderer.mermaid",

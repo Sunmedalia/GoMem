@@ -45,8 +45,8 @@ func Export(ctx context.Context, s *store.Store, format, name, taskID string) (p
 	if name == "" || filepath.Base(name) != name || strings.ContainsAny(name, "/\\") || name == "." || name == ".." {
 		return "", fmt.Errorf("--output must be a filename inside the case exports directory")
 	}
-	if format != "html" && format != "jsonl" && format != "bundle" {
-		return "", fmt.Errorf("export format must be html, jsonl or bundle")
+	if format != "html" && format != "jsonl" && format != "bundle" && format != "arrow" {
+		return "", fmt.Errorf("export format must be html, jsonl, bundle or arrow")
 	}
 	tasks, err := s.Tasks(ctx)
 	if err != nil {
@@ -109,6 +109,8 @@ func Export(ctx context.Context, s *store.Store, format, name, taskID string) (p
 		}
 	}()
 	switch format {
+	case "arrow":
+		err = arrowReport(ctx, s, f, m)
 	case "bundle":
 		err = bundle(ctx, s, f, &m)
 	case "html":

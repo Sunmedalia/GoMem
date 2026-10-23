@@ -10,6 +10,9 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/apache/arrow-go/v18/arrow/array"
+	"github.com/apache/arrow-go/v18/arrow/ipc"
+
 	"github.com/Sunmedalia/GoMem/internal/testfixture"
 	"github.com/Sunmedalia/GoMem/pkg/evidence"
 )
@@ -330,5 +333,55 @@ func TestLeechCoreOfflineBeforeLibraryLoad(t *testing.T) {
 	}
 	if strings.Contains(output+stderr+err.Error(), "secret-") {
 		t.Fatal("device configuration leaked")
+	}
+}
+
+func TestArrowAnalyzeAndStoredExport(t *testing.T) {
+	fixture, err := testfixture.Write(t.TempDir(), "linux")
+	if err != nil {
+		t.Fatal(err)
+	}
+	caseDir := t.TempDir()
+	args := []string{"analyze", "linux.pslist", "--image", fixture.Image, "--symbols", fixture.Symbols, "--os", "linux", "--dtb", fixture.DTB, "--arch", "x64", "--case", caseDir, "--offline", "--format", "arrow"}
+	output, stderr, err := run(t, "", args...)
+	if err != nil {
+		t.Fatal(stderr, err)
+	}
+	for pass := 0; pass < 2; pass++ {
+		reader, err := ipc.NewReader(strings.NewReader(output))
+		if err != nil {
+			t.Fatal(err)
+		}
+		count := int64(0)
+		for reader.Next() {
+			record := reader.RecordBatch()
+			for i := 0; i < int(record.NumRows()); i++ {
+				var row evidence.Row
+				if err := json.Unmarshal(record.Column(3).(*array.Binary).Value(i), &row); err != nil {
+					t.Fatal(err)
+				}
+				if err := row.Verify(); err != nil {
+					t.Fatal(err)
+				}
+			}
+			count += record.NumRows()
+		}
+		readErr := reader.Err()
+		reader.Release()
+		if readErr != nil || count != 2 {
+			t.Fatal(count, readErr)
+		}
+		if pass == 1 {
+			break
+		}
+		path, stderr, err := run(t, "", "export", "--case", caseDir, "--format", "arrow", "--output", "processes.arrow")
+		if err != nil {
+			t.Fatal(stderr, err)
+		}
+		raw, err := os.ReadFile(strings.TrimSpace(path))
+		if err != nil {
+			t.Fatal(err)
+		}
+		output = string(raw)
 	}
 }

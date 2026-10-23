@@ -12,4 +12,4 @@ bin/gomem analyze windows.pstree --image memory.dmp --case ./case-001 --format m
 
 验证：`tools/build_mermaid_oracle.py --check` 在锁定的未修改 Volatility 源码上实际构造 TreeGrid 并调用 MermaidRenderer。6 组空结果、平铺、树形、深层、引号/换行及 Unicode 图通过逐字节对照。Go 测试另覆盖重复 PID/证据、父链接缺失、最大地址、列缺失、标签注入与写出失败。合成值只覆盖选定标量及树结构，不代表全部上游格式提示完成验收。
 
-尚未完成：`export` 的持久化 Mermaid 报告、TUI 图形预览、全部复杂值/缺失值/时间/反汇编格式提示的差分验收、浏览器版本兼容与大图展示验收。上游针对 HTML 字符的转义较少，GoMem 明确增加转义，恶意或含 HTML 标签的字段不承诺逐字节相同。Arrow 渲染仍未实现。
+尚未完成：`export` 的持久化 Mermaid 报告、TUI 图形预览、全部复杂值/缺失值/时间/反汇编格式提示的差分验收、浏览器版本兼容与大图展示验收。上游针对 HTML 字符的转义较少，GoMem 明确增加转义，恶意或含 HTML 标签的字段不承诺逐字节相同。Arrow 已有原生 IPC 预览，详见 [Arrow 输出](arrow-renderer.md)。

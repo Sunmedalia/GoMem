@@ -1,0 +1,202 @@
+{
+  "schema": "gomem.arrow-oracle/v1",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "pyarrow": "26.0.0",
+  "scope": "selected actual ArrowRenderer scalars, nulls and tree links; addresses normalized as hexadecimal",
+  "cases": [
+    {
+      "name": "empty",
+      "depths": [],
+      "rows": []
+    },
+    {
+      "name": "flat",
+      "depths": [
+        0,
+        0,
+        0
+      ],
+      "rows": [
+        {
+          "Signed": -9223372036854775808,
+          "Address": "0xffffffffffffffff",
+          "Name": "",
+          "Flag": false,
+          "Bytes": "AP8A"
+        },
+        {
+          "Signed": 9223372036854775807,
+          "Address": "0xfffffffffffffffe",
+          "Name": "进程\nquoted\"value",
+          "Flag": true,
+          "Bytes": "AP8B"
+        },
+        {
+          "Signed": 9223372036854775807,
+          "Address": "0xfffffffffffffffd",
+          "Name": "进程\nquoted\"value",
+          "Flag": false,
+          "Bytes": "AP8C"
+        }
+      ]
+    },
+    {
+      "name": "tree",
+      "depths": [
+        0,
+        1,
+        2,
+        1,
+        0
+      ],
+      "rows": [
+        {
+          "Signed": -9223372036854775808,
+          "Address": "0xffffffffffffffff",
+          "Name": "",
+          "Flag": false,
+          "Bytes": "AP8A",
+          "_vol_id": 0,
+          "_vol_parent_id": null
+        },
+        {
+          "Signed": 9223372036854775807,
+          "Address": "0xfffffffffffffffe",
+          "Name": "进程\nquoted\"value",
+          "Flag": true,
+          "Bytes": "AP8B",
+          "_vol_id": 1,
+          "_vol_parent_id": 0
+        },
+        {
+          "Signed": 9223372036854775807,
+          "Address": "0xfffffffffffffffd",
+          "Name": "进程\nquoted\"value",
+          "Flag": false,
+          "Bytes": "AP8C",
+          "_vol_id": 2,
+          "_vol_parent_id": 1
+        },
+        {
+          "Signed": 9223372036854775807,
+          "Address": "0xfffffffffffffffc",
+          "Name": "进程\nquoted\"value",
+          "Flag": true,
+          "Bytes": "AP8D",
+          "_vol_id": 3,
+          "_vol_parent_id": 0
+        },
+        {
+          "Signed": 9223372036854775807,
+          "Address": "0xfffffffffffffffb",
+          "Name": "进程\nquoted\"value",
+          "Flag": false,
+          "Bytes": "AP8E",
+          "_vol_id": 4,
+          "_vol_parent_id": null
+        }
+      ]
+    },
+    {
+      "name": "deep",
+      "depths": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "rows": [
+        {
+          "Signed": -9223372036854775808,
+          "Address": "0xffffffffffffffff",
+          "Name": "",
+          "Flag": false,
+          "Bytes": "AP8A",
+          "_vol_id": 0,
+          "_vol_parent_id": null
+        },
+        {
+          "Signed": 9223372036854775807,
+          "Address": "0xfffffffffffffffe",
+          "Name": "进程\nquoted\"value",
+          "Flag": true,
+          "Bytes": "AP8B",
+          "_vol_id": 1,
+          "_vol_parent_id": 0
+        },
+        {
+          "Signed": 9223372036854775807,
+          "Address": "0xfffffffffffffffd",
+          "Name": "进程\nquoted\"value",
+          "Flag": false,
+          "Bytes": "AP8C",
+          "_vol_id": 2,
+          "_vol_parent_id": 1
+        },
+        {
+          "Signed": 9223372036854775807,
+          "Address": "0xfffffffffffffffc",
+          "Name": "进程\nquoted\"value",
+          "Flag": true,
+          "Bytes": "AP8D",
+          "_vol_id": 3,
+          "_vol_parent_id": 2
+        }
+      ]
+    },
+    {
+      "name": "missing",
+      "depths": [
+        0,
+        1
+      ],
+      "rows": [
+        {
+          "Signed": -9223372036854775808,
+          "Address": "0xffffffffffffffff",
+          "Name": "",
+          "Flag": false,
+          "Bytes": "AP8A",
+          "_vol_id": 0,
+          "_vol_parent_id": null
+        },
+        {
+          "Signed": null,
+          "Address": null,
+          "Name": null,
+          "Flag": null,
+          "Bytes": null,
+          "_vol_id": 1,
+          "_vol_parent_id": 0
+        }
+      ]
+    },
+    {
+      "name": "unicode",
+      "depths": [
+        0,
+        1
+      ],
+      "rows": [
+        {
+          "Signed": -9223372036854775808,
+          "Address": "0xffffffffffffffff",
+          "Name": "",
+          "Flag": false,
+          "Bytes": "AP8A",
+          "_vol_id": 0,
+          "_vol_parent_id": null
+        },
+        {
+          "Signed": 9223372036854775807,
+          "Address": "0xfffffffffffffffe",
+          "Name": "进程\nquoted\"value",
+          "Flag": true,
+          "Bytes": "AP8B",
+          "_vol_id": 1,
+          "_vol_parent_id": 0
+        }
+      ]
+    }
+  ]
+}

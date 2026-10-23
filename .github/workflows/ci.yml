@@ -66,7 +66,7 @@ jobs:
       - run: python3 tools/build_argument_fixtures.py --check
       - run: python3 tools/build_inode_mode_oracle.py --check
       - run: python3 tools/fetch_baseline.py
-      - run: python3 -m pip install pefile==2024.8.26 Pillow==12.2.0 yara-x==1.9.0 s3fs==2026.9.0 gcsfs==2026.10.1
+      - run: python3 -m pip install pefile==2024.8.26 Pillow==12.2.0 yara-x==1.9.0 s3fs==2026.9.0 gcsfs==2026.10.1 pyarrow==26.0.0
       - run: python3 tools/build_service_oracle.py --check
       - run: python3 tools/build_vad_oracle.py --check
       - run: python3 tools/build_suspicious_thread_oracle.py --check
@@ -108,6 +108,10 @@ jobs:
       - run: python3 tools/build_shimcache_temporal_oracle.py --check
       - run: python3 tools/build_shimcache_selection_oracle.py --check
       - run: python3 tools/build_mermaid_oracle.py --check
+      - run: python3 tools/build_arrow_oracle.py --check
+      - run: go test -race ./internal/render -run Arrow -count=1
+        env:
+          GOMEM_ARROW_REFERENCE_PYTHON: python3
       - run: python3 tools/build_xen_oracle.py --check
       - run: python3 tools/build_vmware_oracle.py --check
       - run: python3 tools/build_qemu_oracle.py --check
@@ -288,6 +292,7 @@ jobs:
       - run: go test ./pkg/memory -run '^$' -fuzz '^FuzzFTPURI$' -fuzztime 10000x
       - run: go test ./pkg/memory -run '^$' -fuzz '^FuzzS3URI$' -fuzztime 10000x
       - run: go test ./pkg/memory -run '^$' -fuzz '^FuzzGCSURI$' -fuzztime 10000x
+      - run: go test ./internal/render -run '^$' -fuzz '^FuzzArrowEvidence$' -fuzztime 10000x
       - run: go test ./pkg/memory -run '^$' -fuzz FuzzScanPlan -fuzztime 452000x
       - run: go test ./pkg/memory -run '^$' -fuzz FuzzDetect -fuzztime 29000x
       - run: go test ./pkg/memory -run '^$' -fuzz FuzzAVML -fuzztime 629000x
