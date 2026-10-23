@@ -10,7 +10,7 @@ import (
 )
 
 func linuxModuleExtractPlugins() []builtin {
-	return []builtin{{plugin.Spec{Name: "linux.module_extract", Upstream: "linux.module_extract.ModuleExtract", Platform: "linux", NeedsKernel: true, Description: "Reconstruct a kernel module ELF directly from its object address", Parameters: []plugin.Parameter{{Name: "base", Kind: "string", Description: "Required struct module virtual address (decimal or 0x hex)"}, {Name: "max-module-bytes", Kind: "uint", Default: "67108864", Description: "Per-module source/output allocation bound, 4096..1073741824 bytes"}}, Columns: []evidence.Column{{Name: "Base", Kind: "address"}, {Name: "File Size", Kind: "uint64"}, {Name: "File output", Kind: "artifact"}, {Name: "KernelAddress", Kind: "address"}, {Name: "Name", Kind: "string"}, {Name: "FieldEvidence", Kind: "structure"}, {Name: "DumpEvidence", Kind: "structure"}, {Name: "RecordType", Kind: "string"}, {Name: "Error", Kind: "missing"}}}, linuxModuleExtract}}
+	return []builtin{{plugin.Spec{Name: "linux.module_extract", Upstream: "linux.module_extract.ModuleExtract", Platform: "linux", NeedsKernel: true, Description: "Reconstruct a kernel module ELF directly from its object address", Parameters: []plugin.Parameter{{Name: "base", Kind: "string", Required: true, Description: "Struct module virtual address (decimal or 0x hex)"}, {Name: "max-module-bytes", Kind: "uint", Default: "67108864", Description: "Per-module source/output allocation bound, 4096..1073741824 bytes"}}, Columns: []evidence.Column{{Name: "Base", Kind: "address"}, {Name: "File Size", Kind: "uint64"}, {Name: "File output", Kind: "artifact"}, {Name: "KernelAddress", Kind: "address"}, {Name: "Name", Kind: "string"}, {Name: "FieldEvidence", Kind: "structure"}, {Name: "DumpEvidence", Kind: "structure"}, {Name: "RecordType", Kind: "string"}, {Name: "Error", Kind: "missing"}}}, linuxModuleExtract}}
 }
 
 // Volatility's Intel layer accepts low-48-bit offsets as well as canonical
@@ -21,7 +21,8 @@ func linuxModuleInputAddress(e plugin.Environment, base uint64) (uint64, error) 
 	if err != nil {
 		return 0, err
 	}
-	if e.Architecture == "x64" {
+	switch e.Architecture {
+	case "x64", "arm64":
 		if base <= mask {
 			if base&(1<<47) != 0 {
 				return base | ^mask, nil
@@ -31,8 +32,12 @@ func linuxModuleInputAddress(e plugin.Environment, base uint64) (uint64, error) 
 		if base>>48 != 0xffff || base&(1<<47) == 0 {
 			return 0, fmt.Errorf("noncanonical module base %#x", base)
 		}
-	} else if base > mask {
-		return 0, fmt.Errorf("module base exceeds 32-bit address space")
+	case "x86", "pae":
+		if base > mask {
+			return 0, fmt.Errorf("module base exceeds 32-bit address space")
+		}
+	default:
+		return 0, fmt.Errorf("module base uses unsupported architecture %q", e.Architecture)
 	}
 	return base, nil
 }

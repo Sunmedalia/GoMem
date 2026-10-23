@@ -31,6 +31,17 @@ func linuxPsCallStackPlugins() []builtin {
 	}}, linuxPsCallStack}}
 }
 
+func linuxStackPointerPath(arch string) (string, error) {
+	switch arch {
+	case "x64", "x86", "pae":
+		return "thread.sp", nil
+	case "arm64":
+		return "thread.cpu_context.sp", nil
+	default:
+		return "", fmt.Errorf("call stack inspection does not support architecture %q", arch)
+	}
+}
+
 type linuxCallStack struct {
 	failures                                                         pluginFailures
 	ctx                                                              context.Context
@@ -247,7 +258,11 @@ func (s *linuxCallStack) task(at uint64, unresolved bool) (taskErr error) {
 	if err != nil {
 		return err
 	}
-	sp, err := r.Uint(s.ctx, at, "task_struct", "thread.sp")
+	stackPointerPath, err := linuxStackPointerPath(e.Architecture)
+	if err != nil {
+		return err
+	}
+	sp, err := r.Uint(s.ctx, at, "task_struct", stackPointerPath)
 	if err != nil {
 		return err
 	}
@@ -265,7 +280,7 @@ func (s *linuxCallStack) task(at uint64, unresolved bool) (taskErr error) {
 	if field.Type.Kind != "pointer" {
 		return fmt.Errorf("task files field is not a pointer")
 	}
-	// Only little-endian Intel is supported; symbols must agree with that ABI.
+	// Supported Intel and ARM64 symbol layouts use little-endian pointers.
 	pointer, err := e.Symbols.Type("pointer")
 	if err != nil {
 		return err
@@ -273,7 +288,13 @@ func (s *linuxCallStack) task(at uint64, unresolved bool) (taskErr error) {
 	if pointer.Endian != "little" {
 		return fmt.Errorf("unsupported stack pointer byte order %q", pointer.Endian)
 	}
-	trace := s.trace(layer)
+	stackLayer := layer
+	if e.Architecture == "arm64" {
+		// ARM64 KPTI user roots commonly omit kernel text and stack mappings.
+		// task.stack and cpu_context.sp remain kernel-virtual coordinates.
+		stackLayer = e.Kernel
+	}
+	trace := s.trace(stackLayer)
 	for index := uint64(0); sp < top; index++ {
 		if err := s.ctx.Err(); err != nil {
 			return err

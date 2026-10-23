@@ -233,19 +233,19 @@
           "id": "linux.bash.Bash",
           "status": "partial",
           "accepted": false,
-          "applicability": "Intel Linux tasks named bash, sh, or dash. Scan readable ranges of VMAs overlapping the heap for pinned hist_entry records. Require a nonempty command and a decimal #timestamp. Restore pointer-hit address order before stable numeric timestamp sorting. Invalid candidates are not rows. Per-shell coverage records expose missing heap pages; incomplete coverage or candidate reads stay diagnostics and fail the task.",
+          "applicability": "Intel and supported ARM64 Linux tasks named bash, sh, or dash. Scan readable ranges of VMAs overlapping the heap for pinned hist_entry records. Require a nonempty command and a decimal #timestamp. Restore pointer-hit address order before stable numeric timestamp sorting. Invalid candidates are not rows. Per-shell coverage records expose missing heap pages; incomplete coverage or candidate reads stay diagnostics and fail the task.",
           "comparison": "27_history_rows_match_pid_process_time_command_and_order",
           "corpora": [
             "official-linux-sample-1"
           ],
           "gaps": [
             "One Debian 3.2 x64 image has three shells and 27 valid entries. Four displayed fields and exact order match; 81 raw captures are independently reread in process space, including cached output",
-            "Synthetic x86/PAE/x64 tests cover heap VMA decoys, holes, pointer widths, batching, malformed entries, partial reads, cancellation and output errors; they do not establish real-image acceptance",
+            "Synthetic x86/PAE/x64 tests cover heap VMA decoys, holes, pointer widths, batching, malformed entries, partial reads, cancellation and output errors. ARM64 synthetic recovery rereads captures; bounded heap walks distinguish invalid descriptors from missing physical tables. Local Kali has two zsh tasks and no eligible Bash tasks, so its zero-history result is only an empty control; positive real ARM64 differential remains pending",
             "The hist_entry layout is the pinned bash64/bash32 profile, not a layout recovered from the target bash binary",
             "Unicode decimal timestamp digits, swap recovery, real 32-bit images, other bash builds, modern kernels, ARM64, and timeline output remain pending"
           ],
           "validation_record": "docs/linux-bash.md",
-          "validation_sha256": "615087c669c0f5a7c50a373c29096d50d67d7cce994ca7528a2d77175a38d8d7"
+          "validation_sha256": "a9df94fd8965318e0ccfde07fb80cdbbbe3b94ef1c2524261f03c67895c04896"
         }
       ],
       "review": "inventory_consistent",
@@ -583,7 +583,7 @@
           "id": "linux.malware.check_afinfo.Check_afinfo",
           "status": "partial",
           "accepted": false,
-          "applicability": "Symbol-described Intel Linux. Select legacy protocol globals when tcp_seq_afinfo has seq_fops, otherwise modern seq_operations globals. Inspect file/sequence operation members in symbol declaration order, ignoring RH kabi-hide members and ordinary zero pointers. Report nonzero handlers without exact kernel symbols. Legacy seq_show independently follows seq_ops absence, uses relative symbols and checks zero. Typed embedded/pointer operation containers, lossless addresses and exact-symbol provenance are retained. max-members bounds considered members; failed reads retain partial evidence and fail tasks.",
+          "applicability": "Symbol-described Linux. Select legacy protocol globals when tcp_seq_afinfo has seq_fops, otherwise modern seq_operations globals. Inspect file/sequence operation members in symbol declaration order, ignoring RH kabi-hide members and ordinary zero pointers. Report nonzero handlers without exact kernel symbols. Legacy seq_show independently follows seq_ops absence, uses relative symbols and checks zero. Typed embedded/pointer operation containers, lossless addresses and exact-symbol provenance are retained. max-members bounds considered members; failed reads retain partial evidence and fail tasks.",
           "comparison": "zero_flagged_handlers_match_unmodified_reference_180_member_decisions_and_order_match_delegated_probe_192_raw_captures_reread",
           "corpora": [
             "synthetic-linux-afinfo-x64-x86-pae-11-profiles",
@@ -595,10 +595,11 @@
             "33 synthetic paging cases validate old/new layouts, seq_show precedence, zero and relative lookup, kernel slides, embedded fops, global pointers, absent optional globals, raw rereads, persisted row verification and cache reuse; 12 fixed generator cases preserve partial output before fops-only failure",
             "Native independent globals continue after readable-source errors while the fixed generator may stop at the first exception. Native 4096-byte field/container capture and max-members bounds do not claim complete damaged-read equivalence",
             "ISF JSON key order and DWARF/CodeView member order are preserved. Programmatically added members without declared order append lexicographically. Exact membership is not a range check or malware verdict",
-            "Real positive hooks, modern kernels, x86/PAE real images, ARM64, full malformed-layout/alias/parameter acceptance and deprecated-entry acceptance remain pending"
+            "Kali ARM64 completed with 36 member observations; this is smoke evidence rather than an independent differential",
+            "Real positive hooks, modern kernels, x86/PAE real images, full malformed-layout/alias/parameter acceptance and deprecated-entry acceptance remain pending"
           ],
           "validation_record": "docs/linux-afinfo.md",
-          "validation_sha256": "1b8e95d46876b8603ffebc17a53428765c5fae8e5336ae38f49ac7e0f9d662d7"
+          "validation_sha256": "475a5b5c6ef5cb706bfd2e844918a3b1048e888e32343761754296118e7e4d41"
         }
       ],
       "review": "inventory_consistent",
@@ -896,7 +897,7 @@
           "id": "linux.tracing.ftrace.CheckFtrace",
           "status": "partial",
           "accepted": false,
-          "applicability": "Intel Linux with typed ftrace_ops_list pointer, ftrace_list_end sentinel, old filter_hash or pointer/embedded func_hash, ftrace_hash buckets and hlist entry layouts. Gather Lsmod/SysFs/Scanner/kernel module ranges, resolve callback owner and exact symbols, preserve hooked aliases and optional fixed flags. Pinned selection walks only the first filter bucket.",
+          "applicability": "Linux with typed ftrace_ops_list pointer, ftrace_list_end sentinel, old filter_hash or pointer/embedded func_hash, ftrace_hash buckets and hlist entry layouts. Gather Lsmod/SysFs/Scanner/kernel module ranges, resolve callback owner and exact symbols, preserve hooked aliases and optional fixed flags. Pinned selection walks only the first filter bucket.",
           "comparison": "48_actual_object_cases_seven_fields_match_72_native_paging_cases_both_flag_modes_Debian_unsupported_only",
           "corpora": [
             "pinned-ftrace-48-byte-backed-object-cases",
@@ -908,10 +909,11 @@
             "Pinned first-bucket selection deliberately ignores later buckets; empty first bucket does not prove the whole filter hash is empty. Bounded null/cycle/read/layout failures retain raw partial records and fail instead of silent pointer-readability termination",
             "Callback lookup uses selected matching module ELF symbols. Pinned module_lookup_by_address instead dereferences the final range object for non-kernel callbacks; native owner policy is retained as evidence and differs intentionally. Kernel-only actual object oracles do not establish all module-helper parity",
             "Native source gatherers and exact kernel/module alias resolution reuse existing verified mechanisms, with explicit source failures. Full concurrent-writer, damaged-list, symbol-owner and module-source completeness acceptance pending",
-            "ARM64 is outside the fixed baseline Intel architecture requirement and is not enabled by this plugin. More kernel versions, real x86/PAE, all parameters/renderers and full capability acceptance remain pending"
+            "Kali 6.8.11 ARM64 completed with one ftrace hook and one ftrace_ops entity; this is smoke evidence rather than an independent differential",
+            "More kernel versions, real x86/PAE, all parameters/renderers and full capability acceptance remain pending"
           ],
           "validation_record": "docs/linux-ftrace.md",
-          "validation_sha256": "a3db1723e0894d279f516d8e7ee1fd19cfe5e0508bcf596ab7d12146238ee41b"
+          "validation_sha256": "1435e3bd4ea3fd70825e277786b0f0d93f4e7903f4dfa335178497f13bd34df7"
         }
       ],
       "review": "inventory_consistent",
@@ -1094,7 +1096,7 @@
             "Real altered IDTs, modern/x86/PAE real images, ARM64 virtual analysis, full malformed-layout/alias/parameter and capability acceptance remain pending"
           ],
           "validation_record": "docs/linux-idt.md",
-          "validation_sha256": "583fffb42a15ea1a9a27244a0c5a7aba6a709422da3420bde1211d98e75214d9"
+          "validation_sha256": "00a66e24e1d2e00d3ad64649684ac9206b35dbc4d43b74c01217435cce4cc027"
         }
       ],
       "review": "inventory_consistent",
@@ -1386,7 +1388,7 @@
           "id": "linux.malware.check_syscall.Check_syscall",
           "status": "partial",
           "accepted": false,
-          "applicability": "Symbol-described Intel Linux. Size sys_call_table, and ia32_sys_call_table when present, by the minimum positive count of __syscall_meta__ symbols and the distance to the next higher unslid symbol. Native disassembly is unavailable, so this matches the fixed plugin only when capstone is absent. Read every inferred pointer, keep raw bytes, and name the lexicographic first exact symbol after the same bang split. Optional ia32 absence is recorded. Unreadable entries and unsized tables retain diagnostics and fail the task.",
+          "applicability": "Symbol-described Linux. Size sys_call_table, and ia32_sys_call_table when present, by the minimum positive count of __syscall_meta__ symbols and the distance to the next higher unslid symbol. Native disassembly is unavailable, so this matches the fixed plugin only when capstone is absent. Read every inferred pointer, keep raw bytes, and name the lexicographic first exact symbol after the same bang split. Optional ia32 absence is recorded. Unreadable entries and unsized tables retain diagnostics and fail the task.",
           "comparison": "661_entries_match_five_fields_and_order_under_low48_661_pointer_captures_reread",
           "corpora": [
             "synthetic-linux-syscall-x64-x86-pae-8-profiles",
@@ -1398,10 +1400,11 @@
             "24 synthetic cases cover x64/x86/PAE, metadata versus next-symbol minimums, absent ia32, kernel slide, qualified names, and a symbol at address zero. Sixteen fixed size cases include truncated distances. Each complete pointer capture is reread",
             "Native continues after an unreadable pointer but fails the task; the fixed generator logs and skips that entry while still succeeding. Missing sys_call_table or a zero inferred size fails explicitly",
             "Exact aliases are sorted and the first name is rendered. Interior addresses stay UNKNOWN. max-entries bounds each table at 1..1000000",
-            "Capstone CMP sizing, real hooked tables, modern and 32-bit images, ARM64, and full acceptance remain pending"
+            "Kali ARM64 completed with 403 syscall records and two table observations; this is smoke evidence rather than an independent differential",
+            "Capstone CMP sizing, real hooked tables, modern and 32-bit images, and full acceptance remain pending"
           ],
           "validation_record": "docs/linux-syscall.md",
-          "validation_sha256": "85d9ef2fde477abf3251dfc7dd0eed8fa4256a4d259a1fa309f5c7ce7bef58ca"
+          "validation_sha256": "8b8c7b22f5ecae9d0a35b204544daeecda4b9dac027cd280fc882bb430fe3d96"
         }
       ],
       "review": "inventory_consistent",
@@ -1607,7 +1610,7 @@
           "id": "linux.tracing.tracepoints.CheckTracepoints",
           "status": "partial",
           "accepted": false,
-          "applicability": "Intel Linux with typed __start___tracepoints_ptrs/__stop___tracepoints_ptrs, absolute pointers or signed int PREL32, tracepoint and tracepoint_func layouts. Native module sources and exact callback attribution.",
+          "applicability": "Linux with typed __start___tracepoints_ptrs/__stop___tracepoints_ptrs, absolute pointers or signed int PREL32, tracepoint and tracepoint_func layouts. Native module sources and exact callback attribution.",
           "comparison": "60_actual_object_cases_seven_fields_and_raw_priority_match_90_native_paging_cases_Debian_202_tracepoints_zero_probes",
           "corpora": [
             "pinned-tracepoints-60-byte-backed-object-cases",
@@ -1615,14 +1618,15 @@
             "official-linux-sample-1-empty-probes"
           ],
           "gaps": [
-            "Real Debian supported empty-probe control only; no real positive probe corpus or modern-kernel acceptance",
+            "Real Debian supported empty-probe control only; no real positive probe corpus or broader modern-kernel acceptance",
             "Absolute-array official address is slot, PREL32 official address is decoded object; native retains both Slot and TracepointObject. Zero priority displayed unavailable while raw zero retained",
             "Native selected module ELF owner differs intentionally from fixed helper final-range-object lookup; explicit owner evidence retained. Kernel object oracle does not establish gatherer equivalence",
             "Native read/layout/budget/source failures explicit; full damaged/concurrent memory, parameters, renderers and real x86/PAE coverage pending",
-            "Intel architecture requirement only; ARM64 outside fixed class scope. Full acceptance remains pending"
+            "Kali 6.8.11 ARM64 completed with 662 tracepoint observations and 13,800 output records; this is smoke evidence rather than an independent differential",
+            "Full acceptance remains pending"
           ],
           "validation_record": "docs/linux-tracepoints.md",
-          "validation_sha256": "6e2b20f3283efa157617665c46237e66c8faaf2290fb0770cbcf7fd5cefd01a3"
+          "validation_sha256": "b6959e4465319fa19e125ff1a06c165b46a2f83ac30fae619a1f6806b144c83d"
         }
       ],
       "review": "inventory_consistent",
@@ -1706,7 +1710,7 @@
           "id": "linux.ebpf.EBPF",
           "status": "partial",
           "accepted": false,
-          "applicability": "Intel Linux kernels declaring prog_idr and typed bpf_prog metadata. Walk embedded radix/XArray roots with optional idr_base or legacy 256-slot IDR layers. Preserve ascending IDs, program addresses, enum types, lowercase tag bytes and aux names. Every index read and available metadata field retains raw bytes, bounds and read errors; native traversal is bounded and cancellable.",
+          "applicability": "Linux kernels declaring prog_idr and typed bpf_prog metadata. Walk embedded radix/XArray roots with optional idr_base or legacy 256-slot IDR layers. Preserve ascending IDs, program addresses, enum types, lowercase tag bytes and aux names. Every index read and available metadata field retains raw bytes, bounds and read errors; native traversal is bounded and cancellable.",
           "comparison": "96_pinned_real_object_cases_selected_four_columns_match_144_native_paging_cases_Debian_unsupported_negative_only",
           "corpora": [
             "pinned-ebpf-96-byte-backed-object-cases",
@@ -1714,12 +1718,12 @@
             "official-linux-sample-1-unsupported-kernel"
           ],
           "gaps": [
-            "No positive real eBPF corpus: Debian 3.2 lacks prog_idr and both engines explicitly reject it. Kali ARM64 translation is available, but this Intel-only plugin remains unvalidated on ARM64; modern/real x86/PAE and full version/parameter acceptance pending",
+            "Kali 6.8.11 ARM64 completed with 14 eBPF program entities and 68 index-read records; this is native smoke evidence, not an independent differential",
             "Legacy pinned IDR.idr_max selects only IDs 0..15; native preserves all IDs below cur and marks Selected for the pinned subset. Tagged entries remain diagnostics, not programs. The fixed name conversion truncates at NUL or the first Unicode replacement character; original bytes and decoded text remain available",
             "Unavailable optional metadata remains typed missing; actual index/metadata read errors, unknown enum values, invalid layouts, cycles and exhausted bounds fail tasks with partial evidence. Failed tasks are not cached. These explicit failures differ from silent baseline omissions; full damaged-image and renderer acceptance pending"
           ],
           "validation_record": "docs/linux-ebpf.md",
-          "validation_sha256": "8ffc6e9870a7217367cb32cba1780987b7960fe54ea712b0f1fae1208faf961a"
+          "validation_sha256": "509bd177a36d767149fc653b630f3c68498763b8dd33c0f0a17b3b9daf48e719"
         }
       ],
       "review": "inventory_consistent",
@@ -2082,7 +2086,7 @@
             "Real Intel positive exports, real FOURCC, broader kernel/platform versions, every parameter/renderer and full capability acceptance remain pending"
           ],
           "validation_record": "docs/linux-fbdev.md",
-          "validation_sha256": "4428da4f1e0026de6200eac9c4c986fa619de85841df4975a6fcf03fe043fdd1"
+          "validation_sha256": "232e140368437789c0a2bbe508ad73e4fa2509fb29cc59ea6f249ffdd7f79fa4"
         }
       ],
       "review": "inventory_consistent",
@@ -2474,7 +2478,7 @@
           "id": "linux.malware.hidden_modules.Hidden_modules",
           "status": "partial",
           "accepted": false,
-          "applicability": "Symbol-described Intel Linux whose ISF producer is dwarf2json >= 0.8.0. Collect active module object addresses, then scan module_addr_min/max or mod_tree.addr_min/max. Alignment is the pointer size unless any active address is not divisible by it, in which case the step is one byte. Known addresses are skipped before the self-pointer prefilter. Unreadable prefilter positions and invalid module objects are not rows. Valid modules absent from the active list use the shared display and optional bounded ELF extraction. A final scan summary is native evidence and is not a module.",
+          "applicability": "Symbol-described Linux whose ISF producer is dwarf2json >= 0.8.0. Collect active module object addresses, then scan module_addr_min/max or mod_tree.addr_min/max. Alignment is the pointer size unless any active address is not divisible by it, in which case the step is one byte. Known addresses are skipped before the self-pointer prefilter. Unreadable prefilter positions and invalid module objects are not rows. Valid modules absent from the active list use the shared display and optional bounded ELF extraction. A final scan summary is native evidence and is not a module.",
           "comparison": "real_negative_control_has_zero_hidden_modules_synthetic_hidden_objects_match",
           "corpora": [
             "synthetic-linux-hidden-modules-x64-x86-pae",
@@ -2483,10 +2487,11 @@
           "gaps": [
             "Debian 3.2 x64 is a negative control: the pinned plugin returns no rows. Native scans 587805 positions from 0xffffffffa0000000 through 0xffffffffa047c0e5 at step 8, excludes all 79 active modules, skips 79919 unreadable prefilter positions and 22 invalid self-pointers, and emits only a summary. This is not a positive hidden-module differential",
             "Invalid self-pointer candidates are skipped without failing the task, matching is_valid false. Native whole-module capture is bounded at 4096 bytes",
-            "Actual x86/PAE acquisitions, modern kernels, positive hidden modules, ARM64 translation and full smeared-image acceptance remain pending"
+            "Kali 6.8.11 ARM64 completed with zero hidden modules and a bounded scan summary; this is negative smoke evidence, not a positive differential",
+            "Actual x86/PAE acquisitions, other modern kernels, positive hidden modules and full smeared-image acceptance remain pending"
           ],
           "validation_record": "docs/linux-hidden-modules.md",
-          "validation_sha256": "1f9e464a18f3575b9c74b322df099e1b1f296607d888ceb2e7deb63279e9b489"
+          "validation_sha256": "762469bad353e1b25589f105c17a94b8ae05d2de337b261394a18dc90e807de7"
         }
       ],
       "review": "inventory_consistent",
@@ -3108,7 +3113,7 @@
           "id": "linux.kallsyms.Kallsyms",
           "status": "partial",
           "accepted": false,
-          "applicability": "Intel Linux resident compressed core tables, typed module ELF/export tables, optional ftrace module maps/trampolines and modern or legacy BPF symbol lists. Four source flags select union; none enabled selects all.",
+          "applicability": "Linux resident compressed core tables, typed module ELF/export tables, optional ftrace module maps/trampolines and modern or legacy BPF symbol lists. Four source flags select union; none enabled selects all.",
           "comparison": "96_source_cases_eight_fields_match_24_PREL32_reference_TypeErrors_native_layout_equivalence_34472_Debian_entities_match_65_partial_reads_task_failed",
           "corpora": [
             "pinned-kallsyms-core-52-byte-backed-object-cases",
@@ -3122,10 +3127,11 @@
             "Fixed Elf32_Sym size reads eight bytes overlapping later fields; official Size preserved and ABI RawELFSize retained separately",
             "Core extended-length stream-advance quirk retained. Native independently selected non-core sources do not require unrelated core bootstrap; strict read/layout/list/budget failures differ from silent baseline skipping/padding",
             "Debian full eight-column entity comparison matches 34472 rows but has 65 partial name reads; task fails with affected-entity errors. This does not establish complete acquisition, ftrace/BPF real positives or successful cache replay on this corpus",
-            "Real modern relative kernels, x86/PAE, ftrace/BPF positives, damaged/concurrent images and all parameter/renderer acceptance pending. Intel only as required by fixed class"
+            "Kali 6.8.11 ARM64 --core completed with 53,912 symbols and 162,628 output records; this validates the core source only and is not an independent differential",
+            "Real modern relative kernels, x86/PAE, ftrace/BPF positives, damaged/concurrent images and all parameter/renderer acceptance pending"
           ],
           "validation_record": "docs/linux-kallsyms.md",
-          "validation_sha256": "c11baeea95051fa9727934d0af4279fafddf69b60fd5a6d1f072b1d43f38b98c"
+          "validation_sha256": "75a532a93fec4fb4eacce6c35600ca9a55baa90340b0d724cfcb1847d13cc2f8"
         }
       ],
       "review": "inventory_consistent",
@@ -3284,7 +3290,7 @@
           "id": "linux.malware.keyboard_notifiers.Keyboard_notifiers",
           "status": "partial",
           "accepted": false,
-          "applicability": "Symbol-described Intel Linux with keyboard_notifier_list, atomic_notifier_head and notifier_block. Walk head through notifier_block.next, including address zero, stopping on a repeated pointer after the inclusive 4096 entry. Attribute notifier_call with module ranges and exact symbols.",
+          "applicability": "Symbol-described Linux with keyboard_notifier_list, atomic_notifier_head and notifier_block. Walk head through notifier_block.next, including address zero, stopping on a repeated pointer after the inclusive 4096 entry. Attribute notifier_call with module ranges and exact symbols.",
           "comparison": "empty_reference_table_native_null_page_read_fails_task",
           "corpora": [
             "synthetic-linux-keyboard-x64-x86-pae",
@@ -3295,10 +3301,11 @@
             "Debian 3.2 x64 has a null head. The fixed plugin returns zero rows and succeeds; native records the unreadable zero pointer and fails the task. This is not a hooked-chain differential",
             "Synthetic profiles cover kernel, module, unknown, qualified, cyclic, missing-symbol and unreadable-head chains on x64/x86/PAE. The pinned walk visits 4097 nodes at the inclusive bound",
             "Selected-module symbol ownership differs from the fixed helper's final loop variable, as with other module lookups",
-            "Modern kernels, real hooks, 32-bit images, ARM64 and complete acceptance remain pending"
+            "Kali ARM64 completed with one notifier record and full module-source observations; this is smoke evidence rather than an independent differential",
+            "Modern kernels, real hooks, 32-bit images and complete acceptance remain pending"
           ],
           "validation_record": "docs/linux-keyboard-notifiers.md",
-          "validation_sha256": "2d62b275ed87de56c50e52f442ab93359554853218811d83b551f044d9fdf1ad"
+          "validation_sha256": "21d45fbd9568d37282b9d8081d5b1d95c2259e6dc9a21eec8cc8f73b368c2b57"
         }
       ],
       "review": "inventory_consistent",
@@ -3404,7 +3411,7 @@
           "id": "linux.kmsg.Kmsg",
           "status": "partial",
           "accepted": false,
-          "applicability": "Intel Linux typed text, log, printk_log or printk_ringbuffer layouts selected in pinned order. Preserve five log fields, caller, Unicode line boundaries, dictionaries, ring/ID wrap and raw reads; bound records, output and acquired bytes.",
+          "applicability": "Linux typed text, log, printk_log or printk_ringbuffer layouts selected in pinned order. Preserve five log fields, caller, Unicode line boundaries, dictionaries, ring/ID wrap and raw reads; bound records, output and acquired bytes.",
           "comparison": "1445_real_legacy_logs_match_five_fields_64_pinned_cases_and_four_ID_controls_match_102_native_paging_cases",
           "corpora": [
             "official-linux-sample-1",
@@ -3412,13 +3419,13 @@
             "synthetic-linux-kmsg-x64-x86-pae-102-paging-cases"
           ],
           "gaps": [
-            "Real positive corpus is Debian 3.2 x64 text ring only; real structured/modern rings, x86/PAE, version and full capability acceptance remain pending",
+            "Real positive corpus includes Debian 3.2 x64 and Kali 6.8.11 ARM64; Kali completed with 856 logs and 559 descriptors. Real structured rings, x86/PAE, version and full capability acceptance remain pending",
             "Native damaged extents, unavailable reads, cycles and exhausted budgets fail explicitly with partial evidence instead of silent baseline skips. Equal modern head/tail is bounded and failed; pinned iteration can span the whole ID space. Full damaged-image, renderer and export equivalence pending",
             "Modern low descriptor-ID mismatches remain visible diagnostics and do not filter logs, matching pinned selection. Text rings preserve pinned truncation-before-rotation and non-modular log_end slicing; log Offset refers to captured buffer origin. Complete acquisition recovery and concurrent-writer consistency are not established",
             "dwarf2json producer versions <=0.4.1 are explicitly rejected; absent/non-numeric versions and other producers follow pinned permissive gate. ASCII/Unicode priority parsing, level bitfields and line splitting have selected object tests; complete Unicode/version acceptance pending"
           ],
           "validation_record": "docs/linux-kmsg.md",
-          "validation_sha256": "db8192aeb1d4be0ea9d7dc253eb9c9bd7856919bd9ab2dfecfce134cedf90b1c"
+          "validation_sha256": "5d52c354c820239a24f769045f2c7ca019fb275b2c8a3f14d6527c5595feefc8"
         }
       ],
       "review": "inventory_consistent",
@@ -3596,7 +3603,7 @@
           "id": "linux.kthreads.Kthreads",
           "status": "partial",
           "accepted": false,
-          "applicability": "Symbol-described Intel Linux with kthread.threadfn (5.8+). Enumerate task-list leaders and their legacy thread_group or signal_struct.thread_head threads, select PF_KTHREAD, use worker_private or set_child_tid, require one-byte private and handler target probes, and prefer readable 255-byte kthread.full_name over comm. Gather Lsmod/SysFs/Scanner/kernel ranges, flatten by first masked base, select first overlapping range and resolve exact kernel or ELF32/64 module symbols. Preserve all source/task observations, raw pointer/name/symbol captures, overlap choices and selected symbol owner. Native max-nodes/max-tasks/max-scan-bytes and pinned inclusive 4097-entry ELF symbol window apply; unavailable required reads retain evidence and fail tasks.",
+          "applicability": "Symbol-described Linux with kthread.threadfn (5.8+). Enumerate task-list leaders and their legacy thread_group or signal_struct.thread_head threads, select PF_KTHREAD, use worker_private or set_child_tid, require one-byte private and handler target probes, and prefer readable 255-byte kthread.full_name over comm. Gather Lsmod/SysFs/Scanner/kernel ranges, flatten by first masked base, select first overlapping range and resolve exact kernel or ELF32/64 module symbols. Preserve all source/task observations, raw pointer/name/symbol captures, overlap choices and selected symbol owner. Native max-nodes/max-tasks/max-scan-bytes and pinned inclusive 4097-entry ELF symbol window apply; unavailable required reads retain evidence and fail tasks.",
           "comparison": "synthetic_TID_name_handler_module_match_pinned_generator_selected_owner_symbols_match_pinned_symbol_helper_real_Debian_rejected_not_positive_acceptance",
           "corpora": [
             "synthetic-linux-kthreads-x64-x86-pae-13-profiles",
@@ -3609,11 +3616,11 @@
             "Kernel aliases use lexicographic first exact-address name; module symbols use first exact ELF entry within indexes 0..4096. No nearest-symbol or interior-function assertion; qualifier splitting preserves the fixed helper's first component after !",
             "Native pointer target probes read one byte while the fixed Pointer.is_readable uses its declared subtype extent; complete pointer-readability equivalence remains pending. Native requires complete 512-byte symbol-name reads instead of the baseline's padded reads. Unreadable private/handler targets retain task observations and fail analysis while the reference skips them. Full-name byte faults retain comm fallback and captured read errors",
             "Strict forward backlink/tail checks and native task inspection do not reproduce all fixed task.is_valid, bidirectional recovery and duplicate-thread cases. Missing module sources fail the task and source booleans do not establish complete negative evidence",
-            "Debian 3.2 lacks kthread.threadfn; unmodified baseline and native reject it as unsupported. No Linux >=5.8 real image differential is established. Kali ARM64 translation and symbols are available; this plugin still lacks an ARM64 differential",
+            "Debian 3.2 lacks kthread.threadfn; unmodified baseline and native reject it as unsupported. Kali 6.8.11 ARM64 completed with 72 kthread entities and 1,247 output records; this is native smoke evidence, not an independent differential",
             "Full modern-kernel corpus, damaged-image, parameter/version and capability acceptance remain pending"
           ],
           "validation_record": "docs/linux-kthreads.md",
-          "validation_sha256": "baeaf0bef2da7a8a9ac104e5c6c9f3be3ef90dfa34bb47e14ccd1ac2106dafe0"
+          "validation_sha256": "bba54e18db4cf8eac6327d7f2780248a240b22fa396a1551435c9368860c8ffb"
         }
       ],
       "review": "inventory_consistent",
@@ -3724,7 +3731,7 @@
           "id": "linux.library_list.LibraryList",
           "status": "partial",
           "accepted": false,
-          "applicability": "Intel active tasks with optional pids filter and typed list/Maple VMAs. Read ELF32/64 PT_DYNAMIC, select DT_PLTGOT, read GOT[1] using kernel pointer width, and follow class-sized link_map records. Rebase PT_DYNAMIC for ET_DYN only; runtime d_ptr is absolute. Skip zero load/name pointers and deduplicate process-wide load addresses before reading exactly 256 name bytes. Preserve process/VMA/ELF/dynamic/GOT/link/name captures and explicit scan coverage.",
+          "applicability": "Linux active tasks with optional pids filter and typed list/Maple VMAs. Read ELF32/64 PT_DYNAMIC, select DT_PLTGOT, read GOT[1] using kernel pointer width, and follow class-sized link_map records. Rebase PT_DYNAMIC for ET_DYN only; runtime d_ptr is absolute. Skip zero load/name pointers and deduplicate process-wide load addresses before reading exactly 256 name bytes. Preserve process/VMA/ELF/dynamic/GOT/link/name captures and explicit scan coverage.",
           "comparison": "2673_real_library_rows_match_name_pid_load_address_path_with_explicit_acquisition_gaps",
           "corpora": [
             "official-linux-sample-1",
@@ -3732,12 +3739,13 @@
             "pinned-library-list-30-byte-backed-object-cases"
           ],
           "gaps": [
-            "Real validation covers Debian 3.2 x64 only; modern kernels, real x86/PAE, compat tasks and complete parameter/version matrix remain pending",
+            "Debian 3.2 x64 is a complete real comparison. Kali 6.8.11 ARM64 PID 1 produced 110 library-scan records before an unmapped loader address caused the task to retain partial evidence and fail; this is partial ARM64 smoke evidence, not a successful differential",
             "Native reports unavailable signatures, dynamic data and library names as failures instead of silent upstream omissions. Repeated nodes, 4096 program headers, 256 entries per dynamic segment, 4096 total dynamic entries per VMA and configured task/VMA/link bounds are explicit; complete damaged-input acceptance is pending",
-            "GOT link-map enumeration does not prove all mapped or hidden libraries; static binaries, fully resolved GOT entries, loader namespaces and missing pages can limit visibility. ARM64 translation is unavailable"
+            "GOT link-map enumeration does not prove all mapped or hidden libraries; static binaries, fully resolved GOT entries, loader namespaces and missing pages can limit visibility",
+            "Real x86/PAE, compat tasks, clean modern/ARM64 loader coverage and complete parameter/version matrix remain pending"
           ],
           "validation_record": "docs/linux-library-list.md",
-          "validation_sha256": "7a71199738dd6edd9e16fd1da859c89d2c2ea44cb3e098979d73489a2318ce91"
+          "validation_sha256": "35c4e8591857bcec120c099edcf36e97f9e95718af7457fcd2b97b45c6d2d277"
         }
       ],
       "review": "inventory_consistent",
@@ -4446,9 +4454,10 @@
         "platform": "linux",
         "parameters": [
           {
+            "required": true,
             "name": "base",
             "kind": "string",
-            "description": "Required struct module virtual address (decimal or 0x hex)"
+            "description": "Struct module virtual address (decimal or 0x hex)"
           },
           {
             "name": "max-module-bytes",
@@ -4502,7 +4511,7 @@
           "id": "linux.module_extract.ModuleExtract",
           "status": "partial",
           "accepted": false,
-          "applicability": "Direct Intel Linux module ELF extraction from a required base virtual address, without active/sysfs module lists, code extents, taints or load-parameter decoding. Preserve the exact input Base and use it in the standalone filename. Accept low48 x64 offsets by translating to canonical kernel addresses retained on KernelAddress and provenance. Probe one source byte, retain the module name and original ELF symbol bytes, and use the shared bounded reconstruction/artifact writer with explicit gap logs. Invalid/unreadable objects retain failed extraction evidence rather than the reference's empty result. Native max-module-bytes is an allocation bound.",
+          "applicability": "Direct Linux module ELF extraction from a required base virtual address, without active/sysfs module lists, code extents, taints or load-parameter decoding. Preserve the exact input Base and use it in the standalone filename. Accept low48 x64 and ARM64 offsets by translating to canonical kernel addresses retained on KernelAddress and provenance. Probe one source byte, retain the module name and original ELF symbol bytes, and use the shared bounded reconstruction/artifact writer with explicit gap logs. Invalid/unreadable objects retain failed extraction evidence rather than the reference's empty result. Native max-module-bytes is an allocation bound.",
           "comparison": "three_real_base_profiles_match_base_size_filename_and_elf_bytes_with_verified_padding",
           "corpora": [
             "synthetic-linux-module-extract-x64-x86-pae-legacy-inline-pointer",
@@ -4513,10 +4522,11 @@
             "Nine synthetic ABI/kallsyms profiles remove modules/init_task/module_kset and module list/layout/taint/parameter members before loading symbols. Positive direct extraction and cached JSONL replay still succeed",
             "Unreadable bases/names/metadata/symbols and native count/byte bounds fail tasks with explicit missing file/size evidence. Reference invalid-base or reconstruction failure yields no row; that diagnostic difference is intentional",
             "Shared extraction retains the pinned ELF index/link quirks and native limits; see docs/linux-module-elf.md. Output is a reconstruction, not a fully normalized/original disk ELF",
-            "Actual x86/PAE acquisitions, real modern metadata, ARM64 module extraction and full smeared/version/parameter acceptance remain pending"
+            "ARM64 canonical and low48 module-address validation is covered by unit tests, but no ARM64 module extraction has been accepted on the Kali image",
+            "Actual x86/PAE acquisitions, real modern metadata, ARM64 extraction and full smeared/version/parameter acceptance remain pending"
           ],
           "validation_record": "docs/linux-module-extract.md",
-          "validation_sha256": "b3a27733f38d943d974cae5c412ed9c6e528d61c2495cf30afb980d7aaff056b"
+          "validation_sha256": "5e848e0fb9cf7205a265dfe81e946c01af462a3070664a883ef5765d2bdafdeb"
         }
       ],
       "review": "inventory_consistent",
@@ -4935,7 +4945,7 @@
           "id": "linux.malware.netfilter.Netfilter",
           "status": "partial",
           "accepted": false,
-          "applicability": "Symbol-described Intel Linux: global nf_hooks list matrix, net.nf.hooks list/entry/entries matrices, split per-protocol entries arrays, and device ingress/optional egress using all three containers. Run all applicable layouts in pinned order. Preserve namespace/device/slot identity and original-ops captures. Handler module and exact symbol use the shared module lookup.",
+          "applicability": "Symbol-described Linux: global nf_hooks list matrix, net.nf.hooks list/entry/entries matrices, split per-protocol entries arrays, and device ingress/optional egress using all three containers. Run all applicable layouts in pinned order. Preserve namespace/device/slot identity and original-ops captures. Handler module and exact symbol use the shared module lookup.",
           "comparison": "legacy_real_negative_25_heads_reread_24_synthetic_layouts_match_16_pinned_traversal_cases_cache_equal",
           "corpora": [
             "official-linux-sample-1-legacy-global-hooks",
@@ -4943,13 +4953,13 @@
             "pinned-netfilter-16-mocked-traversal-cases"
           ],
           "gaps": [
-            "Namespace/device layouts have synthetic paging and mocked-boundary pinned traversal differentials only; modern real acquisitions, positive hooks, actual x86/PAE and ARM64 remain pending",
+            "Kali 6.8.11 ARM64 completed with 38 netfilter hook entities across namespace, slot and device layouts; this is smoke evidence rather than an independent differential",
             "Only a Debian 3.2 negative control has a real differential: zero hooks, 25 empty heads independently reread, 548 module-source observations retained and cached JSONL equal. Kernel/unknown attribution is synthetic; positive module-owned and hooked real callbacks remain pending",
             "Source failures fail the task and leave unmatched-handler classification unavailable. The selected-owner module symbol helper differs from the pinned final-range-owner behavior. Native backward-link checks, null original-pointer failures and resource bounds differ from silent upstream skips",
-            "Full protocol/version acceptance remains pending"
+            "Actual x86/PAE and full protocol/version acceptance remain pending"
           ],
           "validation_record": "docs/linux-netfilter.md",
-          "validation_sha256": "0fc5dd91cd3b83896f6c57bce8346b386d0adf2b019558f7271d61fb7865eda8"
+          "validation_sha256": "55aa6da345d0046344672b66c122f403ddc4740d6a94ccc77bacde72c6c14373"
         },
         {
           "id": "linux.netfilter.Netfilter",
@@ -5084,7 +5094,7 @@
           "id": "linux.tracing.perf_events.PerfEvents",
           "status": "partial",
           "accepted": false,
-          "applicability": "Intel Linux with typed task/thread lists and perf_event.owner_entry. Include threads via thread_group or signal/thread_head; retain PMU event name, short/full BPF program name and program address. Respect fixed 64/512-byte name reads and optional ksym metadata.",
+          "applicability": "Linux with typed task/thread lists and perf_event.owner_entry. Include threads via thread_group or signal/thread_head; retain PMU event name, short/full BPF program name and program address. Respect fixed 64/512-byte name reads and optional ksym metadata.",
           "comparison": "44_pinned_real_object_cases_six_fields_match_66_native_paging_cases_Debian_316_tasks_zero_events_negative_only",
           "corpora": [
             "pinned-perf-events-44-byte-backed-object-cases",
@@ -5092,13 +5102,13 @@
             "official-linux-sample-1-empty-event-control"
           ],
           "gaps": [
-            "No real positive perf/eBPF event corpus; Debian 3.2 has zero linked events in 316 tasks. Modern/real x86/PAE, kernel-version and full capability acceptance remain pending",
+            "No real positive perf/eBPF event corpus; Debian 3.2 has zero linked events in 316 tasks. Kali 6.8.11 ARM64 completed over 411 task observations without linked events; this is a modern-kernel smoke check, not a positive differential",
             "Native task/read/list/layout/ownership and resource failures retain diagnostic records and fail analysis instead of silent fixed skips. Task validity covers full extent, signed PID/TGID, optional signal/nsproxy/real_parent, active_mm and mm; bidirectional damaged-list recovery and complete parent/thread ownership parity remain pending",
             "Full program names use the fixed 512-byte read even when a declared array is shorter; absent ksym is typed missing. Actual mandatory program/aux/name errors are explicit; arbitrary pointer-based ksym layouts and complete damaged-input/renderer acceptance pending",
             "Program rows identify task objects with TID and available creation counter; PMU, event, program and aux pointers are retained. This inventory does not itself prove maliciousness or establish bytecode recovery. Full exports and parameter/version acceptance remain pending"
           ],
           "validation_record": "docs/linux-perf-events.md",
-          "validation_sha256": "cf6f1d42e9304fbffa3151ceb3e0ce8d366073d1f42842172c260f21da745c3e"
+          "validation_sha256": "3d7ba0d1bff70976f986548da510a0139f5272cff0ae66f7360f19f39375a1a8"
         }
       ],
       "review": "inventory_consistent",
@@ -5222,7 +5232,7 @@
           "id": "linux.pidhashtable.PIDHashTable",
           "status": "partial",
           "accepted": false,
-          "applicability": "Intel Linux with typed legacy pid_hash/upid/pid task links or embedded namespace IDR radix/XArray. Sorted PID/TID task output, optional decorate-comm, bounded traversal and complete raw acquisition trace.",
+          "applicability": "Linux with typed legacy pid_hash/upid/pid task links or embedded namespace IDR radix/XArray. Sorted PID/TID task output, optional decorate-comm, bounded traversal and complete raw acquisition trace.",
           "comparison": "316_real_tasks_match_five_fields_plain_and_decorated_96_pinned_cases_match_144_native_paging_cases",
           "corpora": [
             "official-linux-sample-1",
@@ -5230,12 +5240,13 @@
             "synthetic-linux-pidhashtable-x64-x86-pae-144-paging-cases"
           ],
           "gaps": [
-            "Real positive corpus covers legacy Debian 3.2 x64 only; modern namespace IDR, real x86/PAE, version/parameter and full capability acceptance remain pending",
+            "Kali 6.8.11 ARM64 completed with 411 task entities and 7,319 index-read records, exercising the modern namespace IDR/XArray path; this is smoke evidence rather than an independent differential",
             "Native explicit read/layout/cycle/limit failures retain partial evidence and fail tasks instead of upstream silent omissions. Empty or invalid TID candidates remain diagnostic records. Full damaged-image parity and renderer/export acceptance pending",
-            "Legacy namespace coordinates and task link field offsets preserve pinned behavior; no independent proof of namespace completeness or hidden-process detection. Task identity includes available creation counter; missing counters remain explicit. Intel-only as declared by baseline"
+            "Legacy namespace coordinates and task link field offsets preserve pinned behavior; no independent proof of namespace completeness or hidden-process detection. Task identity includes available creation counter; missing counters remain explicit",
+            "Real x86/PAE, version/parameter and full capability acceptance remain pending"
           ],
           "validation_record": "docs/linux-pidhashtable.md",
-          "validation_sha256": "466ea9d97cd85c4ec83f1183653a0378263d3f9c8581647220bad3fa8ff98d3c"
+          "validation_sha256": "c198ca8ec85fdea29199586b5009be4bc58e6e024d33a4ba06be7a97e65de656"
         }
       ],
       "review": "inventory_consistent",
@@ -5609,7 +5620,7 @@
           "id": "linux.pscallstack.PsCallStack",
           "status": "partial",
           "accepted": false,
-          "applicability": "Symbol-described Intel Linux. Filter leaders by task.pid, include legacy thread_group or signal thread_head threads, use kernel space for PF_KTHREAD and translated mm.pgd for other tasks. Scan pointer words from thread.sp to canonicalized task.stack plus four 4096-byte pages; zeros count positions but are never emitted. Resolve core, module, BPF, ftrace in priority order. Optional unresolved retains nonzero unknown words. Preserve raw virtual acquisitions, task identity, module/tree/source metadata and completion summaries; shared byte/word/task and retained symbol bounds apply.",
+          "applicability": "Symbol-described Linux. Filter leaders by task.pid, include legacy thread_group or signal thread_head threads, use kernel space for PF_KTHREAD and translated mm.pgd for other tasks. Read thread.sp on Intel and thread.cpu_context.sp on ARM64, then scan pointer words through canonicalized task.stack plus four 4096-byte pages; ARM64 reads the kernel stack through the kernel page table. Zeros count positions but are never emitted. Resolve core, module, BPF, ftrace in priority order. Optional unresolved retains nonzero unknown words. Preserve raw virtual acquisitions, task identity, module/tree/source metadata and completion summaries; shared byte/word/task and retained symbol bounds apply.",
           "comparison": "44_pinned_cases_66_native_paging_cases_eight_fields_and_continued_per_task_errors_37_default_383_unresolved_Debian_PID1_entries_match",
           "corpora": [
             "pinned-pscallstack-44-actual-paged-object-cases",
@@ -5621,10 +5632,11 @@
             "Native continues independent tasks after task faults and preserves explicit errors. Fixed generator can abort or silently end on stack holes or unavailable address spaces; actual unmodified per-task transcripts separately verify continuation",
             "Strict forward list/backlink and required metadata/counter errors differ from baseline bidirectional validity skipping; full damaged-list/task-validity parity remains pending",
             "Legacy BPF missing get_addr_region method is corrected by separately validated get_address_region primitive; inherited module range/Elf32 quirks retained",
+            "Kali 6.8.11 ARM64 PID 1 completed with 113,325 output records, 31 stack entries and explicit raw stack reads through the kernel page table; this is native smoke evidence, not an independent differential",
             "Real modern module/BPF/ftrace stack positives, native x86/PAE images, broader versions, all parameters/renderers and complete plugin acceptance pending"
           ],
           "validation_record": "docs/linux-pscallstack.md",
-          "validation_sha256": "67e95350182d45295a329969ac93956627da1fe07e4a0418e369ad89253ca7a6"
+          "validation_sha256": "6ffbdd81a6f73c44a53f343cf1c3dfe0d8bf90673f9ddf3fbc14a0889661f63b"
         }
       ],
       "review": "inventory_consistent",
@@ -7323,7 +7335,7 @@
           "id": "linux.malware.tty_check.Tty_Check",
           "status": "partial",
           "accepted": false,
-          "applicability": "Symbol-described Intel Linux. Walk tty_drivers, follow tty_driver.ttys pointers, skip nulls, count unmapped slots, and resolve tty_ldisc.ops.receive_buf through pointer fields. Bound each driver with max-devices.",
+          "applicability": "Symbol-described Linux. Walk tty_drivers, follow tty_driver.ttys pointers, skip nulls, count unmapped slots, and resolve tty_ldisc.ops.receive_buf through pointer fields. Bound each driver with max-devices.",
           "comparison": "7_devices_match_name_address_module_symbol_and_order_1836_raw_captures_reread",
           "corpora": [
             "official-linux-sample-1"
@@ -7331,10 +7343,11 @@
           "gaps": [
             "Debian 3.2 x64 has tty1..tty7, all n_tty_receive_buf in the kernel. Five drivers, 344 null slots and 8192 unmapped slots are coverage, not a hooked sample",
             "A declared device count above max-devices is truncated and recorded; it does not fail the task. Present-device name or handler read failures do fail it",
-            "Synthetic damaged driver lists, modern kernels, 32-bit images, ARM64 and complete acceptance remain pending"
+            "Kali ARM64 produced 1,687 tty and 4,758 device-observation records, then retained 5,778 invalid-descriptor failures and marked the task failed. This is partial ARM64 smoke evidence, not a clean differential",
+            "Synthetic damaged driver lists, modern kernels, 32-bit images and complete acceptance remain pending"
           ],
           "validation_record": "docs/linux-tty.md",
-          "validation_sha256": "e28f750af09620e7d8b8df1ef2eb1e5d81455548ef2e4e2c07bb0cd2e1b64169"
+          "validation_sha256": "71e37d32d9984a944f866f02458181c401b585e1d9852053dd1372df1fee7e3f"
         },
         {
           "id": "linux.tty_check.tty_check",
@@ -13340,14 +13353,16 @@
         "platform": "windows",
         "parameters": [
           {
+            "required": true,
             "name": "source",
             "kind": "string",
-            "description": "Required: kernel or processes"
+            "description": "Kernel or processes"
           },
           {
+            "required": true,
             "name": "module",
             "kind": "string",
-            "description": "Required module grouping name, e.g. ntdll.dll or ntoskrnl.exe"
+            "description": "Module grouping name, e.g. ntdll.dll or ntoskrnl.exe"
           },
           {
             "name": "symbols",
@@ -13610,9 +13625,10 @@
         "platform": "windows",
         "parameters": [
           {
+            "required": true,
             "name": "base",
             "kind": "string",
-            "description": "Required mapped PE base address"
+            "description": "Mapped PE base address"
           },
           {
             "name": "pid",
@@ -15399,9 +15415,10 @@
         "platform": "windows",
         "parameters": [
           {
+            "required": true,
             "name": "strings_file",
             "kind": "string",
-            "description": "Required local strings output file or file URI; immutable snapshot limited to 64 MiB"
+            "description": "Local strings output file or file URI; immutable snapshot limited to 64 MiB"
           },
           {
             "name": "pid",

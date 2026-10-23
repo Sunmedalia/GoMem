@@ -1,6 +1,6 @@
 # Linux keyboard notifier chain (development preview)
 
-`linux.keyboard_notifiers` walks `keyboard_notifier_list` and attributes each `notifier_call`. It follows Volatility 3 v2.28.2 `linux.malware.keyboard_notifiers.Keyboard_notifiers` for Intel kernels. A module or symbol outside the expected kernel range is an investigation lead, not a malware verdict. This capability remains partial.
+`linux.keyboard_notifiers` walks `keyboard_notifier_list` and attributes each `notifier_call`. It follows Volatility 3 v2.28.2 `linux.malware.keyboard_notifiers.Keyboard_notifiers` for x64/x86/PAE and ARM64 kernels. A module or symbol outside the expected kernel range is an investigation lead, not a malware verdict. This capability remains partial.
 
 ```sh
 bin/gomem analyze linux.keyboard_notifiers --image memory.raw --symbols kernel.json --case case-001 --offline --format jsonl
@@ -17,4 +17,4 @@ python3 tools/build_keyboard_oracle.py --check
 GOMEM_CORPUS_DIR="$PWD/.cache/corpus" go test ./internal/engine -run 'Test(LinuxKeyboard|OfficialLinuxKeyboardNotifiers)' -count=1 -v
 ```
 
-Real hooked notifier chains, modern kernels, 32-bit images, ARM64 translation, and complete acceptance remain pending. The Kali ARM64 image still has no virtual translator or matching symbols for this check.
+Real hooked notifier chains, native 32-bit images, independent ARM64 differentials, and complete acceptance remain pending. The local Kali ARM64 smoke run completes with 838 records and a zero-row summary; it is not a hooked-chain positive test.

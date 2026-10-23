@@ -40,9 +40,6 @@ func (l *perfReadBudget) ReadAt(ctx context.Context, p []byte, at uint64) (int, 
 }
 
 func linuxPerfEvents(ctx context.Context, e plugin.Environment, p map[string]string, out plugin.Emit) error {
-	if e.Architecture != "x64" && e.Architecture != "x86" && e.Architecture != "pae" {
-		return fmt.Errorf("linux.perf_events requires an Intel kernel layer")
-	}
 	bound := func(name string, max uint64) (uint64, error) {
 		n, err := strconv.ParseUint(p[name], 0, 64)
 		if err != nil || n == 0 || n > max {

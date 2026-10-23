@@ -1,6 +1,6 @@
 # Linux tracepoint 检查开发预览
 
-`linux.check_tracepoints` 对应固定 Volatility 3 v2.28.2 的 `linux.tracing.tracepoints.CheckTracepoints`。原生枚举 tracepoint 表、探针函数、优先级、数据指针及模块归属，支持固定基线要求的 Intel x64/x86/PAE，尚未完整验收。
+`linux.check_tracepoints` 对应固定 Volatility 3 v2.28.2 的 `linux.tracing.tracepoints.CheckTracepoints`。原生枚举 tracepoint 表、探针函数、优先级、数据指针及模块归属，支持 x64/x86/PAE 和 ARM64，尚未完整验收。
 
 ```sh
 bin/gomem analyze linux.check_tracepoints --image memory.raw --symbols kernel.json.xz \
@@ -42,4 +42,4 @@ GOMEM_TRACEPOINTS_REFERENCE="$PWD/.cache/tracepoints-validation/reference" \
 go test ./internal/engine -run '^TestOfficialLinuxTracepoints' -count=1
 ```
 
-真实阳性、现代内核、真实 x86/PAE、并发损坏采集及全部参数/渲染方式仍待验证。ARM64 不属于该固定上游类的架构要求，入口明确拒绝。参见[验证记录](linux-tracepoints-validation.json)和[字段对照配置](diff/linux.check_tracepoints.json)。
+真实阳性、原生 x86/PAE、并发损坏采集及全部参数/渲染方式仍待验证。Kali 6.8.11 ARM64 本机烟雾运行完成，662 个 tracepoint 产生 13,800 条记录，尚缺独立 ARM64 差分。参见[验证记录](linux-tracepoints-validation.json)和[字段对照配置](diff/linux.check_tracepoints.json)。

@@ -17,8 +17,7 @@ Images stay read-only. Python and Volatility are development references only.
 
 The symbol producer must be `dwarf2json` 0.8.0 or newer. Missing producer
 metadata, another producer, or an older version fails before any row, matching
-the pinned version gate. x86, PAE, and x64 are supported. ARM64 is rejected
-until virtual translation exists.
+the pinned version gate. x86, PAE, x64, and ARM64 are supported.
 
 Active addresses come from the `modules` list. The scan bounds are
 `mod_tree.addr_min/addr_max` when that symbol exists, otherwise typed
@@ -72,4 +71,6 @@ go test -race ./internal/engine ./internal/plugins \
 The reference prefix must have `.json` and `.manifest.json` from
 `tools/reference.py --plugin linux.malware.hidden_modules`. A skipped corpus
 test is not acceptance. Positive hidden modules, modern kernels, actual x86/PAE
-images, ARM64 translation, and full smeared-image acceptance remain open.
+images, an independent ARM64 comparison, and full smeared-image acceptance remain open.
+A local Kali 6.8.11 ARM64 smoke run completes with one scan-summary record and no
+hidden-module rows; it is a clean bounded scan, not a positive hidden-module test.

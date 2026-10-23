@@ -59,7 +59,7 @@ func scanLinuxLibraries(ctx context.Context, space memory.MemoryLayer, base uint
 		return fields, fmt.Errorf("unsupported ELF class %d", ident[4])
 	}
 	if ident[5] != 1 {
-		return fields, fmt.Errorf("Intel library-list requires little-endian ELF")
+		return fields, fmt.Errorf("library-list requires little-endian ELF")
 	}
 	if kernelWidth != 4 && kernelWidth != 8 {
 		return fields, fmt.Errorf("invalid kernel pointer width")
@@ -231,9 +231,6 @@ func scanLinuxLibraries(ctx context.Context, space memory.MemoryLayer, base uint
 }
 
 func linuxLibraryList(ctx context.Context, e plugin.Environment, p map[string]string, out plugin.Emit) error {
-	if e.Architecture != "x64" && e.Architecture != "x86" && e.Architecture != "pae" {
-		return fmt.Errorf("linux.library_list requires an Intel kernel layer")
-	}
 	limitParams := map[string]string{"max-nodes": p["max-nodes"], "pid": p["pids"]}
 	max, pids, err := limits(limitParams)
 	if err != nil {

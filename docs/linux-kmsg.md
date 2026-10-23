@@ -2,7 +2,7 @@
 
 Development preview; native `linux.kmsg` maps to Volatility 3 v2.28.2 `linux.kmsg.Kmsg`. This is a partial capability, not full acceptance.
 
-All four pinned ring families have native readers: pre-3.5 text buffers, 3.5–3.11 `log` records, 3.11–5.10 `printk_log` records, and modern `printk_ringbuffer` descriptor/data rings. Dispatch follows symbol/type predicates in the pinned order, rather than guessing from a version banner. The kernel layer must be Intel x64, x86 or PAE. Text comes from runtime pointers (`log_buf` or `prb`); static backing arrays are not substituted for dynamically allocated rings.
+All four pinned ring families have native readers: pre-3.5 text buffers, 3.5–3.11 `log` records, 3.11–5.10 `printk_log` records, and modern `printk_ringbuffer` descriptor/data rings. Dispatch follows symbol/type predicates in the pinned order, rather than guessing from a version banner. The kernel layer may use x64, x86, PAE or ARM64 symbol layouts. Text comes from runtime pointers (`log_buf` or `prb`); static backing arrays are not substituted for dynamically allocated rings.
 
 The reference fields are `facility`, `level`, `timestamp`, `caller` and `line`. Numeric nanoseconds become seconds with six decimal digits by truncation, without floating-point rounding. Unknown facilities/levels display their numeric values. Caller IDs become `Task(n)` or `CPU(n)` when declared; missing callers remain typed missing. Unicode line splitting retains blank interior lines and treats CRLF as one separator. Packed level bitfields use declared type information.
 

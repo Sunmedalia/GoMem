@@ -4,7 +4,7 @@
 
 ## Layouts and baseline semantics
 
-The fixed reference is Volatility 3 v2.28.2, commit `881e970121c16f0932fb9d16fbd5fb258cbcbf75`. Native Intel x64/x86/PAE kernel layers support embedded radix/XArray IDR roots, optional `idr_base`, direct/empty roots, multilevel trees, and legacy 256-slot `idr_layer` trees. Traversal requires declared pointer/array types, aligned pointers, consistent heights, signed-integer ID bounds and no repeated nodes. Modern IDR leaves must have unit span. Tagged values remain diagnostic evidence and are never dereferenced as programs.
+The fixed reference is Volatility 3 v2.28.2, commit `881e970121c16f0932fb9d16fbd5fb258cbcbf75`. Native x64/x86/PAE and ARM64 kernel layers support embedded radix/XArray IDR roots, optional `idr_base`, direct/empty roots, multilevel trees, and legacy 256-slot `idr_layer` trees. Traversal requires declared pointer/array types, aligned pointers, consistent heights, signed-integer ID bounds and no repeated nodes. Modern IDR leaves must have unit span. Tagged values remain diagnostic evidence and are never dereferenced as programs.
 
 `Address`, `Name`, `Tag`, and `Type` are the four reference columns. Type comes from the `bpf_prog.type` enum, or `bpf_prog_aux.prog_type` only when the first field is absent. Tags retain all declared bytes as lowercase hex. Names use the declared aux byte array, truncate at NUL, and reproduce the reference utility's truncation at the first Unicode replacement character. Original bytes, decoded text, validity and truncation flags remain available.
 
@@ -29,7 +29,7 @@ Each raw capture records address, requested/captured byte counts, completeness a
 
 The 96 cases combine 32/64-bit pointers, eight root/tree profiles and six metadata profiles. Native engine tests run the 32-bit cases through both x86 and PAE, giving 144 paging cases. All selected reference fields and all native IDs are checked. Index/metadata captures are independently reread; SQLite seals, successful cache reuse and byte-identical failed-task retries are verified. Additional tests cover missing symbols, read holes, unknown enums, malformed arrays/pointers, cycles, bounds, cancellation and output failures. The shared page-cache walker retains its existing tests plus independent-root/wrapper equivalence coverage.
 
-The supplied Debian 3.2 x64 image (SHA256 `8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc`) has no `prog_idr`. Both engines reject it as an unsupported kernel: this is a negative control only. Kali's ARM64 LiME image remains usable for physical VMCOREINFO checks, but virtual ARM64 translation is unavailable and eBPF is not validated on it. No positive real eBPF corpus is claimed.
+The supplied Debian 3.2 x64 image (SHA256 `8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc`) has no `prog_idr`. Both engines reject it as an unsupported kernel: this is a negative control only. The local Kali 6.8.11 ARM64 smoke run completes with 14 BPF programs, 68 IDR read records and one summary. No independent ARM64 or positive-modern reference comparison is claimed.
 
 ```sh
 make check

@@ -2,7 +2,8 @@
 
 `linux.netfilter` is the native command for upstream
 `linux.malware.netfilter.Netfilter`. This preview selects all applicable global, namespace and device layouts
-from symbol types, using the fixed upstream implementation order.
+from symbol types, using the fixed upstream implementation order. The reader supports x64/x86/PAE and
+ARM64 symbol-described pointer widths.
 
 ```sh
 bin/gomem analyze linux.netfilter --image memory.raw --symbols kernel.json \
@@ -119,7 +120,8 @@ The reference prefix must include `.json` and `.manifest.json` produced by
 `tools/reference.py --plugin linux.malware.netfilter`. Skipped optional corpus
 tests do not establish acceptance.
 
-Modern namespace/device real images, actual x86/PAE acquisitions, positive
-module-owned/unknown real hooks, ARM64 translation, all parameter/corruption
-branches and full version acceptance remain open. The plugin remains partial;
+Modern namespace/device differentials, actual native x86/PAE acquisitions, positive
+module-owned/unknown real hooks, an independent ARM64 comparison, all parameter/corruption
+branches and full version acceptance remain open. A local Kali 6.8.11 ARM64 smoke run
+completed with 994 records, including 38 Netfilter hooks. The plugin remains partial;
 this work does not close a release acceptance item.

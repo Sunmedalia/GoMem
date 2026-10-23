@@ -2,7 +2,7 @@
 
 Development preview; partial capability, not full release acceptance. Native `linux.perf_events` maps to pinned Volatility 3 v2.28.2 `linux.tracing.perf_events.PerfEvents`.
 
-The reader visits active process leaders and their threads, then follows each `task_struct.perf_event_list` through `perf_event.owner_entry`. Both legacy `thread_group` and modern `signal_struct.thread_head`/`thread_node` layouts are supported on Intel x64, x86 and PAE. List fields must be embedded `list_head` structures with the declared pointer layout. Runtime field pointers must be typed pointers; scalar values are not guessed as addresses.
+The reader visits active process leaders and their threads, then follows each `task_struct.perf_event_list` through `perf_event.owner_entry`. Both legacy `thread_group` and modern `signal_struct.thread_head`/`thread_node` layouts are supported on x64, x86, PAE and ARM64. List fields must be embedded `list_head` structures with the declared pointer layout. Runtime field pointers must be typed pointers; scalar values are not guessed as addresses.
 
 Rows preserve the six reference fields: `PID` (the task's PID/TID, including thread IDs), `Process`, `Event`, `Short Program Name`, `Full Name` and `Address`. The program address is the event's `bpf_prog` pointer, not a claimed bytecode location. Additional coordinates identify the event, task, leader, PMU and aux object. Task identity combines image, address space, task object, TID and available creation counter, rather than associating by numeric PID alone.
 

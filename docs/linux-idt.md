@@ -30,4 +30,4 @@ GOMEM_CORPUS_DIR="$PWD/.cache/corpus" go test ./internal/engine -run 'Test(Linux
 make check
 ```
 
-[Validation record](linux-idt-validation.json) and [field mapping](diff/linux.check_idt.json) preserve the comparison scope. Real altered IDTs, modern/32-bit real kernels, all damaged-layout behaviors, full aliases/parameters and complete capability acceptance remain pending. The user's Kali ARM64 LiME image still lacks a supported virtual translator and actual matching kernel symbols for this Intel-only check; physical VMCOREINFO validation does not establish IDT support.
+[Validation record](linux-idt-validation.json) and [field mapping](diff/linux.check_idt.json) preserve the comparison scope. Real altered IDTs, modern/32-bit real kernels, all damaged-layout behaviors, full aliases/parameters and complete capability acceptance remain pending. This check remains x86/x64-specific: the Kali ARM64 image is translated successfully, but it has no `gate_struct64`, `gate_struct` or `idt_desc` target type, so the plugin fails explicitly instead of fabricating x86 IDT results.

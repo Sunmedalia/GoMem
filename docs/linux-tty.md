@@ -1,6 +1,6 @@
 # Linux tty receive handlers (development preview)
 
-`linux.tty_check` walks `tty_drivers` and reads each device's line-discipline `receive_buf`. It corresponds to Volatility 3 v2.28.2 `linux.malware.tty_check.Tty_Check` on Intel kernels. A handler outside the kernel is a lead, not a malware verdict. This capability remains partial.
+`linux.tty_check` walks `tty_drivers` and reads each device's line-discipline `receive_buf`. It corresponds to Volatility 3 v2.28.2 `linux.malware.tty_check.Tty_Check` on x64/x86/PAE and ARM64 kernels. A handler outside the kernel is a lead, not a malware verdict. This capability remains partial.
 
 ```sh
 bin/gomem analyze linux.tty_check --image memory.raw --symbols kernel.json --case case-001 --offline --format jsonl
@@ -16,4 +16,4 @@ The Debian 3.2 x64 image has five drivers and seven present devices, `tty1` thro
 GOMEM_CORPUS_DIR="$PWD/.cache/corpus" go test ./internal/engine -run TestOfficialLinuxTTY -count=1 -v
 ```
 
-Synthetic positive and damaged driver chains, modern kernels, 32-bit images, ARM64, and complete acceptance remain pending.
+Synthetic positive and damaged driver chains, native 32-bit images, complete ARM64 acquisition, and complete acceptance remain pending. The Kali ARM64 smoke run emitted 1,687 tty rows and 4,758 device observations, then failed on an invalid ARM64 descriptor rather than treating the missing data as a clean result.

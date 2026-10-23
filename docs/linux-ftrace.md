@@ -1,6 +1,6 @@
 # Linux ftrace 检查开发预览
 
-`linux.check_ftrace` 对应固定 Volatility 3 v2.28.2 的 `linux.tracing.ftrace.CheckFtrace`。枚举 `ftrace_ops_list` 到 `ftrace_list_end`，解析回调、过滤函数和 flags，并通过原生模块枚举、sysfs、分配区扫描及内核范围关联回调归属。仅支持固定基线声明的 Intel x64/x86/PAE；尚未完整验收。
+`linux.check_ftrace` 对应固定 Volatility 3 v2.28.2 的 `linux.tracing.ftrace.CheckFtrace`。枚举 `ftrace_ops_list` 到 `ftrace_list_end`，解析回调、过滤函数和 flags，并通过原生模块枚举、sysfs、分配区扫描及内核范围关联回调归属。地址匹配支持 x64/x86/PAE 和 ARM64；尚未完整验收。
 
 ```sh
 bin/gomem analyze linux.check_ftrace --image memory.raw --symbols kernel.json.xz \
@@ -44,4 +44,4 @@ GOMEM_FTRACE_REFERENCE="$PWD/.cache/ftrace-validation/reference" \
 go test ./internal/engine -run '^TestOfficialLinuxFtrace' -count=1
 ```
 
-真实受支持/阳性镜像、更多内核版本、损坏采集的一致性及全部参数/渲染方式仍待验证。ARM64 不属于此固定插件的架构要求，当前入口明确拒绝。[机器可读记录](linux-ftrace-validation.json)、[常规字段对照配置](diff/linux.check_ftrace.json)。
+真实受支持/阳性镜像、更多内核版本、损坏采集的一致性及全部参数/渲染方式仍待验证。Kali 6.8.11 ARM64 本机烟雾运行完成并输出 11,166 条记录，尚无独立 ARM64 差分。[机器可读记录](linux-ftrace-validation.json)、[常规字段对照配置](diff/linux.check_ftrace.json)。

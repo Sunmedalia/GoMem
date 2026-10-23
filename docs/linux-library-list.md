@@ -35,7 +35,7 @@ Cycles, unavailable pages, invalid ELF class/byte order, missing DT_NULL and exh
 
 Each library retains process object, PID, creation counter/state, stable process identity, process layer, VMA object/start/end, link-map object and load address. The library row's provenance points to the link map in the process layer. Raw `FieldEvidence` captures the ELF header, matching program header, dynamic entry, GOT pointer, link map and the entire requested name read, plus kernel VMA, `mm` and `pgd` captures. Each capture retains address, requested/captured byte counts, completeness and read errors. Scan rows preserve signatures, parsed header/dynamic/GOT captures, read/duplicate counters and `Completed`.
 
-This is a loader view, not an exhaustive mapped-library or hidden-library detector. Static executables, resolved/overwritten GOT state, other loader namespaces, acquisition gaps and corrupted chains can limit it. It does not substitute filesystem mapping paths for unavailable loader names. ARM64 virtual translation is not implemented. Complete modern-kernel, real 32-bit/compat and damaged-image acceptance remains pending.
+This is a loader view, not an exhaustive mapped-library or hidden-library detector. Static executables, resolved/overwritten GOT state, other loader namespaces, acquisition gaps and corrupted chains can limit it. It does not substitute filesystem mapping paths for unavailable loader names. The reader accepts x64/x86/PAE and little-endian ARM64 process address spaces. A local Kali ARM64 PID 1 smoke run emitted 110 library-scan records, then failed on 87 unmapped link-map reads; complete modern-kernel, real 32-bit/compat and damaged-image acceptance remains pending.
 
 ## Validation
 

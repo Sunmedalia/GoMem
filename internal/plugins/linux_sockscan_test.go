@@ -345,7 +345,7 @@ func TestLinuxSockscanLimitsAndInvalidLayouts(t *testing.T) {
 			t.Fatal("limit did not stop acquisition", p, rows)
 		}
 	}
-	for _, scenario := range []string{"missing-file-field", "bad-filter-field", "bad-unix-container", "bad-file-pointer", "bad-sock-pointer", "arm64", "nil-physical", "nil-symbols", "nil-kernel"} {
+	for _, scenario := range []string{"missing-file-field", "bad-filter-field", "bad-unix-container", "bad-file-pointer", "bad-sock-pointer", "arm", "nil-physical", "nil-symbols", "nil-kernel"} {
 		t.Run(scenario, func(t *testing.T) {
 			e, _ := socketScanEnvironment(t, c, "x64")
 			table := e.Symbols.(*symbols.ISF)
@@ -379,8 +379,8 @@ func TestLinuxSockscanLimitsAndInvalidLayouts(t *testing.T) {
 				f.Type.Subtype = nil
 				v.Fields["sk"] = f
 				table.Types["socket"] = v
-			case "arm64":
-				e.Architecture = "arm64"
+			case "arm":
+				e.Architecture = "arm"
 			case "nil-physical":
 				e.Physical = nil
 			case "nil-symbols":

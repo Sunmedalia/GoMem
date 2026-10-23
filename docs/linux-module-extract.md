@@ -1,7 +1,7 @@
 # Linux direct module extraction — development preview
 
 `linux.module_extract` is the native command for upstream
-`linux.module_extract.ModuleExtract`. It reconstructs one Intel kernel module
+`linux.module_extract.ModuleExtract`. It reconstructs one x86/x64 or ARM64 kernel module
 from a required `struct module` address. It does not walk the active module
 list, sysfs, code extents, taints, or load-parameter arrays. A module whose
 parameter display fails in `linux.lsmod` can still be extracted directly.
@@ -15,11 +15,11 @@ Images stay read-only. Python and Volatility are development references only.
 
 ## Coordinates and columns
 
-`base` is required and accepts decimal or `0x` hex. On x64, a value inside the
+`base` is required and accepts decimal or `0x` hex. On x64 and ARM64, a value inside the
 low 48 bits with bit 47 set is sign-extended to the canonical kernel address
 used for reads and provenance. A full canonical address is kept as-is. Other
 nonzero high bits, and values above 32 bits on x86 or PAE, are rejected before
-any row. ARM64 is rejected until virtual translation exists.
+any row. ARM64 module ELF reconstruction still needs a positive real-image test.
 
 `Base` keeps the exact numeric input, including its rendered width in the
 filename `kernel_module.{name}.{input:#x}.elf`. `KernelAddress` is the address
@@ -81,5 +81,5 @@ go test -race ./internal/engine ./internal/plugins \
 
 The reference directory must contain `profiles.json`, one manifest, reference
 JSON, and extracted file per profile. Skipped optional corpus tests are not
-acceptance. Actual x86/PAE acquisitions, modern metadata, ARM64 translation,
-and full smeared-image acceptance remain open.
+acceptance. Actual native x86/PAE acquisitions, modern metadata, positive ARM64
+module extraction, and full smeared-image acceptance remain open.

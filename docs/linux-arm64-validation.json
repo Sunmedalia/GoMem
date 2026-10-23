@@ -1,10 +1,10 @@
 {
   "schema": "gomem.linux-arm64-validation/v1",
-  "date": "2026-10-21",
+  "date": "2026-10-23",
   "scope": "Local native smoke validation, not an independent differential or full capability acceptance",
   "image_sha256": "cf04d76ab9177d7ee355cc96020d29ae194c065c692304ff25e594ab510c639d",
   "symbols_sha256": "7b27ed03e5abd81b4913ca01a0265aabf0ffc5491a306b9d0b271bfd452ebf56",
-  "build_sha256": "b2921307f9d67e29d10c4b48997d4b9978d03bf1161331faa5f788230442fbbe",
+  "build_sha256": "8618615a927c207161eab6eb464dbff557c6d2e27c72d7be93410de32f21dcf1",
   "selected_arch": "arm64",
   "discovery": {
     "method": "linux-arm64-linear-kernel-image",
@@ -14,49 +14,308 @@
     "pgd_virtual": "0xffff80008187e000",
     "kernel_slide": "0x0"
   },
-  "results": [
-    {
-      "plugin": "linux.pslist",
-      "state": "completed",
-      "rows": 169,
-      "record_types": {
-        "task": 169
+  "module_address_smoke": {
+    "build_sha256": "8618615a927c207161eab6eb464dbff557c6d2e27c72d7be93410de32f21dcf1",
+    "address_mask": "0x0000ffffffffffff",
+    "module_scan_max_bytes": 16777216,
+    "results": [
+      {
+        "plugin": "linux.kthreads",
+        "state": "completed",
+        "rows": 1247,
+        "entities": {
+          "kthread": 72
+        },
+        "output_sha256": "54e6af765e3937cfa0201c8ba4c093c76328a11d07426dc4cb81627278ec645a",
+        "record_types": {
+          "source_observation": 3,
+          "module_observation": 331,
+          "sysfs_candidate": 185,
+          "source_selection": 185,
+          "scan_candidate": 131,
+          "task_observation": 339,
+          "kthread": 72,
+          "summary": 1
+        },
+        "case_task_id": "9fa796ff1cd37e4cf598ec96222e9dd7"
       },
-      "output_sha256": "d3ff2448e0bb220aec08bb5a63caab265f588742d75ebd4dc32e799faff7145b"
-    },
-    {
-      "plugin": "linux.pstree",
-      "state": "completed",
-      "rows": 508,
-      "record_types": {
-        "observation": 169,
-        "selection": 169,
-        "process": 169,
-        "summary": 1
+      {
+        "plugin": "linux.keyboard_notifiers",
+        "state": "completed",
+        "rows": 838,
+        "entities": {
+          "notifier": 1
+        },
+        "output_sha256": "4716bad2480671913957db18459d6ddb0dd3af340d36cd603f4d14b69b655c70",
+        "record_types": {
+          "source_observation": 3,
+          "module_observation": 331,
+          "sysfs_candidate": 185,
+          "source_selection": 185,
+          "scan_candidate": 131,
+          "list_observation": 1,
+          "notifier": 1,
+          "summary": 1
+        },
+        "case_task_id": "2cafcc8db2b79d02b80fd987c6f55920"
       },
-      "output_sha256": "bac606914f92ffd61d892b350eed1e2aaf694ea85404be08faa5eb62323e4630"
-    },
-    {
-      "plugin": "linux.lsmod",
-      "state": "failed",
-      "rows": 110,
-      "record_types": {
-        "module": 110
+      {
+        "plugin": "linux.check_tracepoints",
+        "state": "completed",
+        "rows": 13800,
+        "entities": {
+          "tracepoint_observation": 662
+        },
+        "output_sha256": "996970deb99a5d9db3c8ca0b648bb7cf6383977d06b7f9724c41b89890142959",
+        "record_types": {
+          "tracepoint_read": 12302,
+          "source_observation": 3,
+          "module_observation": 331,
+          "sysfs_candidate": 185,
+          "source_selection": 185,
+          "scan_candidate": 131,
+          "tracepoint_observation": 662,
+          "tracepoints_summary": 1
+        },
+        "case_task_id": "3bb5e6fcc52aaed21b5c7521cffa8d98"
       },
-      "output_sha256": "86b18597dc5b535436d00f53c0cb5a4cd0c9c2d276837d69ae965d61c7eb1b4d",
-      "limitation": "11 retained module argument failures; 110 module records remain partial evidence"
-    },
-    {
-      "plugin": "linux.psaux",
-      "parameters": {
-        "pid": "1"
+      {
+        "plugin": "linux.check_syscall",
+        "state": "completed",
+        "rows": 406,
+        "entities": {
+          "syscall": 403
+        },
+        "output_sha256": "e5791ce441149b825d7bcaa9e3c365ce3d6ae81f15f974943f24027b6802287f",
+        "record_types": {
+          "table_observation": 2,
+          "syscall": 403,
+          "summary": 1
+        },
+        "case_task_id": "9973cdfaac2014898416f14092083258"
       },
-      "state": "completed",
-      "rows": 1,
-      "output_sha256": "7b0b14bd58b72aeb77134e63967892d2eaf3950197bf93e7d70247dd20eb132f",
-      "scope": "User process page-table translation and argument read"
-    }
-  ],
+      {
+        "plugin": "linux.check_ftrace",
+        "state": "completed",
+        "rows": 11166,
+        "entities": {
+          "ftrace_ops": 1,
+          "ftrace_hook": 1
+        },
+        "output_sha256": "321f700fd4643e623a9fd4f03425f669e033fcbe79506e7f33bcda8f86777ef1",
+        "record_types": {
+          "ftrace_read": 10328,
+          "source_observation": 3,
+          "module_observation": 331,
+          "sysfs_candidate": 185,
+          "source_selection": 185,
+          "scan_candidate": 131,
+          "ftrace_hook": 1,
+          "ftrace_ops": 1,
+          "ftrace_summary": 1
+        },
+        "case_task_id": "44d7d4b591a1fd88147c0a8c4553c892"
+      },
+      {
+        "plugin": "linux.check_afinfo",
+        "state": "completed",
+        "rows": 47,
+        "entities": {
+          "member_observation": 36
+        },
+        "output_sha256": "72c424ae7e4b7819c420c67111a2656c603ed54a4defebd66dc804973e3c375e",
+        "record_types": {
+          "symbol_observation": 10,
+          "member_observation": 36,
+          "summary": 1
+        },
+        "case_task_id": "78a7aa2f15d77197b8c89ae9094eee38"
+      },
+      {
+        "plugin": "linux.tty_check",
+        "state": "failed",
+        "rows": 7281,
+        "entities": {
+          "tty": 1687
+        },
+        "output_sha256": "8d1f279a9859335d1d67ea71df0e024ddcbcf017d4c94ecf046a29ad46ccb071",
+        "limitation": "Linux tty inspection: 5778 failures; first error: kernel:arm64:dtb=0xb387e000: read 0x3000000000 (8 bytes): unmapped memory: invalid ARM64 descriptor 0x0 at 0xbfff8600",
+        "record_types": {
+          "source_observation": 3,
+          "module_observation": 331,
+          "sysfs_candidate": 185,
+          "source_selection": 185,
+          "scan_candidate": 131,
+          "tty": 1687,
+          "device_observation": 4758,
+          "summary": 1
+        },
+        "case_task_id": "53b2f1509a52afbb635cb5a454bb264b"
+      },
+      {
+        "plugin": "linux.netfilter",
+        "state": "completed",
+        "rows": 994,
+        "entities": {
+          "netfilter_hook": 38
+        },
+        "output_sha256": "f944e1c37d026437d613d54050d66cb6f9cc0e619282352c3062f6a86da7f8ed",
+        "record_types": {
+          "source_observation": 3,
+          "module_observation": 331,
+          "sysfs_candidate": 185,
+          "source_selection": 185,
+          "scan_candidate": 131,
+          "netfilter_namespace_list": 2,
+          "netfilter_namespace": 10,
+          "netfilter_slot": 104,
+          "netfilter_hook": 38,
+          "netfilter_device_list": 5
+        },
+        "case_task_id": "9e232d4755205c0a3ca0e74c4d7b2775"
+      },
+      {
+        "plugin": "linux.hidden_modules",
+        "state": "completed",
+        "rows": 1,
+        "entities": {
+          "hidden_module": 0
+        },
+        "output_sha256": "f6bfec805ba51c7aa3b182c9dc6f775390b979c634b5eca2043573db6d240488",
+        "record_types": {
+          "hidden_scan_summary": 1
+        },
+        "case_task_id": "556ef84f0533d44bfbd81a42f2a1f2dd"
+      },
+      {
+        "plugin": "linux.ebpf",
+        "state": "completed",
+        "rows": 83,
+        "entities": {
+          "ebpf_program": 14
+        },
+        "output_sha256": "ca20127c9d40f85bc3b4831fe8d1820ca17d4895df1d3adac787cc93f97d7ffb",
+        "record_types": {
+          "idr_read": 68,
+          "ebpf_program": 14,
+          "idr_summary": 1
+        },
+        "case_task_id": "6d636a7be017110b90928e46a19f2f0e"
+      },
+      {
+        "plugin": "linux.pidhashtable",
+        "state": "completed",
+        "rows": 7731,
+        "entities": {
+          "task": 411
+        },
+        "output_sha256": "b567e44af14e5cf8da39e29296b1021f46a524fba4bc617ef9a973cc6625747f",
+        "record_types": {
+          "index_read": 7319,
+          "task": 411,
+          "index_summary": 1
+        },
+        "case_task_id": "666a4299ffd41d32e98d5f8d27501521"
+      },
+      {
+        "plugin": "linux.perf_events",
+        "state": "completed",
+        "rows": 8584,
+        "entities": {
+          "task_observation": 411
+        },
+        "output_sha256": "3e065317f9e8eff1ae060c811a9c8e254b4d2875783dfb7ee54b2d748c7e376d",
+        "record_types": {
+          "event_read": 8172,
+          "task_observation": 411,
+          "event_summary": 1
+        },
+        "case_task_id": "2ace1c4f0d87e0c029ee3a303c0064b0"
+      },
+      {
+        "plugin": "linux.library_list",
+        "parameters": {
+          "pids": "1"
+        },
+        "state": "failed",
+        "rows": 110,
+        "entities": {
+          "library_scan": 110
+        },
+        "output_sha256": "55776a74fe7da4abfcc11c3ead8a2a20bc42ea01058ab4276190efce879cfd47",
+        "limitation": "Linux dynamic-linker libraries: 87 failures; first error: process:dca55a85b6333c16a678e5fa856709362abdafcfb333df4bccabc9055414525e: read 0xaaaabba40000 (4 bytes): unmapped memory: invalid ARM64 descriptor 0x0 at 0x4119d200",
+        "record_types": {
+          "library_scan": 110
+        },
+        "case_task_id": "029857588b7e5d2bb2b1df801677b529"
+      },
+      {
+        "plugin": "linux.kmsg",
+        "state": "completed",
+        "rows": 8121,
+        "entities": {
+          "log": 856,
+          "descriptor": 559
+        },
+        "output_sha256": "c5525bd50d58df8550976d8f40ec3f486e8c07ec33501a4d83cdc769b3912972",
+        "record_types": {
+          "ring_read": 6705,
+          "descriptor": 559,
+          "log": 856,
+          "ring_summary": 1
+        },
+        "case_task_id": "4895fb6fc9090eb80c7e55ed98b9c4c3"
+      },
+      {
+        "plugin": "linux.kallsyms",
+        "parameters": {
+          "core": "true"
+        },
+        "state": "completed",
+        "rows": 162628,
+        "entities": {
+          "symbol": 53912
+        },
+        "output_sha256": "92eb4f57904da4d1d9b1d67493536b35fffd9aae3b57475f508e32bf25b62b53",
+        "record_types": {
+          "symbol_read": 108714,
+          "symbol": 53912,
+          "symbol_source": 1,
+          "symbols_summary": 1
+        },
+        "case_task_id": "0ad9dcb7ae064e8647fc6960815487f4"
+      },
+      {
+        "plugin": "linux.pscallstack",
+        "parameters": {
+          "pid": "1"
+        },
+        "state": "completed",
+        "rows": 113325,
+        "entities": {
+          "stack_entry": 31
+        },
+        "scope": "ARM64 thread.cpu_context.sp and kernel-stack page-table read",
+        "output_sha256": "4cba105253da88d1c7a78e0aab270a0d55f665a5e47841b5049098efe6e38e29",
+        "record_types": {
+          "stack_read": 113292,
+          "stack_entry": 31,
+          "task_stack_summary": 1,
+          "stack_summary": 1
+        },
+        "case_task_id": "b435af87d6d7ec4f575a6b91e045f176"
+      },
+      {
+        "plugin": "linux.check_idt",
+        "state": "failed",
+        "rows": 0,
+        "limitation": "unsupported IDT descriptor types [gate_struct64 gate_struct idt_desc]",
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "case_task_id": "458a770e3ae7031715b53f84e53df327"
+      }
+    ],
+    "case_root": ".cache/arm64-final-check.OyCCqA"
+  },
   "tui": {
     "opened_from_library": true,
     "plugin": "linux.pslist",
@@ -75,16 +334,96 @@
     ]
   },
   "checks": [
-    "make check",
-    "go test -race ./pkg/memory ./pkg/symbols ./internal/engine",
+    "CGO_ENABLED=0 go vet ./...",
+    "CGO_ENABLED=0 make build",
+    "make matrix",
+    "CGO_ENABLED=0 make check",
+    "python3 tools/build_module_lookup_oracle.py --check",
+    "python3 tools/build_pscallstack_oracle.py --check",
     "python3 tools/build_inode_mode_oracle.py --check",
-    "capability matrix regeneration and --check",
+    "CGO_ENABLED=0 go test ./internal/plugins ./internal/tui -count=1",
+    "make audit-v01",
     "git diff --check"
   ],
   "limitations": [
     "Only 4KiB granules, 48-bit virtual and physical addressing, little endian Linux with explicit ISF geometry metadata",
     "Virtual KASLR slide is not automatically discovered",
     "No ARM64 independent-tool differential",
-    "Architecture-specific Linux plugins can remain unsupported; module argument reads retain errors"
-  ]
+    "Architecture-specific Linux plugins can remain unsupported; module argument reads and invalid/unmapped reads retain errors",
+    "The x86/x64 IDT layout is not available on ARM64 and remains explicitly unsupported",
+    "Module, task, and symbol runs are local smoke checks; no independent ARM64 differential is claimed"
+  ],
+  "core_plugin_smoke": {
+    "build_sha256": "8618615a927c207161eab6eb464dbff557c6d2e27c72d7be93410de32f21dcf1",
+    "case_root": ".cache/arm64-core-check.3A5Tdt",
+    "scope": "Default-parameter behavior and no-argument enumeration; Bash is a clean empty result because the image contains zsh, not bash/sh/dash",
+    "results": [
+      {
+        "plugin": "linux.pslist",
+        "state": "completed",
+        "rows": 169,
+        "record_types": {
+          "task": 169
+        },
+        "output_sha256": "d063e6783ebd66c545ed9798f0e13249d044cae6facc5dc39cbe031730aea788",
+        "case_task_id": "bd78fb1eb7e538356aec809fbcb9eedd"
+      },
+      {
+        "plugin": "linux.pstree",
+        "state": "completed",
+        "rows": 508,
+        "record_types": {
+          "observation": 169,
+          "selection": 169,
+          "process": 169,
+          "summary": 1
+        },
+        "output_sha256": "c7a28771d0f9fb96920eb6931c068f7b560977f09861a005c6f379a831e343a3",
+        "case_task_id": "23ac90c81f29674e394e13ed33e510c1"
+      },
+      {
+        "plugin": "linux.lsmod",
+        "state": "failed",
+        "rows": 110,
+        "record_types": {
+          "module": 110
+        },
+        "output_sha256": "0b425dfb3fea9e3422ca9c1241d56d88c536af1212bdca3698df5e312642aece",
+        "case_task_id": "4f3010a0e30209cffd19eb2d97fbbbe1",
+        "limitation": "Linux module enumeration: 11 failures; first error: address overflow: 0xffffffffffffffff + 0x10"
+      },
+      {
+        "plugin": "linux.psaux",
+        "parameters": {
+          "pid": "1"
+        },
+        "state": "completed",
+        "rows": 1,
+        "output_sha256": "8fee270cf0f0295120b222e331433f42033918d8e444956db2d3ae648a18b05f",
+        "case_task_id": "a44f8dd013eb40486fe541bfd22c2244"
+      },
+      {
+        "plugin": "linux.psscan",
+        "state": "failed",
+        "rows": 874,
+        "record_types": {
+          "task": 873,
+          "scan_summary": 1
+        },
+        "output_sha256": "8ea31ea9cda9b263d3ea4e78eb37ebd5dee923e6c73e281f1f4c8e773fa58ef1",
+        "case_task_id": "d62e62000380b432c25262c31f5da0c8",
+        "limitation": "Linux physical task scan: 1 failures; first error: kernel:arm64:dtb=0xb387e000: read 0xffff891a418c (4 bytes): unmapped memory: invalid ARM64 descriptor 0x0 at 0xb387eff8"
+      },
+      {
+        "plugin": "linux.bash",
+        "state": "completed",
+        "rows": 1,
+        "record_types": {
+          "summary": 1
+        },
+        "output_sha256": "07b96bc967fe85cb186cc1763bb5bc59d403eaec26c224b07d860a30c9aee195",
+        "case_task_id": "b6b95c62b40682d762a4d3cf453bbf66"
+      }
+    ]
+  }
 }

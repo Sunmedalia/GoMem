@@ -52,10 +52,8 @@ func linuxNetfilter(ctx context.Context, e plugin.Environment, p map[string]stri
 	if e.Kernel == nil || e.Symbols == nil || e.Objects == nil {
 		return fmt.Errorf("linux.netfilter requires kernel memory and symbols")
 	}
-	switch e.Architecture {
-	case "x64", "x86", "pae":
-	default:
-		return fmt.Errorf("linux.netfilter requires an Intel kernel layer")
+	if _, err := linuxModuleAddressMask(e); err != nil {
+		return err
 	}
 	maxNodes, _, err := limits(p)
 	if err != nil {

@@ -20,8 +20,8 @@ func windowsPESymbolPlugins() []builtin {
 	return []builtin{{plugin.Spec{Name: "windows.pe_symbols", Upstream: "windows.pe_symbols.PESymbols", Platform: "windows", NeedsKernel: true, ExternalSymbols: true,
 		Description: "Resolve exact PE symbols across ordered process or kernel module instances, PDB before exports",
 		Parameters: []plugin.Parameter{
-			{Name: "source", Kind: "string", Description: "Required: kernel or processes"},
-			{Name: "module", Kind: "string", Description: "Required module grouping name, e.g. ntdll.dll or ntoskrnl.exe"},
+			{Name: "source", Kind: "string", Required: true, Description: "Kernel or processes"},
+			{Name: "module", Kind: "string", Required: true, Description: "Module grouping name, e.g. ntdll.dll or ntoskrnl.exe"},
 			{Name: "symbols", Kind: "string", Default: "[]", Description: "JSON array of exact symbol names; a nonempty array takes precedence over addresses"},
 			{Name: "addresses", Kind: "string", Default: "[]", Description: "JSON array of lossless address strings (0x... or decimal); JSON integers also accepted"},
 			{Name: "max-nodes", Kind: "uint", Default: "131072", Description: "Per-list/VAD traversal bound, 1..1000000"},

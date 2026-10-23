@@ -13,12 +13,12 @@ import (
 
 func linuxModuleAddressMask(e plugin.Environment) (uint64, error) {
 	switch e.Architecture {
-	case "x64":
+	case "x64", "arm64":
 		return 0xffffffffffff, nil
 	case "x86", "pae":
 		return 0xffffffff, nil
 	default:
-		return 0, fmt.Errorf("module pointer lookup requires a supported Intel virtual layer")
+		return 0, fmt.Errorf("module pointer lookup does not support architecture %q", e.Architecture)
 	}
 }
 

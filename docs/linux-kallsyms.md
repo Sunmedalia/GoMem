@@ -35,7 +35,7 @@ go test -race ./pkg/kallsyms -count=1
 
 ## 全源 CLI 开发预览
 
-`linux.kallsyms` 原生接入核心、已加载模块、ftrace 模块映射/跳板及 BPF 符号链。支持固定基线的 Intel x64/x86/PAE；ARM64 不属于该固定类的 `LINUX_ARCHS`，入口明确拒绝。
+`linux.kallsyms` 原生接入核心、已加载模块、ftrace 模块映射/跳板及 BPF 符号链。支持固定基线的 x64/x86/PAE 布局以及使用 48 位虚拟地址的 ARM64 布局；Kali 6.8.11 ARM64 的 `--core` 本机烟雾运行完成并输出 162,628 行。ARM64 尚无独立参考差分，不能据此宣称全部模块/BPF/ftrace 来源已验收。
 
 ```sh
 bin/gomem analyze linux.kallsyms --image memory.raw --symbols kernel.json.xz \

@@ -113,7 +113,7 @@ func FuzzWindowsStringsPipeline(f *testing.F) {
 		hash := sha256.Sum256(input)
 		env := plugin.Environment{OS: "windows", Architecture: "x64", KernelBase: 0x10000, Kernel: kernel, Physical: physical, Symbols: table, Objects: &object.Reader{Layer: kernel, Symbols: table}, Inputs: map[string]plugin.Input{"strings_file": {SHA256: hex.EncodeToString(hash[:]), Size: int64(len(input)), Reader: bytes.NewReader(input)}}}
 		b := windowsStringsPlugins()[0]
-		p, err := plugin.Parameters(b.Spec(), map[string]string{"max-nodes": "16", "max-lines": "32", "max-line-bytes": "512", "max-map-tables": "64", "max-map-entries": "10000", "max-mappings": "128", "max-associations": "128", "max-read-bytes": "262144"})
+		p, err := plugin.Parameters(b.Spec(), map[string]string{"strings_file": "fuzz", "max-nodes": "16", "max-lines": "32", "max-line-bytes": "512", "max-map-tables": "64", "max-map-entries": "10000", "max-mappings": "128", "max-associations": "128", "max-read-bytes": "262144"})
 		if err != nil {
 			t.Fatal(err)
 		}

@@ -138,3 +138,21 @@ func TestLinuxPsCallStackConfiguration(t *testing.T) {
 		t.Fatal("unsupported architecture")
 	}
 }
+
+func TestLinuxStackPointerPath(t *testing.T) {
+	for _, tc := range []struct {
+		arch, path string
+		bad        bool
+	}{
+		{"x64", "thread.sp", false},
+		{"x86", "thread.sp", false},
+		{"pae", "thread.sp", false},
+		{"arm64", "thread.cpu_context.sp", false},
+		{"arm", "", true},
+	} {
+		path, err := linuxStackPointerPath(tc.arch)
+		if (err != nil) != tc.bad || !tc.bad && path != tc.path {
+			t.Fatal(tc, path, err)
+		}
+	}
+}

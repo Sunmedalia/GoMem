@@ -31,6 +31,27 @@ func moduleLookupFixture(width int, big bool) (capabilityLayer, plugin.Environme
 	n := &linuxModuleRead{context.Background(), env, map[string]evidence.Value{}, &pluginFailures{}}
 	return mem, env, n
 }
+
+func TestLinuxModuleAddressMask(t *testing.T) {
+	for _, tc := range []struct {
+		arch string
+		mask uint64
+		bad  bool
+	}{
+		{"x64", 0xffffffffffff, false},
+		{"arm64", 0xffffffffffff, false},
+		{"x86", 0xffffffff, false},
+		{"pae", 0xffffffff, false},
+		{"arm", 0, true},
+		{"", 0, true},
+	} {
+		mask, err := linuxModuleAddressMask(plugin.Environment{Architecture: tc.arch})
+		if (err != nil) != tc.bad || !tc.bad && mask != tc.mask {
+			t.Fatal(tc, mask, err)
+		}
+	}
+}
+
 func TestLinuxModuleLookupPinnedPolicies(t *testing.T) {
 	raw, err := os.ReadFile("testdata/linux-kthreads-oracle.json")
 	if err != nil {
@@ -171,23 +192,27 @@ func TestLinuxModuleLookupPinnedPolicies(t *testing.T) {
 	}
 }
 func TestLinuxModuleLookupBoundsAndCancellation(t *testing.T) {
-	_, env, n := moduleLookupFixture(8, false)
-	env.KernelSlide = 0x1000
-	index, err := linuxKernelSymbolIndex(context.Background(), env, 0xffffffffffff)
-	if err != nil || index[0x1140] != "a_entry" {
-		t.Fatal(index, err)
-	}
-	n.e = env
-	mods := []linuxModuleInfo{{1, 0xffff000000001000, 0x200, "__kernel__", "kernel"}}
-	got, symbol, _, err := linuxModuleLookup(n, mods, index, 0xffff000000001140)
-	if err != nil || got == nil || symbol != "a_entry" {
-		t.Fatal(got, symbol, err)
+	for _, arch := range []string{"x64", "arm64"} {
+		_, env, n := moduleLookupFixture(8, false)
+		env.Architecture = arch
+		env.KernelSlide = 0x1000
+		index, err := linuxKernelSymbolIndex(context.Background(), env, 0xffffffffffff)
+		if err != nil || index[0x1140] != "a_entry" {
+			t.Fatal(arch, index, err)
+		}
+		n.e = env
+		mods := []linuxModuleInfo{{1, 0xffff000000001000, 0x200, "__kernel__", "kernel"}}
+		got, symbol, _, err := linuxModuleLookup(n, mods, index, 0xffff000000001140)
+		if err != nil || got == nil || symbol != "a_entry" {
+			t.Fatal(arch, got, symbol, err)
+		}
 	}
 	if _, err := linuxModuleMatches([]linuxModuleInfo{{base: ^uint64(0) - 1, size: 4}}, ^uint64(0), 1); err == nil {
 		t.Fatal("range overflow accepted")
 	}
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
+	_, env, _ := moduleLookupFixture(8, false)
 	if _, err := linuxKernelSymbolIndex(ctx, env, 0xffffffffffff); !errors.Is(err, context.Canceled) {
 		t.Fatal(err)
 	}

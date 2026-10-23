@@ -1,13 +1,13 @@
 # Linux 栈内符号线索（开发预览）
 
-`linux.pscallstack` 原生实现固定基线 `linux.pscallstack.PsCallStack` 的栈字扫描。它从 `task.thread.sp` 逐指针字读取到规范化的 `task.stack + (4096 << 2)`，用驻留的 [统一符号解析器](linux-resolver.md)按 core → module → BPF → ftrace 查找。**这是栈中的符号地址线索，不是帧展开，也不能独立证明调用顺序。** 四页范围沿用基线，不自动适配 KASAN 栈大小。
+`linux.pscallstack` 原生实现固定基线 `linux.pscallstack.PsCallStack` 的栈字扫描。x64/x86/PAE 从 `task.thread.sp`、ARM64 从 `task.thread.cpu_context.sp` 逐指针字读取到规范化的 `task.stack + (4096 << 2)`，用驻留的 [统一符号解析器](linux-resolver.md)按 core → module → BPF → ftrace 查找。**这是栈中的符号地址线索，不是帧展开，也不能独立证明调用顺序。** 四页范围沿用基线，不自动适配 KASAN 栈大小。
 
 ```sh
 bin/gomem analyze linux.pscallstack --image memory.raw --symbols kernel.json --dtb 0x... --os linux --arch x64 --param pid=1 --format jsonl
 bin/gomem analyze linux.pscallstack --image memory.raw --symbols kernel.json --dtb 0x... --os linux --arch x64 --param pid=1 --param unresolved=true --format jsonl
 ```
 
-支持 Intel x64、x86、PAE；需要对应任务、线程和驻留符号的类型及根。`pid` 筛选任务链表中的组长，选中的组长连同其 `thread_group` 或 `signal_struct.thread_head` 线程一起分析；它不单独选择同组线程的 TID。PF_KTHREAD 使用内核层，用户任务通过 `mm.pgd` 建立独立进程页表。缺少可用地址空间会保留诊断并使任务不完整。Position 包括零值的槽位，但零值永不输出；`unresolved=true` 才输出非零未命中值。未对齐的有效 SP 沿用基线逐字扫描，包括最后一次可能跨过四页上界的完整指针读取。
+支持 x64、x86、PAE 和 ARM64；需要对应任务、线程栈指针字段和驻留符号的类型及根。`pid` 筛选任务链表中的组长，选中的组长连同其 `thread_group` 或 `signal_struct.thread_head` 线程一起分析；它不单独选择同组线程的 TID。PF_KTHREAD 使用内核层；用户任务通过 `mm.pgd` 建立独立进程页表，但 ARM64 内核栈改从内核页表读取，以兼容 KPTI 用户根不映射内核页的情况。缺少可用地址空间会保留诊断并使任务不完整。Position 包括零值的槽位，但零值永不输出；`unresolved=true` 才输出非零未命中值。未对齐的有效 SP 沿用基线逐字扫描，包括最后一次可能跨过四页上界的完整指针读取。
 
 八个主要字段是 TID、Comm、Position、Address、Value、Name、Type、Module。地址无损十六进制保存。差分配置仅把无错误的 `unresolved` 缺失值归一化为上游 null；读取或解析错误不会归一化。`stack_entry` 是正常输出；`stack_error` 保存符号解析错误时的槽位及原始值；`diagnostic` 保留任务级失败。`stack_read` 记录任务遍历、元数据、栈和符号解析的每次虚拟读取，含地址、原始字节、请求/实得长度、读取序号和错误。正常项附带完整来源顺序、不可用来源原因、符号区间、模块范围/缓存/树选择及 BPF/ftrace 对象坐标。`task_stack_summary` 保留对象地址、TID、可用创建计数生成的身份、已扫描字数和完成状态；即使全零也有显式任务摘要。`stack_summary` 汇总全局计数。暖符号查询依赖之前的索引读取，证据范围明确包含整个分析任务的先前采集。
 
@@ -19,7 +19,7 @@ bin/gomem analyze linux.pscallstack --image memory.raw --symbols kernel.json --d
 
 上游完整生成器可能在一项失败后停止，栈页错误或无法创建进程层也可能静默结束。GoMem 继续独立任务并记录失败，因而脚本同时保存未修改完整生成器和共享解析器的逐任务记录：正常配置核对完整生成器，错误配置核对逐任务内容，绝不把继续输出声称为完整生成器等价。共用任务遍历器严格检查前向链表/反向链接；完整的上游双向容错、所有 task.is_valid 条件和损坏任务筛选语义尚未验收。已声明但读取失败的可选创建时间也会使原生任务失败。legacy BPF 缺失方法修正、模块范围和 Elf32 字段的固定语义见统一解析器文档。
 
-真实官方 Debian 3.2.57 镜像（SHA-256 `8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc`）中 PID 1 的默认 37 条及 unresolved 383 条与未修改上游八字段和顺序完全一致。两种模式均独立重读 3,771 条采集、验证 SQLite 封存并逐字节回放缓存。PF_KTHREAD 的 PID 2 控制另有 6 条八字段匹配，也通过独立重读、封存和缓存检查。这是一个旧内核进程的对照，不建立现代 module/BPF/ftrace 栈阳性验收。Kali ARM64 不作为此插件的等价语料。
+真实官方 Debian 3.2.57 镜像（SHA-256 `8ce57b7c7b423173ce970fe8f51e7016c04ef1b4a5f73d5c5f1001d5c18780bc`）中 PID 1 的默认 37 条及 unresolved 383 条与未修改上游八字段和顺序完全一致。两种模式均独立重读 3,771 条采集、验证 SQLite 封存并逐字节回放缓存。PF_KTHREAD 的 PID 2 控制另有 6 条八字段匹配，也通过独立重读、封存和缓存检查。Kali 6.8.11 ARM64 的 PID 1 本机烟雾运行完成并输出 113,325 行；这证明 ARM64 栈指针、内核栈读取和证据管线可运行，尚不与独立 ARM64 参考逐字段比较，也不建立现代 module/BPF/ftrace 栈阳性验收。
 
 ```sh
 python3 tools/build_pscallstack_oracle.py --check

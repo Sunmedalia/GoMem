@@ -8,7 +8,7 @@
 
 本地 Kali 6.8.11 LiME 镜像验证：自动选择 arm64，DTB `0xb387e000`，banner 物理地址 `0xb3079a38`，slide `0`；linux.pslist 完成 169 条记录，linux.pstree 完成 508 行（其中 169 个进程，其余为观察、选择和摘要记录），linux.psaux 的 PID 1 参数读取成功（验证独立进程页表翻译），TUI 按 o 正常进入分析页。linux.lsmod 返回 110 条模块记录，但模块参数读取保留 11 个失败，任务状态为 failed。已修正现代模块枚举的 MOD_INVALID=-1 哨兵处理，实际使用的负数组下标仍拒绝。
 
-这些是本机烟雾验证，未与独立取证工具逐字段比对，也不代表所有 Linux 插件的 ARM64 支持。依赖 Intel 指令、模块 ELF 重建或特定架构布局的插件继续明确拒绝 ARM64。验证摘要见 [linux-arm64-validation.json](linux-arm64-validation.json)。镜像和符号表不随代码提交。
+这些是本机烟雾验证，未与独立取证工具逐字段比对，也不代表所有 Linux 插件的 ARM64 支持。依赖 Intel 指令或 x86 专属结构的插件继续明确拒绝 ARM64。验证摘要见 [linux-arm64-validation.json](linux-arm64-validation.json)。镜像和符号表不随代码提交。
 
 ```sh
 make build
@@ -20,3 +20,5 @@ bin/gomem analyze linux.pslist --image images/kali.raw \
 ```
 
 2026-10-23 默认参数复测（不指定 PID）：`linux.pslist` 完成 169 个任务；`linux.psscan` 输出 873 个启发式候选和一条扫描摘要，其中一个候选父地址无法读取，保留结果并将任务标为 failed，不能把全部候选视为真实进程。`linux.bash` 完成，零历史记录：进程列表含两个 `zsh`，没有 `bash/sh/dash`。现已补上 Bash 堆扫描的 ARM64 地址翻译路径并通过合成正例及捕获字节回读测试；这份 Kali 镜像仅为无 Bash 的空结果验证，不代表真实 ARM64 Bash 历史恢复已完成独立验证。
+
+同日模块地址与架构入口复测：x64 与 ARM64 共用低 48 位模块地址匹配，显式规范地址和低 48 位坐标分别保留；`linux.module_extract` 的 ARM64 输入校验也接受 48 位规范地址。Kali 镜像上 `linux.kthreads`、`linux.keyboard_notifiers`、`linux.check_tracepoints`、`linux.check_syscall`、`linux.check_ftrace`、`linux.check_afinfo`、`linux.netfilter`、`linux.ebpf`、`linux.hidden_modules`、`linux.pidhashtable`、`linux.perf_events`、`linux.kmsg` 和 `linux.kallsyms --core` 均完成并保留完整捕获/边界记录。`linux.pscallstack` 使用 ARM64 的 `thread.cpu_context.sp` 和内核栈页表，PID 1 完成 113,325 行。`linux.tty_check` 输出 1,687 条 tty 记录和 4,758 条设备观察后，因一个无效 ARM64 描述符将任务标为 failed；`linux.library_list` 对 PID 1 输出 110 条记录后，因未映射链接映射失败。`linux.check_idt` 仍明确失败：ARM64 没有该 x86 IDT 描述符布局。部分结果或本机烟雾完成不等于独立差分验收。

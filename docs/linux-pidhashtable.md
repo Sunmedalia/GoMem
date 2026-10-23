@@ -2,7 +2,7 @@
 
 Development preview; partial capability, not release acceptance. Native `linux.pidhashtable` maps to pinned Volatility 3 v2.28.2 `linux.pidhashtable.PIDHashTable`.
 
-The plugin enumerates tasks independently of the active-process list. It supports Intel x64, x86 and PAE with matching typed symbols. Legacy kernels use `pid_hash`, `pidhash_shift`, `upid.pid_chain` and `pid.numbers`. Newer kernels use embedded `init_pid_ns.idr` with radix/XArray roots, optional `idr_base`, and typed PID task links. Namespace IDR detection takes precedence over legacy hash symbols. Unsupported layouts fail explicitly.
+The plugin enumerates tasks independently of the active-process list. It supports x64, x86, PAE and ARM64 with matching typed symbols. Legacy kernels use `pid_hash`, `pidhash_shift`, `upid.pid_chain` and `pid.numbers`. Newer kernels use embedded `init_pid_ns.idr` with radix/XArray roots, optional `idr_base`, and typed PID task links. Namespace IDR detection takes precedence over legacy hash symbols. Unsupported layouts fail explicitly.
 
 `OFFSET`, `PID`, `TID`, `PPID` and `COMM` preserve the pinned task view, sorted stably by TGID/TID. `decorate-comm=true` wraps kernel threads in square brackets and user threads in braces. Names truncate at NUL or the first Unicode replacement character; raw reads retain the original bytes. Duplicate task objects reached through different PID entries remain visible. The legacy reference subtracts `pid.numbers` itself even for nonzero namespace levels; task container subtraction uses the link field offset without an enum-index stride. GoMem retains these pinned coordinates rather than claiming independent namespace completeness.
 

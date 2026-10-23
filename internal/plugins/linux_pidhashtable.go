@@ -157,9 +157,6 @@ func linuxPIDHashWalk(ctx context.Context, e plugin.Environment, maxNodes, maxTa
 }
 
 func linuxPIDHash(ctx context.Context, e plugin.Environment, p map[string]string, out plugin.Emit) error {
-	if e.Architecture != "x64" && e.Architecture != "x86" && e.Architecture != "pae" {
-		return fmt.Errorf("linux.pidhashtable requires an Intel kernel layer")
-	}
 	bound := func(name string) (uint64, error) {
 		n, err := strconv.ParseUint(p[name], 0, 32)
 		if err != nil || n == 0 || n > 1000000 {

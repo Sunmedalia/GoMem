@@ -22,7 +22,7 @@ func windowsStringsPlugins() []builtin {
 		Description: "Associate external strings offsets with baseline and actual physical address-space mappings",
 		InputFiles:  []plugin.FileInput{{Name: "strings_file", MaxBytes: 64 << 20}},
 		Parameters: []plugin.Parameter{
-			{Name: "strings_file", Kind: "string", Description: "Required local strings output file or file URI; immutable snapshot limited to 64 MiB"},
+			{Name: "strings_file", Kind: "string", Required: true, Description: "Local strings output file or file URI; immutable snapshot limited to 64 MiB"},
 			{Name: "pid", Kind: "string", Description: "Optional comma-separated active process PID filter; kernel mapping remains included"},
 			{Name: "max-nodes", Kind: "uint", Default: "131072", Description: "Active process list traversal bound, 1..1000000"},
 			{Name: "max-lines", Kind: "uint", Default: "1000000", Description: "Input line bound, 1..1000000"},

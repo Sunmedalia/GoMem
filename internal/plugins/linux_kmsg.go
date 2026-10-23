@@ -634,9 +634,6 @@ func linuxKmsg(ctx context.Context, e plugin.Environment, p map[string]string, o
 	if err := kmsgCheckProducer(e); err != nil {
 		return err
 	}
-	if e.Architecture != "x64" && e.Architecture != "x86" && e.Architecture != "pae" {
-		return fmt.Errorf("linux.kmsg requires an Intel kernel layer")
-	}
 	bound := func(name string, max uint64) (uint64, error) {
 		n, err := strconv.ParseUint(p[name], 0, 64)
 		if err != nil || n == 0 || n > max {
