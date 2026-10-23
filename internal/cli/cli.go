@@ -52,7 +52,7 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 	f.Uint64Var(&cfg.KernelBase, "kernel-base", 0, "Windows kernel virtual base")
 	f.Uint64Var(&cfg.KernelSlide, "kernel-slide", 0, "Linux virtual relocation added to symbol addresses")
 	f.BoolVar(&cfg.Offline, "offline", false, "Disable network access; allow verified local symbol cache reuse")
-	f.StringVar(&format, "format", "table", "Output: table, jsonl, json, csv; export: html, jsonl, bundle")
+	f.StringVar(&format, "format", "table", "Output: table, jsonl, json, csv, mermaid; export: html, jsonl, bundle")
 	registry := plugin.NewRegistry()
 	if err := plugins.Register(registry); err != nil {
 		panic(err)

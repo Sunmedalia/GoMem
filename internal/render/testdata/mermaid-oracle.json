@@ -1,0 +1,133 @@
+{
+  "schema": "gomem.mermaid-oracle/v1",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "python_tree_sha256": "3da726508f5b4dedf56f3ce83063ab66944b973af2504d10816f9d824ad5530d",
+  "scope": "actual pinned TreeGrid/MermaidRenderer; selected scalar columns and trees only",
+  "cases": [
+    {
+      "name": "empty",
+      "rows": [],
+      "output": "graph TD\n"
+    },
+    {
+      "name": "flat",
+      "rows": [
+        {
+          "depth": 0,
+          "pid": 1,
+          "name": "same"
+        },
+        {
+          "depth": 0,
+          "pid": 2,
+          "name": "same"
+        },
+        {
+          "depth": 0,
+          "pid": 3,
+          "name": "last"
+        }
+      ],
+      "output": "graph TD\n\tn1[\"PID:1<br>Name:same\"]\n\tn2[\"PID:2<br>Name:same\"]\n\tn3[\"PID:3<br>Name:last\"]\n"
+    },
+    {
+      "name": "tree",
+      "rows": [
+        {
+          "depth": 0,
+          "pid": 1,
+          "name": "root"
+        },
+        {
+          "depth": 1,
+          "pid": 2,
+          "name": "child"
+        },
+        {
+          "depth": 2,
+          "pid": 3,
+          "name": "leaf"
+        },
+        {
+          "depth": 1,
+          "pid": 4,
+          "name": "sibling"
+        },
+        {
+          "depth": 0,
+          "pid": 5,
+          "name": "root2"
+        }
+      ],
+      "output": "graph TD\n\tn1[\"PID:1<br>Name:root\"]\n\tn1 --> n2[\"PID:2<br>Name:child\"]\n\tn2 --> n3[\"PID:3<br>Name:leaf\"]\n\tn1 --> n4[\"PID:4<br>Name:sibling\"]\n\tn5[\"PID:5<br>Name:root2\"]\n"
+    },
+    {
+      "name": "deep",
+      "rows": [
+        {
+          "depth": 0,
+          "pid": 1,
+          "name": "a"
+        },
+        {
+          "depth": 1,
+          "pid": 2,
+          "name": "b"
+        },
+        {
+          "depth": 2,
+          "pid": 3,
+          "name": "c"
+        },
+        {
+          "depth": 3,
+          "pid": 4,
+          "name": "d"
+        },
+        {
+          "depth": 0,
+          "pid": 5,
+          "name": "e"
+        },
+        {
+          "depth": 1,
+          "pid": 6,
+          "name": "f"
+        }
+      ],
+      "output": "graph TD\n\tn1[\"PID:1<br>Name:a\"]\n\tn1 --> n2[\"PID:2<br>Name:b\"]\n\tn2 --> n3[\"PID:3<br>Name:c\"]\n\tn3 --> n4[\"PID:4<br>Name:d\"]\n\tn5[\"PID:5<br>Name:e\"]\n\tn5 --> n6[\"PID:6<br>Name:f\"]\n"
+    },
+    {
+      "name": "quoted",
+      "rows": [
+        {
+          "depth": 0,
+          "pid": 1,
+          "name": "name\"value"
+        },
+        {
+          "depth": 1,
+          "pid": 2,
+          "name": "line1\nline2"
+        }
+      ],
+      "output": "graph TD\n\tn1[\"PID:1<br>Name:name&quot;value\"]\n\tn1 --> n2[\"PID:2<br>Name:line1<br>line2\"]\n"
+    },
+    {
+      "name": "unicode",
+      "rows": [
+        {
+          "depth": 0,
+          "pid": 1,
+          "name": "进程"
+        },
+        {
+          "depth": 1,
+          "pid": 2,
+          "name": "内核模块"
+        }
+      ],
+      "output": "graph TD\n\tn1[\"PID:1<br>Name:进程\"]\n\tn1 --> n2[\"PID:2<br>Name:内核模块\"]\n"
+    }
+  ]
+}

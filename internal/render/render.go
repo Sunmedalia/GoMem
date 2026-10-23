@@ -21,11 +21,13 @@ func Safe(s string) string {
 }
 
 type Writer struct {
-	w      io.Writer
-	format string
-	cols   []evidence.Column
-	csv    *csv.Writer
-	first  bool
+	w        io.Writer
+	format   string
+	cols     []evidence.Column
+	csv      *csv.Writer
+	first    bool
+	nodes    map[string]string
+	sequence uint64
 }
 
 func New(w io.Writer, format string, cols []evidence.Column) (*Writer, error) {
@@ -36,6 +38,9 @@ func New(w io.Writer, format string, cols []evidence.Column) (*Writer, error) {
 		names[i] = c.Name
 	}
 	switch format {
+	case "mermaid":
+		r.nodes = make(map[string]string)
+		_, err = io.WriteString(w, "graph TD\n")
 	case "jsonl":
 	case "json":
 		_, err = io.WriteString(w, "[\n")
@@ -47,7 +52,7 @@ func New(w io.Writer, format string, cols []evidence.Column) (*Writer, error) {
 	case "table":
 		_, err = fmt.Fprintln(w, strings.Join(names, "\t"))
 	default:
-		return nil, fmt.Errorf("unsupported output format %q (jsonl, json, csv, table)", format)
+		return nil, fmt.Errorf("unsupported output format %q (jsonl, json, csv, table, mermaid)", format)
 	}
 	return r, err
 }
@@ -59,6 +64,8 @@ func join(a, b error) error {
 }
 func (r *Writer) Row(row evidence.Row) error {
 	switch r.format {
+	case "mermaid":
+		return r.mermaidRow(row)
 	case "jsonl":
 		return json.NewEncoder(r.w).Encode(row)
 	case "json":

@@ -13296,11 +13296,20 @@
     {
       "id": "renderer.mermaid",
       "category": "acceptance",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "Analyze streams Mermaid graph TD with declared columns and explicit evidence ParentID edges, per-record node IDs and escaped labels.",
+      "corpora": [
+        "pinned-mermaid-treegrid-6-controls",
+        "synthetic-mermaid-evidence-trees-and-labels"
+      ],
+      "comparison": "6_actual_pinned_renderer_outputs_byte_identical_for_selected_scalar_trees",
+      "validation_record": "docs/mermaid-renderer.md",
+      "gaps": [
+        "Persisted Mermaid report export and TUI graph preview remain pending",
+        "Full typed-value formatting, browser compatibility and large-graph acceptance remain pending",
+        "HTML/backslash/control escaping deliberately exceeds the pinned renderer"
+      ]
     }
   ]
 }

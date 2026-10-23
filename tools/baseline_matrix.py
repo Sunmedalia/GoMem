@@ -886,6 +886,11 @@ def generate(source):
                                       applicability="Current-space bounded interactive dis/disasm using native Go x/arch; Intel 32/64 and little-endian ARM/ARM64, explicit mode override and source identity validation.",
                                       comparison="known_instruction_current_layer_branch_and_failure_controls_only", validation_record="docs/shell-disassembly.md",
                                       gaps=["No Capstone adapter, Thumb mode or symbolized instruction output", "No complete instruction-set or real-corpus differential acceptance"])
+        if identifier == "renderer.mermaid":
+            infrastructure[-1].update(status="partial", corpora=["pinned-mermaid-treegrid-6-controls", "synthetic-mermaid-evidence-trees-and-labels"],
+                                      applicability="Analyze streams Mermaid graph TD with declared columns and explicit evidence ParentID edges, per-record node IDs and escaped labels.",
+                                      comparison="6_actual_pinned_renderer_outputs_byte_identical_for_selected_scalar_trees", validation_record="docs/mermaid-renderer.md",
+                                      gaps=["Persisted Mermaid report export and TUI graph preview remain pending", "Full typed-value formatting, browser compatibility and large-graph acceptance remain pending", "HTML/backslash/control escaping deliberately exceeds the pinned renderer"])
         if identifier == "paging.arm64":
             infrastructure[-1].update(status="partial", corpora=["synthetic-linux-arm64", "local-kali-6.8.11-arm64-smoke"],
                                       applicability="Native Linux ARM64 stage-1, little endian, 4KiB granule, 48-bit VA/PA; exact ISF architecture and geometry metadata required. 4KiB/2MiB/1GiB leaves; sparse descriptor reads. Other granules, TBI/MTE, LPA2 and automatic virtual KASLR are unsupported.",

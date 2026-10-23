@@ -107,6 +107,7 @@ jobs:
       - run: python3 tools/build_shimcache_fields_oracle.py --check
       - run: python3 tools/build_shimcache_temporal_oracle.py --check
       - run: python3 tools/build_shimcache_selection_oracle.py --check
+      - run: python3 tools/build_mermaid_oracle.py --check
       - run: go test -race ./pkg/wingui
         env:
           GOMEM_BASELINE_DIR: ${{ github.workspace }}/.cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75
