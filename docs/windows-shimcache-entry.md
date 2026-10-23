@@ -48,3 +48,6 @@ targets are included in Makefile and CI. No memory-image discovery or extracted
 entry has been validated by this component. Handles, full entry fields, version
 selection, modern/legacy/XP discovery, bounded traversal, sealed persistence and
 positive real-image original-plugin comparisons remain outstanding.
+
+The [native handle component](windows-shimcache-handle.md) now composes the
+entry, resource and AVL predicates for explicitly supplied cache candidates.

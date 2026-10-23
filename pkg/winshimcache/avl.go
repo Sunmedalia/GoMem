@@ -105,6 +105,10 @@ type Reader struct {
 // FreeRoutine is read but its target is not range checked. A read error remains
 // distinct from a readable but rejected candidate.
 func (r Reader) AVLValid(ctx context.Context, at, pageStart, pageEnd uint64) (bool, error) {
+	return r.avlValidMasked(ctx, at, pageStart, pageEnd, ^uint64(0))
+}
+
+func (r Reader) avlValidMasked(ctx context.Context, at, pageStart, pageEnd, mask uint64) (bool, error) {
 	if err := ctx.Err(); err != nil {
 		return false, err
 	}
@@ -124,7 +128,7 @@ func (r Reader) AVLValid(ctx context.Context, at, pageStart, pageEnd uint64) (bo
 	if err != nil {
 		return false, err
 	}
-	if parent != rootAt {
+	if parent&mask != rootAt {
 		return false, nil
 	}
 	var storage [3]uint64
@@ -138,6 +142,7 @@ func (r Reader) AVLValid(ctx context.Context, at, pageStart, pageEnd uint64) (bo
 			return false, err
 		}
 		value, err := o.Uint(ctx, at, "_RTL_AVL_TABLE", member)
+		value &= mask
 		if err != nil {
 			return false, err
 		}

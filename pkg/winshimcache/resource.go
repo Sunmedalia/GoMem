@@ -78,6 +78,13 @@ func NewResourceReader(layer memory.MemoryLayer, kernel *symbols.ISF) (*Resource
 // backlinks compare with the resource base, even for a nonzero embedded offset.
 // Mapping checks use bounded reads so unavailable bytes remain explicit errors.
 func (r *ResourceReader) Valid(ctx context.Context, at uint64) (bool, error) {
+	return r.validMasked(ctx, at, ^uint64(0))
+}
+
+// Handle pointers use the native layer's mask, as do all pointers constructed
+// while validating their resource. The standalone reader keeps full-width
+// native addresses; its callers need not normalize canonical virtual addresses.
+func (r *ResourceReader) validMasked(ctx context.Context, at, mask uint64) (bool, error) {
 	if err := ctx.Err(); err != nil {
 		return false, err
 	}
@@ -88,6 +95,7 @@ func (r *ResourceReader) Valid(ctx context.Context, at uint64) (bool, error) {
 		return false, err
 	}
 	waiters, err := r.reader.Uint(ctx, at, "_ERESOURCE", "SharedWaiters")
+	waiters &= mask
 	if err != nil {
 		return false, err
 	}
@@ -105,10 +113,12 @@ func (r *ResourceReader) Valid(ctx context.Context, at uint64) (bool, error) {
 		}
 	}
 	flink, err := r.reader.Uint(ctx, at, "_ERESOURCE", "SystemResourcesList.Flink")
+	flink &= mask
 	if err != nil {
 		return false, err
 	}
 	blink, err := r.reader.Uint(ctx, at, "_ERESOURCE", "SystemResourcesList.Blink")
+	blink &= mask
 	if err != nil {
 		return false, err
 	}
@@ -116,11 +126,11 @@ func (r *ResourceReader) Valid(ctx context.Context, at uint64) (bool, error) {
 		return false, nil
 	}
 	back, err := r.reader.Uint(ctx, flink, "_LIST_ENTRY", "Blink")
-	if err != nil || back != at {
+	if err != nil || back&mask != at {
 		return false, err
 	}
 	forward, err := r.reader.Uint(ctx, blink, "_LIST_ENTRY", "Flink")
-	if err != nil || forward != at {
+	if err != nil || forward&mask != at {
 		return false, err
 	}
 	count, err := r.reader.Uint(ctx, at, "_ERESOURCE", "NumberOfSharedWaiters")

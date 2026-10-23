@@ -30,6 +30,8 @@ fuzz:
 	$(GO) test ./pkg/winshimcache -run '^$$' -fuzz '^FuzzShimcacheResource$$' -fuzztime 20000x
 	$(GO) test ./pkg/winshimcache -run '^$$' -fuzz '^FuzzShimcacheLinkedEntry$$' -fuzztime 20000x
 	$(GO) test ./pkg/winshimcache -run '^$$' -fuzz '^FuzzShimcacheLinkedEntryLayout$$' -fuzztime 2000x
+	$(GO) test ./pkg/winshimcache -run '^$$' -fuzz '^FuzzShimcacheHandle$$' -fuzztime 20000x
+	$(GO) test ./pkg/winshimcache -run '^$$' -fuzz '^FuzzShimcacheHandleLayout$$' -fuzztime 2000x
 	$(GO) test ./internal/plugins -run '^$$' -fuzz '^FuzzWindowListPagedPipeline$$' -fuzztime 2000x
 	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUISessions$$' -fuzztime 20000x
 	$(GO) test ./pkg/wingui -run '^$$' -fuzz '^FuzzGUIObjects$$' -fuzztime 20000x

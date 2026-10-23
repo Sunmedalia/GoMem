@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "status": "development_dependency",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Native non-XP Shimcache cache handle and head predicates; plugin remains missing",
+  "original": {
+    "methods": [
+      "SHIM_CACHE_HANDLE.is_valid",
+      "SHIM_CACHE_HANDLE.head"
+    ],
+    "methods_unmodified": true,
+    "shipped_non_xp_layouts": 10,
+    "controls": 525,
+    "operations_per_control": 2,
+    "kernel_types": "Synthetic metadata; not real kernel-version acceptance",
+    "native_types": "Original x86NativeTable/x64NativeTable",
+    "address_masks": [
+      "x86 full width",
+      "x64 48-bit",
+      "x64 full width"
+    ],
+    "predicate_results_and_head_addresses_compared": true,
+    "captured_bytes_rechecked_against_source": true,
+    "read_sequences_identical": false,
+    "read_sequence_note": "Native probes use reads and repeated checks re-read fields; original objects cache scalars and dereferences",
+    "undersized_original_handle_layouts": [
+      "shimcache-2003-x86",
+      "shimcache-vista-x86",
+      "shimcache-win7-x64",
+      "shimcache-win8-x64"
+    ],
+    "layout_anomalies_exposed": true
+  },
+  "checks": {
+    "package_race": "pass including actual Windows 10 kernel metadata constructor",
+    "scalar_fuzz": "pass; 20000 executions",
+    "layout_fuzz": "pass; 2000 executions",
+    "oracle_regeneration": "pass in independent Python 3.12 process",
+    "vet_build_matrix_doctor": "pass",
+    "python_tools": "44 unit tests passed",
+    "inode_oracle": "32768 modes verified",
+    "full_check": "Frozen commit 18bd23a: engine shard 0 passed in 866.079s; remaining shards running",
+    "remote_ci": "Oracle and fuzz wired; final commit execution pending. Previous acceptance gzip encoding failure fixed in acde378; remote confirmation pending",
+    "cross_compile": "Windows 386 and Linux amd64 package test binaries passed",
+    "argument_fixtures": "428 UTF-8/argument cases verified"
+  },
+  "actual_kernel_metadata": {
+    "pdb_identifier": "167FE94B5641C005AC3036212A01F8DC-1",
+    "isf_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+    "scope": "Constructor validation only; no handle address or image bytes analyzed"
+  },
+  "remaining": [
+    "Full entry fields and XP predicate",
+    "Layout selection and symbol acquisition",
+    "Modern, legacy and XP discovery and bounded traversal",
+    "Plugin/timeline integration and sealed persistence",
+    "Positive real-image full original-plugin differential verification"
+  ]
+}

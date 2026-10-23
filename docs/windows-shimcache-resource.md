@@ -47,3 +47,6 @@ real-image differential tests remain outstanding.
 The [non-XP linked entry predicate](windows-shimcache-entry.md) now has a
 separate native reader and original method controls; full entry decoding and
 cache traversal remain outstanding.
+
+The [native handle component](windows-shimcache-handle.md) supplies the native
+layer mask when validating resource pointers reached from a cache handle.
