@@ -32,6 +32,16 @@ func OpenSource(ctx context.Context, location string, offline bool) (MemorySourc
 }
 func openSource(ctx context.Context, location string, offline bool, snapshotDirectory string) (MemorySource, error) {
 	lower := strings.ToLower(location)
+	if strings.HasPrefix(lower, "gs://") {
+		if offline {
+			return nil, fmt.Errorf("remote image unavailable in offline mode")
+		}
+		source, err := OpenGCS(ctx, location, GCSOptions{})
+		if err != nil {
+			return nil, err
+		}
+		return source, nil
+	}
 	if strings.HasPrefix(lower, "s3://") {
 		if offline {
 			return nil, fmt.Errorf("remote image unavailable in offline mode")

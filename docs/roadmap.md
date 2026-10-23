@@ -21,7 +21,7 @@ v0.1 增量：`case verify` 现已核对存储 Seal、任务来源、父子关�
 1. 补齐 Linux/macOS 在线符号索引与自动获取，以及完整内核、DTB、进程空间识别；已有 Windows 完整/bitmap 转储的自动配置、精确身份 PDB 获取与持久转换缓存、原生 PDB/MSF 7.0、DWARF、本地身份索引和部分 Linux x64 DTB 发现。仍需 RAW/虚拟机格式的 Windows 自动识别、旧 MSF、CAB 传输、更多 CodeView/DWARF 语义、KASLR、架构和版本验证。
 2. Windows/Linux 的线程完整版本与参数覆盖、扫描进程完整版本与参数、VAD/VMA 完整版本与提取验收、网络、文件恢复、注册表 hive 重建与键枚举、凭据、服务、持久化、内核检查、恶意代码、时间线与其全部参数、导出。当前已有 Windows 活动线程/VAD、Linux 任务线程/凭据/创建时间、链表及 Maple Tree VMA、Windows 活动 hive 链表、默认根键的 `windows.printkey`、NTUSER 的 `windows.userassist`，hive `GetCellRoutine` 是否落在内核模块内的 `windows.getcellroutine`，以及 `windows.amcache` 的程序与文件树、`windows.scheduledtasks` 的动作/触发器笛卡尔积，带空洞日志的稳定 hive 重建，64 位 Windows 8.1 及以后的 `windows.hivescan`，以及 `windows.hashdump` 的 boot key / SAM 解密、`windows.lsadump` 的 LSA secret 和 `windows.cachedump` 的域缓存凭据；递归/筛选验收、逐字节 hive 差分和旧式池头扫描仍未完成。现代 Linux 线程/时钟和 Maple Tree 仅有合成验证，真实新内核与完整元数据验证待补。已有 Linux ELF 段提取及主映像 dump，保留基线地址差异；尚无线程池扫描，ELF 完整版本验收仍待补齐。
 3. macOS、外部交换页及上游其余地址空间和格式语义；VMware/QEMU/Xen 已有原生映射与选定控制，真实采集器和完整版本验收仍待补齐；AVML v2 已有帧索引、按需解码、CRC/长度核验及重编码语料，真实版本矩阵仍待补齐。Windows 已支持镜像内驻留的 transition 页，prototype 和外部 pagefile 未实现。
-4. GS/LeechCore 等远程数据源，以及 YARA、Capstone、Arrow；HTTP/HTTPS 条件读取、FTP 本地快照、S3 版本固定读取、Go 原生反汇编和 Mermaid 已接入，完整协议、指令集与渲染验收仍待补齐。正式验收使用完整扩展构建。
+4. LeechCore 等远程数据源，以及 YARA、Capstone、Arrow；HTTP/HTTPS 条件读取、FTP 本地快照、S3/GCS 版本固定读取、Go 原生反汇编和 Mermaid 已接入，完整协议、指令集与渲染验收仍待补齐。正式验收使用完整扩展构建。
 5. 将各分诊规则连接到经验证的原生数据生产者；增加真实恶意与正常 VM 对照、共享扫描索引、通用证据图、扩大提取文件管理与持续任务日志。
 6. 其余上游 renderer 与文件/模块/进程映像完整提取验收；现已有 VAD/VMA 区域、显式地址/DLL/主映像/内核与会话模块的 PE 提取及证据包。
 7. 扩大系统版本/架构/格式/损坏场景语料；完成所有字段、类型、层级、缺失值和提取文件差分；测量固定硬件冷启动、扫描吞吐、真实 RSS 与全部交互的 P95。
@@ -143,3 +143,5 @@ v0.1 增量：`case verify` 现已核对存储 Seal、任务来源、父子关�
 2026-10-23：新增 FTP 二进制本地快照源，支持 EPSV/PASV、可用 SIZE/MDTM 校验、凭据脱敏、取消/超时和失败清理；快照散列绑定 provenance，任务与缓存使用固定本地字节。固定 ResourceAccessor 的完整散列和 seek/read 控制、Windows/Linux 分页与 FTP VMware 配套均通过；Debian 512MiB 回环 FTP 完整散列、自动发现和 133 条指定进程字段一致。公网协议矩阵、FTPS、持久缓存与断点续传待补齐。[详情](ftp-sources.md)
 
 2026-10-23：新增 AWS Go SDK 原生 S3 条件范围源，固定版本/ETag，接入默认凭据链、显式兼容端点、匿名读取和 offline；来源身份参与任务缓存。独立 SigV4、实际固定 cloudstorage+s3fs 的 seek/read、Windows/Linux 分页及 S3 VMware 配套测试通过；官方 Debian 512MiB 回环 S3 完整散列、自动发现和 133 条指定进程字段一致。真实云服务、其余凭据提供者与特殊 bucket 仍待验收。[详情](s3-sources.md)
+
+2026-10-23：GCS 接入原生 JSON API 范围读取、Google ADC 与 generation/metageneration 固定身份，包含 gzip 存储字节保护、VMware 双对象和证据缓存。实际固定 GS handler / gcsfs 对照及 512MiB RAW 指定字段通过，公网与完整认证矩阵待验收。[详情](gcs-sources.md)

@@ -27,15 +27,16 @@ type S3Options struct {
 	Client    *s3.Client // Optional caller-configured SDK client; credentials stay in the SDK.
 }
 type CloudObjectInfo struct {
-	Region   string `json:"region,omitempty"`
-	Endpoint string `json:"endpoint,omitempty"`
-	Schema   string `json:"schema"`
-	Protocol string `json:"protocol"`
-	Bucket   string `json:"bucket"`
-	Key      string `json:"key"`
-	Version  string `json:"version,omitempty"`
-	ETag     string `json:"etag"`
-	Size     uint64 `json:"size"`
+	Metageneration string `json:"metageneration,omitempty"`
+	Region         string `json:"region,omitempty"`
+	Endpoint       string `json:"endpoint,omitempty"`
+	Schema         string `json:"schema"`
+	Protocol       string `json:"protocol"`
+	Bucket         string `json:"bucket"`
+	Key            string `json:"key"`
+	Version        string `json:"version,omitempty"`
+	ETag           string `json:"etag"`
+	Size           uint64 `json:"size"`
 }
 type cloudLocation struct{ bucket, key, version, name string }
 

@@ -24,6 +24,7 @@ audit-v01:
 	python3 tools/audit_v01.py --plugins .cache/v01/native-plugins.json --check
 fuzz:
 	$(GO) test ./pkg/memory -run '^$$' -fuzz '^FuzzS3URI$$' -fuzztime 10000x
+	$(GO) test ./pkg/memory -run '^$$' -fuzz '^FuzzGCSURI$$' -fuzztime 10000x
 	$(GO) test ./pkg/memory -run '^$$' -fuzz '^FuzzFTPURI$$' -fuzztime 10000x
 	$(GO) test ./pkg/memory -run '^$$' -fuzz '^FuzzQEMUSuspend$$' -fuzztime 10000x
 	$(GO) test ./pkg/memory -run '^$$' -fuzz '^FuzzVMwareMetadata$$' -fuzztime 10000x

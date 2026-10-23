@@ -294,3 +294,31 @@ func TestS3DoctorAndOffline(t *testing.T) {
 		t.Fatal("offline S3 contacted endpoint")
 	}
 }
+
+func TestGCSDoctorAndOffline(t *testing.T) {
+	server := testfixture.StartGCSServer(t, "")
+	server.Put("test-bucket", "memory.raw", "123", "1", "", []byte("native GCS object snapshot"))
+	args := []string{"doctor", "--image", "gs://test-bucket/memory.raw", "--gcs-endpoint", server.Endpoint(), "--gcs-anonymous"}
+	output, stderr, err := run(t, "", args...)
+	if err != nil {
+		t.Fatal(stderr, err)
+	}
+	var diagnostic struct {
+		Format string `json:"image_format"`
+		Object struct {
+			Protocol, Version, ETag, Endpoint, Metageneration string
+			Size                                              uint64
+		} `json:"cloud_object"`
+	}
+	if err := json.Unmarshal([]byte(output), &diagnostic); err != nil {
+		t.Fatal(err)
+	}
+	if diagnostic.Format != "raw" || diagnostic.Object.Version != "123" || diagnostic.Object.Protocol != "gs" || diagnostic.Object.Metageneration != "1" || diagnostic.Object.ETag == "" || diagnostic.Object.Endpoint != server.Endpoint() {
+		t.Fatal("cloud diagnostic missing")
+	}
+	count := server.Requests.Load()
+	args = append(args, "--offline")
+	if _, _, err := run(t, "", args...); err == nil || server.Requests.Load() != count {
+		t.Fatal("offline GCS contacted endpoint")
+	}
+}

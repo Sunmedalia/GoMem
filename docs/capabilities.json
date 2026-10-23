@@ -12374,16 +12374,15 @@
       "source": "volatility3/framework/layers/cloudstorage.py",
       "status": "partial",
       "accepted": false,
-      "applicability": "Native AWS Go SDK S3 provider, conditional ranges and pinned object versions; GCS remains pending.",
+      "applicability": "Native S3 and GCS providers, conditional ranges and pinned object versions; selected JSON/SDK controls only.",
       "corpora": [
         "synthetic-s3-signed-versioned-ranges",
         "pinned-s3fs-cloud-handler",
         "official-linux-sample-1-over-local-s3"
       ],
-      "comparison": "selected_actual_S3_handler_seek_reads_and_loopback_object_entities_only",
+      "comparison": "selected_actual_S3_and_GS_handler_seek_reads_and_loopback_object_entities_only",
       "validation_record": "docs/s3-sources.md",
       "gaps": [
-        "GCS provider not yet implemented",
         "No real cloud/service/version/auth-provider matrix acceptance",
         "Not complete fsspec configuration or Python runtime compatibility"
       ]
@@ -13139,11 +13138,24 @@
     {
       "id": "source.gs",
       "category": "acceptance",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "Read-only GCS JSON API ranges pinned to generation and metageneration; Google ADC or explicit anonymous mode, stored gzip representation, cancellation and offline rejection.",
+      "corpora": [
+        "synthetic-gcs-generation-ranges",
+        "synthetic-adc-jwt-refresh",
+        "pinned-gcsfs-cloud-handler",
+        "synthetic-windows-linux-gcs",
+        "synthetic-gcs-vmware",
+        "official-linux-sample-1-over-local-gcs"
+      ],
+      "comparison": "actual_pinned_GS_handler_SHA_and_seek_reads_plus_512MiB_hash_133_ordered_process_columns",
+      "validation_record": "docs/gcs-sources.md",
+      "gaps": [
+        "No live Google Cloud or complete authentication provider matrix; loopback protocol controls only",
+        "Requester pays, customer encryption keys, zonal/gRPC and full fsspec configuration remain pending",
+        "No persistent block cache or resumable acquisition; service-account ADC and context token refresh tested, other ADC providers not independently accepted"
+      ]
     },
     {
       "id": "source.leechcore",

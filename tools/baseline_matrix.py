@@ -861,9 +861,9 @@ def generate(source):
                                           gaps=["Supporting parser, not complete PESymbols or suspended-thread plugin implementation", "Ordered PDB-first module resolution has 18 pinned controls; automatic cross-process collection, plugin integration and broader extension behavior remain pending", "Real PE32, forwarded-export corpora and full corruption/version acceptance remain pending", "Forwarder strings are metadata and are not recursively resolved"])
             if module == "volatility3.framework.layers.cloudstorage":
                 infrastructure[-1].update(status="partial", corpora=["synthetic-s3-signed-versioned-ranges", "pinned-s3fs-cloud-handler", "official-linux-sample-1-over-local-s3"],
-                                          applicability="Native AWS Go SDK S3 provider, conditional ranges and pinned object versions; GCS remains pending.",
-                                          comparison="selected_actual_S3_handler_seek_reads_and_loopback_object_entities_only", validation_record="docs/s3-sources.md",
-                                          gaps=["GCS provider not yet implemented", "No real cloud/service/version/auth-provider matrix acceptance", "Not complete fsspec configuration or Python runtime compatibility"])
+                                          applicability="Native S3 and GCS providers, conditional ranges and pinned object versions; selected JSON/SDK controls only.",
+                                          comparison="selected_actual_S3_and_GS_handler_seek_reads_and_loopback_object_entities_only", validation_record="docs/s3-sources.md",
+                                          gaps=["No real cloud/service/version/auth-provider matrix acceptance", "Not complete fsspec configuration or Python runtime compatibility"])
             if module == "volatility3.framework.layers.qemu":
                 infrastructure[-1].update(status="partial", corpora=["pinned-qemu-20-controls", "qemu-v9.2.0-analyzer-20-controls", "synthetic-windows-linux-qemu", "synthetic-http-qemu", "official-linux-sample-1-reencoded-qemu"],
                                           applicability="QEMU v3 RAM-v4 streams, fill/raw pages, section continuations, captured VM device layouts and default PC PCI-hole maps; bounded parsing and source reads.",
@@ -896,6 +896,11 @@ def generate(source):
                        "export.extracted-files", "extension.yara", "extension.capstone", "renderer.arrow", "renderer.mermaid"):
         infrastructure.append({"id": identifier, "category": "acceptance", "status": "partial" if identifier in ("source.file", "symbols.pdb-msf", "symbols.dwarf", "symbols.member-order", "symbols.local-index", "symbols.pdb-conversion-cache", "symbols.auto-download", "symbols.isf.zip", "symbols.isf.gzip", "symbols.isf.xz", "exploration.types", "exploration.address-space", "exploration.search") else "missing",
                                "accepted": False, "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.", "corpora": [], "comparison": "not_run"})
+        if identifier == "source.gs":
+            infrastructure[-1].update(status="partial", corpora=["synthetic-gcs-generation-ranges", "synthetic-adc-jwt-refresh", "pinned-gcsfs-cloud-handler", "synthetic-windows-linux-gcs", "synthetic-gcs-vmware", "official-linux-sample-1-over-local-gcs"],
+                                      applicability="Read-only GCS JSON API ranges pinned to generation and metageneration; Google ADC or explicit anonymous mode, stored gzip representation, cancellation and offline rejection.",
+                                      comparison="actual_pinned_GS_handler_SHA_and_seek_reads_plus_512MiB_hash_133_ordered_process_columns", validation_record="docs/gcs-sources.md",
+                                      gaps=["No live Google Cloud or complete authentication provider matrix; loopback protocol controls only", "Requester pays, customer encryption keys, zonal/gRPC and full fsspec configuration remain pending", "No persistent block cache or resumable acquisition; service-account ADC and context token refresh tested, other ADC providers not independently accepted"])
         if identifier == "source.s3":
             infrastructure[-1].update(status="partial", corpora=["synthetic-s3-signed-versioned-ranges", "pinned-s3fs-cloud-handler", "synthetic-windows-linux-s3", "synthetic-s3-vmware", "official-linux-sample-1-over-local-s3"],
                                       applicability="S3 read-only HeadObject/GetObject ranges via AWS Go SDK credentials, version pins or ETag conditions, explicit endpoints, anonymous/public reads and offline rejection.",

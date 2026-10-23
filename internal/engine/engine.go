@@ -25,6 +25,7 @@ import (
 )
 
 type Config struct {
+	GCS                                    memory.GCSOptions
 	S3                                     memory.S3Options
 	VMwareMetadata                         string
 	Image, CaseDir, Symbols, OS, Arch, DTB string
@@ -74,7 +75,7 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 	if c.CaseDir != "" {
 		snapshotDirectory = filepath.Join(c.CaseDir, "sources")
 	}
-	src, err := memory.OpenImageSource(ctx, c.Image, memory.ImageSourceOptions{Offline: c.Offline, VMwareMetadata: c.VMwareMetadata, SnapshotDirectory: snapshotDirectory, S3: c.S3})
+	src, err := memory.OpenImageSource(ctx, c.Image, memory.ImageSourceOptions{Offline: c.Offline, VMwareMetadata: c.VMwareMetadata, SnapshotDirectory: snapshotDirectory, S3: c.S3, GCS: c.GCS})
 	if err != nil {
 		return nil, err
 	}
@@ -580,6 +581,9 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 		provenance.Parameters["engine.source.bucket"] = info.Bucket
 		provenance.Parameters["engine.source.key"] = info.Key
 		provenance.Parameters["engine.source.version"] = info.Version
+		if info.Metageneration != "" {
+			provenance.Parameters["engine.source.metageneration"] = info.Metageneration
+		}
 		provenance.Parameters["engine.source.etag"] = info.ETag
 		provenance.Parameters["engine.source.size"] = strconv.FormatUint(info.Size, 10)
 	}

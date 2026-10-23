@@ -8,6 +8,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"reflect"
 	"strings"
 	"sync"
 	"testing"
@@ -143,7 +144,7 @@ func TestModulePDBNativeOfflineConversionAndConcurrency(t *testing.T) {
 			for err := range errs {
 				t.Fatal(err)
 			}
-			if e.Config != original {
+			if !reflect.DeepEqual(e.Config, original) {
 				t.Fatal("module acquisition mutated engine configuration")
 			}
 		})

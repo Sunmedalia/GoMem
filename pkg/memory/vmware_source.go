@@ -16,6 +16,7 @@ import (
 )
 
 type ImageSourceOptions struct {
+	GCS               GCSOptions
 	S3                S3Options
 	SnapshotDirectory string
 	Offline           bool
@@ -26,6 +27,16 @@ type ImageSourceOptions struct {
 // The returned source owns every opened member and exposes the VMEM bytes.
 func OpenImageSource(ctx context.Context, location string, options ImageSourceOptions) (source MemorySource, err error) {
 	openMember := func(location string) (MemorySource, error) {
+		if strings.HasPrefix(strings.ToLower(location), "gs://") {
+			if options.Offline {
+				return nil, fmt.Errorf("remote image unavailable in offline mode")
+			}
+			source, err := OpenGCS(ctx, location, options.GCS)
+			if err != nil {
+				return nil, err
+			}
+			return source, nil
+		}
 		if strings.HasPrefix(strings.ToLower(location), "s3://") {
 			if options.Offline {
 				return nil, fmt.Errorf("remote image unavailable in offline mode")
@@ -112,7 +123,7 @@ func replaceSourceExtension(location, extension string) string {
 			}
 			u.Path = strings.TrimSuffix(u.Path, filepath.Ext(u.Path)) + extension + suffix
 			u.RawPath = ""
-			if strings.EqualFold(u.Scheme, "s3") {
+			if strings.EqualFold(u.Scheme, "s3") || strings.EqualFold(u.Scheme, "gs") {
 				u.RawQuery = ""
 				u.ForceQuery = false
 			}
