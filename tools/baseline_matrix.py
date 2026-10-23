@@ -871,6 +871,11 @@ def generate(source):
                        "export.extracted-files", "extension.yara", "extension.capstone", "renderer.arrow", "renderer.mermaid"):
         infrastructure.append({"id": identifier, "category": "acceptance", "status": "partial" if identifier in ("source.file", "symbols.pdb-msf", "symbols.dwarf", "symbols.member-order", "symbols.local-index", "symbols.pdb-conversion-cache", "symbols.auto-download", "symbols.isf.zip", "symbols.isf.gzip", "symbols.isf.xz", "exploration.types", "exploration.address-space", "exploration.search") else "missing",
                                "accepted": False, "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.", "corpora": [], "comparison": "not_run"})
+        if identifier in ("source.http", "source.https"):
+            infrastructure[-1].update(status="partial", corpora=["synthetic-http-range-and-tls", "synthetic-linux-x64-over-http", "official-linux-sample-1-over-local-http"],
+                                      applicability="HTTP(S) immutable representations with strong ETags and exact byte-range support; bounded conditional reads and full streamed image SHA-256. Offline forbids remote I/O.",
+                                      comparison="native_transport_and_engine_evidence_cache_controls_only", validation_record="docs/http-sources.md",
+                                      gaps=["No local snapshot fallback for servers without strong ETags or ranges", "No remote block cache, resumable acquisition or dedicated credential providers", "Public-network/proxy compatibility and full upstream resource acceptance remain pending"])
         if identifier == "paging.arm64":
             infrastructure[-1].update(status="partial", corpora=["synthetic-linux-arm64", "local-kali-6.8.11-arm64-smoke"],
                                       applicability="Native Linux ARM64 stage-1, little endian, 4KiB granule, 48-bit VA/PA; exact ISF architecture and geometry metadata required. 4KiB/2MiB/1GiB leaves; sparse descriptor reads. Other granules, TBI/MTE, LPA2 and automatic virtual KASLR are unsupported.",

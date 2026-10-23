@@ -67,14 +67,17 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 	if c.OS != "" && c.OS != "linux" && c.OS != "windows" && c.OS != "mac" {
 		return nil, fmt.Errorf("--os must be linux, windows or mac")
 	}
-	src, err := memory.OpenFile(c.Image)
+	src, err := memory.OpenSource(ctx, c.Image, c.Offline)
 	if err != nil {
 		return nil, err
 	}
-	initialStat, err := src.Stat()
-	if err != nil {
-		src.Close()
-		return nil, err
+	var initialStat os.FileInfo
+	if file, ok := src.(*memory.FileSource); ok {
+		initialStat, err = file.Stat()
+		if err != nil {
+			src.Close()
+			return nil, err
+		}
 	}
 	var st *store.Store
 	defer func() {
@@ -112,17 +115,19 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 	if err != nil {
 		return nil, err
 	}
-	finalStat, err := src.Stat()
-	if err != nil {
-		return nil, err
-	}
-	if initialStat.Size() != finalStat.Size() || !initialStat.ModTime().Equal(finalStat.ModTime()) {
-		return nil, fmt.Errorf("image changed while hashing; use an immutable acquisition")
+	if file, ok := src.(*memory.FileSource); ok {
+		finalStat, statErr := file.Stat()
+		if statErr != nil {
+			return nil, statErr
+		}
+		if initialStat.Size() != finalStat.Size() || !initialStat.ModTime().Equal(finalStat.ModTime()) {
+			return nil, fmt.Errorf("image changed while hashing; use an immutable acquisition")
+		}
 	}
 	if c.CaseDir != "" {
 		for _, name := range []string{"case.db", "case.db-wal", "case.db-shm", "case.db-journal", "case.lock"} {
 			info, statErr := os.Stat(filepath.Join(c.CaseDir, name))
-			if statErr == nil && os.SameFile(initialStat, info) {
+			if statErr == nil && initialStat != nil && os.SameFile(initialStat, info) {
 				return nil, fmt.Errorf("case database or journal aliases the input image: %s", name)
 			}
 			if statErr != nil && !os.IsNotExist(statErr) {
@@ -278,12 +283,15 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 			}
 		}
 	}
-	if err = eng.unchanged(); err != nil {
+	if err = eng.unchanged(ctx); err != nil {
 		return nil, err
 	}
-	imagePath, err := filepath.Abs(c.Image)
-	if err != nil {
-		return nil, err
+	imagePath := src.Name()
+	if initialStat != nil {
+		imagePath, err = filepath.Abs(c.Image)
+		if err != nil {
+			return nil, err
+		}
 	}
 	if err = eng.Store.RecordImage(ctx, hash, imagePath, format, src.Size()); err != nil {
 		return nil, err
@@ -339,7 +347,7 @@ func (e *Engine) Check(ctx context.Context, s plugin.Spec) error {
 	if err := ctx.Err(); err != nil {
 		return err
 	}
-	if err := e.unchanged(); err != nil {
+	if err := e.unchanged(ctx); err != nil {
 		return err
 	}
 	if !s.NeedsKernel {
@@ -405,7 +413,7 @@ func (e *Engine) Run(ctx context.Context, name string, in map[string]string, opt
 	stop := context.AfterFunc(e.life, cancel)
 	defer stop()
 	defer cancel()
-	if err := e.unchanged(); err != nil {
+	if err := e.unchanged(ctx); err != nil {
 		return Result{}, err
 	}
 	return e.run(ctx, name, in, opts, make(map[string]bool))
@@ -440,7 +448,10 @@ var DeprecatedPluginAliases = map[string]string{
 	"windows.svcdiff.SvcDiff":                      "windows.svcdiff",
 }
 
-func (e *Engine) unchanged() error {
+func (e *Engine) unchanged(ctx context.Context) error {
+	if remote, ok := e.Source.(interface{ Validate(context.Context) error }); ok {
+		return remote.Validate(ctx)
+	}
 	f, ok := e.Source.(*memory.FileSource)
 	if !ok {
 		return nil
@@ -551,7 +562,7 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 					}
 				}
 			}
-			return result, nil
+			return result, e.unchanged(ctx)
 		}
 	}
 	task, err := e.Store.Begin(ctx, key, requested, provenance)
@@ -630,7 +641,7 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 		}
 		return nil
 	})
-	err = errors.Join(err, ctx.Err(), e.unchanged())
+	err = errors.Join(err, ctx.Err(), e.unchanged(ctx))
 	// Commit partial evidence and terminal state even after user cancellation.
 	// Slow case storage (notably Windows with filesystem scanning) must not
 	// exhaust a tiny shared deadline before the terminal-state write starts.

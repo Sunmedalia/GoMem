@@ -13003,20 +13003,40 @@
     {
       "id": "source.http",
       "category": "acceptance",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "HTTP(S) immutable representations with strong ETags and exact byte-range support; bounded conditional reads and full streamed image SHA-256. Offline forbids remote I/O.",
+      "corpora": [
+        "synthetic-http-range-and-tls",
+        "synthetic-linux-x64-over-http",
+        "official-linux-sample-1-over-local-http"
+      ],
+      "comparison": "native_transport_and_engine_evidence_cache_controls_only",
+      "validation_record": "docs/http-sources.md",
+      "gaps": [
+        "No local snapshot fallback for servers without strong ETags or ranges",
+        "No remote block cache, resumable acquisition or dedicated credential providers",
+        "Public-network/proxy compatibility and full upstream resource acceptance remain pending"
+      ]
     },
     {
       "id": "source.https",
       "category": "acceptance",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "HTTP(S) immutable representations with strong ETags and exact byte-range support; bounded conditional reads and full streamed image SHA-256. Offline forbids remote I/O.",
+      "corpora": [
+        "synthetic-http-range-and-tls",
+        "synthetic-linux-x64-over-http",
+        "official-linux-sample-1-over-local-http"
+      ],
+      "comparison": "native_transport_and_engine_evidence_cache_controls_only",
+      "validation_record": "docs/http-sources.md",
+      "gaps": [
+        "No local snapshot fallback for servers without strong ETags or ranges",
+        "No remote block cache, resumable acquisition or dedicated credential providers",
+        "Public-network/proxy compatibility and full upstream resource acceptance remain pending"
+      ]
     },
     {
       "id": "source.ftp",

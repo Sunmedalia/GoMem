@@ -23,6 +23,7 @@ audit-v01:
 	$(GO) run ./cmd/gomem plugins --format json > .cache/v01/native-plugins.json
 	python3 tools/audit_v01.py --plugins .cache/v01/native-plugins.json --check
 fuzz:
+	$(GO) test ./pkg/memory -run '^$$' -fuzz '^FuzzHTTPContentRange$$' -fuzztime 10000x
 	$(GO) test ./internal/plugins -run '^$$' -fuzz '^FuzzDesktopsPagedPipeline$$' -fuzztime 2000x
 	$(GO) test ./internal/plugins -run '^$$' -fuzz '^FuzzWindowStationsPagedPipeline$$' -fuzztime 2000x
 	$(GO) test ./internal/plugins -run '^$$' -fuzz '^FuzzGUIPoolCarving$$' -fuzztime 20000x
