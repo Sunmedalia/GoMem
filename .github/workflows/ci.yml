@@ -116,6 +116,7 @@ jobs:
           GOMEM_ARROW_REFERENCE_PYTHON: python3
       - run: python3 tools/build_xen_oracle.py --check
       - run: go test ./pkg/memory -run '^$' -fuzz '^FuzzWindowsPagefileResolve$' -fuzztime 10000x
+      - run: go test ./pkg/memoryscan -run '^$' -fuzz '^FuzzBackingScanSources$' -fuzztime 1000x
       - run: python3 tools/build_vmware_oracle.py --check
       - run: python3 tools/build_qemu_oracle.py --check
       - run: go test -race ./pkg/memory -run '^Test(S3|GCS)ActualPinnedCloudHandler$' -count=1

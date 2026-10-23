@@ -25,4 +25,4 @@ Windows swap 判定与固定 Intel 层相同：Present、Prototype、Transition 
 - 引擎控制验证任务证据/SQLite 封存、缓存复用、内容变化改变采集身份、修改源拒绝回放，以及案件输出别名不会改写 pagefile。CLI 从 `--pagefile` 到 `use kernel`、translate、hex 和反汇编覆盖中文/空格路径。
 - 本地 Windows 10 19041 dump 配置额外的 16KiB 合成 pagefile 后，原有驻留进程枚举仍完成 120 行，并保留 pagefile 哈希。这只是配置/驻留读取回归；该文件不是与镜像配套的真实交换捕获，不建立外部交换字节的真实阳性验收。
 
-当前不支持 Linux swap、Windows prototype/compressed store，也没有真实配套 pagefile 的阳性语料验收。只有 RAM 坐标的 `MappedRanges` / `PageMappings` 在配置 pagefile 时明确返回 unsupported，防止扫描器把未遍历的外部区域算作完整覆盖。通用 backing-map 枚举、扫描/提取的逐段外部来源传播，以及各插件独立创建/包装地址空间的全面接入仍待完成；这些任务不能据此认为已验收。矩阵保持 partial，开发预览继续保留完整交换页能力缺口。
+当前不支持 Linux swap、Windows prototype/compressed store，也没有真实配套 pagefile 的阳性语料验收。只有 RAM 坐标的 `MappedRanges` / `PageMappings` 在配置 pagefile 时明确返回 unsupported，防止扫描器把未遍历的外部区域算作完整覆盖。原生框架已有 [带来源的映射与扫描接口](backing-scans.md)，保留跨 RAM/pagefile 命中和逐段字节回溯；各插件独立创建/包装地址空间的全面迁移、提取及报告接入仍待完成，不能据此认为已验收。矩阵保持 partial，开发预览继续保留完整交换页能力缺口。

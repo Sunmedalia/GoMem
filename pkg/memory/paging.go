@@ -132,15 +132,10 @@ func (i *Intel) Translate(ctx context.Context, a uint64) (Translation, error) {
 		}
 		software := entry&1 == 0
 		if software && (!i.windows || entry&2048 == 0 || entry&1024 != 0) {
-			bitOffset := uint(32)
-			if i.mode == "x86" {
-				bitOffset = 12
-			}
-			if i.windows && entry&(1|1024|2048) == 0 && entry&128 != 0 && entry>>bitOffset != 0 {
-				if entry>>bitOffset > ^uint64(0)>>shift {
-					return Translation{}, fmt.Errorf("%w: pagefile offset overflows", ErrUnmapped)
-				}
-				return Translation{}, &SwappedPageError{Virtual: a, EntryAddress: table + index*uint64(width), Entry: entry, EntryWidth: uint8(width), Number: uint8((entry >> 1) & 15), Offset: (entry >> bitOffset) << shift, PageSize: uint64(1) << shift}
+			if swapped, err := i.swapEntry(a, table+index*uint64(width), entry, shift, width); err != nil {
+				return Translation{}, err
+			} else if swapped != nil {
+				return Translation{}, swapped
 			}
 			return Translation{}, fmt.Errorf("%w: nonpresent page-table entry %#x at %#x (prototype/swap or unsupported software encoding)", ErrUnmapped, entry, table+index*uint64(width))
 		}

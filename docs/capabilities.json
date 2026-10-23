@@ -13360,13 +13360,15 @@
         "pinned-windows-swap-54-layer-controls",
         "synthetic-windows-pagefile-byte-reads",
         "synthetic-pagefile-acquisition-cache",
-        "synthetic-pagefile-cli"
+        "synthetic-pagefile-cli",
+        "synthetic-backing-map-sources",
+        "synthetic-backing-scan-overlap"
       ],
       "comparison": "54_actual_pinned_swap_base_extent_controls_with_documented_unaligned_byte_offset_correction",
       "validation_record": "docs/windows-pagefiles.md",
       "gaps": [
         "No real paired pagefile positive corpus, Linux swap, prototype or compressed-store acceptance",
-        "Physical-only mapping enumerators reject pagefile configurations; generic backing-map scans/extraction and complete plugin propagation remain pending",
+        "Native backing maps/chunks retain source coordinates and explicit coverage faults; legacy physical-only enumerators still reject pagefiles. Complete plugin/extraction/report propagation remains pending",
         "Pinned swap reads omit within-block displacement; native corrects it explicitly and records the divergence"
       ]
     },

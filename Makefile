@@ -24,6 +24,7 @@ audit-v01:
 	python3 tools/audit_v01.py --plugins .cache/v01/native-plugins.json --check
 fuzz:
 	$(GO) test ./pkg/memory -run '^$$' -fuzz '^FuzzWindowsPagefileResolve$$' -fuzztime 10000x
+	$(GO) test ./pkg/memoryscan -run '^$$' -fuzz '^FuzzBackingScanSources$$' -fuzztime 1000x
 	$(GO) test ./pkg/memory -run '^$$' -fuzz '^FuzzS3URI$$' -fuzztime 10000x
 	$(GO) test ./pkg/memory -run '^$$' -fuzz '^FuzzGCSURI$$' -fuzztime 10000x
 	$(GO) test ./internal/render -run '^$$' -fuzz '^FuzzArrowEvidence$$' -fuzztime 10000x

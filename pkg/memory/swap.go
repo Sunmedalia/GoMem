@@ -19,6 +19,20 @@ func (e *SwappedPageError) Error() string {
 }
 func (e *SwappedPageError) Unwrap() error { return ErrUnmapped }
 
+func (i *Intel) swapEntry(virtual, at, entry uint64, shift uint, width int) (*SwappedPageError, error) {
+	bitOffset := uint(32)
+	if i.mode == "x86" {
+		bitOffset = 12
+	}
+	if !i.windows || entry&(1|1024|2048) != 0 || entry&128 == 0 || entry>>bitOffset == 0 {
+		return nil, nil
+	}
+	if entry>>bitOffset > ^uint64(0)>>shift {
+		return nil, fmt.Errorf("%w: pagefile offset overflows", ErrUnmapped)
+	}
+	return &SwappedPageError{Virtual: virtual, EntryAddress: at, Entry: entry, EntryWidth: uint8(width), Number: uint8((entry >> 1) & 15), Offset: (entry >> bitOffset) << shift, PageSize: uint64(1) << shift}, nil
+}
+
 // BackingTranslation explicitly separates RAM addresses from external offsets.
 // Physical is meaningful only when Pagefile is nil. Layer and Offset identify
 // the bytes to read in either case; no synthetic RAM address is invented.
@@ -46,9 +60,21 @@ func WithPagefiles(physical MemoryLayer, files map[uint8]MemoryLayer) (MemoryLay
 		return nil, fmt.Errorf("pagefiles require physical memory")
 	}
 	copyFiles := make(map[uint8]MemoryLayer, len(files))
+	if attached, ok := physical.(*pagefilePhysical); ok {
+		if len(files) == 0 {
+			return physical, nil
+		}
+		for number, layer := range attached.files {
+			copyFiles[number] = layer
+		}
+		physical = attached.MemoryLayer
+	}
 	for number, layer := range files {
 		if number > 15 || layer == nil {
 			return nil, fmt.Errorf("pagefile number must be 0..15 with a backing layer")
+		}
+		if _, exists := copyFiles[number]; exists {
+			return nil, fmt.Errorf("pagefile %d is already attached", number)
 		}
 		copyFiles[number] = layer
 	}

@@ -60,6 +60,25 @@ func TestWindowsSwapPinnedOracle(t *testing.T) {
 			if err != nil || resolved.Offset != tc.CorrectedOffset || resolved.Pagefile == nil || int(*resolved.Pagefile) != tc.Number {
 				t.Fatal(resolved, err)
 			}
+			var mapped []BackingMapping
+			unavailable := 0
+			stats, mapErr := tr.VisitBackingMappings(context.Background(), BackingMapOptions{MaxTables: 10, MaxEntries: 100, Sections: []Range{{Start: tc.Address, Length: 8}}, OnUnavailableMapping: func(m BackingMapping, err error) error {
+				unavailable++
+				if m.Offset != tc.CorrectedOffset || m.Pagefile == nil || int(*m.Pagefile) != tc.Number || !errors.Is(err, ErrUnmapped) {
+					t.Fatal(m, err)
+				}
+				return nil
+			}}, func(m BackingMapping) error { mapped = append(mapped, m); return nil })
+			if mapErr != nil {
+				t.Fatal(mapErr)
+			}
+			if tc.CorrectedBytes == nil {
+				if unavailable != 1 || stats.Unavailable != 1 || len(mapped) != 0 {
+					t.Fatal("unavailable intermediate swap block was treated as readable", stats, mapped)
+				}
+			} else if unavailable != 0 || len(mapped) != 1 || mapped[0].Offset != tc.CorrectedOffset || mapped[0].Virtual != tc.Address || mapped[0].Length != 8 {
+				t.Fatal(mapped, stats)
+			}
 			if tc.CorrectedBytes != nil {
 				actual, err := Read(context.Background(), &Virtual{Physical: physical, Translator: tr}, tc.Address, len(tc.CorrectedBytes))
 				if err != nil || !bytes.Equal(actual, tc.CorrectedBytes) {
@@ -136,6 +155,17 @@ func TestWindowsSwapOverflowAndAttachmentIsolation(t *testing.T) {
 	if err != nil || string(got) != "original" {
 		t.Fatal("caller changed attached numbering", string(got), err)
 	}
+	merged, err := WithPagefiles(attached, map[uint8]MemoryLayer{1: raw(t, file)})
+	if err != nil {
+		t.Fatal(err)
+	}
+	mergedTr, _ := NewIntelForOS(merged, 0x1000, "x64", "windows", 4)
+	if len(mergedTr.pagefiles) != 2 {
+		t.Fatal("reattachment lost an existing source")
+	}
+	if _, err := WithPagefiles(merged, map[uint8]MemoryLayer{0: raw(t, file)}); err == nil {
+		t.Fatal("silently replaced a captured source")
+	}
 }
 
 func FuzzWindowsPagefileResolve(f *testing.F) {
@@ -168,6 +198,23 @@ func FuzzWindowsPagefileResolve(f *testing.F) {
 		tr, _ := NewIntelForOS(physical, 0x1000, mode, "windows", 4)
 		va := uint64(address) & 4095
 		resolved, err := tr.Resolve(context.Background(), va)
+		_, mapErr := tr.VisitBackingMappings(context.Background(), BackingMapOptions{MaxTables: 10, MaxEntries: 100, Sections: []Range{{Start: va, Length: 1}}}, func(m BackingMapping) error {
+			if err != nil || m.Virtual != va || m.Offset != resolved.Offset || m.Length != 1 || (m.Pagefile == nil) != (resolved.Pagefile == nil) {
+				t.Fatal("map and resolver disagree", m, resolved, err)
+			}
+			if m.Pagefile != nil && *m.Pagefile != *resolved.Pagefile {
+				t.Fatal("wrong pagefile source")
+			}
+			actual, readErr := Read(context.Background(), m.Layer, m.Offset, 1)
+			original, virtualErr := Read(context.Background(), &Virtual{Physical: physical, Translator: tr}, va, 1)
+			if readErr != nil || virtualErr != nil || !bytes.Equal(actual, original) {
+				t.Fatal("map bytes differ", readErr, virtualErr)
+			}
+			return nil
+		})
+		if mapErr != nil && !errors.Is(mapErr, ErrUnmapped) && !errors.Is(mapErr, ErrUnsupported) {
+			t.Fatal(mapErr)
+		}
 		if err != nil || resolved.Pagefile == nil {
 			return
 		}
