@@ -129,3 +129,5 @@ v0.1 增量：`case verify` 现已核对存储 Seal、任务来源、父子关�
 2026-10-23：`windows.shimcachemem` 新增 Windows 8+ 原生路径：34 个固定版本选择控制、模块 `.data`/`PAGE` 定位、双 handle 校验、链表遍历及路径/大小/时间投影。Windows 10 样本输出 4 条，前三路径和全部可读字段与固定基线一致；第 4 条缺页在基线为 `null`，原生保留错误并明确令任务失败。XP 至 Windows 7、真实 x86/PAE、时间线和完整验收仍待补齐，插件保持 partial。[详情](windows-shimcache.md)
 
 2026-10-23：开始补齐 v0.1 非插件底座，新增 HTTP/HTTPS 原生随机读取源。强 ETag 与条件 Range 读取固定远程版本，完整 SHA-256、任务前后及缓存回放前均核对身份；支持 TLS、取消、关闭和来源凭据脱敏。HTTP/TLS 传输控制与 Linux 分页分析/缓存/案件校验建立合成测试；无强 ETag/Range 的快照回退及其余远程协议仍待实现。[详情](http-sources.md)
+
+2026-10-23：shell 新增 `dis/disasm ADDRESS [LENGTH] [ARCH]`，在当前物理/内核/进程空间进行原生 x86/x64/ARM/ARM64 反汇编，输出层、地址、机器码与指令，验证源身份并保留读取和解码失败。所选层、架构、跳转目标、取消与输出失败均有控制测试；完整 volshell、Capstone 与指令集差分验收仍待完成。[详情](shell-disassembly.md)

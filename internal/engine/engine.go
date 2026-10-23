@@ -448,6 +448,15 @@ var DeprecatedPluginAliases = map[string]string{
 	"windows.svcdiff.SvcDiff":                      "windows.svcdiff",
 }
 
+// ValidateSource checks that the open acquisition still matches its hashed identity.
+// It performs no analysis and may issue a conditional read for a remote source.
+func (e *Engine) ValidateSource(ctx context.Context) error {
+	if err := ctx.Err(); err != nil {
+		return err
+	}
+	return e.unchanged(ctx)
+}
+
 func (e *Engine) unchanged(ctx context.Context) error {
 	if remote, ok := e.Source.(interface{ Validate(context.Context) error }); ok {
 		return remote.Validate(ctx)

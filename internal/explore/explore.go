@@ -30,6 +30,7 @@ const Help = `help                         show commands
 plugins                      list native capabilities
 run NAME [key=value ...]      run a plugin, with quoted parameter values
 hex ADDRESS [LENGTH]          read up to 65536 bytes in current address space
+dis ADDRESS [LENGTH] [ARCH]   disassemble x86/x64/arm/arm64 bytes in current space
 type TYPE ADDRESS            inspect typed fields (up to 128)
 use physical|kernel          select an address space
 use process EVIDENCE_ID       select a process using a sealed pslist result
@@ -37,7 +38,7 @@ search "LITERAL"             physical literal scan
 tasks                        show persisted task status
 bookmark EVIDENCE_ID NOTE     save an evidence bookmark
 quit                         exit shell
-Disassembly and automatic address-space discovery are not implemented.
+Full volshell compatibility is not implemented.
 `
 
 // Split implements quoting without environment expansion, subprocesses or eval.
@@ -135,6 +136,8 @@ func (s *Session) Execute(ctx context.Context, line string, w io.Writer) error {
 			return s.process(ctx, args[2])
 		}
 		return fmt.Errorf("use physical|kernel|process EVIDENCE_ID")
+	case "dis", "disasm":
+		return s.disassemble(ctx, args, w)
 	case "hex":
 		if len(args) < 2 || len(args) > 3 {
 			return fmt.Errorf("hex ADDRESS [LENGTH]")

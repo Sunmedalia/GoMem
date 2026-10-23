@@ -845,6 +845,11 @@ def generate(source):
                                    "status": "partial" if path.stem in ("physical", "intel", "lime", "elf", "crash", "intermed", "text_renderer") else "missing",
                                    "accepted": False, "applicability": "See locked source; source-module inventory includes support modules.",
                                    "corpora": [], "comparison": "not_run"})
+            if module == "volatility3.cli.volshell.generic":
+                infrastructure[-1].update(status="partial", corpora=["synthetic-shell-x86-x64-pae-arm-arm64"],
+                                          applicability="Native shell address-space selection, bounded hex/type display, literal scan, plugin execution and Go instruction decoding; not Python runtime compatibility.",
+                                          comparison="selected_native_shell_controls_only", validation_record="docs/shell-disassembly.md",
+                                          gaps=["Full object/type traversal, generic layer/module context management and volshell helper parity remain pending", "Capstone integration and complete instruction-set differential acceptance remain pending"])
             if module == "volatility3.framework.automagic.linux":
                 infrastructure[-1].update(status="partial", corpora=["synthetic-linux-x64", "official-linux-sample-1"],
                                           comparison="selected_kernel_identity_only", validation_record="docs/linux-discovery.md")
@@ -876,6 +881,11 @@ def generate(source):
                                       applicability="HTTP(S) immutable representations with strong ETags and exact byte-range support; bounded conditional reads and full streamed image SHA-256. Offline forbids remote I/O.",
                                       comparison="native_transport_and_engine_evidence_cache_controls_only", validation_record="docs/http-sources.md",
                                       gaps=["No local snapshot fallback for servers without strong ETags or ranges", "No remote block cache, resumable acquisition or dedicated credential providers", "Public-network/proxy compatibility and full upstream resource acceptance remain pending"])
+        if identifier == "exploration.disassembly":
+            infrastructure[-1].update(status="partial", corpora=["synthetic-shell-x86-x64-pae-arm-arm64"],
+                                      applicability="Current-space bounded interactive dis/disasm using native Go x/arch; Intel 32/64 and little-endian ARM/ARM64, explicit mode override and source identity validation.",
+                                      comparison="known_instruction_current_layer_branch_and_failure_controls_only", validation_record="docs/shell-disassembly.md",
+                                      gaps=["No Capstone adapter, Thumb mode or symbolized instruction output", "No complete instruction-set or real-corpus differential acceptance"])
         if identifier == "paging.arm64":
             infrastructure[-1].update(status="partial", corpora=["synthetic-linux-arm64", "local-kali-6.8.11-arm64-smoke"],
                                       applicability="Native Linux ARM64 stage-1, little endian, 4KiB granule, 48-bit VA/PA; exact ISF architecture and geometry metadata required. 4KiB/2MiB/1GiB leaves; sparse descriptor reads. Other granules, TBI/MTE, LPA2 and automatic virtual KASLR are unsupported.",

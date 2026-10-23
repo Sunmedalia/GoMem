@@ -12851,11 +12851,18 @@
       "id": "volatility3.cli.volshell.generic",
       "category": "renderers",
       "source": "volatility3/cli/volshell/generic.py",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "See locked source; source-module inventory includes support modules.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "Native shell address-space selection, bounded hex/type display, literal scan, plugin execution and Go instruction decoding; not Python runtime compatibility.",
+      "corpora": [
+        "synthetic-shell-x86-x64-pae-arm-arm64"
+      ],
+      "comparison": "selected_native_shell_controls_only",
+      "validation_record": "docs/shell-disassembly.md",
+      "gaps": [
+        "Full object/type traversal, generic layer/module context management and volshell helper parity remain pending",
+        "Capstone integration and complete instruction-set differential acceptance remain pending"
+      ]
     },
     {
       "id": "volatility3.cli.volshell.linux",
@@ -13210,11 +13217,18 @@
     {
       "id": "exploration.disassembly",
       "category": "acceptance",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "Current-space bounded interactive dis/disasm using native Go x/arch; Intel 32/64 and little-endian ARM/ARM64, explicit mode override and source identity validation.",
+      "corpora": [
+        "synthetic-shell-x86-x64-pae-arm-arm64"
+      ],
+      "comparison": "known_instruction_current_layer_branch_and_failure_controls_only",
+      "validation_record": "docs/shell-disassembly.md",
+      "gaps": [
+        "No Capstone adapter, Thumb mode or symbolized instruction output",
+        "No complete instruction-set or real-corpus differential acceptance"
+      ]
     },
     {
       "id": "paging.arm64",
