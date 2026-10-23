@@ -930,6 +930,11 @@ def generate(source):
                                       applicability="HTTP(S) immutable representations with strong ETags and exact byte-range support; bounded conditional reads and full streamed image SHA-256. Offline forbids remote I/O.",
                                       comparison="native_transport_and_engine_evidence_cache_controls_only", validation_record="docs/http-sources.md",
                                       gaps=["No local snapshot fallback for servers without strong ETags or ranges", "No remote block cache, resumable acquisition or dedicated credential providers", "Public-network/proxy compatibility and full upstream resource acceptance remain pending"])
+        if identifier == "exploration.search":
+            infrastructure[-1].update(status="partial", corpora=["synthetic-current-space-find", "synthetic-find-pagefile-cli"],
+                                      applicability="Explicit bounded current Intel virtual-space UTF-8 literal find; source-labelled RAM/pagefile hit bytes and hashes, overlap de-duplication, acquisition identity and incomplete-coverage summaries. Existing physical search remains separate.",
+                                      comparison="native_cross_source_current_space_hit_bytes_offsets_and_failure_controls", validation_record="docs/shell-find.md",
+                                      gaps=["No sealed search tasks, YARA/typed search, ARM64 backing enumeration or complete volshell helper parity", "Real swap-positive corpus and full platform/kernel acceptance remain pending"])
         if identifier == "paging.swap":
             infrastructure[-1].update(status="partial", corpora=["pinned-windows-swap-54-layer-controls", "synthetic-windows-pagefile-byte-reads", "synthetic-pagefile-acquisition-cache", "synthetic-pagefile-cli", "synthetic-backing-map-sources", "synthetic-backing-scan-overlap"],
                                       applicability="Explicit captured local Windows pagefiles 0..15; Intel x86/PAE/x64 software entries resolve to separately labelled backing bytes. RAM Translate stays physical-only. Member hashes bind acquisition identity, evidence and cache; virtual reads retain source failures.",

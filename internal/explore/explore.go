@@ -36,6 +36,7 @@ type TYPE ADDRESS            inspect typed fields (up to 128)
 use physical|kernel          select an address space
 use process EVIDENCE_ID       select a process using a sealed pslist result
 search "LITERAL"             physical literal scan
+find ADDRESS LENGTH "TEXT"   literal search in current Intel virtual space
 tasks                        show persisted task status
 bookmark EVIDENCE_ID NOTE     save an evidence bookmark
 quit                         exit shell
@@ -141,6 +142,8 @@ func (s *Session) Execute(ctx context.Context, line string, w io.Writer) error {
 		return s.disassemble(ctx, args, w)
 	case "translate":
 		return s.translate(ctx, args, w)
+	case "find":
+		return s.find(ctx, args, w)
 	case "hex":
 		if len(args) < 2 || len(args) > 3 {
 			return fmt.Errorf("hex ADDRESS [LENGTH]")

@@ -155,3 +155,5 @@ v0.1 增量：`case verify` 现已核对存储 Seal、任务来源、父子关�
 2026-10-23：Windows x86/PAE/x64 接入显式编号的本地 pagefile 和带来源的虚拟读取；交换偏移不冒充物理地址，成员散列绑定案件/证据/缓存。54 个真实固定层对照记录了上游遗漏页内位移的差异，跨 RAM/交换文件、缺页、封存、缓存和 CLI 控制通过。完整 backing-map 枚举扫描、插件传播和真实配套采集仍待完成。[详情](windows-pagefiles.md)
 
 2026-10-23：新增来源明确的 Intel backing 映射和扫描分块接口，跨 RAM/pagefile 保留 overlap、唯一命中起点、原始字节及来源哈希；缺表、缺来源与未知 Windows 软件项明确标记覆盖不完整。三模式混合映射/跨来源命中、54 个实际层对照及两类 fuzz 通过。插件、提取、报告和真实配套 pagefile 迁移仍待完成。[详情](backing-scans.md)
+
+2026-10-23：shell 新增当前 Intel 虚拟空间 find ADDRESS LENGTH LITERAL，使用带来源的分块扫描输出原始命中字节/哈希、逐段 RAM/pagefile 偏移和完整性摘要。跨来源、缺外部文件、取消、输出错误、源变化和命中上限测试通过；当前为交互输出，封存任务及完整 volshell 搜索仍待实现。[详情](shell-find.md)

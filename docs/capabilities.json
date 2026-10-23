@@ -13317,9 +13317,17 @@
       "category": "acceptance",
       "status": "partial",
       "accepted": false,
-      "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "Explicit bounded current Intel virtual-space UTF-8 literal find; source-labelled RAM/pagefile hit bytes and hashes, overlap de-duplication, acquisition identity and incomplete-coverage summaries. Existing physical search remains separate.",
+      "corpora": [
+        "synthetic-current-space-find",
+        "synthetic-find-pagefile-cli"
+      ],
+      "comparison": "native_cross_source_current_space_hit_bytes_offsets_and_failure_controls",
+      "validation_record": "docs/shell-find.md",
+      "gaps": [
+        "No sealed search tasks, YARA/typed search, ARM64 backing enumeration or complete volshell helper parity",
+        "Real swap-positive corpus and full platform/kernel acceptance remain pending"
+      ]
     },
     {
       "id": "exploration.disassembly",
