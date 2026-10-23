@@ -23,6 +23,11 @@ jobs:
       - run: go test -timeout 30m ./...
       - run: go build -trimpath ./cmd/gomem
       - run: go run ./cmd/gomem doctor --offline
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: go run ./cmd/gomem plugins --format json > native-plugins.json
+      - run: python tools/audit_v01.py --plugins native-plugins.json --check
   engine-race:
     strategy:
       fail-fast: false

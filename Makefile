@@ -1,7 +1,7 @@
 GO ?= go
 BASELINE := .cache/volatility3-881e970121c16f0932fb9d16fbd5fb258cbcbf75
 
-.PHONY: build test check fixtures baseline matrix fuzz bench dist clean
+.PHONY: build test check fixtures baseline matrix audit-v01 fuzz bench dist clean
 build:
 	$(GO) build -trimpath -o bin/gomem ./cmd/gomem
 test:
@@ -18,6 +18,10 @@ baseline:
 	python3 tools/fetch_baseline.py
 matrix:
 	python3 tools/baseline_matrix.py --source $(BASELINE) --check
+audit-v01:
+	@mkdir -p .cache/v01
+	$(GO) run ./cmd/gomem plugins --format json > .cache/v01/native-plugins.json
+	python3 tools/audit_v01.py --plugins .cache/v01/native-plugins.json --check
 fuzz:
 	$(GO) test ./internal/plugins -run '^$$' -fuzz '^FuzzDesktopsPagedPipeline$$' -fuzztime 2000x
 	$(GO) test ./internal/plugins -run '^$$' -fuzz '^FuzzWindowStationsPagedPipeline$$' -fuzztime 2000x

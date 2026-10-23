@@ -17,6 +17,11 @@ func linuxCheckModulesPlugins() []builtin {
 		{Name: "Load Arguments", Kind: "string"}, {Name: "File Output", Kind: "artifact"}, {Name: "DumpEvidence", Kind: "structure"},
 	}
 	for _, column := range linuxModxviewPlugins()[0].spec.Columns {
+		// The displayed Taints column is already declared above. Keep the
+		// modxview evidence fields without duplicating it in renderers/TUI.
+		if column.Name == "Taints" {
+			continue
+		}
 		columns = append(columns, column)
 	}
 	return []builtin{{plugin.Spec{
