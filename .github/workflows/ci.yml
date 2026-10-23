@@ -369,19 +369,23 @@ jobs:
           python-version: '3.12'
       - uses: dtolnay/rust-toolchain@stable
       - run: python3 tools/fetch_yarax.py
+      - run: python3 tools/configure_yarax.py
       - uses: Swatinem/rust-cache@v2
         with:
-          workspaces: .cache/yara-x-01ef5e2bc57c112448682ce6a5e6b66c4da6d6c9 -> ../../target/yarax
+          workspaces: .cache/yara-x-native-01ef5e2bc57c112448682ce6a5e6b66c4da6d6c9 -> ../../target/yarax
           cache-on-failure: true
-      - run: cargo build --release --locked --manifest-path .cache/yara-x-01ef5e2bc57c112448682ce6a5e6b66c4da6d6c9/Cargo.toml -p yara-x-capi -j 4
+      - run: cargo build --release --locked --manifest-path .cache/yara-x-native-01ef5e2bc57c112448682ce6a5e6b66c4da6d6c9/Cargo.toml -p yara-x-capi -j 4
+      - run: python3 tools/fetch_baseline.py
+      - run: python3 -m pip install yara-x==1.9.0
       - shell: python
         run: |
-          import os, pathlib
+          import os, pathlib, sys
           names = {'Windows': 'yara_x_capi.dll', 'Linux': 'libyara_x_capi.so', 'macOS': 'libyara_x_capi.dylib'}
           library = pathlib.Path('target/yarax/release') / names[os.environ['RUNNER_OS']]
           assert library.is_file(), library
           with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as out:
               out.write('GOMEM_YARAX_LIBRARY=' + library.resolve().as_posix() + '\n')
+              out.write('GOMEM_YARAX_REFERENCE_PYTHON=' + pathlib.Path(sys.executable).resolve().as_posix() + '\n')
       - run: go test -race ./pkg/yara ./internal/explore ./internal/cli -run Yara -count=1 -timeout 5m -v
       - run: go test ./pkg/yara -run '^$' -fuzz '^FuzzYaraNativeScan$' -fuzztime 1000x
   capstone-native:

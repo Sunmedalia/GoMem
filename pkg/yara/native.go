@@ -11,6 +11,7 @@ import "C"
 import (
 	"encoding/json"
 	"fmt"
+	"sort"
 	"sync"
 	"unsafe"
 )
@@ -26,7 +27,7 @@ type yaraNative struct {
 }
 
 func Supported() bool { return true }
-func compileNative(path string, source []byte) (nativeRules, error) {
+func loadLibrary(path string) (*C.gomem_yara_library, error) {
 	libraries.Lock()
 	library := libraries.values[path]
 	if library == nil {
@@ -45,11 +46,60 @@ func compileNative(path string, source []byte) (nativeRules, error) {
 	if library == nil {
 		return nil, fmt.Errorf("YARA-X library loading or required C API symbols unavailable")
 	}
-	text := C.CString(string(source))
-	defer C.free(unsafe.Pointer(text))
+	return library, nil
+}
+func compileNative(path string, config CompileConfig) (nativeRules, error) {
+	library, err := loadLibrary(path)
+	if err != nil {
+		return nil, err
+	}
+	var allocated []unsafe.Pointer
+	defer func() {
+		for _, p := range allocated {
+			C.free(p)
+		}
+	}()
+	cString := func(value string) *C.char {
+		p := C.CString(value)
+		allocated = append(allocated, unsafe.Pointer(p))
+		return p
+	}
+	sourceMemory := C.calloc(C.size_t(len(config.Sources)), C.size_t(C.sizeof_gomem_yara_source))
+	if sourceMemory == nil {
+		return nil, fmt.Errorf("YARA-X source allocation failed")
+	}
+	defer C.free(sourceMemory)
+	sources := unsafe.Slice((*C.gomem_yara_source)(sourceMemory), len(config.Sources))
+	for n, source := range config.Sources {
+		namespace := source.Namespace
+		if namespace == "" {
+			namespace = "default"
+		}
+		sources[n].namespace_name = cString(namespace)
+		sources[n].text = cString(string(source.Text))
+	}
+	var globals *C.gomem_yara_global
+	if len(config.Globals) != 0 {
+		p := C.calloc(C.size_t(len(config.Globals)), C.size_t(C.sizeof_gomem_yara_global))
+		if p == nil {
+			return nil, fmt.Errorf("YARA-X external allocation failed")
+		}
+		defer C.free(p)
+		globals = (*C.gomem_yara_global)(p)
+		values := unsafe.Slice(globals, len(config.Globals))
+		names := make([]string, 0, len(config.Globals))
+		for name := range config.Globals {
+			names = append(names, name)
+		}
+		sort.Strings(names)
+		for n, name := range names {
+			values[n].name = cString(name)
+			values[n].json = cString(string(config.Globals[name]))
+		}
+	}
 	var diagnostic *C.char
 	var warnings *C.char
-	rules := C.gomem_yara_compile(library, text, &diagnostic, &warnings)
+	rules := C.gomem_yara_compile(library, (*C.gomem_yara_source)(sourceMemory), C.size_t(len(sources)), globals, C.size_t(len(config.Globals)), &diagnostic, &warnings)
 	if warnings != nil {
 		defer C.free(unsafe.Pointer(warnings))
 	}
@@ -75,6 +125,29 @@ func compileNative(path string, source []byte) (nativeRules, error) {
 		}
 	}
 	return &yaraNative{rules: rules, warnings: rawWarnings}, nil
+}
+func deserializeNative(path string, data []byte) (nativeRules, error) {
+	library, err := loadLibrary(path)
+	if err != nil {
+		return nil, err
+	}
+	rules := C.gomem_yara_deserialize(library, unsafe.Pointer(&data[0]), C.size_t(len(data)))
+	if rules == nil {
+		return nil, fmt.Errorf("YARA-X compiled rules are invalid or incompatible")
+	}
+	return &yaraNative{rules: rules}, nil
+}
+func (n *yaraNative) Serialize() ([]byte, error) {
+	var p unsafe.Pointer
+	var length C.size_t
+	code := C.gomem_yara_serialize(n.rules, &p, &length)
+	if p != nil {
+		defer C.free(p)
+	}
+	if code != 0 {
+		return nil, fmt.Errorf("YARA-X serialization failed or exceeds %d bytes", MaxCompiled)
+	}
+	return C.GoBytes(p, C.int(length)), nil
 }
 func (n *yaraNative) Warnings() json.RawMessage { return n.warnings }
 func (n *yaraNative) Close() {

@@ -45,6 +45,7 @@ func (e *CompileError) Error() string {
 
 type nativeRules interface {
 	Scan([]byte, Options) ([]Match, error)
+	Serialize() ([]byte, error)
 	Warnings() json.RawMessage
 	Close()
 }
@@ -57,16 +58,21 @@ type Rules struct {
 }
 
 func Compile(ctx context.Context, library string, source []byte) (*Rules, error) {
+	return compileConfig(ctx, library, CompileConfig{Sources: []Source{{Text: source}}}, true)
+}
+
+func compileConfig(ctx context.Context, library string, config CompileConfig, plain bool) (*Rules, error) {
 	if err := ctx.Err(); err != nil {
 		return nil, err
 	}
 	if !filepath.IsAbs(library) || strings.ContainsRune(library, 0) || !utf8.ValidString(library) {
 		return nil, fmt.Errorf("YARA-X requires an absolute UTF-8 library path")
 	}
-	if len(source) == 0 || len(source) > MaxSource || !utf8.Valid(source) || strings.ContainsRune(string(source), 0) {
-		return nil, fmt.Errorf("YARA-X source must be 1..%d UTF-8 bytes without NUL", MaxSource)
+	prepared, err := prepareConfig(config)
+	if err != nil {
+		return nil, err
 	}
-	native, err := compileNative(library, source)
+	native, err := compileNative(library, prepared)
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +80,14 @@ func Compile(ctx context.Context, library string, source []byte) (*Rules, error)
 		native.Close()
 		return nil, err
 	}
-	sum := sha256.Sum256(source)
+	var input []byte
+	if plain {
+		input = prepared.Sources[0].Text
+	} else {
+		input, _ = json.Marshal(prepared)
+		input = append([]byte("gomem.yarax-compile/v1\x00"), input...)
+	}
+	sum := sha256.Sum256(input)
 	return &Rules{native: native, digest: hex.EncodeToString(sum[:]), warnings: append(json.RawMessage(nil), native.Warnings()...)}, nil
 }
 func (r *Rules) Warnings() json.RawMessage { return append(json.RawMessage(nil), r.warnings...) }

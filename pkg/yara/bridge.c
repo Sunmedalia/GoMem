@@ -28,6 +28,10 @@ struct gomem_yara_library{
  void *handle;
  int (*compiler_create)(uint32_t,void **);
  int (*add_source)(void *,const char *);
+ int (*new_namespace)(void *,const char *);
+ int (*define_global)(void *,const char *,const char *);
+ int (*serialize)(const void *,native_buffer **);
+ int (*deserialize)(const uint8_t *,size_t,void **);
  int (*errors_json)(void *,native_buffer **);
  int (*warnings_json)(void *,native_buffer **);
  void (*buffer_destroy)(native_buffer *);
@@ -52,6 +56,8 @@ gomem_yara_library *gomem_yara_load(const char *path){
 #define BIND(field,name) lib->field=(void *)SYMBOL(lib->handle,name);if(!lib->field)goto failure;
  BIND(compiler_create,"yrx_compiler_create");BIND(add_source,"yrx_compiler_add_source");BIND(errors_json,"yrx_compiler_errors_json");BIND(buffer_destroy,"yrx_buffer_destroy");
  BIND(warnings_json,"yrx_compiler_warnings_json");
+ BIND(new_namespace,"yrx_compiler_new_namespace");BIND(define_global,"yrx_compiler_define_global_json");
+ BIND(serialize,"yrx_rules_serialize");BIND(deserialize,"yrx_rules_deserialize");
  BIND(build,"yrx_compiler_build");BIND(compiler_destroy,"yrx_compiler_destroy");BIND(rules_destroy,"yrx_rules_destroy");
  BIND(scanner_create,"yrx_scanner_create");BIND(scanner_destroy,"yrx_scanner_destroy");BIND(timeout,"yrx_scanner_set_timeout");BIND(on_rule,"yrx_scanner_on_matching_rule");BIND(scan,"yrx_scanner_scan");
  BIND(rule_name,"yrx_rule_identifier");BIND(rule_namespace,"yrx_rule_namespace");BIND(pattern_name,"yrx_pattern_identifier");BIND(patterns,"yrx_rule_iter_patterns");BIND(matches,"yrx_pattern_iter_matches");
@@ -61,9 +67,14 @@ gomem_yara_library *gomem_yara_load(const char *path){
  return lib;
 failure:UNLOAD(lib->handle);free(lib);return NULL;
 }
-gomem_yara_rules *gomem_yara_compile(gomem_yara_library *lib,const char *source,char **diagnostics,char **warnings){
+gomem_yara_rules *gomem_yara_compile(gomem_yara_library *lib,const gomem_yara_source *sources,size_t source_count,const gomem_yara_global *globals,size_t global_count,char **diagnostics,char **warnings){
  void *compiler=NULL;if(lib->compiler_create(32,&compiler)!=0)return NULL; // disable includes
- if(lib->add_source(compiler,source)!=0){
+ int failed=0;
+ for(size_t n=0;n<global_count;n++){if(lib->define_global(compiler,globals[n].name,globals[n].json)!=0){failed=1;break;}}
+ for(size_t n=0;n<source_count&&!failed;n++){
+  if(lib->new_namespace(compiler,sources[n].namespace_name)!=0||lib->add_source(compiler,sources[n].text)!=0)failed=1;
+ }
+ if(failed){
   native_buffer *buffer=NULL;
   if(lib->errors_json(compiler,&buffer)==0&&buffer){
    if(buffer->length<=65536){*diagnostics=calloc(buffer->length+1,1);if(*diagnostics)memcpy(*diagnostics,buffer->data,buffer->length);}
@@ -80,6 +91,16 @@ gomem_yara_rules *gomem_yara_compile(gomem_yara_library *lib,const char *source,
  void *compiled=lib->build(compiler);lib->compiler_destroy(compiler);if(!compiled)return NULL;
  gomem_yara_rules *rules=calloc(1,sizeof(*rules));if(!rules){lib->rules_destroy(compiled);return NULL;}
  rules->library=lib;rules->rules=compiled;return rules;
+}
+int gomem_yara_serialize(gomem_yara_rules *r,void **data,size_t *length){
+ native_buffer *buffer=NULL;int code=r->library->serialize(r->rules,&buffer);if(code)return code;
+ if(!buffer||buffer->length>64*1024*1024){if(buffer)r->library->buffer_destroy(buffer);return -1;}
+ *data=malloc(buffer->length?buffer->length:1);if(!*data){r->library->buffer_destroy(buffer);return -1;}
+ *length=buffer->length;memcpy(*data,buffer->data,buffer->length);r->library->buffer_destroy(buffer);return 0;
+}
+gomem_yara_rules *gomem_yara_deserialize(gomem_yara_library *lib,const void *data,size_t length){
+ void *compiled=NULL;if(lib->deserialize(data,length,&compiled)!=0||!compiled)return NULL;
+ gomem_yara_rules *r=calloc(1,sizeof(*r));if(!r){lib->rules_destroy(compiled);return NULL;}r->library=lib;r->rules=compiled;return r;
 }
 void gomem_yara_rules_free(gomem_yara_rules *r){if(r){r->library->rules_destroy(r->rules);free(r);}}
 typedef struct{

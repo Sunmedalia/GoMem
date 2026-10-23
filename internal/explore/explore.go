@@ -39,6 +39,9 @@ use process EVIDENCE_ID       select a process using a sealed pslist result
 search "LITERAL"             physical literal scan
 find ADDRESS LENGTH "TEXT"   literal search in current Intel virtual space
 yara ADDRESS LENGTH RULEFILE [SECONDS]  native YARA-X scan of current space
+yara-config ADDRESS LENGTH CONFIG [SECONDS]  namespaced rules and externals
+yara-compiled ADDRESS LENGTH FILE [SECONDS]  explicitly load compiled rules
+yara-save[-config] INPUT NAME  serialize rules into CASE/exports/rules
 tasks                        show persisted task status
 bookmark EVIDENCE_ID NOTE     save an evidence bookmark
 quit                         exit shell
@@ -146,8 +149,10 @@ func (s *Session) Execute(ctx context.Context, line string, w io.Writer) error {
 		return s.translate(ctx, args, w)
 	case "find":
 		return s.find(ctx, args, w)
-	case "yara":
+	case "yara", "yara-config", "yara-compiled":
 		return s.scanYara(ctx, args, w)
+	case "yara-save", "yara-save-config":
+		return s.saveYara(ctx, args, w)
 	case "db", "dw", "dd", "dq", "display_bytes", "display_words", "display_doublewords", "display_quadwords":
 		return s.displayIntegers(ctx, args, w)
 	case "hex":

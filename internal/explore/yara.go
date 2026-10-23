@@ -1,6 +1,7 @@
 package explore
 
 import (
+	"bytes"
 	"context"
 	"crypto/sha256"
 	"encoding/hex"
@@ -15,7 +16,7 @@ import (
 	"github.com/Sunmedalia/GoMem/pkg/yara"
 )
 
-func readYaraSource(ctx context.Context, path string) ([]byte, error) {
+func readYaraInput(ctx context.Context, path string, limit int) ([]byte, error) {
 	if err := ctx.Err(); err != nil {
 		return nil, err
 	}
@@ -28,10 +29,10 @@ func readYaraSource(ctx context.Context, path string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	if !before.Mode().IsRegular() || before.Size() <= 0 || before.Size() > yara.MaxSource {
-		return nil, fmt.Errorf("YARA rules must be a nonempty regular file of at most %d bytes", yara.MaxSource)
+	if !before.Mode().IsRegular() || before.Size() <= 0 || before.Size() > int64(limit) {
+		return nil, fmt.Errorf("YARA input must be a nonempty regular file of at most %d bytes", limit)
 	}
-	source, err := io.ReadAll(io.LimitReader(f, yara.MaxSource+1))
+	source, err := io.ReadAll(io.LimitReader(f, int64(limit)+1))
 	if err != nil {
 		return nil, err
 	}
@@ -43,6 +44,48 @@ func readYaraSource(ctx context.Context, path string) ([]byte, error) {
 		return nil, fmt.Errorf("YARA source changed while reading")
 	}
 	return source, ctx.Err()
+}
+
+func (s *Session) loadYaraRules(ctx context.Context, path, mode string) (*yara.Rules, error) {
+	limit := yara.MaxSource
+	if mode == "compiled" {
+		limit = yara.MaxCompiled
+	}
+	source, err := readYaraInput(ctx, path, limit)
+	if err != nil {
+		return nil, err
+	}
+	switch mode {
+	case "compiled":
+		return yara.LoadCompiled(ctx, s.Engine.Config.YaraXLibrary, source)
+	case "config":
+		var config struct {
+			Schema  string `json:"schema"`
+			Sources []struct {
+				Namespace string `json:"namespace"`
+				Source    string `json:"source"`
+			} `json:"sources"`
+			Globals map[string]json.RawMessage `json:"globals"`
+		}
+		decoder := json.NewDecoder(bytes.NewReader(source))
+		decoder.DisallowUnknownFields()
+		if err := decoder.Decode(&config); err != nil {
+			return nil, fmt.Errorf("YARA config: %w", err)
+		}
+		if config.Schema != "gomem.yarax-source/v1" {
+			return nil, fmt.Errorf("unsupported YARA config schema")
+		}
+		if err := decoder.Decode(new(any)); err != io.EOF {
+			return nil, fmt.Errorf("YARA config must contain one JSON object")
+		}
+		prepared := yara.CompileConfig{Globals: config.Globals}
+		for _, item := range config.Sources {
+			prepared.Sources = append(prepared.Sources, yara.Source{Namespace: item.Namespace, Text: []byte(item.Source)})
+		}
+		return yara.CompileWithOptions(ctx, s.Engine.Config.YaraXLibrary, prepared)
+	default:
+		return yara.Compile(ctx, s.Engine.Config.YaraXLibrary, source)
+	}
 }
 
 func (s *Session) scanYara(ctx context.Context, args []string, w io.Writer) error {
@@ -76,11 +119,13 @@ func (s *Session) scanYara(ctx context.Context, args []string, w io.Writer) erro
 	if seconds == 0 || seconds > 60 {
 		return fmt.Errorf("YARA scan timeout must be 1..60 seconds")
 	}
-	source, err := readYaraSource(ctx, args[3])
-	if err != nil {
-		return err
+	mode := "source"
+	if args[0] == "yara-config" {
+		mode = "config"
+	} else if args[0] == "yara-compiled" {
+		mode = "compiled"
 	}
-	rules, err := yara.Compile(ctx, s.Engine.Config.YaraXLibrary, source)
+	rules, err := s.loadYaraRules(ctx, args[3], mode)
 	encoder := json.NewEncoder(w)
 	if err != nil {
 		var compileErr *yara.CompileError
