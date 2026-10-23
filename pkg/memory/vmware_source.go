@@ -16,6 +16,7 @@ import (
 )
 
 type ImageSourceOptions struct {
+	S3                S3Options
 	SnapshotDirectory string
 	Offline           bool
 	VMwareMetadata    string
@@ -24,7 +25,20 @@ type ImageSourceOptions struct {
 // OpenImageSource assembles acquisition members; OpenSource opens one stream.
 // The returned source owns every opened member and exposes the VMEM bytes.
 func OpenImageSource(ctx context.Context, location string, options ImageSourceOptions) (source MemorySource, err error) {
-	source, err = openSource(ctx, location, options.Offline, options.SnapshotDirectory)
+	openMember := func(location string) (MemorySource, error) {
+		if strings.HasPrefix(strings.ToLower(location), "s3://") {
+			if options.Offline {
+				return nil, fmt.Errorf("remote image unavailable in offline mode")
+			}
+			source, err := OpenS3(ctx, location, options.S3)
+			if err != nil {
+				return nil, err
+			}
+			return source, nil
+		}
+		return openSource(ctx, location, options.Offline, options.SnapshotDirectory)
+	}
+	source, err = openMember(location)
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +58,7 @@ func OpenImageSource(ctx context.Context, location string, options ImageSourceOp
 		if options.VMwareMetadata != "" {
 			return nil, fmt.Errorf("--vmware-metadata requires a VMEM input")
 		}
-		extra, err = openSource(ctx, replaceSourceExtension(location, ".vmem"), options.Offline, options.SnapshotDirectory)
+		extra, err = openMember(replaceSourceExtension(location, ".vmem"))
 		if err != nil {
 			return nil, fmt.Errorf("VMware VMEM companion: %w", err)
 		}
@@ -55,7 +69,7 @@ func OpenImageSource(ctx context.Context, location string, options ImageSourceOp
 			candidates = []string{replaceSourceExtension(location, ".vmss"), replaceSourceExtension(location, ".vmsn")}
 		}
 		for _, candidate := range candidates {
-			extra, err = openSource(ctx, candidate, options.Offline, options.SnapshotDirectory)
+			extra, err = openMember(candidate)
 			if err == nil {
 				metadataSource = extra
 				break
@@ -98,6 +112,10 @@ func replaceSourceExtension(location, extension string) string {
 			}
 			u.Path = strings.TrimSuffix(u.Path, filepath.Ext(u.Path)) + extension + suffix
 			u.RawPath = ""
+			if strings.EqualFold(u.Scheme, "s3") {
+				u.RawQuery = ""
+				u.ForceQuery = false
+			}
 			return u.String()
 		}
 	}
@@ -177,6 +195,14 @@ func NewVMwareSource(memorySource, metadataSource MemorySource) (*VMwareSource, 
 				}
 			}
 			seen = append(seen, info)
+		}
+	}
+	if memoryCloud, ok := memorySource.(interface{ CloudObjectInfo() CloudObjectInfo }); ok {
+		if metadataCloud, ok := metadataSource.(interface{ CloudObjectInfo() CloudObjectInfo }); ok {
+			a, b := memoryCloud.CloudObjectInfo(), metadataCloud.CloudObjectInfo()
+			if a.Protocol == b.Protocol && a.Endpoint == b.Endpoint && a.Region == b.Region && a.Bucket == b.Bucket && a.Key == b.Key && a.Version == b.Version {
+				return nil, fmt.Errorf("VMware members alias the same cloud object")
+			}
 		}
 	}
 	if memoryHTTP, ok := memorySource.(*HTTPSource); ok {

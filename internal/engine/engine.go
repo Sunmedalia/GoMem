@@ -25,6 +25,7 @@ import (
 )
 
 type Config struct {
+	S3                                     memory.S3Options
 	VMwareMetadata                         string
 	Image, CaseDir, Symbols, OS, Arch, DTB string
 	SymbolIndex                            string
@@ -73,7 +74,7 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 	if c.CaseDir != "" {
 		snapshotDirectory = filepath.Join(c.CaseDir, "sources")
 	}
-	src, err := memory.OpenImageSource(ctx, c.Image, memory.ImageSourceOptions{Offline: c.Offline, VMwareMetadata: c.VMwareMetadata, SnapshotDirectory: snapshotDirectory})
+	src, err := memory.OpenImageSource(ctx, c.Image, memory.ImageSourceOptions{Offline: c.Offline, VMwareMetadata: c.VMwareMetadata, SnapshotDirectory: snapshotDirectory, S3: c.S3})
 	if err != nil {
 		return nil, err
 	}
@@ -569,6 +570,18 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 		if info.RemoteModified != "" {
 			provenance.Parameters["engine.source.remote.modified"] = info.RemoteModified
 		}
+	}
+	if object, ok := e.Source.(interface{ CloudObjectInfo() memory.CloudObjectInfo }); ok {
+		info := object.CloudObjectInfo()
+		provenance.Parameters["engine.source.schema"] = info.Schema
+		provenance.Parameters["engine.source.protocol"] = info.Protocol
+		provenance.Parameters["engine.source.region"] = info.Region
+		provenance.Parameters["engine.source.endpoint"] = info.Endpoint
+		provenance.Parameters["engine.source.bucket"] = info.Bucket
+		provenance.Parameters["engine.source.key"] = info.Key
+		provenance.Parameters["engine.source.version"] = info.Version
+		provenance.Parameters["engine.source.etag"] = info.ETag
+		provenance.Parameters["engine.source.size"] = strconv.FormatUint(info.Size, 10)
 	}
 	for k, v := range params {
 		provenance.Parameters[k] = v

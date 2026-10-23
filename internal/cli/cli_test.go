@@ -266,3 +266,31 @@ func TestFTPDoctorSnapshotAndOffline(t *testing.T) {
 		t.Fatal("credentials in offline error")
 	}
 }
+
+func TestS3DoctorAndOffline(t *testing.T) {
+	server := testfixture.StartS3Server(t, "", "")
+	server.Put("test-bucket", "memory.raw", "v1", []byte("native S3 object snapshot"))
+	args := []string{"doctor", "--image", "s3://test-bucket/memory.raw", "--s3-region", "us-east-1", "--s3-endpoint", server.Endpoint(), "--s3-path-style", "--s3-anonymous"}
+	output, stderr, err := run(t, "", args...)
+	if err != nil {
+		t.Fatal(stderr, err)
+	}
+	var diagnostic struct {
+		Format string `json:"image_format"`
+		Object struct {
+			Protocol, Version, ETag, Endpoint string
+			Size                              uint64
+		} `json:"cloud_object"`
+	}
+	if err := json.Unmarshal([]byte(output), &diagnostic); err != nil {
+		t.Fatal(err)
+	}
+	if diagnostic.Format != "raw" || diagnostic.Object.Version != "v1" || diagnostic.Object.Protocol != "s3" || diagnostic.Object.ETag == "" || diagnostic.Object.Endpoint != server.Endpoint() {
+		t.Fatal("cloud diagnostic missing")
+	}
+	count := server.Requests.Load()
+	args = append(args, "--offline")
+	if _, _, err := run(t, "", args...); err == nil || server.Requests.Load() != count {
+		t.Fatal("offline S3 contacted endpoint")
+	}
+}

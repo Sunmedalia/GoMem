@@ -12372,11 +12372,21 @@
       "id": "volatility3.framework.layers.cloudstorage",
       "category": "layers",
       "source": "volatility3/framework/layers/cloudstorage.py",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "See locked source; source-module inventory includes support modules.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "Native AWS Go SDK S3 provider, conditional ranges and pinned object versions; GCS remains pending.",
+      "corpora": [
+        "synthetic-s3-signed-versioned-ranges",
+        "pinned-s3fs-cloud-handler",
+        "official-linux-sample-1-over-local-s3"
+      ],
+      "comparison": "selected_actual_S3_handler_seek_reads_and_loopback_object_entities_only",
+      "validation_record": "docs/s3-sources.md",
+      "gaps": [
+        "GCS provider not yet implemented",
+        "No real cloud/service/version/auth-provider matrix acceptance",
+        "Not complete fsspec configuration or Python runtime compatibility"
+      ]
     },
     {
       "id": "volatility3.framework.layers.crash",
@@ -13107,11 +13117,24 @@
     {
       "id": "source.s3",
       "category": "acceptance",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "S3 read-only HeadObject/GetObject ranges via AWS Go SDK credentials, version pins or ETag conditions, explicit endpoints, anonymous/public reads and offline rejection.",
+      "corpora": [
+        "synthetic-s3-signed-versioned-ranges",
+        "pinned-s3fs-cloud-handler",
+        "synthetic-windows-linux-s3",
+        "synthetic-s3-vmware",
+        "official-linux-sample-1-over-local-s3"
+      ],
+      "comparison": "independent_SigV4_wire_controls_actual_pinned_handler_seek_reads_plus_512MiB_hash_133_ordered_process_columns",
+      "validation_record": "docs/s3-sources.md",
+      "gaps": [
+        "No live AWS or compatible-service matrix acceptance; loopback wire controls only",
+        "SSE-C keys, requester pays, access-point/ARN buckets, S3 Express and special bucket types remain pending",
+        "No block cache, resumable acquisition or full upstream fsspec option mapping",
+        "Credential environment chain tested; SSO, web identity, role and instance providers use SDK but lack independent acceptance"
+      ]
     },
     {
       "id": "source.gs",
