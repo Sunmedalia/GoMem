@@ -43,3 +43,7 @@ original uncaught waiter-read exceptions separately from false predicates.
 Handle/entry validation, kernel/layout matching, cache discovery, full entry
 fields, bounded traversal, plugin integration, sealed persistence and positive
 real-image differential tests remain outstanding.
+
+The [non-XP linked entry predicate](windows-shimcache-entry.md) now has a
+separate native reader and original method controls; full entry decoding and
+cache traversal remain outstanding.

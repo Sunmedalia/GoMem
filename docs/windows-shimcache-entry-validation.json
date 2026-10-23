@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "status": "development_dependency",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Native non-XP Shimcache entry predicate; plugin remains missing",
+  "original": {
+    "method": "SHIM_CACHE_ENTRY.is_valid",
+    "method_unmodified": true,
+    "shipped_non_xp_layouts": 10,
+    "controls": 270,
+    "kernel_types": "Synthetic list types; not actual version acceptance",
+    "native_types": "Original x86NativeTable/x64NativeTable as passed via kernel natives by the plugin",
+    "address_masks": [
+      "x86 full width",
+      "x64 48-bit",
+      "x64 full width"
+    ],
+    "predicate_results_compared": true,
+    "ordered_read_addresses_and_lengths_compared": true,
+    "captured_bytes_rechecked_against_source": true
+  },
+  "checks": {
+    "package_race": "pass",
+    "scalar_fuzz": "pass; 20000 executions",
+    "layout_fuzz": "pass; 2000 executions",
+    "oracle_regeneration": "pass in independent Python 3.12 process",
+    "vet_build_doctor": "pass",
+    "full_check": "Frozen previous commit 18bd23a running in detached worktree; not claimed complete",
+    "remote_ci": "oracle and fuzz wired; final commit execution pending"
+  },
+  "remaining": [
+    "XP entry predicate and full fields",
+    "Cache handles and layout/kernel acquisition",
+    "Modern, legacy and XP discovery and bounded walking",
+    "Plugin/timeline integration and sealed persistence",
+    "Positive real-image full original-plugin comparisons"
+  ]
+}
