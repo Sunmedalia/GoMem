@@ -219,3 +219,46 @@ func TestLibraryCopiesWithoutClobberAndRestrictsMutations(t *testing.T) {
 		t.Fatal(files, err)
 	}
 }
+
+func TestSymbolsDirectoryDefaultsToCorrectSpellingAndSupportsLegacy(t *testing.T) {
+	root := t.TempDir()
+	l := Library{Root: root}
+	if got, want := l.Directory(Symbols), filepath.Join(root, "symbols"); got != want {
+		t.Fatalf("symbol directory = %q, want %q", got, want)
+	}
+	legacy := filepath.Join(root, LegacySymbols)
+	if err := os.MkdirAll(legacy, 0700); err != nil {
+		t.Fatal(err)
+	}
+	if got := l.Directory(Symbols); got != legacy {
+		t.Fatalf("legacy symbol directory = %q, want %q", got, legacy)
+	}
+	if err := os.MkdirAll(filepath.Join(root, "symbols"), 0700); err != nil {
+		t.Fatal(err)
+	}
+	if got, want := l.Directory(Symbols), filepath.Join(root, "symbols"); got != want {
+		t.Fatalf("preferred symbol directory = %q, want %q", got, want)
+	}
+}
+
+func TestSymbolsListIncludesSafeLinksAndRejectsEscapingLinks(t *testing.T) {
+	l := Library{Root: t.TempDir()}
+	target := filepath.Join(l.Directory(Symbols), "linux", "table.json.xz")
+	if err := os.MkdirAll(filepath.Dir(target), 0700); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(target, []byte("table"), 0600); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Symlink("../symbols/linux/table.json.xz", l.Path(Symbols, "table.json.xz")); err != nil {
+		t.Fatal(err)
+	}
+	outside := image(t, []byte("outside"))
+	if err := os.Symlink(outside, l.Path(Symbols, "outside.json")); err != nil {
+		t.Fatal(err)
+	}
+	files, err := l.List(Symbols)
+	if err != nil || len(files) != 1 || files[0].Name != "table.json.xz" {
+		t.Fatal(files, err)
+	}
+}

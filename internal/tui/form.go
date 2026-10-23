@@ -120,7 +120,11 @@ func (f paramForm) View(st styles, width, height int) string {
 	if f.err != "" {
 		b.WriteString("\n" + st.err.Render(render.Safe(f.err)))
 	}
-	about := fmt.Sprintf("%s (%s, default %s) %s", p.Name, p.Kind, p.Default, p.Description)
+	status := "optional"
+	if p.Required {
+		status = "required"
+	}
+	about := fmt.Sprintf("%s (%s, %s, default %s) %s", p.Name, p.Kind, status, p.Default, p.Description)
 	b.WriteString("\n" + st.muted.Render(ansi.Wordwrap(render.Safe(about), max(20, width), "")))
 	return b.String()
 }

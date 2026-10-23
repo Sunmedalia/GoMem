@@ -81,6 +81,6 @@ func matchSymbols(c *engine.Config, root *string, out io.Writer) *cobra.Command 
 	cmd.Flags().BoolVar(&localOnly, "local-only", false, "Match local tables only; do not contact the remote catalog")
 	cmd.Flags().BoolVar(&forceRemote, "remote", false, "Also query remote URLs when local tables match")
 	cmd.MarkFlagsMutuallyExclusive("local-only", "remote")
-	cmd.Flags().BoolVar(&download, "download", false, "Ask before downloading each matching table into sysmbols/")
+	cmd.Flags().BoolVar(&download, "download", false, "Ask before downloading each matching table into symbols/")
 	return cmd
 }

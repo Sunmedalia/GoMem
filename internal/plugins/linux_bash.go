@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/binary"
+	"errors"
 	"fmt"
 	"math/big"
 	"sort"
@@ -146,11 +147,7 @@ func linuxBashTask(ctx context.Context, e plugin.Environment, task, pid uint64, 
 	if !ok {
 		return 0, fmt.Errorf("process memory is not virtual")
 	}
-	intel, ok := virtual.Translator.(*memory.Intel)
-	if !ok {
-		return 0, fmt.Errorf("process translator is not an Intel page table")
-	}
-	mapped, err := intel.MappedRanges(ctx)
+	mapped, err := linuxBashMappings(ctx, virtual.Translator, regions, start, end, heapLimit)
 	if err != nil {
 		return 0, err
 	}
@@ -217,6 +214,54 @@ func (l *rangeLayer) Name() string           { return l.virtual.Name() }
 func (l *rangeLayer) Ranges() []memory.Range { return append([]memory.Range(nil), l.ranges...) }
 func (l *rangeLayer) ReadAt(ctx context.Context, p []byte, address uint64) (int, error) {
 	return l.virtual.ReadAt(ctx, p, address)
+}
+
+// linuxBashMappings preserves the pinned Intel enumeration and walks only
+// bounded heap VMAs for ARM64. Invalid descriptors are holes; read failures
+// and unsupported descriptors remain errors.
+func linuxBashMappings(ctx context.Context, tr memory.Translator, regions []linuxELFRegion, start, end, limit uint64) ([]memory.Range, error) {
+	if intel, ok := tr.(*memory.Intel); ok {
+		return intel.MappedRanges(ctx)
+	}
+	if _, ok := tr.(*memory.ARM64); !ok {
+		return nil, fmt.Errorf("unsupported bash process translator %T", tr)
+	}
+	_, _, _, err := linuxBashRanges(regions, nil, start, end, limit)
+	if err != nil {
+		return nil, err
+	}
+	var mapped []memory.Range
+	for _, vma := range regions {
+		if vma.start > end || vma.end < start {
+			continue
+		}
+		for at := vma.start; at < vma.end; {
+			if err := ctx.Err(); err != nil {
+				return nil, err
+			}
+			n := min(uint64(4096)-at%4096, vma.end-at)
+			translation, err := tr.Translate(ctx, at)
+			if err != nil {
+				var readError *memory.ReadError
+				if errors.As(err, &readError) || !errors.Is(err, memory.ErrUnmapped) {
+					return nil, err
+				}
+			} else {
+				n = min(translation.Available, vma.end-at)
+				if n == 0 {
+					return nil, fmt.Errorf("empty bash heap translation at %#x", at)
+				}
+				last := len(mapped) - 1
+				if last >= 0 && mapped[last].Start+mapped[last].Length == at {
+					mapped[last].Length += n
+				} else {
+					mapped = append(mapped, memory.Range{Start: at, Length: n})
+				}
+			}
+			at += n
+		}
+	}
+	return mapped, nil
 }
 
 // linuxBashRanges intersects verified whole heap VMAs with resident page runs.

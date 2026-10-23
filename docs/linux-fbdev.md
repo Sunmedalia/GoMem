@@ -36,7 +36,7 @@ Kali 源字节 SHA-256 为 `b0078e539a764cab6234dc21344e639e0309929d8b109555e9ca
 GOMEM_CORPUS_DIR="$PWD/.cache/corpus" \
 GOMEM_FBDEV_REFERENCE="$PWD/.cache/fbdev-validation/reference" \
 GOMEM_FBDEV_KALI_IMAGE="$PWD/images/kali.raw" \
-GOMEM_FBDEV_KALI_SYMBOLS="$PWD/sysmbols/kali-6.8.11-arm64.json.xz" \
+GOMEM_FBDEV_KALI_SYMBOLS="$PWD/symbols/kali-6.8.11-arm64.json.xz" \
 go test ./internal/engine -run 'Test(OfficialLinuxFbdev|KaliARM64Fbdev)' -count=1
 ```
 

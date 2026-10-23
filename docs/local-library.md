@@ -12,11 +12,11 @@ bin/gomem tui --library-dir . --case .cache/my-case
 
 `images inspect` 输出镜像格式、系统候选、物理地址，以及 Linux 完整 banner 或 Windows 内核 PDB 名称、GUID、Age。复用原生物理内存映射，支持 raw、LiME、AVML、受支持的 ELF core 和 Windows crash dump；不会把容器头当成普通 RAM 扫描，不需要 Python 或 Volatility。
 
-`symbols match` 先逐个比对 `sysmbols/` 中的本地表与镜像的全部身份候选，输出 `local.matches` 和 `local.diagnostics`。找到本地表时默认不联网；未找到时再自动匹配远程地址，`--remote` 可强制同时查询远程，`--local-only` 只查本地。默认不下载；`--download` 对每个候选显示 URL 并询问 `[y/N]`，只有输入 `y` 或 `yes` 才下载。EOF、空输入及其他回答均跳过下载。`--offline` 正常执行本地匹配，禁止远程目录查询和下载；没有本地匹配时返回空匹配及明确诊断。
+`symbols match` 先逐个比对 `symbols/` 中的本地表与镜像的全部身份候选，输出 `local.matches` 和 `local.diagnostics`。找到本地表时默认不联网；未找到时再自动匹配远程地址，`--remote` 可强制同时查询远程，`--local-only` 只查本地。默认不下载；`--download` 对每个候选显示 URL 并询问 `[y/N]`，只有输入 `y` 或 `yes` 才下载。EOF、空输入及其他回答均跳过下载。`--offline` 正常执行本地匹配，禁止远程目录查询和下载；没有本地匹配时返回空匹配及明确诊断。
 
 ## TUI 操作
 
-`gomem tui` 可在没有 `--image` 的情况下启动本地库。根目录由 `--library-dir` 指定，默认当前工作目录，镜像和符号分别放在 `images/`、`sysmbols/`。后者拼写按本地库接口保留，与现有案件的 `CASE/symbols/` 目录独立。两个本地库目录均在 Git 忽略规则内。
+`gomem tui` 可在没有 `--image` 的情况下启动本地库。根目录由 `--library-dir` 指定，默认当前工作目录，镜像和符号分别放在 `images/`、`symbols/`。旧版本的 `sysmbols/` 仍作为兼容目录读取；若两个目录同时存在，优先使用 `symbols/`。本地库目录与案件内部的 `CASE/symbols/` 相互独立，两者都在 Git 忽略规则内。
 
 | 按键 | 行为 |
 | --- | --- |
@@ -52,11 +52,11 @@ bin/gomem tui --library-dir . --case .cache/my-case
 
 Linux 使用 [Abyss-W4tcher/volatility3-symbols](https://github.com/Abyss-W4tcher/volatility3-symbols) 的 `banners/banners_plain.json`，只按完整 banner 匹配，查询时去除目录中省略的末尾换行。内核版本相同、编译器或构建信息不同不会视为匹配。兼容目录中的仓库相对路径及 GitHub release asset URL。该仓库提供 Linux/macOS 表，没有 Windows 表；此功能不处理 macOS 身份匹配。
 
-Windows 只采集已知内核 PDB 名称的 RSDS 记录，生成 Microsoft 符号服务器的精确 GUID/Age 地址。确认下载后复用原生 PDB 解析与缓存校验，导出 ISF 到 `sysmbols/`；下载过程的 PDB 缓存放在该目录下隐藏的 `.pdb-cache/`。
+Windows 只采集已知内核 PDB 名称的 RSDS 记录，生成 Microsoft 符号服务器的精确 GUID/Age 地址。确认下载后复用原生 PDB 解析与缓存校验，导出 ISF 到 `symbols/`；下载过程的 PDB 缓存放在该目录下隐藏的 `.pdb-cache/`。
 
 Linux 下载限制为 128 MiB，保留原始 JSON/gzip/xz 文件，解压与解析继续受既有符号解析限制保护。发布前核验表中的完整 banner；Windows 核验 PDB 身份。下载结果使用内容摘要命名，重复下载不会覆盖已有表。上游目录未提供预期 SHA-256，因此身份校验不等于独立的来源认证；文件名摘要用于标识已下载内容。
 
-导入和下载先写隐藏临时文件，通过不覆盖目标的方式发布；取消、解析失败、身份不匹配或其他错误均清理临时文件。管理操作拒绝路径穿越、符号链接库目录和非普通文件。列表只显示库目录第一层普通文件，ZIP 包等作为单个文件管理；不会递归遍历隐藏缓存。
+导入和下载先写隐藏临时文件，通过不覆盖目标的方式发布；取消、解析失败、身份不匹配或其他错误均清理临时文件。管理操作拒绝路径穿越、符号链接库目录和非普通文件。列表显示库目录第一层的普通文件和指向库内的安全文件链接，ZIP 包等作为单个文件管理；不会递归遍历隐藏缓存。
 
 ## 证据边界与验证
 
@@ -67,4 +67,4 @@ Linux 下载限制为 128 MiB，保留原始 JSON/gzip/xz 文件，解压与解�
 新增验证位于 `internal/library/local_test.go`、`internal/library/library_test.go`、`internal/tui/library_test.go` 和 `internal/cli/images_test.go`，覆盖跨扫描边界、未知/歧义身份、读失败、取消、精确匹配、release URL、离线、拒绝下载、身份不匹配、不覆盖文件、路径限制、保留原镜像以及关闭/重开分析会话。使用确定性合成镜像及模拟 HTTPS 响应；不构成官方真实镜像语料的发布验收。预览图来自测试模型的实际文本输出渲染。
 
 
-本地 Kali 实测：`images/kali.raw` 是 LiME 镜像，扫描到多个不同身份字符串。本地 `sysmbols/kali-6.8.11-arm64.json.xz` 与其中 `#1 SMP Kali 6.8.11-1kali2 (2024-05-30)` 的完整 banner（含末尾换行）精确匹配，表内容 SHA-256 为 `7b27ed03e5abd81b4913ca01a0265aabf0ffc5491a306b9d0b271bfd452ebf56`。伴随 `.source.json` 被明确标为来源说明，全过程不联网、不下载。本地匹配本身只证明表与驻留候选一致。ARM64 地址翻译现已验证此镜像的根映射及完整 banner，自动发现 DTB `0xb387e000`，无需手填地址。按 `o` 进入分析页，`/` 搜索 `linux.pslist`，回车结束搜索，再回车打开参数，`ctrl+s` 运行；实测 169 条进程记录。详见 [ARM64 验证](linux-arm64.md)。
+本地 Kali 实测：`images/kali.raw` 是 LiME 镜像，扫描到多个不同身份字符串。本地 `symbols/kali-6.8.11-arm64.json.xz` 与其中 `#1 SMP Kali 6.8.11-1kali2 (2024-05-30)` 的完整 banner（含末尾换行）精确匹配，表内容 SHA-256 为 `7b27ed03e5abd81b4913ca01a0265aabf0ffc5491a306b9d0b271bfd452ebf56`。伴随 `.source.json` 被明确标为来源说明，全过程不联网、不下载。本地匹配本身只证明表与驻留候选一致。ARM64 地址翻译现已验证此镜像的根映射及完整 banner，自动发现 DTB `0xb387e000`，无需手填地址。按 `o` 进入分析页，`/` 搜索 `linux.pslist`，回车结束搜索，再回车打开参数，`ctrl+s` 运行；实测 169 条进程记录。详见 [ARM64 验证](linux-arm64.md)。

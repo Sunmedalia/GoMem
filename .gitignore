@@ -13,4 +13,5 @@ dist/
 case-*/
 __pycache__/
 
+symbols/
 sysmbols/

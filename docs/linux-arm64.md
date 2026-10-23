@@ -14,7 +14,9 @@
 make build
 bin/gomem tui
 # 选择 kali.raw，enter 扫描并匹配本地符号，o 进入分析
-# / 搜索 linux.pslist，enter 结束搜索，再 enter 打开参数，ctrl+s 运行
+# / 搜索 linux.pslist，enter 结束搜索，再 enter 按默认参数运行；e 编辑可选参数
 bin/gomem analyze linux.pslist --image images/kali.raw \
-  --symbols sysmbols/kali-6.8.11-arm64.json.xz --offline
+  --symbols symbols/kali-6.8.11-arm64.json.xz --offline
 ```
+
+2026-10-23 默认参数复测（不指定 PID）：`linux.pslist` 完成 169 个任务；`linux.psscan` 输出 873 个启发式候选和一条扫描摘要，其中一个候选父地址无法读取，保留结果并将任务标为 failed，不能把全部候选视为真实进程。`linux.bash` 完成，零历史记录：进程列表含两个 `zsh`，没有 `bash/sh/dash`。现已补上 Bash 堆扫描的 ARM64 地址翻译路径并通过合成正例及捕获字节回读测试；这份 Kali 镜像仅为无 Bash 的空结果验证，不代表真实 ARM64 Bash 历史恢复已完成独立验证。

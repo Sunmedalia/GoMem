@@ -44,7 +44,7 @@ func New(in io.Reader, out, stderr io.Writer) *cobra.Command {
 	f := root.PersistentFlags()
 	f.StringVar(&cfg.YaraXLibrary, "yarax-library", "", "Absolute optional YARA-X C library path; enables native shell yara scans")
 	f.StringArrayVar(&cfg.Pagefiles, "pagefile", nil, "Windows captured local pagefile NUMBER=PATH (0..15); repeatable, read-only")
-	f.StringVar(&libraryRoot, "library-dir", ".", "Library root containing images/ and sysmbols/")
+	f.StringVar(&libraryRoot, "library-dir", ".", "Library root containing images/ and symbols/")
 	f.StringVar(&cfg.Image, "image", "", "Read-only local image, HTTP(S) URL or FTP snapshot URL or S3/GCS/LeechCore URI")
 	f.StringVar(&cfg.CapstoneLibrary, "capstone-library", "", "Absolute optional Capstone v5 library path; selects native shell disassembly")
 	f.StringVar(&cfg.LeechCore.Library, "leechcore-library", "", "Absolute path to optional native LeechCore library")

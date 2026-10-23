@@ -377,11 +377,44 @@ func TestStructuredDetailAndRawToggle(t *testing.T) {
 	}
 }
 
+func TestEnterRunsDefaultsAndPromptsForRequiredParameters(t *testing.T) {
+	base := fixtureModel(t)
+	for _, spec := range base.caps.specs {
+		t.Run(spec.Name, func(t *testing.T) {
+			m := base
+			m.caps = newCapabilities(base.caps.specs, "linux")
+			m.caps.setTab(len(platformTabs) - 1)
+			if !m.caps.selectName(spec.Name) {
+				t.Fatal("plugin missing from capability list")
+			}
+			m.layout()
+			m, cmd := press(t, m, "enter")
+			required := false
+			for _, p := range spec.Parameters {
+				required = required || p.Required
+			}
+			if required {
+				if !m.form.open || m.running {
+					t.Fatal("missing required input did not open parameter form")
+				}
+				return
+			}
+			if _, err := plugin.Parameters(spec, nil); err != nil {
+				t.Fatalf("invalid declared defaults: %v", err)
+			}
+			if !m.running || m.form.open || cmd == nil {
+				t.Fatal("Enter did not start plugin with defaults")
+			}
+			m.cancel()
+		})
+	}
+}
+
 func TestParameterFormValidatesAndRuns(t *testing.T) {
 	m := fixtureModel(t)
 	m.caps.selectName("linux.modxview")
 	m.layout()
-	m, _ = press(t, m, "enter")
+	m, _ = press(t, m, "e")
 	if !m.form.open || m.running || !strings.Contains(fits(t, m), "plain-taints") {
 		t.Fatal("parameter form did not open")
 	}

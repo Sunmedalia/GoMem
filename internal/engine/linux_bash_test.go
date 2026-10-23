@@ -3,6 +3,7 @@ package engine_test
 import (
 	"context"
 	"encoding/binary"
+	"encoding/json"
 	"errors"
 	"os"
 	"testing"
@@ -19,6 +20,25 @@ func openBashFixture(t *testing.T, arch, fault string) *engine.Engine {
 		t.Fatal(err)
 	}
 	put := func(at, v uint64) { binary.LittleEndian.PutUint64(raw[at:], v) }
+	if arch == "arm64" {
+		put(0x3000, 1) // ARM64 level-2 identity block, replacing the Intel leaf.
+		b, err := os.ReadFile(f.Symbols)
+		if err != nil {
+			t.Fatal(err)
+		}
+		var table map[string]any
+		if err := json.Unmarshal(b, &table); err != nil {
+			t.Fatal(err)
+		}
+		table["metadata"].(map[string]any)["zero"] = map[string]any{"architecture": "aarch64", "page_shift": 12, "va_bits": 48}
+		b, err = json.Marshal(table)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(f.Symbols, b, 0600); err != nil {
+			t.Fatal(err)
+		}
+	}
 	clear(raw[0xa018:0xa028])
 	copy(raw[0xa018:], "bash")
 	// Keep one VMA only, wholly inside a much larger resident page-table run.
@@ -62,7 +82,7 @@ func openBashFixture(t *testing.T, arch, fault string) *engine.Engine {
 }
 
 func TestLinuxBashHeapScopeNativeWidthsAndFailures(t *testing.T) {
-	for _, arch := range []string{"x64", "x86", "pae"} {
+	for _, arch := range []string{"x64", "x86", "pae", "arm64"} {
 		t.Run(arch, func(t *testing.T) {
 			e := openBashFixture(t, arch, "")
 			count := 0

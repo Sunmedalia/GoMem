@@ -479,7 +479,7 @@ func (w *Workspace) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			w.localCursor = min(max(0, len(w.local.Matches)-1), w.localCursor+1)
 		case "s":
 			if len(w.local.Matches) == 0 {
-				w.status = "No matching local table; press l to scan sysmbols/"
+				w.status = "No matching local table; press l to scan symbols/"
 				return w, nil
 			}
 			entry := w.local.Matches[w.localCursor].Table

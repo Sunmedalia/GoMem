@@ -194,7 +194,11 @@ func specView(st styles, spec plugin.Spec, width int) string {
 	if len(spec.Parameters) > 0 {
 		f.section(fmt.Sprintf("PARAMETERS  %d · e to edit", len(spec.Parameters)))
 		for _, p := range spec.Parameters {
-			f.b.WriteString(st.accent.Render(render.Safe(p.Name)) + st.muted.Render(" "+p.Kind+" = "+render.Safe(p.Default)) + "\n")
+			status := "optional"
+			if p.Required {
+				status = "required"
+			}
+			f.b.WriteString(st.accent.Render(render.Safe(p.Name)) + st.muted.Render(" "+p.Kind+" · "+status+" = "+render.Safe(p.Default)) + "\n")
 			if p.Description != "" {
 				f.b.WriteString(st.muted.Render(ansi.Wordwrap("  "+render.Safe(p.Description), max(20, width), "")) + "\n")
 			}

@@ -196,8 +196,10 @@ func (m model) navKey(msg tea.KeyPressMsg) (model, tea.Cmd, bool) {
 			return m, nil, true
 		}
 		spec := m.caps.spec()
-		if key.Matches(msg, keys.Run) && len(spec.Parameters) == 0 {
-			return m, m.start(spec.Name, nil), true
+		if key.Matches(msg, keys.Run) {
+			if _, err := plugin.Parameters(spec, nil); err == nil {
+				return m, m.start(spec.Name, nil), true
+			}
 		}
 		return m, m.openForm(spec), true
 	case key.Matches(msg, keys.Up, keys.Down):

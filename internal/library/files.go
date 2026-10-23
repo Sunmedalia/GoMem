@@ -10,7 +10,8 @@ import (
 )
 
 const Images = "images"
-const Symbols = "sysmbols" // User-facing directory name, intentionally preserved.
+const Symbols = "symbols"
+const LegacySymbols = "sysmbols" // Accepted for libraries created by older releases.
 
 type Library struct{ Root string }
 type File struct {
@@ -18,7 +19,20 @@ type File struct {
 	Size int64  `json:"size"`
 }
 
-func (l Library) Directory(kind string) string  { return filepath.Join(l.Root, kind) }
+func (l Library) Directory(kind string) string {
+	if kind != Symbols {
+		return filepath.Join(l.Root, kind)
+	}
+	current := filepath.Join(l.Root, Symbols)
+	if _, err := os.Lstat(current); err == nil {
+		return current
+	}
+	legacy := filepath.Join(l.Root, LegacySymbols)
+	if _, err := os.Lstat(legacy); err == nil {
+		return legacy
+	}
+	return current
+}
 func (l Library) Path(kind, name string) string { return filepath.Join(l.Directory(kind), name) }
 func validName(name string) bool {
 	return name != "" && name != "." && name != ".." && !strings.ContainsAny(name, "/\\\x00") && filepath.Base(name) == name
@@ -57,16 +71,51 @@ func (l Library) List(kind string) ([]File, error) {
 	}
 	files := []File{}
 	for _, e := range entries {
-		if strings.HasPrefix(e.Name(), ".") || !e.Type().IsRegular() {
+		if strings.HasPrefix(e.Name(), ".") {
 			continue
 		}
-		info, err := e.Info()
+		info, ok, err := l.entryInfo(kind, e)
 		if err != nil {
 			return nil, err
+		}
+		if !ok {
+			continue
 		}
 		files = append(files, File{e.Name(), info.Size()})
 	}
 	return files, nil
+}
+
+// entryInfo admits regular files and symlinks that resolve to a regular file
+// inside this library directory. Broken or escaping links stay hidden.
+func (l Library) entryInfo(kind string, entry os.DirEntry) (os.FileInfo, bool, error) {
+	if entry.Type().IsRegular() {
+		info, err := entry.Info()
+		return info, err == nil, err
+	}
+	if entry.Type()&os.ModeSymlink == 0 {
+		return nil, false, nil
+	}
+	directory, err := filepath.EvalSymlinks(l.Directory(kind))
+	if err != nil {
+		return nil, false, err
+	}
+	target, err := filepath.EvalSymlinks(l.Path(kind, entry.Name()))
+	if err != nil {
+		return nil, false, nil
+	}
+	relative, err := filepath.Rel(directory, target)
+	if err != nil {
+		return nil, false, nil
+	}
+	if relative == ".." || strings.HasPrefix(relative, ".."+string(filepath.Separator)) {
+		return nil, false, nil
+	}
+	info, err := os.Stat(target)
+	if err != nil {
+		return nil, false, nil
+	}
+	return info, info.Mode().IsRegular(), nil
 }
 func (l Library) Import(ctx context.Context, kind, source string) (string, error) {
 	f, err := os.Open(source)

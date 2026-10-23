@@ -31,6 +31,46 @@ func (b bashTestLayer) ReadAt(ctx context.Context, p []byte, a uint64) (int, err
 	return b.capabilityLayer.ReadAt(ctx, p, a)
 }
 
+func TestBashARM64HeapMappings(t *testing.T) {
+	data := make(capabilityLayer, 0x8000)
+	put := func(at, value uint64) { binary.LittleEndian.PutUint64(data[at:], value) }
+	put(0x1000, 0x2003)
+	put(0x2000, 0x3003)
+	put(0x3000, 0x4003)
+	put(0x4008, 0x5003)
+	put(0x4010, 0x6003)
+	put(0x4020, 0x7003)
+	tr, err := memory.NewARM64(data, 0x1000, 8)
+	if err != nil {
+		t.Fatal(err)
+	}
+	regions := []linuxELFRegion{{1, 0x1000, 0x5000}}
+	got, err := linuxBashMappings(context.Background(), tr, regions, 0x1800, 0x2800, 0x4000)
+	want := []memory.Range{{Start: 0x1000, Length: 0x2000}, {Start: 0x4000, Length: 0x1000}}
+	if err != nil || !reflect.DeepEqual(got, want) {
+		t.Fatal(got, err)
+	}
+	if _, err := linuxBashMappings(context.Background(), tr, regions, 0x1800, 0x2800, 0x3fff); err == nil {
+		t.Fatal("heap limit ignored")
+	}
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	if _, err := linuxBashMappings(ctx, tr, regions, 0x1800, 0x2800, 0x4000); !errors.Is(err, context.Canceled) {
+		t.Fatal(err)
+	}
+	broken, _ := memory.NewARM64(data, 0x8000, 8)
+	if _, err := linuxBashMappings(context.Background(), broken, regions, 0x1800, 0x2800, 0x4000); err == nil || errors.Is(err, memory.ErrUnmapped) {
+		t.Fatal("missing table was treated as an unmapped page", err)
+	}
+	sparse := bashTestLayer{capabilityLayer: data, fault: func(p []byte, at uint64) (int, error) {
+		return 0, &memory.ReadError{Address: at, Length: len(p), Layer: "sparse", Cause: memory.ErrUnmapped}
+	}}
+	broken, _ = memory.NewARM64(sparse, 0x1000, 8)
+	if _, err := linuxBashMappings(context.Background(), broken, regions, 0x1800, 0x2800, 0x4000); err == nil {
+		t.Fatal("missing physical table page was treated as an unmapped virtual page")
+	}
+}
+
 func TestBashHeapVMASelectionAndCoverage(t *testing.T) {
 	regions := []linuxELFRegion{{1, 0x1000, 0x3000}, {2, 0x3000, 0x4000}, {3, 0x5000, 0x6000}}
 	// One mapped run crosses the heap, an adjacent VMA and a VMA gap.

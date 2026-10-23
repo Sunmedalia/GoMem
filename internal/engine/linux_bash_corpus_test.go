@@ -53,7 +53,12 @@ func bashVerifyProcessCaptures(t *testing.T, ctx context.Context, e *engine.Engi
 	if err != nil {
 		t.Fatal(err)
 	}
-	translator, err := memory.NewIntelForOS(e.Env.Physical, root.Physical, e.Env.Architecture, e.Env.OS, 1024)
+	var translator memory.Translator
+	if e.Env.Architecture == "arm64" {
+		translator, err = memory.NewARM64(e.Env.Physical, root.Physical, 1024)
+	} else {
+		translator, err = memory.NewIntelForOS(e.Env.Physical, root.Physical, e.Env.Architecture, e.Env.OS, 1024)
+	}
 	if err != nil {
 		t.Fatal(err)
 	}
