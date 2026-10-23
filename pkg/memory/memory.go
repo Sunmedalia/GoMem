@@ -214,7 +214,7 @@ func (v *Virtual) ReadAt(ctx context.Context, p []byte, a uint64) (int, error) {
 	}
 	n := 0
 	for n < len(p) {
-		t, e := v.Translator.Translate(ctx, a+uint64(n))
+		t, e := v.Resolve(ctx, a+uint64(n))
 		if e != nil {
 			return n, &ReadError{a + uint64(n), len(p) - n, v.ID, e}
 		}
@@ -222,7 +222,7 @@ func (v *Virtual) ReadAt(ctx context.Context, p []byte, a uint64) (int, error) {
 			return n, fmt.Errorf("translator returned zero extent")
 		}
 		k := min(len(p)-n, int(min(t.Available, uint64(MaxRead))))
-		got, e := v.Physical.ReadAt(ctx, p[n:n+k], t.Physical)
+		got, e := t.Layer.ReadAt(ctx, p[n:n+k], t.Offset)
 		n += got
 		if e != nil {
 			return n, e

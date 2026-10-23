@@ -19,6 +19,9 @@ type mappedLevel struct {
 // Intel layer the pinned pool scanner uses. Windows transition pages are
 // included only for a translator created with the Windows software-entry rule.
 func (i *Intel) MappedRanges(ctx context.Context) ([]Range, error) {
+	if i != nil && len(i.pagefiles) != 0 {
+		return nil, fmt.Errorf("%w: resident range enumeration cannot include pagefile mappings", ErrUnsupported)
+	}
 	if i == nil || i.physical == nil {
 		return nil, fmt.Errorf("page table is not initialized")
 	}

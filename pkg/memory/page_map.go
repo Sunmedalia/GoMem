@@ -124,6 +124,9 @@ func (w *pageMapWalk) selected(virtual, length uint64) bool {
 // availability follow PageMappings. Cancellation or any callback error stops
 // acquisition. An aborted walk can leave its final pending run unreported.
 func (i *Intel) VisitPageMappings(ctx context.Context, options PageMapOptions, out func(PageMapping) error) (PageMapStats, error) {
+	if i != nil && len(i.pagefiles) != 0 {
+		return PageMapStats{}, fmt.Errorf("%w: physical-only page map enumeration cannot include pagefiles", ErrUnsupported)
+	}
 	if i == nil || i.physical == nil {
 		return PageMapStats{}, fmt.Errorf("page table is not initialized")
 	}

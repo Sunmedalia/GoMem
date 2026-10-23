@@ -20,7 +20,7 @@ v0.1 增量：`case verify` 现已核对存储 Seal、任务来源、父子关�
 
 1. 补齐 Linux/macOS 在线符号索引与自动获取，以及完整内核、DTB、进程空间识别；已有 Windows 完整/bitmap 转储的自动配置、精确身份 PDB 获取与持久转换缓存、原生 PDB/MSF 7.0、DWARF、本地身份索引和部分 Linux x64 DTB 发现。仍需 RAW/虚拟机格式的 Windows 自动识别、旧 MSF、CAB 传输、更多 CodeView/DWARF 语义、KASLR、架构和版本验证。
 2. Windows/Linux 的线程完整版本与参数覆盖、扫描进程完整版本与参数、VAD/VMA 完整版本与提取验收、网络、文件恢复、注册表 hive 重建与键枚举、凭据、服务、持久化、内核检查、恶意代码、时间线与其全部参数、导出。当前已有 Windows 活动线程/VAD、Linux 任务线程/凭据/创建时间、链表及 Maple Tree VMA、Windows 活动 hive 链表、默认根键的 `windows.printkey`、NTUSER 的 `windows.userassist`，hive `GetCellRoutine` 是否落在内核模块内的 `windows.getcellroutine`，以及 `windows.amcache` 的程序与文件树、`windows.scheduledtasks` 的动作/触发器笛卡尔积，带空洞日志的稳定 hive 重建，64 位 Windows 8.1 及以后的 `windows.hivescan`，以及 `windows.hashdump` 的 boot key / SAM 解密、`windows.lsadump` 的 LSA secret 和 `windows.cachedump` 的域缓存凭据；递归/筛选验收、逐字节 hive 差分和旧式池头扫描仍未完成。现代 Linux 线程/时钟和 Maple Tree 仅有合成验证，真实新内核与完整元数据验证待补。已有 Linux ELF 段提取及主映像 dump，保留基线地址差异；尚无线程池扫描，ELF 完整版本验收仍待补齐。
-3. macOS、外部交换页及上游其余地址空间和格式语义；VMware/QEMU/Xen 已有原生映射与选定控制，真实采集器和完整版本验收仍待补齐；AVML v2 已有帧索引、按需解码、CRC/长度核验及重编码语料，真实版本矩阵仍待补齐。Windows 已支持镜像内驻留的 transition 页，prototype 和外部 pagefile 未实现。
+3. macOS、外部交换页及上游其余地址空间和格式语义；VMware/QEMU/Xen 已有原生映射与选定控制，真实采集器和完整版本验收仍待补齐；AVML v2 已有帧索引、按需解码、CRC/长度核验及重编码语料，真实版本矩阵仍待补齐。Windows 已支持镜像内驻留的 transition 页及显式本地 pagefile 字节读取；prototype、完整交换映射扫描和真实配套语料验收仍待完成。
 4. LeechCore live/remote 提供者验收，以及 YARA、Capstone 和完整 Arrow/Parquet 渲染验收；HTTP/HTTPS 条件读取、FTP 本地快照、S3/GCS 版本固定读取、LeechCore 原生只读快照、Go 原生反汇编、Arrow IPC 和 Mermaid 已接入，完整协议、指令集与渲染验收仍待补齐。正式验收使用完整扩展构建。
 5. 将各分诊规则连接到经验证的原生数据生产者；增加真实恶意与正常 VM 对照、共享扫描索引、通用证据图、扩大提取文件管理与持续任务日志。
 6. 其余上游 renderer 与文件/模块/进程映像完整提取验收；现已有 VAD/VMA 区域、显式地址/DLL/主映像/内核与会话模块的 PE 提取及证据包。
@@ -151,3 +151,5 @@ v0.1 增量：`case verify` 现已核对存储 Seal、任务来源、父子关�
 2026-10-23：Arrow 接入原生 IPC 流和分页案件导出，保留完整封存证据、无损地址、类型投影、任务状态和父链接；6 组实际固定 ArrowRenderer、独立 PyArrow、130 行异构案件和真实 Windows/Linux 120/133 条证据通过。格式提示、Parquet 和全量性能仍待补齐。[详情](arrow-renderer.md)
 
 2026-10-23：shell 新增显式 Capstone v5 动态库适配，包含 x86/x64/ARM/ARM64/Thumb。270 个真实解码控制核对原始字节、地址和文本，216 个来自固定上游渲染、54 个为直接 Thumb 对照；截断指令保留有效前缀并明确失败。全指令集、插件级集成和真实平台语料仍待验收。[详情](capstone.md)
+
+2026-10-23：Windows x86/PAE/x64 接入显式编号的本地 pagefile 和带来源的虚拟读取；交换偏移不冒充物理地址，成员散列绑定案件/证据/缓存。54 个真实固定层对照记录了上游遗漏页内位移的差异，跨 RAM/交换文件、缺页、封存、缓存和 CLI 控制通过。完整 backing-map 枚举扫描、插件传播和真实配套采集仍待完成。[详情](windows-pagefiles.md)

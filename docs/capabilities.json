@@ -13353,11 +13353,22 @@
     {
       "id": "paging.swap",
       "category": "acceptance",
-      "status": "missing",
+      "status": "partial",
       "accepted": false,
-      "applicability": "Baseline prerequisites and exact semantics must be verified on official or reproducible VM corpus.",
-      "corpora": [],
-      "comparison": "not_run"
+      "applicability": "Explicit captured local Windows pagefiles 0..15; Intel x86/PAE/x64 software entries resolve to separately labelled backing bytes. RAM Translate stays physical-only. Member hashes bind acquisition identity, evidence and cache; virtual reads retain source failures.",
+      "corpora": [
+        "pinned-windows-swap-54-layer-controls",
+        "synthetic-windows-pagefile-byte-reads",
+        "synthetic-pagefile-acquisition-cache",
+        "synthetic-pagefile-cli"
+      ],
+      "comparison": "54_actual_pinned_swap_base_extent_controls_with_documented_unaligned_byte_offset_correction",
+      "validation_record": "docs/windows-pagefiles.md",
+      "gaps": [
+        "No real paired pagefile positive corpus, Linux swap, prototype or compressed-store acceptance",
+        "Physical-only mapping enumerators reject pagefile configurations; generic backing-map scans/extraction and complete plugin propagation remain pending",
+        "Pinned swap reads omit within-block displacement; native corrects it explicitly and records the divergence"
+      ]
     },
     {
       "id": "export.extracted-files",

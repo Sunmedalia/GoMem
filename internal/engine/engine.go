@@ -25,6 +25,7 @@ import (
 )
 
 type Config struct {
+	Pagefiles                              []string
 	CapstoneLibrary                        string
 	LeechCore                              memory.LeechCoreOptions
 	GCS                                    memory.GCSOptions
@@ -37,6 +38,8 @@ type Config struct {
 	Offline                                bool
 }
 type Engine struct {
+	pagefiles             *pagefileInputs
+	baseAcquisitionHash   string
 	VMwareAcquisition     *memory.VMwareAcquisition
 	Config                Config
 	Source                memory.MemorySource
@@ -63,6 +66,10 @@ type Engine struct {
 }
 
 func Open(ctx context.Context, c Config) (eng *Engine, err error) {
+	pagefilePaths, err := parsePagefiles(c.Pagefiles)
+	if err != nil {
+		return nil, err
+	}
 	if c.Image == "" {
 		return nil, fmt.Errorf("--image is required")
 	}
@@ -90,8 +97,10 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 		}
 	}
 	var st *store.Store
+	var pagefiles *pagefileInputs
 	defer func() {
 		if err != nil {
+			pagefiles.close()
 			src.Close()
 			if st != nil {
 				st.Close()
@@ -120,6 +129,9 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 	}
 	if c.Arch != "x64" && c.Arch != "x86" && c.Arch != "pae" && c.Arch != "arm64" {
 		return nil, fmt.Errorf("unsupported architecture %q", c.Arch)
+	}
+	if len(pagefilePaths) != 0 && (c.OS != "windows" || c.Arch == "arm64") {
+		return nil, fmt.Errorf("pagefiles currently require Intel Windows; supply --os windows")
 	}
 	hash, err := Hash(ctx, src)
 	if err != nil {
@@ -151,6 +163,19 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 		acquisition = &manifest
 	}
 	var inputFiles []os.FileInfo
+	baseAcquisitionHash := hash
+	if len(pagefilePaths) != 0 {
+		pagefiles, err = openPagefiles(ctx, pagefilePaths)
+		if err != nil {
+			return nil, err
+		}
+		physical, err = memory.WithPagefiles(physical, pagefiles.layers)
+		if err != nil {
+			return nil, err
+		}
+		hash = pagefiles.identity(hash)
+		inputFiles = append(inputFiles, pagefiles.info...)
+	}
 	if initialStat != nil {
 		inputFiles = append(inputFiles, initialStat)
 	}
@@ -180,7 +205,7 @@ func Open(ctx context.Context, c Config) (eng *Engine, err error) {
 	if err = plugins.Register(r); err != nil {
 		return nil, err
 	}
-	eng = &Engine{VMwareAcquisition: acquisition, rootFromCrash: rootFromCrash, CrashHeader: crashHeader, Config: c, Source: src, Format: format, Hash: hash, Store: st, Registry: r}
+	eng = &Engine{pagefiles: pagefiles, baseAcquisitionHash: baseAcquisitionHash, VMwareAcquisition: acquisition, rootFromCrash: rootFromCrash, CrashHeader: crashHeader, Config: c, Source: src, Format: format, Hash: hash, Store: st, Registry: r}
 	eng.Build, err = version.Identity()
 	if err != nil {
 		return nil, err
@@ -376,7 +401,7 @@ func (e *Engine) Close() error {
 		e.stop()
 		e.mu.Unlock()
 		e.wg.Wait()
-		e.closeErr = errors.Join(e.Source.Close(), e.Store.Close())
+		e.closeErr = errors.Join(e.Source.Close(), e.pagefiles.close(), e.Store.Close())
 	})
 	return e.closeErr
 }
@@ -495,6 +520,9 @@ func (e *Engine) ValidateSource(ctx context.Context) error {
 }
 
 func (e *Engine) unchanged(ctx context.Context) error {
+	if err := e.pagefiles.validate(ctx); err != nil {
+		return err
+	}
 	if remote, ok := e.Source.(interface{ Validate(context.Context) error }); ok {
 		return remote.Validate(ctx)
 	}
@@ -551,6 +579,15 @@ func (e *Engine) run(ctx context.Context, name string, in map[string]string, opt
 	}
 	provenance := evidence.Provenance{ImageSHA256: e.Hash, Engine: version.Version, Plugin: requested, Parameters: make(map[string]string), Layer: e.Env.Physical.Name()}
 	provenance.EngineBuild = e.Build
+	if e.pagefiles != nil {
+		provenance.Parameters["engine.pagefiles.schema"] = "gomem.pagefile-acquisition/v1"
+		provenance.Parameters["engine.pagefiles.base-acquisition.sha256"] = e.baseAcquisitionHash
+		for _, member := range e.pagefiles.members {
+			prefix := fmt.Sprintf("engine.pagefiles.%d.", member.Number)
+			provenance.Parameters[prefix+"sha256"] = member.SHA256
+			provenance.Parameters[prefix+"size"] = strconv.FormatUint(member.Size, 10)
+		}
+	}
 	if e.VMwareAcquisition != nil {
 		members := e.VMwareAcquisition
 		provenance.Parameters["engine.acquisition.schema"] = members.Schema

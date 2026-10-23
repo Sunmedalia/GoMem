@@ -183,7 +183,7 @@ bin/gomem analyze windows.pslist \
 
 支持 RAW、LiME v1、AVML v2 Snappy 帧、具有物理 `PT_LOAD` 的 ELF core，以及 Windows 32/64 位完整转储与 bitmap 转储。AVML 按需解码、核验帧 CRC 和长度尾部，使用有界随机读取缓存；[适用条件与验证](docs/avml.md)。其他已识别的容器会明确拒绝；通用 ELF 不代表 Xen 格式已实现。
 
-支持 x86、PAE、四级 x64 页表，以及 Linux ARM64 的 4KiB/48 位四级页表（4KiB 页、2MiB/1GiB 块）。ARM64 从精确符号表的 `metadata.zero` 识别架构及页配置，不支持的配置明确报错。Windows 支持镜像中仍驻留的 transition 页，保留权限未知状态；外部交换页、prototype 及未支持的非驻留编码返回读取错误。输入以只读方式打开，按块散列，检查修改时间与大小变化。分析期间仍应保持采集文件不可变。
+支持 x86、PAE、四级 x64 页表，以及 Linux ARM64 的 4KiB/48 位四级页表（4KiB 页、2MiB/1GiB 块）。ARM64 从精确符号表的 `metadata.zero` 识别架构及页配置，不支持的配置明确报错。Windows 支持镜像中仍驻留的 transition 页，保留权限未知状态；显式 `--pagefile NUMBER=LOCAL_PATH` 可接入已捕获的 Windows 交换文件，虚拟读取保留来源和偏移，并将各成员散列纳入案件/缓存身份；完整交换映射扫描、prototype 及其他未支持的非驻留编码仍返回明确错误，详见 [交换文件说明](docs/windows-pagefiles.md)。输入以只读方式打开，按块散列，检查修改时间与大小变化。分析期间仍应保持采集文件不可变。
 
 新增镜像识别与本地库：`gomem images inspect memory.raw` 可直接获取 Windows/Linux 内核身份候选，`gomem symbols match memory.raw --offline` 可直接匹配本地符号，默认先查本地、未匹配再查远程；`--download` 逐项询问是否下载。`gomem tui` 无需预先指定镜像即可管理 `images/` 和 `sysmbols/` 内的本地文件，支持导入、重命名、确认删除、选择符号及进入分析。见 [本地库与符号匹配](docs/local-library.md)。
 

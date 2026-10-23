@@ -930,6 +930,11 @@ def generate(source):
                                       applicability="HTTP(S) immutable representations with strong ETags and exact byte-range support; bounded conditional reads and full streamed image SHA-256. Offline forbids remote I/O.",
                                       comparison="native_transport_and_engine_evidence_cache_controls_only", validation_record="docs/http-sources.md",
                                       gaps=["No local snapshot fallback for servers without strong ETags or ranges", "No remote block cache, resumable acquisition or dedicated credential providers", "Public-network/proxy compatibility and full upstream resource acceptance remain pending"])
+        if identifier == "paging.swap":
+            infrastructure[-1].update(status="partial", corpora=["pinned-windows-swap-54-layer-controls", "synthetic-windows-pagefile-byte-reads", "synthetic-pagefile-acquisition-cache", "synthetic-pagefile-cli"],
+                                      applicability="Explicit captured local Windows pagefiles 0..15; Intel x86/PAE/x64 software entries resolve to separately labelled backing bytes. RAM Translate stays physical-only. Member hashes bind acquisition identity, evidence and cache; virtual reads retain source failures.",
+                                      comparison="54_actual_pinned_swap_base_extent_controls_with_documented_unaligned_byte_offset_correction", validation_record="docs/windows-pagefiles.md",
+                                      gaps=["No real paired pagefile positive corpus, Linux swap, prototype or compressed-store acceptance", "Physical-only mapping enumerators reject pagefile configurations; generic backing-map scans/extraction and complete plugin propagation remain pending", "Pinned swap reads omit within-block displacement; native corrects it explicitly and records the divergence"])
         if identifier == "extension.capstone":
             infrastructure[-1].update(status="partial", corpora=["pinned-capstone-disassembly-270-controls", "synthetic-capstone-shell-current-layer-errors"],
                                       applicability="Optional explicit Capstone v5 dynamic library in cgo Windows/Linux/macOS shell; bounded x86/x64/ARM/ARM64/Thumb instruction decoding, raw bytes, source checks and explicit failures.",

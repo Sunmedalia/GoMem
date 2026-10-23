@@ -1,0 +1,1201 @@
+{
+  "schema": "gomem.windows-swap-oracle/v1",
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "divergence": "Pinned _translate_swap omits within-page displacement; native byte reads add it explicitly.",
+  "cases": [
+    {
+      "arch": "x64",
+      "level": 0,
+      "number": 0,
+      "address": 0,
+      "entry": 8589934720,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8589934720
+        }
+      ],
+      "reference_offset": 1099511627776,
+      "page_size": 549755813888,
+      "corrected_offset": 1099511627776
+    },
+    {
+      "arch": "x64",
+      "level": 0,
+      "number": 0,
+      "address": 291,
+      "entry": 8589934720,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8589934720
+        }
+      ],
+      "reference_offset": 1099511627776,
+      "page_size": 549755813888,
+      "corrected_offset": 1099511628067
+    },
+    {
+      "arch": "x64",
+      "level": 0,
+      "number": 1,
+      "address": 0,
+      "entry": 8589934722,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8589934722
+        }
+      ],
+      "reference_offset": 1099511627776,
+      "page_size": 549755813888,
+      "corrected_offset": 1099511627776
+    },
+    {
+      "arch": "x64",
+      "level": 0,
+      "number": 1,
+      "address": 291,
+      "entry": 8589934722,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8589934722
+        }
+      ],
+      "reference_offset": 1099511627776,
+      "page_size": 549755813888,
+      "corrected_offset": 1099511628067
+    },
+    {
+      "arch": "x64",
+      "level": 0,
+      "number": 15,
+      "address": 0,
+      "entry": 8589934750,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8589934750
+        }
+      ],
+      "reference_offset": 1099511627776,
+      "page_size": 549755813888,
+      "corrected_offset": 1099511627776
+    },
+    {
+      "arch": "x64",
+      "level": 0,
+      "number": 15,
+      "address": 291,
+      "entry": 8589934750,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8589934750
+        }
+      ],
+      "reference_offset": 1099511627776,
+      "page_size": 549755813888,
+      "corrected_offset": 1099511628067
+    },
+    {
+      "arch": "x64",
+      "level": 1,
+      "number": 0,
+      "address": 0,
+      "entry": 8589934720,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 8589934720
+        }
+      ],
+      "reference_offset": 2147483648,
+      "page_size": 1073741824,
+      "corrected_offset": 2147483648
+    },
+    {
+      "arch": "x64",
+      "level": 1,
+      "number": 0,
+      "address": 291,
+      "entry": 8589934720,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 8589934720
+        }
+      ],
+      "reference_offset": 2147483648,
+      "page_size": 1073741824,
+      "corrected_offset": 2147483939
+    },
+    {
+      "arch": "x64",
+      "level": 1,
+      "number": 1,
+      "address": 0,
+      "entry": 8589934722,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 8589934722
+        }
+      ],
+      "reference_offset": 2147483648,
+      "page_size": 1073741824,
+      "corrected_offset": 2147483648
+    },
+    {
+      "arch": "x64",
+      "level": 1,
+      "number": 1,
+      "address": 291,
+      "entry": 8589934722,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 8589934722
+        }
+      ],
+      "reference_offset": 2147483648,
+      "page_size": 1073741824,
+      "corrected_offset": 2147483939
+    },
+    {
+      "arch": "x64",
+      "level": 1,
+      "number": 15,
+      "address": 0,
+      "entry": 8589934750,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 8589934750
+        }
+      ],
+      "reference_offset": 2147483648,
+      "page_size": 1073741824,
+      "corrected_offset": 2147483648
+    },
+    {
+      "arch": "x64",
+      "level": 1,
+      "number": 15,
+      "address": 291,
+      "entry": 8589934750,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 8589934750
+        }
+      ],
+      "reference_offset": 2147483648,
+      "page_size": 1073741824,
+      "corrected_offset": 2147483939
+    },
+    {
+      "arch": "x64",
+      "level": 2,
+      "number": 0,
+      "address": 0,
+      "entry": 8589934720,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 12291
+        },
+        {
+          "offset": 12288,
+          "value": 8589934720
+        }
+      ],
+      "reference_offset": 4194304,
+      "page_size": 2097152,
+      "corrected_offset": 4194304
+    },
+    {
+      "arch": "x64",
+      "level": 2,
+      "number": 0,
+      "address": 291,
+      "entry": 8589934720,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 12291
+        },
+        {
+          "offset": 12288,
+          "value": 8589934720
+        }
+      ],
+      "reference_offset": 4194304,
+      "page_size": 2097152,
+      "corrected_offset": 4194595
+    },
+    {
+      "arch": "x64",
+      "level": 2,
+      "number": 1,
+      "address": 0,
+      "entry": 8589934722,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 12291
+        },
+        {
+          "offset": 12288,
+          "value": 8589934722
+        }
+      ],
+      "reference_offset": 4194304,
+      "page_size": 2097152,
+      "corrected_offset": 4194304
+    },
+    {
+      "arch": "x64",
+      "level": 2,
+      "number": 1,
+      "address": 291,
+      "entry": 8589934722,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 12291
+        },
+        {
+          "offset": 12288,
+          "value": 8589934722
+        }
+      ],
+      "reference_offset": 4194304,
+      "page_size": 2097152,
+      "corrected_offset": 4194595
+    },
+    {
+      "arch": "x64",
+      "level": 2,
+      "number": 15,
+      "address": 0,
+      "entry": 8589934750,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 12291
+        },
+        {
+          "offset": 12288,
+          "value": 8589934750
+        }
+      ],
+      "reference_offset": 4194304,
+      "page_size": 2097152,
+      "corrected_offset": 4194304
+    },
+    {
+      "arch": "x64",
+      "level": 2,
+      "number": 15,
+      "address": 291,
+      "entry": 8589934750,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 12291
+        },
+        {
+          "offset": 12288,
+          "value": 8589934750
+        }
+      ],
+      "reference_offset": 4194304,
+      "page_size": 2097152,
+      "corrected_offset": 4194595
+    },
+    {
+      "arch": "x64",
+      "level": 3,
+      "number": 0,
+      "address": 0,
+      "entry": 8589934720,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 12291
+        },
+        {
+          "offset": 12288,
+          "value": 16387
+        },
+        {
+          "offset": 16384,
+          "value": 8589934720
+        }
+      ],
+      "reference_offset": 8192,
+      "page_size": 4096,
+      "corrected_offset": 8192,
+      "reference_bytes": "oKGio6Slpqc=",
+      "corrected_bytes": "oKGio6Slpqc="
+    },
+    {
+      "arch": "x64",
+      "level": 3,
+      "number": 0,
+      "address": 291,
+      "entry": 8589934720,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 12291
+        },
+        {
+          "offset": 12288,
+          "value": 16387
+        },
+        {
+          "offset": 16384,
+          "value": 8589934720
+        }
+      ],
+      "reference_offset": 8192,
+      "page_size": 4096,
+      "corrected_offset": 8483,
+      "reference_bytes": "oKGio6Slpqc=",
+      "corrected_bytes": "yMnKy8zNzs8="
+    },
+    {
+      "arch": "x64",
+      "level": 3,
+      "number": 1,
+      "address": 0,
+      "entry": 8589934722,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 12291
+        },
+        {
+          "offset": 12288,
+          "value": 16387
+        },
+        {
+          "offset": 16384,
+          "value": 8589934722
+        }
+      ],
+      "reference_offset": 8192,
+      "page_size": 4096,
+      "corrected_offset": 8192,
+      "reference_bytes": "oKGio6Slpqc=",
+      "corrected_bytes": "oKGio6Slpqc="
+    },
+    {
+      "arch": "x64",
+      "level": 3,
+      "number": 1,
+      "address": 291,
+      "entry": 8589934722,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 12291
+        },
+        {
+          "offset": 12288,
+          "value": 16387
+        },
+        {
+          "offset": 16384,
+          "value": 8589934722
+        }
+      ],
+      "reference_offset": 8192,
+      "page_size": 4096,
+      "corrected_offset": 8483,
+      "reference_bytes": "oKGio6Slpqc=",
+      "corrected_bytes": "yMnKy8zNzs8="
+    },
+    {
+      "arch": "x64",
+      "level": 3,
+      "number": 15,
+      "address": 0,
+      "entry": 8589934750,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 12291
+        },
+        {
+          "offset": 12288,
+          "value": 16387
+        },
+        {
+          "offset": 16384,
+          "value": 8589934750
+        }
+      ],
+      "reference_offset": 8192,
+      "page_size": 4096,
+      "corrected_offset": 8192,
+      "reference_bytes": "oKGio6Slpqc=",
+      "corrected_bytes": "oKGio6Slpqc="
+    },
+    {
+      "arch": "x64",
+      "level": 3,
+      "number": 15,
+      "address": 291,
+      "entry": 8589934750,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 12291
+        },
+        {
+          "offset": 12288,
+          "value": 16387
+        },
+        {
+          "offset": 16384,
+          "value": 8589934750
+        }
+      ],
+      "reference_offset": 8192,
+      "page_size": 4096,
+      "corrected_offset": 8483,
+      "reference_bytes": "oKGio6Slpqc=",
+      "corrected_bytes": "yMnKy8zNzs8="
+    },
+    {
+      "arch": "pae",
+      "level": 0,
+      "number": 0,
+      "address": 0,
+      "entry": 8589934720,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8589934720
+        }
+      ],
+      "reference_offset": 2147483648,
+      "page_size": 1073741824,
+      "corrected_offset": 2147483648
+    },
+    {
+      "arch": "pae",
+      "level": 0,
+      "number": 0,
+      "address": 291,
+      "entry": 8589934720,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8589934720
+        }
+      ],
+      "reference_offset": 2147483648,
+      "page_size": 1073741824,
+      "corrected_offset": 2147483939
+    },
+    {
+      "arch": "pae",
+      "level": 0,
+      "number": 1,
+      "address": 0,
+      "entry": 8589934722,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8589934722
+        }
+      ],
+      "reference_offset": 2147483648,
+      "page_size": 1073741824,
+      "corrected_offset": 2147483648
+    },
+    {
+      "arch": "pae",
+      "level": 0,
+      "number": 1,
+      "address": 291,
+      "entry": 8589934722,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8589934722
+        }
+      ],
+      "reference_offset": 2147483648,
+      "page_size": 1073741824,
+      "corrected_offset": 2147483939
+    },
+    {
+      "arch": "pae",
+      "level": 0,
+      "number": 15,
+      "address": 0,
+      "entry": 8589934750,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8589934750
+        }
+      ],
+      "reference_offset": 2147483648,
+      "page_size": 1073741824,
+      "corrected_offset": 2147483648
+    },
+    {
+      "arch": "pae",
+      "level": 0,
+      "number": 15,
+      "address": 291,
+      "entry": 8589934750,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8589934750
+        }
+      ],
+      "reference_offset": 2147483648,
+      "page_size": 1073741824,
+      "corrected_offset": 2147483939
+    },
+    {
+      "arch": "pae",
+      "level": 1,
+      "number": 0,
+      "address": 0,
+      "entry": 8589934720,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 8589934720
+        }
+      ],
+      "reference_offset": 4194304,
+      "page_size": 2097152,
+      "corrected_offset": 4194304
+    },
+    {
+      "arch": "pae",
+      "level": 1,
+      "number": 0,
+      "address": 291,
+      "entry": 8589934720,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 8589934720
+        }
+      ],
+      "reference_offset": 4194304,
+      "page_size": 2097152,
+      "corrected_offset": 4194595
+    },
+    {
+      "arch": "pae",
+      "level": 1,
+      "number": 1,
+      "address": 0,
+      "entry": 8589934722,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 8589934722
+        }
+      ],
+      "reference_offset": 4194304,
+      "page_size": 2097152,
+      "corrected_offset": 4194304
+    },
+    {
+      "arch": "pae",
+      "level": 1,
+      "number": 1,
+      "address": 291,
+      "entry": 8589934722,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 8589934722
+        }
+      ],
+      "reference_offset": 4194304,
+      "page_size": 2097152,
+      "corrected_offset": 4194595
+    },
+    {
+      "arch": "pae",
+      "level": 1,
+      "number": 15,
+      "address": 0,
+      "entry": 8589934750,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 8589934750
+        }
+      ],
+      "reference_offset": 4194304,
+      "page_size": 2097152,
+      "corrected_offset": 4194304
+    },
+    {
+      "arch": "pae",
+      "level": 1,
+      "number": 15,
+      "address": 291,
+      "entry": 8589934750,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 8589934750
+        }
+      ],
+      "reference_offset": 4194304,
+      "page_size": 2097152,
+      "corrected_offset": 4194595
+    },
+    {
+      "arch": "pae",
+      "level": 2,
+      "number": 0,
+      "address": 0,
+      "entry": 8589934720,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 12291
+        },
+        {
+          "offset": 12288,
+          "value": 8589934720
+        }
+      ],
+      "reference_offset": 8192,
+      "page_size": 4096,
+      "corrected_offset": 8192,
+      "reference_bytes": "oKGio6Slpqc=",
+      "corrected_bytes": "oKGio6Slpqc="
+    },
+    {
+      "arch": "pae",
+      "level": 2,
+      "number": 0,
+      "address": 291,
+      "entry": 8589934720,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 12291
+        },
+        {
+          "offset": 12288,
+          "value": 8589934720
+        }
+      ],
+      "reference_offset": 8192,
+      "page_size": 4096,
+      "corrected_offset": 8483,
+      "reference_bytes": "oKGio6Slpqc=",
+      "corrected_bytes": "yMnKy8zNzs8="
+    },
+    {
+      "arch": "pae",
+      "level": 2,
+      "number": 1,
+      "address": 0,
+      "entry": 8589934722,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 12291
+        },
+        {
+          "offset": 12288,
+          "value": 8589934722
+        }
+      ],
+      "reference_offset": 8192,
+      "page_size": 4096,
+      "corrected_offset": 8192,
+      "reference_bytes": "oKGio6Slpqc=",
+      "corrected_bytes": "oKGio6Slpqc="
+    },
+    {
+      "arch": "pae",
+      "level": 2,
+      "number": 1,
+      "address": 291,
+      "entry": 8589934722,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 12291
+        },
+        {
+          "offset": 12288,
+          "value": 8589934722
+        }
+      ],
+      "reference_offset": 8192,
+      "page_size": 4096,
+      "corrected_offset": 8483,
+      "reference_bytes": "oKGio6Slpqc=",
+      "corrected_bytes": "yMnKy8zNzs8="
+    },
+    {
+      "arch": "pae",
+      "level": 2,
+      "number": 15,
+      "address": 0,
+      "entry": 8589934750,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 12291
+        },
+        {
+          "offset": 12288,
+          "value": 8589934750
+        }
+      ],
+      "reference_offset": 8192,
+      "page_size": 4096,
+      "corrected_offset": 8192,
+      "reference_bytes": "oKGio6Slpqc=",
+      "corrected_bytes": "oKGio6Slpqc="
+    },
+    {
+      "arch": "pae",
+      "level": 2,
+      "number": 15,
+      "address": 291,
+      "entry": 8589934750,
+      "width": 8,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 12291
+        },
+        {
+          "offset": 12288,
+          "value": 8589934750
+        }
+      ],
+      "reference_offset": 8192,
+      "page_size": 4096,
+      "corrected_offset": 8483,
+      "reference_bytes": "oKGio6Slpqc=",
+      "corrected_bytes": "yMnKy8zNzs8="
+    },
+    {
+      "arch": "x86",
+      "level": 0,
+      "number": 0,
+      "address": 0,
+      "entry": 8320,
+      "width": 4,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8320
+        }
+      ],
+      "reference_offset": 8388608,
+      "page_size": 4194304,
+      "corrected_offset": 8388608
+    },
+    {
+      "arch": "x86",
+      "level": 0,
+      "number": 0,
+      "address": 291,
+      "entry": 8320,
+      "width": 4,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8320
+        }
+      ],
+      "reference_offset": 8388608,
+      "page_size": 4194304,
+      "corrected_offset": 8388899
+    },
+    {
+      "arch": "x86",
+      "level": 0,
+      "number": 1,
+      "address": 0,
+      "entry": 8322,
+      "width": 4,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8322
+        }
+      ],
+      "reference_offset": 8388608,
+      "page_size": 4194304,
+      "corrected_offset": 8388608
+    },
+    {
+      "arch": "x86",
+      "level": 0,
+      "number": 1,
+      "address": 291,
+      "entry": 8322,
+      "width": 4,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8322
+        }
+      ],
+      "reference_offset": 8388608,
+      "page_size": 4194304,
+      "corrected_offset": 8388899
+    },
+    {
+      "arch": "x86",
+      "level": 0,
+      "number": 15,
+      "address": 0,
+      "entry": 8350,
+      "width": 4,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8350
+        }
+      ],
+      "reference_offset": 8388608,
+      "page_size": 4194304,
+      "corrected_offset": 8388608
+    },
+    {
+      "arch": "x86",
+      "level": 0,
+      "number": 15,
+      "address": 291,
+      "entry": 8350,
+      "width": 4,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8350
+        }
+      ],
+      "reference_offset": 8388608,
+      "page_size": 4194304,
+      "corrected_offset": 8388899
+    },
+    {
+      "arch": "x86",
+      "level": 1,
+      "number": 0,
+      "address": 0,
+      "entry": 8320,
+      "width": 4,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 8320
+        }
+      ],
+      "reference_offset": 8192,
+      "page_size": 4096,
+      "corrected_offset": 8192,
+      "reference_bytes": "oKGio6Slpqc=",
+      "corrected_bytes": "oKGio6Slpqc="
+    },
+    {
+      "arch": "x86",
+      "level": 1,
+      "number": 0,
+      "address": 291,
+      "entry": 8320,
+      "width": 4,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 8320
+        }
+      ],
+      "reference_offset": 8192,
+      "page_size": 4096,
+      "corrected_offset": 8483,
+      "reference_bytes": "oKGio6Slpqc=",
+      "corrected_bytes": "yMnKy8zNzs8="
+    },
+    {
+      "arch": "x86",
+      "level": 1,
+      "number": 1,
+      "address": 0,
+      "entry": 8322,
+      "width": 4,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 8322
+        }
+      ],
+      "reference_offset": 8192,
+      "page_size": 4096,
+      "corrected_offset": 8192,
+      "reference_bytes": "oKGio6Slpqc=",
+      "corrected_bytes": "oKGio6Slpqc="
+    },
+    {
+      "arch": "x86",
+      "level": 1,
+      "number": 1,
+      "address": 291,
+      "entry": 8322,
+      "width": 4,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 8322
+        }
+      ],
+      "reference_offset": 8192,
+      "page_size": 4096,
+      "corrected_offset": 8483,
+      "reference_bytes": "oKGio6Slpqc=",
+      "corrected_bytes": "yMnKy8zNzs8="
+    },
+    {
+      "arch": "x86",
+      "level": 1,
+      "number": 15,
+      "address": 0,
+      "entry": 8350,
+      "width": 4,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 8350
+        }
+      ],
+      "reference_offset": 8192,
+      "page_size": 4096,
+      "corrected_offset": 8192,
+      "reference_bytes": "oKGio6Slpqc=",
+      "corrected_bytes": "oKGio6Slpqc="
+    },
+    {
+      "arch": "x86",
+      "level": 1,
+      "number": 15,
+      "address": 291,
+      "entry": 8350,
+      "width": 4,
+      "writes": [
+        {
+          "offset": 4096,
+          "value": 8195
+        },
+        {
+          "offset": 8192,
+          "value": 8350
+        }
+      ],
+      "reference_offset": 8192,
+      "page_size": 4096,
+      "corrected_offset": 8483,
+      "reference_bytes": "oKGio6Slpqc=",
+      "corrected_bytes": "yMnKy8zNzs8="
+    }
+  ]
+}

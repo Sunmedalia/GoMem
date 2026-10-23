@@ -16,26 +16,31 @@ type page struct {
 // Intel is a bounded, synchronized page-table cache. Software page-table
 // encodings are interpreted only when an operating system is explicitly selected.
 type Intel struct {
-	physical MemoryLayer
-	root     uint64
-	mode     string
-	mu       sync.Mutex
-	pages    map[uint64]*list.Element
-	lru      *list.List
-	capacity int
-	windows  bool
+	physical  MemoryLayer
+	root      uint64
+	mode      string
+	mu        sync.Mutex
+	pages     map[uint64]*list.Element
+	lru       *list.List
+	capacity  int
+	windows   bool
+	pagefiles map[uint8]MemoryLayer
 }
 
 func (i *Intel) Root() uint64 { return i.root }
 
 // NewIntelForOS enables resident Windows transition entries (Transition=1,
-// Prototype=0). Prototype and external swap entries remain explicit errors.
+// Prototype=0). Prototype entries remain explicit errors. Translate reports
+// swapped entries as SwappedPageError; Resolve can read attached pagefiles.
 // The pinned Windows x64 baseline reserves PFN bits above bit 44; this policy
 // is confined to Windows software entries, never generic hardware mappings.
 func NewIntelForOS(p MemoryLayer, root uint64, mode, os string, capacity int) (*Intel, error) {
 	i, err := NewIntel(p, root, mode, capacity)
 	if err == nil {
 		i.windows = os == "windows"
+		if backing, ok := p.(*pagefilePhysical); ok && i.windows {
+			i.pagefiles = backing.files
+		}
 	}
 	return i, err
 }
@@ -127,6 +132,16 @@ func (i *Intel) Translate(ctx context.Context, a uint64) (Translation, error) {
 		}
 		software := entry&1 == 0
 		if software && (!i.windows || entry&2048 == 0 || entry&1024 != 0) {
+			bitOffset := uint(32)
+			if i.mode == "x86" {
+				bitOffset = 12
+			}
+			if i.windows && entry&(1|1024|2048) == 0 && entry&128 != 0 && entry>>bitOffset != 0 {
+				if entry>>bitOffset > ^uint64(0)>>shift {
+					return Translation{}, fmt.Errorf("%w: pagefile offset overflows", ErrUnmapped)
+				}
+				return Translation{}, &SwappedPageError{Virtual: a, EntryAddress: table + index*uint64(width), Entry: entry, EntryWidth: uint8(width), Number: uint8((entry >> 1) & 15), Offset: (entry >> bitOffset) << shift, PageSize: uint64(1) << shift}
+			}
 			return Translation{}, fmt.Errorf("%w: nonpresent page-table entry %#x at %#x (prototype/swap or unsupported software encoding)", ErrUnmapped, entry, table+index*uint64(width))
 		}
 		transition = transition || software

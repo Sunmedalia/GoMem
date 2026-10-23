@@ -30,6 +30,7 @@ const Help = `help                         show commands
 plugins                      list native capabilities
 run NAME [key=value ...]      run a plugin, with quoted parameter values
 hex ADDRESS [LENGTH]          read up to 65536 bytes in current address space
+translate ADDRESS            show RAM or numbered pagefile backing and entry
 dis ADDRESS [LENGTH] [ARCH]   disassemble x86/x64/arm/arm64 bytes in current space
 type TYPE ADDRESS            inspect typed fields (up to 128)
 use physical|kernel          select an address space
@@ -138,6 +139,8 @@ func (s *Session) Execute(ctx context.Context, line string, w io.Writer) error {
 		return fmt.Errorf("use physical|kernel|process EVIDENCE_ID")
 	case "dis", "disasm":
 		return s.disassemble(ctx, args, w)
+	case "translate":
+		return s.translate(ctx, args, w)
 	case "hex":
 		if len(args) < 2 || len(args) > 3 {
 			return fmt.Errorf("hex ADDRESS [LENGTH]")
