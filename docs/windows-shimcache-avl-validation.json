@@ -9,7 +9,10 @@
     "method_unmodified": true,
     "data_only_layouts": 12,
     "controls": 264,
-    "architectures": ["x86", "x64"],
+    "architectures": [
+      "x86",
+      "x64"
+    ],
     "predicate_results_compared": true,
     "ordered_read_addresses_and_lengths_compared": true,
     "captured_bytes_rechecked_against_source": true
@@ -23,7 +26,7 @@
     "vet_build_matrix_doctor": "pass",
     "python_tools": "44 tests passed, including shard Go executable override",
     "full_check": "Prior unsharded snapshot timed out at 30 minutes; local check now uses all four audited CI engine shards; complete new run pending",
-    "remote_ci": "oracle and fuzz wired; final commit not yet executed"
+    "remote_ci": "Run 39874530607 acceptance failed on platform-dependent gzip oracle encoding; raw base64 preserves all source bytes and controls; rerun pending"
   },
   "remaining": [
     "Version/layout selection and pinned runtime acquisition",

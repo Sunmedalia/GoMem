@@ -2,7 +2,6 @@
 """Run unmodified Shimcache RTL_AVL_TABLE validity against all 12 layouts."""
 import argparse
 import base64
-import gzip
 import hashlib
 import json
 from pathlib import Path
@@ -37,7 +36,9 @@ def generate(source):
         fields = doc['user_types']['_RTL_AVL_TABLE']['fields']
         root_offset = fields['BalancedRoot']['offset']
         parent_offset = doc['user_types']['_RTL_BALANCED_LINKS']['fields']['Parent']['offset']
-        layouts[path.stem] = dict(sha256=hashlib.sha256(raw).hexdigest(), source_gzip_base64=base64.b64encode(gzip.compress(raw, mtime=0)).decode())
+        # Python 3.12 gzip.compress(mtime=0) embeds zlib's platform OS byte;
+        # lossless raw base64 keeps oracle output identical across CI hosts.
+        layouts[path.stem] = dict(sha256=hashlib.sha256(raw).hexdigest(), source_base64=base64.b64encode(raw).decode())
         for scenario in SCENARIOS:
             data, holes, reads = bytearray(0x10000), [], []
             at = 0 if scenario == 'table-zero' else 0x1000

@@ -2,7 +2,6 @@ package winshimcache
 
 import (
 	"bytes"
-	"compress/gzip"
 	"context"
 	"encoding/base64"
 	"encoding/hex"
@@ -35,7 +34,7 @@ type avlFixture struct {
 	Commit  string
 	Layouts map[string]struct {
 		SHA256 string
-		Source string `json:"source_gzip_base64"`
+		Source string `json:"source_base64"`
 	}
 	Cases []avlCase
 }
@@ -57,18 +56,12 @@ func avlOracle(t testing.TB) avlFixture {
 }
 func avlSource(t testing.TB, f avlFixture, name string) []byte {
 	t.Helper()
-	encoded, err := base64.StdEncoding.DecodeString(f.Layouts[name].Source)
+	raw, err := base64.StdEncoding.DecodeString(f.Layouts[name].Source)
 	if err != nil {
 		t.Fatal(err)
 	}
-	r, err := gzip.NewReader(bytes.NewReader(encoded))
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer r.Close()
-	raw, err := io.ReadAll(io.LimitReader(r, 4<<20+1))
-	if err != nil || len(raw) > 4<<20 {
-		t.Fatal("source bound", err)
+	if len(raw) == 0 || len(raw) > 4<<20 {
+		t.Fatal("source bound")
 	}
 	return raw
 }

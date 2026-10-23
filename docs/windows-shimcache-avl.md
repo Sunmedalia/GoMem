@@ -42,6 +42,11 @@ Native tests compare each boolean and the exact ordered read addresses/lengths;
 captured bytes are independently checked against the fixture image. Further
 tests cover malformed layouts, storage aliases, overflow and cancellation.
 
+Original layout bytes use raw base64. The first CI execution found fixture
+drift because Python 3.12's zero-time gzip compression embeds the platform OS
+byte (macOS versus Linux). Removing compression preserves all 12 original layout
+byte streams and all 264 controls while avoiding platform-dependent headers.
+
 Package race tests passed. Scalar validation fuzz passed 20000 executions and
 layout parsing fuzz passed 2000. CI regenerates the original oracle and runs
 both fuzz targets. The embedded original data-only layouts retain the Volatility
