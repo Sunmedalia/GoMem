@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "status": "development_dependency",
+  "accepted": false,
+  "baseline_commit": "881e970121c16f0932fb9d16fbd5fb258cbcbf75",
+  "scope": "Native Shimcache path and FileSize properties; plugin remains missing",
+  "original": {
+    "properties": ["file_path", "file_size"],
+    "properties_unmodified": true,
+    "shipped_layouts": 12,
+    "controls": 493,
+    "kernel_types": "Synthetic Unicode/scalar metadata; not version acceptance",
+    "address_masks": ["x86 full width", "x64 48-bit", "x64 full width"],
+    "path_results_compared": true,
+    "file_size_results_compared": true,
+    "returned_bytes_rechecked_against_source": true,
+    "absent_and_read_faults_distinguished": true
+  },
+  "checks": {
+    "package_race": "pass; 17.749s including actual Windows 10 kernel metadata constructor",
+    "field_fuzz": "pass; 20000 executions",
+    "layout_fuzz": "pass; 2000 executions",
+    "oracle_regeneration": "pass in independent Python 3.12 process",
+    "vet_build_doctor": "pass",
+    "python_tools": "44 unit tests passed",
+    "argument_fixtures": "428 UTF-8/argument cases verified",
+    "inode_oracle": "32768 modes verified",
+    "cross_compile": "Windows 386 and Linux amd64 package test binaries passed",
+    "full_check": "Frozen commit 18bd23a: engine shards 0 and 1 passed in 866.079s and 489.385s; later shards in progress",
+    "remote_ci": "Run 39876790136 in progress; native Windows/macOS/Ubuntu and engine shards 1-3 green at last observation"
+  },
+  "actual_kernel_metadata": {
+    "pdb_identifier": "167FE94B5641C005AC3036212A01F8DC-1",
+    "isf_sha256": "17fcda47d3dc232b1ef4a56e255c737f57954191d54ec301acd348096b92c5ce",
+    "scope": "Constructor schema validation only; no entry address or image bytes analyzed"
+  },
+  "remaining": [
+    "Timestamp and execution fields",
+    "XP entry predicate and complete entry field set",
+    "Kernel/layout selection and acquisition",
+    "Modern, legacy and XP discovery and bounded traversal",
+    "Plugin/timeline integration and sealed persistence",
+    "Positive real-image full original-plugin differential verification"
+  ]
+}
