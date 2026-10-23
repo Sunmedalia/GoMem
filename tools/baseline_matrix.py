@@ -846,8 +846,8 @@ def generate(source):
                                    "accepted": False, "applicability": "See locked source; source-module inventory includes support modules.",
                                    "corpora": [], "comparison": "not_run"})
             if module == "volatility3.cli.volshell.generic":
-                infrastructure[-1].update(status="partial", corpora=["synthetic-shell-x86-x64-pae-arm-arm64"],
-                                          applicability="Native shell address-space selection, bounded hex/type display, literal scan, plugin execution and Go instruction decoding; not Python runtime compatibility.",
+                infrastructure[-1].update(status="partial", corpora=["synthetic-shell-x86-x64-pae-arm-arm64", "pinned-volshell-integer-displays-288-controls", "synthetic-shell-integer-commands"],
+                                          applicability="Native shell address-space selection, bounded hex/type and integer display, literal scan, plugin execution and Go/optional Capstone instruction decoding; not Python runtime compatibility.",
                                           comparison="selected_native_shell_controls_only", validation_record="docs/shell-disassembly.md",
                                           gaps=["Full object/type traversal, generic layer/module context management and volshell helper parity remain pending", "Complete instruction-set differential acceptance and plugin integration remain pending"])
             if module == "volatility3.framework.automagic.linux":

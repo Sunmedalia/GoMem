@@ -12908,9 +12908,11 @@
       "source": "volatility3/cli/volshell/generic.py",
       "status": "partial",
       "accepted": false,
-      "applicability": "Native shell address-space selection, bounded hex/type display, literal scan, plugin execution and Go instruction decoding; not Python runtime compatibility.",
+      "applicability": "Native shell address-space selection, bounded hex/type and integer display, literal scan, plugin execution and Go/optional Capstone instruction decoding; not Python runtime compatibility.",
       "corpora": [
-        "synthetic-shell-x86-x64-pae-arm-arm64"
+        "synthetic-shell-x86-x64-pae-arm-arm64",
+        "pinned-volshell-integer-displays-288-controls",
+        "synthetic-shell-integer-commands"
       ],
       "comparison": "selected_native_shell_controls_only",
       "validation_record": "docs/shell-disassembly.md",

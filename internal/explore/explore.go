@@ -30,6 +30,7 @@ const Help = `help                         show commands
 plugins                      list native capabilities
 run NAME [key=value ...]      run a plugin, with quoted parameter values
 hex ADDRESS [LENGTH]          read up to 65536 bytes in current address space
+db|dw|dd|dq ADDRESS [LENGTH] [le|be]  byte/16/32/64-bit values (length is bytes)
 translate ADDRESS            show RAM or numbered pagefile backing and entry
 dis ADDRESS [LENGTH] [ARCH]   disassemble x86/x64/arm/arm64 bytes in current space
 type TYPE ADDRESS            inspect typed fields (up to 128)
@@ -144,6 +145,8 @@ func (s *Session) Execute(ctx context.Context, line string, w io.Writer) error {
 		return s.translate(ctx, args, w)
 	case "find":
 		return s.find(ctx, args, w)
+	case "db", "dw", "dd", "dq", "display_bytes", "display_words", "display_doublewords", "display_quadwords":
+		return s.displayIntegers(ctx, args, w)
 	case "hex":
 		if len(args) < 2 || len(args) > 3 {
 			return fmt.Errorf("hex ADDRESS [LENGTH]")

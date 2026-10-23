@@ -28,11 +28,11 @@ func TestPagefileShellCLI(t *testing.T) {
 		t.Fatal(err)
 	}
 	args := []string{"shell", "--image", image, "--pagefile", "3=" + path, "--os", "windows", "--arch", "x64", "--dtb", "0x1000", "--case", t.TempDir(), "--offline"}
-	out, stderr, err := run(t, "use kernel\ntranslate 0x123\nhex 0x123 8\ndis 0x100 2\nfind 0x123 8 EXTERNAL\nquit\n", args...)
+	out, stderr, err := run(t, "use kernel\ntranslate 0x123\nhex 0x123 8\ndis 0x100 2\nfind 0x123 8 EXTERNAL\ndq 0x123 8 be\nquit\n", args...)
 	if err != nil || strings.Contains(stderr, "error:") {
 		t.Fatal(out, stderr, err)
 	}
-	for _, want := range []string{"pagefile:3 offset=0x2123", "entry-address=0x4000", "permissions-known=false", "EXTERNAL", "nop", "ret", `"kind":"interactive_literal_hit"`, `"pagefile":3`, `"offset":"0x0000000000002123"`, `"complete":true`} {
+	for _, want := range []string{"pagefile:3 offset=0x2123", "entry-address=0x4000", "permissions-known=false", "EXTERNAL", "nop", "ret", `"kind":"interactive_literal_hit"`, `"pagefile":3`, `"offset":"0x0000000000002123"`, `"complete":true`, "45585445524e414c"} {
 		if !strings.Contains(out, want) {
 			t.Fatalf("missing %q: %s", want, out)
 		}

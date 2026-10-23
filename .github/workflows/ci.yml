@@ -69,6 +69,7 @@ jobs:
       - run: python3 -m pip install pefile==2024.8.26 Pillow==12.2.0 yara-x==1.9.0 s3fs==2026.9.0 gcsfs==2026.10.1 pyarrow==26.0.0 capstone==5.0.9
       - run: python3 tools/build_capstone_oracle.py --check
       - run: python3 tools/build_swap_oracle.py --check
+      - run: python3 tools/build_shell_integers_oracle.py --check
       - run: python3 tools/build_service_oracle.py --check
       - run: python3 tools/build_vad_oracle.py --check
       - run: python3 tools/build_suspicious_thread_oracle.py --check
